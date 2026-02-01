@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useVisualsState.ts
- * Version: 2.1.0
+ * Version: 2.1.3
  * Author: Sut
  */
 
@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: VisualizerSettings = {
   monitor: false,
   wakeLock: false,
   showAlbumArtOverlay: true,
-  showSongInfo: true,
+  showSongInfo: false,
   aiBgUrl: '',
   showAiBg: false,
   aiBgOpacity: 0.5,
@@ -43,7 +43,7 @@ export const DEFAULT_SETTINGS: VisualizerSettings = {
   customTextRotation: 0,
   customTextSize: 12,
   customTextFont: 'Inter, sans-serif',
-  customTextOpacity: 1.0,
+  customTextOpacity: 0.5,
   customTextColor: '#ffffff',
   customTextPosition: 'mc',
   customTextCycleColor: false,

@@ -1,6 +1,6 @@
 /**
  * File: core/constants/index.ts
- * Version: 1.8.66
+ * Version: 1.8.82
  * Author: Sut
  */
 
@@ -9,7 +9,7 @@ import { COLOR_THEMES } from './visualThemes';
 
 export * from './visualThemes';
 
-export const APP_VERSION = '1.8.66';
+export const APP_VERSION = '1.8.82';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
 
@@ -17,7 +17,6 @@ export const REGION_NAMES: Record<string, string> = {
   global: 'Global', US: 'United States', CN: 'China', JP: 'Japan', KR: 'Korea', EU: 'Europe', LATAM: 'Latin America'
 };
 
-// Moved from hardcoded logic in ThreeVisualizer for better central control
 export const BLOOM_CONFIG: Partial<Record<VisualizerMode, number>> = {
   [VisualizerMode.KINETIC_WALL]: 3.0,
   [VisualizerMode.RESONANCE_ORB]: 3.0,

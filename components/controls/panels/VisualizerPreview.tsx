@@ -1,10 +1,10 @@
 /**
  * File: components/controls/panels/VisualizerPreview.tsx
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: Sut
  */
 
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { VisualizerMode } from '../../../core/types';
 import { TooltipArea } from '../../ui/controls/Tooltip';
 import { useUI } from '../../AppContext';
@@ -29,14 +29,37 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.RIPPLES]: { background: 'radial-gradient(circle, transparent 20%, #4f46e5 20%, #4f46e5 25%, transparent 25%, transparent 40%, #ec4899 40%, #ec4899 45%, transparent 45%)' },
 };
 
+const THREE_MODES = [
+  VisualizerMode.DIGITAL_GRID,
+  VisualizerMode.SILK_WAVE,
+  VisualizerMode.OCEAN_WAVE,
+  VisualizerMode.NEURAL_FLOW,
+  VisualizerMode.CUBE_FIELD,
+  VisualizerMode.KINETIC_WALL,
+  VisualizerMode.RESONANCE_ORB
+];
+
 export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode, name, isActive, isIncluded, onClick, onToggleInclude }) => {
   const { t } = useUI();
+  
+  const is3D = THREE_MODES.includes(mode);
+  const modeTypeTag = is3D ? "3D" : "2D";
+  
+  const tooltipText = useMemo(() => {
+    const baseDesc = t?.modeDescriptions?.[mode] || '';
+    return `[${modeTypeTag}] ${baseDesc}`;
+  }, [mode, modeTypeTag, t?.modeDescriptions]);
+
   return (
     <div className="relative w-full group">
-      <TooltipArea text={t?.modeDescriptions?.[mode] || ''}>
+      <TooltipArea text={tooltipText}>
         <button onClick={onClick} className={`relative w-full rounded-xl transition-all duration-300 overflow-hidden ${isActive?'ring-2 ring-blue-500 shadow-lg':'hover:ring-1 hover:ring-black/30 dark:hover:ring-white/30'} ${isIncluded?'':'grayscale opacity-60'}`}>
           <div className="h-12 w-full bg-black" style={styles[mode] || { background: 'black' }}/>
-          <div className={`absolute inset-0 flex items-center justify-between px-3 py-2 ${isActive?'bg-black/40':'bg-black/60'}`}><span className="text-[11px] font-bold uppercase tracking-widest truncate pr-8 text-white">{name}</span>
+          <div className={`absolute inset-0 flex items-center justify-between px-3 py-2 ${isActive?'bg-black/40':'bg-black/60'}`}>
+            <div className="flex flex-col items-start min-w-0 pr-8">
+              <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-0.5 pointer-events-none">{modeTypeTag}</span>
+              <span className="text-[11px] font-bold uppercase tracking-widest truncate text-white w-full">{name}</span>
+            </div>
             <div onClick={(e)=>{e.stopPropagation();onToggleInclude();}} className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center cursor-pointer">
                 <div className={`w-4 h-4 rounded-full border ${isIncluded?'bg-green-500 border-green-500':'bg-black/40 border-white/30'}`}>{isIncluded && <svg className="w-2.5 h-2.5 mx-auto text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7"/></svg>}</div>
             </div>

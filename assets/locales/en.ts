@@ -161,7 +161,7 @@ export const en = {
     display: 'Display Settings',
     aiBg: 'AI Inspiration Background',
     generateBg: 'Generate AI Background',
-    regenerate: 'Regenerate Art',
+    regenerate: 'Art Regenerate',
     showBg: 'Enable AI Layer',
     opacity: 'Intensity',
     bgGenerated: 'Art Successfully Generated'
@@ -231,7 +231,7 @@ export const en = {
     features: {
       title: 'Core Features',
       visuals: { title: 'Generative Art', desc: '15+ rendering engines powered by multi-threaded WebGL.' },
-      ai: { title: 'AI Synesthesia', desc: 'Real-time mood analysis and lyrics powered by Gemini 3.0.' },
+      ai: { title: 'Lyrics & AI', desc: 'Real-time mood analysis and lyrics powered by Gemini 3.0.' },
       privacy: { title: 'Local-First Privacy', desc: 'All audio processing happens entirely on your device.' }
     },
     shortcuts: {
@@ -257,20 +257,20 @@ export const en = {
     gestureItems: {
       swipeMode: 'Swipe Left/Right: Change Mode',
       swipeSens: 'Swipe Up/Down: Adjust Sensitivity',
-      longPress: 'Long Press: AI Info'
+      longPress: 'Long Press: Toggle Lyrics'
     },
     projectInfoTitle: 'Our Vision',
     aboutDescription: 'Aura Flux is a real-time synesthesia engine that transmutes audio frequencies into generative 3D art.',
     coreTech: 'Core Stack',
     privacyTitle: 'Privacy Commitment',
-    privacyText: 'We believe in edge-first privacy. All spectral analysis and visual rendering happen locally on your device.',
+    privacyText: 'All spectral analysis and visual rendering happen locally on your device.',
     support: 'Support',
     reportBug: 'Report an Issue',
     repository: 'GitHub Repository',
     shortcutItems: {
       toggleMic: 'Mic Toggle / Play',
       fullscreen: 'Fullscreen',
-      lyrics: 'AI Overlay / Lyrics',
+      lyrics: 'Lyrics Display Toggle',
       hideUi: 'HUD Toggle',
       randomize: 'Randomize Aesthetic',
       speed: 'Flow Speed',
@@ -285,7 +285,7 @@ export const en = {
       'Choose your source: Mic for system audio (Spotify/YouTube), or File for local HQ tracks.',
       'Explore visual engines using the arrow keys or the Visual panel.',
       'Use Smart Presets to instantly transmute the atmosphere.',
-      'Enable AI Synesthesia (key L) to analyze the soul of the song.',
+      'Enable Lyrics display (key L) to see real-time content.',
       'Record your creations in 4K/1080p in the Studio tab.'
     ]
   },
@@ -322,7 +322,7 @@ export const en = {
   },
   unsupportedTitle: 'Engine Incompatibility',
   unsupportedText: 'Aura Flux requires modern WebGL and Web Audio features.',
-  showLyrics: 'Enable AI HUD',
+  showLyrics: 'Show Lyrics',
   showTooltips: 'Show Hotkey Tips',
   autoHideUi: 'Auto-Hide HUD',
   hideCursor: 'Auto-Hide Cursor',
@@ -346,7 +346,7 @@ export const en = {
   recognitionSource: 'AI Intelligence Model',
   simulatedDemo: 'Local Simulation (Demo)',
   region: 'Content Region',
-  lyrics: 'Information Layers',
+  lyrics: 'Lyrics & Info',
   lyricsStyle: 'Typography Style',
   lyricsFont: 'Typeface',
   lyricsFontSize: 'Scale',
@@ -357,7 +357,7 @@ export const en = {
   textSize: 'Global Size',
   textRotation: 'Tilt / Rotation',
   textAudioReactive: 'Rhythmic Pulse',
-  text3D: 'Depth Shadow',
+  text3D: '3D Text',
   textFont: 'Typography',
   customColor: 'Chroma',
   customTextCycleColor: 'Chroma Cycle',

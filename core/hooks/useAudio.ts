@@ -1,12 +1,12 @@
 /**
  * File: core/hooks/useAudio.ts
- * Version: 1.8.54
+ * Version: 1.8.82
  * Author: Sut
- * Updated: 2025-07-18 14:15
+ * Updated: 2025-07-20 12:30
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { AudioDevice, VisualizerSettings, Language, AudioSourceType, SongInfo } from '../types';
+import { AudioDevice, VisualizerSettings, Language, AudioSourceType, SongInfo, Track } from '../types';
 import { audioBufferToWav } from '../services/audioUtils';
 import { usePlaylist } from './usePlaylist';
 
@@ -45,16 +45,12 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   const pausedAtRef = useRef(0);
   const rafRef = useRef(0);
 
-  const playTrackByIndexRef = useRef<(index: number) => Promise<void>>(null!);
   const pl = usePlaylist(setCurrentSong);
 
   useEffect(() => {
     const getDevices = async () => {
         try {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-                console.warn("[Audio] MediaDevices API not available (Insecure context?)");
-                return;
-            }
+            if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return;
             const devices = await navigator.mediaDevices.enumerateDevices();
             const audioIn = devices
                 .filter(d => d.kind === 'audioinput')
@@ -65,7 +61,6 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         }
     };
     getDevices();
-    
     if (navigator.mediaDevices) {
         navigator.mediaDevices.addEventListener('devicechange', getDevices);
         return () => navigator.mediaDevices.removeEventListener('devicechange', getDevices);
@@ -76,11 +71,7 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
-    
-    if (audioContextRef.current.state === 'suspended') {
-        await audioContextRef.current.resume();
-    }
-
+    if (audioContextRef.current.state === 'suspended') await audioContextRef.current.resume();
     if (!analyserRef.current || !analyserRRef.current) {
       analyserRef.current = audioContextRef.current.createAnalyser();
       analyserRRef.current = audioContextRef.current.createAnalyser();
@@ -89,27 +80,39 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
       setAnalyser(analyserRef.current);
       setAnalyserR(analyserRRef.current);
     }
-    
     return audioContextRef.current;
   }, [safeFftSize, safeSmoothing]);
+
+  const killExistingFileSource = useCallback(() => {
+    if (fileSourceNodeRef.current) {
+        try {
+            fileSourceNodeRef.current.onended = null;
+            fileSourceNodeRef.current.stop();
+            fileSourceNodeRef.current.disconnect();
+        } catch (e) {}
+        fileSourceNodeRef.current = null;
+    }
+  }, []);
 
   const stopAll = useCallback(async () => {
     cancelAnimationFrame(rafRef.current);
     if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+    killExistingFileSource();
     const disconnectNode = (nodeRef: React.MutableRefObject<any>) => {
         if (nodeRef.current) { try { nodeRef.current.disconnect(); } catch (e) {} nodeRef.current = null; }
     };
-    if (fileSourceNodeRef.current) try { fileSourceNodeRef.current.stop(); } catch(e) {}
-    disconnectNode(fileSourceNodeRef); disconnectNode(micSourceNodeRef); disconnectNode(splitterNodeRef);
-    setIsListening(false); setIsPlaying(false); setMediaStream(null);
-  }, [mediaStream]);
+    disconnectNode(micSourceNodeRef); 
+    disconnectNode(splitterNodeRef);
+    setIsListening(false); 
+    setIsPlaying(false); 
+    setMediaStream(null);
+  }, [mediaStream, killExistingFileSource]);
 
   const toggleMicrophone = useCallback(async (deviceId?: string) => {
     if (!navigator.mediaDevices) {
         showToast(t?.errors?.accessDenied || "Microphone access is required.", 'error');
         return;
     }
-
     if (isListening && sourceType === 'MICROPHONE' && (!deviceId || deviceId === selectedDeviceId)) {
       await stopAll();
     } else {
@@ -118,20 +121,15 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         await stopAll();
         setSourceType('MICROPHONE');
         const ctx = await ensureContext();
-        
         let stream: MediaStream;
         try {
-            // Try with preferred constraints first
             const constraints = (deviceId || selectedDeviceId) 
                 ? { audio: { deviceId: { exact: deviceId || selectedDeviceId } } } 
                 : { audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } };
             stream = await navigator.mediaDevices.getUserMedia(constraints);
         } catch (err) {
-            console.warn("[Audio] Preferred constraints failed, retrying with default...", err);
-            // Fallback to simple request if constraints fail (e.g. echoCancellation not supported)
             stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         }
-
         setMediaStream(stream);
         const source = ctx.createMediaStreamSource(stream);
         micSourceNodeRef.current = source;
@@ -140,100 +138,99 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         if (deviceId) setSelectedDeviceId(deviceId);
         setIsListening(true);
       } catch (e: any) {
-          if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
-              showToast(t?.errors?.accessDenied || "Microphone access was denied.", 'error');
-          } else {
-              showToast("Failed to access microphone.", 'error');
-          }
-          console.error("[Audio] Microphone access denied:", e);
-      } finally {
-          setIsPending(false);
-      }
+          showToast(t?.errors?.accessDenied || "Microphone access denied.", 'error');
+      } finally { setIsPending(false); }
     }
   }, [isListening, sourceType, stopAll, ensureContext, selectedDeviceId, t, showToast]);
 
-  useEffect(() => {
-    if (pl.playlist.length === 0 && sourceType === 'FILE' && !isListening) {
-      toggleMicrophone();
-    }
-  }, [pl.playlist.length, sourceType, isListening, toggleMicrophone]);
-
   const playFileBuffer = useCallback(async () => {
     if (!audioBufferRef.current) return;
+    killExistingFileSource();
     const ctx = await ensureContext();
-    const source = ctx.createBufferSource(); source.buffer = audioBufferRef.current;
-    const splitter = ctx.createChannelSplitter(2); splitterNodeRef.current = splitter;
+    const source = ctx.createBufferSource(); 
+    source.buffer = audioBufferRef.current;
+    const splitter = ctx.createChannelSplitter(2); 
+    splitterNodeRef.current = splitter;
     source.connect(splitter);
     splitter.connect(analyserRef.current!, 0);
     splitter.connect(analyserRRef.current!, audioBufferRef.current.numberOfChannels > 1 ? 1 : 0);
     source.connect(ctx.destination);
     source.onended = () => { 
-        if (Math.abs(ctx.currentTime - startTimeRef.current - audioBufferRef.current!.duration) < 0.5) { 
-            const next = pl.getNextIndex(); 
-            if (next !== -1) playTrackByIndexRef.current(next); 
+        if (fileSourceNodeRef.current === source) {
+            const nextIdx = pl.getNextIndex(); 
+            if (nextIdx !== -1) playTrackByIndex(nextIdx); 
         } 
     };
     source.start(0, pausedAtRef.current);
     startTimeRef.current = ctx.currentTime - pausedAtRef.current;
-    fileSourceNodeRef.current = source; setIsPlaying(true);
-    const update = () => { if (audioContextRef.current) setCurrentTime(audioContextRef.current.currentTime - startTimeRef.current); rafRef.current = requestAnimationFrame(update); };
+    fileSourceNodeRef.current = source; 
+    setIsPlaying(true);
+    cancelAnimationFrame(rafRef.current);
+    const update = () => { 
+        if (audioContextRef.current) {
+            setCurrentTime(audioContextRef.current.currentTime - startTimeRef.current);
+        }
+        rafRef.current = requestAnimationFrame(update); 
+    };
     rafRef.current = requestAnimationFrame(update);
-  }, [pl.getNextIndex, ensureContext]);
+  }, [pl.getNextIndex, ensureContext, killExistingFileSource]);
+
+  const playTrack = useCallback(async (track: Track, index: number) => {
+    if (!track) return;
+    setIsPending(true); 
+    await stopAll(); 
+    setSourceType('FILE'); 
+    setCurrentSong(track); 
+    pl.setCurrentIndex(index); 
+    pausedAtRef.current = 0;
+    try {
+      const ctx = await ensureContext(); 
+      const ab = await ctx.decodeAudioData(await track.file.arrayBuffer());
+      audioBufferRef.current = ab; 
+      setDuration(ab.duration); 
+      playFileBuffer();
+    } catch (e) {
+        showToast(t?.errors?.trackLoad || "Failed to load track.", 'error');
+    } finally { setIsPending(false); }
+  }, [stopAll, setCurrentSong, playFileBuffer, ensureContext, pl.setCurrentIndex, t, showToast]);
 
   const playTrackByIndex = useCallback(async (index: number) => {
-    const track = pl.playlist[index]; if (!track) return;
-    setIsPending(true); await stopAll(); setSourceType('FILE'); setCurrentSong(track); pl.setCurrentIndex(index); pausedAtRef.current = 0;
-    try {
-      const ctx = await ensureContext(); const ab = await ctx.decodeAudioData(await track.file.arrayBuffer());
-      audioBufferRef.current = ab; setDuration(ab.duration); playFileBuffer();
-    } catch (e) {
-        console.error("[Audio] File decoding error:", e);
-    } finally { setIsPending(false); }
-  }, [pl.playlist, stopAll, setCurrentSong, playFileBuffer, ensureContext, pl.setCurrentIndex]);
+    const track = pl.playlist[index]; 
+    if (track) playTrack(track, index);
+  }, [pl.playlist, playTrack]);
 
-  useEffect(() => { playTrackByIndexRef.current = playTrackByIndex; }, [playTrackByIndex]);
+  const importFiles = useCallback(async (files: FileList | File[]) => {
+    const wasEmpty = pl.playlist.length === 0;
+    const newTracks = await pl.importFiles(files);
+    if (wasEmpty && newTracks.length > 0) setTimeout(() => playTrack(newTracks[0], 0), 100);
+    return newTracks;
+  }, [pl, playTrack]);
 
-  const playNext = useCallback(() => {
-    if (pl.playlist.length === 0) return;
-    const nextIndex = pl.getNextIndex();
-    if (nextIndex !== -1) {
-        playTrackByIndexRef.current(nextIndex);
-    }
-  }, [pl.playlist.length, pl.getNextIndex]);
-
-  const playPrev = useCallback(() => {
-    if (pl.playlist.length === 0) return;
-    const prevIndex = pl.getPrevIndex();
-    if (prevIndex !== -1) {
-        playTrackByIndexRef.current(prevIndex);
-    }
-  }, [pl.playlist.length, pl.getPrevIndex]);
-  
   const togglePlayback = useCallback(() => {
     if (isPlaying) {
         if (audioContextRef.current && fileSourceNodeRef.current) {
             cancelAnimationFrame(rafRef.current);
             const suspendTime = audioContextRef.current.currentTime - startTimeRef.current;
-            if (audioBufferRef.current) {
-                pausedAtRef.current = suspendTime > 0 ? suspendTime % audioBufferRef.current.duration : 0;
-            }
-            try { fileSourceNodeRef.current.stop(); } catch(e) {}
-            fileSourceNodeRef.current = null;
+            if (audioBufferRef.current) pausedAtRef.current = suspendTime > 0 ? suspendTime % audioBufferRef.current.duration : 0;
+            killExistingFileSource();
             setIsPlaying(false);
         }
-    } else {
-        playFileBuffer();
-    }
-  }, [isPlaying, playFileBuffer]);
+    } else playFileBuffer();
+  }, [isPlaying, playFileBuffer, killExistingFileSource]);
 
   return {
     sourceType, analyser, analyserR, isListening, isPending, mediaStream, audioDevices,
     selectedDeviceId, onDeviceChange: setSelectedDeviceId,
     isPlaying, duration, currentTime, ...pl, toggleMicrophone, playTrackByIndex,
-    playNext,
-    playPrev,
-    togglePlayback,
-    seekFile: (t: number) => { if (fileSourceNodeRef.current) try { fileSourceNodeRef.current.stop(); } catch(e) {} pausedAtRef.current = t; if (isPlaying) playFileBuffer(); else setCurrentTime(t); },
+    playNext: () => { if (pl.playlist.length > 0) playTrackByIndex(pl.getNextIndex()); },
+    playPrev: () => { if (pl.playlist.length > 0) playTrackByIndex(pl.getPrevIndex()); },
+    togglePlayback, importFiles,
+    seekFile: (t: number) => { 
+        killExistingFileSource();
+        pausedAtRef.current = t; 
+        if (isPlaying) playFileBuffer(); 
+        else setCurrentTime(t); 
+    },
     getAudioSlice: async (s = 15) => audioBufferRef.current ? audioBufferToWav(audioBufferRef.current) : null,
     audioContext: audioContextRef.current
   };

@@ -1,11 +1,10 @@
-
 /**
  * File: components/ui/CustomTextOverlay.tsx
- * Version: 1.8.23
+ * Version: 1.8.70
  * Author: Sut
  */
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { VisualizerSettings, SongInfo } from '../../core/types';
 import { useAudioPulse } from '../../core/hooks/useAudioPulse';
 
@@ -33,6 +32,15 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
     }
   }, [settings.textSource]);
 
+  // Utility to darken hex colors for the 3D side effect
+  const darkenHex = useCallback((hex: string, amount: number) => {
+    if (!hex.startsWith('#')) return hex;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgb(${Math.max(0, r - amount)}, ${Math.max(0, g - amount)}, ${Math.max(0, b - amount)})`;
+  }, []);
+
   // Priority Logic based on textSource setting
   let isSongMode = false;
   let isClockMode = false;
@@ -45,8 +53,6 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
   } else if (mode === 'CUSTOM') {
       isSongMode = false;
   } else {
-      // AUTO mode
-      // Show song info if available, valid, and NOT an error message.
       isSongMode = !!(song && (song.title || song.artist) && !song.isError);
   }
   
@@ -65,7 +71,6 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
   const hasContent = !!mainText;
   const pulseEnabled = settings.showCustomText && hasContent && settings.textPulse;
   
-  // Always use the optimized 'beat' mode which now includes breathing/hybrid behavior
   useAudioPulse({
     elementRef: textRef,
     analyser,
@@ -80,6 +85,25 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
   useEffect(() => {
     let rafId: number;
     
+    const calculate3DShadow = (extrusionColor: string) => {
+        if (!settings.customText3D) return 'none';
+        
+        // Depth scales with text size: default 12vw yields ~6px depth
+        const scale = sizeVw / 12;
+        const depth = Math.max(1, Math.round(6 * scale));
+        const shadowSteps = [];
+        
+        // Solid extrusion layers
+        for (let i = 1; i <= depth; i++) {
+            shadowSteps.push(`${i}px ${i}px 0px ${extrusionColor}`);
+        }
+        
+        // Deep ambient shadow for "lift" effect
+        shadowSteps.push(`${depth + 1}px ${depth + 1}px ${Math.round(15 * scale)}px rgba(0,0,0,0.8)`);
+        
+        return shadowSteps.join(', ');
+    };
+
     const animateColor = (timestamp: number) => {
       if (!lastTimeRef.current) lastTimeRef.current = timestamp;
       const deltaTime = timestamp - lastTimeRef.current;
@@ -91,7 +115,14 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
         const delta = (deltaTime / 1000) * speed;
         
         hueRef.current = (hueRef.current + delta) % 360;
-        textRef.current.style.color = `hsl(${hueRef.current}, 100%, 65%)`;
+        const faceColor = `hsl(${hueRef.current}, 100%, 65%)`;
+        textRef.current.style.color = faceColor;
+        
+        // 3D Extrusion using the same hue but darker
+        if (settings.customText3D) {
+            const sideColor = `hsl(${hueRef.current}, 100%, 30%)`;
+            textRef.current.style.textShadow = calculate3DShadow(sideColor);
+        }
         
         rafId = requestAnimationFrame(animateColor);
       }
@@ -100,8 +131,16 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
     if (settings.customTextCycleColor) {
       rafId = requestAnimationFrame(animateColor);
     } else if (textRef.current) {
-      // FIX: Ensure color resets correctly when cycling is toggled off
-      textRef.current.style.color = settings.customTextColor || '#ffffff';
+      const baseColor = settings.customTextColor || '#ffffff';
+      textRef.current.style.color = baseColor;
+      
+      if (settings.customText3D) {
+          // Dynamic darkening for fixed colors
+          const sideColor = baseColor.toLowerCase() === '#ffffff' ? '#bbbbbb' : darkenHex(baseColor, 80);
+          textRef.current.style.textShadow = calculate3DShadow(sideColor);
+      } else {
+          textRef.current.style.textShadow = 'none';
+      }
       lastTimeRef.current = 0;
     }
 
@@ -109,12 +148,11 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
       if (rafId) cancelAnimationFrame(rafId);
       lastTimeRef.current = 0;
     };
-  }, [settings.customTextCycleColor, settings.customTextColor, settings.customTextCycleInterval]);
+  }, [settings.customTextCycleColor, settings.customTextColor, settings.customTextCycleInterval, settings.customText3D, sizeVw, darkenHex]);
 
 
   if (!settings.showCustomText || !hasContent) return null;
 
-  // Increased margins from 8 (2rem) to 12 (3rem) for better aesthetic breathing room
   const getPositionClasses = () => {
       const pos = settings.customTextPosition || 'mc';
       const map: Record<string, string> = {
@@ -136,12 +174,9 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
     : (settings.customTextPosition?.includes('r') ? 'items-end text-right' : 'items-center text-center');
 
   const rotation = settings.customTextRotation || 0;
-  const textShadow = settings.customText3D 
-    ? '4px 4px 8px rgba(0,0,0,0.9), -2px -2px 2px rgba(255,255,255,0.25)' 
-    : 'none';
 
   return (
-    <div className={`pointer-events-none fixed z-[100] flex flex-col ${getPositionClasses()}`}>
+    <div className={`pointer-events-none fixed inset-0 z-[100] flex flex-col ${getPositionClasses()}`}>
       <div 
         ref={textRef} 
         className={`font-black tracking-widest uppercase select-none flex flex-col justify-center origin-center transition-opacity duration-300 ${alignClass}`}
@@ -149,7 +184,6 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
             color: settings.customTextCycleColor ? undefined : (settings.customTextColor || '#ffffff'),
             fontSize: `min(${sizeVw}vw, ${sizePx}px)`, 
             fontFamily: settings.customTextFont || 'Inter, sans-serif',
-            textShadow,
             transform: `rotate(${rotation}deg) ${pulseEnabled ? 'scale(var(--pulse-scale, 1))' : ''}`,
             opacity: pulseEnabled ? 'var(--pulse-opacity, 1)' : settings.customTextOpacity,
             lineHeight: 1.1,
@@ -159,7 +193,7 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
         {subText && (
             <span 
                 className="font-bold opacity-80 mt-[0.2em] whitespace-nowrap overflow-hidden text-ellipsis max-w-[80vw]"
-                style={{ fontSize: '0.4em', lineHeight: 1.2 }}
+                style={{ fontSize: '0.4em', lineHeight: 1.2, textShadow: 'none' }}
             >
                 {subText}
             </span>

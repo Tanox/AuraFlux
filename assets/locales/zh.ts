@@ -257,7 +257,7 @@ export const zh = {
     gestureItems: {
       swipeMode: '左右滑动：更换模式',
       swipeSens: '上下滑动：调整灵敏度',
-      longPress: '长按：AI 信息'
+      longPress: '长按：歌词开关'
     },
     projectInfoTitle: '我们的愿景',
     aboutDescription: 'Aura Flux 是一个实时通感引擎，将音频频率转化为生成式 3D 艺术。',
@@ -270,7 +270,7 @@ export const zh = {
     shortcutItems: {
       toggleMic: '开关麦克风 / 播放',
       fullscreen: '全屏',
-      lyrics: 'AI 信息 / 歌词层',
+      lyrics: '歌词显示开关',
       hideUi: '切换 UI 显示 (HUD)',
       randomize: '随机化美学方案',
       speed: '流动速度调节',
@@ -285,7 +285,7 @@ export const zh = {
       '选择音频源：麦克风（系统音频/Spotify）或文件（本地 HQ 曲目）。',
       '使用方向键或视觉面板探索不同的视觉模式。',
       '使用智能预设一键切换整体氛围。',
-      '开启 AI 通感 (按 L 键) 分析歌曲的灵魂。',
+      '开启歌词显示 (按 L 键) 观察实时同步内容。',
       '在工作室标签页以 4K/1080p 录制您的创作。'
     ]
   },
@@ -322,7 +322,7 @@ export const zh = {
   },
   unsupportedTitle: '浏览器引擎不兼容',
   unsupportedText: 'Aura Flux 需要现代 WebGL 和 Web Audio 特性支持。',
-  showLyrics: '显示 AI HUD',
+  showLyrics: '显示歌词',
   showTooltips: '显示操作提示',
   autoHideUi: '自动隐藏 HUD',
   hideCursor: '自动隐藏光标',
@@ -346,7 +346,7 @@ export const zh = {
   recognitionSource: 'AI 智能模型',
   simulatedDemo: '本地模拟 (演示)',
   region: '内容区域',
-  lyrics: '信息覆盖层',
+  lyrics: '歌词与信息',
   lyricsStyle: '排版风格',
   lyricsFont: '字体系列',
   lyricsFontSize: '字体缩放',
@@ -357,7 +357,7 @@ export const zh = {
   textSize: '全局大小',
   textRotation: '倾斜 / 旋转',
   textAudioReactive: '律动脉冲',
-  text3D: '立体投影',
+  text3D: '3D立体字',
   textFont: '字体',
   customColor: '色相',
   customTextCycleColor: '色相循环',
@@ -429,7 +429,7 @@ export const zh = {
     mono: 'JetBrains 等宽',
     modern: 'Montserrat 粗体',
     elegant: 'Playfair 衬线',
-    retro: 'Courier 复古',
+    retro: 'Courier 格式',
     serif: 'Times 经典',
     heavy: 'Oswald 极粗',
     custom: '📂 导入本地字体...'

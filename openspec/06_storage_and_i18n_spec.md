@@ -10,10 +10,8 @@
 ## 2. 国际化 (i18n) 系统
 - **语言支持 (10 种):** English, 简体中文, 繁體中文, 日本語, Español, 한국어, Deutsch, Français, العربية, Русский。
 - **RTL 支持:** 阿拉伯语环境下自动翻转 UI 排版与文档流。
-- **排版系统:**
-  - 支持自定义本地字体加载。
-  - 提供锚点对齐系统（tl, tc, tr, ml, mc, mr, bl, bc, br）用于文本图层定位。
+- **完整性检查:** 每个版本发布前必须进行多国语言 Schema 对齐校验，确保无空键。
 
 ---
-*Aura Flux Storage & i18n Specification - Version 1.8.66*
+*Aura Flux Storage & i18n Specification - Version 1.8.82*
 *Author: Sut*

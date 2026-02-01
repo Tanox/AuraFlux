@@ -1,7 +1,8 @@
 /**
  * File: components/App.tsx
- * Version: 1.8.65
+ * Version: 1.8.76
  * Author: Sut
+ * Updated: 2025-07-19 00:30
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
@@ -23,9 +24,9 @@ const ThreeVisualizer = lazy(() => import('./visualizers/ThreeVisualizer'));
 const Controls = lazy(() => import('./controls/Controls'));
 
 const MainContent: React.FC = () => {
-  const { hasStarted, language, setLanguage, t, manageWakeLock, showHelpModal, setShowHelpModal, helpModalInitialTab, isDragging, setIsDragging } = useUI();
+  const { hasStarted, language, setLanguage, manageWakeLock, showHelpModal, setShowHelpModal, helpModalInitialTab, isDragging, setIsDragging, t } = useUI();
   const { mode, colorTheme, settings, isThreeMode } = useVisuals();
-  const { analyser, analyserR, currentSong, toggleMicrophone, selectedDeviceId, importFiles } = useAudioContext();
+  const { analyser, analyserR, currentSong, selectedDeviceId, importFiles } = useAudioContext();
   const { showLyrics, lyricsStyle, performIdentification } = useAI();
   const [isExpanded, setIsExpanded] = useState(false);
   const [onboarded, setOnboarded] = useState(() => !!localStorage.getItem('av_v1_onboarded'));
@@ -63,7 +64,6 @@ const MainContent: React.FC = () => {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      // @fix: Use e.dataTransfer.files directly and cast the items to File to resolve TypeScript inference issues and invalid e.target.files access.
       const audioFiles = Array.from(e.dataTransfer.files).filter((file: File) => file.type.startsWith('audio/'));
       if (audioFiles.length > 0) importFiles(audioFiles);
     }
@@ -80,6 +80,23 @@ const MainContent: React.FC = () => {
       onDrop={handleDrop}
       {...gestures}
     >
+      {/* Global Drag Overlay - High Priority */}
+      {isDragging && (
+          <div className="fixed inset-0 z-[300] bg-blue-600/10 backdrop-blur-md flex items-center justify-center pointer-events-none animate-fade-in-up transition-all duration-300">
+              <div className="bg-black/80 backdrop-blur-2xl border-4 border-dashed border-blue-500/40 p-16 rounded-[4rem] flex flex-col items-center gap-8 shadow-[0_0_100px_rgba(37,99,235,0.3)] transform scale-110">
+                  <div className="w-24 h-24 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 animate-bounce">
+                      <svg className="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                  </div>
+                  <div className="text-center space-y-3">
+                    <h3 className="text-3xl font-black text-white uppercase tracking-[0.25em] drop-shadow-xl">{t?.common?.dropFiles || "DROP TO IMPORT"}</h3>
+                    <p className="text-blue-400/60 text-xs font-black uppercase tracking-[0.15em]">{t?.player?.supportInfo}</p>
+                  </div>
+              </div>
+          </div>
+      )}
+
       {/* Background Layer */}
       {settings.showAiBg && settings.aiBgUrl && (
           <div className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: settings.aiBgOpacity }}>
@@ -87,7 +104,7 @@ const MainContent: React.FC = () => {
           </div>
       )}
 
-      {/* Main Visualizer Engine - Removed rounded corners for full rectangular view */}
+      {/* Main Visualizer Engine */}
       <div className={`w-full h-full relative z-[1] transition-transform duration-1000 ease-out overflow-hidden ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
         <Suspense fallback={null}>
           {isThreeMode ? (

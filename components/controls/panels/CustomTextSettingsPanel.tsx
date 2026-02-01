@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/CustomTextSettingsPanel.tsx
- * Version: 2.3.6
+ * Version: 2.3.9
  * Author: Sut
- * Updated: 2025-07-18 23:30
+ * Updated: 2025-07-18 23:58
  */
 
 import React, { useMemo } from 'react';
@@ -131,12 +131,13 @@ export const CustomTextSettingsPanel: React.FC = () => {
 
                 <div className="pt-4 border-t border-black/5 dark:border-white/5 grid gap-6">
                     <Slider label={t?.textSize} value={settings.customTextSize ?? 12} min={2} max={60} step={1} onChange={(v) => setSettings({...settings, customTextSize: v})} />
+                    <Slider label={t?.visualPanel?.opacity || "Opacity"} value={settings.customTextOpacity ?? 0.5} min={0} max={1} step={0.05} onChange={(v) => setSettings({...settings, customTextOpacity: v})} />
                     <Slider label={t?.textRotation || "Inclination"} value={settings.customTextRotation ?? 0} min={-180} max={180} step={5} onChange={(v) => setSettings({...settings, customTextRotation: v})} unit="°" />
                 </div>
 
                 <div className="pt-4 border-t border-black/5 dark:border-white/5 grid grid-cols-2 gap-4">
                     <SettingsToggle label={t?.textAudioReactive || "Rhythmic Pulse"} value={settings.textPulse} onChange={() => setSettings({...settings, textPulse: !settings.textPulse})} variant="clean" activeColor="blue" />
-                    <SettingsToggle label={t?.text3D || "3D Projection"} value={!!settings.customText3D} onChange={() => setSettings({...settings, customText3D: !settings.customText3D})} variant="clean" activeColor="blue" />
+                    <SettingsToggle label={t?.text3D || "3D立体字"} value={!!settings.customText3D} onChange={() => setSettings({...settings, customText3D: !settings.customText3D})} variant="clean" activeColor="blue" />
                 </div>
             </div>
         </BentoCard>

@@ -1,7 +1,8 @@
 /**
  * File: components/controls/Controls.tsx
- * Version: 1.9.0
+ * Version: 1.9.1
  * Author: Sut
+ * Updated: 2025-07-19 16:00
  */
 
 import React, { useState, useEffect } from 'react';
@@ -163,7 +164,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
                         <div className="bg-black/5 dark:bg-white/5 p-0.5 rounded-lg flex items-center border border-black/5 dark:border-white/5 shrink-0">
                             <TooltipArea text={isPlaying ? t?.player?.pause : t?.player?.play}>
                                 <button onClick={togglePlayback} className="w-8 h-7 flex items-center justify-center rounded hover:bg-black/10 dark:hover:bg-white/10 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors">
-                                    {isPlaying ? <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>}
+                                    {isPlaying ? <svg className="w-4 h-4" fill="currentColor" viewBox="0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="w-4 h-4" fill="currentColor" viewBox="0 24 24"><path d="M8 5v14l11-7z"/></svg>}
                                 </button>
                             </TooltipArea>
                             <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-0.5"></div>
@@ -181,7 +182,11 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
                             <ActionButton onClick={randomizeSettings} hintText={`${t?.hints?.randomize || "Randomize"} [R]`} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>} />
                             <ActionButton onClick={toggleFullscreen} hintText={`${t?.hints?.fullscreen || "Fullscreen"} [F]`} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>} />
                         </div>
-                        <button onClick={() => setIsExpanded(false)} className="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-lg text-white shadow-[0_4px_15px_rgba(37,99,235,0.3)] hover:bg-blue-500 transition-all duration-300" aria-label={t?.hideOptions}><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" /></svg></button>
+                        <button onClick={() => setIsExpanded(false)} className="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-lg text-white shadow-[0_4px_15px_rgba(37,99,235,0.3)] hover:bg-blue-500 transition-all duration-300" aria-label={t?.hideOptions}>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
                     </div>
                     </div>
                 </div>

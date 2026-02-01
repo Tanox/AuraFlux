@@ -1,14 +1,14 @@
-
 /**
  * File: components/ui/LyricsOverlay.tsx
- * Version: 1.8.23
+ * Version: 1.8.24
  * Author: Sut
+ * Updated: 2025-07-19 14:15
  */
 
 import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { VisualizerSettings, SongInfo, LyricsStyle } from '../../core/types';
 import { useAudioPulse } from '../../core/hooks/useAudioPulse';
-import { useAudioContext, useUI } from '../AppContext';
+import { useAudioContext, useUI, useAI } from '../AppContext';
 
 interface LyricsOverlayProps {
   settings: VisualizerSettings;
@@ -47,19 +47,17 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { currentTime } = useAudioContext();
+  const { isIdentifying } = useAI();
   const { t } = useUI();
   
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  // 歌词判定逻辑增强：
-  // 1. 如果 showLyrics 为 false，直接不渲染。
-  // 2. 只有在有 song 对象且不是系统错误时才显示。
   const isEnabled = showLyrics && !!song && !song.isError;
   const hasFullLyrics = !!song?.lyrics;
   const rawText = hasFullLyrics ? song?.lyrics : song?.lyricsSnippet;
 
   const lrcLines = useMemo(() => {
-      if (hasFullLyrics && rawText) return parseLrc(rawText);
+      if (hasFullLyrics && rawText && rawText.includes('[')) return parseLrc(rawText);
       return [];
   }, [hasFullLyrics, rawText]);
 
@@ -95,7 +93,14 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
 
   let content: React.ReactNode;
 
-  if (isSynced) {
+  if (isIdentifying && !hasFullLyrics) {
+      content = (
+          <div className="flex flex-col items-center gap-4 animate-pulse">
+              <div className="w-12 h-12 border-4 border-white/10 border-t-blue-500 rounded-full animate-spin" />
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">{t?.audioPanel?.analyzing || "Retrieving Lyrics..."}</p>
+          </div>
+      );
+  } else if (isSynced) {
       content = (
           <div ref={scrollContainerRef} className="flex flex-col items-center gap-6 w-full max-w-3xl px-4 py-[45vh] overflow-hidden no-scrollbar h-full mask-fade-vertical">
               {lrcLines.map((line, i) => {
@@ -128,7 +133,7 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
         .replace(/\r/g, '\n')
         .trim();
       
-      const allLines = text.split('\n');
+      const allLines = text.split('\n').filter(l => l.trim() !== '');
       const lines = hasFullLyrics ? allLines.slice(0, 10) : allLines.slice(0, 4);
       
       let textClass = "";
@@ -148,7 +153,11 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
 
       content = (
           <div className="select-none max-w-4xl text-center px-8 transition-all duration-1000 animate-fade-in-up">
-             {lines.map((line, i) => <p key={i} className={`${textClass} mb-2`} style={fontStyle}>{line}</p>)}
+             {lines.length > 0 ? (
+                 lines.map((line, i) => <p key={i} className={`${textClass} mb-2`} style={fontStyle}>{line}</p>)
+             ) : (
+                 <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] italic">{t?.player?.noActiveTrack || "No lyrics content"}</p>
+             )}
              {hasFullLyrics && lines.length < allLines.length && <p className="mt-4 text-[10px] text-white/20 uppercase tracking-widest animate-pulse">... scrolling paused ...</p>}
           </div>
       );

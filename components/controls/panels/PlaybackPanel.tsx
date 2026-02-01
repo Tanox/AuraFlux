@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/PlaybackPanel.tsx
- * Version: 2.3.0
+ * Version: 2.3.7
  * Author: Sut
- * Updated: 2025-07-18 21:00
+ * Updated: 2025-05-20 12:00
  */
 
 import React, { useRef, useEffect, useMemo } from 'react';
@@ -21,7 +21,7 @@ export const PlaybackPanel: React.FC = () => {
     importFiles, playNext, playPrev, isPlaying, togglePlayback,
     currentTime, duration, seekFile, currentSong, clearPlaylist
   } = useAudioContext();
-  const { t, isDragging } = useUI();
+  const { t, isDragging, showToast } = useUI();
   const { settings, setSettings } = useVisuals();
   const { showLyrics, setShowLyrics } = useAI();
   
@@ -43,6 +43,17 @@ export const PlaybackPanel: React.FC = () => {
   }, [currentIndex]);
 
   const progressPercent = (currentTime / (duration || 1)) * 100;
+
+  const handleRemoveTrack = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation();
+    const track = playlist[index];
+    if (!track) return;
+    
+    if (window.confirm(`${t?.config?.deleteConfirm || "Remove from library?"}\n\n"${track.title}"`)) {
+        removeFromPlaylist(index);
+        showToast((t?.config?.delete || "Removed") + ": " + track.title, 'info');
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
@@ -132,7 +143,7 @@ export const PlaybackPanel: React.FC = () => {
                 )}
 
                 <div className="grid grid-cols-2 gap-3">
-                    <SettingsToggle label={t?.showLyrics || "AI HUD"} value={showLyrics} onChange={() => setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
+                    <SettingsToggle label={t?.showLyrics || "Lyrics"} value={showLyrics} onChange={() => setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
                     <SettingsToggle label={t?.player?.info || "Meta Info"} value={settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
                 </div>
             </div>
@@ -164,15 +175,15 @@ export const PlaybackPanel: React.FC = () => {
                 {playlist.length > 0 && (
                     <button onClick={() => window.confirm(t?.common?.confirmClear) && clearPlaylist()} className="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-all text-[10px] font-black uppercase tracking-widest">{t?.common?.clearAll || 'CLEAR'}</button>
                 )}
-                <button onClick={() => fileInputRef.current?.click()} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all text-[10px] font-black uppercase tracking-widest shadow-lg">{t?.config?.import || 'IMPORT'}</button>
+                <button onClick={() => fileInputRef.current?.click()} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all text-[10px] font-black uppercase tracking-widest shadow-lg">{t?.player?.add || 'IMPORT'}</button>
             </div>
         }
       >
-        <div className={`flex-1 min-h-[400px] flex flex-col transition-all duration-500 ${isDragging ? 'bg-blue-500/5 ring-2 ring-blue-500/20 rounded-2xl p-4' : ''}`}>
+        <div className={`flex-1 flex flex-col transition-all duration-500 ${isDragging ? 'bg-blue-500/5 ring-2 ring-blue-500/20 rounded-2xl p-4' : ''}`}>
             {playlist.length === 0 ? (
                 <div 
                     onClick={() => fileInputRef.current?.click()} 
-                    className={`flex-1 flex flex-col items-center justify-center gap-4 transition-all cursor-pointer rounded-2xl ${isDragging ? 'text-blue-500' : 'text-black/10 dark:text-white/10 hover:text-black/20 dark:hover:text-white/20'}`}
+                    className={`flex-1 min-h-[380px] flex flex-col items-center justify-center gap-4 transition-all cursor-pointer rounded-2xl ${isDragging ? 'text-blue-500' : 'text-black/10 dark:text-white/10 hover:text-black/20 dark:hover:text-white/20'}`}
                 >
                     <div className="w-16 h-16 rounded-full border-2 border-current flex items-center justify-center">
                         <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" /></svg>
@@ -183,13 +194,14 @@ export const PlaybackPanel: React.FC = () => {
                     </div>
                 </div>
             ) : (
-                <div className="space-y-1.5 overflow-y-auto custom-scrollbar lg:max-h-[520px] pr-2">
+                <div className="space-y-1.5 overflow-y-auto custom-scrollbar h-[380px] lg:h-[390px] pr-2">
                     {playlist.map((track, idx) => (
                         <div 
                             key={track.id} 
                             ref={idx === currentIndex ? activeTrackRef : null}
-                            onClick={() => playTrackByIndex(idx)} 
-                            className={`group flex items-center gap-4 p-3 rounded-2xl cursor-pointer transition-all border ${idx === currentIndex ? 'bg-blue-600/10 border-blue-500/30' : 'bg-transparent border-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'}`}
+                            onDoubleClick={() => playTrackByIndex(idx)} 
+                            className={`group flex items-center gap-4 p-3 rounded-2xl cursor-pointer transition-all border outline-none focus-within:ring-2 focus-within:ring-blue-500/40 ${idx === currentIndex ? 'bg-blue-600/10 border-blue-500/30' : 'bg-transparent border-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'}`}
+                            tabIndex={0}
                         >
                             <div className="w-8 text-[10px] font-black font-mono text-black/30 dark:text-white/30 text-center shrink-0">
                                 {idx === currentIndex ? (
@@ -220,13 +232,18 @@ export const PlaybackPanel: React.FC = () => {
                                 </div>
                             </div>
                             
-                            <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); removeFromPlaylist(idx); }} 
-                                    className="p-2.5 rounded-xl hover:bg-red-500/10 text-black/20 dark:text-white/20 hover:text-red-500 transition-all transform hover:scale-110"
-                                >
-                                    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
-                                </button>
+                            <div className="flex items-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all pr-2">
+                                <TooltipArea text={t?.config?.delete || "Remove"}>
+                                    <button 
+                                        onClick={(e) => handleRemoveTrack(e, idx)} 
+                                        className="p-3 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all transform hover:scale-110 active:scale-90 shadow-sm"
+                                        aria-label={t?.config?.delete || "Remove track"}
+                                    >
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </TooltipArea>
                             </div>
                         </div>
                     ))}

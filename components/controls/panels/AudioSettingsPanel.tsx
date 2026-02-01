@@ -1,8 +1,9 @@
+
 /**
  * File: components/controls/panels/AudioSettingsPanel.tsx
- * Version: 2.1.0
+ * Version: 2.1.2
  * Author: Sut
- * Updated: 2025-07-18 22:00
+ * Updated: 2025-07-19 12:45
  */
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -22,7 +23,8 @@ export const AudioSettingsPanel: React.FC = () => {
       audioDevices, selectedDeviceId, onDeviceChange, toggleMicrophone, isListening, isPending,
       sourceType, fileStatus, fileName, getAudioSlice
   } = useAudioContext();
-  const { apiKeys, setApiKeys, enableAnalysis, setEnableAnalysis } = useAI();
+  // @fix: Destructure showLyrics and setShowLyrics from useAI context
+  const { apiKeys, setApiKeys, enableAnalysis, setEnableAnalysis, showLyrics, setShowLyrics } = useAI();
   const { t, showToast, language } = useUI();
   
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -168,7 +170,7 @@ export const AudioSettingsPanel: React.FC = () => {
                 {/* AI Master Toggle & Region */}
                 <div className="flex flex-col sm:flex-row gap-4 sm:items-center justify-between bg-black/[0.04] dark:bg-white/[0.04] p-4 rounded-2xl border border-black/5 dark:border-white/5">
                     <div className="flex-1">
-                        <SettingsToggle label={t?.audioPanel?.enableAi || "Live Synergy"} value={enableAnalysis} onChange={()=>setEnableAnalysis(!enableAnalysis)} activeColor="green" variant="clean" />
+                        <SettingsToggle label={t?.showLyrics || "Lyrics Display"} value={showLyrics} onChange={()=>setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
                     </div>
                     {enableAnalysis && isAdvanced && (
                         <div className="w-full sm:w-48 animate-fade-in-up">
@@ -208,6 +210,7 @@ export const AudioSettingsPanel: React.FC = () => {
                                         </button>
                                     </div>
                                     <button 
+                                        // @fix: Fix missing onClick prop and syntax error
                                         onClick={handleSaveKey} 
                                         disabled={isValidating} 
                                         className={`h-10 px-5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
@@ -248,9 +251,9 @@ export const AudioSettingsPanel: React.FC = () => {
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
             <div className="flex-1 min-w-0">
-                <h4 className="text-[10px] font-black text-black/60 dark:text-white/60 uppercase tracking-widest mb-0.5">{t?.audioPanel?.analysisAi || "通感分析指南"}</h4>
+                <h4 className="text-[10px] font-black text-black/60 dark:text-white/60 uppercase tracking-widest mb-0.5">{t?.audioPanel?.analysisAi || "歌词显示指南"}</h4>
                 <p className="text-[10px] text-black/30 dark:text-white/30 leading-relaxed truncate group-hover:whitespace-normal group-hover:break-words transition-all">
-                    {t?.helpModal?.howItWorksSteps?.[3] || "Enable AI Synesthesia to analyze the soul of the track and automatically tune visuals."}
+                    {t?.helpModal?.howItWorksSteps?.[3] || "Enable Lyrics display to see real-time content and automatically tune visuals."}
                 </p>
             </div>
         </div>

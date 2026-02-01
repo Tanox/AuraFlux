@@ -1,8 +1,9 @@
+
 /**
  * File: components/AppContext.tsx
- * Version: 1.8.59
+ * Version: 1.8.60
  * Author: Sut
- * Updated: 2025-07-18 12:00
+ * Updated: 2025-07-19 17:00
  */
 
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
@@ -72,6 +73,8 @@ export const useAudioContext = () => useContext(AudioContext)!;
 interface AIContextType {
   lyricsStyle: LyricsStyle; showLyrics: boolean; setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
   enableAnalysis: boolean; setEnableAnalysis: (b: boolean) => void;
+  // @fix: Add isIdentifying to AIContextType to fix error in LyricsOverlay.tsx
+  isIdentifying: boolean;
   performIdentification: (s: MediaStream) => Promise<void>;
   resetAiSettings: () => void; 
   apiKeys: Record<string, string>; 

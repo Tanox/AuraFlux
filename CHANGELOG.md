@@ -2,6 +2,12 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.8.67] - 2025-07-18
+
+### 🚀 Features & Refinements
+*   **Visualizer Categorization:** Added explicit rendering type labels (2D/3D) to visualization mode tooltips and preview badges. This helps users understand the performance profile of each engine at a glance.
+*   **Version Update:** Updated application version to `v1.8.67` across all manifests and documentation.
+
 ## [v1.8.66] - 2025-07-18
 
 ### 🚀 Features & Refinements

@@ -1,9 +1,10 @@
+
 /**
  * File: core/hooks/useAiState.ts
- * Version: 1.8.24
+ * Version: 1.8.26
  * Author: Aura Flux Team
  * Copyright (c) 2025 Aura Flux. All rights reserved.
- * Updated: 2025-07-16 19:00
+ * Updated: 2025-05-20 10:00
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
@@ -97,17 +98,18 @@ export const useAiState = ({
   
   useEffect(() => {
     let interval: number;
-    const hasFileLyrics = currentSong?.matchSource === 'FILE' && !!currentSong?.lyrics;
+    const hasLyrics = !!currentSong?.lyrics || !!currentSong?.lyricsSnippet;
 
-    if (isListening && mediaStream && enableAnalysis && !isSimulating && !hasFileLyrics) {
+    if (isListening && mediaStream && enableAnalysis && !isSimulating && !hasLyrics) {
       performIdentification(mediaStream);
-      interval = window.setInterval(() => performIdentification(mediaStream), 20000);
+      interval = window.setInterval(() => performIdentification(mediaStream), 25000);
     }
     return () => clearInterval(interval);
   }, [isListening, mediaStream, enableAnalysis, performIdentification, isSimulating, currentSong]);
 
   useEffect(() => {
     const triggerFileIdentification = async () => {
+        // Priority: Only trigger cloud analysis if NO lyrics are found locally and analysis is active.
         if (currentSong && currentSong.matchSource === 'FILE' && !currentSong.lyrics && enableAnalysis && !isIdentifying && !isLocalIdentifying) {
             const audioBlob = await getAudioSlice(15);
             if (audioBlob) {
@@ -116,12 +118,17 @@ export const useAiState = ({
                 reader.readAsDataURL(audioBlob);
                 reader.onloadend = async () => {
                     const base64Audio = (reader.result as string).split(',')[1];
-                    const apiKey = apiKeys[provider];
+                    const apiKey = apiKeys[provider] || process.env.API_KEY;
+                    if (!apiKey) {
+                        setIsLocalIdentifying(false);
+                        return;
+                    }
                     const result = await identifySongFromAudio(base64Audio, 'audio/wav', language, region, provider, apiKey);
                     if (result && (result.lyrics || result.identified)) {
                         const finalTitle = result.identified ? result.title : currentSong.title;
                         const finalArtist = result.identified ? result.artist : currentSong.artist;
-                        const updatedSong = { ...currentSong, ...result, title: finalTitle, artist: finalArtist };
+                        // @fix: Explicitly type updatedSong as SongInfo to prevent matchSource widening from 'AI' to string
+                        const updatedSong: SongInfo = { ...currentSong, ...result, title: finalTitle, artist: finalArtist, matchSource: 'AI' };
                         onSongIdentified?.(updatedSong);
                     }
                     setIsLocalIdentifying(false);
@@ -130,7 +137,8 @@ export const useAiState = ({
         }
     };
     triggerFileIdentification();
-  }, [currentSong, enableAnalysis, isIdentifying, isLocalIdentifying, getAudioSlice, onSongIdentified, language, region, provider, apiKeys]);
+    // @fix: Property 'id' does not exist on type 'SongInfo'. Using currentSong?.title for dependency tracking.
+  }, [currentSong?.title, currentSong?.lyrics, enableAnalysis, isIdentifying, isLocalIdentifying, getAudioSlice, onSongIdentified, language, region, provider, apiKeys]);
 
 
   const resetAiSettings = useCallback(() => {

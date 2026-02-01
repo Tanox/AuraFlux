@@ -1,6 +1,6 @@
 /**
  * File: core/services/metadataService.ts
- * Version: 1.8.23
+ * Version: 1.8.24
  * Author: Sut
  */
 
@@ -21,19 +21,26 @@ export const extractMetadata = (file: File): Promise<Track> => {
     if (window.jsmediatags) {
       window.jsmediatags.read(file, {
         onSuccess: (tag: any) => {
-          const { title, artist, picture, USLT, lyrics } = tag.tags;
+          const { title, artist, picture, USLT, lyrics, LYRICS, TEXT } = tag.tags;
           let albumArtUrl = undefined;
           let lyricsText: string | undefined = undefined;
-          if (lyrics) lyricsText = typeof lyrics === 'string' ? lyrics : lyrics.lyrics;
-          if (!lyricsText && USLT) {
-            const frames = Array.isArray(USLT) ? USLT : [USLT];
-            for (const frame of frames) {
-              if (typeof frame === 'string') lyricsText = frame;
-              else if (frame.lyrics) lyricsText = frame.lyrics;
-              else if (frame.data && frame.data.lyrics) lyricsText = frame.data.lyrics;
-              if (lyricsText) break;
+
+          // Sequential check for multiple possible lyrics tag names
+          const candidateLyrics = lyrics || LYRICS || USLT || TEXT;
+          
+          if (candidateLyrics) {
+            if (typeof candidateLyrics === 'string') {
+              lyricsText = candidateLyrics;
+            } else if (candidateLyrics.lyrics) {
+              lyricsText = candidateLyrics.lyrics;
+            } else if (candidateLyrics.data && candidateLyrics.data.lyrics) {
+              lyricsText = candidateLyrics.data.lyrics;
+            } else if (Array.isArray(candidateLyrics)) {
+              // Handle multiple frames (e.g., USLT in different languages)
+              lyricsText = candidateLyrics[0]?.lyrics || candidateLyrics[0]?.data?.lyrics || candidateLyrics[0];
             }
           }
+
           if (picture) {
             try {
               const { data, format } = picture;
@@ -42,7 +49,15 @@ export const extractMetadata = (file: File): Promise<Track> => {
               albumArtUrl = `data:${format};base64,${window.btoa(base64String)}`;
             } catch (e) {}
           }
-          resolve({ ...basicTrack, title: title || basicTrack.title, artist: artist || basicTrack.artist, albumArtUrl, lyrics: lyricsText, identified: true });
+
+          resolve({ 
+            ...basicTrack, 
+            title: title || basicTrack.title, 
+            artist: artist || basicTrack.artist, 
+            albumArtUrl, 
+            lyrics: lyricsText, 
+            identified: !!(title || artist || lyricsText)
+          });
         },
         onError: () => resolve(basicTrack)
       });
