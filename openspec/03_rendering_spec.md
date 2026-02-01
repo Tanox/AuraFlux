@@ -15,5 +15,5 @@
 - **运动残影:** 通过 `destination-out` 实现丝滑的视觉余晖。
 
 ---
-*Aura Flux Rendering Specification - Version 1.8.82*
+*Aura Flux Rendering Specification - Version 1.8.83*
 *Author: Sut*

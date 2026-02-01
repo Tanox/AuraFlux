@@ -1,8 +1,8 @@
 /**
  * File: components/App.tsx
- * Version: 1.8.76
+ * Version: 1.8.82
  * Author: Sut
- * Updated: 2025-07-19 00:30
+ * Updated: 2025-07-20 19:00
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
@@ -115,27 +115,31 @@ const MainContent: React.FC = () => {
         </Suspense>
       </div>
 
-      {/* Interface Layers */}
+      {/* 
+          AESTHETIC REFINEMENT: Informational overlays are now outside the 
+          isIdle opacity container to ensure they remain part of the performance.
+      */}
+      <SongOverlay 
+        song={currentSong} isVisible={settings.showSongInfo} language={language} 
+        onRetry={() => { if (performIdentification && (analyser?.context as any)?.stream) performIdentification((analyser?.context as any).stream); }} 
+        onClose={() => {}} analyser={analyser} sensitivity={settings.sensitivity}
+        showAlbumArt={settings.showAlbumArtOverlay} isIdle={false} /* Force visible in performance */
+      />
+      <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
+      <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
+
+      {/* Interactive Controls Layer - Hides on Idle */}
       <div className={`transition-opacity duration-700 ${isIdle && !isExpanded ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
-        <SongOverlay 
-          song={currentSong} isVisible={settings.showSongInfo} language={language} 
-          onRetry={() => { if (performIdentification && (analyser?.context as any)?.stream) performIdentification((analyser?.context as any).stream); }} 
-          onClose={() => {}} analyser={analyser} sensitivity={settings.sensitivity}
-          showAlbumArt={settings.showAlbumArtOverlay} isIdle={isIdle}
-        />
-        <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
-        <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
         <Suspense fallback={null}>
           <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} />
         </Suspense>
         {settings.showFps && <FPSCounter />}
+        <div className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white">
+          Aura Flux v{APP_VERSION}
+        </div>
       </div>
       
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}
-
-      <div className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white">
-        Aura Flux v{APP_VERSION}
-      </div>
     </div>
   );
 };

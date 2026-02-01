@@ -1,8 +1,8 @@
 /**
  * File: components/ui/SongOverlay.tsx
- * Version: 1.8.25
+ * Version: 1.8.82
  * Author: Sut
- * Updated: 2025-07-16 20:00
+ * Updated: 2025-07-20 19:10
  */
 
 import React, { useRef, useMemo } from 'react';
@@ -13,7 +13,7 @@ import { useAudioPulse } from '../../core/hooks/useAudioPulse';
 interface SongOverlayProps {
   song: SongInfo | null;
   language: Language;
-  isVisible: boolean; // Renamed from showLyrics to be generic
+  isVisible: boolean; 
   onRetry: () => void;
   onClose: () => void;
   analyser?: AnalyserNode | null;
@@ -72,7 +72,7 @@ const getProviderLabel = (source: string | undefined, t: any) => {
     }
 };
 
-const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, onRetry, onClose, analyser, sensitivity = 1.0, showAlbumArt = true, isIdle = false }) => {
+const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, onRetry, onClose, analyser, sensitivity = 1.0, showAlbumArt = true }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const moodStyle = useMemo(() => song ? getMoodStyle(song.mood_en_keywords || song.mood) : getMoodStyle('default'), [song]);
   
@@ -96,10 +96,10 @@ const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, on
   const albumArt = song.albumArtUrl;
 
   return (
-    <div className={`pointer-events-none fixed inset-0 z-20 overflow-hidden transition-all duration-700 ease-out ${isIdle ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'}`}>
+    <div className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
       <div 
         ref={containerRef}
-        className={`absolute top-16 left-4 right-4 md:right-auto md:top-8 md:left-8 bg-black/60 backdrop-blur-xl border-s-4 ${moodStyle.borderColor} ps-4 py-3 pe-4 rounded-e-xl rounded-l-lg md:rounded-l-none md:max-w-lg transition-all duration-700 shadow-[0_4px_20px_rgba(0,0,0,0.6)] pointer-events-auto group origin-top-center md:origin-top-left animate-fade-in-up border-y border-r border-y-white/5 border-r-white/5`}
+        className={`absolute top-16 left-4 right-4 md:right-auto md:top-8 md:left-8 bg-black/60 backdrop-blur-xl border-s-4 ${moodStyle.borderColor} ps-4 py-3 pe-4 rounded-e-xl rounded-l-lg md:rounded-l-none md:max-w-lg transition-all duration-700 shadow-[0_4px_20px_rgba(0,0,0,0.6)] pointer-events-auto group origin-top-center md:origin-top-left animate-fade-in-up border-y border-r border-y-white/5 border-r-white/5 opacity-100 translate-y-0`}
         style={{ 
           animationDuration: '0.8s',
           transform: 'scale(var(--pulse-scale, 1))'
@@ -164,7 +164,7 @@ const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, on
         <div className="flex items-center gap-4 mt-2 pt-2 border-t border-white/5 opacity-80 md:opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
             {song.searchUrl && song.identified && (
                 <a href={song.searchUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-blue-300 transition-colors bg-white/5 hover:bg-white/10 px-2 py-1 rounded">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
                     <span>{t.songOverlay?.googleSearch || "Google Search"}</span>
                 </a>
             )}
@@ -176,7 +176,7 @@ const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, on
                 }} 
                 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-orange-300 transition-colors bg-white/5 hover:bg-white/10 px-2 py-1 rounded ml-auto"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                 <span>{t.wrongSong || "Retry Analysis"}</span>
             </button>
         </div>

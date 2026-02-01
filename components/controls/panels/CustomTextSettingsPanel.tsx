@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/CustomTextSettingsPanel.tsx
- * Version: 2.3.9
+ * Version: 1.8.83
  * Author: Sut
- * Updated: 2025-07-18 23:58
+ * Updated: 2025-07-21 15:10
  */
 
 import React, { useMemo } from 'react';
@@ -30,18 +30,16 @@ export const CustomTextSettingsPanel: React.FC = () => {
 
   const handleFontChange = (v: string) => {
     if (v === 'custom') {
-      if (isPresetFont) {
-        setSettings({...settings, customTextFont: 'Arial, sans-serif'});
-      }
+      if (isPresetFont) setSettings({...settings, customTextFont: 'Arial, sans-serif'});
     } else {
       setSettings({...settings, customTextFont: v});
     }
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
       {/* Column 1: Core Configuration (7 cols) */}
-      <div className="lg:col-span-7 space-y-3">
+      <div className="lg:col-span-7 flex flex-col gap-3">
         <BentoCard 
             title={t?.textPanel?.overlay || "Text Layer Setup"}
             action={
@@ -53,39 +51,48 @@ export const CustomTextSettingsPanel: React.FC = () => {
             }
         >
             <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-                    <div className="space-y-4">
-                        <SettingsToggle label={t?.customText || "Layer Master"} value={settings.showCustomText} onChange={() => setSettings({...settings, showCustomText: !settings.showCustomText})} activeColor="blue" variant="clean" />
-                        <CustomSelect label={t?.textSource} value={settings.textSource || 'AUTO'} options={[{ value: 'AUTO', label: t?.textSources?.auto || 'AUTO' }, { value: 'CUSTOM', label: t?.textSources?.custom || 'MANUAL' }, { value: 'SONG', label: t?.textSources?.song || 'SONG' }, { value: 'CLOCK', label: t?.textSources?.clock || 'CLOCK' }]} onChange={(v) => setSettings({...settings, textSource: v})} />
+                <div className="flex flex-col sm:flex-row gap-4">
+                    {/* Source Logic & Input Group */}
+                    <div className="flex-1 space-y-4 flex flex-col">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <SettingsToggle label={t?.customText || "Layer Master"} value={settings.showCustomText} onChange={() => setSettings({...settings, showCustomText: !settings.showCustomText})} activeColor="blue" variant="clean" />
+                            <CustomSelect label={t?.textSource} value={settings.textSource || 'AUTO'} options={[{ value: 'AUTO', label: t?.textSources?.auto || 'AUTO' }, { value: 'CUSTOM', label: t?.textSources?.custom || 'MANUAL' }, { value: 'SONG', label: t?.textSources?.song || 'SONG' }, { value: 'CLOCK', label: t?.textSources?.clock || 'CLOCK' }]} onChange={(v) => setSettings({...settings, textSource: v})} />
+                        </div>
+                        
+                        {/* Compact Text Input Area - Directly follows source logic */}
+                        <div className="relative group flex-1">
+                            <textarea 
+                                value={settings.customText} 
+                                onChange={(e) => setSettings({...settings, customText: e.target.value.toUpperCase()})} 
+                                placeholder={t?.customTextPlaceholder || "ENTER TEXT"} 
+                                className="w-full h-full min-h-[80px] bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xl px-4 py-3 text-xs font-black text-black dark:text-white tracking-[0.1em] uppercase focus:border-blue-500/50 outline-none resize-none transition-all placeholder-black/10 dark:placeholder-white/10" 
+                            />
+                            <div className="absolute bottom-2 right-3 opacity-20 pointer-events-none text-[7px] font-mono uppercase tracking-widest">{settings.customText.length}</div>
+                        </div>
                     </div>
-                    <div className="space-y-4">
-                      {/* Anchor Position changed to Dropdown for better UI density */}
-                      <CustomSelect 
-                          label={t?.lyricsPosition || "Anchor Point"} 
-                          value={settings.customTextPosition || 'mc'} 
-                          options={positionOptions} 
-                          onChange={(v) => setSettings({...settings, customTextPosition: v as Position})} 
-                      />
-                      <div className="pt-1.5 px-1 opacity-40">
-                         <span className="text-[10px] font-black uppercase tracking-widest leading-none text-black dark:text-white">Active Overlay Context</span>
-                      </div>
+
+                    {/* Anchor Selector - Moved to side for balance */}
+                    <div className="w-full sm:w-32 shrink-0 bg-black/[0.03] dark:bg-white/[0.03] rounded-2xl p-3 border border-black/5 dark:border-white/5 flex flex-col justify-center">
+                        <span className="text-[8px] font-black uppercase text-black/30 dark:text-white/30 tracking-widest mb-2 block text-center">{t?.lyricsPosition || "Anchor"}</span>
+                        <div className="grid grid-cols-3 gap-1">
+                            {positionOptions.map(pos => (
+                                <button 
+                                    key={pos.value} 
+                                    onClick={() => setSettings({...settings, customTextPosition: pos.value as Position})}
+                                    className={`aspect-square rounded-lg transition-all flex items-center justify-center ${settings.customTextPosition === pos.value ? 'bg-blue-600 text-white shadow-md scale-105' : 'bg-black/5 dark:bg-white/5 text-black/20 dark:text-white/20 hover:text-black/40 dark:hover:text-white/40'}`}
+                                >
+                                    <div className={`w-1 h-1 rounded-full ${settings.customTextPosition === pos.value ? 'bg-white' : 'bg-current'}`} />
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                </div>
-                
-                <div className="pt-4 border-t border-black/5 dark:border-white/5">
-                    <textarea 
-                        value={settings.customText} 
-                        onChange={(e) => setSettings({...settings, customText: e.target.value.toUpperCase()})} 
-                        placeholder={t?.customTextPlaceholder || "ENTER TEXT"} 
-                        className="w-full bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-2xl px-4 py-3 text-xs font-black text-black dark:text-white tracking-[0.2em] uppercase focus:border-blue-500/50 outline-none resize-none min-h-[100px] transition-all placeholder-black/20 dark:placeholder-white/20" 
-                    />
                 </div>
             </div>
         </BentoCard>
 
-        <BentoCard title={t?.customColor || "Dynamic Chroma"}>
-            <div className="flex flex-col sm:flex-row gap-6 items-center">
-                <div className="w-full sm:w-auto">
+        <BentoCard title={t?.customColor || "Dynamic Chroma"} className="flex-1">
+            <div className="flex flex-col sm:flex-row gap-6 items-center h-full py-1">
+                <div className="w-full sm:w-auto shrink-0">
                     <SettingsToggle label={t?.cycleColors || "Auto Cycle"} value={settings.customTextCycleColor} onChange={() => setSettings({...settings, customTextCycleColor: !settings.customTextCycleColor})} variant="clean" />
                 </div>
                 <div className="flex-1 w-full">
@@ -95,7 +102,7 @@ export const CustomTextSettingsPanel: React.FC = () => {
                                 <button 
                                     key={c} 
                                     onClick={() => setSettings({...settings, customTextColor: c})} 
-                                    className={`aspect-square rounded-lg border border-black/5 dark:border-white/10 transition-all ${settings.customTextColor === c ? 'ring-2 ring-blue-500 scale-110 shadow-lg' : 'opacity-50 hover:opacity-100 hover:scale-105'}`} 
+                                    className={`aspect-square rounded-lg border border-black/5 dark:border-white/10 transition-all ${settings.customTextColor === c ? 'ring-2 ring-blue-500 scale-110 shadow-lg z-10' : 'opacity-40 hover:opacity-100 hover:scale-105'}`} 
                                     style={{backgroundColor: c}} 
                                 />
                             ))}
@@ -111,9 +118,9 @@ export const CustomTextSettingsPanel: React.FC = () => {
       </div>
 
       {/* Column 2: Visual Style & Motion (5 cols) */}
-      <div className="lg:col-span-5 space-y-3 h-full">
-        <BentoCard title={t?.textPanel?.appearance || "Style & Typography"} className="h-full">
-            <div className="space-y-6">
+      <div className="lg:col-span-5 flex flex-col gap-3">
+        <BentoCard title={t?.textPanel?.appearance || "Style & Typography"} className="flex-1">
+            <div className="space-y-5">
                 <div className="space-y-4">
                     <CustomSelect label={t?.textFont} value={selectValue} options={localizedFonts} onChange={handleFontChange} />
                     {selectValue === 'custom' && (
@@ -123,21 +130,21 @@ export const CustomTextSettingsPanel: React.FC = () => {
                                 value={currentFont}
                                 onChange={(e) => setSettings({...settings, customTextFont: e.target.value})}
                                 placeholder={t?.hints?.enterLocalFont || "e.g. Arial, Helvetica"}
-                                className="w-full bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xl px-3 py-2 text-xs text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 focus:border-blue-500/50 outline-none font-mono"
+                                className="w-full bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xl px-3 py-2 text-[10px] text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 focus:border-blue-500/50 outline-none font-mono"
                             />
                         </div>
                     )}
                 </div>
 
-                <div className="pt-4 border-t border-black/5 dark:border-white/5 grid gap-6">
+                <div className="pt-3 border-t border-black/5 dark:border-white/5 grid gap-4">
                     <Slider label={t?.textSize} value={settings.customTextSize ?? 12} min={2} max={60} step={1} onChange={(v) => setSettings({...settings, customTextSize: v})} />
                     <Slider label={t?.visualPanel?.opacity || "Opacity"} value={settings.customTextOpacity ?? 0.5} min={0} max={1} step={0.05} onChange={(v) => setSettings({...settings, customTextOpacity: v})} />
-                    <Slider label={t?.textRotation || "Inclination"} value={settings.customTextRotation ?? 0} min={-180} max={180} step={5} onChange={(v) => setSettings({...settings, customTextRotation: v})} unit="°" />
+                    <Slider label={t?.textRotation || "Rotation"} value={settings.customTextRotation ?? 0} min={-180} max={180} step={5} onChange={(v) => setSettings({...settings, customTextRotation: v})} unit="°" />
                 </div>
 
-                <div className="pt-4 border-t border-black/5 dark:border-white/5 grid grid-cols-2 gap-4">
-                    <SettingsToggle label={t?.textAudioReactive || "Rhythmic Pulse"} value={settings.textPulse} onChange={() => setSettings({...settings, textPulse: !settings.textPulse})} variant="clean" activeColor="blue" />
-                    <SettingsToggle label={t?.text3D || "3D立体字"} value={!!settings.customText3D} onChange={() => setSettings({...settings, customText3D: !settings.customText3D})} variant="clean" activeColor="blue" />
+                <div className="pt-3 border-t border-black/5 dark:border-white/5 grid grid-cols-2 gap-3">
+                    <SettingsToggle label={t?.textAudioReactive || "Pulse"} value={settings.textPulse} onChange={() => setSettings({...settings, textPulse: !settings.textPulse})} variant="clean" activeColor="blue" />
+                    <SettingsToggle label={t?.text3D || "3D"} value={!!settings.customText3D} onChange={() => setSettings({...settings, customText3D: !settings.customText3D})} variant="clean" activeColor="blue" />
                 </div>
             </div>
         </BentoCard>

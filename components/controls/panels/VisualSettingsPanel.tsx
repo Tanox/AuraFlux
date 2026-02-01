@@ -1,7 +1,8 @@
 /**
  * File: components/controls/panels/VisualSettingsPanel.tsx
- * Version: 2.3.0
+ * Version: 2.4.0
  * Author: Sut
+ * Updated: 2025-07-21 16:10
  */
 
 import React, { useState } from 'react';
@@ -100,18 +101,21 @@ export const VisualSettingsPanel: React.FC = () => {
             }
         >
             <div className="space-y-4">
-                {/* Mood & Presets Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
-                    <CustomSelect 
-                        label={t?.presets?.hint || "Vibe Selector"}
-                        value={activePreset}
-                        options={presetOptions}
-                        onChange={(val) => {
-                            const selected = SMART_PRESETS[val];
-                            if (selected) applyPreset(selected);
-                        }}
-                    />
-                    <div className="flex gap-2">
+                {/* Mood & Presets Row - Optimized layout for Toggles */}
+                <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+                    <div className="flex-1 w-full">
+                        <CustomSelect 
+                            label={t?.presets?.hint || "Vibe Selector"}
+                            value={activePreset}
+                            options={presetOptions}
+                            onChange={(val) => {
+                                const selected = SMART_PRESETS[val];
+                                if (selected) applyPreset(selected);
+                            }}
+                        />
+                    </div>
+                    {/* Balanced grid for toggles with switch on left */}
+                    <div className="grid grid-cols-2 gap-3 w-full sm:w-[240px] shrink-0">
                         <SettingsToggle label={t?.glow || "Bloom"} value={settings.glow} onChange={()=>handleVisualSettingChange('glow', !settings.glow)} activeColor="blue" variant="clean" />
                         <SettingsToggle label={t?.trails || "Motion"} value={settings.trails} onChange={()=>handleVisualSettingChange('trails', !settings.trails)} activeColor="blue" variant="clean" />
                     </div>

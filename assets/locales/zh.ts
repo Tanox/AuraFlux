@@ -109,7 +109,7 @@ export const zh = {
     settings: {
       resolution: '分辨率',
       aspectRatio: '画面比例',
-      resNative: '原生分辨率',
+      resNative: '跟随窗口',
       fps: '帧率',
       bitrate: '码率',
       codec: '视频格式',

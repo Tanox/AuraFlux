@@ -1,6 +1,6 @@
 /**
  * File: components/controls/panels/StudioPanel.tsx
- * Version: 2.3.0
+ * Version: 2.3.1
  * Author: Sut
  */
 
@@ -163,7 +163,7 @@ export const StudioPanel: React.FC = () => {
       <div className="lg:col-span-7 flex flex-col gap-3">
         <BentoCard title={studio.videoConfig}>
           <div className="space-y-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <CustomSelect label={labels.resolution} value={resolution} onChange={(v) => setResolution(v === 'native' ? 'native' : Number(v))} options={[{ value: 'native', label: labels.resNative }, { value: 720, label: '720p' }, { value: 1080, label: '1080p' }, { value: 2160, label: '4K' }]} />
               <CustomSelect label={labels.aspectRatio} value={aspectRatio} onChange={(v) => setAspectRatio(v === 'native' ? 'native' : Number(v))} options={[{ value: 'native', label: labels.resNative }, { value: 16 / 9, label: '16:9' }, { value: 9 / 16, label: '9:16' }, { value: 1, label: '1:1' }]} />
               <CustomSelect label={labels.fps} value={fps} onChange={(v) => setFps(Number(v))} options={[{ value: 30, label: '30 FPS' }, { value: 60, label: '60 FPS' }]} />

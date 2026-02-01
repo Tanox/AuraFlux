@@ -9,5 +9,5 @@
 - **AI 歌词图层:** 实时检索并在 3D 空间内以不同风格（Karaoke, Zen）显示歌词。
 
 ---
-*Aura Flux AI Integration Specification - Version 1.8.82*
+*Aura Flux AI Integration Specification - Version 1.8.83*
 *Author: Sut*

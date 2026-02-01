@@ -1,8 +1,8 @@
 /**
  * File: core/hooks/useAudio.ts
- * Version: 1.8.82
+ * Version: 1.9.5
  * Author: Sut
- * Updated: 2025-07-20 12:30
+ * Updated: 2025-07-21 10:00
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -44,6 +44,9 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   const startTimeRef = useRef(0);
   const pausedAtRef = useRef(0);
   const rafRef = useRef(0);
+
+  // Lock to prevent overlapping playback during async decoding
+  const pendingTrackIdRef = useRef<string | null>(null);
 
   const pl = usePlaylist(setCurrentSong);
 
@@ -106,6 +109,7 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     setIsListening(false); 
     setIsPlaying(false); 
     setMediaStream(null);
+    pendingTrackIdRef.current = null;
   }, [mediaStream, killExistingFileSource]);
 
   const toggleMicrophone = useCallback(async (deviceId?: string) => {
@@ -177,22 +181,36 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
 
   const playTrack = useCallback(async (track: Track, index: number) => {
     if (!track) return;
+    const currentId = track.id;
+    pendingTrackIdRef.current = currentId;
+
     setIsPending(true); 
     await stopAll(); 
     setSourceType('FILE'); 
     setCurrentSong(track); 
     pl.setCurrentIndex(index); 
     pausedAtRef.current = 0;
+
     try {
       const ctx = await ensureContext(); 
       const ab = await ctx.decodeAudioData(await track.file.arrayBuffer());
+      
+      // GUARD: Check if this is still the requested track after async decoding
+      if (pendingTrackIdRef.current !== currentId) return;
+
       audioBufferRef.current = ab; 
       setDuration(ab.duration); 
       playFileBuffer();
     } catch (e) {
-        showToast(t?.errors?.trackLoad || "Failed to load track.", 'error');
-    } finally { setIsPending(false); }
-  }, [stopAll, setCurrentSong, playFileBuffer, ensureContext, pl.setCurrentIndex, t, showToast]);
+        if (pendingTrackIdRef.current === currentId) {
+            showToast(t?.errors?.trackLoad || "Failed to load track.", 'error');
+        }
+    } finally { 
+        if (pendingTrackIdRef.current === currentId) {
+            setIsPending(false); 
+        }
+    }
+  }, [stopAll, setCurrentSong, playFileBuffer, ensureContext, pl, t, showToast]);
 
   const playTrackByIndex = useCallback(async (index: number) => {
     const track = pl.playlist[index]; 
@@ -202,7 +220,10 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   const importFiles = useCallback(async (files: FileList | File[]) => {
     const wasEmpty = pl.playlist.length === 0;
     const newTracks = await pl.importFiles(files);
-    if (wasEmpty && newTracks.length > 0) setTimeout(() => playTrack(newTracks[0], 0), 100);
+    if (wasEmpty && newTracks.length > 0) {
+        // Prevent race during initial import
+        setTimeout(() => playTrack(newTracks[0], 0), 100);
+    }
     return newTracks;
   }, [pl, playTrack]);
 

@@ -109,7 +109,7 @@ export const tw = {
     settings: {
       resolution: '解析度',
       aspectRatio: '畫面比例',
-      resNative: '原生解析度',
+      resNative: '跟隨窗口',
       fps: '幀率',
       bitrate: '碼率',
       codec: '視訊格式',
@@ -316,7 +316,7 @@ export const tw = {
     apiKeyInvalid: 'AI 身份驗證失敗',
     apiKeyInvalidDesc: '您的 API Key 似乎無效或額度已用盡。',
     networkTimeout: 'AI 響應延遲警告',
-    networkTimeoutDesc: '雲端分析時間過長，請檢查網路。',
+    networkTimeoutDesc: '雲端分析時間過长，請檢查網路。',
     configMissing: '未配置 API Key',
     configMissingDesc: '請在“輸入”面板中配置您的 API Key。'
   },

@@ -1,7 +1,8 @@
 /**
  * File: core/constants/index.ts
- * Version: 1.8.82
+ * Version: 1.8.88
  * Author: Sut
+ * Updated: 2025-07-21 19:00
  */
 
 import { VisualizerMode, SmartPreset } from '../types';
@@ -9,7 +10,7 @@ import { COLOR_THEMES } from './visualThemes';
 
 export * from './visualThemes';
 
-export const APP_VERSION = '1.8.82';
+export const APP_VERSION = '1.8.88';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
 

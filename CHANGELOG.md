@@ -2,23 +2,15 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v1.8.67] - 2025-07-18
+## [v1.8.85] - 2025-07-21
 
-### 🚀 Features & Refinements
-*   **Visualizer Categorization:** Added explicit rendering type labels (2D/3D) to visualization mode tooltips and preview badges. This helps users understand the performance profile of each engine at a glance.
-*   **Version Update:** Updated application version to `v1.8.67` across all manifests and documentation.
+### 🎨 UI & UX Optimization
+*   **Toggle Layout Standardized:** Applied the "Left Switch, Right Label" standard across all panels.
+*   **Visual Core Refinement:** Optimized the layout of "Glow" and "Trails" toggles in the Visual Settings panel using a dedicated grid for better spatial distribution.
+*   **Typography Alignment:** Ensured all toggle labels are left-aligned, improving readability across all 10 supported languages.
 
-## [v1.8.66] - 2025-07-18
+### 📄 Documentation & Specs
+*   **OpenSpec Update:** Formalized the Toggle UI standard in `05_interface_spec.md`.
 
-### 🚀 Features & Refinements
-*   **README Restoration:** Restored Live Demo and Language toggle links at the top of the README files for better navigation.
-*   **UI Spec Sync:** Updated `openspec/05_interface_spec.md` to reflect the transition from grid-based anchor position selection to space-efficient dropdown menus.
-*   **Full Specification Sync:** Synchronized all code features (Hybrid Rendering, Studio recording, AI Synergy) into the `openspec/` documentation system.
-*   **Version Update:** Updated application version to `v1.8.66` across all manifests and documentation.
-*   **Metadata Polish:** Enhanced `metadata.json` with versioning information.
-
-### 🧹 Housekeeping
-*   **Documentation Audit:** Verified that `01_architecture` through `09_marketing` accurately reflect the current technical state of the application.
-
-## [v1.8.62] - 2025-07-18
-...
+## [v1.8.83] - 2025-07-21
+... (rest of the file)

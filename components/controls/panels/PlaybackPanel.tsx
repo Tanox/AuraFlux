@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/PlaybackPanel.tsx
- * Version: 2.3.7
+ * Version: 1.9.8
  * Author: Sut
- * Updated: 2025-05-20 12:00
+ * Updated: 2025-07-21 19:10
  */
 
 import React, { useRef, useEffect, useMemo } from 'react';
@@ -200,8 +200,8 @@ export const PlaybackPanel: React.FC = () => {
                             key={track.id} 
                             ref={idx === currentIndex ? activeTrackRef : null}
                             onDoubleClick={() => playTrackByIndex(idx)} 
-                            className={`group flex items-center gap-4 p-3 rounded-2xl cursor-pointer transition-all border outline-none focus-within:ring-2 focus-within:ring-blue-500/40 ${idx === currentIndex ? 'bg-blue-600/10 border-blue-500/30' : 'bg-transparent border-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'}`}
                             tabIndex={0}
+                            className={`group flex items-center gap-4 p-3 rounded-2xl cursor-pointer transition-all border outline-none focus-within:ring-2 focus-within:ring-blue-500/40 ${idx === currentIndex ? 'bg-blue-600/10 border-blue-500/30' : 'bg-transparent border-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.03]'}`}
                         >
                             <div className="w-8 text-[10px] font-black font-mono text-black/30 dark:text-white/30 text-center shrink-0">
                                 {idx === currentIndex ? (
@@ -232,7 +232,12 @@ export const PlaybackPanel: React.FC = () => {
                                 </div>
                             </div>
                             
-                            <div className="flex items-center opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-all pr-2">
+                            {/* Refined Delete Button Visibility: 
+                                1. Always start at opacity-0
+                                2. Fade in only on group hover OR group focus (for mobile click)
+                                3. Added 'invisible' to completely remove interaction area when not active
+                            */}
+                            <div className="flex items-center transition-all duration-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible pr-2">
                                 <TooltipArea text={t?.config?.delete || "Remove"}>
                                     <button 
                                         onClick={(e) => handleRemoveTrack(e, idx)} 

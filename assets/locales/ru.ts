@@ -247,7 +247,7 @@ export const ru = {
     sections: {
       essentials: 'Базовое',
       visual: 'Визуал',
-      advanced: 'Про'
+      advanced: 'Advanced'
     },
     back: 'Назад',
     next: 'Далее',
@@ -326,14 +326,13 @@ export const ru = {
     configMissing: 'Нет ключа',
     configMissingDesc: 'Укажите ключ в настройках.'
   },
-  // @fix: Add missing properties to match TranslationSchema
-  unsupportedTitle: 'Несовместимость движка',
-  unsupportedText: 'Aura Flux требует современных функций WebGL и Web Audio.',
+  unsupportedTitle: 'Несовместимость',
+  unsupportedText: 'Aura Flux требует WebGL и Web Audio.',
   showLyrics: 'Вкл ИИ HUD',
   showTooltips: 'Подсказки',
-  autoHideUi: 'Авто-скрытие',
-  hideCursor: 'Скрыть курсор',
-  showFps: 'Debug: FPS',
+  autoHideUi: 'Скрывать HUD',
+  hideCursor: 'Скрывать курсор',
+  showFps: 'Отладка: FPS',
   doubleClickFullscreen: 'Double Click — экран',
   mirrorDisplay: 'Зеркало',
   wakeLock: 'Не спать',

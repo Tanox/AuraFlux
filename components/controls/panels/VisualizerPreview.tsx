@@ -1,6 +1,6 @@
 /**
  * File: components/controls/panels/VisualizerPreview.tsx
- * Version: 2.1.1
+ * Version: 2.2.0
  * Author: Sut
  */
 
@@ -55,13 +55,16 @@ export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode,
       <TooltipArea text={tooltipText}>
         <button onClick={onClick} className={`relative w-full rounded-xl transition-all duration-300 overflow-hidden ${isActive?'ring-2 ring-blue-500 shadow-lg':'hover:ring-1 hover:ring-black/30 dark:hover:ring-white/30'} ${isIncluded?'':'grayscale opacity-60'}`}>
           <div className="h-12 w-full bg-black" style={styles[mode] || { background: 'black' }}/>
-          <div className={`absolute inset-0 flex items-center justify-between px-3 py-2 ${isActive?'bg-black/40':'bg-black/60'}`}>
-            <div className="flex flex-col items-start min-w-0 pr-8">
-              <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] mb-0.5 pointer-events-none">{modeTypeTag}</span>
-              <span className="text-[11px] font-bold uppercase tracking-widest truncate text-white w-full">{name}</span>
+          <div className={`absolute inset-0 flex items-center justify-start gap-3 px-3 py-2 ${isActive?'bg-black/40':'bg-black/60'}`}>
+            {/* Toggle on the LEFT */}
+            <div onClick={(e)=>{e.stopPropagation();onToggleInclude();}} className="w-6 h-6 flex items-center justify-center cursor-pointer shrink-0">
+                <div className={`w-4 h-4 rounded-full border transition-all ${isIncluded?'bg-green-500 border-green-500':'bg-black/40 border-white/30'}`}>{isIncluded && <svg className="w-2.5 h-2.5 mx-auto text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7"/></svg>}</div>
             </div>
-            <div onClick={(e)=>{e.stopPropagation();onToggleInclude();}} className="absolute right-1 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center cursor-pointer">
-                <div className={`w-4 h-4 rounded-full border ${isIncluded?'bg-green-500 border-green-500':'bg-black/40 border-white/30'}`}>{isIncluded && <svg className="w-2.5 h-2.5 mx-auto text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7"/></svg>}</div>
+
+            {/* Label on the RIGHT */}
+            <div className="flex flex-col items-start min-w-0 flex-1">
+              <span className="text-[9px] font-black text-white/50 uppercase tracking-[0.2em] mb-0.5 pointer-events-none">{modeTypeTag}</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest truncate text-white w-full text-left">{name}</span>
             </div>
           </div>
         </button>

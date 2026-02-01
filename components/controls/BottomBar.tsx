@@ -1,8 +1,8 @@
 /**
  * File: components/controls/BottomBar.tsx
- * Version: 1.9.1
+ * Version: 1.9.7
  * Author: Sut
- * Updated: 2025-07-20 18:15
+ * Updated: 2025-07-21 19:15
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -56,11 +56,23 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
             </div>
             <div className="flex-1 overflow-y-auto custom-scrollbar p-1">
                 {playlist.length === 0 ? <div className="flex flex-col items-center justify-center h-32 text-black/20 dark:text-white/20"><span className="text-[10px] uppercase font-bold">{t?.common?.empty}</span></div> : playlist.map((tr, idx) => (
-                    <div key={tr.id} onClick={() => playTrackByIndex(idx)} className={`group flex items-center gap-3 p-2 rounded-lg cursor-pointer border ${idx===currentIndex?'bg-blue-600/10 border-blue-500/30':'hover:bg-black/5 dark:hover:bg-white/5 border-transparent'}`}>
-                        <div className="w-5 text-[10px] text-black/30 dark:text-white/30">{idx===currentIndex?<div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse mx-auto"/>:idx+1}</div>
-                        <div className="w-8 h-8 rounded bg-black/5 dark:bg-white/5 overflow-hidden border border-black/5 dark:border-white/5">{tr.albumArtUrl && <img src={tr.albumArtUrl} className="w-full h-full object-cover"/>}</div>
+                    <div 
+                      key={tr.id} 
+                      onClick={() => playTrackByIndex(idx)} 
+                      tabIndex={0}
+                      className={`group flex items-center gap-3 p-2 rounded-lg cursor-pointer border outline-none focus-within:ring-1 focus-within:ring-blue-500/30 ${idx===currentIndex?'bg-blue-600/10 border-blue-500/30':'hover:bg-black/5 dark:hover:bg-white/5 border-transparent'}`}
+                    >
+                        <div className="w-5 text-[10px] text-black/30 dark:text-white/30 text-center shrink-0">{idx===currentIndex?<div className="w-1.5 h-1.5 bg-blue-500 dark:bg-blue-400 rounded-full animate-pulse mx-auto"/>:idx+1}</div>
+                        <div className="w-8 h-8 rounded bg-black/5 dark:bg-white/5 overflow-hidden border border-black/5 dark:border-white/5 shrink-0">{tr.albumArtUrl && <img src={tr.albumArtUrl} className="w-full h-full object-cover"/>}</div>
                         <div className="flex-1 min-w-0"><div className="text-xs font-bold truncate">{tr.title}</div><div className="text-[10px] text-black/40 dark:text-white/40 truncate">{tr.artist}</div></div>
-                        <button onClick={(e)=>{e.stopPropagation();removeFromPlaylist(idx);}} className="p-1.5 opacity-0 group-hover:opacity-100 text-black/20 dark:text-white/20 hover:text-red-500 dark:hover:text-red-400"><svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
+                        
+                        {/* Refined Delete Button: Only visible on group-hover or group-focus-within */}
+                        <button 
+                          onClick={(e)=>{e.stopPropagation();removeFromPlaylist(idx);}} 
+                          className={`p-1.5 transition-all duration-200 text-black/40 dark:text-white/40 hover:text-red-500 dark:hover:text-red-400 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible`}
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
                     </div>
                 ))}
             </div>
@@ -84,7 +96,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
                     {playlist.length > 0 && <div className="hidden sm:flex flex-col items-end mr-2"><span className="text-[9px] font-mono text-black/40 dark:text-white/40">{fmt(currentTime)} / {fmt(duration)}</span><div className="w-20 h-1 bg-black/10 dark:bg-white/10 rounded-full mt-1 relative overflow-hidden"><div className="absolute h-full bg-blue-600 dark:bg-blue-500" style={{width:`${(currentTime/(duration||1))*100}%`}}/><input type="range" min={0} max={duration||1} step={0.1} value={currentTime} onChange={(e)=>seekFile(parseFloat(e.target.value))} className="absolute inset-0 opacity-0 cursor-pointer"/></div></div>}
                     <button onClick={()=>setShowPlaylist(!showPlaylist)} className={`w-10 h-10 rounded-xl relative transition-all ${showPlaylist?'bg-blue-600 text-white':'bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white'}`}><svg className="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7"/></svg>{playlist.length>0&&<span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] flex items-center justify-center font-bold text-white border border-white dark:border-[#0a0a0c]">{playlist.length}</span>}</button>
                     <button onClick={() => setIsExpanded(p => !p)} className={`h-10 rounded-xl flex items-center justify-center transition-all ${playlist.length === 0 ? 'px-4 gap-2' : 'w-10'} ${isExpanded ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg' : 'bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white'}`}>
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
+                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 10-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
                         {playlist.length === 0 && <span className="text-xs font-bold uppercase">{isExpanded ? t?.hideOptions : t?.showOptions}</span>}
                     </button>
                 </div>

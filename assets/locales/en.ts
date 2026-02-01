@@ -109,7 +109,7 @@ export const en = {
     settings: {
       resolution: 'Resolution',
       aspectRatio: 'Aspect Ratio',
-      resNative: 'Native',
+      resNative: 'Window Scale',
       fps: 'FPS',
       bitrate: 'Bitrate',
       codec: 'Format',

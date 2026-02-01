@@ -1,8 +1,8 @@
 /**
  * File: components/controls/Controls.tsx
- * Version: 1.9.1
+ * Version: 1.9.3
  * Author: Sut
- * Updated: 2025-07-19 16:00
+ * Updated: 2025-07-20 21:05
  */
 
 import React, { useState, useEffect } from 'react';
@@ -162,9 +162,15 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
                     <div className="flex items-center justify-between lg:justify-end gap-2 md:gap-3">
                     {sourceType === 'FILE' && (
                         <div className="bg-black/5 dark:bg-white/5 p-0.5 rounded-lg flex items-center border border-black/5 dark:border-white/5 shrink-0">
+                            <TooltipArea text={t?.player?.previous}>
+                                <button onClick={playPrev} className="w-8 h-7 flex items-center justify-center rounded hover:bg-black/10 dark:hover:bg-white/10 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors">
+                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                                </button>
+                            </TooltipArea>
+                            <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-0.5"></div>
                             <TooltipArea text={isPlaying ? t?.player?.pause : t?.player?.play}>
                                 <button onClick={togglePlayback} className="w-8 h-7 flex items-center justify-center rounded hover:bg-black/10 dark:hover:bg-white/10 text-black/80 dark:text-white/80 hover:text-black dark:hover:text-white transition-colors">
-                                    {isPlaying ? <svg className="w-4 h-4" fill="currentColor" viewBox="0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="w-4 h-4" fill="currentColor" viewBox="0 24 24"><path d="M8 5v14l11-7z"/></svg>}
+                                    {isPlaying ? <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>}
                                 </button>
                             </TooltipArea>
                             <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-0.5"></div>

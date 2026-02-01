@@ -13,5 +13,5 @@
 - **完整性检查:** 每个版本发布前必须进行多国语言 Schema 对齐校验，确保无空键。
 
 ---
-*Aura Flux Storage & i18n Specification - Version 1.8.82*
+*Aura Flux Storage & i18n Specification - Version 1.8.83*
 *Author: Sut*
