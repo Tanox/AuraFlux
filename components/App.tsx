@@ -1,8 +1,8 @@
 /**
  * File: components/App.tsx
- * Version: 1.8.82
+ * Version: 1.8.91
  * Author: Sut
- * Updated: 2025-07-20 19:00
+ * Updated: 2025-07-22 10:20
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
@@ -134,9 +134,11 @@ const MainContent: React.FC = () => {
           <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} />
         </Suspense>
         {settings.showFps && <FPSCounter />}
-        <div className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white">
-          Aura Flux v{APP_VERSION}
-        </div>
+      </div>
+      
+      {/* Persistent Version Watermark - Explicitly moved outside auto-hide wrapper to stay persistent */}
+      <div className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white drop-shadow-md">
+        Aura Flux v{APP_VERSION}
       </div>
       
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}

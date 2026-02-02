@@ -2,7 +2,7 @@
  * File: core/constants/index.ts
  * Version: 1.8.91
  * Author: Sut
- * Updated: 2025-07-21 22:00
+ * Updated: 2025-07-22 10:00
  */
 
 import { VisualizerMode, SmartPreset } from '../types';
