@@ -1,7 +1,8 @@
 /**
  * File: components/controls/panels/SystemSettingsPanel.tsx
- * Version: 2.3.0
+ * Version: 2.3.2
  * Author: Sut
+ * Updated: 2025-07-22 20:10
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -23,7 +24,7 @@ const LANGUAGES: { value: Language; label: string }[] = [
 interface SavedPreset { id: number; name: string; data: VisualizerSettings; timestamp: number; }
 
 export const SystemSettingsPanel: React.FC = () => {
-  const { settings, setSettings } = useVisuals();
+  const { mode, settings, setSettings } = useVisuals();
   const { t, resetSettings, language, setLanguage, showToast, setShowHelpModal, setHelpModalInitialTab } = useUI();
   const { getStorage, setStorage } = useLocalStorage();
 
@@ -36,27 +37,47 @@ export const SystemSettingsPanel: React.FC = () => {
       if (Array.isArray(saved)) setPresets(saved);
   }, [getStorage]);
 
+  /**
+   * v2.3.2: Enhanced Export with mode-specific filename
+   */
   const handleExport = () => {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings, null, 2));
-      const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr);
-      downloadAnchorNode.setAttribute("download", `aura_config_${new Date().toISOString().slice(0,10)}.json`);
-      document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove();
-      showToast(t?.config?.copied || "Exported!", 'success');
+      const exportData = {
+          version: '1.8.96',
+          timestamp: Date.now(),
+          mode: mode,
+          settings: settings
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+      const downloadAnchorNode = document.createElement('a'); 
+      downloadAnchorNode.setAttribute("href", dataStr);
+      const dateStr = new Date().toISOString().slice(0,10);
+      downloadAnchorNode.setAttribute("download", `aura_${mode}_${dateStr}.json`);
+      document.body.appendChild(downloadAnchorNode); 
+      downloadAnchorNode.click(); 
+      downloadAnchorNode.remove();
+      showToast(t?.config?.copied || "Configuration Exported", 'success');
   };
 
+  /**
+   * v2.3.2: Robust Import with validation
+   */
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (evt) => {
           try {
-              const data = JSON.parse(evt.target?.result as string);
-              if (data && typeof data === 'object') {
+              const raw = JSON.parse(evt.target?.result as string);
+              // Handle both direct settings and wrapped export data
+              const data = raw.settings || raw;
+              if (data && typeof data === 'object' && !Array.isArray(data)) {
                   setSettings(prev => ({ ...prev, ...data }));
-                  showToast(t?.config?.importSuccess || "Configuration loaded successfully", 'success');
+                  showToast(t?.config?.importSuccess || "Configuration imported", 'success');
+              } else {
+                  throw new Error("Invalid structure");
               }
           } catch (err) {
-              showToast(t?.config?.invalidFile || "Invalid file format", 'error');
+              showToast(t?.config?.invalidFile || "Invalid configuration file", 'error');
           }
       };
       reader.readAsText(file);

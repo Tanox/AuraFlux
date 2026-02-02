@@ -1,8 +1,8 @@
 /**
  * File: core/hooks/useAudio.ts
- * Version: 1.9.5
+ * Version: 1.9.7
  * Author: Sut
- * Updated: 2025-07-21 10:00
+ * Updated: 2025-07-23 09:35
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -177,7 +177,7 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         rafRef.current = requestAnimationFrame(update); 
     };
     rafRef.current = requestAnimationFrame(update);
-  }, [pl.getNextIndex, ensureContext, killExistingFileSource]);
+  }, [pl, ensureContext, killExistingFileSource]);
 
   const playTrack = useCallback(async (track: Track, index: number) => {
     if (!track) return;
@@ -227,6 +227,9 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     return newTracks;
   }, [pl, playTrack]);
 
+  /**
+   * v1.9.7 Fix: If no buffer is loaded but playlist exists, start current track.
+   */
   const togglePlayback = useCallback(() => {
     if (isPlaying) {
         if (audioContextRef.current && fileSourceNodeRef.current) {
@@ -236,8 +239,18 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
             killExistingFileSource();
             setIsPlaying(false);
         }
-    } else playFileBuffer();
-  }, [isPlaying, playFileBuffer, killExistingFileSource]);
+    } else {
+        if (audioBufferRef.current) {
+            playFileBuffer();
+        } else if (pl.playlist.length > 0) {
+            // Cold start from library
+            const idx = pl.currentIndex >= 0 ? pl.currentIndex : 0;
+            playTrackByIndex(idx);
+        } else if (sourceType === 'MICROPHONE') {
+            toggleMicrophone();
+        }
+    }
+  }, [isPlaying, playFileBuffer, killExistingFileSource, pl.playlist, pl.currentIndex, playTrackByIndex, sourceType, toggleMicrophone]);
 
   return {
     sourceType, analyser, analyserR, isListening, isPending, mediaStream, audioDevices,
