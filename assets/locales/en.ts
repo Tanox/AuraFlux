@@ -25,8 +25,13 @@ export const en = {
     shuffle: 'Shuffle',
     mode: 'Playback Mode',
     add: 'ADD FILES',
+    addUrl: 'AI LINK',
+    urlPlaceholder: 'Paste music link (Netease/Spotify/YT)...',
+    import: 'PARSE',
+    importing: 'AI Parsing Playlist...',
     nowPlaying: 'Now Playing',
-    supportInfo: 'Supports ID3 Tags & Cover Art',
+    playlistTitle: 'Playlist',
+    supportInfo: 'Supports Netease, QQ, Spotify, YT and more',
     bg: 'Art Background',
     blur: 'Blur',
     cover: 'Mini Cover',
@@ -257,7 +262,7 @@ export const en = {
     gestureItems: {
       swipeMode: 'Swipe Left/Right: Change Mode',
       swipeSens: 'Swipe Up/Down: Adjust Sensitivity',
-      longPress: 'Long Press: Toggle Lyrics'
+      longPress: 'Long Press: AI Info'
     },
     projectInfoTitle: 'Our Vision',
     aboutDescription: 'Aura Flux is a real-time synesthesia engine that transmutes audio frequencies into generative 3D art.',
@@ -400,7 +405,7 @@ export const en = {
     "Sakura", "Arctic", "Desert", "Voltage", "Emerald", "Cyanide"
   ],
   close: 'Close',
-  randomize: 'Flux',
+  randomize: 'Instant',
   showOptions: 'Show HUD',
   hideOptions: 'Hide HUD',
   wrongSong: 'Retry Synesthesia',

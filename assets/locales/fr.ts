@@ -25,7 +25,13 @@ export const fr = {
     shuffle: 'Aléatoire',
     mode: 'Mode lecture',
     add: 'AJOUTER',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'LIEN IA',
+    urlPlaceholder: 'Coller le lien musical (Netease/Spotify/YT)...',
+    import: 'ANALYSER',
+    importing: 'IA Analyse de la Playlist...',
     nowPlaying: 'Lecture en cours',
+    playlistTitle: 'Playlist',
     supportInfo: 'Supporte tags ID3 & pochettes',
     bg: 'Fond Pochette',
     blur: 'Flou',
@@ -383,7 +389,7 @@ export const fr = {
   regions: {
     global: 'Global',
     US: 'Amérique du Nord',
-    CN: 'Chine / Asie',
+    CN: 'Chine / Asia',
     JP: 'Japon',
     KR: 'Corée du Sud',
     EU: 'Europe',

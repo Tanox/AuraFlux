@@ -1,14 +1,16 @@
+
 /**
  * File: core/services/aiService.ts
- * Version: 2.1.3
+ * Version: 2.2.0
  * Author: Sut
- * Updated: 2025-07-22 18:15
+ * Updated: 2025-07-25 10:30
  */
 
 import { GoogleGenAI, Type } from "@google/genai";
 import { SongInfo, Language, AIProvider, Region } from '../types';
 
 const GEMINI_MODEL = 'gemini-3-flash-preview';
+const GEMINI_PRO_MODEL = 'gemini-3-pro-preview';
 const IMAGEN_MODEL = 'gemini-2.5-flash-image';
 
 const SONG_SCHEMA = {
@@ -16,43 +18,71 @@ const SONG_SCHEMA = {
   properties: {
     title: { type: Type.STRING, description: "Track title or poetic description." },
     artist: { type: Type.STRING, description: "Artist or genre description." },
-    lyrics: { type: Type.STRING, description: "Full unsynchronized lyrics for the song. If it's a known song, you MUST provide the lyrics from your knowledge base." },
-    lyricsSnippet: { type: Type.STRING, description: "A key lyric or description of the sound texture." },
-    mood: { type: Type.STRING, description: "A 3-5 word aesthetic summary." },
-    mood_en_keywords: { type: Type.STRING, description: "Comma-separated keywords for visual styling." },
+    lyrics: { type: Type.STRING, description: "Full unsynchronized lyrics." },
+    lyricsSnippet: { type: Type.STRING, description: "A key lyric snippet." },
+    mood: { type: Type.STRING, description: "A aesthetic summary." },
+    mood_en_keywords: { type: Type.STRING, description: "Keywords for visual styling." },
     identified: { type: Type.BOOLEAN, description: "True if a known song." }
   },
   required: ['title', 'artist', 'mood', 'mood_en_keywords', 'identified', 'lyricsSnippet']
 };
 
-const VISUAL_CONFIG_SCHEMA = {
-  type: Type.OBJECT,
-  properties: {
-    mode: { type: Type.STRING, description: "Selected visual mode name." },
-    colors: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Array of 3 hex colors." },
-    speed: { type: Type.NUMBER, description: "Visual speed (0.1 to 3.0)" },
-    sensitivity: { type: Type.NUMBER, description: "Audio sensitivity (0.5 to 4.0)" },
-    glow: { type: Type.BOOLEAN },
-    explanation: { type: Type.STRING, description: "Short explanation of the aesthetic choice." }
-  },
-  required: ['mode', 'colors', 'speed', 'sensitivity', 'glow', 'explanation']
+const PLAYLIST_PARSE_SCHEMA = {
+    type: Type.ARRAY,
+    items: {
+        type: Type.OBJECT,
+        properties: {
+            title: { type: Type.STRING },
+            artist: { type: Type.STRING },
+            albumArtUrl: { type: Type.STRING, description: "Try to find the public cover image URL." },
+            platformUrl: { type: Type.STRING, description: "The original track URL on the platform." },
+            audioPreviewUrl: { type: Type.STRING, description: "If available, the direct MP3/AAC preview link." }
+        },
+        required: ['title', 'artist']
+    }
 };
 
-/**
- * v2.1.3: Robust JSON Parsing to handle cases where model includes markdown blocks.
- */
 const parseAiJson = (text: string | undefined): any => {
     if (!text) return null;
     let clean = text.trim();
-    // Strip markdown code blocks if present
     if (clean.startsWith('```')) {
         clean = clean.replace(/^```[a-z]*\n/, '').replace(/\n```$/, '');
     }
     try {
         return JSON.parse(clean);
     } catch (e) {
-        console.error("[AI] JSON Parse Failed:", e, "Raw Text:", text);
+        console.error("[AI] JSON Parse Failed:", e);
         return null;
+    }
+};
+
+/**
+ * v2.2.0: 利用 Gemini 3 Pro + Google Search 解析跨平台歌单
+ */
+export const parsePlaylistWithSearch = async (url: string, apiKey: string): Promise<any[]> => {
+    const key = apiKey || process.env.API_KEY;
+    if (!key) return [];
+    
+    const aiInstance = new GoogleGenAI({ apiKey: key });
+    const prompt = `Use Google Search to find the tracks contained in this music playlist URL: ${url}. 
+    This could be from NetEase Cloud Music, QQ Music, Spotify, YouTube Music, or Apple Music.
+    For each track, provide the title, artist, and if possible, a high-quality cover image URL and a direct playable audio preview link (if publicly accessible).
+    Return the result as a structured JSON array.`;
+
+    try {
+        const response = await aiInstance.models.generateContent({
+            model: GEMINI_PRO_MODEL,
+            contents: { parts: [{ text: prompt }] },
+            config: {
+                tools: [{ googleSearch: {} }],
+                responseMimeType: "application/json",
+                responseSchema: PLAYLIST_PARSE_SCHEMA
+            }
+        });
+        return parseAiJson(response.text) || [];
+    } catch (e) {
+        console.error("[AI] Playlist Parsing Failed:", e);
+        return [];
     }
 };
 
@@ -77,69 +107,47 @@ export const generateVisualConfigFromAudio = async (base64Audio: string, apiKey:
     const key = apiKey || process.env.API_KEY;
     if (!key) return null;
     const aiInstance = new GoogleGenAI({ apiKey: key });
-    const systemInstruction = `Analyze the provided audio snippet. Determine the most appropriate visualizer settings to match the rhythm, genre, and mood. Return choices in JSON. Explanation in ${language}.`;
+    const systemInstruction = `Analyze the provided audio snippet. Determine visual choices in JSON. Explanation in ${language}.`;
     try {
         const response = await aiInstance.models.generateContent({
             model: GEMINI_MODEL,
-            contents: [{ parts: [{ inlineData: { mimeType: 'audio/wav', data: base64Audio } }, { text: "Generate visual config for this audio." }] }],
-            config: { systemInstruction, responseMimeType: "application/json", responseSchema: VISUAL_CONFIG_SCHEMA }
+            contents: [{ parts: [{ inlineData: { mimeType: 'audio/wav', data: base64Audio } }, { text: "Generate visual config." }] }],
+            config: { systemInstruction, responseMimeType: "application/json" }
         });
         return parseAiJson(response.text);
-    } catch (e) {
-        console.error("[AI] Visual Config Generation Failed:", e);
-        return null;
-    }
+    } catch (e) { return null; }
 };
 
 export const generateArtisticBackground = async (moodKeywords: string, apiKey: string): Promise<string | null> => {
     const key = apiKey || process.env.API_KEY;
     if (!key) return null;
-    
     const aiInstance = new GoogleGenAI({ apiKey: key });
-    const prompt = `A highly detailed, professional, immersive digital art background that represents the mood: ${moodKeywords}. Abstract, cinematic lighting, aesthetic, high-fidelity, VJ style, 4k.`;
-    
+    const prompt = `Detailed immersive background for mood: ${moodKeywords}. 4k cinematic.`;
     try {
         const response = await aiInstance.models.generateContent({
             model: IMAGEN_MODEL,
             contents: { parts: [{ text: prompt }] },
-            config: {
-                imageConfig: {
-                    aspectRatio: "16:9"
-                }
-            }
+            config: { imageConfig: { aspectRatio: "16:9" } }
         });
-        
         for (const part of response.candidates[0].content.parts) {
-            if (part.inlineData) {
-                return `data:image/png;base64,${part.inlineData.data}`;
-            }
+            if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
         }
         return null;
-    } catch (e) {
-        console.error("[AI] Background Generation Failed:", e);
-        return null;
-    }
+    } catch (e) { return null; }
 };
 
 export const identifySongFromAudio = async (base64Audio: string, mimeType: string, language: Language = 'en', region: Region = 'global', provider: AIProvider = 'GEMINI', apiKey?: string): Promise<SongInfo | null> => {
     const key = apiKey || process.env.API_KEY;
     if (!key) return null;
     const aiInstance = new GoogleGenAI({ apiKey: key });
-    const systemInstruction = `You are an expert music identifier and visual director. Analyze the audio snippet. Identify the song if possible. 
-    IF THE SONG IS IDENTIFIED: You MUST provide the full, complete lyrics of the song in the 'lyrics' field. Use your access to global music databases to retrieve them accurately.
-    IF THE SONG IS UNKNOWN: Provide a poetic description of the vocal or instrumental texture in the 'lyricsSnippet' field.
-    Region: ${region}. Language: ${language}.`;
-    
+    const systemInstruction = `Music identifier. Provide lyrics. Language: ${language}.`;
     try {
         const response = await aiInstance.models.generateContent({
             model: GEMINI_MODEL,
-            contents: [{ parts: [{ inlineData: { mimeType, data: base64Audio } }, { text: "Identify this song and provide its full lyrics." }] }],
+            contents: [{ parts: [{ inlineData: { mimeType, data: base64Audio } }, { text: "Identify song." }] }],
             config: { systemInstruction, responseMimeType: "application/json", responseSchema: SONG_SCHEMA }
         });
         const result = parseAiJson(response.text);
         return result ? { ...result, matchSource: provider } : null;
-    } catch (e) {
-        console.error("[AI] Song Identification Failed:", e);
-        return null;
-    }
+    } catch (e) { return null; }
 };

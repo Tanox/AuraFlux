@@ -1,8 +1,8 @@
+
 /**
  * File: core/hooks/useAudio.ts
- * Version: 1.9.9
+ * Version: 2.1.0
  * Author: Sut
- * Updated: 2025-07-24 14:00
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -44,11 +44,20 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   const startTimeRef = useRef(0);
   const pausedAtRef = useRef(0);
   const rafRef = useRef(0);
-
-  // Lock to prevent overlapping playback during async decoding
   const pendingTrackIdRef = useRef<string | null>(null);
 
   const pl = usePlaylist(setCurrentSong);
+
+  useEffect(() => {
+    if (analyserRef.current) {
+        analyserRef.current.fftSize = safeFftSize;
+        analyserRef.current.smoothingTimeConstant = safeSmoothing;
+    }
+    if (analyserRRef.current) {
+        analyserRRef.current.fftSize = safeFftSize;
+        analyserRRef.current.smoothingTimeConstant = safeSmoothing;
+    }
+  }, [safeFftSize, safeSmoothing]);
 
   useEffect(() => {
     const getDevices = async () => {
@@ -111,7 +120,6 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     setIsListening(false); 
     setIsPlaying(false); 
     setMediaStream(null);
-    pendingTrackIdRef.current = null;
   }, [mediaStream, killExistingFileSource]);
 
   const toggleMicrophone = useCallback(async (deviceId?: string) => {
@@ -119,13 +127,14 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         showToast(t?.errors?.accessDenied || "Microphone access is required.", 'error');
         return;
     }
-    // Note: isListening check here uses closure value. In togglePlayback, we handle the stop logic explicitly.
     if (isListening && sourceType === 'MICROPHONE' && (!deviceId || deviceId === selectedDeviceId)) {
       await stopAll();
+      pendingTrackIdRef.current = null;
     } else {
       setIsPending(true);
       try {
         await stopAll();
+        pendingTrackIdRef.current = null;
         setSourceType('MICROPHONE');
         const ctx = await ensureContext();
         let stream: MediaStream;
@@ -169,8 +178,9 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
             if (nextIdx !== -1) playTrackByIndex(nextIdx); 
         } 
     };
-    source.start(0, pausedAtRef.current);
-    startTimeRef.current = ctx.currentTime - pausedAtRef.current;
+    const startOffset = Math.max(0, Math.min(pausedAtRef.current, audioBufferRef.current.duration - 0.01));
+    source.start(0, startOffset);
+    startTimeRef.current = ctx.currentTime - startOffset;
     fileSourceNodeRef.current = source; 
     setIsPlaying(true);
     cancelAnimationFrame(rafRef.current);
@@ -186,27 +196,23 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   const playTrack = useCallback(async (track: Track, index: number) => {
     if (!track) return;
     const currentId = track.id;
-    pendingTrackIdRef.current = currentId;
-
     setIsPending(true); 
     await stopAll(); 
+    pendingTrackIdRef.current = currentId;
     setSourceType('FILE'); 
     setCurrentSong(track); 
     pl.setCurrentIndex(index); 
     pausedAtRef.current = 0;
-
     try {
       const ctx = await ensureContext(); 
       const ab = await ctx.decodeAudioData(await track.file.arrayBuffer());
-      
-      // GUARD: Check if this is still the requested track after async decoding
       if (pendingTrackIdRef.current !== currentId) return;
-
       audioBufferRef.current = ab; 
       setDuration(ab.duration); 
       playFileBuffer();
     } catch (e) {
         if (pendingTrackIdRef.current === currentId) {
+            console.error("[Audio] Decode Error:", e);
             showToast(t?.errors?.trackLoad || "Failed to load track.", 'error');
         }
     } finally { 
@@ -214,40 +220,32 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
             setIsPending(false); 
         }
     }
-  }, [stopAll, setCurrentSong, playFileBuffer, ensureContext, pl, t, showToast]);
+  }, [stopAll, setCurrentSong, playFileBuffer, ensureContext, pl.setCurrentIndex, t, showToast]);
 
   const playTrackByIndex = useCallback(async (index: number) => {
     const track = pl.playlist[index]; 
     if (track) playTrack(track, index);
   }, [pl.playlist, playTrack]);
 
-  const importFiles = useCallback(async (files: FileList | File[]) => {
-    const wasEmpty = pl.playlist.length === 0;
-    const newTracks = await pl.importFiles(files);
-    if (wasEmpty && newTracks.length > 0) {
-        // Prevent race during initial import
-        setTimeout(() => playTrack(newTracks[0], 0), 100);
-    }
-    return newTracks;
-  }, [pl, playTrack]);
+  // 特殊包装：确保在曲目被删除时停止当前音频
+  const safeRemoveFromPlaylist = useCallback((index: number) => {
+      const result = pl.removeFromPlaylist(index);
+      if (result?.wasCurrent && sourceType === 'FILE') {
+          stopAll();
+          audioBufferRef.current = null;
+          pendingTrackIdRef.current = null;
+      }
+  }, [pl.removeFromPlaylist, sourceType, stopAll]);
 
-  /**
-   * v1.9.9 Fix: Robust togglePlayback
-   */
   const togglePlayback = useCallback(async () => {
     if (isPending) return;
-
-    // 1. Ensure Context is active (User Interaction)
     if (audioContextRef.current) {
         if (audioContextRef.current.state === 'suspended') {
             try { await audioContextRef.current.resume(); } catch (e) { console.error(e); }
         }
-    } else {
-        await ensureContext();
-    }
+    } else { await ensureContext(); }
 
     if (isPlaying) {
-        // --- PAUSE ---
         if (audioContextRef.current && fileSourceNodeRef.current) {
             const suspendTime = audioContextRef.current.currentTime - startTimeRef.current;
             if (audioBufferRef.current && audioBufferRef.current.duration > 0) {
@@ -258,43 +256,35 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         cancelAnimationFrame(rafRef.current);
         setIsPlaying(false);
     } else {
-        // --- PLAY ---
-        // If switching from Mic, stop it first
         if (isListening || sourceType === 'MICROPHONE') {
             await stopAll();
+            pendingTrackIdRef.current = null;
         }
-
         if (audioBufferRef.current) {
-            // Case A: Resume paused file
             setSourceType('FILE');
             playFileBuffer();
         } else if (pl.playlist.length > 0) {
-            // Case B: Play from playlist (cold start)
             setSourceType('FILE');
             const idx = (pl.currentIndex >= 0 && pl.currentIndex < pl.playlist.length) ? pl.currentIndex : 0;
             playTrackByIndex(idx);
-        } else {
-            // Case C: No files, toggle Mic (if we were already stopped)
-            // Note: stopAll() was called above, so isListening is currently false in effect, 
-            // but the 'isListening' variable in closure is still true.
-            // We use the fact that we just stopped everything to imply we want to start Mic if no files.
-            // But if we effectively just PAUSED the mic (by clicking play while mic active), 
-            // maybe we don't want to restart it immediately unless clicked again.
-            // Current behavior: Click Play (Mic Active) -> Stop Mic. Click Play again -> Start Mic (if no files).
-            if (!isListening) {
-                 toggleMicrophone();
-            }
-        }
+        } else { if (!isListening) toggleMicrophone(); }
     }
   }, [isPlaying, isListening, isPending, playFileBuffer, killExistingFileSource, pl.playlist, pl.currentIndex, playTrackByIndex, sourceType, toggleMicrophone, stopAll, ensureContext]);
 
   return {
     sourceType, analyser, analyserR, isListening, isPending, mediaStream, audioDevices,
     selectedDeviceId, onDeviceChange: setSelectedDeviceId,
-    isPlaying, duration, currentTime, ...pl, toggleMicrophone, playTrackByIndex,
+    isPlaying, duration, currentTime, ...pl, 
+    removeFromPlaylist: safeRemoveFromPlaylist, 
+    toggleMicrophone, playTrackByIndex,
     playNext: () => { if (pl.playlist.length > 0) playTrackByIndex(pl.getNextIndex()); },
     playPrev: () => { if (pl.playlist.length > 0) playTrackByIndex(pl.getPrevIndex()); },
-    togglePlayback, importFiles,
+    togglePlayback, importFiles: async (files: FileList | File[]) => {
+        const wasEmpty = pl.playlist.length === 0;
+        const newTracks = await pl.importFiles(files);
+        if (wasEmpty && newTracks.length > 0) playTrack(newTracks[0], 0);
+        return newTracks;
+    },
     seekFile: (t: number) => { 
         killExistingFileSource();
         pausedAtRef.current = t; 

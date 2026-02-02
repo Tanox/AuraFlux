@@ -25,7 +25,13 @@ export const ko = {
     shuffle: '셔플',
     mode: '재생 모드',
     add: '파일 추가',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'AI 링크',
+    urlPlaceholder: '음악 링크 붙여넣기 (Netease/Spotify/YT)...',
+    import: '분석',
+    importing: 'AI 재생 목록 분석 중...',
     nowPlaying: '현재 재생 중',
+    playlistTitle: '재생 목록',
     supportInfo: 'ID3 태그 및 커버 아트 지원',
     bg: '아트 배경',
     blur: '흐림',
@@ -56,7 +62,7 @@ export const ko = {
     NEBULA: '네뷸라',
     NEURAL_FLOW: '뉴럴 플로우',
     CUBE_FIELD: '퀀텀 필드',
-    KINETIC_WALL: '키네틱 월',
+    KINETIC_월: '키네틱 월',
     RESONANCE_ORB: '공명 천체',
     RIPPLES: '리플'
   },
@@ -431,7 +437,7 @@ export const ko = {
     elegant: '우아함',
     retro: '레트로',
     serif: '세리프',
-    heavy: '헤비',
+    heavy: 'ヘ비',
     custom: '📂 로컬 글꼴...'
   },
   positions: {

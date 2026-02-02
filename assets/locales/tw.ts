@@ -25,7 +25,13 @@ export const tw = {
     shuffle: '隨機播放',
     mode: '播放模式',
     add: '加入檔案',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: '解析歌單',
+    urlPlaceholder: '輸入網易雲/QQ/Spotify/YT等連結...',
+    import: '開始解析',
+    importing: 'AI 正在解析平台歌單...',
     nowPlaying: '正在播放',
+    playlistTitle: '播放列表',
     supportInfo: '支援 ID3 標籤與封面顯示',
     bg: '封面背景',
     blur: '模糊程度',
@@ -194,7 +200,7 @@ export const tw = {
     invalidFile: '無效的檔案格式',
     limitReached: '最多儲存3個預設。',
     saved: '預設已儲存',
-    load: '已載入',
+    load: '載入成功',
     deleteConfirm: '刪除此預設？',
     placeholder: '快照名稱...'
   },

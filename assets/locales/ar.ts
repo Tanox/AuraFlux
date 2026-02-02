@@ -25,7 +25,13 @@ export const ar = {
     shuffle: 'عشوائي',
     mode: 'وضع التشغيل',
     add: 'إضافة',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'رابط AI',
+    urlPlaceholder: 'صق رابط الموسيقى (Netease/Spotify/YT)...',
+    import: 'تحليل',
+    importing: 'AI تحليل قائمة التشغيل...',
     nowPlaying: 'يتم التشغيل الآن',
+    playlistTitle: 'قائمة التشغيل',
     supportInfo: 'وسوم ID3 وصور غلاف',
     bg: 'خلفية الغلاف',
     blur: 'تضبيب',
@@ -225,7 +231,7 @@ export const ar = {
     enterLocalFont: 'Arial, Helvetica'
   },
   onboarding: {
-    welcome: 'مرحباً',
+    welcome: 'Welcome to Aura Flux',
     subtitle: 'صوت الضوء',
     selectLanguage: 'اختر لغتك',
     features: {

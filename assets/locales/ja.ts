@@ -25,7 +25,13 @@ export const ja = {
     shuffle: 'シャッフル',
     mode: '再生モード',
     add: '追加',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'AIリンク',
+    urlPlaceholder: 'ミュージックリンクを貼り付け (Netease/Spotify/YT)...',
+    import: '解析',
+    importing: 'AIがプレイリストを解析中...',
     nowPlaying: '再生中',
+    playlistTitle: 'プレイリスト',
     supportInfo: 'ID3タグとカバーアートに対応',
     bg: 'アート背景',
     blur: 'ぼかし',
@@ -225,7 +231,7 @@ export const ja = {
     enterLocalFont: '例: Arial, Helvetica'
   },
   onboarding: {
-    welcome: 'Aura Fluxへようこそ',
+    welcome: 'Welcome to Aura Flux',
     subtitle: '光の旋律',
     selectLanguage: '言語を選択してください',
     features: {

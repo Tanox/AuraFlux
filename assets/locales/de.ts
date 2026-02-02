@@ -25,7 +25,13 @@ export const de = {
     shuffle: 'Zufällig',
     mode: 'Wiedergabemodus',
     add: 'HINZUFÜGEN',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'AI LINK',
+    urlPlaceholder: 'Musiklink einfügen (Netease/Spotify/YT)...',
+    import: 'PARSEN',
+    importing: 'AI parst Playlist...',
     nowPlaying: 'Läuft gerade',
+    playlistTitle: 'Wiedergabeliste',
     supportInfo: 'Unterstützt ID3-Tags & Cover',
     bg: 'Album-Hintergrund',
     blur: 'Unschärfe',

@@ -25,7 +25,13 @@ export const ru = {
     shuffle: 'Случайно',
     mode: 'Режим',
     add: 'ДОБАВИТЬ',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'ИИ ССЫЛКА',
+    urlPlaceholder: 'Вставьте ссылку (Netease/Spotify/YT)...',
+    import: 'ПАРСИТЬ',
+    importing: 'ИИ парсит плейлист...',
     nowPlaying: 'Сейчас играет',
+    playlistTitle: 'Плейлист',
     supportInfo: 'ID3 теги и обложки',
     bg: 'Фон Обложки',
     blur: 'Размытие',
@@ -225,7 +231,7 @@ export const ru = {
     enterLocalFont: 'Arial, Helvetica'
   },
   onboarding: {
-    welcome: 'Добро пожаловать',
+    welcome: 'Welcome to Aura Flux',
     subtitle: 'Звук Света',
     selectLanguage: 'Выберите язык',
     features: {

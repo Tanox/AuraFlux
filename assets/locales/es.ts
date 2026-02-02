@@ -25,7 +25,13 @@ export const es = {
     shuffle: 'Aleatorio',
     mode: 'Modo de Reproducción',
     add: 'AÑADIR',
+    // @fix: Add missing translations for playlist URL parsing
+    addUrl: 'VÍNCULO IA',
+    urlPlaceholder: 'Pegar enlace de música (Netease/Spotify/YT)...',
+    import: 'PARSEAR',
+    importing: 'IA Analizando Lista...',
     nowPlaying: 'Reproduciendo Ahora',
+    playlistTitle: 'Lista de reproducción',
     supportInfo: 'Soporta etiquetas ID3 y portadas',
     bg: 'Fondo de Arte',
     blur: 'Desenfoque',
