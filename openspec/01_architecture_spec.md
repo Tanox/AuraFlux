@@ -19,5 +19,5 @@ Aura Flux 采用 **"离屏优先" (Offscreen-First)** 与 **"混合引擎" (Hybr
 - **上下文自动恢复:** 监听 `webglcontextlost` 并自动重置。
 
 ---
-*Aura Flux Architecture Specification - Version 1.8.91*
+*Aura Flux Architecture Specification - Version 1.8.93*
 *Author: Sut*

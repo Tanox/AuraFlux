@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useVisualsState.ts
- * Version: 2.1.3
+ * Version: 1.8.93
  * Author: Sut
  */
 
@@ -22,8 +22,8 @@ export const DEFAULT_SETTINGS: VisualizerSettings = {
   autoRotate: false,
   rotateInterval: 30,
   includedModes: Object.values(VisualizerMode),
-  cycleColors: false,
-  colorInterval: 10,
+  cycleColors: true, // v1.8.93: Enabled by default
+  colorInterval: 5,   // v1.8.93: Set to 5s for dynamic feedback
   hideCursor: false,
   smoothing: 0.8,
   fftSize: 512,
@@ -243,6 +243,11 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: Visualizer
       region: DEFAULT_SETTINGS.region
     }));
   }, []);
+
+  // Sync state to storage
+  useEffect(() => { setStorage('mode', mode); }, [mode, setStorage]);
+  useEffect(() => { setStorage('theme', colorTheme); }, [colorTheme, setStorage]);
+  useEffect(() => { setStorage('settings', settings); }, [settings, setStorage]);
 
   return { 
     mode, setMode, 

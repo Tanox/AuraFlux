@@ -14,5 +14,5 @@
 - **AuraFluxDB (IndexedDB):** 存储大体积音频 Blob 及其元数据（ID3 标签、封面），实现本地媒体库。
 
 ---
-*Aura Flux Audio Engine Specification - Version 1.8.83*
+*Aura Flux Audio Engine Specification - Version 1.8.93*
 *Author: Sut*

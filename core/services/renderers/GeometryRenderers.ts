@@ -1,8 +1,8 @@
 /**
  * File: core/services/renderers/GeometryRenderers.ts
- * Version: 1.9.1
+ * Version: 1.9.2
  * Author: Sut
- * Description: Enhanced "Time Tunnel" with hyper-warp lines, cubic-bezier smoothing, and rhythmic light bursts.
+ * Description: Optimized "Time Tunnel" with Temporal Jitter Reduction and smoothing.
  */
 
 import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
@@ -23,6 +23,11 @@ export class TunnelRenderer implements IVisualizerRenderer {
   private stars: Star[] = [];
   private warpLines: WarpLine[] = [];
   private beatPulse = 0;
+  
+  // Temporal Smoothing States
+  private lastBass = 0;
+  private lastTreble = 0;
+  private lastAudioAmp = 0;
 
   init() { 
     this.sinCache = new Float32Array(0); 
@@ -30,6 +35,9 @@ export class TunnelRenderer implements IVisualizerRenderer {
     this.stars = [];
     this.warpLines = [];
     this.beatPulse = 0;
+    this.lastBass = 0;
+    this.lastTreble = 0;
+    this.lastAudioAmp = 0;
   }
 
   private updateCache(sides: number) {
@@ -76,8 +84,17 @@ export class TunnelRenderer implements IVisualizerRenderer {
     const sides = Math.floor(32 * qualityFactor);
     this.updateCache(sides);
     
-    const bass = getAverage(data, 0, 15) / 255 * settings.sensitivity;
-    const treble = getAverage(data, 100, 200) / 255 * settings.sensitivity;
+    // v1.9.2 Smoothing Logic
+    const targetBass = getAverage(data, 0, 20) / 255 * settings.sensitivity;
+    const targetTreble = getAverage(data, 100, 255) / 255 * settings.sensitivity;
+    
+    // Smooth factor based on settings.smoothing, default to 0.15 for high responsiveness but no jitter
+    const sFactor = 1.0 - (settings.smoothing || 0.8) * 0.8; 
+    this.lastBass += (targetBass - this.lastBass) * sFactor;
+    this.lastTreble += (targetTreble - this.lastTreble) * sFactor;
+    
+    const bass = this.lastBass;
+    const treble = this.lastTreble;
     
     if (beat) this.beatPulse = 1.0;
     this.beatPulse *= 0.92;
@@ -135,7 +152,9 @@ export class TunnelRenderer implements IVisualizerRenderer {
 
     // 4. Rings Data Generation
     const ringList: RingData[] = [];
-    const baseR = minDim * 0.5, audioAmp = minDim * 0.4 * settings.sensitivity;
+    const baseR = minDim * 0.5;
+    const targetAudioAmp = minDim * 0.4 * settings.sensitivity;
+    this.lastAudioAmp += (targetAudioAmp - this.lastAudioAmp) * 0.1; // Extra smoothing for the structural radius
     
     for (let i = 0; i < rings; i++) {
         let z = (i * zSpacing - virtualTime) % maxDepth;
@@ -151,8 +170,10 @@ export class TunnelRenderer implements IVisualizerRenderer {
         const points: RingPoint[] = [];
         
         for (let j = 0; j < sides; j++) {
-            const freqVal = (data[Math.floor((j/sides)*60)] || 0) / 255;
-            const r = (baseR + freqVal * audioAmp) * scale;
+            // Sampling multiple bins to average out single-bin noise
+            const binBase = Math.floor((j/sides)*120);
+            const freqVal = (getAverage(data, binBase, binBase + 4)) / 255;
+            const r = (baseR + freqVal * this.lastAudioAmp) * scale;
             points.push({ 
                 x: (this.cosCache[j]*cT - this.sinCache[j]*sT) * r, 
                 y: (this.cosCache[j]*sT + this.sinCache[j]*cT) * r 
@@ -163,18 +184,17 @@ export class TunnelRenderer implements IVisualizerRenderer {
 
     ringList.sort((a, b) => b.z - a.z);
 
-    // 5. Draw Rings and Connections with Smoothing
+    // 5. Draw Rings and Connections
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     
-    // Draw connections first
     ctx.globalAlpha = 0.2;
     for (let i = 0; i < ringList.length - 1; i++) {
         const curr = ringList[i], next = ringList[i+1];
         if (Math.abs(curr.z - next.z) > zSpacing * 1.5) continue;
         ctx.strokeStyle = curr.color;
         ctx.lineWidth = (curr.lineWidth + next.lineWidth) * 0.3;
-        for (let j = 0; j < sides; j += 2) {
+        for (let j = 0; j < sides; j += 4) { // Only connect every 4th vertex for cleaner looks
             ctx.beginPath();
             ctx.moveTo(curr.points[j].x, curr.points[j].y);
             ctx.lineTo(next.points[j].x, next.points[j].y);
@@ -182,7 +202,6 @@ export class TunnelRenderer implements IVisualizerRenderer {
         }
     }
 
-    // Draw rings with quadratic curves for organic feel
     ringList.forEach(ring => {
         ctx.beginPath();
         ctx.globalAlpha = ring.alpha;
