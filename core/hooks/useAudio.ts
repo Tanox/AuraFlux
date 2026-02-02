@@ -1,8 +1,8 @@
 /**
  * File: core/hooks/useAudio.ts
- * Version: 1.9.7
+ * Version: 1.9.8
  * Author: Sut
- * Updated: 2025-07-23 09:35
+ * Updated: 2025-07-24 12:00
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -228,10 +228,18 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   }, [pl, playTrack]);
 
   /**
-   * v1.9.7 Fix: If no buffer is loaded but playlist exists, start current track.
+   * v1.9.8 Fix: Robust togglePlayback with explicit context resumption and mode switching.
    */
-  const togglePlayback = useCallback(() => {
+  const togglePlayback = useCallback(async () => {
+    if (isPending) return;
+
+    // Ensure Context is running (user interaction requirement)
+    if (audioContextRef.current?.state === 'suspended') {
+        try { await audioContextRef.current.resume(); } catch(e) {}
+    }
+
     if (isPlaying) {
+        // PAUSE FILE
         if (audioContextRef.current && fileSourceNodeRef.current) {
             cancelAnimationFrame(rafRef.current);
             const suspendTime = audioContextRef.current.currentTime - startTimeRef.current;
@@ -240,17 +248,28 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
             setIsPlaying(false);
         }
     } else {
+        // PLAY / RESUME
+        
+        // If we are currently listening to Mic, stop it first to switch to File mode cleanly
+        if (isListening) {
+            await stopAll();
+        }
+
         if (audioBufferRef.current) {
+            // Resume existing buffer
+            setSourceType('FILE');
             playFileBuffer();
         } else if (pl.playlist.length > 0) {
-            // Cold start from library
+            // Cold start from playlist
+            setSourceType('FILE');
             const idx = pl.currentIndex >= 0 ? pl.currentIndex : 0;
             playTrackByIndex(idx);
         } else if (sourceType === 'MICROPHONE') {
+            // Fallback for empty playlist: Toggle Mic
             toggleMicrophone();
         }
     }
-  }, [isPlaying, playFileBuffer, killExistingFileSource, pl.playlist, pl.currentIndex, playTrackByIndex, sourceType, toggleMicrophone]);
+  }, [isPlaying, isListening, isPending, playFileBuffer, killExistingFileSource, pl.playlist, pl.currentIndex, playTrackByIndex, sourceType, toggleMicrophone, stopAll]);
 
   return {
     sourceType, analyser, analyserR, isListening, isPending, mediaStream, audioDevices,

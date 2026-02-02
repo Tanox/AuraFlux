@@ -10,6 +10,10 @@
 - **音乐爱好者:** 提升听歌时的视听通感体验。
 - **内容博主:** 快速生成适配音乐风格的动态背景图层。
 
+## 3. 视觉品牌识别
+- **调色盘:** 深空黑 (#000000) 与 霓虹紫 (#8b5cf6)。
+- **字体:** Inter (界面), JetBrains Mono (代码/技术感)。
+
 ---
 *Aura Flux Marketing & Press Specification - Version 1.8.99*
 *Author: Sut*
