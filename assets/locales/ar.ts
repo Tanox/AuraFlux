@@ -1,9 +1,3 @@
-/**
- * File: assets/locales/ar.ts
- * Version: 1.8.83
- * Author: Sut
- */
-
 export const ar = {
   common: {
     confirmClear: 'هل أنت متأكد من مسح قائمة التشغيل؟',
@@ -115,7 +109,7 @@ export const ar = {
     settings: {
       resolution: 'الدقة',
       aspectRatio: 'النسبة',
-      resNative: 'الأصلية',
+      resNative: 'مقياس النافذة',
       fps: 'إطارات',
       bitrate: 'البت',
       codec: 'تنسيق',
@@ -164,7 +158,7 @@ export const ar = {
     save: 'حفظ'
   },
   visualPanel: {
-    display: 'جودة العرض',
+    display: 'إعدادات العرض',
     aiBg: 'خلفية AI',
     generateBg: 'توليد',
     regenerate: 'إعادة',
@@ -326,7 +320,6 @@ export const ar = {
     configMissing: 'مفتاح مفقود',
     configMissingDesc: 'أدخل مفتاحك في لوحة الصوت.'
   },
-  // @fix: Add missing properties to match TranslationSchema
   unsupportedTitle: 'عدم توافق المحرك',
   unsupportedText: 'يتطلب Aura Flux ميزات WebGL و Web Audio الحديثة.',
   showLyrics: 'HUD AI',
@@ -346,7 +339,7 @@ export const ar = {
   speed: 'انسيابية',
   glow: 'سطوع',
   trails: 'استمرارية',
-  quality: 'الجودة',
+  quality: 'إدارة الجودة',
   sensitivity: 'وصول الصوت',
   smoothing: 'قصور',
   fftSize: 'الطيف',

@@ -1,9 +1,3 @@
-/**
- * File: assets/locales/ru.ts
- * Version: 1.8.83
- * Author: Sut
- */
-
 export const ru = {
   common: {
     confirmClear: 'Вы уверены, что хотите очистить плейлист?',
@@ -115,7 +109,7 @@ export const ru = {
     settings: {
       resolution: 'Разрешение',
       aspectRatio: 'Соотношение',
-      resNative: 'Нативное',
+      resNative: 'Масштаб окна',
       fps: 'FPS',
       bitrate: 'Битрейт',
       codec: 'Формат',
@@ -164,7 +158,7 @@ export const ru = {
     save: 'СОХРАНИТЬ'
   },
   visualPanel: {
-    display: 'Экран',
+    display: 'Настройки экрана',
     aiBg: 'ИИ Фон',
     generateBg: 'Создать',
     regenerate: 'Обновить',
@@ -345,7 +339,7 @@ export const ru = {
   speed: 'Поток',
   glow: 'Блеск',
   trails: 'Шлейф',
-  quality: 'Качество',
+  quality: 'Управление качеством',
   sensitivity: 'Усиление',
   smoothing: 'Инерция',
   fftSize: 'Спектр',
@@ -397,7 +391,7 @@ export const ru = {
   },
   qualities: {
     low: 'Низкое',
-    med: 'Сред.',
+    med: 'Среднее',
     high: 'Высокое'
   },
   themes: [
@@ -415,7 +409,7 @@ export const ru = {
     aiSynesthesia: 'AI',
     provider: {
       local: 'Кэш',
-      mock: 'Сим',
+      mock: 'Sim',
       id3: 'Теги'
     }
   },

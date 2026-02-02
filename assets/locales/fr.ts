@@ -109,7 +109,7 @@ export const fr = {
     settings: {
       resolution: 'Résolution',
       aspectRatio: 'Ratio d\'aspect',
-      resNative: 'Native',
+      resNative: 'Échelle de Fenêtre',
       fps: 'IPS',
       bitrate: 'Débit',
       codec: 'Format',
@@ -158,7 +158,7 @@ export const fr = {
     save: 'SAUVER'
   },
   visualPanel: {
-    display: 'Qualité et configuration d\'affichage',
+    display: 'Configuration d\'affichage',
     aiBg: 'Fond d\'inspiration IA',
     generateBg: 'Générer un fond IA',
     regenerate: 'Régénérer l\'art',
@@ -172,7 +172,7 @@ export const fr = {
   },
   systemPanel: {
     interface: 'Interface & Comportement',
-    behavior: 'Comportement App',
+    behavior: 'Comportamiento App',
     lightMode: 'Thème Clair',
     darkMode: 'Thème Sombre',
     uiMode: 'Mode Interface',
@@ -391,7 +391,7 @@ export const fr = {
   },
   qualities: {
     low: 'Basse (Eco)',
-    med: 'Moy. (Std)',
+    med: 'Moyenne (Std)',
     high: 'Haute (HQ)'
   },
   themes: [

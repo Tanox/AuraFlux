@@ -5,7 +5,7 @@ export const ko = {
     dropFiles: '오디오 파일 드래그',
     unknownTrack: '알 수 없는 곡',
     unknownArtist: '알 수 없는 아티스트',
-    beta: '베타',
+    beta: 'BETA',
     queue: '대기열',
     empty: '비어 있음',
     simple: '심플',
@@ -109,7 +109,7 @@ export const ko = {
     settings: {
       resolution: '해상도',
       aspectRatio: '화면 비율',
-      resNative: '기본 해상도',
+      resNative: '창 크기에 맞춤',
       fps: 'FPS',
       bitrate: '비트레이트',
       codec: '비디오 형식',
@@ -158,7 +158,7 @@ export const ko = {
     save: '저장'
   },
   visualPanel: {
-    display: '화질 및 디스플레이 설정',
+    display: '디스플레이 설정',
     aiBg: 'AI 영감 배경',
     generateBg: 'AI 배경 생성',
     regenerate: '아트 재생성',

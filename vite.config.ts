@@ -1,6 +1,6 @@
 /**
  * File: vite.config.ts
- * Version: 1.8.6
+ * Version: 1.8.91
  * Author: Sut
  */
 
@@ -41,7 +41,7 @@ export default defineConfig({
     }
   },
   build: {
-    outDir: 'build',
+    outDir: 'dist',
     target: 'esnext',
     minify: 'esbuild',
     rollupOptions: {

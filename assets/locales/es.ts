@@ -109,7 +109,7 @@ export const es = {
     settings: {
       resolution: 'Resolución',
       aspectRatio: 'Relación Aspecto',
-      resNative: 'Nativa',
+      resNative: 'Escala de Ventana',
       fps: 'FPS',
       bitrate: 'Bitrate',
       codec: 'Formato',
@@ -158,7 +158,7 @@ export const es = {
     save: 'GUARDAR'
   },
   visualPanel: {
-    display: 'Qualidad y configuración de pantalla',
+    display: 'Configuración de pantalla',
     aiBg: 'Fondo de Inspiración IA',
     generateBg: 'Generar Fondo IA',
     regenerate: 'Regenerar Arte',
@@ -230,18 +230,18 @@ export const es = {
     selectLanguage: 'Selecciona tu idioma',
     features: {
       title: 'Core Features',
-      visuals: { title: 'Arte Generativo', desc: 'Más de 15 motores WebGL multi-hilo.' },
-      ai: { title: 'Sinestesia IA', desc: 'Análisis de ánimo en tiempo real con Gemini 3.0.' },
-      privacy: { title: 'Privacidad Local', desc: 'El procesamiento ocurre en tu dispositivo.' }
+      visuals: { title: 'Arte Generativo', desc: 'Más de 15 motores WebGL.' },
+      ai: { title: 'Sinestesia IA', desc: 'Análisis en tiempo real con Gemini.' },
+      privacy: { title: 'Privacidad Local', desc: 'Procesamiento en tu dispositivo.' }
     },
     shortcuts: {
       title: 'Controles VJ Rápidos',
       desc: 'Domina el visualizador con estas teclas'
     },
     sections: {
-      essentials: 'Essentials',
-      visual: 'Visual Creation',
-      advanced: 'Advanced'
+      essentials: 'Básico',
+      visual: 'Visual',
+      advanced: 'Avanzado'
     },
     back: 'Atrás',
     next: 'Siguiente',
@@ -339,9 +339,9 @@ export const es = {
   speed: 'Fluidez',
   glow: 'Luminancia',
   trails: 'Persistencia',
-  quality: 'Calidad de Rendu',
+  quality: 'Gestión de Calidad',
   sensitivity: 'Ganancia Audio',
-  smoothing: 'Inercia',
+  smoothing: 'Inertia',
   fftSize: 'Densidad Espectral',
   recognitionSource: 'Modelo IA',
   simulatedDemo: 'Simulación (Demo)',
@@ -391,7 +391,7 @@ export const es = {
   },
   qualities: {
     low: 'Baja (Eco)',
-    med: 'Med (Std)',
+    med: 'Media (Est)',
     high: 'Alta (HQ)'
   },
   themes: [

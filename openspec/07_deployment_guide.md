@@ -3,6 +3,7 @@
 ## 1. 构建环境
 - **Node.js**: 20.x+
 - **Vite 6**: 开启 `esnext` 构建目标以支持最新 Web 特性。
+- **输出目录**: 构建产物默认输出至 `dist/` 目录（适配 Vercel/Netlify 默认配置）。
 
 ## 2. API 注入
 - 必须通过 `process.env.API_KEY` 注入默认密钥，同时支持用户在 UI 中手动覆盖以实现 BYOK 模式。
@@ -11,4 +12,4 @@
 - 必须包含 `manifest.json` 与 Service Worker 脚本，确保应用在离线环境下仍可加载基本的 2D 渲染引擎。
 
 ---
-*Aura Flux Deployment Guide - Version 1.8.82*
+*Aura Flux Deployment Guide - Version 1.8.91*

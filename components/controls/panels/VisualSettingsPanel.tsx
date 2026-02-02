@@ -1,8 +1,9 @@
+
 /**
  * File: components/controls/panels/VisualSettingsPanel.tsx
- * Version: 2.4.0
+ * Version: 2.4.1
  * Author: Sut
- * Updated: 2025-07-21 16:10
+ * Updated: 2025-07-21 21:10
  */
 
 import React, { useState } from 'react';
@@ -86,6 +87,9 @@ export const VisualSettingsPanel: React.FC = () => {
     }))
   ];
 
+  // @fix: Cast qualities to any to prevent property access errors on potentially empty object fallback
+  const q = (t?.qualities || {}) as any;
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
       {/* Column 1: Core Tuning & Display (7 cols) */}
@@ -131,9 +135,13 @@ export const VisualSettingsPanel: React.FC = () => {
                             <>
                                 <Slider label={t?.smoothing || "Inertia"} value={settings.smoothing} min={0} max={0.95} step={0.01} onChange={(v)=>handleVisualSettingChange('smoothing', v)} />
                                 <SegmentedControl 
-                                    label={t?.visualPanel?.display || "Fidelity"}
+                                    label={t?.visualPanel?.display || "Display Config"}
                                     value={settings.quality}
-                                    options={[{value:'low',label:'LOW'},{value:'med',label:'MED'},{value:'high',label:'HIGH'}]}
+                                    options={[
+                                        {value:'low', label: q.low || 'LOW'},
+                                        {value:'med', label: q.med || 'MED'},
+                                        {value:'high', label: q.high || 'HIGH'}
+                                    ]}
                                     onChange={(val)=>handleVisualSettingChange('quality', val)}
                                 />
                             </>

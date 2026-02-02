@@ -109,7 +109,7 @@ export const de = {
     settings: {
       resolution: 'Auflösung',
       aspectRatio: 'Seitenverhältnis',
-      resNative: 'Nativ',
+      resNative: 'Fensterskalierung',
       fps: 'FPS',
       bitrate: 'Bitrate',
       codec: 'Format',
@@ -158,7 +158,7 @@ export const de = {
     save: 'SPEICHERN'
   },
   visualPanel: {
-    display: 'Qualität & Anzeige',
+    display: 'Anzeigekonfiguration',
     aiBg: 'KI-Inspirationshintergrund',
     generateBg: 'KI-Hintergrund generieren',
     regenerate: 'Kunst neu generieren',
@@ -417,7 +417,7 @@ export const de = {
     tech: {
       gemini: 'Gemini 3 Logik',
       react: 'React 19 Kern',
-      webgl: 'Rendu WebGL',
+      webgl: 'WebGL Rendu',
       audio: 'Web Audio API',
       canvas: 'Offscreen Canvas',
       edge: 'Edge Logik'

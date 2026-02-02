@@ -109,7 +109,7 @@ export const ja = {
     settings: {
       resolution: '解像度',
       aspectRatio: 'アスペクト比',
-      resNative: 'ネイティブ',
+      resNative: 'ウィンドウに合わせる',
       fps: 'FPS',
       bitrate: 'ビットレート',
       codec: 'フォーマット',
@@ -158,7 +158,7 @@ export const ja = {
     save: '保存'
   },
   visualPanel: {
-    display: '画質と表示設定',
+    display: '表示設定',
     aiBg: 'AI インスピレーション背景',
     generateBg: 'AI背景を生成',
     regenerate: 'アートを再生成',
@@ -230,18 +230,18 @@ export const ja = {
     selectLanguage: '言語を選択してください',
     features: {
       title: 'Core Features',
-      visuals: { title: 'ジェネレーティブ・アート', desc: 'マルチスレッドWebGLによる15種類以上のエンジン。' },
-      ai: { title: 'AI 共感覚', desc: 'Geminiによるリアルタイム感情分析と歌詞表示。' },
-      privacy: { title: 'ローカルプライバシー', desc: '音声処理はすべてデバイス内で完結します。' }
+      visuals: { title: 'ジェネレーティブ・アート', desc: '15種類以上のエンジン。' },
+      ai: { title: 'AI 共感覚', desc: 'Geminiによるリアルタイム感情分析。' },
+      privacy: { title: 'ローカルプライバシー', desc: '音声処理はデバイス内で完結。' }
     },
     shortcuts: {
       title: 'クイックVJ操作',
       desc: 'ホットキーでビジュアルを支配する'
     },
     sections: {
-      essentials: 'Essentials',
-      visual: 'Visual Creation',
-      advanced: 'Advanced'
+      essentials: '基本操作',
+      visual: 'ビジュアル',
+      advanced: '高度な機能'
     },
     back: '戻る',
     next: '次へ',
@@ -391,7 +391,7 @@ export const ja = {
   },
   qualities: {
     low: '低 (省電力)',
-    med: '中間 (標準)',
+    med: '中 (標準)',
     high: '高 (HQ)'
   },
   themes: [
