@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.8.99)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.8.100)
 
 [Live Demo](https://github.com/sutchan) | [简体中文](./README_ZH.md)
 
@@ -78,5 +78,5 @@
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 1.8.99*  
+*Version: 1.8.100*  
 *Signature URL:* [https://github.com/sutchan](https://github.com/sutchan)

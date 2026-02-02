@@ -62,7 +62,8 @@ export const ko = {
     NEBULA: '네뷸라',
     NEURAL_FLOW: '뉴럴 플로우',
     CUBE_FIELD: '퀀텀 필드',
-    KINETIC_월: '키네틱 월',
+    // @fix: Fix typo in KINETIC_WALL key to match TranslationSchema
+    KINETIC_WALL: '키네틱 월',
     RESONANCE_ORB: '공명 천체',
     RIPPLES: '리플'
   },

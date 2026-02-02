@@ -1,7 +1,7 @@
 
 /**
  * File: core/hooks/useAudio.ts
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: Sut
  */
 
@@ -203,17 +203,41 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     setCurrentSong(track); 
     pl.setCurrentIndex(index); 
     pausedAtRef.current = 0;
+
     try {
-      const ctx = await ensureContext(); 
-      const ab = await ctx.decodeAudioData(await track.file.arrayBuffer());
+      const ctx = await ensureContext();
+      let arrayBuffer: ArrayBuffer;
+
+      // Handle remote streams for empty placeholder files
+      if (track.file.size === 0 && track.searchUrl) {
+          try {
+              const response = await fetch(track.searchUrl);
+              if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+              arrayBuffer = await response.arrayBuffer();
+          } catch (fetchErr) {
+              console.error("[Audio] Remote fetch failed:", fetchErr);
+              throw new Error("Unable to retrieve remote audio data.");
+          }
+      } else {
+          arrayBuffer = await track.file.arrayBuffer();
+      }
+
       if (pendingTrackIdRef.current !== currentId) return;
+      
+      const ab = await ctx.decodeAudioData(arrayBuffer);
+      if (pendingTrackIdRef.current !== currentId) return;
+
       audioBufferRef.current = ab; 
       setDuration(ab.duration); 
       playFileBuffer();
-    } catch (e) {
+    } catch (e: any) {
         if (pendingTrackIdRef.current === currentId) {
-            console.error("[Audio] Decode Error:", e);
-            showToast(t?.errors?.trackLoad || "Failed to load track.", 'error');
+            console.error("[Audio] Playback Error:", e);
+            // Provide more descriptive error for decoding issues
+            const errorMessage = e.message?.includes('decode') 
+                ? (t?.errors?.trackLoad || "Unable to decode audio data.") 
+                : (e.message || "Failed to load track.");
+            showToast(errorMessage, 'error');
         }
     } finally { 
         if (pendingTrackIdRef.current === currentId) {
@@ -227,7 +251,6 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     if (track) playTrack(track, index);
   }, [pl.playlist, playTrack]);
 
-  // 特殊包装：确保在曲目被删除时停止当前音频
   const safeRemoveFromPlaylist = useCallback((index: number) => {
       const result = pl.removeFromPlaylist(index);
       if (result?.wasCurrent && sourceType === 'FILE') {

@@ -1,6 +1,6 @@
 /**
  * File: core/constants/index.ts
- * Version: 1.8.99
+ * Version: 1.8.100
  * Author: Sut
  * Updated: 2025-07-24 10:00
  */
@@ -10,7 +10,7 @@ import { COLOR_THEMES } from './visualThemes';
 
 export * from './visualThemes';
 
-export const APP_VERSION = '1.8.99';
+export const APP_VERSION = '1.8.100';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
 
