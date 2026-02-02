@@ -1,8 +1,8 @@
 /**
  * File: core/hooks/useAudio.ts
- * Version: 1.9.8
+ * Version: 1.9.9
  * Author: Sut
- * Updated: 2025-07-24 12:00
+ * Updated: 2025-07-24 14:00
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -74,7 +74,9 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
       audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
     }
-    if (audioContextRef.current.state === 'suspended') await audioContextRef.current.resume();
+    if (audioContextRef.current.state === 'suspended') {
+        try { await audioContextRef.current.resume(); } catch(e) { console.warn("Context resume failed", e); }
+    }
     if (!analyserRef.current || !analyserRRef.current) {
       analyserRef.current = audioContextRef.current.createAnalyser();
       analyserRRef.current = audioContextRef.current.createAnalyser();
@@ -117,6 +119,7 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
         showToast(t?.errors?.accessDenied || "Microphone access is required.", 'error');
         return;
     }
+    // Note: isListening check here uses closure value. In togglePlayback, we handle the stop logic explicitly.
     if (isListening && sourceType === 'MICROPHONE' && (!deviceId || deviceId === selectedDeviceId)) {
       await stopAll();
     } else {
@@ -161,6 +164,7 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     source.connect(ctx.destination);
     source.onended = () => { 
         if (fileSourceNodeRef.current === source) {
+            setIsPlaying(false);
             const nextIdx = pl.getNextIndex(); 
             if (nextIdx !== -1) playTrackByIndex(nextIdx); 
         } 
@@ -228,48 +232,61 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   }, [pl, playTrack]);
 
   /**
-   * v1.9.8 Fix: Robust togglePlayback with explicit context resumption and mode switching.
+   * v1.9.9 Fix: Robust togglePlayback
    */
   const togglePlayback = useCallback(async () => {
     if (isPending) return;
 
-    // Ensure Context is running (user interaction requirement)
-    if (audioContextRef.current?.state === 'suspended') {
-        try { await audioContextRef.current.resume(); } catch(e) {}
+    // 1. Ensure Context is active (User Interaction)
+    if (audioContextRef.current) {
+        if (audioContextRef.current.state === 'suspended') {
+            try { await audioContextRef.current.resume(); } catch (e) { console.error(e); }
+        }
+    } else {
+        await ensureContext();
     }
 
     if (isPlaying) {
-        // PAUSE FILE
+        // --- PAUSE ---
         if (audioContextRef.current && fileSourceNodeRef.current) {
-            cancelAnimationFrame(rafRef.current);
             const suspendTime = audioContextRef.current.currentTime - startTimeRef.current;
-            if (audioBufferRef.current) pausedAtRef.current = suspendTime > 0 ? suspendTime % audioBufferRef.current.duration : 0;
-            killExistingFileSource();
-            setIsPlaying(false);
+            if (audioBufferRef.current && audioBufferRef.current.duration > 0) {
+                pausedAtRef.current = suspendTime > 0 ? suspendTime % audioBufferRef.current.duration : 0;
+            }
         }
+        killExistingFileSource();
+        cancelAnimationFrame(rafRef.current);
+        setIsPlaying(false);
     } else {
-        // PLAY / RESUME
-        
-        // If we are currently listening to Mic, stop it first to switch to File mode cleanly
-        if (isListening) {
+        // --- PLAY ---
+        // If switching from Mic, stop it first
+        if (isListening || sourceType === 'MICROPHONE') {
             await stopAll();
         }
 
         if (audioBufferRef.current) {
-            // Resume existing buffer
+            // Case A: Resume paused file
             setSourceType('FILE');
             playFileBuffer();
         } else if (pl.playlist.length > 0) {
-            // Cold start from playlist
+            // Case B: Play from playlist (cold start)
             setSourceType('FILE');
-            const idx = pl.currentIndex >= 0 ? pl.currentIndex : 0;
+            const idx = (pl.currentIndex >= 0 && pl.currentIndex < pl.playlist.length) ? pl.currentIndex : 0;
             playTrackByIndex(idx);
-        } else if (sourceType === 'MICROPHONE') {
-            // Fallback for empty playlist: Toggle Mic
-            toggleMicrophone();
+        } else {
+            // Case C: No files, toggle Mic (if we were already stopped)
+            // Note: stopAll() was called above, so isListening is currently false in effect, 
+            // but the 'isListening' variable in closure is still true.
+            // We use the fact that we just stopped everything to imply we want to start Mic if no files.
+            // But if we effectively just PAUSED the mic (by clicking play while mic active), 
+            // maybe we don't want to restart it immediately unless clicked again.
+            // Current behavior: Click Play (Mic Active) -> Stop Mic. Click Play again -> Start Mic (if no files).
+            if (!isListening) {
+                 toggleMicrophone();
+            }
         }
     }
-  }, [isPlaying, isListening, isPending, playFileBuffer, killExistingFileSource, pl.playlist, pl.currentIndex, playTrackByIndex, sourceType, toggleMicrophone, stopAll]);
+  }, [isPlaying, isListening, isPending, playFileBuffer, killExistingFileSource, pl.playlist, pl.currentIndex, playTrackByIndex, sourceType, toggleMicrophone, stopAll, ensureContext]);
 
   return {
     sourceType, analyser, analyserR, isListening, isPending, mediaStream, audioDevices,

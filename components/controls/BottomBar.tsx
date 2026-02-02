@@ -1,8 +1,8 @@
 /**
  * File: components/controls/BottomBar.tsx
- * Version: 1.9.9
+ * Version: 2.0.0
  * Author: Sut
- * Updated: 2025-07-22 11:30
+ * Updated: 2025-07-24 14:00
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -22,7 +22,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
     isPlaying, togglePlayback, playNext, playPrev, 
     currentTime, duration, seekFile, 
     playlist, currentIndex, playTrackByIndex, removeFromPlaylist, clearPlaylist,
-    playbackMode, setPlaybackMode
+    playbackMode, setPlaybackMode, isPending
   } = useAudioContext();
   const { randomizeSettings } = useVisuals();
   const { t } = useUI();
@@ -87,7 +87,21 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
                 {playlist.length > 0 ? (
                     <div className="flex items-center gap-2 flex-1 justify-center">
                         <button onClick={playPrev} className="p-2 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M8.445 14.832A1 1 0 0010 14v-2.798l5.445 3.63A1 1 0 0017 14V6a1 1 0 00-1.555-.832L10 8.798V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4z"/></svg></button>
-                        <button onClick={togglePlayback} className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isPlaying?'bg-black dark:bg-white text-white dark:text-black shadow-lg':'bg-black/10 dark:bg-white/10 text-black dark:text-white'}`}>{isPlaying?<svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>:<svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>}</button>
+                        
+                        <button 
+                            onClick={togglePlayback} 
+                            disabled={isPending}
+                            className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${isPlaying?'bg-black dark:bg-white text-white dark:text-black shadow-lg':'bg-black/10 dark:bg-white/10 text-black dark:text-white'} disabled:opacity-50 disabled:cursor-not-allowed`}
+                        >
+                            {isPending ? (
+                                <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                            ) : isPlaying ? (
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            ) : (
+                                <svg className="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            )}
+                        </button>
+                        
                         <button onClick={playNext} className="p-2 text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white"><svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M4.555 5.168A1 1 0 003 6v8a1 1 0 001.555.832L10 11.202V14a1 1 0 001.555.832l6-4a1 1 0 000-1.664l-6-4A1 1 0 0010 6v2.798l-5.445-3.63z"/></svg></button>
                     </div>
                 ) : <div className="flex-1 text-center"><span className="text-[10px] font-bold text-black/20 dark:text-white/20 uppercase tracking-[0.3em]">Aura Flux</span></div>}
