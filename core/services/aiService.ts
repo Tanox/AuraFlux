@@ -1,9 +1,9 @@
 /**
  * File: core/services/aiService.ts
- * Version: 2.1.2
+ * Version: 2.1.3
  * Author: Sut
- * Updated: 2025-07-19 14:00
-  */
+ * Updated: 2025-07-22 18:15
+ */
 
 import { GoogleGenAI, Type } from "@google/genai";
 import { SongInfo, Language, AIProvider, Region } from '../types';
@@ -38,6 +38,24 @@ const VISUAL_CONFIG_SCHEMA = {
   required: ['mode', 'colors', 'speed', 'sensitivity', 'glow', 'explanation']
 };
 
+/**
+ * v2.1.3: Robust JSON Parsing to handle cases where model includes markdown blocks.
+ */
+const parseAiJson = (text: string | undefined): any => {
+    if (!text) return null;
+    let clean = text.trim();
+    // Strip markdown code blocks if present
+    if (clean.startsWith('```')) {
+        clean = clean.replace(/^```[a-z]*\n/, '').replace(/\n```$/, '');
+    }
+    try {
+        return JSON.parse(clean);
+    } catch (e) {
+        console.error("[AI] JSON Parse Failed:", e, "Raw Text:", text);
+        return null;
+    }
+};
+
 export const validateApiKey = async (provider: AIProvider, apiKey: string): Promise<boolean> => {
     if (provider !== 'GEMINI') return true; 
     if (!apiKey || !apiKey.startsWith('AIza')) return false;
@@ -66,7 +84,7 @@ export const generateVisualConfigFromAudio = async (base64Audio: string, apiKey:
             contents: [{ parts: [{ inlineData: { mimeType: 'audio/wav', data: base64Audio } }, { text: "Generate visual config for this audio." }] }],
             config: { systemInstruction, responseMimeType: "application/json", responseSchema: VISUAL_CONFIG_SCHEMA }
         });
-        return JSON.parse(response.text || "{}");
+        return parseAiJson(response.text);
     } catch (e) {
         console.error("[AI] Visual Config Generation Failed:", e);
         return null;
@@ -118,8 +136,8 @@ export const identifySongFromAudio = async (base64Audio: string, mimeType: strin
             contents: [{ parts: [{ inlineData: { mimeType, data: base64Audio } }, { text: "Identify this song and provide its full lyrics." }] }],
             config: { systemInstruction, responseMimeType: "application/json", responseSchema: SONG_SCHEMA }
         });
-        const result = JSON.parse(response.text || "{}");
-        return { ...result, matchSource: provider };
+        const result = parseAiJson(response.text);
+        return result ? { ...result, matchSource: provider } : null;
     } catch (e) {
         console.error("[AI] Song Identification Failed:", e);
         return null;
