@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './AppContext';
 import { WelcomeScreen } from './ui/WelcomeScreen';
 import { OnboardingOverlay } from './ui/OnboardingOverlay';
@@ -142,6 +143,7 @@ const MainContent: React.FC = () => {
       </div>
       
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}
+      <SpeedInsights />
     </div>
   );
 };
