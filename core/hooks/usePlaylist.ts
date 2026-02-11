@@ -1,14 +1,15 @@
 
 /**
  * File: core/hooks/usePlaylist.ts
- * Version: 2.4.0
+ * Version: 2.4.1
+ * Author: Sut
  */
 
 import { useState, useCallback, useEffect } from 'react';
 import { Track, PlaybackMode, SongInfo } from '../types';
 import { loadPlaylistFromDB, saveTrackToDB, clearPlaylistDB, removeTrackFromDB } from '../services/playlistService';
 import { extractMetadata } from '../services/metadataService';
-import { parsePlaylistSmart } from '../services/aiService';
+import { parsePlaylistSmart } from '../services/playlistParser';
 
 export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void) => {
   const [state, setState] = useState<{list: Track[], currentIndex: number}>({ list: [], currentIndex: -1 });
@@ -43,7 +44,7 @@ export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void) => {
   const importPlaylistFromUrl = useCallback(async (url: string, apiKey: string) => {
     if (!url) return [];
     
-    // 调用智能解析引擎
+    // 调用智能解析引擎 (from playlistParser)
     const items = await parsePlaylistSmart(url, apiKey);
     
     const newTracks: Track[] = items.map(item => ({
