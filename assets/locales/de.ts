@@ -192,7 +192,8 @@ export const de = {
     interaction: 'Interaktion',
     performance: 'System & Leistung',
     localization: 'Erscheinungsbild & Sprache',
-    factoryReset: 'Alle Einstellungen zurücksetzen'
+    factoryReset: 'Alle Einstellungen zurücksetzen',
+    installApp: 'Aura Flux App installieren'
   },
   config: {
     title: 'Daten- & Preset-Verwaltung',

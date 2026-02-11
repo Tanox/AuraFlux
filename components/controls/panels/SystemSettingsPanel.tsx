@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/SystemSettingsPanel.tsx
- * Version: 2.3.2
+ * Version: 2.3.3
  * Author: Sut
- * Updated: 2025-07-22 20:10
+ * Updated: 2025-07-28 10:10
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -25,7 +25,7 @@ interface SavedPreset { id: number; name: string; data: VisualizerSettings; time
 
 export const SystemSettingsPanel: React.FC = () => {
   const { mode, settings, setSettings } = useVisuals();
-  const { t, resetSettings, language, setLanguage, showToast, setShowHelpModal, setHelpModalInitialTab } = useUI();
+  const { t, resetSettings, language, setLanguage, showToast, setShowHelpModal, setHelpModalInitialTab, isPwaInstallable, installPwa } = useUI();
   const { getStorage, setStorage } = useLocalStorage();
 
   const [presets, setPresets] = useState<SavedPreset[]>([]);
@@ -37,9 +37,6 @@ export const SystemSettingsPanel: React.FC = () => {
       if (Array.isArray(saved)) setPresets(saved);
   }, [getStorage]);
 
-  /**
-   * v2.3.2: Enhanced Export with mode-specific filename
-   */
   const handleExport = () => {
       const exportData = {
           version: '1.8.96',
@@ -58,9 +55,6 @@ export const SystemSettingsPanel: React.FC = () => {
       showToast(t?.config?.copied || "Configuration Exported", 'success');
   };
 
-  /**
-   * v2.3.2: Robust Import with validation
-   */
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;
@@ -68,7 +62,6 @@ export const SystemSettingsPanel: React.FC = () => {
       reader.onload = (evt) => {
           try {
               const raw = JSON.parse(evt.target?.result as string);
-              // Handle both direct settings and wrapped export data
               const data = raw.settings || raw;
               if (data && typeof data === 'object' && !Array.isArray(data)) {
                   setSettings(prev => ({ ...prev, ...data }));
@@ -117,14 +110,25 @@ export const SystemSettingsPanel: React.FC = () => {
         </BentoCard>
 
         <BentoCard title={t?.systemPanel?.interface || "System & Behavior"} className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
-                <SettingsToggle label={t?.showTooltips} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
-                <SettingsToggle label={t?.autoHideUi} value={settings.autoHideUi} onChange={() => setSettings({...settings, autoHideUi: !settings.autoHideUi})} variant="clean" />
-                <SettingsToggle label={t?.hideCursor} value={settings.hideCursor} onChange={() => setSettings({...settings, hideCursor: !settings.hideCursor})} variant="clean" />
-                <SettingsToggle label={t?.doubleClickFullscreen} value={!!settings.doubleClickFullscreen} onChange={() => setSettings({...settings, doubleClickFullscreen: !settings.doubleClickFullscreen})} variant="clean" />
-                <SettingsToggle label={t?.wakeLock} value={settings.wakeLock} onChange={() => setSettings({...settings, wakeLock: !settings.wakeLock})} variant="clean" />
-                <SettingsToggle label={t?.mirrorDisplay} value={!!settings.mirrorDisplay} onChange={() => setSettings({...settings, mirrorDisplay: !settings.mirrorDisplay})} variant="clean" />
-                <SettingsToggle label={t?.showFps} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
+            <div className="flex flex-col h-full gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
+                  <SettingsToggle label={t?.showTooltips} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
+                  <SettingsToggle label={t?.autoHideUi} value={settings.autoHideUi} onChange={() => setSettings({...settings, autoHideUi: !settings.autoHideUi})} variant="clean" />
+                  <SettingsToggle label={t?.hideCursor} value={settings.hideCursor} onChange={() => setSettings({...settings, hideCursor: !settings.hideCursor})} variant="clean" />
+                  <SettingsToggle label={t?.doubleClickFullscreen} value={!!settings.doubleClickFullscreen} onChange={() => setSettings({...settings, doubleClickFullscreen: !settings.doubleClickFullscreen})} variant="clean" />
+                  <SettingsToggle label={t?.wakeLock} value={settings.wakeLock} onChange={() => setSettings({...settings, wakeLock: !settings.wakeLock})} variant="clean" />
+                  <SettingsToggle label={t?.mirrorDisplay} value={!!settings.mirrorDisplay} onChange={() => setSettings({...settings, mirrorDisplay: !settings.mirrorDisplay})} variant="clean" />
+                  <SettingsToggle label={t?.showFps} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
+              </div>
+              
+              {isPwaInstallable && (
+                <div className="mt-auto pt-4 border-t border-black/5 dark:border-white/5">
+                  <button onClick={installPwa} className="w-full py-3 bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-blue-400 font-black uppercase tracking-[0.2em] rounded-xl border border-blue-500/20 transition-all text-[10px] flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    {t?.systemPanel?.installApp || "Install Aura Flux App"}
+                  </button>
+                </div>
+              )}
             </div>
         </BentoCard>
       </div>

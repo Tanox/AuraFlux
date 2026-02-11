@@ -1,11 +1,11 @@
 /**
  * File: public/sw.js
- * Version: 1.8.100
+ * Version: 1.8.102
  * Author: Sut
  * Description: Advanced Service Worker for offline support
  */
 
-const CACHE_NAME = 'aura-flux-v1.8.100';
+const CACHE_NAME = 'aura-flux-v1.8.102';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -59,59 +59,40 @@ const isCacheable = (request) => {
   return true;
 };
 
-// Fetch Event: Cache First strategy for assets, Network First for HTML?
-// Actually, for a robust PWA using external ESM modules, Stale-While-Revalidate 
-// or Cache First is best for libs.
+// Fetch Event: Stale-While-Revalidate for most resources
 self.addEventListener('fetch', (event) => {
   if (!isCacheable(event.request)) return;
 
   const url = new URL(event.request.url);
   
-  // Strategy 1: Network Only for API (Handled by isCacheable check above)
-
-  // Strategy 2: Stale-While-Revalidate for external resources (ESM, Fonts, CDNs)
-  // This ensures fast load from cache, but updates in background if needed.
-  if (url.origin !== self.location.origin) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(async (cache) => {
-        const cachedResponse = await cache.match(event.request);
-        
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            cache.put(event.request, networkResponse.clone());
-          }
-          return networkResponse;
-        }).catch((e) => {
-          // Network failed, nothing to do here if we have cache
-          console.debug('[SW] External fetch failed:', e);
-        });
-
-        return cachedResponse || fetchPromise;
-      })
-    );
-    return;
-  }
-
-  // Strategy 3: Cache First for Local Assets (Images, JS, CSS)
-  // Fallback to Network. Fallback to offline page for navigation.
+  // Strategy: Stale-While-Revalidate
+  // Serve from cache immediately, then update cache from network
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
       const cachedResponse = await cache.match(event.request);
-      if (cachedResponse) return cachedResponse;
-
-      try {
-        const networkResponse = await fetch(event.request);
-        if (networkResponse && networkResponse.status === 200) {
+      
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        // Check for valid response
+        if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
           cache.put(event.request, networkResponse.clone());
         }
         return networkResponse;
-      } catch (error) {
-        // Offline fallback for navigation requests (HTML)
-        if (event.request.mode === 'navigate') {
-          return cache.match('./index.html');
-        }
-        throw error;
-      }
+      }).catch((e) => {
+        // Network failed
+        console.debug('[SW] Network unavailable:', e);
+        // Return null here, cachedResponse will be returned if available
+        // If no cache and network fails, standard browser error or offline page logic below
+        return null;
+      });
+
+      return cachedResponse || fetchPromise.then(response => {
+         if (response) return response;
+         // Fallback for navigation if both cache and network fail
+         if (event.request.mode === 'navigate') {
+            return cache.match('./index.html');
+         }
+         return new Response("Network error", { status: 408, headers: { "Content-Type": "text/plain" } });
+      });
     })
   );
 });

@@ -193,7 +193,8 @@ export const ko = {
     interaction: '상호작용',
     performance: '시스템 및 성능',
     localization: '외관 및 지역화',
-    factoryReset: '모든 설정 초기화'
+    factoryReset: '모든 설정 초기화',
+    installApp: 'Aura Flux 앱 설치'
   },
   config: {
     title: '데이터 및 프리셋 관리',

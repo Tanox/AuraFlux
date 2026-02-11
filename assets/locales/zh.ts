@@ -1,4 +1,5 @@
 
+
 export const zh = {
   common: {
     confirmClear: '确定要清空播放列表吗？',
@@ -192,7 +193,8 @@ export const zh = {
     interaction: '交互体验',
     performance: '系统与性能',
     localization: '外观与国际化',
-    factoryReset: '恢复出厂设置'
+    factoryReset: '恢复出厂设置',
+    installApp: '安装 Aura Flux 应用'
   },
   config: {
     title: '数据备份与快照管理',

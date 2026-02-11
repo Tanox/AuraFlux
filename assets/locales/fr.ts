@@ -192,7 +192,8 @@ export const fr = {
     interaction: 'Interaction',
     performance: 'Système & Performance',
     localization: 'Apparence & Localisation',
-    factoryReset: 'Réinitialiser tous les paramètres'
+    factoryReset: 'Réinitialiser tous les paramètres',
+    installApp: 'Installer l\'appli Aura Flux'
   },
   config: {
     title: 'Gestion des Données',

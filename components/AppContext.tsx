@@ -1,8 +1,8 @@
 /**
  * File: components/AppContext.tsx
- * Version: 1.8.61
+ * Version: 1.8.62
  * Author: Sut
- * Updated: 2025-07-27 17:00
+ * Updated: 2025-07-28 10:00
  */
 
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
@@ -11,6 +11,7 @@ import { useAudio } from '../core/hooks/useAudio';
 import { useAppState } from '../core/hooks/useAppState';
 import { useVisualsState } from '../core/hooks/useVisualsState';
 import { useAiState } from '../core/hooks/useAiState';
+import { usePWA } from '../core/hooks/usePWA';
 import { Toast } from './ui/Toast';
 import { TranslationSchema } from '../core/i18n';
 
@@ -30,6 +31,8 @@ interface UIContextType {
   setHelpModalInitialTab: React.Dispatch<React.SetStateAction<HelpTab>>;
   isDragging: boolean;
   setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+  isPwaInstallable: boolean;
+  installPwa: () => void;
 }
 const UIContext = createContext<UIContextType | null>(null);
 export const useUI = () => useContext(UIContext)!;
@@ -74,7 +77,6 @@ export const useAudioContext = () => useContext(AudioContext)!;
 interface AIContextType {
   lyricsStyle: LyricsStyle; showLyrics: boolean; setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
   enableAnalysis: boolean; setEnableAnalysis: (b: boolean) => void;
-  // @fix: Add isIdentifying to AIContextType to fix error in LyricsOverlay.tsx
   isIdentifying: boolean;
   performIdentification: (s: MediaStream) => Promise<void>;
   resetAiSettings: () => void; 
@@ -92,6 +94,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const visualsState = useVisualsState(uiState.hasStarted, {} as any);
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
   const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
+  const pwaState = usePWA();
 
   const aiState = useAiState({
     language: uiState.language,
@@ -127,7 +130,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ].includes(visualsState.mode);
   }, [visualsState.mode]);
 
-  const uiContextValue: UIContextType = useMemo(() => ({ ...uiState, toggleFullscreen, showToast }), [uiState, toggleFullscreen, showToast]);
+  const uiContextValue: UIContextType = useMemo(() => ({
+    ...uiState,
+    toggleFullscreen,
+    showToast,
+    isPwaInstallable: pwaState.isInstallable,
+    installPwa: pwaState.installPwa
+  }), [uiState, toggleFullscreen, showToast, pwaState]);
+  
   const visualsContextValue = useMemo(() => ({ ...visualsState, isThreeMode }), [visualsState, isThreeMode]);
   const audioContextValue = useMemo(() => ({ ...audioState, currentSong, setCurrentSong, fileStatus, fileName }), [audioState, currentSong, fileStatus, fileName]);
   const aiContextValue = useMemo(() => aiState, [aiState]);

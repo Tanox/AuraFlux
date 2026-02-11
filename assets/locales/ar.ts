@@ -192,7 +192,8 @@ export const ar = {
     interaction: 'تفاعل',
     performance: 'الأداء',
     localization: 'اللغة',
-    factoryReset: 'ضبط المصنع'
+    factoryReset: 'ضبط المصنع',
+    installApp: 'تثبيت تطبيق Aura Flux'
   },
   config: {
     title: 'البيانات',

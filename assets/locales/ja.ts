@@ -192,7 +192,8 @@ export const ja = {
     interaction: 'インタラクション',
     performance: 'システムとパフォーマンス',
     localization: '外観とローカライズ',
-    factoryReset: 'すべての設定をリセット'
+    factoryReset: 'すべての設定をリセット',
+    installApp: 'Aura Flux アプリをインストール'
   },
   config: {
     title: 'データとプリセット管理',

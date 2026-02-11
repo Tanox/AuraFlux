@@ -1,4 +1,3 @@
-
 {
   "name": "Aura Flux | AI Synesthesia",
   "short_name": "Aura Flux",
@@ -7,12 +6,25 @@
   "background_color": "#000000",
   "theme_color": "#000000",
   "description": "Transform live audio into stunning, real-time generative art powered by Gemini AI.",
+  "categories": ["entertainment", "music", "art", "utilities"],
   "icons": [
     {
       "src": "./pwa-icon.svg",
-      "sizes": "any",
+      "sizes": "192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/images/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Start Visualizer",
+      "url": "./index.html",
+      "icons": [{ "src": "./assets/images/favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     }
   ],
   "orientation": "any"

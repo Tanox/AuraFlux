@@ -192,7 +192,8 @@ export const tw = {
     interaction: '互動體驗',
     performance: '系統與效能',
     localization: '外觀與在地化',
-    factoryReset: '恢復原廠設定'
+    factoryReset: '恢復原廠設定',
+    installApp: '安裝 Aura Flux 應用程式'
   },
   config: {
     title: '數據備份與快照管理',

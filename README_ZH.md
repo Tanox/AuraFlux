@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI 驱动的 3D 音乐可视化与通感分析引擎 (v1.8.100)
+### AI 驱动的 3D 音乐可视化与通感分析引擎 (v1.8.102)
 
 [在线演示](https://github.com/sutchan) | [English](./README.md)
 
@@ -78,5 +78,5 @@
 ## 📄 许可与署名
 
 由 **Sut** 倾力开发。  
-*当前版本: 1.8.100*  
+*当前版本: 1.8.102*  
 *个人主页:* [https://github.com/sutchan](https://github.com/sutchan)

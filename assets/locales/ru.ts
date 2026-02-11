@@ -192,7 +192,8 @@ export const ru = {
     interaction: 'Интерактив',
     performance: 'Производительность',
     localization: 'Язык',
-    factoryReset: 'Сбросить всё'
+    factoryReset: 'Сбросить всё',
+    installApp: 'Установить приложение Aura Flux'
   },
   config: {
     title: 'Данные',
