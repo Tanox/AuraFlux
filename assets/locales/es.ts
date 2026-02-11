@@ -15,6 +15,13 @@ export const es = {
     active: 'ACTIVO',
     off: 'APAGADO'
   },
+  share: {
+    title: "Mi Creación en Aura Flux",
+    message: "🎵 Visualizando '{song}' de {artist} con #AuraFlux.\n\n✨ Experimenta el arte sinestésico impulsado por Gemini:",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "¡Enlace y texto promocional copiados al portapapeles!",
+    unsupported: "Compartir no es compatible en este dispositivo"
+  },
   player: {
     play: 'Reproducir',
     pause: 'Pausa',

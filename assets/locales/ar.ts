@@ -15,6 +15,13 @@ export const ar = {
     active: 'نشط',
     off: 'إيقاف'
   },
+  share: {
+    title: "إبداعي في Aura Flux",
+    message: "🎵 تمثيل مرئي لأغنية '{song}' للفنان {artist} باستخدام #AuraFlux.\n\n✨ جرب فن الحس المرافق المدعوم بالذكاء الاصطناعي:",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "تم نسخ الرابط والنص إلى الحافظة!",
+    unsupported: "المشاركة غير مدعومة على هذا الجهاز"
+  },
   player: {
     play: 'تشغيل',
     pause: 'إيقاف مؤقت',

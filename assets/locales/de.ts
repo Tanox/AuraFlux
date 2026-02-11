@@ -15,6 +15,13 @@ export const de = {
     active: 'AKTIV',
     off: 'AUS'
   },
+  share: {
+    title: "Meine Aura Flux Kreation",
+    message: "🎵 Visualisiere '{song}' von {artist} mit #AuraFlux.\n\n✨ Erlebe generative KI-Kunst in Echtzeit:",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "Link und Text in die Zwischenablage kopiert!",
+    unsupported: "Teilen wird auf diesem Gerät nicht unterstützt"
+  },
   player: {
     play: 'Abspielen',
     pause: 'Pause',

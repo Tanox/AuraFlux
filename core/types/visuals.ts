@@ -1,11 +1,11 @@
 /**
  * File: core/types/visuals.ts
- * Version: 2.1.3
+ * Version: 2.1.4
  * Author: Sut
- * Updated: 2025-07-18 14:45
+ * Updated: 2025-07-27 17:00
  */
 
-import { Position, Region } from './common';
+import { Position, Region, AIProvider } from './common';
 import { LyricsStyle } from './audio';
 
 export enum VisualizerMode {
@@ -84,7 +84,7 @@ export interface VisualizerSettings {
   customTextCycleInterval: number;
   customText3D?: boolean;
   lyricsPosition: Position;
-  recognitionProvider: 'GEMINI' | 'OPENAI' | 'GROQ' | 'MOCK';
+  recognitionProvider: AIProvider;
   lyricsStyle?: LyricsStyle;
   lyricsFont?: string;
   lyricsFontSize?: number;
@@ -131,7 +131,7 @@ export interface IVisualizerRenderer {
     colors: string[], 
     settings: VisualizerSettings, 
     rotation: number, 
-    beat: boolean,
+    beat: boolean, 
     dataR?: Uint8Array 
   ): void;
   cleanup?(): void;

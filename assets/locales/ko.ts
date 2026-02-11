@@ -15,6 +15,13 @@ export const ko = {
     active: '켜짐',
     off: '꺼짐'
   },
+  share: {
+    title: "나의 Aura Flux 창작물",
+    message: "🎵 #AuraFlux 로 '{song}' - {artist} 시각화 중.\n\n✨ Gemini 기반의 실시간 공감각 아트를 경험하세요:",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "프로모션 링크와 텍스트가 클립보드에 복사되었습니다!",
+    unsupported: "이 장치에서는 공유가 지원되지 않습니다"
+  },
   player: {
     play: '재생',
     pause: '일시정지',

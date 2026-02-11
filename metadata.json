@@ -1,5 +1,5 @@
 {
-  "name": "Aura Flux - AI Music Visualizer v1.8.100",
+  "name": "Aura Flux - AI Music Visualizer",
   "description": "Transform microphone input into real-time generative art with Gemini 3 AI. v1.8.100 restores comprehensive documentation and usage scenarios.",
   "requestFramePermissions": [
     "microphone"

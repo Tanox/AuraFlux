@@ -1,3 +1,4 @@
+
 export const en = {
   common: {
     confirmClear: 'Are you sure you want to clear the playlist?',
@@ -14,6 +15,13 @@ export const en = {
     themeLight: 'Light Mode',
     active: 'ACTIVE',
     off: 'OFF'
+  },
+  share: {
+    title: "My Aura Flux Creation",
+    message: "🎵 Visualizing '{song}' by {artist}.\n\n✨ Created with Aura Flux - The AI Synesthesia Engine.\n\nTry it now:",
+    hashtags: "#AuraFlux #MusicVisualizer #GenerativeArt #GeminiAI",
+    copied: "Promotional link & text copied to clipboard!",
+    unsupported: "Sharing not supported on this device"
   },
   player: {
     play: 'Play',

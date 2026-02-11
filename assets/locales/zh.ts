@@ -1,3 +1,4 @@
+
 export const zh = {
   common: {
     confirmClear: '确定要清空播放列表吗？',
@@ -14,6 +15,13 @@ export const zh = {
     themeLight: '浅色模式',
     active: '开启',
     off: '关闭'
+  },
+  share: {
+    title: "我的 Aura Flux 创作",
+    message: "🎵 使用 #AuraFlux 可视化 '{song}' - {artist}。\n\n✨ 体验由 Gemini 驱动的实时通感艺术：",
+    hashtags: "#音乐可视化 #生成艺术 #GeminiAI #AuraFlux",
+    copied: "宣传链接与文案已复制到剪贴板！",
+    unsupported: "当前设备不支持直接分享"
   },
   player: {
     play: '播放',

@@ -1,6 +1,7 @@
+
 /**
  * File: components/controls/panels/StudioPanel.tsx
- * Version: 2.3.1
+ * Version: 2.3.2
  * Author: Sut
  */
 
@@ -87,6 +88,16 @@ export const StudioPanel: React.FC = () => {
   const labels = studio.settings;
   const hints = studio.hints;
 
+  // Translation helpers for share logic
+  // @ts-ignore - 'share' might not exist on older translation types, but we added it.
+  const shareT = t.share || { 
+      title: "Aura Flux Creation", 
+      message: "Check out this art created with Aura Flux! \n\n{song} by {artist}", 
+      hashtags: "#AuraFlux",
+      copied: "Link copied!",
+      unsupported: "Sharing not supported on this device"
+  };
+
   const supportedTypes = useMemo(() => {
     const types = getSupportedMimeTypes();
     if (types.length > 0 && !types.includes(mimeType)) setMimeType(types[0]);
@@ -134,6 +145,48 @@ export const StudioPanel: React.FC = () => {
     a.download = `${name}.${ext}`; document.body.appendChild(a); a.click(); discardRecording();
   };
 
+  /**
+   * Smart Share Logic with Propaganda Injection
+   */
+  const handleShare = async () => {
+      if (!recordedBlob) return;
+      
+      const title = currentSong?.title || t.common.unknownTrack;
+      const artist = currentSong?.artist || t.common.unknownArtist;
+      const appUrl = window.location.origin; // Or a specific marketing URL
+      
+      // Construct the propaganda text
+      const textBody = shareT.message
+          .replace('{song}', title)
+          .replace('{artist}', artist) + 
+          `\n\n${appUrl}\n\n${shareT.hashtags}`;
+
+      const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
+      const file = new File([recordedBlob], `aura_flux_${Date.now()}.${ext}`, { type: mimeType });
+
+      // Try Web Share API Level 2 (Files)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+              await navigator.share({
+                  title: shareT.title,
+                  text: textBody,
+                  files: [file]
+              });
+              return; // Success
+          } catch (err) {
+              console.warn("Share failed or canceled:", err);
+          }
+      } 
+      
+      // Fallback: Copy promotional text to clipboard if file sharing fails or isn't supported
+      try {
+          await navigator.clipboard.writeText(textBody);
+          showToast(shareT.copied || "Text copied!", 'success');
+      } catch (e) {
+          showToast(shareT.unsupported || "Sharing not supported", 'error');
+      }
+  };
+
   if (recordedBlob && previewUrl) {
     return createPortal(
       <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center p-6">
@@ -150,6 +203,13 @@ export const StudioPanel: React.FC = () => {
           </div>
           <div className="p-6 flex gap-4 bg-white/[0.01]">
             <button onClick={discardRecording} className="flex-1 py-4 rounded-xl border border-white/10 text-white/40 hover:text-white hover:bg-white/5 transition-all text-xs font-black uppercase tracking-widest">{studio.discard}</button>
+            
+            {/* Added Share Button */}
+            <button onClick={handleShare} className="flex-1 py-4 rounded-xl border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 transition-all text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
+                {studio.share}
+            </button>
+
             <button onClick={handleSaveVideo} className="flex-1 py-4 rounded-xl bg-white text-black hover:bg-blue-500 hover:text-white transition-all text-xs font-black uppercase tracking-widest shadow-xl shadow-white/5">{studio.save}</button>
           </div>
         </div>

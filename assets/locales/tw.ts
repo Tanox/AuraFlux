@@ -15,6 +15,13 @@ export const tw = {
     active: '開啟',
     off: '關閉'
   },
+  share: {
+    title: "我的 Aura Flux 創作",
+    message: "🎵 使用 #AuraFlux 視覺化 '{song}' - {artist}。\n\n✨ 體驗由 Gemini 驅動的實時通感藝術：",
+    hashtags: "#音樂視覺化 #生成藝術 #GeminiAI #AuraFlux",
+    copied: "宣傳連結與文案已複製到剪貼簿！",
+    unsupported: "當前裝置不支援直接分享"
+  },
   player: {
     play: '播放',
     pause: '暫停',

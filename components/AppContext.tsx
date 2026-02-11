@@ -1,9 +1,8 @@
-
 /**
  * File: components/AppContext.tsx
- * Version: 1.8.60
+ * Version: 1.8.61
  * Author: Sut
- * Updated: 2025-07-19 17:00
+ * Updated: 2025-07-27 17:00
  */
 
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
@@ -58,6 +57,8 @@ interface AudioContextType {
   playlist: Track[]; currentIndex: number; playbackMode: PlaybackMode;
   setPlaybackMode: (m: PlaybackMode) => void;
   importFiles: (files: FileList | File[]) => Promise<any>;
+  importFromUrl: (url: string) => Promise<Track>;
+  importPlaylistFromUrl: (url: string, apiKey: string) => Promise<Track[]>;
   togglePlayback: () => void; seekFile: (t: number) => void;
   playNext: () => void; playPrev: () => void;
   playTrackByIndex: (i: number) => void; removeFromPlaylist: (i: number) => void;

@@ -15,6 +15,13 @@ export const fr = {
     active: 'ACTIF',
     off: 'INACTIF'
   },
+  share: {
+    title: "Ma Création Aura Flux",
+    message: "🎵 Visualisation de '{song}' par {artist} avec #AuraFlux.\n\n✨ Découvrez l'art synesthésique généré par l'IA :",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "Lien et texte promotionnel copiés !",
+    unsupported: "Le partage n'est pas supporté sur cet appareil"
+  },
   player: {
     play: 'Lecture',
     pause: 'Pause',

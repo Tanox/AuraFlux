@@ -1,6 +1,6 @@
 /**
  * File: index.tsx
- * Version: 1.8.100
+ * Version: 1.8.101
  * Author: Sut
  */
 import React from 'react';
@@ -10,7 +10,8 @@ import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import './assets/styles/index.css';
 
 // --- Service Worker Registration ---
-if ('serviceWorker' in navigator && (import.meta as any).env.MODE === 'production') {
+const env = (import.meta as any).env;
+if ('serviceWorker' in navigator && env && env.MODE === 'production') {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then(
       (registration) => console.log('SW Registered: ', registration.scope),

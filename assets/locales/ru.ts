@@ -15,6 +15,13 @@ export const ru = {
     active: 'ВКЛ',
     off: 'ВЫКЛ'
   },
+  share: {
+    title: "Мое творение в Aura Flux",
+    message: "🎵 Визуализация '{song}' — {artist} в #AuraFlux.\n\n✨ Испытайте генеративное искусство с ИИ:",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "Ссылка и текст скопированы в буфер обмена!",
+    unsupported: "Обмен не поддерживается на этом устройстве"
+  },
   player: {
     play: 'Играть',
     pause: 'Пауза',

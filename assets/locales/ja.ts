@@ -15,6 +15,13 @@ export const ja = {
     active: 'ON',
     off: 'OFF'
   },
+  share: {
+    title: "私のAura Flux作品",
+    message: "🎵 #AuraFlux で '{song}' ({artist}) を視覚化中。\n\n✨ Gemini駆動のリアルタイム共感覚アートを体験しよう：",
+    hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
+    copied: "リンクとテキストをクリップボードにコピーしました！",
+    unsupported: "このデバイスでは共有がサポートされていません"
+  },
   player: {
     play: '再生',
     pause: '一時停止',
