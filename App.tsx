@@ -1,27 +1,27 @@
 /**
- * File: components/App.tsx
- * Version: 1.8.91
+ * File: App.tsx
+ * Version: 1.8.103
  * Author: Sut
- * Updated: 2025-07-22 10:20
+ * Updated: 2025-07-28 12:30
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './AppContext';
-import { WelcomeScreen } from './ui/WelcomeScreen';
-import { OnboardingOverlay } from './ui/OnboardingOverlay';
-import { UnsupportedScreen } from './ui/UnsupportedScreen';
-import { HelpModal } from './ui/HelpModal';
-import SongOverlay from './ui/SongOverlay';
-import LyricsOverlay from './ui/LyricsOverlay';
-import CustomTextOverlay from './ui/CustomTextOverlay';
-import { FPSCounter } from './ui/FPSCounter';
-import { useIdleTimer } from '../core/hooks/useIdleTimer';
-import { useMobileGestures } from '../core/hooks/useMobileGestures';
-import { APP_VERSION } from '../core/constants';
+import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './components/AppContext';
+import { WelcomeScreen } from './components/ui/WelcomeScreen';
+import { OnboardingOverlay } from './components/ui/OnboardingOverlay';
+import { UnsupportedScreen } from './components/ui/UnsupportedScreen';
+import { HelpModal } from './components/ui/HelpModal';
+import SongOverlay from './components/ui/SongOverlay';
+import LyricsOverlay from './components/ui/LyricsOverlay';
+import CustomTextOverlay from './components/ui/CustomTextOverlay';
+import { FPSCounter } from './components/ui/FPSCounter';
+import { useIdleTimer } from './core/hooks/useIdleTimer';
+import { useMobileGestures } from './core/hooks/useMobileGestures';
+import { APP_VERSION } from './core/constants';
 
-const VisualizerCanvas = lazy(() => import('./visualizers/VisualizerCanvas'));
-const ThreeVisualizer = lazy(() => import('./visualizers/ThreeVisualizer'));
-const Controls = lazy(() => import('./controls/Controls'));
+const VisualizerCanvas = lazy(() => import('./components/visualizers/VisualizerCanvas'));
+const ThreeVisualizer = lazy(() => import('./components/visualizers/ThreeVisualizer'));
+const Controls = lazy(() => import('./components/controls/Controls'));
 
 const MainContent: React.FC = () => {
   const { hasStarted, language, setLanguage, manageWakeLock, showHelpModal, setShowHelpModal, helpModalInitialTab, isDragging, setIsDragging, t } = useUI();

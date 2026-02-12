@@ -1,11 +1,11 @@
 /**
  * File: index.tsx
- * Version: 1.8.102
+ * Version: 1.8.103
  * Author: Sut
  */
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './components/App';
+import { App } from './App';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import './assets/styles/index.css';
 
