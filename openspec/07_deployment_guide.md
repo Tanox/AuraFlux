@@ -1,6 +1,6 @@
 # OpenSpec: 部署与环境规范 (07)
 
-## 1. 编译环境 (v1.8.99)
+## 1. 编译环境 (v1.9.2)
 - **Runtime:** Bun 1.1+ 或 Node.js 20+。
 - **Build Engine:** Vite 6.0 (ESM 优先)。
 
@@ -13,5 +13,5 @@
 - PWA 支持: 必须包含 Service Worker (`sw.js`) 实现离线资源缓存。
 
 ---
-*Aura Flux Deployment Guide - Version 1.8.99*
+*Aura Flux Deployment Guide - Version 1.9.2*
 *Author: Sut*

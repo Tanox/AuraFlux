@@ -1,6 +1,6 @@
 /**
  * File: postcss.config.js
- * Version: 1.7.32
+ * Version: 1.9.2
  * Author: Sut
  */
 

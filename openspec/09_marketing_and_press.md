@@ -1,6 +1,6 @@
 # OpenSpec: 营销与宣传文档 (09)
 
-## 1. 核心卖点 (USPs - v1.8.99)
+## 1. 核心卖点 (USPs - v1.9.2)
 - **多维度沉浸:** 结合 3D WebGL 视觉与 Gemini 3 AI 的实时情绪理解。
 - **全场景覆盖:** 从专业的 VJ 现场演出到家庭冥想室，应用场景极致多元。
 - **零门槛创作:** 支持一键 4K 录制，让每个人都能轻松生成高质量音视频内容。
@@ -15,5 +15,5 @@
 - **字体:** Inter (界面), JetBrains Mono (代码/技术感)。
 
 ---
-*Aura Flux Marketing & Press Specification - Version 1.8.99*
+*Aura Flux Marketing & Press Specification - Version 1.9.2*
 *Author: Sut*

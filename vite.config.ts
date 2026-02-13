@@ -1,6 +1,6 @@
 /**
  * File: vite.config.ts
- * Version: 1.8.92
+ * Version: 1.9.2
  * Author: Sut
  */
 

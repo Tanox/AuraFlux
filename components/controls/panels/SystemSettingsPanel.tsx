@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/SystemSettingsPanel.tsx
- * Version: 2.3.4
+ * Version: 1.9.2
  * Author: Sut
- * Updated: 2025-07-28 16:30
+ * Updated: 2025-07-28 18:45
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -39,7 +39,7 @@ export const SystemSettingsPanel: React.FC = () => {
 
   const handleExport = () => {
       const exportData = {
-          version: '1.8.96',
+          version: '1.9.2',
           timestamp: Date.now(),
           mode: mode,
           settings: settings

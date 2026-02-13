@@ -1,7 +1,6 @@
-
 /**
  * File: components/controls/panels/visual/ModeSelector.tsx
- * Version: 1.0.0
+ * Version: 1.0.2
  * Author: Sut
  * Extracted from VisualSettingsPanel
  */
@@ -11,7 +10,7 @@ import { VisualizerMode } from '../../../../core/types';
 import { BentoCard } from '../../../ui/layout/BentoCard';
 import { SettingsToggle } from '../../../ui/controls/SettingsToggle';
 import { Slider } from '../../../ui/controls/Slider';
-import { VisualizerPreview } from '../../VisualizerPreview';
+import { VisualizerPreview } from '../VisualizerPreview';
 import { useVisuals, useUI } from '../../../AppContext';
 
 export const ModeSelector: React.FC = () => {

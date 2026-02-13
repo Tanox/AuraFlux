@@ -1,11 +1,11 @@
 /**
  * File: public/sw.js
- * Version: 1.8.102
+ * Version: 1.9.2
  * Author: Sut
  * Description: Advanced Service Worker for offline support
  */
 
-const CACHE_NAME = 'aura-flux-v1.8.102';
+const CACHE_NAME = 'aura-flux-v1.9.2';
 const STATIC_ASSETS = [
   './',
   './index.html',

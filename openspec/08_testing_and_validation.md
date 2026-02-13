@@ -1,6 +1,6 @@
 # OpenSpec: 测试与验证规范 (08)
 
-## 1. 核心兼容性测试 (v1.8.99)
+## 1. 核心兼容性测试 (v1.9.2)
 - **浏览器基准:** 
   - Chrome 90+ (WebGL 2.0 支持)。
   - Safari 14.1+ (Web Audio 自动播放策略验证)。
@@ -14,5 +14,5 @@
 - [ ] 工作室录制 (WebM/MP4) 导出完整性。
 
 ---
-*Aura Flux Testing & Validation - Version 1.8.99*
+*Aura Flux Testing & Validation - Version 1.9.2*
 *Author: Sut*
