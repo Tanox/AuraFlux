@@ -1,7 +1,6 @@
-
 /**
  * File: core/hooks/usePlaylist.ts
- * Version: 2.4.1
+ * Version: 2.4.2
  * Author: Sut
  */
 
@@ -11,7 +10,7 @@ import { loadPlaylistFromDB, saveTrackToDB, clearPlaylistDB, removeTrackFromDB }
 import { extractMetadata } from '../services/metadataService';
 import { parsePlaylistSmart } from '../services/playlistParser';
 
-export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void) => {
+export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void, t?: any) => {
   const [state, setState] = useState<{list: Track[], currentIndex: number}>({ list: [], currentIndex: -1 });
   const [playbackMode, setPlaybackMode] = useState<PlaybackMode>('repeat-all');
 
@@ -50,10 +49,10 @@ export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void) => {
     const newTracks: Track[] = items.map(item => ({
         id: 'remote_' + Math.random().toString(36).substr(2, 9) + Date.now(),
         file: new File([], item.title), 
-        title: item.title,
-        artist: item.artist,
+        title: item.title || t?.common?.unknownTrack || "Unknown Track",
+        artist: item.artist || t?.common?.unknownArtist || "Unknown Artist",
         albumArtUrl: item.albumArtUrl,
-        lyricsSnippet: 'Remote Platform Stream',
+        lyricsSnippet: 'Remote Platform Stream', // Usually instrumental or streaming, handled by AI anyway
         identified: true,
         matchSource: 'AI',
         duration: 0,
@@ -70,13 +69,13 @@ export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void) => {
         });
     }
     return newTracks;
-  }, [setCurrentSong]);
+  }, [setCurrentSong, t]);
 
   const importFromUrl = useCallback(async (url: string) => {
     try {
         const response = await fetch(url);
         const blob = await response.blob();
-        const fileName = url.split('/').pop() || 'Remote Track';
+        const fileName = url.split('/').pop() || t?.common?.unknownTrack || 'Remote Track';
         const file = new File([blob], fileName, { type: blob.type });
         const track = await extractMetadata(file);
         track.matchSource = 'LOCAL';
@@ -89,7 +88,7 @@ export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void) => {
         });
         return track;
     } catch (e) { throw e; }
-  }, [setCurrentSong]);
+  }, [setCurrentSong, t]);
 
   const removeFromPlaylist = useCallback((index: number) => {
     let wasCurrent = false;

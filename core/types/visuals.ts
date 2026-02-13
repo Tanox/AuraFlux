@@ -1,6 +1,6 @@
 /**
  * File: core/types/visuals.ts
- * Version: 2.1.4
+ * Version: 2.1.5
  * Author: Sut
  * Updated: 2025-07-27 17:00
  */
@@ -25,6 +25,7 @@ export enum VisualizerMode {
   WAVEFORM = 'WAVEFORM',
   NEBULA = 'NEBULA', 
   RIPPLES = 'RIPPLES',
+  SPIRAL = 'SPIRAL',
   
   // WebGL Modes (High Fidelity)
   NEURAL_FLOW = 'NEURAL_FLOW',

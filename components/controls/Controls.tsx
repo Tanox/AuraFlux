@@ -141,12 +141,12 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
       />
       
       {isExpanded && (
-        <div className="fixed bottom-0 left-0 w-full z-[120] bg-white/85 dark:bg-[#050505]/85 backdrop-blur-xl border-t border-black/10 dark:border-white/10 transition-all duration-700 shadow-[0_-25px_100px_rgba(0,0,0,0.2)] dark:shadow-[0_-25px_100px_rgba(0,0,0,0.9)] opacity-100 flex flex-col animate-fade-in-up pointer-events-auto touch-auto">
+        <div id="controls-panel-expanded" className="fixed bottom-0 left-0 w-full z-[120] bg-white/85 dark:bg-[#050505]/85 backdrop-blur-xl border-t border-black/10 dark:border-white/10 transition-all duration-700 shadow-[0_-25px_100px_rgba(0,0,0,0.2)] dark:shadow-[0_-25px_100px_rgba(0,0,0,0.9)] opacity-100 flex flex-col animate-fade-in-up pointer-events-auto touch-auto">
           <div className="max-h-[85dvh] md:max-h-[60vh] overflow-y-auto custom-scrollbar relative flex flex-col">
             
             <div className="sticky top-0 z-50 bg-white/90 dark:bg-[#0a0a0c]/90 border-b border-black/10 dark:border-white/10 px-4 md:px-6 py-2 shadow-xl transition-colors">
                 <div className="max-w-5xl mx-auto flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-2">
-                    <div className="flex bg-black/[0.04] dark:bg-white/[0.04] p-0.5 rounded-lg overflow-x-auto max-w-full scrollbar-hide gap-0.5 mask-fade-right touch-pan-x" role="tablist">
+                    <div id="controls-tabs" className="flex bg-black/[0.04] dark:bg-white/[0.04] p-0.5 rounded-lg overflow-x-auto max-w-full scrollbar-hide gap-0.5 mask-fade-right touch-pan-x" role="tablist">
                     {tabs.map((tab, index) => (
                         <TooltipArea key={tab} text={`${t?.tabs?.[tab] || tab} [${index + 1}]`} className="flex-shrink-0">
                             <button 
@@ -198,7 +198,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
                 </div>
             </div>
             
-            <div className="p-3 md:p-4 pb-safe transition-colors">
+            <div id="controls-tab-content" className="p-3 md:p-4 pb-safe transition-colors">
               <div className="max-w-5xl mx-auto">
                 <div className="bg-transparent min-h-[25vh] md:min-h-[200px]" role="tabpanel">
                     {activeTab === 'visual' && <VisualSettingsPanel />}

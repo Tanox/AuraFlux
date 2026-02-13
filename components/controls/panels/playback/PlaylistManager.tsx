@@ -1,7 +1,6 @@
-
 /**
  * File: components/controls/panels/playback/PlaylistManager.tsx
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Sut
  * Extracted from PlaybackPanel
  */
@@ -52,7 +51,7 @@ export const PlaylistManager: React.FC = () => {
             showToast(t?.player?.importing || "AI Parsing Playlist...", 'info');
             const tracks = await importPlaylistFromUrl(urlValue, apiKey);
             if (tracks.length > 0) {
-                showToast(`${t?.player?.import} ${tracks.length} tracks`, 'success');
+                showToast(`${t?.player?.import} ${tracks.length} ${t?.common?.active || "Tracks"}`, 'success');
                 setUrlValue('');
                 setShowUrlInput(false);
             } else {
@@ -67,7 +66,7 @@ export const PlaylistManager: React.FC = () => {
             }
         }
     } catch (e) {
-        showToast("Parsing failed. AI could not retrieve playlist details.", 'error');
+        showToast(t?.errors?.trackLoad || "Parsing failed. Please check the URL.", 'error');
     } finally {
         setIsImporting(false);
     }
@@ -172,12 +171,12 @@ export const PlaylistManager: React.FC = () => {
                                 
                                 <div className="flex-1 min-w-0">
                                     <div className={`text-[11px] font-black truncate uppercase tracking-wide ${idx === currentIndex ? 'text-black dark:text-white' : 'text-black/70 dark:text-white/70'}`}>
-                                        {track.title}
+                                        {track.title || t?.common?.unknownTrack}
                                     </div>
                                     <div className="text-[9px] text-black/40 dark:text-white/40 truncate font-bold uppercase tracking-widest mt-1 flex items-center gap-2">
-                                        {track.artist}
+                                        {track.artist || t?.common?.unknownArtist}
                                         {isPlatformTrack && (
-                                            <span className="px-1.5 py-0.5 bg-blue-500/10 text-blue-500 rounded text-[7px] font-black tracking-tighter uppercase">Platform</span>
+                                            <span className="px-1.5 py-0.5 bg-blue-500/10 text-blue-500 rounded text-[7px] font-black tracking-tighter uppercase">Cloud</span>
                                         )}
                                     </div>
                                 </div>

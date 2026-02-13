@@ -149,7 +149,7 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
   const rotation = settings.customTextRotation || 0;
 
   return (
-    <div className={`pointer-events-none fixed inset-0 z-[100] flex flex-col p-8 md:p-16 ${getPositionClasses()}`}>
+    <div id="custom-text-overlay" className={`pointer-events-none fixed inset-0 z-[100] flex flex-col p-8 md:p-16 ${getPositionClasses()}`}>
       <div 
         ref={textRef} 
         className={`font-black tracking-widest uppercase select-none flex flex-col origin-center transition-opacity duration-300 max-w-full`}

@@ -1,6 +1,6 @@
 /**
  * File: core/services/visualizerStrategies.ts
- * Version: 2.0.5
+ * Version: 2.1.0
  * Author: Sut
  * Copyright (c) 2024 Aura Flux. All rights reserved.
  */
@@ -16,11 +16,12 @@ import { PlasmaRenderer } from './renderers/PlasmaRenderer';
 import { LasersRenderer } from './renderers/LasersRenderer';
 import { WaveformRenderer } from './renderers/WaveformRenderer';
 import { RippleRenderer } from './renderers/RippleRenderer';
+import { SpiralRenderer } from './renderers/SpiralRenderer';
 
 export { 
   BarsRenderer, RingsRenderer, FluidCurvesRenderer, 
   ParticlesRenderer, NebulaRenderer, TunnelRenderer, PlasmaRenderer, 
-  LasersRenderer, WaveformRenderer, RippleRenderer
+  LasersRenderer, WaveformRenderer, RippleRenderer, SpiralRenderer
 };
 
 export { BeatDetector } from './beatDetector';
@@ -36,4 +37,5 @@ export const createVisualizerRenderers = (): Record<string, IVisualizerRenderer>
   [VisualizerMode.FLUID_CURVES]: new FluidCurvesRenderer(),
   [VisualizerMode.WAVEFORM]: new WaveformRenderer(),
   [VisualizerMode.RIPPLES]: new RippleRenderer(),
+  [VisualizerMode.SPIRAL]: new SpiralRenderer(),
 });

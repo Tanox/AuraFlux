@@ -71,7 +71,8 @@ export const de = {
     CUBE_FIELD: 'Quantenfeld',
     KINETIC_WALL: 'Kinetische Wand',
     RESONANCE_ORB: 'Resonanz-Orb',
-    RIPPLES: 'Ripples'
+    RIPPLES: 'Ripples',
+    SPIRAL: 'Spirale'
   },
   modeDescriptions: {
     PLASMA: 'Sanft fließende Farbmischung.',
@@ -90,7 +91,8 @@ export const de = {
     CUBE_FIELD: 'Unendliches Feld geometrischer Blöcke.',
     KINETIC_WALL: 'Massive LED-Bühnenwand mit kinetischen Extrusionen.',
     RESONANCE_ORB: 'Ein pulsierender Kern, der sich heftig mit dem Rhythmus morpht.',
-    RIPPLES: 'Hypnotisch expandierende Kreise, ausgelöst durch den Rhythmus.'
+    RIPPLES: 'Hypnotisch expandierende Kreise, ausgelöst durch den Rhythmus.',
+    SPIRAL: 'Duale logarithmische Spiralen, die auf Frequenzintensität reagieren.'
   },
   presets: {
     title: 'Visuelle Kernabstimmung',
@@ -101,6 +103,7 @@ export const de = {
     calm: 'Stereo-Ozean',
     party: 'Kinetik-Party',
     ambient: 'Seidenfluss',
+    galaxy: 'Kosmische Spirale',
     cyberpunk: 'Digitales Raster',
     retrowave: 'Retro-Feld',
     psychedelic: 'Psychedelisch',

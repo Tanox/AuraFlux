@@ -1,7 +1,6 @@
-
 /**
  * File: core/hooks/useAudio.ts
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: Sut
  */
 
@@ -46,7 +45,7 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
   const rafRef = useRef(0);
   const pendingTrackIdRef = useRef<string | null>(null);
 
-  const pl = usePlaylist(setCurrentSong);
+  const pl = usePlaylist(setCurrentSong, t);
 
   useEffect(() => {
     if (analyserRef.current) {

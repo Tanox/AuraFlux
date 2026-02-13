@@ -1,8 +1,8 @@
 /**
  * File: components/ui/SongOverlay.tsx
- * Version: 1.8.82
+ * Version: 1.8.83
  * Author: Sut
- * Updated: 2025-07-20 19:10
+ * Updated: 2025-07-28 18:00
  */
 
 import React, { useRef, useMemo } from 'react';
@@ -90,14 +90,26 @@ const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, on
   const t = TRANSLATIONS[language] || TRANSLATIONS['en'];
 
   const isApiError = !!song.isError;
-  const displayArtist = isApiError ? null : (song.identified ? song.artist : (song.artist || (t.audioPanel?.analyzing || "Analyzing...")));
+  const defaultArtist = t?.common?.unknownArtist || "Unknown Artist";
+  
+  // Logic: 
+  // If API error -> null (don't show)
+  // If identified -> use song.artist (if present) OR default localized "Unknown Artist"
+  // If not identified -> use song.artist OR "Analyzing..." text
+  const displayArtist = isApiError 
+    ? null 
+    : (song.identified 
+        ? (song.artist || defaultArtist) 
+        : (song.artist || (t.audioPanel?.analyzing || "Analyzing...")));
+
   const isConfidenceLow = !song.identified && !isApiError;
   const sourceLabel = getProviderLabel(song.matchSource, t);
   const albumArt = song.albumArtUrl;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
+    <div id="song-overlay-container" className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
       <div 
+        id="song-overlay-content"
         ref={containerRef}
         className={`absolute top-16 left-4 right-4 md:right-auto md:top-8 md:left-8 bg-black/60 backdrop-blur-xl border-s-4 ${moodStyle.borderColor} ps-4 py-3 pe-4 rounded-e-xl rounded-l-lg md:rounded-l-none md:max-w-lg transition-all duration-700 shadow-[0_4px_20px_rgba(0,0,0,0.6)] pointer-events-auto group origin-top-center md:origin-top-left animate-fade-in-up border-y border-r border-y-white/5 border-r-white/5 opacity-100 translate-y-0`}
         style={{ 
@@ -131,7 +143,7 @@ const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, on
                 
                 <div className="flex flex-col gap-1">
                     <h2 className={`text-white text-lg md:text-2xl font-bold tracking-tight leading-tight break-words drop-shadow-md`}>
-                        {song.identified ? song.title : displayArtist}
+                        {song.identified ? (song.title || t?.common?.unknownTrack) : displayArtist}
                     </h2>
                     {song.identified && displayArtist && (
                         <p className={`text-blue-300 text-sm md:text-base font-medium truncate opacity-90`}>

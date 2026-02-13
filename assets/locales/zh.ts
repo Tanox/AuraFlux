@@ -72,7 +72,8 @@ export const zh = {
     CUBE_FIELD: '量子方阵',
     KINETIC_WALL: '动感光墙',
     RESONANCE_ORB: '共鸣天体',
-    RIPPLES: '动感涟漪'
+    RIPPLES: '动感涟漪',
+    SPIRAL: '双重螺旋'
   },
   modeDescriptions: {
     PLASMA: '平滑流动的色彩混合。',
@@ -91,7 +92,8 @@ export const zh = {
     CUBE_FIELD: '无限几何方块场。',
     KINETIC_WALL: '具有动感挤出的巨型 LED 舞台墙。',
     RESONANCE_ORB: '随节奏剧烈脉动与形变的共鸣内核。',
-    RIPPLES: '由节奏触发的催眠扩散圆环。'
+    RIPPLES: '由节奏触发的催眠扩散圆环。',
+    SPIRAL: '响应频率强度的双重对数螺旋。'
   },
   presets: {
     title: '视觉核心调优',
@@ -102,6 +104,7 @@ export const zh = {
     calm: '立体海浪',
     party: '动感派对',
     ambient: '柔光绸缎',
+    galaxy: '宇宙螺旋',
     cyberpunk: '数位网格',
     retrowave: '复古力场',
     psychedelic: '迷幻之旅',

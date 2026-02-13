@@ -71,7 +71,8 @@ export const fr = {
     CUBE_FIELD: 'Champ Quantique',
     KINETIC_WALL: 'Mur Cinétique',
     RESONANCE_ORB: 'Orbe de Résonance',
-    RIPPLES: 'Ondulations'
+    RIPPLES: 'Ondulations',
+    SPIRAL: 'Spirale'
   },
   modeDescriptions: {
     PLASMA: 'Mélange de couleurs fluide et lisse.',
@@ -90,7 +91,8 @@ export const fr = {
     CUBE_FIELD: 'Champ infini de blocs géométriques.',
     KINETIC_WALL: 'Mur de scène LED massif avec extrusions cinétiques.',
     RESONANCE_ORB: 'Un noyau pulsant qui se transforme violemment avec le rythme.',
-    RIPPLES: 'Cercles hypnotiques en expansion déclenchés par le rythme.'
+    RIPPLES: 'Cercles hypnotiques en expansion déclenchés par le rythme.',
+    SPIRAL: 'Spirales logarithmiques doubles réagissant à l\'intensité de la fréquence.'
   },
   presets: {
     title: 'Réglages Visuels',
@@ -101,6 +103,7 @@ export const fr = {
     calm: 'Océan Stéréo',
     party: 'Fête Cinétique',
     ambient: 'Flux de Soie',
+    galaxy: 'Spirale Cosmique',
     cyberpunk: 'Grille Numérique',
     retrowave: 'Champ Rétro',
     psychedelic: 'Psychédélique',

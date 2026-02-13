@@ -1,7 +1,6 @@
-
 /**
  * File: components/controls/panels/StudioPanel.tsx
- * Version: 2.3.2
+ * Version: 2.3.4
  * Author: Sut
  */
 
@@ -189,12 +188,12 @@ export const StudioPanel: React.FC = () => {
 
   if (recordedBlob && previewUrl) {
     return createPortal(
-      <div className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center p-6">
+      <div id="studio-preview-modal" className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-3xl bg-[#0a0a0c] border border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-fade-in-up">
           <div className="p-5 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
             <div className="flex flex-col">
               <span className="text-xs font-black text-white uppercase tracking-widest">{studio.previewTitle}</span>
-              <span className="text-[10px] text-blue-400 font-mono mt-0.5">{currentSong?.title || "Untitled Creation"}</span>
+              <span className="text-[10px] text-blue-400 font-mono mt-0.5">{currentSong?.title || t?.common?.unknownTrack || "Untitled Creation"}</span>
             </div>
             <div className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black rounded-lg uppercase tracking-wider">{formatSize(recordedBlob.size)} • {formatDur(duration)}</div>
           </div>
@@ -288,7 +287,7 @@ export const StudioPanel: React.FC = () => {
                 {isRecording && (
                     <div className="text-[10px] font-mono text-black/40 dark:text-white/40 uppercase tracking-widest animate-pulse flex items-center justify-center gap-2">
                         <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                        {formatSize(size)} ENCODING
+                        {formatSize(size)} {studio.processing || "ENCODING"}
                     </div>
                 )}
             </div>
@@ -298,7 +297,7 @@ export const StudioPanel: React.FC = () => {
         {countdownVal > 0 && (
             <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm">
                 <span className="text-8xl font-black text-white animate-ping">{countdownVal}</span>
-                <span className="text-xs font-black text-white/40 uppercase tracking-[0.4em] mt-8">Initializing...</span>
+                <span className="text-xs font-black text-white/40 uppercase tracking-[0.4em] mt-8">{t?.toasts?.audioNotReady || "Initializing..."}</span>
             </div>
         )}
       </BentoCard>

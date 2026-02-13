@@ -71,7 +71,8 @@ export const en = {
     CUBE_FIELD: 'Quantum Field',
     KINETIC_WALL: 'Kinetic Wall',
     RESONANCE_ORB: 'Resonance Orb',
-    RIPPLES: 'Ripples'
+    RIPPLES: 'Ripples',
+    SPIRAL: 'Helix'
   },
   modeDescriptions: {
     PLASMA: 'Smooth fluid-like color blending.',
@@ -90,7 +91,8 @@ export const en = {
     CUBE_FIELD: 'Infinite field of geometric blocks.',
     KINETIC_WALL: 'Massive LED stage wall with kinetic extrusions.',
     RESONANCE_ORB: 'A pulsating core that morphs violently with rhythm.',
-    RIPPLES: 'Hypnotic expanding circles triggered by rhythm.'
+    RIPPLES: 'Hypnotic expanding circles triggered by rhythm.',
+    SPIRAL: 'Dual logarithmic spirals reacting to frequency intensity.'
   },
   presets: {
     title: 'Visual Core Tuning',
@@ -101,6 +103,7 @@ export const en = {
     calm: 'Stereo Ocean',
     party: 'Kinetic Party',
     ambient: 'Lumina Flow',
+    galaxy: 'Cosmic Spiral',
     cyberpunk: 'Digital Grid',
     retrowave: 'Retro Field',
     psychedelic: 'Psychedelic Trip',
@@ -274,7 +277,7 @@ export const en = {
       longPress: 'Long Press: AI Info'
     },
     projectInfoTitle: 'Our Vision',
-    aboutDescription: 'Aura Flux is a real-time synesthesia engine that transmutes audio frequencies into generative 3D art.',
+    aboutDescription: 'Aura Flux is a real-time synesthesia engine that transmutes audio frequencies into high-fidelity generative art.',
     coreTech: 'Core Stack',
     privacyTitle: 'Privacy Commitment',
     privacyText: 'All spectral analysis and visual rendering happen locally on your device.',

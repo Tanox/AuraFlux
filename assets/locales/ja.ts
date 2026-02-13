@@ -71,7 +71,8 @@ export const ja = {
     CUBE_FIELD: '量子フィールド',
     KINETIC_WALL: 'キネティック・ウォール',
     RESONANCE_ORB: '共鳴天体',
-    RIPPLES: 'リップル'
+    RIPPLES: 'リップル',
+    SPIRAL: 'スパイラル'
   },
   modeDescriptions: {
     PLASMA: '滑らかに流れる色のブレンド。',
@@ -90,7 +91,8 @@ export const ja = {
     CUBE_FIELD: '無限の幾何学ブロックフィールド。',
     KINETIC_WALL: '動的な押し出しを持つ巨大なLEDステージウォール。',
     RESONANCE_ORB: 'リズムに反応して激しく変形する共鳴核。',
-    RIPPLES: 'リズムによって引き起こされる催眠的な拡大円。'
+    RIPPLES: 'リズムによって引き起こされる催眠的な拡大円。',
+    SPIRAL: '周波数強度に反応する二重対数螺旋。'
   },
   presets: {
     title: 'ビジュアル・コア調整',
@@ -101,6 +103,7 @@ export const ja = {
     calm: 'オーシャンウェーブ',
     party: 'キネティック・パーティ',
     ambient: 'ルミナ・シルク',
+    galaxy: 'コズミック・スパイラル',
     cyberpunk: 'デジタル・グリッド',
     retrowave: 'レトロ・フィールド',
     psychedelic: 'サイケデリック',

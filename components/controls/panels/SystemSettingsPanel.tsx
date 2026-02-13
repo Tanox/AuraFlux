@@ -1,8 +1,8 @@
 /**
  * File: components/controls/panels/SystemSettingsPanel.tsx
- * Version: 2.3.3
+ * Version: 2.3.4
  * Author: Sut
- * Updated: 2025-07-28 10:10
+ * Updated: 2025-07-28 16:30
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -96,7 +96,7 @@ export const SystemSettingsPanel: React.FC = () => {
   const subHeaderClass = "text-[9px] font-black text-black/30 dark:text-white/30 uppercase tracking-[0.2em] mb-2 block mt-3 first:mt-0";
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+    <div id="panel-system" className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
       {/* Column 1: Appearance & Interaction (7 cols) */}
       <div className="lg:col-span-7 flex flex-col gap-3">
         <BentoCard title={t?.systemPanel?.localization || "Aesthetics & Language"}>

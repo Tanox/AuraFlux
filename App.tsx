@@ -74,6 +74,7 @@ const MainContent: React.FC = () => {
 
   return (
     <div 
+      id="app-root"
       className={`relative w-full h-full bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -82,7 +83,7 @@ const MainContent: React.FC = () => {
     >
       {/* Global Drag Overlay - High Priority */}
       {isDragging && (
-          <div className="fixed inset-0 z-[300] bg-blue-600/10 backdrop-blur-md flex items-center justify-center pointer-events-none animate-fade-in-up transition-all duration-300">
+          <div id="drag-overlay" className="fixed inset-0 z-[300] bg-blue-600/10 backdrop-blur-md flex items-center justify-center pointer-events-none animate-fade-in-up transition-all duration-300">
               <div className="bg-black/80 backdrop-blur-2xl border-4 border-dashed border-blue-500/40 p-16 rounded-[4rem] flex flex-col items-center gap-8 shadow-[0_0_100px_rgba(37,99,235,0.3)] transform scale-110">
                   <div className="w-24 h-24 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 animate-bounce">
                       <svg className="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,13 +100,13 @@ const MainContent: React.FC = () => {
 
       {/* Background Layer */}
       {settings.showAiBg && settings.aiBgUrl && (
-          <div className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: settings.aiBgOpacity }}>
+          <div id="app-background-layer" className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: settings.aiBgOpacity }}>
               <img src={settings.aiBgUrl} className="w-full h-full object-cover" style={{ filter: `blur(${settings.aiBgBlur}px)` }} alt="" />
           </div>
       )}
 
       {/* Main Visualizer Engine */}
-      <div className={`w-full h-full relative z-[1] transition-transform duration-1000 ease-out overflow-hidden ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
+      <div id="visualizer-container" className={`w-full h-full relative z-[1] transition-transform duration-1000 ease-out overflow-hidden ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
         <Suspense fallback={null}>
           {isThreeMode ? (
             <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
@@ -129,7 +130,7 @@ const MainContent: React.FC = () => {
       <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
 
       {/* Interactive Controls Layer - Hides on Idle */}
-      <div className={`transition-opacity duration-700 ${isIdle && !isExpanded ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
+      <div id="controls-layer" className={`transition-opacity duration-700 ${isIdle && !isExpanded ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
         <Suspense fallback={null}>
           <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} />
         </Suspense>
@@ -137,7 +138,7 @@ const MainContent: React.FC = () => {
       </div>
       
       {/* Persistent Version Watermark - Explicitly moved outside auto-hide wrapper to stay persistent */}
-      <div className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white drop-shadow-md">
+      <div id="version-watermark" className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white drop-shadow-md">
         Aura Flux v{APP_VERSION}
       </div>
       

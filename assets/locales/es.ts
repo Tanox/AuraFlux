@@ -71,7 +71,8 @@ export const es = {
     CUBE_FIELD: 'Campo Cuántico',
     KINETIC_WALL: 'Muro Cinético',
     RESONANCE_ORB: 'Orbe de Resonancia',
-    RIPPLES: 'Ondulaciones'
+    RIPPLES: 'Ondulaciones',
+    SPIRAL: 'Espiral'
   },
   modeDescriptions: {
     PLASMA: 'Mezcla de colores fluida y suave.',
@@ -90,7 +91,8 @@ export const es = {
     CUBE_FIELD: 'Campo infinito de bloques geométricos.',
     KINETIC_WALL: 'Muro LED masivo con extrusions cinéticas.',
     RESONANCE_ORB: 'Núcleo pulsante que se transforma con el ritmo.',
-    RIPPLES: 'Círculos hipnóticos en expansión activados por el ritmo.'
+    RIPPLES: 'Círculos hipnóticos en expansión activados por el ritmo.',
+    SPIRAL: 'Espirales logarítmicas duales que reaccionan a la intensidad.'
   },
   presets: {
     title: 'Ajuste del Núcleo Visual',
@@ -101,6 +103,7 @@ export const es = {
     calm: 'Océano Estéreo',
     party: 'Fiesta Cinética',
     ambient: 'Flujo de Seda',
+    galaxy: 'Espiral Cósmica',
     cyberpunk: 'Red Digital',
     retrowave: 'Campo Retro',
     psychedelic: 'Viaje Psicodélico',

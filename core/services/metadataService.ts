@@ -1,6 +1,6 @@
 /**
  * File: core/services/metadataService.ts
- * Version: 1.8.24
+ * Version: 1.8.25
  * Author: Sut
  */
 
@@ -12,7 +12,7 @@ export const extractMetadata = (file: File): Promise<Track> => {
       id: Math.random().toString(36).substr(2, 9) + Date.now(),
       file,
       title: file.name.replace(/\.[^/.]+$/, ""),
-      artist: 'Unknown Artist',
+      artist: '', // Empty string allows UI to use localized "Unknown Artist"
       identified: false,
       matchSource: 'FILE',
       duration: 0 
@@ -53,7 +53,7 @@ export const extractMetadata = (file: File): Promise<Track> => {
           resolve({ 
             ...basicTrack, 
             title: title || basicTrack.title, 
-            artist: artist || basicTrack.artist, 
+            artist: artist || '', // Ensure empty string if tag missing
             albumArtUrl, 
             lyrics: lyricsText, 
             identified: !!(title || artist || lyricsText)

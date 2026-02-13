@@ -1,6 +1,6 @@
 /**
  * File: components/controls/panels/VisualizerPreview.tsx
- * Version: 2.2.0
+ * Version: 2.2.1
  * Author: Sut
  */
 
@@ -27,6 +27,7 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.PLASMA]: { background: 'radial-gradient(circle, #ec4899, #8b5cf6, #3b82f6)' },
     [VisualizerMode.BARS]: { background: 'linear-gradient(to top, #3b82f6, #8b5cf6)' },
     [VisualizerMode.RIPPLES]: { background: 'radial-gradient(circle, transparent 20%, #4f46e5 20%, #4f46e5 25%, transparent 25%, transparent 40%, #ec4899 40%, #ec4899 45%, transparent 45%)' },
+    [VisualizerMode.SPIRAL]: { background: 'conic-gradient(from 0deg, #ff00ff, #00ffff, #ff00ff)' },
 };
 
 const THREE_MODES = [

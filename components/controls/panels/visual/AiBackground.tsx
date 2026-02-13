@@ -1,7 +1,6 @@
-
 /**
  * File: components/controls/panels/visual/AiBackground.tsx
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Sut
  * Extracted from VisualSettingsPanel
  */

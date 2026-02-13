@@ -71,7 +71,8 @@ export const ar = {
     CUBE_FIELD: 'حقل كمي',
     KINETIC_WALL: 'جدار حركي',
     RESONANCE_ORB: 'جرم الرنين',
-    RIPPLES: 'تموجات'
+    RIPPLES: 'تموجات',
+    SPIRAL: 'لولب'
   },
   modeDescriptions: {
     PLASMA: 'مزيج ألوان سلس.',
@@ -90,7 +91,8 @@ export const ar = {
     CUBE_FIELD: 'حقل كتل هندسية.',
     KINETIC_WALL: 'جدار مسرح LED حركي.',
     RESONANCE_ORB: 'نواة نابضة متحولة.',
-    RIPPLES: 'دوائر منومة متوسعة.'
+    RIPPLES: 'دوائر منومة متوسعة.',
+    SPIRAL: 'لوالب لوغاريتمية مزدوجة تتفاعل مع شدة التردد.'
   },
   presets: {
     title: 'الضبط البصري',
@@ -101,6 +103,7 @@ export const ar = {
     calm: 'محيط هادئ',
     party: 'حفلة حركية',
     ambient: 'تدفق الحرير',
+    galaxy: 'لولب كوني',
     cyberpunk: 'شبكة رقمية',
     retrowave: 'حقل ريترو',
     psychedelic: 'رحلة سايكدلية',

@@ -1,8 +1,8 @@
 /**
  * File: core/constants/index.ts
- * Version: 1.8.102
+ * Version: 1.9.1
  * Author: Sut
- * Updated: 2025-07-28 12:00
+ * Updated: 2025-07-28 15:00
  */
 
 import { VisualizerMode, SmartPreset } from '../types';
@@ -10,7 +10,7 @@ import { COLOR_THEMES } from './visualThemes';
 
 export * from './visualThemes';
 
-export const APP_VERSION = '1.8.102';
+export const APP_VERSION = '1.9.1';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
 
@@ -54,6 +54,7 @@ export const SMART_PRESETS: Record<string, SmartPreset> = {
   calm: { nameKey: 'calm', settings: { mode: VisualizerMode.OCEAN_WAVE, colorTheme: COLOR_THEMES[4], speed: 0.4, sensitivity: 1.2, glow: true, trails: true, smoothing: 0.92, includedModes: [VisualizerMode.OCEAN_WAVE, VisualizerMode.WAVEFORM] } },
   party: { nameKey: 'party', settings: { mode: VisualizerMode.KINETIC_WALL, colorTheme: COLOR_THEMES[0], speed: 1.6, sensitivity: 2.2, glow: true, trails: true, smoothing: 0.6, includedModes: [VisualizerMode.KINETIC_WALL, VisualizerMode.DIGITAL_GRID] } },
   ambient: { nameKey: 'ambient', settings: { mode: VisualizerMode.SILK_WAVE, colorTheme: COLOR_THEMES[8], speed: 0.3, sensitivity: 1.2, glow: true, trails: true, smoothing: 0.95, includedModes: [VisualizerMode.SILK_WAVE, VisualizerMode.NEBULA] } },
+  galaxy: { nameKey: 'galaxy', settings: { mode: VisualizerMode.SPIRAL, colorTheme: COLOR_THEMES[1], speed: 0.8, sensitivity: 1.8, glow: true, trails: true, smoothing: 0.85, includedModes: [VisualizerMode.SPIRAL, VisualizerMode.NEBULA] } },
   cyberpunk: { nameKey: 'cyberpunk', settings: { mode: VisualizerMode.DIGITAL_GRID, colorTheme: COLOR_THEMES[4], speed: 1.2, sensitivity: 1.8, glow: true, trails: false, smoothing: 0.75, includedModes: [VisualizerMode.DIGITAL_GRID, VisualizerMode.LASERS] } },
   retrowave: { nameKey: 'retrowave', settings: { mode: VisualizerMode.CUBE_FIELD, colorTheme: COLOR_THEMES[0], speed: 0.9, sensitivity: 1.6, glow: true, trails: false, smoothing: 0.8, includedModes: [VisualizerMode.CUBE_FIELD, VisualizerMode.OCEAN_WAVE] } },
   psychedelic: { nameKey: 'psychedelic', settings: { mode: VisualizerMode.NEURAL_FLOW, colorTheme: COLOR_THEMES[3], speed: 1.8, sensitivity: 2.5, glow: true, trails: false, smoothing: 0.6, includedModes: [VisualizerMode.NEURAL_FLOW, VisualizerMode.TUNNEL, VisualizerMode.PLASMA] } },

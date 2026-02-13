@@ -1,8 +1,8 @@
 /**
  * File: core/constants/visualThemes.ts
- * Version: 2.0.5
+ * Version: 2.1.0
  * Author: Sut
- * Updated: 2025-07-18 14:00
+ * Updated: 2025-07-28 14:00
  */
 
 import { VisualizerMode } from '../types';
@@ -39,4 +39,5 @@ export const VISUALIZER_PRESETS: Record<string, { description: string }> = {
   [VisualizerMode.SILK_WAVE]: { description: 'Fiber optic.' },
   [VisualizerMode.OCEAN_WAVE]: { description: 'Pulsar terrain.' },
   [VisualizerMode.RIPPLES]: { description: 'Concentric beat ripples.' },
+  [VisualizerMode.SPIRAL]: { description: 'Logarithmic frequency spiral.' },
 };

@@ -168,8 +168,9 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
       : `pointer-events-none fixed inset-0 z-[15] flex flex-col px-6 pt-24 pb-48 md:pb-32 pb-safe ${getPositionClasses(settings.lyricsPosition)}`;
 
   return (
-    <div className={containerClass}>
+    <div id="lyrics-overlay-container" className={containerClass}>
       <div 
+        id="lyrics-content"
         ref={containerRef}
         className={`transition-all duration-700 ${isSynced ? "w-full h-full flex items-center justify-center" : ""}`}
         style={{

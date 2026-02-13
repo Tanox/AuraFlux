@@ -1,7 +1,6 @@
-
 /**
  * File: components/controls/panels/playback/NowPlaying.tsx
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Sut
  * Extracted from PlaybackPanel
  */
@@ -44,10 +43,10 @@ export const NowPlaying: React.FC = () => {
 
                         <div className="flex-1 min-w-0 flex flex-col justify-center">
                             <div className="text-lg font-black text-black dark:text-white truncate leading-tight uppercase tracking-tight">
-                                {currentSong?.title}
+                                {currentSong?.title || t?.common?.unknownTrack}
                             </div>
                             <div className="text-[10px] text-blue-500 dark:text-blue-400 truncate font-black uppercase tracking-[0.2em] mt-1.5 opacity-80">
-                                {currentSong?.artist}
+                                {currentSong?.artist || t?.common?.unknownArtist}
                             </div>
                         </div>
                     </div>

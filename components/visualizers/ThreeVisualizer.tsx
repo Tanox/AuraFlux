@@ -13,7 +13,7 @@ import { BLOOM_CONFIG } from '../../core/constants';
 import { 
     KineticWallScene, 
     LiquidSphereScene, 
-    CubeFieldScene,
+    CubeFieldScene, 
     NeuralFlowScene,
     DigitalGridScene,
     SilkWaveScene,
@@ -107,7 +107,7 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
   if (!analyser || !settings) return null;
   
   return (
-    <div className="w-full h-full">
+    <div id="visualizer-three-wrapper" className="w-full h-full">
       <Canvas 
         shadows={false}
         camera={cameraConfig}

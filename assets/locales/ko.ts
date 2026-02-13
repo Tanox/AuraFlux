@@ -72,7 +72,8 @@ export const ko = {
     // @fix: Fix typo in KINETIC_WALL key to match TranslationSchema
     KINETIC_WALL: '키네틱 월',
     RESONANCE_ORB: '공명 천체',
-    RIPPLES: '리플'
+    RIPPLES: '리플',
+    SPIRAL: '스파이럴'
   },
   modeDescriptions: {
     PLASMA: '부드럽게 흐르는 색상 블렌딩.',
@@ -91,7 +92,8 @@ export const ko = {
     CUBE_FIELD: '무한한 기하학적 블록 필드.',
     KINETIC_WALL: '동적 돌출이 있는 거대 LED 무대 벽.',
     RESONANCE_ORB: '리듬에 맞춰 격렬하게 변형되는 맥동하는 공명핵.',
-    RIPPLES: '리듬에 의해 촉발되는 최면적인 확장 원.'
+    RIPPLES: '리듬에 의해 촉발되는 최면적인 확장 원.',
+    SPIRAL: '주파수 강도에 반응하는 이중 로그 나선.'
   },
   presets: {
     title: '비주얼 핵심 튜닝',
@@ -102,6 +104,7 @@ export const ko = {
     calm: '오션 웨이브',
     party: '키네틱 파티',
     ambient: '실크 플로우',
+    galaxy: '코스믹 스파이럴',
     cyberpunk: '디지털 그리드',
     retrowave: '레트로 필드',
     psychedelic: '사이키델릭',

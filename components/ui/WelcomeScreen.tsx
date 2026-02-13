@@ -13,7 +13,7 @@ export const WelcomeScreen: React.FC = () => {
   const { toggleMicrophone, selectedDeviceId } = useAudioContext();
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6 text-center overflow-hidden">
+    <div id="welcome-screen" className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6 text-center overflow-hidden">
       {/* 动态背景光晕 */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/20 blur-[120px] rounded-full animate-pulse" />
       

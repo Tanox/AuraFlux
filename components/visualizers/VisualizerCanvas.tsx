@@ -1,6 +1,6 @@
 /**
  * File: components/visualizers/VisualizerCanvas.tsx
- * Version: 1.8.58
+ * Version: 1.9.1
  * Author: Sut
  */
 
@@ -112,10 +112,13 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
         ctx.clearRect(0, 0, logicalW, logicalH);
       }
 
-      // Glow Logic
+      // Glow Logic Optimization:
+      // Disable expensive global canvas shadowBlur for particle-heavy modes.
+      // These modes should handle their own localized glowing for better performance.
       const isSelfGlowingMode = 
         currentMode === VisualizerMode.NEBULA || 
-        // @fix: Removed non-existent VisualizerMode.MACRO_BUBBLES
+        currentMode === VisualizerMode.SPIRAL ||
+        currentMode === VisualizerMode.PARTICLES ||
         currentMode === VisualizerMode.TUNNEL;
 
       if (currentSettings.glow && !isSelfGlowingMode) {
@@ -156,8 +159,9 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
   }, [analyser, analyserR]);
 
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
+    <div id="visualizer-canvas-wrapper" className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
       <canvas 
+        id="visualizer-canvas-2d"
         ref={canvasRef} 
         className="w-full h-full block" 
       />

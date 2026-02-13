@@ -1,4 +1,3 @@
-
 /**
  * File: components/ui/HelpModal.tsx
  * Version: 1.8.25
@@ -23,8 +22,8 @@ export const HelpModal: React.FC<{ onClose: () => void; initialTab?: HelpTab }> 
     const guideSteps = h.howItWorksSteps;
     
     return (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-lg" onClick={onClose}>
-            <div className="w-full max-w-3xl bg-[#0a0a0c]/90 border border-white/10 rounded-3xl shadow-2xl relative flex flex-col h-[80vh] max-h-[600px] animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
+        <div id="help-modal-overlay" className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-lg" onClick={onClose}>
+            <div id="help-modal-content" className="w-full max-w-3xl bg-[#0a0a0c]/90 border border-white/10 rounded-3xl shadow-2xl relative flex flex-col h-[80vh] max-h-[600px] animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-between p-6 border-b border-white/5 shrink-0">
                     <h2 className="text-xl font-bold text-white">{h.title}</h2>
                     <button onClick={onClose} className="p-2 rounded-full text-white/40 hover:bg-white/10 hover:text-white"><svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/></svg></button>

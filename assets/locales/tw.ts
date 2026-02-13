@@ -71,7 +71,8 @@ export const tw = {
     CUBE_FIELD: '量子方陣',
     KINETIC_WALL: '動感光牆',
     RESONANCE_ORB: '共鳴天體',
-    RIPPLES: '動感漣漪'
+    RIPPLES: '動感涟漪',
+    SPIRAL: '雙重螺旋'
   },
   modeDescriptions: {
     PLASMA: '平滑流動的色彩混合。',
@@ -90,7 +91,8 @@ export const tw = {
     CUBE_FIELD: '無限幾何方塊場。',
     KINETIC_WALL: '具有動感擠出的巨型 LED 舞台牆。',
     RESONANCE_ORB: '隨節奏劇烈脈動與形變的共鳴內核。',
-    RIPPLES: '由節奏觸發的催眠擴散圓環。'
+    RIPPLES: '由節奏觸發的催眠擴散圓環。',
+    SPIRAL: '響應頻率強度的雙重對數螺旋。'
   },
   presets: {
     title: '視覺核心調優',
@@ -101,6 +103,7 @@ export const tw = {
     calm: '立體海浪',
     party: '動感派對',
     ambient: '流光綢緞',
+    galaxy: '宇宙螺旋',
     cyberpunk: '數位網格',
     retrowave: '復古力場',
     psychedelic: '迷幻之旅',

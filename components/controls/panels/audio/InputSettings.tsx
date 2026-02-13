@@ -1,7 +1,6 @@
-
 /**
  * File: components/controls/panels/audio/InputSettings.tsx
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Sut
  * Extracted from AudioSettingsPanel
  */
@@ -69,7 +68,7 @@ export const InputSettings: React.FC = () => {
                     {isPending ? (
                         <div className="flex items-center justify-center gap-2">
                             <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                            <span>LOADING</span>
+                            <span>{t?.studioPanel?.processing || "LOADING"}</span>
                         </div>
                     ) : (
                         <span className="relative z-10">
