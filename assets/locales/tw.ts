@@ -1,3 +1,4 @@
+
 export const tw = {
   common: {
     confirmClear: '確定要清空播放清單嗎？',
@@ -20,7 +21,10 @@ export const tw = {
     message: "🎵 使用 #AuraFlux 視覺化 '{song}' - {artist}。\n\n✨ 體驗由 Gemini 驅動的實時通感藝術：",
     hashtags: "#音樂視覺化 #生成藝術 #GeminiAI #AuraFlux",
     copied: "宣傳連結與文案已複製到剪貼簿！",
-    unsupported: "當前裝置不支援直接分享"
+    unsupported: "當前裝置不支援直接分享",
+    appTitle: "Aura Flux",
+    appMessage: "快來體驗 Aura Flux - 瀏覽器中的實時 AI 音樂視覺化引擎！🎵✨\n\n開啟視聽通感之旅：",
+    shareApp: "分享應用"
   },
   player: {
     play: '播放',

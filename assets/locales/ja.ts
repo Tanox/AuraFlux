@@ -1,3 +1,4 @@
+
 export const ja = {
   common: {
     confirmClear: 'プレイリストをクリアしますか？',
@@ -20,7 +21,10 @@ export const ja = {
     message: "🎵 #AuraFlux で '{song}' ({artist}) を視覚化中。\n\n✨ Gemini駆動のリアルタイム共感覚アートを体験しよう：",
     hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
     copied: "リンクとテキストをクリップボードにコピーしました！",
-    unsupported: "このデバイスでは共有がサポートされていません"
+    unsupported: "このデバイスでは共有がサポートされていません",
+    appTitle: "Aura Flux",
+    appMessage: "Aura Fluxをチェック！ブラウザで動くリアルタイムAI音楽ビジュアライザー 🎵✨\n\n光の音を体験しよう：",
+    shareApp: "アプリを共有"
   },
   player: {
     play: '再生',

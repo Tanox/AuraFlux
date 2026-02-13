@@ -1,8 +1,8 @@
 /**
  * File: App.tsx
- * Version: 1.8.103
+ * Version: 1.9.2
  * Author: Sut
- * Updated: 2025-07-28 12:30
+ * Updated: 2025-07-28 18:35
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
@@ -122,7 +122,7 @@ const MainContent: React.FC = () => {
       */}
       <SongOverlay 
         song={currentSong} isVisible={settings.showSongInfo} language={language} 
-        onRetry={() => { if (performIdentification && (analyser?.context as any)?.stream) performIdentification((analyser?.context as any).stream); }} 
+        onRetry={() => { if (performIdentification && (analyser?.context as any)?.stream) performIdentification((analyser?.context as any).stream); performIdentification((analyser?.context as any).stream); }} 
         onClose={() => {}} analyser={analyser} sensitivity={settings.sensitivity}
         showAlbumArt={settings.showAlbumArtOverlay} isIdle={false} /* Force visible in performance */
       />

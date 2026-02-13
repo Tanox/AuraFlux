@@ -1,3 +1,4 @@
+
 export const ru = {
   common: {
     confirmClear: 'Вы уверены, что хотите очистить плейлист?',
@@ -20,7 +21,10 @@ export const ru = {
     message: "🎵 Визуализация '{song}' — {artist} в #AuraFlux.\n\n✨ Испытайте генеративное искусство с ИИ:",
     hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
     copied: "Ссылка и текст скопированы в буфер обмена!",
-    unsupported: "Обмен не поддерживается на этом устройстве"
+    unsupported: "Обмен не поддерживается на этом устройстве",
+    appTitle: "Aura Flux",
+    appMessage: "Зацените Aura Flux — ИИ-визуализатор музыки в реальном времени прямо в браузере! 🎵✨\n\nПочувствуйте звук света:",
+    shareApp: "Поделиться"
   },
   player: {
     play: 'Играть',

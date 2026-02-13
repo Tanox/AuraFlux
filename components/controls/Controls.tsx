@@ -1,8 +1,8 @@
 /**
  * File: components/controls/Controls.tsx
- * Version: 1.9.3
+ * Version: 1.9.5
  * Author: Sut
- * Updated: 2025-07-20 21:05
+ * Updated: 2025-07-20 21:10
  */
 
 import React, { useState, useEffect } from 'react';
@@ -40,7 +40,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
   const { settings, setSettings, randomizeSettings, mode, setMode } = useVisuals();
   const { setShowLyrics } = useAI();
   const { toggleMicrophone, sourceType, togglePlayback, playNext, playPrev, selectedDeviceId, isPlaying } = useAudioContext();
-  const { t, toggleFullscreen, showHelpModal, setShowHelpModal, setHelpModalInitialTab } = useUI();
+  const { t, toggleFullscreen, showHelpModal, setShowHelpModal, setHelpModalInitialTab, showToast } = useUI();
 
   const [activeTab, setActiveTab] = useState<TabType>('visual');
   
@@ -131,6 +131,24 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [settings, toggleMicrophone, randomizeSettings, setShowLyrics, setSettings, sourceType, togglePlayback, playNext, playPrev, mode, setMode, isExpanded, showHelpModal, setIsExpanded, toggleFullscreen, tabs, selectedDeviceId, setShowHelpModal, setHelpModalInitialTab]);
 
+  const handleAppShare = async () => {
+      const shareTitle = t?.share?.appTitle || "Aura Flux";
+      const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵✨";
+      const url = window.location.href;
+      const shareData = { title: shareTitle, text: shareText, url };
+
+      if (navigator.share && navigator.canShare(shareData)) {
+          try { await navigator.share(shareData); } catch (e) {}
+      } else {
+          try {
+              await navigator.clipboard.writeText(`${shareText}\n${url}`);
+              showToast(t?.share?.copied || "Link Copied!", 'success');
+          } catch (e) {
+              showToast(t?.share?.unsupported || "Error", 'error');
+          }
+      }
+  };
+
   return (
     <>
       <BottomBar 
@@ -186,6 +204,11 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle }
                     <div className="flex items-center gap-1.5">
                         <div className="hidden md:flex gap-1.5">
                             <ActionButton onClick={randomizeSettings} hintText={`${t?.hints?.randomize || "Randomize"} [R]`} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>} />
+                            <ActionButton onClick={handleAppShare} hintText={t?.share?.shareApp || "Share App"} icon={
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
+                                </svg>
+                            } />
                             <ActionButton onClick={toggleFullscreen} hintText={`${t?.hints?.fullscreen || "Fullscreen"} [F]`} icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>} />
                         </div>
                         <button onClick={() => setIsExpanded(false)} className="w-8 h-8 flex items-center justify-center bg-blue-600 rounded-lg text-white shadow-[0_4px_15px_rgba(37,99,235,0.3)] hover:bg-blue-500 transition-all duration-300" aria-label={t?.hideOptions}>

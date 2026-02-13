@@ -22,7 +22,10 @@ export const zh = {
     message: "🎵 使用 #AuraFlux 可视化 '{song}' - {artist}。\n\n✨ 体验由 Gemini 驱动的实时通感艺术：",
     hashtags: "#音乐可视化 #生成艺术 #GeminiAI #AuraFlux",
     copied: "宣传链接与文案已复制到剪贴板！",
-    unsupported: "当前设备不支持直接分享"
+    unsupported: "当前设备不支持直接分享",
+    appTitle: "Aura Flux",
+    appMessage: "快来体验 Aura Flux - 浏览器中的实时 AI 音乐可视化引擎！🎵✨\n\n开启视听通感之旅：",
+    shareApp: "分享应用"
   },
   player: {
     play: '播放',

@@ -1,3 +1,4 @@
+
 export const fr = {
   common: {
     confirmClear: 'Voulez-vous vraiment effacer la playlist ?',
@@ -20,7 +21,10 @@ export const fr = {
     message: "🎵 Visualisation de '{song}' par {artist} avec #AuraFlux.\n\n✨ Découvrez l'art synesthésique généré par l'IA :",
     hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
     copied: "Lien et texte promotionnel copiés !",
-    unsupported: "Le partage n'est pas supporté sur cet appareil"
+    unsupported: "Le partage n'est pas supporté sur cet appareil",
+    appTitle: "Aura Flux",
+    appMessage: "Découvrez Aura Flux - Un visualiseur musical IA en temps réel dans votre navigateur ! 🎵✨\n\nDécouvrez le son de la lumière :",
+    shareApp: "Partager l'App"
   },
   player: {
     play: 'Lecture',

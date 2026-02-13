@@ -1,3 +1,4 @@
+
 export const ar = {
   common: {
     confirmClear: 'هل أنت متأكد من مسح قائمة التشغيل؟',
@@ -20,7 +21,10 @@ export const ar = {
     message: "🎵 تمثيل مرئي لأغنية '{song}' للفنان {artist} باستخدام #AuraFlux.\n\n✨ جرب فن الحس المرافق المدعوم بالذكاء الاصطناعي:",
     hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
     copied: "تم نسخ الرابط والنص إلى الحافظة!",
-    unsupported: "المشاركة غير مدعومة على هذا الجهاز"
+    unsupported: "المشاركة غير مدعومة على هذا الجهاز",
+    appTitle: "Aura Flux",
+    appMessage: "اكتشف Aura Flux - مصور موسيقي بالذكاء الاصطناعي في متصفحك! 🎵✨\n\nجرب صوت الضوء:",
+    shareApp: "مشاركة التطبيق"
   },
   player: {
     play: 'تشغيل',

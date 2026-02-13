@@ -21,7 +21,10 @@ export const en = {
     message: "🎵 Visualizing '{song}' by {artist}.\n\n✨ Created with Aura Flux - The AI Synesthesia Engine.\n\nTry it now:",
     hashtags: "#AuraFlux #MusicVisualizer #GenerativeArt #GeminiAI",
     copied: "Promotional link & text copied to clipboard!",
-    unsupported: "Sharing not supported on this device"
+    unsupported: "Sharing not supported on this device",
+    appTitle: "Aura Flux",
+    appMessage: "Check out Aura Flux - A real-time AI music visualizer in your browser! 🎵✨\n\nExperience the sound of light:",
+    shareApp: "Share App"
   },
   player: {
     play: 'Play',

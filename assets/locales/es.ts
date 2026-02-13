@@ -1,3 +1,4 @@
+
 export const es = {
   common: {
     confirmClear: '¿Seguro que quieres borrar la lista?',
@@ -20,7 +21,10 @@ export const es = {
     message: "🎵 Visualizando '{song}' de {artist} con #AuraFlux.\n\n✨ Experimenta el arte sinestésico impulsado por Gemini:",
     hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
     copied: "¡Enlace y texto promocional copiados al portapapeles!",
-    unsupported: "Compartir no es compatible en este dispositivo"
+    unsupported: "Compartir no es compatible en este dispositivo",
+    appTitle: "Aura Flux",
+    appMessage: "¡Descubre Aura Flux! Visualizador de música AI en tiempo real en tu navegador. 🎵✨\n\nExperimenta el sonido de la luz:",
+    shareApp: "Compartir App"
   },
   player: {
     play: 'Reproducir',

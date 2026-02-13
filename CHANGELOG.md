@@ -2,6 +2,18 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.2]
+
+### 🚀 Features
+*   **Viral Sharing:** Added dedicated share buttons in the Control Bar and Studio Preview to easily share the app link and promotional text.
+*   **Analytics:** Integrated Google Analytics (G-B3R0GXSDY8) for usage tracking.
+
+### 🌍 Localization
+*   **Global Reach:** Completed translations for German, French, Russian, and Arabic, including viral sharing messages.
+
+### 📦 System
+*   **Version Sync:** Synchronized application version to 1.9.2 across all configuration files.
+
 ## [v1.8.102]
 
 ### 🎨 Visual Identity Refresh
