@@ -1,6 +1,6 @@
 /**
  * File: components/controls/panels/StudioPanel.tsx
- * Version: 2.3.4
+ * Version: 2.3.5
  * Author: Sut
  */
 
@@ -34,7 +34,7 @@ const ArmedVisualizer: React.FC<{ analyser: AnalyserNode | null }> = ({ analyser
       barsRef.current.forEach((bar, i) => {
         if (bar) {
           const level = (i < 4) ? bass : mid;
-          bar.style.transform = `scaleY(${Math.max(0.1, level * 2.5)})`;
+          bar.style.transform = `rotate(${i * 30}deg) translateY(-60px) scaleY(${Math.max(0.1, level * 2.5)})`;
         }
       });
       animFrameId = requestAnimationFrame(render);
@@ -44,19 +44,13 @@ const ArmedVisualizer: React.FC<{ analyser: AnalyserNode | null }> = ({ analyser
   }, [analyser]);
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40">
+    <div className="armed-visualizer-container">
       <div className="w-48 h-48 relative">
         {Array.from({ length: 12 }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-12 bg-blue-500 rounded-full origin-bottom"
+            className="armed-bar"
             ref={el => { barsRef.current[i] = el; }}
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: `rotate(${i * 30}deg) translateY(-60px) scaleY(0.1)`,
-              transition: 'transform 0.1s ease-out'
-            }}
           />
         ))}
       </div>
@@ -87,14 +81,12 @@ export const StudioPanel: React.FC = () => {
   const labels = studio.settings;
   const hints = studio.hints;
 
-  // Translation helpers for share logic
-  // @ts-ignore - 'share' might not exist on older translation types, but we added it.
-  const shareT = t.share || { 
+  const shareT = (t as any).share || { 
       title: "Aura Flux Creation", 
       message: "Check out this art created with Aura Flux! \n\n{song} by {artist}", 
       hashtags: "#AuraFlux",
-      copied: "Link copied!",
-      unsupported: "Sharing not supported on this device"
+      copied: "Text copied!",
+      unsupported: "Sharing not supported"
   };
 
   const supportedTypes = useMemo(() => {
@@ -144,46 +136,14 @@ export const StudioPanel: React.FC = () => {
     a.download = `${name}.${ext}`; document.body.appendChild(a); a.click(); discardRecording();
   };
 
-  /**
-   * Smart Share Logic with Propaganda Injection
-   */
   const handleShare = async () => {
       if (!recordedBlob) return;
-      
-      const title = currentSong?.title || t.common.unknownTrack;
-      const artist = currentSong?.artist || t.common.unknownArtist;
-      const appUrl = window.location.origin; // Or a specific marketing URL
-      
-      // Construct the propaganda text
-      const textBody = shareT.message
-          .replace('{song}', title)
-          .replace('{artist}', artist) + 
-          `\n\n${appUrl}\n\n${shareT.hashtags}`;
-
-      const ext = mimeType.includes('mp4') ? 'mp4' : 'webm';
-      const file = new File([recordedBlob], `aura_flux_${Date.now()}.${ext}`, { type: mimeType });
-
-      // Try Web Share API Level 2 (Files)
+      const textBody = shareT.message.replace('{song}', currentSong?.title || t.common.unknownTrack).replace('{artist}', currentSong?.artist || t.common.unknownArtist) + `\n\n${window.location.origin}\n\n${shareT.hashtags}`;
+      const file = new File([recordedBlob], `aura_flux_${Date.now()}.${mimeType.includes('mp4')?'mp4':'webm'}`, { type: mimeType });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-              await navigator.share({
-                  title: shareT.title,
-                  text: textBody,
-                  files: [file]
-              });
-              return; // Success
-          } catch (err) {
-              console.warn("Share failed or canceled:", err);
-          }
+          try { await navigator.share({ title: shareT.title, text: textBody, files: [file] }); return; } catch (err) {}
       } 
-      
-      // Fallback: Copy promotional text to clipboard if file sharing fails or isn't supported
-      try {
-          await navigator.clipboard.writeText(textBody);
-          showToast(shareT.copied || "Text copied!", 'success');
-      } catch (e) {
-          showToast(shareT.unsupported || "Sharing not supported", 'error');
-      }
+      try { await navigator.clipboard.writeText(textBody); showToast(shareT.copied || "Text copied!", 'success'); } catch (e) { showToast(shareT.unsupported || "Sharing not supported", 'error'); }
   };
 
   if (recordedBlob && previewUrl) {
@@ -202,13 +162,10 @@ export const StudioPanel: React.FC = () => {
           </div>
           <div className="p-6 flex gap-4 bg-white/[0.01]">
             <button onClick={discardRecording} className="flex-1 py-4 rounded-xl border border-white/10 text-white/40 hover:text-white hover:bg-white/5 transition-all text-xs font-black uppercase tracking-widest">{studio.discard}</button>
-            
-            {/* Added Share Button */}
             <button onClick={handleShare} className="flex-1 py-4 rounded-xl border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 transition-all text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
                 {studio.share}
             </button>
-
             <button onClick={handleSaveVideo} className="flex-1 py-4 rounded-xl bg-white text-black hover:bg-blue-500 hover:text-white transition-all text-xs font-black uppercase tracking-widest shadow-xl shadow-white/5">{studio.save}</button>
           </div>
         </div>
@@ -218,7 +175,6 @@ export const StudioPanel: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
-      {/* Settings Column (7 cols) */}
       <div className="lg:col-span-7 flex flex-col gap-3">
         <BentoCard title={studio.videoConfig}>
           <div className="space-y-4">
@@ -227,19 +183,15 @@ export const StudioPanel: React.FC = () => {
               <CustomSelect label={labels.aspectRatio} value={aspectRatio} onChange={(v) => setAspectRatio(v === 'native' ? 'native' : Number(v))} options={[{ value: 'native', label: labels.resNative }, { value: 16 / 9, label: '16:9' }, { value: 9 / 16, label: '9:16' }, { value: 1, label: '1:1' }]} />
               <CustomSelect label={labels.fps} value={fps} onChange={(v) => setFps(Number(v))} options={[{ value: 30, label: '30 FPS' }, { value: 60, label: '60 FPS' }]} />
             </div>
-            
             <div className="pt-4 border-t border-black/5 dark:border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <CustomSelect label={labels.codec} value={mimeType} onChange={(v) => setMimeType(v as string)} options={supportedTypes.map(t => ({ value: t, label: getFormatLabel(t) }))} />
               <SegmentedControl label={labels.bitrate} value={bitrate} onChange={(v) => setBitrate(Number(v))} options={[{ value: 4e6, label: "4M" }, { value: 8e6, label: "8M" }, { value: 12e6, label: "12M" }, { value: 24e6, label: "24M" }]} />
             </div>
           </div>
         </BentoCard>
-
         <BentoCard title={studio.audioMix} className="flex-1">
           <div className="h-full flex flex-col justify-between gap-4">
-            <div className="max-w-md">
-                <Slider label={labels.recGain} value={recGain} min={0} max={2} step={0.1} onChange={setRecGain} hintText={hints.recGain} />
-            </div>
+            <div className="max-w-md"><Slider label={labels.recGain} value={recGain} min={0} max={2} step={0.1} onChange={setRecGain} hintText={hints.recGain} /></div>
             <div className="grid grid-cols-2 gap-3 pt-3 border-t border-black/5 dark:border-white/5">
                 <SettingsToggle label={labels.syncStart} value={syncStart} onChange={() => setSyncStart(!syncStart)} variant="clean" activeColor="blue" hintText={hints.syncStart} />
                 <SettingsToggle label={labels.countdown} value={enableCountdown} onChange={() => setEnableCountdown(!enableCountdown)} variant="clean" activeColor="blue" hintText={hints.countdown} />
@@ -247,59 +199,22 @@ export const StudioPanel: React.FC = () => {
           </div>
         </BentoCard>
       </div>
-
-      {/* Monitor/Recording Column (5 cols) */}
       <BentoCard className="lg:col-span-5 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
-        {/* Background Atmosphere */}
         <div className={`absolute inset-0 transition-colors duration-1000 ${isRecording ? 'bg-red-500/5' : isArmed ? 'bg-blue-500/5' : 'bg-transparent'}`} />
-        
         <div className="relative z-10 flex flex-col items-center">
             <div className="relative group mb-6 flex items-center justify-center w-32 h-32">
                 {isArmed && <ArmedVisualizer analyser={analyser} />}
-                
-                {isRecording && (
-                    <div className="absolute inset-0 rounded-full border-2 border-red-500 animate-ping opacity-20 scale-150" />
-                )}
-                
-                <button
-                    onClick={isRecording ? stopRecording : () => isArmed ? setIsArmed(false) : syncStart ? setIsArmed(true) : triggerRecording()}
-                    disabled={isProcessing}
-                    className={`w-24 h-24 rounded-full border-4 transition-all flex items-center justify-center relative z-10 duration-500 ${isRecording ? 'bg-red-900/20 border-red-500 shadow-[0_0_50px_rgba(239,68,68,0.4)]' :
-                        isArmed ? 'bg-blue-900/20 border-blue-500 shadow-[0_0_50px_rgba(59,130,246,0.4)] animate-pulse' :
-                            'bg-black/10 dark:bg-white/5 border-black/10 dark:border-white/10 hover:border-red-500/50 hover:scale-105'
-                        }`}
-                >
-                    {isProcessing ? (
-                        <div className="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
-                    ) : (
-                        <div className={`transition-all duration-300 ${isRecording ? 'w-6 h-6 bg-red-500 rounded-lg animate-pulse' :
-                            isArmed ? 'w-8 h-8 bg-blue-500 rounded-full animate-pulse' :
-                                'w-12 h-12 bg-red-600 rounded-full group-hover:scale-110 shadow-lg'
-                            }`} />
-                    )}
+                {isRecording && <div className="absolute inset-0 rounded-full border-2 border-red-500 animate-ping opacity-20 scale-150" />}
+                <button onClick={isRecording ? stopRecording : () => isArmed ? setIsArmed(false) : syncStart ? setIsArmed(true) : triggerRecording()} disabled={isProcessing} className={`w-24 h-24 rounded-full border-4 transition-all flex items-center justify-center relative z-10 duration-500 ${isRecording ? 'bg-red-900/20 border-red-500 shadow-[0_0_50px_rgba(239,68,68,0.4)]' : isArmed ? 'bg-blue-900/20 border-blue-500 shadow-[0_0_50px_rgba(59,130,246,0.4)] animate-pulse' : 'bg-black/10 dark:bg-white/5 border-black/10 dark:border-white/10 hover:border-red-500/50 hover:scale-105'}`}>
+                    {isProcessing ? <div className="w-10 h-10 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" /> : <div className={`transition-all duration-300 ${isRecording ? 'w-6 h-6 bg-red-500 rounded-lg animate-pulse' : isArmed ? 'w-8 h-8 bg-blue-500 rounded-full animate-pulse' : 'w-12 h-12 bg-red-600 rounded-full group-hover:scale-110 shadow-lg'}`} />}
                 </button>
             </div>
-
             <div className="text-center space-y-1 h-14">
-                <div className={`text-2xl font-black uppercase tracking-[0.2em] transition-all duration-300 ${isRecording ? 'text-red-500' : 'text-black dark:text-white'}`}>
-                    {isRecording ? formatDur(duration) : isFadingOut ? studio.stopping : isProcessing ? studio.processing : isArmed ? studio.arming : studio.start}
-                </div>
-                {isRecording && (
-                    <div className="text-[10px] font-mono text-black/40 dark:text-white/40 uppercase tracking-widest animate-pulse flex items-center justify-center gap-2">
-                        <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />
-                        {formatSize(size)} {studio.processing || "ENCODING"}
-                    </div>
-                )}
+                <div className={`text-2xl font-black uppercase tracking-[0.2em] transition-all duration-300 ${isRecording ? 'text-red-500' : 'text-black dark:text-white'}`}>{isRecording ? formatDur(duration) : isFadingOut ? studio.stopping : isProcessing ? studio.processing : isArmed ? studio.arming : studio.start}</div>
+                {isRecording && <div className="text-[10px] font-mono text-black/40 dark:text-white/40 uppercase tracking-widest animate-pulse flex items-center justify-center gap-2"><span className="w-1.5 h-1.5 bg-red-500 rounded-full" />{formatSize(size)} {studio.processing || "ENCODING"}</div>}
             </div>
         </div>
-
-        {/* Countdown Overlay */}
-        {countdownVal > 0 && (
-            <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm">
-                <span className="text-8xl font-black text-white animate-ping">{countdownVal}</span>
-                <span className="text-xs font-black text-white/40 uppercase tracking-[0.4em] mt-8">{t?.toasts?.audioNotReady || "Initializing..."}</span>
-            </div>
-        )}
+        {countdownVal > 0 && <div className="absolute inset-0 z-50 bg-black/80 flex flex-col items-center justify-center backdrop-blur-sm"><span className="text-8xl font-black text-white animate-ping">{countdownVal}</span><span className="text-xs font-black text-white/40 uppercase tracking-[0.4em] mt-8">{t?.toasts?.audioNotReady || "Initializing..."}</span></div>}
       </BentoCard>
     </div>
   );

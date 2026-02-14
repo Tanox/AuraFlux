@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useAudioReactive.ts
- * Version: 1.9.12
+ * Version: 1.9.13
  * Author: Sut
  */
 
@@ -30,14 +30,13 @@ const getSafeColors = (inputColors: string[] | undefined | null) => {
 };
 
 export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseAudioReactiveProps) => {
-  // Safe extraction of input colors with default fallback
+  // Safe extraction of input colors
   const safeInputColors = useMemo(() => getSafeColors(colors), [colors]);
 
-  // Persistent reference for smoothed color instances
+  // CRITICAL: Synchronize smoothedColorsRef to prevent "length of undefined" errors in 3D scenes
+  // This logic runs during the render phase to ensure the ref is valid before children use it.
   const smoothedColorsRef = useRef<Color[]>([]);
   
-  // IMMEDIATE SYNC: This is crucial to prevent "Cannot read length of undefined"
-  // and ensuring destructuring in scene components doesn't fail on first render.
   if (smoothedColorsRef.current.length !== safeInputColors.length) {
       const current = smoothedColorsRef.current;
       if (safeInputColors.length > current.length) {
@@ -51,10 +50,12 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
       }
   }
 
-  // Audio utility state refs
+  // Audio analysis data arrays - Re-created if fftSize changes
   const binCount = analyser?.frequencyBinCount || 512;
-  const dataArray = useRef(new Uint8Array(binCount)).current;
-  const dataArrayR = useRef(new Uint8Array(binCount)).current;
+  const dataArray = useMemo(() => new Uint8Array(binCount), [binCount]);
+  const dataArrayR = useMemo(() => new Uint8Array(binCount), [binCount]);
+
+  // Utility state refs
   const targetColorRef = useRef(new Color());
   const beatDetectorRef = useRef(new BeatDetector());
   const noiseFilterRef = useRef(new AdaptiveNoiseFilter());

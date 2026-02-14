@@ -1,8 +1,7 @@
 /**
  * File: components/ui/CustomTextOverlay.tsx
- * Version: 1.9.4
+ * Version: 1.9.5
  * Author: Sut
- * Updated: 2025-07-20 22:10
  */
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
@@ -78,9 +77,7 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
         const scale = sizeVw / 12;
         const depth = Math.max(1, Math.round(6 * scale));
         const shadowSteps = [];
-        for (let i = 1; i <= depth; i++) {
-            shadowSteps.push(`${i}px ${i}px 0px ${extrusionColor}`);
-        }
+        for (let i = 1; i <= depth; i++) { shadowSteps.push(`${i}px ${i}px 0px ${extrusionColor}`); }
         shadowSteps.push(`${depth + 1}px ${depth + 1}px ${Math.round(15 * scale)}px rgba(0,0,0,0.8)`);
         return shadowSteps.join(', ');
     };
@@ -113,9 +110,7 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
       if (settings.customText3D) {
           const sideColor = baseColor.toLowerCase() === '#ffffff' ? '#bbbbbb' : darkenHex(baseColor, 80);
           textRef.current.style.textShadow = calculate3DShadow(sideColor);
-      } else {
-          textRef.current.style.textShadow = 'none';
-      }
+      } else { textRef.current.style.textShadow = 'none'; }
       lastTimeRef.current = 0;
     }
     return () => { if (rafId) cancelAnimationFrame(rafId); lastTimeRef.current = 0; };
@@ -124,12 +119,6 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
 
   if (!settings.showCustomText || !hasContent) return null;
 
-  /**
-   * REFINED POSITIONING LOGIC:
-   * Instead of using coordinate-based offsets (top-12 etc.) on a fixed inset-0 div,
-   * we use Flexbox alignment logic which is far more accurate for center points
-   * and handles content sizing variations automatically.
-   */
   const getPositionClasses = () => {
       const pos = settings.customTextPosition || 'mc';
       const map: Record<string, string> = {
@@ -149,18 +138,16 @@ const CustomTextOverlay: React.FC<CustomTextOverlayProps> = ({ settings, analyse
   const rotation = settings.customTextRotation || 0;
 
   return (
-    <div id="custom-text-overlay" className={`pointer-events-none fixed inset-0 z-[100] flex flex-col p-8 md:p-16 ${getPositionClasses()}`}>
+    <div id="custom-text-overlay" className={`text-layer-anchor ${getPositionClasses()}`}>
       <div 
         ref={textRef} 
-        className={`font-black tracking-widest uppercase select-none flex flex-col origin-center transition-opacity duration-300 max-w-full`}
+        className="text-layer-content"
         style={{ 
             color: settings.customTextCycleColor ? undefined : (settings.customTextColor || '#ffffff'),
             fontSize: `min(${sizeVw}vw, ${sizePx}px)`, 
             fontFamily: settings.customTextFont || 'Inter, sans-serif',
             transform: `rotate(${rotation}deg) ${pulseEnabled ? 'scale(var(--pulse-scale, 1))' : ''}`,
             opacity: pulseEnabled ? 'var(--pulse-opacity, 1)' : settings.customTextOpacity,
-            lineHeight: 1.1,
-            // Sub-text or nested layout shouldn't inherit outer flex align
             textAlign: 'inherit'
         } as React.CSSProperties}
       >
