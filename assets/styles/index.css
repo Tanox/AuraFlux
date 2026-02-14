@@ -1,6 +1,6 @@
 /**
  * File: assets/styles/index.css
- * Version: 2.3.0
+ * Version: 2.4.0
  * Author: Sut
  */
 
@@ -15,6 +15,8 @@
     --accent: #3b82f6;
     --danger: #ef4444;
     --glass-bg: rgba(10, 10, 12, 0.85);
+    --pulse-scale: 1;
+    --pulse-opacity: 1;
   }
 
   html, body, #root {
@@ -39,19 +41,23 @@
 }
 
 @layer components {
-  /* Visualizer Containers */
+  /* High-Performance Canvas Wrappers */
   .visualizer-container {
     @apply absolute inset-0 w-full h-full overflow-hidden transition-transform duration-1000 ease-out;
     background: radial-gradient(circle at center, #0a0a12 0%, #000 100%);
   }
 
-  /* Overlay Components */
+  /* Overlay Refinements */
   .overlay-glass {
-    @apply backdrop-blur-2xl border border-white/5 shadow-2xl;
+    @apply backdrop-blur-3xl border border-white/5 shadow-2xl;
     background-color: var(--glass-bg);
   }
 
-  /* Armed Studio Visualizer */
+  .song-info-card {
+    @apply absolute bg-black/60 backdrop-blur-xl border-s-4 ps-4 py-3 pe-4 rounded-e-xl transition-all duration-700 shadow-2xl border-y border-r border-white/5;
+  }
+
+  /* Studio Visual Feedback */
   .armed-visualizer-container {
     @apply absolute inset-0 flex items-center justify-center pointer-events-none opacity-40;
   }
@@ -60,25 +66,19 @@
     @apply absolute w-1 h-12 bg-blue-500 rounded-full origin-bottom;
     left: 50%;
     top: 50%;
-    transition: transform 0.1s ease-out;
   }
 
-  /* Song Overlay Refinement */
-  .song-info-card {
-    @apply absolute bg-black/60 backdrop-blur-xl border-s-4 ps-4 py-3 pe-4 rounded-e-xl rounded-l-lg md:rounded-l-none md:max-w-lg transition-all duration-700 shadow-2xl border-y border-r border-white/5;
-  }
-
-  /* Custom Text Layer */
+  /* Custom Typography Layer */
   .text-layer-anchor {
     @apply pointer-events-none fixed inset-0 z-[100] flex flex-col p-8 md:p-16;
   }
 
   .text-layer-content {
-    @apply font-black tracking-widest uppercase select-none flex flex-col origin-center transition-opacity duration-300 max-w-full;
+    @apply font-black tracking-widest uppercase select-none flex flex-col origin-center transition-all duration-300 max-w-full;
     line-height: 1.1;
   }
 
-  /* Custom Scrollbars */
+  /* Scrollbar Customization */
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
@@ -89,7 +89,7 @@
     @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
   }
 
-  /* Layout Utilities */
+  /* Masking Utilities */
   .mask-fade-vertical {
     mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
@@ -99,19 +99,18 @@
     mask-image: linear-gradient(to right, black 85%, transparent);
     -webkit-mask-image: linear-gradient(to right, black 85%, transparent);
   }
-
-  /* Global Animations */
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .animate-fade-in-down {
-    animation: fadeInDown 0.5s ease-out forwards;
-  }
 }
 
-/* Three.js Canvas Focus */
+/* Three.js Rendering Overrides */
 canvas:focus {
   outline: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
