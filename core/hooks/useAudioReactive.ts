@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useAudioReactive.ts
- * Version: 1.8.47
+ * Version: 1.9.10
  * Author: Sut
  */
 
@@ -23,7 +23,7 @@ const getSafeColors = (inputColors: string[] | undefined | null) => {
   const base = (inputColors && inputColors.length > 0) ? inputColors : ['#ffffff', '#0000ff', '#ff00ff'];
   const safe = [...base];
   while (safe.length < 3) {
-    safe.push(base[0]);
+    safe.push(base[0] || '#ffffff');
   }
   return safe;
 };
@@ -36,7 +36,7 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
   
   const safeInputColors = useMemo(() => getSafeColors(colors), [colors]);
 
-  const smoothedColorsRef = useRef(safeInputColors.map(c => new Color(c)));
+  const smoothedColorsRef = useRef<Color[]>(safeInputColors.map(c => new Color(c)));
   const targetColorRef = useRef(new Color());
   const beatDetectorRef = useRef(new BeatDetector());
   const noiseFilterRef = useRef(new AdaptiveNoiseFilter());
@@ -54,13 +54,25 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
     const smoothedColors = smoothedColorsRef.current;
     const lerpSpeed = 0.05;
     
-    // Color Interpolation
+    // Color Interpolation & Array Sync
+    // If input colors length changed, adjust smoothedColors array safely
     if (smoothedColors.length !== safeInputColors.length) {
-      smoothedColors.length = safeInputColors.length;
+      if (safeInputColors.length > smoothedColors.length) {
+        // Grow: add new Color objects for missing slots
+        for (let i = smoothedColors.length; i < safeInputColors.length; i++) {
+          smoothedColors.push(new Color(safeInputColors[i]));
+        }
+      } else {
+        // Shrink: truncate the array
+        smoothedColors.length = safeInputColors.length;
+      }
     }
+
     smoothedColors.forEach((color, i) => {
       const targetHex = safeInputColors[i] || safeInputColors[0] || '#ffffff';
-      color.lerp(targetColorRef.current.set(targetHex), lerpSpeed);
+      if (color) {
+        color.lerp(targetColorRef.current.set(targetHex), lerpSpeed);
+      }
     });
 
     // Audio Analysis

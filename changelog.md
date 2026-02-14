@@ -2,6 +2,13 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.10] - 2025-02-14
+
+### 🔧 Stability & Reliability
+*   **Audio Engine**: Resolved critical `Uncaught TypeError` in 3D scenes by fixing array resizing logic in `useAudioReactive`. Newly added slots in the color interpolation array are now properly initialized with `THREE.Color` objects.
+*   **UI Assets**: Fixed SVG syntax error in `BottomBar` that caused browser console warnings about trailing garbage in the `viewBox` attribute.
+*   **Versioning**: Synchronized global versioning to 1.9.10.
+
 ## [v1.9.9] - 2025-02-14
 
 ### 🔧 Stability & Reliability
