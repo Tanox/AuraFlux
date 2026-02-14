@@ -3,15 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
-    
-    <!-- Primary Meta Tags -->
-    <title>Aura Flux | AI Music Visualizer & 3D Audio Reactor</title>
-    <meta name="title" content="Aura Flux | AI Music Visualizer & 3D Audio Reactor">
-    <meta name="description" content="Experience Aura Flux: A next-gen 3D music visualizer powered by Google Gemini AI. Transform microphone input into real-time, audio-reactive WebGL art.">
-    <meta name="keywords" content="music visualizer, audio visualizer, AI music recognition, Google Gemini, WebGL, Three.js, React, generative art">
+    <title>Aura Flux | AI Music Visualizer</title>
+    <meta name="description" content="Next-gen 3D music visualizer powered by Gemini AI.">
     <meta name="theme-color" content="#000000">
 
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-B3R0GXSDY8"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -20,62 +15,38 @@
       gtag('config', 'G-B3R0GXSDY8');
     </script>
 
-    <!-- PWA & Mobile Identity -->
     <link rel="manifest" href="./manifest.json" />
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Aura Flux">
-    
-    <!-- SEO & Identity -->
     <link rel="icon" type="image/svg+xml" href="./assets/images/favicon.svg" />
-    <link rel="apple-touch-icon" href="./assets/images/favicon.svg" />
-
-    <!-- Browser Shim for process.env to prevent runtime crashes -->
-    <script>
-      window.process = { env: { NODE_ENV: 'production', API_KEY: '' } };
-    </script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;700;900&family=Oswald:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@900&display=swap" rel="stylesheet">
     
     <style>
-      html, body, #root {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-      }
-      body {
-        background: #000;
-        color: #fff;
-        font-family: 'Inter', sans-serif;
-      }
+      html, body, #root { height: 100%; width: 100%; margin: 0; padding: 0; overflow: hidden; background: #000; color: #fff; font-family: 'Inter', sans-serif; }
     </style>
     
-    <!-- Stable jsmediatags from CDNJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom": "https://esm.sh/react-dom@^19.2.4/",
+    "react": "https://esm.sh/react@19.0.0",
+    "react/": "https://esm.sh/react@19.0.0/",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "three": "https://esm.sh/three@0.182.0",
+    "three/": "https://esm.sh/three@0.182.0/",
+    "three/addons/": "https://esm.sh/three@0.182.0/examples/jsm/",
+    "@react-three/fiber": "https://esm.sh/@react-three/fiber@9.0.0?deps=react@19.0.0,react-dom@19.0.0,three@0.182.0",
+    "@react-three/drei": "https://esm.sh/@react-three/drei@10.0.0?deps=react@19.0.0,react-dom@19.0.0,three@0.182.0",
+    "@react-three/postprocessing": "https://esm.sh/@react-three/postprocessing@2.16.2?deps=react@19.0.0,react-dom@19.0.0,three@0.182.0",
+    "@google/genai": "https://esm.sh/@google/genai@1.40.0",
     "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4",
-    "@react-three/fiber": "https://esm.sh/@react-three/fiber@^9.5.0",
-    "@react-three/drei": "https://esm.sh/@react-three/drei@^10.7.7",
-    "@react-three/postprocessing": "https://esm.sh/@react-three/postprocessing@^3.0.4",
-    "three": "https://esm.sh/three@^0.182.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "three/": "https://esm.sh/three@^0.182.0/"
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.4"
   }
 }
 </script>
-</head>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>

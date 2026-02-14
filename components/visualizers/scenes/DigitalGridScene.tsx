@@ -1,18 +1,16 @@
 /**
  * File: components/visualizers/scenes/DigitalGridScene.tsx
- * Version: 1.8.28
+ * Version: 1.8.29
  * Author: Sut
  */
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-// @fix: Removed Shader from import as it's not exported from 'three' in some environments. A local type definition for Shader is now used.
 import { InstancedMesh, Object3D, Color, InstancedBufferAttribute, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
 import { VisualizerSettings } from '../../../core/types';
 import { useAudioReactive } from '../../../core/hooks/useAudioReactive';
 
-// @fix: Local type definition for the shader object used in onBeforeCompile to avoid import issues.
 type Shader = {
   uniforms: { [key: string]: any };
   vertexShader: string;
@@ -22,7 +20,6 @@ type Shader = {
 export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null), { size } = useThree();
   
-  // @fix: Destructure features object correctly from useAudioReactive
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
   const [c0, c1, c2] = smoothedColors;
@@ -65,7 +62,6 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   
   const onCompile = useMemo(() => (s: Shader) => {
     Object.assign(s.uniforms, uniforms);
-    // Add explicitly handled newlines to prevent merging with internal defines
     s.vertexShader = `
       attribute vec3 aLayout;
       attribute float aRandom;

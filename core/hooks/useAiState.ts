@@ -1,13 +1,10 @@
-
 /**
  * File: core/hooks/useAiState.ts
- * Version: 1.8.26
- * Author: Aura Flux Team
- * Copyright (c) 2025 Aura Flux. All rights reserved.
- * Updated: 2025-05-20 10:00
+ * Version: 1.8.29
+ * Author: Sut
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { useIdentification } from './useIdentification';
 import { LyricsStyle, Language, Region, VisualizerSettings, AIProvider, SongInfo } from '../types';
@@ -65,6 +62,7 @@ export const useAiState = ({
   });
   
   const [isLocalIdentifying, setIsLocalIdentifying] = useState(false);
+  const lastProcessedSongRef = useRef<string>('');
 
   useEffect(() => {
       const encoded: Record<string, string> = {};
@@ -76,7 +74,7 @@ export const useAiState = ({
       setStorage('api_keys_v1', encoded);
   }, [apiKeys, setStorage]);
 
-  const { isIdentifying, setCurrentSong, performIdentification } = useIdentification({
+  const { isIdentifying, performIdentification } = useIdentification({
     language, region, provider, 
     isEnabled: enableAnalysis, 
     apiKey: apiKeys[provider], 
@@ -102,44 +100,57 @@ export const useAiState = ({
 
     if (isListening && mediaStream && enableAnalysis && !isSimulating && !hasLyrics) {
       performIdentification(mediaStream);
-      interval = window.setInterval(() => performIdentification(mediaStream), 25000);
+      interval = window.setInterval(() => performIdentification(mediaStream), 45000);
     }
     return () => clearInterval(interval);
   }, [isListening, mediaStream, enableAnalysis, performIdentification, isSimulating, currentSong]);
 
   useEffect(() => {
+    // Safety check to prevent recursive calls
+    if (!currentSong || currentSong.matchSource !== 'FILE' || currentSong.lyrics || !enableAnalysis || isIdentifying || isLocalIdentifying) return;
+
+    const songKey = `${currentSong.artist}-${currentSong.title}`;
+    if (lastProcessedSongRef.current === songKey) return;
+
     const triggerFileIdentification = async () => {
-        // Priority: Only trigger cloud analysis if NO lyrics are found locally and analysis is active.
-        if (currentSong && currentSong.matchSource === 'FILE' && !currentSong.lyrics && enableAnalysis && !isIdentifying && !isLocalIdentifying) {
-            const audioBlob = await getAudioSlice(15);
-            if (audioBlob) {
-                setIsLocalIdentifying(true);
-                const reader = new FileReader();
-                reader.readAsDataURL(audioBlob);
-                reader.onloadend = async () => {
-                    const base64Audio = (reader.result as string).split(',')[1];
-                    const apiKey = apiKeys[provider] || process.env.API_KEY;
-                    if (!apiKey) {
-                        setIsLocalIdentifying(false);
-                        return;
-                    }
+        const audioBlob = await getAudioSlice(15);
+        if (audioBlob) {
+            setIsLocalIdentifying(true);
+            lastProcessedSongRef.current = songKey;
+            
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = async () => {
+                const base64Audio = (reader.result as string).split(',')[1];
+                const apiKey = apiKeys[provider] || process.env.API_KEY;
+                if (!apiKey) {
+                    setIsLocalIdentifying(false);
+                    return;
+                }
+                try {
                     const result = await identifySongFromAudio(base64Audio, 'audio/wav', language, region, provider, apiKey);
                     if (result && (result.lyrics || result.identified)) {
                         const finalTitle = result.identified ? result.title : currentSong.title;
                         const finalArtist = result.identified ? result.artist : currentSong.artist;
-                        // @fix: Explicitly type updatedSong as SongInfo to prevent matchSource widening from 'AI' to string
-                        const updatedSong: SongInfo = { ...currentSong, ...result, title: finalTitle, artist: finalArtist, matchSource: 'AI' };
+                        const updatedSong: SongInfo = { 
+                            ...currentSong, 
+                            ...result, 
+                            title: finalTitle, 
+                            artist: finalArtist, 
+                            matchSource: 'AI' 
+                        };
                         onSongIdentified?.(updatedSong);
                     }
+                } catch (e) {
+                    console.error("[AI] Background identification failed", e);
+                } finally {
                     setIsLocalIdentifying(false);
-                };
-            }
+                }
+            };
         }
     };
     triggerFileIdentification();
-    // @fix: Property 'id' does not exist on type 'SongInfo'. Using currentSong?.title for dependency tracking.
-  }, [currentSong?.title, currentSong?.lyrics, enableAnalysis, isIdentifying, isLocalIdentifying, getAudioSlice, onSongIdentified, language, region, provider, apiKeys]);
-
+  }, [currentSong, enableAnalysis, isIdentifying, isLocalIdentifying, getAudioSlice, onSongIdentified, language, region, provider, apiKeys]);
 
   const resetAiSettings = useCallback(() => {
     setShowLyrics(DEFAULT_SHOW_LYRICS);
@@ -159,7 +170,7 @@ export const useAiState = ({
     showLyrics, setShowLyrics,
     enableAnalysis, setEnableAnalysis,
     isIdentifying: isIdentifying || isLocalIdentifying,
-    currentSong, setCurrentSong,
+    currentSong,
     performIdentification,
     resetAiSettings,
     apiKeys, setApiKeys

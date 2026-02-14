@@ -1,11 +1,11 @@
 {
-  "name": "Aura Flux | AI Synesthesia",
+  "name": "Aura Flux | AI Music Visualizer",
   "short_name": "Aura Flux",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
-  "description": "Transform live audio into stunning, real-time generative art powered by Gemini AI.",
+  "description": "Transform live audio into stunning, real-time generative art powered by Gemini 3 AI. High-fidelity WebGL scenes, neural synesthesia HUD, and 4K recording studio.",
   "categories": ["entertainment", "music", "art", "utilities"],
   "icons": [
     {

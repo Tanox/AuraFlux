@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useVideoRecorder.ts
- * Version: 1.8.39
+ * Version: 1.8.40
  * Author: Sut
  */
 
@@ -49,13 +49,11 @@ export const useVideoRecorder = ({ audioContext, analyser, mediaStream, showToas
   const originalCanvasStateRef = useRef<{ width: number; height: number; styleWidth: string; styleHeight: string } | null>(null);
 
   const setupRecordingAudio = useCallback((inputGain: number, fadeDur: number): MediaStream | null => {
-      if (!audioContext || audioContext.state !== 'running') return null;
+      if (!audioContext) return null;
+      if (audioContext.state === 'suspended') {
+          audioContext.resume();
+      }
 
-      /**
-       * CRITICAL FIX: Verify that cached nodes belong to the CURRENT AudioContext.
-       * If useAudio recreated the context (e.g. after a crash or on some browsers), 
-       * we must recreate our gain/destination nodes or connection will fail.
-       */
       if (recGainNodeRef.current && recGainNodeRef.current.context !== audioContext) {
           try { recGainNodeRef.current.disconnect(); } catch(e) {}
           recGainNodeRef.current = null;
@@ -81,13 +79,13 @@ export const useVideoRecorder = ({ audioContext, analyser, mediaStream, showToas
               try { recSourceRef.current.disconnect(); } catch(e) {}
               recSourceRef.current = null;
           }
-          // source node must also be from the current context
           recSourceRef.current = audioContext.createMediaStreamSource(mediaStream);
           recSourceRef.current.connect(recGainNodeRef.current);
       } else if (sourceType === 'FILE' && analyser) {
-          // analyser is already verified to be from the same context in useAudio
-          try { analyser.connect(recGainNodeRef.current); } catch (e) {
-              console.warn("[Recorder] Failed to connect analyser to recorder gain:", e);
+          try { 
+              analyser.connect(recGainNodeRef.current); 
+          } catch (e) {
+              console.warn("[Recorder] Audio link failure:", e);
               return null;
           }
       } else return null;
@@ -102,7 +100,7 @@ export const useVideoRecorder = ({ audioContext, analyser, mediaStream, showToas
           recSourceRef.current = null; 
       }
       if (sourceType === 'FILE' && analyser && recGainNodeRef.current) {
-          try { analyser.disconnect(recGainNodeRef.current); } catch(e) {}
+          try { analyser.disconnect(recGainNodeRef.current); } catch (e) {}
       }
       if (recGainNodeRef.current) {
           try { recGainNodeRef.current.disconnect(); } catch (e) {}

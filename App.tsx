@@ -1,8 +1,8 @@
 /**
  * File: App.tsx
- * Version: 1.9.2
+ * Version: 1.9.3
  * Author: Sut
- * Updated: 2025-07-28 18:35
+ * Updated: 2025-07-29 10:00
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
@@ -26,7 +26,7 @@ const Controls = lazy(() => import('./components/controls/Controls'));
 const MainContent: React.FC = () => {
   const { hasStarted, language, setLanguage, manageWakeLock, showHelpModal, setShowHelpModal, helpModalInitialTab, isDragging, setIsDragging, t } = useUI();
   const { mode, colorTheme, settings, isThreeMode } = useVisuals();
-  const { analyser, analyserR, currentSong, selectedDeviceId, importFiles } = useAudioContext();
+  const { analyser, analyserR, currentSong, importFiles } = useAudioContext();
   const { showLyrics, lyricsStyle, performIdentification } = useAI();
   const [isExpanded, setIsExpanded] = useState(false);
   const [onboarded, setOnboarded] = useState(() => !!localStorage.getItem('av_v1_onboarded'));
@@ -43,10 +43,8 @@ const MainContent: React.FC = () => {
     const root = document.documentElement;
     if (settings.appTheme === 'light') {
         root.classList.remove('dark');
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#ffffff');
     } else {
         root.classList.add('dark');
-        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#000000');
     }
   }, [settings.appTheme]);
 
@@ -69,6 +67,13 @@ const MainContent: React.FC = () => {
     }
   };
 
+  const handleRetryIdentification = () => {
+      const stream = (analyser?.context as any)?.stream || null;
+      if (performIdentification && stream) {
+          performIdentification(stream);
+      }
+  };
+
   if (!hasStarted) return <WelcomeScreen />;
   if (!onboarded) return <OnboardingOverlay language={language} setLanguage={setLanguage} onComplete={() => { setOnboarded(true); localStorage.setItem('av_v1_onboarded', 'true'); }} />;
 
@@ -81,7 +86,6 @@ const MainContent: React.FC = () => {
       onDrop={handleDrop}
       {...gestures}
     >
-      {/* Global Drag Overlay - High Priority */}
       {isDragging && (
           <div id="drag-overlay" className="fixed inset-0 z-[300] bg-blue-600/10 backdrop-blur-md flex items-center justify-center pointer-events-none animate-fade-in-up transition-all duration-300">
               <div className="bg-black/80 backdrop-blur-2xl border-4 border-dashed border-blue-500/40 p-16 rounded-[4rem] flex flex-col items-center gap-8 shadow-[0_0_100px_rgba(37,99,235,0.3)] transform scale-110">
@@ -98,14 +102,12 @@ const MainContent: React.FC = () => {
           </div>
       )}
 
-      {/* Background Layer */}
       {settings.showAiBg && settings.aiBgUrl && (
           <div id="app-background-layer" className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: settings.aiBgOpacity }}>
               <img src={settings.aiBgUrl} className="w-full h-full object-cover" style={{ filter: `blur(${settings.aiBgBlur}px)` }} alt="" />
           </div>
       )}
 
-      {/* Main Visualizer Engine */}
       <div id="visualizer-container" className={`w-full h-full relative z-[1] transition-transform duration-1000 ease-out overflow-hidden ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
         <Suspense fallback={null}>
           {isThreeMode ? (
@@ -116,20 +118,15 @@ const MainContent: React.FC = () => {
         </Suspense>
       </div>
 
-      {/* 
-          AESTHETIC REFINEMENT: Informational overlays are now outside the 
-          isIdle opacity container to ensure they remain part of the performance.
-      */}
       <SongOverlay 
         song={currentSong} isVisible={settings.showSongInfo} language={language} 
-        onRetry={() => { if (performIdentification && (analyser?.context as any)?.stream) performIdentification((analyser?.context as any).stream); performIdentification((analyser?.context as any).stream); }} 
+        onRetry={handleRetryIdentification} 
         onClose={() => {}} analyser={analyser} sensitivity={settings.sensitivity}
-        showAlbumArt={settings.showAlbumArtOverlay} isIdle={false} /* Force visible in performance */
+        showAlbumArt={settings.showAlbumArtOverlay} isIdle={false}
       />
       <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
       <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
 
-      {/* Interactive Controls Layer - Hides on Idle */}
       <div id="controls-layer" className={`transition-opacity duration-700 ${isIdle && !isExpanded ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
         <Suspense fallback={null}>
           <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} />
@@ -137,7 +134,6 @@ const MainContent: React.FC = () => {
         {settings.showFps && <FPSCounter />}
       </div>
       
-      {/* Persistent Version Watermark - Explicitly moved outside auto-hide wrapper to stay persistent */}
       <div id="version-watermark" className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white drop-shadow-md">
         Aura Flux v{APP_VERSION}
       </div>

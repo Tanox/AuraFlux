@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useAudio.ts
- * Version: 2.1.2
+ * Version: 2.1.3
  * Author: Sut
  */
 
@@ -232,7 +232,6 @@ export const useAudio = ({ settings, setCurrentSong, t, showToast }: UseAudioPro
     } catch (e: any) {
         if (pendingTrackIdRef.current === currentId) {
             console.error("[Audio] Playback Error:", e);
-            // Provide more descriptive error for decoding issues
             const errorMessage = e.message?.includes('decode') 
                 ? (t?.errors?.trackLoad || "Unable to decode audio data.") 
                 : (e.message || "Failed to load track.");

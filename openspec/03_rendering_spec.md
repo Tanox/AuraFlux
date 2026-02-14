@@ -1,6 +1,6 @@
 # OpenSpec: 视觉生成渲染规范 (03)
 
-## 1. 渲染性能分级 (v1.8.99)
+## 1. 渲染性能分级 (v1.9.2)
 - **Low (Eco):**
   - 降低 `dpr` 至 0.8。
   - 3D 模式禁用 Bloom 与 Post-processing。
@@ -22,5 +22,5 @@
 - **Glow (辉光):** 使用 `shadowBlur` 配合 API 模拟，仅在非高性能消耗模式下开启。
 
 ---
-*Aura Flux Rendering Specification - Version 1.8.99*
+*Aura Flux Rendering Specification - Version 1.9.2*
 *Author: Sut*

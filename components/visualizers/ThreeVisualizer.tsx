@@ -1,6 +1,6 @@
 /**
  * File: components/visualizers/ThreeVisualizer.tsx
- * Version: 1.8.66
+ * Version: 1.9.2
  * Author: Sut
  */
 

@@ -1,6 +1,6 @@
 /**
  * File: components/controls/Controls.tsx
- * Version: 1.9.5
+ * Version: 1.9.2
  * Author: Sut
  * Updated: 2025-07-20 21:10
  */

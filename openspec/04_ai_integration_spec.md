@@ -1,6 +1,6 @@
 # OpenSpec: AI 智能与语义规范 (04)
 
-## 1. 模型选择 (v1.8.99)
+## 1. 模型选择 (v1.9.2)
 - **主语言模型:** `gemini-3-flash-preview`。用于歌词检索、情绪分析与视觉导演建议。
 - **视觉模型:** `gemini-2.5-flash-image`。用于根据当前歌曲氛围生成艺术背景。
 
@@ -18,5 +18,5 @@
 - **同步显示:** 采用 LRC 时间戳解析算法，结合 `currentTime` 实现毫秒级滚动。
 
 ---
-*Aura Flux AI Integration Specification - Version 1.8.99*
+*Aura Flux AI Integration Specification - Version 1.9.2*
 *Author: Sut*

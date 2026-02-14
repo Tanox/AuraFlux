@@ -1,6 +1,6 @@
 # OpenSpec: 持久化与国际化规范 (06)
 
-## 1. 数据存储层 (v1.8.99)
+## 1. 数据存储层 (v1.9.2)
 - **LocalStorage:** 存储轻量级配置（如 `settings.json`, `activeMode`）。
   - 前缀标识: `av_v1_`。
 - **IndexedDB:** 存储媒体库音频文件，避免重复上传占用内存。
@@ -17,5 +17,5 @@
 - **Export/Import:** 支持导出 `.json` 格式的配置快照，版本号必须匹配以保证向前兼容。
 
 ---
-*Aura Flux Storage & i18n Specification - Version 1.8.99*
+*Aura Flux Storage & i18n Specification - Version 1.9.2*
 *Author: Sut*

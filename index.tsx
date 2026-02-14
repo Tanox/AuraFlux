@@ -11,7 +11,7 @@ import './assets/styles/index.css';
 
 // --- Service Worker Registration ---
 const env = (import.meta as any).env;
-if ('serviceWorker' in navigator && env && env.MODE === 'production') {
+if ('serviceWorker' in navigator && env?.MODE === 'production') {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').then(
       (registration) => console.log('SW Registered: ', registration.scope),

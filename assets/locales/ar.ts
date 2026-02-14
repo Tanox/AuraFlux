@@ -1,3 +1,7 @@
+/**
+ * File: assets/locales/ar.ts
+ * Version: 1.9.3
+ */
 
 export const ar = {
   common: {
@@ -6,11 +10,11 @@ export const ar = {
     dropFiles: 'أفلت الملفات الصوتية هنا',
     unknownTrack: 'مقطع غير معروف',
     unknownArtist: 'فنان غير معروف',
-    beta: 'بيتا',
+    beta: 'STABLE',
     queue: 'قائمة الانتظار',
     empty: 'فارغ',
     simple: 'بسيط',
-    advanced: 'متقدم',
+    advanced: 'محترف',
     themeDark: 'وضع داكن',
     themeLight: 'وضع فاتح',
     active: 'نشط',
@@ -18,7 +22,7 @@ export const ar = {
   },
   share: {
     title: "إبداعي في Aura Flux",
-    message: "🎵 تمثيل مرئي لأغنية '{song}' للفنان {artist} باستخدام #AuraFlux.\n\n✨ جرب فن الحس المرافق المدعوم بالذكاء الاصطناعي:",
+    message: "🎵 تمثيل مرئي لأغنية '{song}' للفنان {artist} باستخدام #AuraFlux.\n\n✨ جرب فن الحس المرافق بالذكاء الاصطناعي:",
     hashtags: "#MusicVisualizer #GenerativeArt #GeminiAI #AuraFlux",
     copied: "تم نسخ الرابط والنص إلى الحافظة!",
     unsupported: "المشاركة غير مدعومة على هذا الجهاز",
@@ -35,15 +39,14 @@ export const ar = {
     repeatAll: 'تكرار الكل',
     shuffle: 'عشوائي',
     mode: 'وضع التشغيل',
-    add: 'إضافة',
-    // @fix: Add missing translations for playlist URL parsing
+    add: 'إضافة ملف',
     addUrl: 'رابط AI',
-    urlPlaceholder: 'صق رابط الموسيقى (Netease/Spotify/YT)...',
+    urlPlaceholder: 'صق رابط الموسيقى (Spotify/YT/Apple)...',
     import: 'تحليل',
-    importing: 'AI تحليل قائمة التشغيل...',
+    importing: 'جاري تحليل القائمة...',
     nowPlaying: 'يتم التشغيل الآن',
     playlistTitle: 'قائمة التشغيل',
-    supportInfo: 'وسوم ID3 وصور غلاف',
+    supportInfo: 'يدعم روابط Spotify و YouTube و SoundCloud',
     bg: 'خلفية الغلاف',
     blur: 'تضبيب',
     cover: 'غلاف مصغر',
@@ -54,7 +57,7 @@ export const ar = {
     visual: 'المرئيات',
     input: 'المدخل',
     playback: 'المكتبة',
-    text: 'النص',
+    text: 'الطبقات',
     studio: 'الاستوديو',
     system: 'النظام'
   },
@@ -65,11 +68,11 @@ export const ar = {
     SILK_WAVE: 'موجة حرير',
     OCEAN_WAVE: 'محيط ستيريو',
     PARTICLES: 'حقل نجوم',
-    TUNNEL: 'نفق',
+    TUNNEL: 'تؤفق',
     RINGS: 'رنين',
     LASERS: 'ليزر',
     FLUID_CURVES: 'شفق',
-    WAVEFORM: 'موجة',
+    WAVEFORM: 'موجة طيفية',
     NEBULA: 'سديم',
     NEURAL_FLOW: 'تدفق عصبي',
     CUBE_FIELD: 'حقل كمي',
@@ -96,14 +99,14 @@ export const ar = {
     KINETIC_WALL: 'جدار مسرح LED حركي.',
     RESONANCE_ORB: 'نواة نابضة متحولة.',
     RIPPLES: 'دوائر منومة متوسعة.',
-    SPIRAL: 'لوالب لوغاريتمية مزدوجة تتفاعل مع شدة التردد.'
+    SPIRAL: 'لوالب لوغاريتمية مزدوجة تتفاعل مع التردد.'
   },
   presets: {
     title: 'الضبط البصري',
-    hint: 'تطبيق أنماط جمالية.',
+    hint: 'تطبيق أنماط جمالية جاهزة.',
     select: 'اختر الجو...',
-    custom: 'مخصص',
-    all_modes: 'كل الأوضاع',
+    custom: 'وضع مخصص',
+    all_modes: 'تدوير المحركات',
     calm: 'محيط هادئ',
     party: 'حفلة حركية',
     ambient: 'تدفق الحرير',
@@ -117,11 +120,11 @@ export const ar = {
     videoConfig: 'تكوين التسجيل',
     audioMix: 'محرك المزج',
     previewTitle: 'المعاينة',
-    save: 'حفظ',
+    save: 'حفظ فيديو',
     share: 'مشاركة',
     discard: 'تجاهل',
     recording: 'جاري التسجيل...',
-    processing: 'جاري المعالجة...',
+    processing: 'جاري التصدير...',
     arming: 'استماع...',
     cancel: 'إلغاء',
     start: 'بدء',
@@ -140,15 +143,15 @@ export const ar = {
       countdown: 'عد تنازلي'
     },
     formats: {
-      vp9: 'WebM (VP9)',
-      vp8: 'WebM (VP8)',
-      mp4_h264: 'MP4 (H.264)',
+      vp9: 'WebM (VP9) - Ultra',
+      vp8: 'WebM (VP8) - Std',
+      mp4_h264: 'MP4 (H.264) - Web',
       mp4_generic: 'MP4 (عام)'
     },
     hints: {
       recGain: 'حجم صوت التسجيل',
-      fade: 'تلاشي تلقائي',
-      syncStart: 'بدء عند الصوت',
+      fade: 'تلاشي تلقائي عند الإيقاف',
+      syncStart: 'بدء عند اكتشاف الصوت',
       countdown: 'عد 3 ثواني'
     }
   },
@@ -156,19 +159,19 @@ export const ar = {
     audioInput: 'التقاط الإشارة',
     mic: 'الميكروفون',
     defaultMic: 'الافتراضي',
-    fileActive: 'البث',
+    fileActive: 'بث نشط',
     switchToMic: 'الميكروفون',
     start: 'بدء',
     stop: 'إيقاف',
     analysisAi: 'ذكاء AI',
     enableAi: 'تحليل الحس المرافق',
-    smartActions: 'إجراءات ذكية',
+    smartActions: 'تحكم ذكي',
     aiDirector: 'مخرج AI',
-    analyze: 'مرئيات',
+    analyze: 'توليد مرئيات',
     analyzing: 'جاري التحليل...',
     apiKey: 'مفتاح API',
     apiKeyPlaceholder: 'مفتاح Gemini...',
-    generate: 'توليد',
+    generate: 'توليد ذكي',
     keySaved: 'تم الحفظ',
     keyInvalid: 'مفتاح غير صالح',
     keyCleared: 'تم المسح',
@@ -180,9 +183,9 @@ export const ar = {
   visualPanel: {
     display: 'إعدادات العرض',
     aiBg: 'خلفية AI',
-    generateBg: 'توليد',
-    regenerate: 'إعادة',
-    showBg: 'تمكين',
+    generateBg: 'توليد AI',
+    regenerate: 'إعادة خلق',
+    showBg: 'تمكين الطبقة',
     opacity: 'الشفافية',
     bgGenerated: 'تم التوليد'
   },
@@ -195,17 +198,17 @@ export const ar = {
     behavior: 'السلوك',
     lightMode: 'فاتحة',
     darkMode: 'داكنة',
-    uiMode: 'الوضع',
+    uiMode: 'وضع UI',
     interaction: 'تفاعل',
     performance: 'الأداء',
     localization: 'اللغة',
     factoryReset: 'ضبط المصنع',
-    installApp: 'تثبيت تطبيق Aura Flux'
+    installApp: 'تثبيت التطبيق'
   },
   config: {
-    title: 'البيانات',
-    export: 'تصدير',
-    import: 'استيراد',
+    title: 'البيانات واللقطات',
+    export: 'تصدير (JSON)',
+    import: 'استيراد (JSON)',
     library: 'اللقطات',
     save: 'تثبيت',
     delete: 'حذف',
@@ -222,13 +225,13 @@ export const ar = {
   hints: {
     randomize: 'عشوائية [R]',
     fullscreen: 'ملء الشاشة [F]',
-    help: 'مساعدة',
-    toggleMic: 'تبديل',
+    help: 'مساعدة [?]',
+    toggleMic: 'تبديل [Space]',
     speed: 'السرعة',
-    glow: 'التوهج [G]',
-    trails: 'الذيول [T]',
-    autoRotate: 'تبديل آلي',
-    cycleColors: 'تدوير ألوان',
+    glow: 'توهج [G]',
+    trails: 'ذيول [T]',
+    autoRotate: 'تبديل آلي للمحركات',
+    cycleColors: 'تدوير ألوان تلقائي',
     excludeFromAutoRotate: 'استبعاد',
     includeInAutoRotate: 'تضمين',
     resetVisual: 'إعادة ضبط',
@@ -240,20 +243,20 @@ export const ar = {
     importConfig: 'استيراد JSON',
     loadPreset: 'تحميل لقطة',
     uiModeSimple: 'بسيط',
-    uiModeAdvanced: 'احترافي',
+    uiModeAdvanced: 'محترف',
     albumArtBackground: 'الغلاف كخلفية',
     overlayCover: 'غلاف مصغر',
-    enterLocalFont: 'Arial, Helvetica'
+    enterLocalFont: 'مثل Arial, Helvetica'
   },
   onboarding: {
     welcome: 'Welcome to Aura Flux',
     subtitle: 'صوت الضوء',
     selectLanguage: 'اختر لغتك',
     features: {
-      title: 'الميزات',
-      visuals: { title: 'فن توليدي', desc: 'محركات WebGL.' },
+      title: 'الميزات الرئيسية',
+      visuals: { title: 'فن توليدي', desc: 'محركات WebGL 3D.' },
       ai: { title: 'حس مرافق', desc: 'بواسطة Gemini 3.0.' },
-      privacy: { title: 'خصوصية', desc: 'معالجة محلية.' }
+      privacy: { title: 'خصوصية', desc: 'معالجة محلية بالكامل.' }
     },
     shortcuts: {
       title: 'تحكم VJ',
@@ -291,7 +294,7 @@ export const ar = {
     shortcutItems: {
       toggleMic: 'ميك / تشغيل',
       fullscreen: 'ملء شاشة',
-      lyrics: 'طبقة AI',
+      lyrics: 'طبقة معلومات AI',
       hideUi: 'تبديل HUD',
       randomize: 'عشوائي',
       speed: 'السرعة',
@@ -440,13 +443,14 @@ export const ar = {
       react: 'نواة React 19',
       webgl: 'عرض WebGL',
       audio: 'صوت Web API',
-      canvas: 'Canvas',
+      canvas: '离屏渲染',
       edge: 'حافة'
     }
   },
   fonts: {
     default: 'Inter',
     system: 'نظام',
+    suffix: 'عربي',
     mono: 'Mono',
     modern: 'Modern',
     elegant: 'Elegant',

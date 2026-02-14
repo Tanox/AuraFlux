@@ -10,67 +10,74 @@ import { STORAGE_PREFIX } from '../../core/constants';
 // Minimal static localization for critical errors
 const DICT: any = {
   en: {
-    title: "System Error",
-    desc: "The visual engine encountered an unexpected state.",
-    reload: "Reload Application",
-    reset: "Factory Reset Settings",
-    confirm: "This will clear all Aura Flux settings and custom text. Continue?"
+    title: "System Interruption",
+    desc: "The visual logic engine encountered an unhandled state exception.",
+    reload: "Re-Initiate Application",
+    reset: "Hard Factory Reset",
+    confirm: "CRITICAL: This will flush all Aura Flux settings and presets. Proceed?"
   },
   zh: {
-    title: "系统错误",
-    desc: "视觉引擎遇到了意外状态。",
-    reload: "重新加载应用",
-    reset: "恢复出厂设置",
-    confirm: "这将清除所有 Aura Flux 设置和自定义文本。继续吗？"
+    title: "系统逻辑中断",
+    desc: "视觉引擎遇到了未处理的状态异常。",
+    reload: "重新启动应用",
+    reset: "强制恢复出厂设置",
+    confirm: "警告：这将清除所有 Aura Flux 预设与配置。确定继续吗？"
+  },
+  tw: {
+    title: "系統邏輯中斷",
+    desc: "視覺引擎遇到了未處理的狀態異常。",
+    reload: "重新啟動應用",
+    reset: "強制恢復出廠設置",
+    confirm: "警告：這將清除所有 Aura Flux 預設與配置。確定繼續嗎？"
   },
   ja: {
-    title: "システムエラー",
-    desc: "ビジュアルエンジンに予期しないエラーが発生しました。",
-    reload: "アプリを再読み込み",
-    reset: "設定を初期化",
-    confirm: "すべての設定がクリアされます。よろしいですか？"
+    title: "システム・エラー",
+    desc: "ビジュアル・ロジック・エンジンで未処理の例外が発生しました。",
+    reload: "アプリを再起動",
+    reset: "工場出荷時リセット",
+    confirm: "警告: すべての Aura Flux 設定とプリセットが削除されます。続行しますか？"
   },
   es: {
-    title: "Error del Sistema",
-    desc: "El motor visual encontró un estado inesperado.",
-    reload: "Recargar Aplicación",
-    reset: "Restablecer Ajustes",
-    confirm: "¿Esto borrará todos los ajustes. Continuar?"
+    title: "Interrupción del Sistema",
+    desc: "El motor de lógica visual encontró una excepción de estado no manejada.",
+    reload: "Reiniciar Aplicación",
+    reset: "Reseteo de Fábrica",
+    confirm: "CRÍTICO: Esto borrará todos los ajustes y presets de Aura Flux. ¿Continuar?"
   },
   ko: {
-    title: "시스템 오류",
-    desc: "비주얼 엔진에 예기치 않은 오류가 발생했습니다.",
-    reload: "앱 다시 로드",
-    reset: "설정 초기화",
-    confirm: "모든 설정이 초기화됩니다. 계속하시겠습니까?"
+    title: "시스템 논리 중단",
+    desc: "비주얼 엔진이 처리되지 않은 상태 예외를 발견했습니다.",
+    reload: "애플리케이션 재시작",
+    reset: "공장 초기화",
+    confirm: "경고: 모든 Aura Flux 설정과 프리셋이 삭제됩니다. 계속하시겠습니까?"
   },
   de: {
-    title: "Systemfehler",
-    desc: "Ein unerwarteter Fehler ist aufgetreten.",
-    reload: "App neu laden",
-    reset: "Einstellungen zurücksetzen",
-    confirm: "Dies löscht alle Einstellungen. Fortfahren?"
+    title: "System-Unterbrechung",
+    desc: "Die visuelle Logik-Engine hat eine unbehandelte Ausnahme gefunden.",
+    reload: "Anwendung neu starten",
+    reset: "Werksreset durchführen",
+    confirm: "KRITISCH: Dies wird alle Aura Flux Einstellungen und Presets löschen. Fortfahren?"
   },
   fr: {
-    title: "Erreur Système",
-    desc: "Le moteur visuel a rencontré une erreur inattendue.",
-    reload: "Recharger l'application",
-    reset: "Réinitialiser les paramètres",
-    confirm: "Cela effacera tous les paramètres. Continuer ?"
+    title: "Interruption Système",
+    desc: "Le moteur visuel a rencontré une exception d'état non gérée.",
+    reload: "Redémarrer l'Application",
+    reset: "Réinitialisation Totale",
+    confirm: "CRITIQUE : Cela effacera tous les réglages et préréglages Aura Flux. Continuer ?"
   },
   ru: {
-    title: "Системная ошибка",
-    desc: "В визуальном движке произошла ошибка.",
-    reload: "Перезагрузить",
-    reset: "Сброс настроек",
-    confirm: "Это удалит все настройки. Продолжить?"
+    title: "Системный сбой",
+    desc: "Визуальный движок обнаружил необработанное исключение состояния.",
+    reload: "Перезагрузить приложение",
+    reset: "Сброс к заводским настройкам",
+    confirm: "КРИТИЧЕСКИ: Это удалит все настройки и пресеты Aura Flux. Продолжить?"
   },
   ar: {
-    title: "خطأ في النظام",
-    desc: "واجه المحرك المرئي حالة غير متوقعة.",
-    reload: "إعادة تحميل التطبيق",
-    reset: "إعادة تعيين الإعدادات",
-    confirm: "سيؤدي هذا إلى مسح جميع الإعدادات. هل تريد المتابعة؟"
+    title: "انقطاع النظام",
+    desc: "واجه محرك المنطق المرئي استثناءً غير معالج.",
+    reload: "إعادة تشغيل التطبيق",
+    reset: "إعادة تعيين المصنع",
+    confirm: "هام: سيؤدي هذا إلى مسح جميع إعدادات Aura Flux. هل تريد الاستمرار؟"
   }
 };
 
@@ -93,32 +100,17 @@ interface State {
  * ErrorBoundary component to catch rendering errors in the visualizer.
  */
 export class ErrorBoundary extends Component<Props, State> {
-  // @fix: Explicitly declare props to satisfy compiler property existence checks in this environment.
   public declare props: Props;
+  public state: State = { hasError: false, error: null };
 
-  // @fix: Explicitly initialize state as a class field to satisfy compiler property existence checks and satisfy TS component requirements.
-  public state: State = {
-    hasError: false,
-    error: null
-  };
-
-  /**
-   * Handles state update when an error occurs.
-   */
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
 
-  /**
-   * Logs error information.
-   */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo);
+    console.error('Aura Flux Uncaught Error:', error, errorInfo);
   }
 
-  /**
-   * Resets application state by clearing local storage.
-   */
   private handleFactoryReset = () => {
     const t = getLoc();
     if (window.confirm(t.confirm)) {
@@ -130,7 +122,6 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    // @fix: Access state via 'this' safely as ErrorBoundary now correctly extends React.Component.
     const { hasError, error } = this.state;
     const t = getLoc();
     
@@ -163,7 +154,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </button>
               <button 
                 onClick={this.handleFactoryReset} 
-                className="w-full py-3 bg-red-500/10 text-red-400 font-bold rounded-xl hover:bg-red-500/20 transition-colors uppercase tracking-widest text-[10px]"
+                className="w-full py-3 bg-red-500/5 text-red-400/60 font-bold rounded-xl hover:bg-red-500/10 transition-all uppercase tracking-widest text-[9px] border border-red-500/10"
               >
                 {t.reset}
               </button>
@@ -173,7 +164,6 @@ export class ErrorBoundary extends Component<Props, State> {
       );
     }
     
-    // @fix: Access children from inherited props (now explicitly declared) to ensure compatibility with standard React component patterns.
     return this.props.children || null;
   }
 }

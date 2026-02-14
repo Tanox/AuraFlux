@@ -1,6 +1,6 @@
 # OpenSpec: UI/UX 与交互规范 (05)
 
-## 1. 核心交互标准 (v1.8.99)
+## 1. 核心交互标准 (v1.9.2)
 - **Bento 布局:** 设置面板采用非对称网格（Bento Grid），优先展示核心控制。
 - **开关布局:** 严格遵循“左开关、右文本”模式，标签文本左对齐，增强扫视效率。
 - **批量模式选择:** 针对多选配置，提供“全选/反选”逻辑。
@@ -21,5 +21,5 @@
 - **HUD 行为:** 3秒无交互后自动隐藏，保持沉浸感。
 
 ---
-*Aura Flux Interface Specification - Version 1.8.99*
+*Aura Flux Interface Specification - Version 1.9.2*
 *Author: Sut*

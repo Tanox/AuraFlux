@@ -1,9 +1,7 @@
-
 /**
  * File: core/services/aiService.ts
- * Version: 2.4.0
+ * Version: 2.5.0
  * Author: Sut
- * Updated: 2025-07-27 10:00
  */
 
 import { GoogleGenAI, Type } from "@google/genai";
@@ -16,11 +14,11 @@ export const validateApiKey = async (provider: AIProvider, apiKey: string): Prom
     if (provider !== 'GEMINI') return true; 
     if (!apiKey || !apiKey.startsWith('AIza')) return false;
     try {
-        const aiInstance = new GoogleGenAI({ apiKey });
-        const response = await aiInstance.models.generateContent({
+        const ai = new GoogleGenAI({ apiKey });
+        const response = await ai.models.generateContent({
             model: GEMINI_MODEL,
-            contents: "hi",
-            config: { maxOutputTokens: 5, thinkingConfig: { thinkingBudget: 0 } }
+            contents: { parts: [{ text: "ping" }] },
+            config: { maxOutputTokens: 10, thinkingConfig: { thinkingBudget: 0 } }
         });
         return !!response.text;
     } catch (e) { return false; }
@@ -29,7 +27,8 @@ export const validateApiKey = async (provider: AIProvider, apiKey: string): Prom
 export const identifySongFromAudio = async (base64Audio: string, mimeType: string, language: Language = 'en', region: Region = 'global', provider: AIProvider = 'GEMINI', apiKey?: string): Promise<SongInfo | null> => {
     const key = apiKey || process.env.API_KEY;
     if (!key) return null;
-    const aiInstance = new GoogleGenAI({ apiKey: key });
+    const ai = new GoogleGenAI({ apiKey: key });
+    
     const SONG_SCHEMA = {
         type: Type.OBJECT,
         properties: {
@@ -42,44 +41,74 @@ export const identifySongFromAudio = async (base64Audio: string, mimeType: strin
         },
         required: ['title', 'artist', 'mood', 'identified']
     };
+
     try {
-        const response = await aiInstance.models.generateContent({
+        const response = await ai.models.generateContent({
             model: GEMINI_MODEL,
-            contents: [{ parts: [{ inlineData: { mimeType, data: base64Audio } }, { text: "Identify song." }] }],
-            config: { responseMimeType: "application/json", responseSchema: SONG_SCHEMA }
+            contents: { 
+                parts: [
+                    { inlineData: { mimeType, data: base64Audio } }, 
+                    { text: `Identify this music track. Response Language: ${language}, Logic Region: ${region}. Provide mood and artist details.` }
+                ] 
+            },
+            config: { 
+                responseMimeType: "application/json", 
+                responseSchema: SONG_SCHEMA
+            }
         });
         const result = JSON.parse(response.text || "{}");
-        return result ? { ...result, matchSource: provider } : null;
+        return { ...result, matchSource: provider };
+    } catch (e) { 
+        console.error("[AI] Identification failed:", e);
+        return null; 
+    }
+};
+
+export const generateVisualConfigFromAudio = async (base64Audio: string, apiKey: string, language: Language = 'en'): Promise<any> => {
+    const key = apiKey || process.env.API_KEY;
+    if (!key) return null;
+    const ai = new GoogleGenAI({ apiKey: key });
+    
+    const CONFIG_SCHEMA = {
+        type: Type.OBJECT,
+        properties: {
+            mode: { type: Type.STRING, description: "Enum: PLASMA, BARS, DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, PARTICLES, TUNNEL, RINGS, LASERS, FLUID_CURVES, WAVEFORM, NEBULA, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, RESONANCE_ORB" },
+            colors: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Array of 3 hex codes" },
+            speed: { type: Type.NUMBER },
+            sensitivity: { type: Type.NUMBER },
+            explanation: { type: Type.STRING }
+        },
+        required: ['mode', 'colors', 'speed', 'sensitivity', 'explanation']
+    };
+
+    try {
+        const response = await ai.models.generateContent({
+            model: GEMINI_MODEL,
+            contents: { 
+                parts: [
+                    { inlineData: { mimeType: 'audio/wav', data: base64Audio } }, 
+                    { text: "Analyze this audio segment and forge an aesthetic visual configuration." }
+                ] 
+            },
+            config: { responseMimeType: "application/json", responseSchema: CONFIG_SCHEMA }
+        });
+        return JSON.parse(response.text || "{}");
     } catch (e) { return null; }
 };
 
 export const generateArtisticBackground = async (moodKeywords: string, apiKey: string): Promise<string | null> => {
     const key = apiKey || process.env.API_KEY;
     if (!key) return null;
-    const aiInstance = new GoogleGenAI({ apiKey: key });
+    const ai = new GoogleGenAI({ apiKey: key });
     try {
-        const response = await aiInstance.models.generateContent({
+        const response = await ai.models.generateContent({
             model: IMAGEN_MODEL,
-            contents: { parts: [{ text: `Digital art background for mood: ${moodKeywords}. Cinematic.` }] },
+            contents: { parts: [{ text: `High fidelity digital art for music background. Style: atmospheric, cinematic, 8k. Subject: ${moodKeywords}. Abstract lighting.` }] },
             config: { imageConfig: { aspectRatio: "16:9" } }
         });
         for (const part of response.candidates[0].content.parts) {
             if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
         }
         return null;
-    } catch (e) { return null; }
-};
-
-export const generateVisualConfigFromAudio = async (base64Audio: string, apiKey: string, language: Language = 'en'): Promise<any> => {
-    const key = apiKey || process.env.API_KEY;
-    if (!key) return null;
-    const aiInstance = new GoogleGenAI({ apiKey: key });
-    try {
-        const response = await aiInstance.models.generateContent({
-            model: GEMINI_MODEL,
-            contents: [{ parts: [{ inlineData: { mimeType: 'audio/wav', data: base64Audio } }, { text: "Generate visual config JSON." }] }],
-            config: { responseMimeType: "application/json" }
-        });
-        return JSON.parse(response.text || "{}");
     } catch (e) { return null; }
 };
