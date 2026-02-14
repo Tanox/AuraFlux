@@ -1,6 +1,6 @@
-/*
+/**
  * File: assets/styles/index.css
- * Version: 2.1.0
+ * Version: 2.2.0
  * Author: Sut
  */
 
@@ -9,45 +9,89 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-white text-black dark:bg-black dark:text-white antialiased overflow-hidden transition-colors duration-500;
-    font-family: 'Inter', sans-serif;
+  :root {
+    --app-bg: #000000;
+    --app-fg: #ffffff;
+    --accent: #3b82f6;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--app-bg);
+    color: var(--app-fg);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Support for notched devices */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
 @layer components {
+  /* High-performance canvas containers */
+  .visualizer-container {
+    @apply absolute inset-0 w-full h-full overflow-hidden transition-transform duration-1000 ease-out;
+    background: radial-gradient(circle at center, #0a0a12 0%, #000 100%);
+  }
+
+  .visualizer-canvas {
+    @apply block w-full h-full pointer-events-none;
+    image-rendering: auto;
+  }
+
+  /* Bento Grid Layout System */
+  .bento-grid {
+    @apply grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch;
+  }
+
+  /* Glassmorphism effects */
+  .glass-blur {
+    @apply backdrop-blur-2xl bg-white/10 dark:bg-black/40 border border-white/10 shadow-2xl;
+  }
+
   .mask-fade-vertical {
     mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
   }
 
+  .mask-fade-right {
+    mask-image: linear-gradient(to right, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent);
+  }
+
+  /* Animations */
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-down {
+    animation: fadeInDown 0.5s ease-out forwards;
+  }
+
+  /* Custom Scrollbars */
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-black/5 dark:bg-white/5 rounded-full;
+    @apply bg-transparent;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-black/20 dark:bg-white/20 rounded-full hover:bg-blue-500/50 transition-colors;
-  }
-
-  /* 脉冲动画 */
-  .animate-pulse-slow {
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(0.98); }
+    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
   }
 }
 
-/* 玻璃拟态卡片 */
-.glass-panel {
-  @apply bg-white/40 dark:bg-black/40 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-2xl;
-}
-
-/* 渐变文本修正 */
-.text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r;
+/* Three.js Canvas Overrides */
+canvas:focus {
+  outline: none;
 }
