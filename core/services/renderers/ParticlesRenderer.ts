@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/ParticlesRenderer.ts
- * Version: 1.8.25
+ * Version: 1.9.5
  * Author: Sut
  * Copyright (c) 2025 Aura Flux. All rights reserved.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 export class ParticlesRenderer implements IVisualizerRenderer {
@@ -26,7 +26,6 @@ export class ParticlesRenderer implements IVisualizerRenderer {
     if (colors.length === 0 || data.length === 0) return;
     
     const len = data.length;
-    // Normalize sampling indices based on buffer length
     const bassRaw = getAverage(data, 0, Math.floor(len * 0.05)) / 255;
     const midsRaw = getAverage(data, Math.floor(len * 0.08), Math.floor(len * 0.25)) / 255;
     const trebleRaw = getAverage(data, Math.floor(len * 0.4), Math.floor(len * 0.7)) / 255;

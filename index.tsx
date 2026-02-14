@@ -1,6 +1,6 @@
 /**
  * File: index.tsx
- * Version: 1.9.2
+ * Version: 1.9.6
  * Author: Sut
  */
 import React from 'react';

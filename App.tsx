@@ -1,14 +1,14 @@
 /**
  * File: App.tsx
- * Version: 1.9.3
+ * Version: 1.9.6
  * Author: Sut
- * Updated: 2025-07-29 10:00
+ * Updated: 2025-07-29 12:00
  */
 
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './components/AppContext';
 import { WelcomeScreen } from './components/ui/WelcomeScreen';
-import { OnboardingOverlay } from './components/ui/OnboardingOverlay';
+import { OnboardingOverlay } from './components/ui/onboarding/OnboardingOverlay';
 import { UnsupportedScreen } from './components/ui/UnsupportedScreen';
 import { HelpModal } from './components/ui/HelpModal';
 import SongOverlay from './components/ui/SongOverlay';

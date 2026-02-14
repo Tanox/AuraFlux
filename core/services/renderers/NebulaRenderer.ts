@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/NebulaRenderer.ts
- * Version: 1.8.25
+ * Version: 1.9.5
  * Author: Sut
  * Copyright (c) 2025 Aura Flux. All rights reserved.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 const MAX_CLUSTERS = 3; 
@@ -148,7 +148,6 @@ export class NebulaRenderer implements IVisualizerRenderer {
     
     if (this.clusters.length === 0) this.initClusters(w, h);
 
-    // Standardized spectral sampling
     const bass = Math.pow(getAverage(data, 0, Math.floor(len * 0.06)) / 255, 1.5) * settings.sensitivity; 
     const treble = Math.pow(getAverage(data, Math.floor(len * 0.5), Math.floor(len * 0.9)) / 255, 1.5) * settings.sensitivity;
 

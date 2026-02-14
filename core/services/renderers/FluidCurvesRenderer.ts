@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/FluidCurvesRenderer.ts
- * Version: 1.8.23
+ * Version: 1.9.5
  * Author: Aura Flux Team
  * Copyright (c) 2025 Aura Flux. All rights reserved.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 export class FluidCurvesRenderer implements IVisualizerRenderer {
@@ -32,21 +32,15 @@ export class FluidCurvesRenderer implements IVisualizerRenderer {
       this.layerOffsets = [];
       for (let i = 0; i < layerCount; i++) {
         // --- Parallax & Shear Flow Logic ---
-        // 1. Direction: Alternate directions to create "shearing" effect between gas layers.
-        // Asymmetric factor (1.0 vs -0.7) feels more organic than equal opposing speeds.
         const direction = i % 2 === 0 ? 1.0 : -0.7; 
-        
-        // 2. Speed: Front layers (higher i) move significantly faster to create depth.
-        // Base speed ramps up: 0.4 -> 1.2 -> 2.0 ...
         const baseSpeed = 0.4 + (i * 0.8); 
         const randomVar = Math.random() * 0.5;
 
         this.layerOffsets.push({
           phase: Math.random() * Math.PI * 2,
-          // Lower frequency for wider, majestic curtains of light
           freq1: 0.0015 + Math.random() * 0.002, 
           freq2: 0.004 + Math.random() * 0.003, 
-          vert: (Math.random() - 0.5) * 0.25, // Increased vertical spread
+          vert: (Math.random() - 0.5) * 0.25, 
           speedMult: (baseSpeed + randomVar) * direction
         });
       }
@@ -62,7 +56,6 @@ export class FluidCurvesRenderer implements IVisualizerRenderer {
       const beatAlpha = beat ? 0.2 : 0;
       ctx.globalAlpha = 0.2 + bass * 0.3 + beatAlpha;
       
-      // Optimization: Reduced segments (20 -> 16)
       const segments = 16;
       const step = w / segments;
       const points = [];

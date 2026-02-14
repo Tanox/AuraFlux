@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/PlasmaRenderer.ts
- * Version: 1.8.23
+ * Version: 1.9.5
  * Author: Aura Flux Team
  * Copyright (c) 2024 Aura Flux. All rights reserved.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 interface PlasmaBlob {
@@ -109,13 +109,11 @@ export class PlasmaRenderer implements IVisualizerRenderer {
       const dynamicRadius = b.baseRadius * (0.8 + bass * 0.8 + Math.sin(rotation + b.phase) * 0.1);
       const color = colors[b.colorIdx % colors.length];
 
-      // --- 核心修正：去除中心白点，使用主题色深浅渐变 ---
       const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, dynamicRadius);
       
-      // 不再使用 white，直接使用主题色并调整不透明度分布
-      g.addColorStop(0, color); // 中心为实色
-      g.addColorStop(0.3, `${color}dd`); // 中部保持高饱和
-      g.addColorStop(0.6, `${color}66`); // 边缘平滑羽化
+      g.addColorStop(0, color); 
+      g.addColorStop(0.3, `${color}dd`); 
+      g.addColorStop(0.6, `${color}66`); 
       g.addColorStop(1, 'transparent');
 
       ctx.globalAlpha = 0.5 + mid * 0.5;

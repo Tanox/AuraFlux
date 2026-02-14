@@ -1,6 +1,6 @@
 /**
  * File: core/services/aiService.ts
- * Version: 2.5.0
+ * Version: 2.5.1
  * Author: Sut
  */
 
@@ -106,9 +106,18 @@ export const generateArtisticBackground = async (moodKeywords: string, apiKey: s
             contents: { parts: [{ text: `High fidelity digital art for music background. Style: atmospheric, cinematic, 8k. Subject: ${moodKeywords}. Abstract lighting.` }] },
             config: { imageConfig: { aspectRatio: "16:9" } }
         });
-        for (const part of response.candidates[0].content.parts) {
-            if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
+        
+        // Iteratively check parts for the image data to ensure compliance with Gemini 2.5+ multi-part responses
+        if (response.candidates?.[0]?.content?.parts) {
+            for (const part of response.candidates[0].content.parts) {
+                if (part.inlineData) {
+                    return `data:image/png;base64,${part.inlineData.data}`;
+                }
+            }
         }
         return null;
-    } catch (e) { return null; }
+    } catch (e) { 
+        console.error("[AI] Background generation failed:", e);
+        return null; 
+    }
 };

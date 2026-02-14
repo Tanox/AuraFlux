@@ -1,11 +1,11 @@
 /**
  * File: components/visualizers/VisualizerCanvas.tsx
- * Version: 1.9.1
+ * Version: 1.9.2
  * Author: Sut
  */
 
 import React, { useRef, useEffect } from 'react';
-import { VisualizerMode, VisualizerSettings, IVisualizerRenderer } from '../../core/types/index';
+import { VisualizerMode, VisualizerSettings, IVisualizerRenderer } from '../../core/types';
 import { createVisualizerRenderers, BeatDetector } from '../../core/services/visualizerStrategies';
 import { AdaptiveNoiseFilter } from '../../core/services/audioUtils';
 

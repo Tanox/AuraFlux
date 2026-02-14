@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/SpiralRenderer.ts
- * Version: 1.0.0
+ * Version: 1.9.6
  * Author: Sut
  * Copyright (c) 2025 Aura Flux. All rights reserved.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 export class SpiralRenderer implements IVisualizerRenderer {
@@ -69,6 +69,7 @@ export class SpiralRenderer implements IVisualizerRenderer {
         ctx.beginPath();
         ctx.arc(cx, cy, baseRad * 2 * (1 + bass), 0, Math.PI * 2);
         ctx.fillStyle = colors[0];
+        // Fix: Added missing 'ctx.' reference to call the fill method on the render context
         ctx.fill();
         ctx.shadowBlur = 0;
     }

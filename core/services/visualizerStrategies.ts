@@ -1,11 +1,10 @@
 /**
  * File: core/services/visualizerStrategies.ts
- * Version: 2.1.0
+ * Version: 2.1.1
  * Author: Sut
- * Copyright (c) 2024 Aura Flux. All rights reserved.
  */
 
-import { VisualizerMode, IVisualizerRenderer } from '../types/index';
+import { VisualizerMode, IVisualizerRenderer } from '../types';
 import { BarsRenderer } from './renderers/BarsRenderer';
 import { RingsRenderer } from './renderers/RingsRenderer';
 import { FluidCurvesRenderer } from './renderers/FluidCurvesRenderer';

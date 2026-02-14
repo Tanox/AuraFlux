@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/GeometryRenderers.ts
- * Version: 1.9.2
+ * Version: 1.9.5
  * Author: Sut
  * Description: Optimized "Time Tunnel" with Temporal Jitter Reduction and smoothing.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 interface RingPoint { x: number; y: number; }

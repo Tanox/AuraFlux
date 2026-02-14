@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/LasersRenderer.ts
- * Version: 1.8.25
+ * Version: 1.9.5
  * Author: Sut
  * Copyright (c) 2025 Aura Flux. All rights reserved.
   */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 export class LasersRenderer implements IVisualizerRenderer {
@@ -15,7 +15,6 @@ export class LasersRenderer implements IVisualizerRenderer {
     if (colors.length === 0 || data.length === 0) return;
     
     const len = data.length;
-    // Normalized ranges instead of fixed indices
     const highRangeStart = Math.floor(len * 0.4);
     const bassRangeEnd = Math.floor(len * 0.05);
     const midRangeStart = Math.floor(len * 0.1);
@@ -37,7 +36,6 @@ export class LasersRenderer implements IVisualizerRenderer {
     origins.forEach((origin, oIdx) => {
       const beams = (oIdx === 2) ? 6 : 8; 
       for (let i = 0; i < beams; i++) {
-        // Correctly map beam to a relative frequency segment
         const binIdx = Math.floor(((i / beams) * 0.4 + (oIdx * 0.2)) * len);
         const freqVal = (data[binIdx] || 0) / 255 * settings.sensitivity;
         

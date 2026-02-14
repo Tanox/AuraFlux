@@ -1,10 +1,10 @@
 /**
  * File: core/services/renderers/WaveformRenderer.ts
- * Version: 1.8.25
+ * Version: 1.9.5
  * Author: Sut
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage, applySoftCompression, drawQuadraticPath } from '../audioUtils';
 
 export class WaveformRenderer implements IVisualizerRenderer {

@@ -1,8 +1,8 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.2)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.6)
 
-[Live Demo](https://github.com/sutchan) | [简体中文](./README_ZH.md)
+[Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md)
 
 **Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 18**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
 
@@ -33,7 +33,7 @@
 ### 3. Smart Home & Ambient Lounge 🏠
 *   **The Goal:** Transform your living room TV into a living piece of digital art.
 *   **The Workflow:** Connect your PC/Mac to a large display, enter "Calm" preset, and enable "Clock Overlay". 
-*   **Pro Tip:** Use the "Silk Wave" or "Neural Flow" modes for a sophisticated, non-distracting ambient experience.
+*   Pro Tip: Use the "Silk Wave" or "Neural Flow" modes for a sophisticated, non-distracting ambient experience.
 
 ### 4. Zen Meditation & Focus 🧘
 *   **The Goal:** Use rhythmic visual pulses to aid breathing and concentration.
@@ -78,5 +78,5 @@
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 1.9.2*  
-*Signature URL:* [https://github.com/sutchan](https://github.com/sutchan)
+*Version: 1.9.6*  
+*Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

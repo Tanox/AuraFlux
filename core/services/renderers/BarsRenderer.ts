@@ -1,10 +1,10 @@
 /**
  * File: core/services/renderers/BarsRenderer.ts
- * Version: 1.9.4
+ * Version: 1.9.5
  * Author: Sut
   */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage, applySoftCompression } from '../audioUtils';
 
 export class BarsRenderer implements IVisualizerRenderer {

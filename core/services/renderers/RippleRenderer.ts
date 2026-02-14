@@ -1,11 +1,11 @@
 /**
  * File: core/services/renderers/RippleRenderer.ts
- * Version: 1.0.0
+ * Version: 1.9.5
  * Author: Sut
  * Copyright (c) 2025 Aura Flux. All rights reserved.
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types';
 import { getAverage } from '../audioUtils';
 
 interface Ripple {
