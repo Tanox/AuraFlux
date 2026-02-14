@@ -1,6 +1,6 @@
 /**
  * File: components/controls/BottomBar.tsx
- * Version: 2.0.3
+ * Version: 2.0.4
  * Author: Sut
  * Updated: 2025-07-28 17:35
  */

@@ -1,17 +1,16 @@
 /**
  * File: public/sw.js
- * Version: 1.9.9
+ * Version: 1.9.11
  * Author: Sut
  * Description: Robust Service Worker with fault-tolerant caching
  */
 
-const CACHE_NAME = 'aura-flux-v1.9.9';
+const CACHE_NAME = 'aura-flux-v1.9.11';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './pwa-icon.svg',
-  './assets/images/favicon.svg'
+  './pwa-icon.svg'
 ];
 
 // Install Event: Cache core static assets with error tolerance
@@ -21,7 +20,7 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME).then((cache) => {
       console.log('[SW] Caching App Shell Resources');
       
-      // Use fault-tolerant approach: don't let one 404 break the whole app
+      // Separate critical from non-critical to avoid complete failure on 404
       const cachePromises = STATIC_ASSETS.map(async (url) => {
         try {
           const response = await fetch(url);
@@ -31,7 +30,7 @@ self.addEventListener('install', (event) => {
           return await cache.put(url, response);
         } catch (err) {
           console.warn(`[SW] Non-critical resource skipped: ${url}`, err);
-          return Promise.resolve(); // Continue even if one fails
+          return Promise.resolve(); 
         }
       });
       

@@ -1,6 +1,6 @@
 /**
  * File: core/hooks/useAudioReactive.ts
- * Version: 1.9.10
+ * Version: 1.9.11
  * Author: Sut
  */
 
@@ -19,9 +19,10 @@ interface UseAudioReactiveProps {
 }
 
 const getSafeColors = (inputColors: string[] | undefined | null) => {
-  // Defensive check for undefined or empty color array
-  const base = (inputColors && inputColors.length > 0) ? inputColors : ['#ffffff', '#0000ff', '#ff00ff'];
+  // Defensive check for non-array or empty input
+  const base = (Array.isArray(inputColors) && inputColors.length > 0) ? inputColors : ['#ffffff', '#0000ff', '#ff00ff'];
   const safe = [...base];
+  // Ensure minimum 3 colors for consistent destructuring in scenes
   while (safe.length < 3) {
     safe.push(base[0] || '#ffffff');
   }
@@ -36,7 +37,13 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
   
   const safeInputColors = useMemo(() => getSafeColors(colors), [colors]);
 
-  const smoothedColorsRef = useRef<Color[]>(safeInputColors.map(c => new Color(c)));
+  // Initializing ref with concrete Color objects
+  const smoothedColorsRef = useRef<Color[]>([]);
+  
+  if (smoothedColorsRef.current.length === 0) {
+      smoothedColorsRef.current = safeInputColors.map(c => new Color(c));
+  }
+
   const targetColorRef = useRef(new Color());
   const beatDetectorRef = useRef(new BeatDetector());
   const noiseFilterRef = useRef(new AdaptiveNoiseFilter());
@@ -54,23 +61,22 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
     const smoothedColors = smoothedColorsRef.current;
     const lerpSpeed = 0.05;
     
-    // Color Interpolation & Array Sync
-    // If input colors length changed, adjust smoothedColors array safely
+    // Color Interpolation & Robust Array Sync
     if (smoothedColors.length !== safeInputColors.length) {
       if (safeInputColors.length > smoothedColors.length) {
-        // Grow: add new Color objects for missing slots
+        // Safe growth
         for (let i = smoothedColors.length; i < safeInputColors.length; i++) {
           smoothedColors.push(new Color(safeInputColors[i]));
         }
       } else {
-        // Shrink: truncate the array
+        // Safe shrink
         smoothedColors.length = safeInputColors.length;
       }
     }
 
     smoothedColors.forEach((color, i) => {
       const targetHex = safeInputColors[i] || safeInputColors[0] || '#ffffff';
-      if (color) {
+      if (color instanceof Color) {
         color.lerp(targetColorRef.current.set(targetHex), lerpSpeed);
       }
     });

@@ -1,6 +1,6 @@
 /**
  * File: components/visualizers/ThreeVisualizer.tsx
- * Version: 1.9.3
+ * Version: 1.9.4
  * Author: Sut
  */
 
@@ -37,8 +37,8 @@ const BackgroundController: React.FC<{ isTransparent: boolean }> = ({ isTranspar
 };
 
 const SceneSwitcher: React.FC<ThreeVisualizerProps> = ({ mode, analyser, analyserR, colors, settings }) => {
-  // Extended safety guard for all required props
-  if (!analyser || !settings || !colors || colors.length === 0) return null;
+  // Robust safety guard for array properties
+  if (!analyser || !settings || !Array.isArray(colors) || colors.length === 0) return null;
   
   const sceneProps = { analyser, analyserR, colors, settings };
 
@@ -106,8 +106,8 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
       );
   }, [settings?.glow, bloomIntensity]);
 
-  // Added safety check for 'colors'
-  if (!analyser || !settings || !colors) return null;
+  // Comprehensive fallback
+  if (!analyser || !settings || !Array.isArray(colors)) return null;
   
   return (
     <div id="visualizer-three-wrapper" className="w-full h-full">
