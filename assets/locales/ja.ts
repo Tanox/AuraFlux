@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/ja.ts
  * Version: 1.9.2
@@ -19,7 +20,10 @@ export const ja = {
     themeDark: 'ダークモード',
     themeLight: 'ライトモード',
     active: 'ON',
-    off: 'OFF'
+    off: 'OFF',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: '新バージョンの Aura Flux が利用可能です。',
+    updateAction: '今すぐ更新'
   },
   share: {
     title: "私のAura Flux作品",

@@ -1,6 +1,6 @@
 /**
  * File: App.tsx
- * Version: 1.9.6
+ * Version: 1.9.8
  * Author: Sut
  * Updated: 2025-07-29 12:00
  */
@@ -24,7 +24,12 @@ const ThreeVisualizer = lazy(() => import('./components/visualizers/ThreeVisuali
 const Controls = lazy(() => import('./components/controls/Controls'));
 
 const MainContent: React.FC = () => {
-  const { hasStarted, language, setLanguage, manageWakeLock, showHelpModal, setShowHelpModal, helpModalInitialTab, isDragging, setIsDragging, t } = useUI();
+  const { 
+      hasStarted, language, setLanguage, manageWakeLock, 
+      showHelpModal, setShowHelpModal, helpModalInitialTab, 
+      isDragging, setIsDragging, t, 
+      isUpdateAvailable, performUpdate 
+  } = useUI();
   const { mode, colorTheme, settings, isThreeMode } = useVisuals();
   const { analyser, analyserR, currentSong, importFiles } = useAudioContext();
   const { showLyrics, lyricsStyle, performIdentification } = useAI();
@@ -86,6 +91,24 @@ const MainContent: React.FC = () => {
       onDrop={handleDrop}
       {...gestures}
     >
+      {/* Update Notification Banner */}
+      {isUpdateAvailable && (
+        <div id="update-banner" className="fixed top-0 left-0 right-0 z-[500] p-3 flex justify-center animate-[fadeInDown_0.5s_ease-out]">
+            <div className="bg-blue-600/60 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-3 flex items-center gap-6 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 bg-white rounded-full animate-ping" />
+                    <span className="text-white text-xs font-black uppercase tracking-widest">{t?.common?.updateAvailable || "New update detected"}</span>
+                </div>
+                <button 
+                    onClick={performUpdate}
+                    className="bg-white text-blue-600 px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-blue-50 transition-all shadow-lg active:scale-95"
+                >
+                    {t?.common?.updateAction || "Refresh Now"}
+                </button>
+            </div>
+        </div>
+      )}
+
       {isDragging && (
           <div id="drag-overlay" className="fixed inset-0 z-[300] bg-blue-600/10 backdrop-blur-md flex items-center justify-center pointer-events-none animate-fade-in-up transition-all duration-300">
               <div className="bg-black/80 backdrop-blur-2xl border-4 border-dashed border-blue-500/40 p-16 rounded-[4rem] flex flex-col items-center gap-8 shadow-[0_0_100px_rgba(37,99,235,0.3)] transform scale-110">

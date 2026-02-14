@@ -1,11 +1,11 @@
 /**
  * File: components/AppContext.tsx
- * Version: 1.9.2
+ * Version: 1.9.8
  * Author: Sut
  * Updated: 2025-07-28 10:00
  */
 
-import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
+import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '../core/types';
 import { useAudio } from '../core/hooks/useAudio';
 import { useAppState } from '../core/hooks/useAppState';
@@ -33,6 +33,8 @@ interface UIContextType {
   setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
   isPwaInstallable: boolean;
   installPwa: () => void;
+  isUpdateAvailable: boolean;
+  performUpdate: () => void;
 }
 const UIContext = createContext<UIContextType | null>(null);
 export const useUI = () => useContext(UIContext)!;
@@ -95,6 +97,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
   const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
   const pwaState = usePWA();
+  
+  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
+  const [swRegistration, setSwRegistration] = useState<ServiceWorkerRegistration | null>(null);
+
+  useEffect(() => {
+    const handleUpdate = (e: any) => {
+      setIsUpdateAvailable(true);
+      setSwRegistration(e.detail);
+    };
+    window.addEventListener('app-update-available', handleUpdate);
+    return () => window.removeEventListener('app-update-available', handleUpdate);
+  }, []);
+
+  const performUpdate = useCallback(() => {
+    if (swRegistration?.waiting) {
+      swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    }
+    window.location.reload();
+  }, [swRegistration]);
 
   const aiState = useAiState({
     language: uiState.language,
@@ -135,8 +156,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     toggleFullscreen,
     showToast,
     isPwaInstallable: pwaState.isInstallable,
-    installPwa: pwaState.installPwa
-  }), [uiState, toggleFullscreen, showToast, pwaState]);
+    installPwa: pwaState.installPwa,
+    isUpdateAvailable,
+    performUpdate
+  }), [uiState, toggleFullscreen, showToast, pwaState, isUpdateAvailable, performUpdate]);
   
   const visualsContextValue = useMemo(() => ({ ...visualsState, isThreeMode }), [visualsState, isThreeMode]);
   const audioContextValue = useMemo(() => ({ ...audioState, currentSong, setCurrentSong, fileStatus, fileName }), [audioState, currentSong, fileStatus, fileName]);

@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/es.ts
  * Version: 1.9.2
@@ -19,7 +20,10 @@ export const es = {
     themeDark: 'Espacio Profundo',
     themeLight: 'Blanco Lumínico',
     active: 'Activo',
-    off: 'Inactivo'
+    off: 'Inactivo',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: 'Una nueva versión de Aura Flux está lista.',
+    updateAction: 'Actualizar ahora'
   },
   share: {
     title: "Mi Creación en Aura Flux",

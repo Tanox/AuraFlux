@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/tw.ts
  * Version: 1.9.2
@@ -19,7 +20,10 @@ export const tw = {
     themeDark: '深色模式',
     themeLight: '淺色模式',
     active: '開啟',
-    off: '關閉'
+    off: '關閉',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: '檢測到新版本 Aura Flux',
+    updateAction: '立即更新'
   },
   share: {
     title: "我的 Aura Flux 創作",
@@ -204,7 +208,7 @@ export const tw = {
     performance: '系統效能',
     localization: '外觀與語言',
     factoryReset: '恢復出厂設置',
-    installApp: '安裝 PWA 應用'
+    installApp: '安裝 PWA 应用'
   },
   config: {
     title: '資料與預設管理',

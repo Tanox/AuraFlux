@@ -1,10 +1,10 @@
 # OpenSpec: 系统架构规范 (01)
 
-## 1. 核心架构概述 (v1.9.6)
-Aura Flux 采用 **React 18** 作为 UI 框架，结合 **Three.js (@react-three/fiber)** 进行高性能 3D 渲染，并通过 **Google Gemini 3** 提供智能通感分析。系统设计遵循“边缘计算优先”原则，最大限度减少云端依赖。
+## 1. 核心架构概述 (v1.9.7)
+Aura Flux 采用 **React 19** 作为 UI 框架，结合 **Three.js (@react-three/fiber)** 进行高性能 3D 渲染，并通过 **Google Gemini 3** 提供智能通感分析。系统设计遵循“边缘计算优先”原则，最大限度减少云端依赖。
 
 ## 2. 技术栈标准
-- **UI 框架:** React 18.3+ (利用 Concurrent Mode 与 Suspense)。
+- **UI 框架:** React 19.0+ (利用 Concurrent Mode 与 Suspense)。
 - **状态管理:** 采用多维度 **Context API** (UIContext, VisualsContext, AudioContext, AIContext)。
 - **渲染引擎:** 
   - **3D:** Three.js R160+ 与 @react-three/fiber。
@@ -27,5 +27,5 @@ Aura Flux 采用 **React 18** 作为 UI 框架，结合 **Three.js (@react-three
 - **Canvas Path:** 针对低功耗模式或特定 2D 风格，通过 `requestAnimationFrame` 保持 60FPS。
 
 ---
-*Aura Flux Architecture Specification - Version 1.9.6*
+*Aura Flux Architecture Specification - Version 1.9.7*
 *Author: Sut*

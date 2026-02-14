@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/fr.ts
  * Version: 1.9.3
@@ -18,7 +19,10 @@ export const fr = {
     themeDark: 'Espace Profond',
     themeLight: 'Blanc Lumina',
     active: 'Activé',
-    off: 'Désactivé'
+    off: 'Désactivé',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: 'Une nouvelle version d\'Aura Flux est prête.',
+    updateAction: 'Mettre à jour maintenant'
   },
   share: {
     title: "Ma Performance Aura Flux",
@@ -27,7 +31,7 @@ export const fr = {
     copied: "Lien et texte promotionnel copiés !",
     unsupported: "Partage natif non disponible sur cet appareil",
     appTitle: "Aura Flux",
-    appMessage: "Découvrez Aura Flux - Un visualiseur musical IA haute fidélité dans votre navigateur ! 🎵✨\n\nAdmirez le son de la lumière :",
+    appMessage: "Découvrez Aura Flux - Un visualiseur musical IA haute fidélité dans votre navigateur ! 🎵✨\n\nAppréciez le son de la lumière :",
     shareApp: "Partager Aura Flux"
   },
   player: {
@@ -381,7 +385,7 @@ export const fr = {
   textSize: 'Poids Global',
   textRotation: 'Rotation Axe',
   textAudioReactive: 'Pulse Rythmique',
-  text3D: 'Extrusion Profonde',
+  text3D: 'Extrusión Profonde',
   textFont: 'Typographie',
   customColor: 'Chroma',
   customTextCycleColor: 'Flux Couleur',

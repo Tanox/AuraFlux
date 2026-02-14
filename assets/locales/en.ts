@@ -19,7 +19,9 @@ export const en = {
     themeDark: 'Deep Space',
     themeLight: 'Lumina White',
     active: 'Enabled',
-    off: 'Disabled'
+    off: 'Disabled',
+    updateAvailable: 'A new version of Aura Flux is ready.',
+    updateAction: 'Update Now'
   },
   share: {
     title: "My Aura Flux Performance",
@@ -363,7 +365,7 @@ export const en = {
   settings: 'Precision Fine-Tune',
   speed: 'Flow Velocity',
   glow: 'Bloom Weight',
-  trails: 'Persistence',
+  trails: 'Motion Buffer',
   quality: 'Render Precision',
   sensitivity: 'Audio Gain',
   smoothing: 'Inertia',

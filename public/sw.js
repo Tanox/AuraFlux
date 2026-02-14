@@ -1,11 +1,11 @@
 /**
  * File: public/sw.js
- * Version: 1.9.2
+ * Version: 1.9.9
  * Author: Sut
- * Description: Advanced Service Worker for offline support
+ * Description: Robust Service Worker with fault-tolerant caching
  */
 
-const CACHE_NAME = 'aura-flux-v1.9.2';
+const CACHE_NAME = 'aura-flux-v1.9.9';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -14,13 +14,28 @@ const STATIC_ASSETS = [
   './assets/images/favicon.svg'
 ];
 
-// Install Event: Cache core static assets
+// Install Event: Cache core static assets with error tolerance
 self.addEventListener('install', (event) => {
-  self.skipWaiting(); // Activate worker immediately
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Caching App Shell');
-      return cache.addAll(STATIC_ASSETS);
+      console.log('[SW] Caching App Shell Resources');
+      
+      // Use fault-tolerant approach: don't let one 404 break the whole app
+      const cachePromises = STATIC_ASSETS.map(async (url) => {
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(`Offline cache failed for ${url}: ${response.status}`);
+          }
+          return await cache.put(url, response);
+        } catch (err) {
+          console.warn(`[SW] Non-critical resource skipped: ${url}`, err);
+          return Promise.resolve(); // Continue even if one fails
+        }
+      });
+      
+      return Promise.all(cachePromises);
     })
   );
 });
@@ -31,67 +46,58 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => Promise.all(
       keys.map((key) => {
         if (key !== CACHE_NAME) {
-          console.log('[SW] Clearing old cache:', key);
+          console.log('[SW] Clearing legacy cache:', key);
           return caches.delete(key);
         }
       })
     ))
   );
-  self.clients.claim(); // Take control of all clients immediately
+  self.clients.claim();
 });
 
-// Helper: Determine if request should be cached
+// Message listener to trigger immediate skipping of wait
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 const isCacheable = (request) => {
   const url = new URL(request.url);
-  
-  // Only cache GET
   if (request.method !== 'GET') return false;
-
-  // Don't cache AI API endpoints
   if (url.hostname.includes('generativelanguage.googleapis.com')) return false;
-  if (url.hostname.includes('openai.com')) return false;
-  if (url.hostname.includes('anthropic.com')) return false;
-
-  // Don't cache browser-sync or HMR in development
+  if (url.hostname.includes('googletagmanager.com')) return false;
   if (url.pathname.includes('hot-update')) return false;
-  if (url.protocol === 'chrome-extension:') return false;
-
   return true;
 };
 
-// Fetch Event: Stale-While-Revalidate for most resources
+// Fetch Event: Stale-While-Revalidate
 self.addEventListener('fetch', (event) => {
   if (!isCacheable(event.request)) return;
 
-  const url = new URL(event.request.url);
-  
-  // Strategy: Stale-While-Revalidate
-  // Serve from cache immediately, then update cache from network
   event.respondWith(
     caches.open(CACHE_NAME).then(async (cache) => {
       const cachedResponse = await cache.match(event.request);
       
       const fetchPromise = fetch(event.request).then((networkResponse) => {
-        // Check for valid response
         if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
           cache.put(event.request, networkResponse.clone());
         }
         return networkResponse;
       }).catch((e) => {
-        // Network failed
-        console.debug('[SW] Network unavailable:', e);
-        // Return null here, cachedResponse will be returned if available
-        // If no cache and network fails, standard browser error or offline page logic below
+        console.debug('[SW] Network unavailable, serving from cache if possible');
         return null;
       });
 
       return cachedResponse || fetchPromise.then(response => {
          if (response) return response;
-         // Fallback for navigation if both cache and network fail
          if (event.request.mode === 'navigate') {
             return cache.match('./index.html');
          }
-         return new Response("Network error", { status: 408, headers: { "Content-Type": "text/plain" } });
+         return new Response("Aura Flux: Offline (Resource not in cache)", { 
+           status: 503, 
+           headers: { "Content-Type": "text/plain" } 
+         });
       });
     })
   );

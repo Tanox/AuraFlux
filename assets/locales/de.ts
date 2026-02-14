@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/de.ts
  * Version: 1.9.3
@@ -18,7 +19,10 @@ export const de = {
     themeDark: 'Dunkelmodus',
     themeLight: 'Hellmodus',
     active: 'AKTIV',
-    off: 'AUS'
+    off: 'AUS',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: 'Eine neue Version von Aura Flux ist verfügbar.',
+    updateAction: 'Jetzt aktualisieren'
   },
   share: {
     title: "Meine Aura Flux Kreation",

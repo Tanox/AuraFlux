@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/ko.ts
  * Version: 1.9.2
@@ -19,7 +20,10 @@ export const ko = {
     themeDark: '심우주',
     themeLight: '루미나 화이트',
     active: '활성화',
-    off: '비활성화'
+    off: '비활성화',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: 'Aura Flux의 최신 버전을 사용할 수 있습니다.',
+    updateAction: '지금 업데이트'
   },
   share: {
     title: "나의 Aura Flux 퍼포먼스",

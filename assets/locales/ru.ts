@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/ru.ts
  * Version: 1.9.3
@@ -18,7 +19,10 @@ export const ru = {
     themeDark: 'Тёмная тема',
     themeLight: 'Светлая тема',
     active: 'ВКЛ',
-    off: 'ВЫКЛ'
+    off: 'ВЫКЛ',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: 'Доступна новая версия Aura Flux.',
+    updateAction: 'Обновить сейчас'
   },
   share: {
     title: "Мое творение в Aura Flux",
@@ -342,7 +346,7 @@ export const ru = {
     networkTimeout: 'Задержка ИИ',
     networkTimeoutDesc: 'ИИ долго отвечает, проверьте сеть.',
     configMissing: 'Нет ключа',
-    configMissingDesc: 'Укажите API ключ в настройках.'
+    configMissingDesc: 'Указажите API ключ в настройках.'
   },
   unsupportedTitle: 'Ошибка движка',
   unsupportedText: 'Требуется поддержка WebGL и Web Audio.',
@@ -360,7 +364,7 @@ export const ru = {
   styleTheme: 'Палитра',
   cycleColors: 'Цикл цветов',
   settings: 'Настройка',
-  speed: 'Поток',
+  speed: 'Скорость',
   glow: 'Блеск',
   trails: 'Шлейф',
   quality: 'Управление качеством',

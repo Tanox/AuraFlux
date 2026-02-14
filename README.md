@@ -1,10 +1,10 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.6)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.7)
 
 [Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md)
 
-**Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 18**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
+**Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 19**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## 🛠️ Technical Stack
 
-- **Framework:** React 18 with Context API for global state management.
+- **Framework:** React 19 with Context API for global state management.
 - **3D Engine:** Three.js / @react-three/fiber with custom GLSL shaders.
 - **AI Integration:** Google Generative AI (@google/genai) utilizing Gemini 3.0.
 - **Audio:** Web Audio API with Fast Fourier Transform (FFT) analysis.
@@ -78,5 +78,5 @@
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 1.9.6*  
+*Version: 1.9.7*  
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

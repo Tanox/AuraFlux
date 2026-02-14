@@ -19,7 +19,9 @@ export const zh = {
     themeDark: '深色模式',
     themeLight: '浅色模式',
     active: '开启',
-    off: '关闭'
+    off: '关闭',
+    updateAvailable: '检测到新版本 Aura Flux',
+    updateAction: '立即更新'
   },
   share: {
     title: "我的 Aura Flux 创作",

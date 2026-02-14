@@ -1,6 +1,6 @@
 /**
  * File: components/visualizers/ThreeVisualizer.tsx
- * Version: 1.9.2
+ * Version: 1.9.3
  * Author: Sut
  */
 
@@ -37,7 +37,9 @@ const BackgroundController: React.FC<{ isTransparent: boolean }> = ({ isTranspar
 };
 
 const SceneSwitcher: React.FC<ThreeVisualizerProps> = ({ mode, analyser, analyserR, colors, settings }) => {
-  if (!analyser || !settings) return null;
+  // Extended safety guard for all required props
+  if (!analyser || !settings || !colors || colors.length === 0) return null;
+  
   const sceneProps = { analyser, analyserR, colors, settings };
 
   switch (mode) {
@@ -84,7 +86,7 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
   const postProcessingEffects = useMemo(() => {
       const ditheringNoise = <Noise opacity={0.025} premultiply />;
 
-      if (!settings.glow) return (
+      if (!settings?.glow) return (
         <EffectComposer multisampling={0}>
             {ditheringNoise}
         </EffectComposer>
@@ -102,9 +104,10 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
               {ditheringNoise}
           </EffectComposer>
       );
-  }, [settings.glow, bloomIntensity]);
+  }, [settings?.glow, bloomIntensity]);
 
-  if (!analyser || !settings) return null;
+  // Added safety check for 'colors'
+  if (!analyser || !settings || !colors) return null;
   
   return (
     <div id="visualizer-three-wrapper" className="w-full h-full">

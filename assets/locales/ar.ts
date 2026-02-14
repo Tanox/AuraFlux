@@ -1,3 +1,4 @@
+
 /**
  * File: assets/locales/ar.ts
  * Version: 1.9.3
@@ -18,7 +19,10 @@ export const ar = {
     themeDark: 'وضع داكن',
     themeLight: 'وضع فاتح',
     active: 'نشط',
-    off: 'إيقاف'
+    off: 'إيقاف',
+    // Added update notification labels to satisfy TranslationSchema
+    updateAvailable: 'نسخة جديدة من Aura Flux جاهزة.',
+    updateAction: 'تحديث الآن'
   },
   share: {
     title: "إبداعي في Aura Flux",
@@ -169,7 +173,7 @@ export const ar = {
     aiDirector: 'مخرج AI',
     analyze: 'توليد مرئيات',
     analyzing: 'جاري التحليل...',
-    apiKey: 'مفتاح API',
+    apiKey: 'API مفتاح',
     apiKeyPlaceholder: 'مفتاح Gemini...',
     generate: 'توليد ذكي',
     keySaved: 'تم الحفظ',
