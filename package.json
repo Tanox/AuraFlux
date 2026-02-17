@@ -1,7 +1,7 @@
 {
   "name": "aura-flux",
   "private": true,
-  "version": "1.9.14",
+  "version": "1.9.36",
   "type": "module",
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
@@ -29,17 +29,5 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3",
     "vite": "^6.0.7"
-  },
-  "overrides": {
-    "@react-three/postprocessing": {
-      "react": "$react",
-      "react-dom": "$react-dom",
-      "@react-three/fiber": "$@react-three/fiber"
-    },
-    "@react-three/drei": {
-      "react": "$react",
-      "react-dom": "$react-dom",
-      "@react-three/fiber": "$@react-three/fiber"
-    }
   }
 }

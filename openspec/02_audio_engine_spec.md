@@ -1,26 +1,28 @@
 # OpenSpec: 音频引擎规范 (02)
 
-## 1. 信号处理流程 (v1.9.7)
-1.  **输入采集:** 支持 `MediaStream` (麦克风) 与 `AudioBuffer` (本地文件)。
-2.  **频谱分析:** 使用 `AnalyserNode` 进行 FFT 变换。
-    - 默认 `fftSize`: 512 - 2048。
-    - 平滑系数 (`smoothingTimeConstant`): 0.0 - 0.95。
-3.  **特征提取:**
-    - **Bass:** 0 - 60Hz 能量均值。
-    - **Mids:** 100 - 800Hz 能量均值。
-    - **Treble:** 2kHz+ 能量均值。
-    - **RMS:** 总体有效值，用于调节全局缩放。
+## 1. 信号处理流程 (v1.9.36)
+音频引擎由 `app/hooks/useAudio.ts` 驱动，支持立体声解耦分析。
 
-## 2. 播放状态机 (v1.9.7)
-- **冷启动播放 (Cold-Start Playback):**
-  - 当 `audioBuffer` 为空但播放列表存在时，`togglePlayback` 必须自动调用 `playTrackByIndex(currentIndex)`。
-  - 必须包含异步解码锁 (`pendingTrackIdRef`)，防止快速切换导致的内存溢出。
-- **自动增益补偿:** 通过 `AdaptiveNoiseFilter` 动态过滤背景底噪，确保低音量下视觉依然活跃。
+1.  **输入源切换:**
+    - **MICROPHONE:** 通过 `getUserMedia` 捕捉，支持动态设备热切换。
+    - **FILE:** 使用 `decodeAudioData` 解码。支持大文件异步锁，防止快速连击导致内存崩溃。
+2.  **立体声架构:**
+    - 使用 `ChannelSplitterNode` 将左/右声道分离。
+    - 绑定两个独立的 `AnalyserNode` (`analyser`, `analyserR`)，为视觉模式提供相位差数据（如 `WaveformRenderer`）。
+3.  **采样与滤波:**
+    - 默认 `fftSize: 512`，支持 2048 (Pro) 设置。
+    - 内置 `AdaptiveNoiseFilter`: 基于频谱包络的动态噪声抑制。
+    - 内置 `DynamicPeakLimiter`: 归一化能量输出，防止由于音频文件音量过大导致的视觉饱和。
 
-## 3. 兼容性与自愈
-- **AudioContext 恢复:** 必须在用户交互（如 `WelcomeScreen` 点击）后显式调用 `.resume()`。
-- **断开处理:** 监听 `devicechange` 事件，在输入源消失时自动回退到静音状态而非崩溃。
+## 2. 核心特征提取
+- **Bass (0-60Hz):** 驱动 3D 场景的位移与 2D 模式的整体脉冲。
+- **Energy (L/R):** 用于 `SilkWaveScene` 等模式的差异化扰动。
+- **BeatDetection:** 基于 Spectral Flux 算法的节奏识别。
+
+## 3. 媒体持久化
+- 采用 **IndexedDB (AuraFluxDB)** 存储播放列表。
+- 支持 `audioBufferToWav` 工具，可将本地解码后的音频转化为 Blob 发送至 AI 进行分析或导演。
 
 ---
-*Aura Flux Audio Engine Specification - Version 1.9.7*
+*Aura Flux Audio Engine Specification - Version 1.9.36*
 *Author: Sut*

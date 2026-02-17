@@ -1,4 +1,3 @@
-
 {
   "compilerOptions": {
     "target": "ES2020",
@@ -15,9 +14,6 @@
     "jsx": "react-jsx",
     "strict": true,
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    },
     "allowJs": true,
     "checkJs": false
   },

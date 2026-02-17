@@ -1,57 +1,61 @@
-/**
- * File: App.tsx
- * Version: 1.9.8
- * Author: Sut
- * Updated: 2025-07-29 12:00
- */
-
+// File: App.tsx | Version: v1.9.36 | Author: Sut
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './components/AppContext';
-import { WelcomeScreen } from './components/ui/WelcomeScreen';
-import { OnboardingOverlay } from './components/ui/onboarding/OnboardingOverlay';
-import { UnsupportedScreen } from './components/ui/UnsupportedScreen';
-import { HelpModal } from './components/ui/HelpModal';
-import SongOverlay from './components/ui/SongOverlay';
-import LyricsOverlay from './components/ui/LyricsOverlay';
-import CustomTextOverlay from './components/ui/CustomTextOverlay';
-import { FPSCounter } from './components/ui/FPSCounter';
-import { useIdleTimer } from './core/hooks/useIdleTimer';
-import { useMobileGestures } from './core/hooks/useMobileGestures';
-import { APP_VERSION } from './core/constants';
+import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './app/AppContext';
+import { WelcomeScreen } from './app/components/visualizers/ui/WelcomeScreen';
+import { OnboardingOverlay } from './app/components/visualizers/ui/onboarding/OnboardingOverlay';
+import { UnsupportedScreen } from './app/components/visualizers/ui/UnsupportedScreen';
+import { HelpModal } from './app/components/visualizers/ui/HelpModal';
+import SongOverlay from './app/components/visualizers/ui/SongOverlay';
+import LyricsOverlay from './app/components/visualizers/ui/LyricsOverlay';
+import CustomTextOverlay from './app/components/visualizers/ui/CustomTextOverlay';
+import { FPSCounter } from './app/components/visualizers/ui/FPSCounter';
+import { useIdleTimer } from './app/hooks/useIdleTimer';
+import { useMobileGestures } from './app/hooks/useMobileGestures';
+import type { ControlsProps } from './app/components/controls/Controls';
 
-const VisualizerCanvas = lazy(() => import('./components/visualizers/VisualizerCanvas'));
-const ThreeVisualizer = lazy(() => import('./components/visualizers/ThreeVisualizer'));
-const Controls = lazy(() => import('./components/controls/Controls'));
+const VisualizerCanvas = lazy(() => import('./app/components/visualizers/VisualizerCanvas'));
+const ThreeVisualizer = lazy(() => import('./app/components/visualizers/ThreeVisualizer'));
+const Controls = lazy(() => import('./app/components/controls/Controls').then(module => ({ default: module.Controls as React.FC<ControlsProps> })));
 
 const MainContent: React.FC = () => {
+  const ui = useUI();
+  const visuals = useVisuals();
+  const audio = useAudioContext();
+  const ai = useAI();
+
+  if (!ui || !visuals || !audio || !ai) return null;
+
   const { 
       hasStarted, language, setLanguage, manageWakeLock, 
       showHelpModal, setShowHelpModal, helpModalInitialTab, 
       isDragging, setIsDragging, t, 
-      isUpdateAvailable, performUpdate 
-  } = useUI();
-  const { mode, colorTheme, settings, isThreeMode } = useVisuals();
-  const { analyser, analyserR, currentSong, importFiles } = useAudioContext();
-  const { showLyrics, lyricsStyle, performIdentification } = useAI();
+      isUpdateAvailable, performUpdate,
+      toggleFullscreen
+  } = ui;
+  
+  const { mode, colorTheme, settings, setSettings, isThreeMode } = visuals;
+  const { analyser, analyserR, currentSong, importFiles } = audio;
+  const { showLyrics, lyricsStyle, performIdentification } = ai;
+  
   const [isExpanded, setIsExpanded] = useState(false);
   const [onboarded, setOnboarded] = useState(() => !!localStorage.getItem('av_v1_onboarded'));
 
-  const { isIdle } = useIdleTimer(isExpanded, settings.autoHideUi);
+  const { isIdle } = useIdleTimer(isExpanded, settings?.autoHideUi);
   const gestures = useMobileGestures();
 
   useEffect(() => {
-    if (settings.wakeLock) manageWakeLock(true);
+    if (settings?.wakeLock) manageWakeLock(true);
     return () => { manageWakeLock(false); };
-  }, [settings.wakeLock, manageWakeLock]);
+  }, [settings?.wakeLock, manageWakeLock]);
 
   useEffect(() => {
     const root = document.documentElement;
-    if (settings.appTheme === 'light') {
+    if (settings?.appTheme === 'light') {
         root.classList.remove('dark');
     } else {
         root.classList.add('dark');
     }
-  }, [settings.appTheme]);
+  }, [settings?.appTheme]);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -73,7 +77,7 @@ const MainContent: React.FC = () => {
   };
 
   const handleRetryIdentification = () => {
-      const stream = (analyser?.context as any)?.stream || null;
+      const stream = audio.mediaStream;
       if (performIdentification && stream) {
           performIdentification(stream);
       }
@@ -91,19 +95,18 @@ const MainContent: React.FC = () => {
       onDrop={handleDrop}
       {...gestures}
     >
-      {/* Update Notification Banner */}
       {isUpdateAvailable && (
-        <div id="update-banner" className="fixed top-0 left-0 right-0 z-[500] p-3 flex justify-center animate-[fadeInDown_0.5s_ease-out]">
+        <div id="update-banner" className="fixed top-0 left-0 right-0 z-[500] p-3 flex justify-center animate-fade-in-down">
             <div className="bg-blue-600/60 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-3 flex items-center gap-6 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
                 <div className="flex items-center gap-3">
                     <div className="w-2 h-2 bg-white rounded-full animate-ping" />
-                    <span className="text-white text-xs font-black uppercase tracking-widest">{t?.common?.updateAvailable || "New update detected"}</span>
+                    <span className="text-white text-xs font-black uppercase tracking-widest">{t.common.updateAvailable}</span>
                 </div>
                 <button 
                     onClick={performUpdate}
                     className="bg-white text-blue-600 px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-blue-50 transition-all shadow-lg active:scale-95"
                 >
-                    {t?.common?.updateAction || "Refresh Now"}
+                    {t.common.updateAction}
                 </button>
             </div>
         </div>
@@ -118,20 +121,20 @@ const MainContent: React.FC = () => {
                       </svg>
                   </div>
                   <div className="text-center space-y-3">
-                    <h3 className="text-3xl font-black text-white uppercase tracking-[0.25em] drop-shadow-xl">{t?.common?.dropFiles || "DROP TO IMPORT"}</h3>
-                    <p className="text-blue-400/60 text-xs font-black uppercase tracking-[0.15em]">{t?.player?.supportInfo}</p>
+                    <h3 className="text-3xl font-black text-white uppercase tracking-[0.25em] drop-shadow-xl">{t.common.dropFiles}</h3>
+                    <p className="text-blue-400/60 text-xs font-black uppercase tracking-[0.15em]">{t.player.supportInfo}</p>
                   </div>
               </div>
           </div>
       )}
 
-      {settings.showAiBg && settings.aiBgUrl && (
+      {settings?.showAiBg && settings?.aiBgUrl && (
           <div id="app-background-layer" className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: settings.aiBgOpacity }}>
               <img src={settings.aiBgUrl} className="w-full h-full object-cover" style={{ filter: `blur(${settings.aiBgBlur}px)` }} alt="" />
           </div>
       )}
 
-      <div id="visualizer-container" className={`w-full h-full relative z-[1] transition-transform duration-1000 ease-out overflow-hidden ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
+      <div id="visualizer-container" className={`visualizer-container z-[1] ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
         <Suspense fallback={null}>
           {isThreeMode ? (
             <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
@@ -142,23 +145,23 @@ const MainContent: React.FC = () => {
       </div>
 
       <SongOverlay 
-        song={currentSong} isVisible={settings.showSongInfo} language={language} 
+        song={currentSong} isVisible={settings?.showSongInfo} language={language} 
         onRetry={handleRetryIdentification} 
-        onClose={() => {}} analyser={analyser} sensitivity={settings.sensitivity}
-        showAlbumArt={settings.showAlbumArtOverlay} isIdle={false}
+        onClose={() => setSettings(s=>({...s, showSongInfo: false}))} analyser={analyser} sensitivity={settings?.sensitivity}
+        showAlbumArt={settings?.showAlbumArtOverlay} isIdle={false}
       />
       <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
       <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
 
       <div id="controls-layer" className={`transition-opacity duration-700 ${isIdle && !isExpanded ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
         <Suspense fallback={null}>
-          <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} />
+          <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
         </Suspense>
-        {settings.showFps && <FPSCounter />}
+        {settings?.showFps && <FPSCounter />}
       </div>
       
       <div id="version-watermark" className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white drop-shadow-md">
-        Aura Flux v{APP_VERSION}
+        {t.appTitle} {t.appVersion}
       </div>
       
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}
@@ -168,7 +171,11 @@ const MainContent: React.FC = () => {
 
 const App: React.FC = () => {
   const [isSupported, setIsSupported] = useState(true);
-  useEffect(() => { if (!window.AudioContext && !(window as any).webkitAudioContext) setIsSupported(false); }, []);
+  useEffect(() => { 
+    if (typeof window !== 'undefined' && (!window.AudioContext && !(window as any).webkitAudioContext)) {
+      setIsSupported(false); 
+    }
+  }, []);
   if (!isSupported) return <UnsupportedScreen />;
   return <AppProvider><MainContent /></AppProvider>;
 };

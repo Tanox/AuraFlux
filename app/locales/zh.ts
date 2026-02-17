@@ -1,0 +1,471 @@
+/**
+ * File: app/locales/zh.ts
+ * Version: v1.9.36
+ * Author: Sut
+ */
+
+import { LyricsStyle, VisualizerMode } from '../../types';
+import { COLOR_THEMES } from '../../constants';
+
+// --- Helper for creating theme names, directly from constants for now ---
+const THEME_NAMES = ["赛博朋克", "极光", "日落", "棉花糖", "电光", "霓虹", "矩阵", "黄金", "皇家", "太阳", "海洋", "赛博", "樱花", "北极", "沙漠", "电压", "翡翠", "青色"];
+const getThemeLabels = () => {
+  const labels: { [key: string]: string } = {};
+  COLOR_THEMES.forEach((_, i) => {
+    labels[i.toString()] = THEME_NAMES[i];
+  });
+  return labels;
+};
+
+export const zh = {
+  // --- Global / Common strings ---
+  common: {
+    queue: "播放列表",
+    empty: "空",
+    clearAll: "清空所有",
+    confirmClear: "您确定要清空播放列表吗？",
+    updateAvailable: "检测到新版本",
+    updateAction: "立即刷新",
+    dropFiles: "拖放文件导入",
+    unknownTrack: "未知曲目",
+    unknownArtist: "未知艺术家",
+    track: "曲目",
+    artist: "艺术家",
+    loading: "加载中",
+    processing: "处理中",
+    simple: "简洁",
+    advanced: "高级",
+    active: "首曲目",
+  },
+
+  // --- App Version & Info ---
+  appVersion: "v1.9.36",
+  appTitle: "Aura Flux",
+  welcomeSubtitle: "通感智能引擎",
+  startExperience: "启动系统",
+
+  // --- Onboarding ---
+  onboarding: {
+    welcome: "欢迎",
+    subtitle: "让我们开始您的 Aura Flux 体验",
+    selectLanguage: "选择您的偏好语言",
+    next: "下一步",
+    back: "返回",
+    finish: "完成",
+    features: {
+      title: "解锁您的 Aura Flux 体验",
+      visuals: {
+        title: "动态视觉效果",
+        desc: "将您的音频转化为令人惊叹的实时生成艺术，拥有2D和3D可视化器。"
+      },
+      ai: {
+        title: "AI 通感",
+        desc: "通过 Gemini 3.0 获得实时歌曲识别、情绪分析和智能视觉推荐。"
+      },
+      privacy: {
+        title: "隐私优先",
+        desc: "音频处理在您的设备上进行。AI 请求最少、匿名且安全。"
+      }
+    },
+    shortcuts: {
+      title: "掌控流程",
+      desc: "通过直观的快捷方式快速导航和控制您的体验。",
+    },
+    sections: {
+      essentials: "基本操作",
+      visual: "视觉控制",
+      advanced: "高级功能",
+    }
+  },
+
+  // --- Controls / Tabs ---
+  tabs: {
+    visual: "视觉",
+    input: "音频输入",
+    playback: "播放",
+    text: "文字叠加",
+    studio: "工作室",
+    system: "系统",
+  },
+
+  // --- Visual Panel ---
+  visualPanel: {
+    display: "显示质量",
+    aiBg: "AI 背景",
+    generateBg: "铸造 AI 艺术",
+    regenerate: "重铸艺术",
+    showBg: "显示 AI 背景",
+    opacity: "不透明度",
+    bgGenerated: "AI 背景已生成",
+  },
+
+  // --- Audio Panel ---
+  audioPanel: {
+    audioInput: "信号架构",
+    mic: "麦克风",
+    defaultMic: "默认麦克风",
+    start: "开始捕获",
+    stop: "停止捕获",
+    fileActive: "活动流",
+    analysisAi: "神经引擎",
+    enableAi: "实时分析",
+    apiKey: "Gemini API 密钥",
+    apiKeyPlaceholder: "Gemini 密钥...",
+    saved: "就绪",
+    update: "更新",
+    keyVerified: "密钥已验证并保存",
+    keyCleared: "API 密钥已清除",
+    keyInvalid: "无效的 Gemini API 密钥",
+    aiDirector: "AI 自动导演",
+    analyzing: "分析中...",
+    recognitionSource: "AI 协议",
+    save: "保存",
+  },
+
+  // --- Player Panel ---
+  player: {
+    nowPlaying: "正在播放",
+    playlistTitle: "播放列表",
+    noActiveTrack: "无活动曲目",
+    add: "本地文件",
+    addUrl: "AI 链接",
+    urlPlaceholder: "粘贴 URL 或播放列表链接...",
+    supportInfo: "支持 MP3, WAV, FLAC, OGG 及主流流媒体平台 (AI 驱动)",
+    import: "已导入",
+    importing: "AI 正在解析播放列表...",
+    bg: "专辑封面背景",
+    cover: "信息叠加",
+    blur: "模糊量",
+    info: "元信息",
+  },
+
+  // --- Custom Text Panel ---
+  textPanel: {
+    overlay: "文字图层设置",
+    appearance: "样式与排版",
+  },
+
+  // --- System Panel ---
+  systemPanel: {
+    localization: "美学与语言",
+    darkMode: "深色模式",
+    lightMode: "浅色模式",
+    uiMode: "UI 模式",
+    interface: "系统与行为",
+    installApp: "安装 Aura Flux 应用",
+    factoryReset: "恢复所有出厂设置",
+  },
+
+  // --- Global Settings / Shared ---
+  sensitivity: "增益",
+  speed: "速度",
+  smoothing: "惯性",
+  glow: "辉光",
+  trails: "拖尾",
+  autoRotate: "自动循环",
+  cycleColors: "自动循环",
+  hideCursor: "隐藏光标",
+  fftSize: "FFT 大小",
+  quality: "质量",
+  monitor: "监控",
+  wakeLock: "保持唤醒",
+  showFps: "显示 FPS",
+  showTooltips: "显示工具提示",
+  doubleClickFullscreen: "双击全屏",
+  autoHideUi: "自动隐藏 UI",
+  mirrorDisplay: "镜像显示",
+  language: "语言",
+  region: "区域",
+  visualizerMode: "视觉模式",
+  styleTheme: "风格主题",
+  recognitionSource: "AI 协议",
+  showLyrics: "歌词显示",
+  lyricsStyle: "歌词样式",
+  lyricsPosition: "锚点位置",
+  textFont: "字体",
+  textSize: "大小",
+  textRotation: "旋转",
+  textAudioReactive: "脉冲",
+  text3D: "3D 效果",
+  customColor: "动态色彩",
+  customText: "文字图层",
+  customTextPlaceholder: "输入文字",
+  textSource: "内容来源",
+  showOptions: "显示控制",
+  hideOptions: "隐藏控制",
+  randomize: "随机化",
+
+  // --- Placeholders for dynamic lists / Enums ---
+  modes: {
+    [VisualizerMode.PLASMA]: "等离子流",
+    [VisualizerMode.BARS]: "频谱条",
+    [VisualizerMode.DIGITAL_GRID]: "数字网格",
+    [VisualizerMode.SILK_WAVE]: "流光丝",
+    [VisualizerMode.OCEAN_WAVE]: "海浪",
+    [VisualizerMode.PARTICLES]: "星空",
+    [VisualizerMode.TUNNEL]: "曲速隧道",
+    [VisualizerMode.RINGS]: "共鸣环",
+    [VisualizerMode.LASERS]: "激光束",
+    [VisualizerMode.FLUID_CURVES]: "流体曲线",
+    [VisualizerMode.WAVEFORM]: "频谱波形",
+    [VisualizerMode.NEBULA]: "宇宙星云",
+    [VisualizerMode.RIPPLES]: "同心涟漪",
+    [VisualizerMode.SPIRAL]: "对数螺旋",
+    [VisualizerMode.NEURAL_FLOW]: "神经流",
+    [VisualizerMode.CUBE_FIELD]: "方块场",
+    [VisualizerMode.KINETIC_WALL]: "动力墙",
+    [VisualizerMode.RESONANCE_ORB]: "共振球",
+  },
+  modeDescriptions: {
+    [VisualizerMode.PLASMA]: "令人着迷的流体能量场，色彩混合鲜艳。",
+    [VisualizerMode.BARS]: "经典音频频谱条，动态响应频率。",
+    [VisualizerMode.DIGITAL_GRID]: "沉浸式3D数字网格，伴随灯光脉冲。",
+    [VisualizerMode.SILK_WAVE]: "流动的发光丝带，随音频能量起伏。",
+    [VisualizerMode.OCEAN_WAVE]: "风格化的波浪地形，可视化音频历史。",
+    [VisualizerMode.PARTICLES]: "动态星空或粒子云，对高频做出反应。",
+    [VisualizerMode.TUNNEL]: "脉动的几何隧道，营造出曲速感。",
+    [VisualizerMode.RINGS]: "同心圆环随音频峰值膨胀收缩。",
+    [VisualizerMode.LASERS]: "锋利、鲜艳的激光束划破视觉空间。",
+    [VisualizerMode.FLUID_CURVES]: "平滑流动的曲线，随声音变化形态。",
+    [VisualizerMode.WAVEFORM]: "抽象波形在屏幕上形成频谱丝带。",
+    [VisualizerMode.NEBULA]: "柔和、演变的星云气体和尘埃，环境且具响应性。",
+    [VisualizerMode.RIPPLES]: "以节拍为中心向外扩散的同心圆形涟漪。",
+    [VisualizerMode.SPIRAL]: "粒子对数螺旋，随频率变化而反应。",
+    [VisualizerMode.NEURAL_FLOW]: "复杂的互连线，形成流动的有机网络。",
+    [VisualizerMode.CUBE_FIELD]: "一个发光的立方体场，随音乐动画和改变大小。",
+    [VisualizerMode.KINETIC_WALL]: "动态元素墙，响应音频推拉。",
+    [VisualizerMode.RESONANCE_ORB]: "一个中心球体，根据音频输入改变其表面形态。",
+  },
+
+  lyricsStyles: {
+    [LyricsStyle.STANDARD]: "标准",
+    [LyricsStyle.KARAOKE]: "卡拉OK",
+    [LyricsStyle.MINIMAL]: "极简",
+  },
+
+  themes: getThemeLabels(),
+
+  aiProviders: {
+    GEMINI: "Gemini 3.0 (谷歌)",
+    OPENAI: "GPT-4o (OpenAI)",
+    GROQ: "Groq (自定义)",
+    CLAUDE: "Claude (Anthropic)",
+    DEEPSEEK: "DeepSeek",
+    QWEN: "Qwen (阿里云)",
+    MOCK: "本地模拟 (仅开发)",
+  },
+
+  regions: {
+    global: "全球",
+    US: "美国",
+    CN: "中国",
+    JP: "日本",
+    KR: "韩国",
+    EU: "欧洲",
+    LATAM: "拉丁美洲",
+  },
+
+  textSources: {
+    auto: "自动",
+    custom: "手动",
+    song: "歌曲",
+    clock: "时钟",
+  },
+
+  fonts: {
+    default: "Inter (默认)",
+    system: "系统 UI",
+    mono: "JetBrains Mono",
+    modern: "Montserrat",
+    heavy: "Oswald",
+    elegant: "Playfair Display",
+    retro: "Courier New",
+    serif: "Times New Roman",
+    custom: "自定义...",
+  },
+
+  positions: {
+    tl: "左上", tc: "中上", tr: "右上",
+    ml: "左中", mc: "正中", mr: "右中",
+    bl: "左下", bc: "中下", br: "右下",
+  },
+
+  presets: {
+    title: "氛围引擎",
+    hint: "视觉预设",
+    select: "选择心情...",
+    all_modes: "所有模式 (循环)",
+    calm: "平静冥想",
+    party: "派对氛围",
+    ambient: "环境之梦",
+    galaxy: "深邃星系",
+    cyberpunk: "赛博朋克都市",
+    retrowave: "复古浪潮日落",
+    psychedelic: "迷幻之旅",
+    vocal: "人声焦点",
+  },
+  qualities: {
+    low: "低 (节能)",
+    med: "中 (平衡)",
+    high: "高 (保真)",
+  },
+
+  // --- Hints for Tooltips ---
+  hints: {
+    randomize: "随机化视觉效果与颜色",
+    resetVisual: "重置视觉设置",
+    resetAudio: "重置音频设置",
+    resetText: "重置文字叠加设置",
+    autoRotate: "自动循环切换视觉模式",
+    enterLocalFont: "例如: Arial, Helvetica Neue",
+    confirmReset: "您确定要将所有设置恢复到出厂默认值吗？此操作无法撤销。",
+    recGain: "调整视频录制时的音频音量。较高的增益可能导致录制中视觉效果更响亮、更具反应性。",
+    syncStart: "如果正在播放文件，在播放开始时自动开始录制。",
+    countdown: "录制开始前显示倒计时。",
+  },
+
+  // --- Toasts / Notifications ---
+  toasts: {
+    canvasNotFound: "未找到 Canvas 元素。",
+    audioNotReady: "音频源未就绪。请尝试启动麦克风或播放文件。",
+    noVideoFormat: "无支持的视频录制格式。",
+    recInitFail: "录制初始化失败。",
+    recStart: "录制开始！",
+    processing: "正在处理视频...",
+    reviewReady: "视频准备就绪！",
+    exportFail: "视频导出失败。",
+    copied: "链接已复制！",
+    unsupported: "您的浏览器不支持共享功能。",
+    aiDirectorReq: "AI 功能需要 Gemini API 密钥。",
+    aiFail: "AI 生成失败。请检查 API 密钥或重试。",
+  },
+
+  // --- Errors ---
+  errors: {
+    accessDenied: "麦克风访问被拒绝。请在浏览器设置中启用。",
+    trackLoad: "无法加载曲目或解码音频数据。",
+    configMissing: "API 密钥缺失或无效。请在系统设置中配置。",
+    unsupportedTitle: '浏览器不受支持',
+    unsupportedText: 'Aura Flux 需要现代浏览器功能（如麦克风访问），但当前浏览器不支持。请更新到最新版本的 Chrome、Firefox 或 Safari。',
+  },
+
+  config: {
+    title: "数据管理",
+    export: "导出",
+    import: "导入",
+    exported: "配置已导出",
+    importSuccess: "配置已导入",
+    invalidFile: "无效的配置文件",
+    library: "预设存档",
+    placeholder: "预设名称...",
+    save: "保存",
+    load: "已加载预设",
+    delete: "已移除",
+    deleteConfirm: "您确定要删除此预设吗？",
+    limitReached: "达到预设限制（最多3个）。",
+    saved: "已保存",
+  },
+
+  songOverlay: {
+    provider: {
+      local: '本地缓存',
+      mock: '模拟',
+      id3: 'ID3 标签',
+    },
+    aiSynesthesia: 'AI 通感',
+    googleSearch: '谷歌搜索',
+  },
+
+  wrongSong: "重新分析",
+
+  // --- Share ---
+  share: {
+    appTitle: "Aura Flux - AI 音乐可视化器",
+    appMessage: "体验 Aura Flux - AI 音乐可视化器！🎵✨",
+    shareApp: "分享应用",
+    title: "Aura Flux 创作",
+    message: "快来看看我用 Aura Flux 创作的艺术作品！\n\n{song} - {artist}",
+    hashtags: "#AuraFlux #AuraFluxVisualizer #AIMusicArt",
+    copied: "文本已复制！",
+    unsupported: "分享功能不受支持",
+  },
+
+  // --- Studio Panel ---
+  studioPanel: {
+    videoConfig: "视频设置",
+    audioMix: "音频混音",
+    previewTitle: "录制预览",
+    discard: "丢弃",
+    share: "分享",
+    save: "保存",
+    stopping: "正在停止...",
+    processing: "正在处理...",
+    arming: "已武装并等待...",
+    start: "录制视频",
+    settings: {
+      resolution: "分辨率",
+      resNative: "原生",
+      aspectRatio: "宽高比",
+      fps: "帧率",
+      codec: "视频格式",
+      bitrate: "比特率",
+      recGain: "录制增益",
+      syncStart: "同步播放",
+      countdown: "倒计时",
+    },
+    hints: {
+      recGain: "调整视频录制时的音频音量。较高的增益可能导致录制中视觉效果更响亮、更具反应性。",
+      syncStart: "如果正在播放文件，在播放开始时自动开始录制。",
+      countdown: "录制开始前显示倒计时。",
+    },
+    formats: {
+      vp9: "WebM (VP9)",
+      vp8: "WebM (VP8)",
+      mp4_h264: "MP4 (H.264)",
+    },
+  },
+
+  // --- Help Modal ---
+  helpModal: {
+    title: "帮助与信息",
+    tabs: {
+      guide: "指南",
+      shortcuts: "快捷键",
+      about: "关于",
+    },
+    intro: "Aura Flux 将声音转化为令人惊叹的视觉体验。潜入一个沉浸式世界，您的音乐决定着艺术。",
+    howItWorksTitle: "如何使用",
+    howItWorksSteps: [
+      "点击“启动系统”开始，授予麦克风访问权限以进行实时可视化。",
+      "在“视觉”选项卡中探索不同的视觉模式，并微调速度、灵敏度和颜色等设置。",
+      "在“播放”中上传本地音频文件，或使用“AI 链接”解析流行流媒体平台的 URL。",
+      "在“音频输入”中启用“实时分析”，以进行 AI 驱动的歌曲识别和情绪驱动的视觉推荐。",
+      "在“文字叠加”下，通过自定义文字叠加、字体和 3D 效果进行个性化设置。",
+      "使用“工作室”工具捕获您的作品，分辨率最高可达 4K，或在“系统”中管理语言和 UI 首选项。",
+    ],
+    shortcutsTitle: "键盘快捷键",
+    shortcutItems: {
+      toggleMic: "切换麦克风/播放",
+      fullscreen: "切换全屏",
+      lyrics: "切换 AI 信息 / 歌词",
+      hideUi: "切换 UI 可见性",
+      randomize: "随机化视觉效果",
+      speed: "调整速度",
+      glow: "切换辉光",
+      trails: "切换拖尾",
+      changeMode: "循环视觉模式",
+      changeTheme: "循环颜色主题",
+      tabs: "切换面板选项卡",
+      help: "打开帮助 (此模态框)",
+    },
+    gesturesTitle: "触控手势",
+    gestureItems: {
+      swipeMode: "左右滑动: 切换视觉模式",
+      swipeSens: "上下滑动: 调整灵敏度 (增益)",
+      longPress: "长按: 切换 AI 信息 / 歌词叠加",
+    },
+    projectInfoTitle: "我们的愿景",
+    aboutDescription: "Aura Flux 让您看到无形之物。它探索了生成艺术、实时音频处理和先进 AI 之间的协同作用。我们的使命是将听觉体验转化为深刻的个人化且视觉上令人惊叹的旅程。",
+    techStackTitle: "核心技术",
+  },
+};

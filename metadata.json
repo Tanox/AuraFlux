@@ -1,6 +1,6 @@
 {
   "name": "Aura Flux - AI Music Visualizer",
-  "description": "Transform microphone input into real-time generative art with Gemini 3 AI. v1.9.7 includes resolved React 19 dependencies and synchronized versioning.",
+  "description": "Transform microphone input into real-time generative art with Gemini 3.0 AI. v1.9.36 resolves importmap conflicts and cleans runtime dependencies.",
   "requestFramePermissions": [
     "microphone"
   ]

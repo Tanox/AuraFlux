@@ -1,25 +1,25 @@
 # OpenSpec: UI/UX 与交互规范 (05)
 
-## 1. 核心交互标准 (v1.9.2)
-- **Bento 布局:** 设置面板采用非对称网格（Bento Grid），优先展示核心控制。
-- **开关布局:** 严格遵循“左开关、右文本”模式，标签文本左对齐，增强扫视效率。
-- **批量模式选择:** 针对多选配置，提供“全选/反选”逻辑。
+## 1. 界面理念 (v1.9.36)
+Aura Flux 采用 **Bento Grid (便当盒)** 布局，将复杂的专业控件组织在非对称的卡片容器中，确保界面在信息密度极高时依然保持整洁。
 
-## 2. 危险操作隔离
-- “恢复出厂设置”等操作必须包含二级确认逻辑。
-- 在视觉上使用红色警示色，并放置在面板底部。
+## 2. 控制面板结构
+- **顶部弹出层:** `Controls.tsx` 负责多标签页切换。
+- **分层管理:**
+  - `VisualSettingsPanel`: 细分为 `CoreVisuals`, `AiBackground`, `ModeSelector`。
+  - `AudioSettingsPanel`: 细分为 `InputSettings`, `AiSettings`。
+  - `PlaybackPanel`: 包含播放器逻辑、专辑封面预览及歌单管理器。
+- **文字叠加层:** 支持 `AUTO`（自动同步歌曲信息）、`CLOCK`、`CUSTOM` 三种模式，支持 3D 挤出效果。
 
-## 3. 快捷键映射
-- `Space`: 播放/暂停。
-- `F`: 全屏。
-- `R`: 随机氛围 (Random Flux)。
-- `L`: 歌词/AI 信息图层开关。
-- `1 - 6`: 快速切换设置标签页。
+## 3. 交互标准
+- **全屏手势:** 左右滑动切换模式，上下滑动调节增益，长按开关 AI 图层。
+- **拖放逻辑:** 根容器检测 `Files` 拖入并触发 `importFiles` 逻辑。
+- **沉浸模式:** `useIdleTimer` 在 3 秒后淡出 UI 且隐藏鼠标指针。
 
-## 4. 响应式适配
-- **Mobile:** 自动启用滑动手势（左右切换模式，上下调节灵敏度）。
-- **HUD 行为:** 3秒无交互后自动隐藏，保持沉浸感。
+## 4. 实时反馈
+- **Toast 系统:** 位于 `bottom-24`，对导出、错误及 AI 状态进行即时通知。
+- **录制状态:** 工作室面板支持“武装（Armed）”状态，根据音频信号自动触发录制起始。
 
 ---
-*Aura Flux Interface Specification - Version 1.9.2*
+*Aura Flux Interface Specification - Version 1.9.36*
 *Author: Sut*

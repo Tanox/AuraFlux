@@ -1,26 +1,26 @@
 # OpenSpec: 视觉生成渲染规范 (03)
 
-## 1. 渲染性能分级 (v1.9.2)
-- **Low (Eco):**
-  - 降低 `dpr` 至 0.8。
-  - 3D 模式禁用 Bloom 与 Post-processing。
-  - 减少粒子密度 50%。
-- **Med (Standard):**
-  - `dpr` 锁定为 1.0。
-  - 开启基础 Bloom 效果。
-- **High (HQ):**
-  - `dpr` 跟随设备 (最高 1.5)。
-  - 开启高阶 Shader 效果与高频更新。
+## 1. 混合渲染管线 (v1.9.36)
 
-## 2. 3D 场景准则 (R3F)
-- **Instancing:** 所有重复几何体（如 `CubeField`, `KineticWall`）必须使用 `InstancedMesh` 以降低 Draw Calls。
-- **Shaders:** 核心动效通过 GLSL 顶点着色器处理，最大限度减轻 CPU 负担。
-- **Post-processing:** 统一使用 `@react-three/postprocessing` 的 `EffectComposer`。
+### 1.1. 2D Worker 渲染器
+- **控制权转移:** `VisualizerCanvas` 将 `<canvas>` 控制权转移至独立 Worker。
+- **帧更新:** 主线程仅发送原始 `Uint8Array` 数据，Worker 内部实现 `requestAnimationFrame` 循环。
+- **渲染策略:** 采用策略模式（Strategy Pattern），动态加载 `BarsRenderer`, `PlasmaRenderer`, `NebulaRenderer` 等。
+- **优化:** 2D 拖尾（Trails）通过 `destination-out` 或半透明矩形覆盖实现。
 
-## 3. 2D 策略
-- **Trails (运动拖尾):** 使用不完全清屏 (`fillRect` 配合 alpha) 实现。
-- **Glow (辉光):** 使用 `shadowBlur` 配合 API 模拟，仅在非高性能消耗模式下开启。
+### 1.2. 3D R3F 渲染器
+- **场景切换:** 基于 `SceneSwitcher` 动态卸载/挂载模式。
+- **着色器驱动:**
+  - `DigitalGridScene`: 基于 `DataTexture` 将音频频谱直接作为 Uniform 传入着色器。
+  - `SilkWaveScene`: 利用 `InstancedMesh` 渲染 50+ 条高精度丝绸纤维，CPU 仅负责 Uniform 更新。
+  - `ResonanceOrb`: 利用 `IcosahedronGeometry` 的顶点置换模拟液体波动。
+- **后期处理:** 统一使用 `EffectComposer` 管理 `Bloom` 辉光和 `Noise` 噪点（去色阶）。
+
+## 2. 质量等级定义 (`settings.quality`)
+- **Low:** 0.8 DPR，禁用 Bloom。
+- **Med:** 1.0 DPR，标准 Bloom。
+- **High:** 匹配设备 DPR（最高 1.5），高精度粒子数量，全开后期特效。
 
 ---
-*Aura Flux Rendering Specification - Version 1.9.2*
+*Aura Flux Rendering Specification - Version 1.9.36*
 *Author: Sut*

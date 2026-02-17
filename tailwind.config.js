@@ -1,18 +1,10 @@
-/**
- * File: tailwind.config.js
- * Version: 1.9.14
- * Author: Sut
- */
-
+// File: tailwind.config.js | Version: v1.9.36 | Author: Sut
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
     "./*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./core/**/*.{js,ts,jsx,tsx}",
-    "./assets/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {

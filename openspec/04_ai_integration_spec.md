@@ -1,22 +1,30 @@
 # OpenSpec: AI 智能与语义规范 (04)
 
-## 1. 模型选择 (v1.9.2)
-- **主语言模型:** `gemini-3-flash-preview`。用于歌词检索、情绪分析与视觉导演建议。
-- **视觉模型:** `gemini-2.5-flash-image`。用于根据当前歌曲氛围生成艺术背景。
+## 1. 模型架构 (v1.9.36)
+所有 AI 逻辑由 `app/services/aiService.ts` 封装，遵循 **Gemini 3.0 SDK** 最新规范。
 
-## 2. 通感分析逻辑
-1.  **音频采样:** 截取当前播放的 15 秒音频片段并转换为 Base64。
-2.  **语义对齐:** 发送至 Gemini 3 进行音频指纹识别与情感建模。
-3.  **结果映射:** 
-    - AI 返回 JSON 格式配置（Mode, Colors, Speed）。
-    - 客户端解析并应用 `applyPreset` 逻辑进行平滑过渡。
+- **Gemini 3.0 Flash:** 核心音频识别与视觉导演（`responseSchema` 强制结构化）。
+- **Gemini 2.5 Flash Image:** 艺术背景生成，支持 `aspectRatio: "16:9"`。
+- **Gemini 3.0 Pro:** 复杂歌单解析（启用 `googleSearch` 工具）。
 
-## 3. 歌词处理规范
-- **检索优先级:** 
-  1. ID3 Tags (本地提取)。
-  2. Gemini 知识库 (云端检索)。
-- **同步显示:** 采用 LRC 时间戳解析算法，结合 `currentTime` 实现毫秒级滚动。
+## 2. 功能协议
+### 2.1. 歌曲识别 (Identification)
+- **输入:** 4 秒 Base64 编码的音频片段 (`audio/webm`)。
+- **输出格式:** 强制 JSON 包含 `title`, `artist`, `mood`, `identified`。
+- **安全:** API 密钥在本地 LocalStorage 中以 `enc:` 前缀 Base64 加密存储。
+
+### 2.2. AI 导演 (Auto-Director)
+- **机制:** 分析 15 秒音频指纹。
+- **反馈:** 返回视觉模式、配色方案（3色 HEX）及推荐理由的 JSON。
+
+### 2.3. AI 艺术背景 (Artistic BG)
+- **触发:** 提取歌曲 `mood_en_keywords` 作为 Prompt。
+- **格式:** 响应中遍历 `parts` 查找 `inlineData` 以提取生成图像。
+
+## 3. 调用规范
+- 禁止使用旧版 `GoogleGenerativeAI` 导入。
+- 必须使用 `ai.models.generateContent({ model, contents, config })` 格式。
 
 ---
-*Aura Flux AI Integration Specification - Version 1.9.2*
+*Aura Flux AI Integration Specification - Version 1.9.36*
 *Author: Sut*

@@ -1,18 +1,13 @@
-/**
- * File: app/AppContext.tsx
- * Version: 1.9.14
- * Author: Sut
- */
-
+// File: app/AppContext.tsx | Version: v1.9.36 | Author: Sut
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
-import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '../core/types';
-import { useAudio } from '../core/hooks/useAudio';
-import { useAppState } from '../core/hooks/useAppState';
-import { useVisualsState } from '../core/hooks/useVisualsState';
-import { useAiState } from '../core/hooks/useAiState';
-import { usePWA } from '../core/hooks/usePWA';
-import { Toast } from '../components/ui/Toast';
-import { TranslationSchema } from '../core/i18n';
+import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from './types';
+import { useAudio } from './hooks/useAudio';
+import { useAppState } from './hooks/useAppState';
+import { useVisualsState } from './hooks/useVisualsState';
+import { useAiState } from './hooks/useAiState';
+import { usePWA } from './hooks/usePWA';
+import { Toast } from './components/visualizers/ui/Toast';
+import { TranslationSchema } from './locales';
 
 type HelpTab = 'guide' | 'shortcuts' | 'about';
 
@@ -102,8 +97,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     const handleUpdate = (e: any) => {
-      setIsUpdateAvailable(true);
-      setSwRegistration(e.detail);
+        setIsUpdateAvailable(true);
+        setSwRegistration(e.detail);
     };
     window.addEventListener('app-update-available', handleUpdate);
     return () => window.removeEventListener('app-update-available', handleUpdate);
@@ -112,8 +107,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const performUpdate = useCallback(() => {
     if (swRegistration?.waiting) {
       swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+    } else {
+      // Fallback in case the waiting worker vanished
+      window.location.reload();
     }
-    window.location.reload();
   }, [swRegistration]);
 
   const aiState = useAiState({
@@ -127,14 +124,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setSettings: visualsState.setSettings,
     onSongIdentified: setCurrentSong,
     currentSong: currentSong,
-    getAudioSlice: audioState.getAudioSlice
+    getAudioSlice: audioState.getAudioSlice,
+    t: uiState.t,
+    showToast,
   });
 
   const toggleFullscreen = useCallback(() => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
-    } else {
-      if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    if (typeof document !== 'undefined') {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+        }
     }
   }, []);
 

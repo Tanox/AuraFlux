@@ -1,0 +1,99 @@
+/* File: app/styles/index.css | Version: v1.9.36 | Author: Sut */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top);
+  --safe-area-inset-right: env(safe-area-inset-right);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom);
+  --safe-area-inset-left: env(safe-area-inset-left);
+}
+
+body {
+  @apply bg-white dark:bg-black text-black dark:text-white;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root, body, html {
+  height: 100%;
+  width: 100%;
+  overscroll-behavior: none;
+}
+
+.pb-safe { padding-bottom: var(--safe-area-inset-bottom); }
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  border: transparent;
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+html:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* For StudioPanel.tsx ArmedVisualizer */
+.armed-visualizer-container {
+  @apply absolute inset-0 flex items-center justify-center;
+}
+.armed-bar {
+  @apply absolute bottom-1/2 left-1/2 w-1.5 h-12 bg-blue-500 rounded-full origin-bottom transition-transform duration-150 ease-out;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+}
+
+
+/* For SongOverlay.tsx */
+.song-info-card {
+  @apply absolute p-4 md:p-5 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl w-auto max-w-md pointer-events-auto group;
+  transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+/* For CustomTextOverlay.tsx */
+.text-layer-anchor {
+    @apply fixed inset-0 z-[16] p-8 flex pointer-events-none;
+}
+.text-layer-content {
+    @apply font-black uppercase tracking-[0.1em] leading-none flex flex-col;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    transition: transform 0.1s ease-out, opacity 0.2s ease-out, color 0.5s ease-out, text-shadow 0.3s ease-out;
+    will-change: transform, opacity, color;
+}
+
+/* For LyricsOverlay.tsx */
+.mask-fade-vertical {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
+}
+
+/* Animation utilities */
+@keyframes bounce {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+
+.visualizer-container {
+  @apply absolute inset-0 w-full h-full transition-transform duration-700 ease-in-out;
+}

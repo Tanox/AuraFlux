@@ -2,21 +2,19 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v1.9.6] - 2025-02-14
+## [v1.9.36]
 
-### 🔧 Fixes & Refinement
-*   **Renderer**: Fixed critical `ctx.fill()` context error in `SpiralRenderer`.
-*   **Architecture**: Centralized all TypeScript type imports to `core/types` for cleaner dependency resolution.
-*   **AI Service**: Hardened `generateArtisticBackground` to safely iterate through multi-part candidates for image extraction.
+### 🛠️ Dependency Audit & Integrity
+*   **Importmap Cleanup**: Removed development-only dependencies (`vite`, `@vitejs/plugin-react`) from the browser runtime `importmap` to prevent potential execution conflicts.
+*   **JSX Runtime Mapping**: Added explicit mapping for `react/jsx-runtime` to ensure full compatibility with React 19's new JSX transform in production environments.
+*   **Version Consolidation**: Unified all core files (index, App, Context) and metadata to version `v1.9.36`.
+*   **SW Refresh**: Incremented Service Worker cache version to force client browsers to re-resolve the cleaned dependency map.
 
-### 🌐 Infrastructure
-*   **Domain Migration**: Successfully updated all SEO, GEO, and social meta tags to the new domain: `https://aura.ewuse.com/`.
+## [v1.9.35]
 
-## [v1.9.2]
+### 🏗️ Major Refactor & Stability
+*   **Gemini SDK Alignment**: Updated `aiService.ts` to strictly follow the latest `@google/genai` coding guidelines.
+*   **Importmap Sanitization**: Fixed an invalid JSON error in `index.html`.
 
-### 🚀 Features
-*   **Viral Sharing:** Added dedicated share buttons in the Control Bar and Studio Preview.
-*   **Analytics:** Integrated Google Analytics (G-B3R0GXSDY8).
-
-## [v1.8.102]
+## [v1.9.34]
 ...

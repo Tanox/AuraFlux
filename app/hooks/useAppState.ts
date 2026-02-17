@@ -1,0 +1,110 @@
+/**
+ * File: app/hooks/useAppState.ts
+ * Version: v1.9.36
+ * Author: Sut
+ */
+
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useLocalStorage } from './useLocalStorage';
+import { Language, Region } from '../types';
+import { TRANSLATIONS } from '../locales';
+
+const DEFAULT_LANGUAGE: Language = 'en';
+const SUPPORTED_LANGUAGES: Language[] = ['en', 'zh', 'tw', 'ja', 'es', 'ko', 'de', 'fr', 'ar', 'ru', 'pt']; // Added pt
+
+// These are internal logic values, not directly user-facing labels
+const INTERNAL_SUPPORTED_REGIONS: Region[] = ['global', 'US', 'CN', 'JP', 'KR', 'EU', 'LATAM'];
+type HelpTab = 'guide' | 'shortcuts' | 'about';
+
+const detectBrowserLanguage = (): Language => {
+  if (typeof navigator === 'undefined') return DEFAULT_LANGUAGE;
+  const browserLangs = navigator.languages ? Array.from(navigator.languages) : [navigator.language];
+  
+  for (const lang of browserLangs) {
+    const code = lang.toLowerCase();
+    if (code.includes('zh-tw') || code.includes('zh-hk') || code.includes('zh-hant')) return 'tw';
+    if (code.startsWith('zh')) return 'zh';
+    if (code.startsWith('pt')) return 'pt'; // Handle Portuguese
+    const primary = code.split('-')[0] as Language;
+    if (SUPPORTED_LANGUAGES.includes(primary)) return primary;
+  }
+  return DEFAULT_LANGUAGE;
+};
+
+const detectDefaultRegion = (lang: Language): Region => {
+  switch (lang) {
+    case 'zh': case 'tw': return 'CN';
+    case 'ja': return 'JP';
+    case 'ko': return 'KR';
+    case 'es': case 'pt': return 'LATAM'; // Grouping Spanish and Portuguese for LATAM
+    case 'de': case 'fr': return 'EU';
+    default: return 'global';
+  }
+};
+
+export const useAppState = () => {
+  const { getStorage, setStorage, clearStorage } = useLocalStorage();
+
+  const [hasStarted, setHasStarted] = useState(false);
+  
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = getStorage<Language | null>('language', null);
+    return (saved && SUPPORTED_LANGUAGES.includes(saved)) ? saved : detectBrowserLanguage();
+  });
+
+  const [region, setRegion] = useState<Region>(() => {
+    const saved = getStorage<Region | null>('region', null);
+    // Use INTERNAL_SUPPORTED_REGIONS for internal validation, not direct translation keys
+    return (saved && INTERNAL_SUPPORTED_REGIONS.includes(saved)) ? saved : detectDefaultRegion(language);
+  });
+
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [helpModalInitialTab, setHelpModalInitialTab] = useState<HelpTab>('guide');
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    const dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = dir;
+    document.documentElement.lang = language;
+    setStorage('language', language);
+  }, [language, setStorage]);
+
+  useEffect(() => {
+    setStorage('region', region);
+  }, [region, setStorage]);
+
+  const t = useMemo(() => TRANSLATIONS[language] || TRANSLATIONS[DEFAULT_LANGUAGE], [language]);
+
+  const wakeLockRef = useRef<any>(null);
+
+  const manageWakeLock = useCallback(async (enabled: boolean) => {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      if (enabled && !wakeLockRef.current) {
+        wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
+      } else if (!enabled && wakeLockRef.current) {
+        await wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      }
+    } catch (err) {
+      console.warn("WakeLock Error:", err);
+    }
+  }, []);
+
+  const resetSettings = useCallback(() => {
+    clearStorage();
+    window.location.reload();
+  }, [clearStorage]);
+
+  return {
+    hasStarted, setHasStarted,
+    language, setLanguage,
+    region, setRegion,
+    t,
+    manageWakeLock,
+    resetSettings,
+    showHelpModal, setShowHelpModal,
+    helpModalInitialTab, setHelpModalInitialTab,
+    isDragging, setIsDragging
+  };
+};

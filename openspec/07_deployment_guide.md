@@ -1,17 +1,19 @@
 # OpenSpec: 部署与环境规范 (07)
 
-## 1. 编译环境 (v1.9.2)
-- **Runtime:** Bun 1.1+ 或 Node.js 20+。
-- **Build Engine:** Vite 6.0 (ESM 优先)。
+## 1. 环境配置 (v1.9.36)
+- **API 注入:** 通过 Vite 的 `define` 插件将 `process.env.API_KEY` 注入。
+- **构建目标:** `esnext`，压缩工具 `esbuild`。
 
-## 2. 环境变量安全
-- **API_KEY:** 必须通过环境变量注入。
-- **Production:** 生产环境必须配置 CSP (Content Security Policy) 以保护 API 调用安全。
+## 2. PWA 规范
+- **Service Worker (`sw.js`):** 
+  - 采用 **Stale-While-Revalidate** 策略。
+  - **更新逻辑:** 监听 `SKIP_WAITING` 消息。当 `onupdatefound` 触发时，UI 展示“立即刷新”横幅，点击后触发 `postMessage` 并调用 `window.location.reload()`。
+- **Manifest:** `manifest.json` 包含 `maskable` 图标支持。
 
-## 3. 部署目标
-- 必须支持静态托管 (GitHub Pages, Vercel, Netlify)。
-- PWA 支持: 必须包含 Service Worker (`sw.js`) 实现离线资源缓存。
+## 3. 构建发布
+- **目录:** `dist/` 为发布目录。
+- **权限:** `metadata.json` 显式声明 `microphone` 权限。
 
 ---
-*Aura Flux Deployment Guide - Version 1.9.2*
+*Aura Flux Deployment Guide - Version 1.9.36*
 *Author: Sut*
