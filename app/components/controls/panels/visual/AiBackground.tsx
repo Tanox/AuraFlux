@@ -1,15 +1,15 @@
-
 /**
  * File: app/components/controls/panels/visual/AiBackground.tsx
- * Version: v1.9.37 | Author: Sut
+ * Version: v1.9.73
+ * Author: Sut
  */
 
 import React, { useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { useVisuals, useUI, useAudioContext, useAI } from '../../../../AppContext';
-import { generateArtisticBackground } from '../../../../services/aiService';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
+import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
+import { useVisuals, useUI, useAudioContext, useAI } from '../../../../AppContext.tsx';
+import { generateArtisticBackground } from '../../../../services/aiService.ts';
 
 export const AiBackground: React.FC = () => {
   const { settings, setSettings } = useVisuals();
@@ -48,7 +48,7 @@ export const AiBackground: React.FC = () => {
   };
 
   return (
-    <BentoCard title={t?.visualPanel?.aiBg} className="flex-1">
+    <BentoCard id="panel-visual-ai-background" title={t?.visualPanel?.aiBg} className="flex-1">
         <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center h-full">
             <div className="shrink-0 flex gap-2">
                 <button 

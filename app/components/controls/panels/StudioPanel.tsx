@@ -1,19 +1,19 @@
 /**
  * File: app/components/controls/panels/StudioPanel.tsx
- * Version: v1.9.36
+ * Version: v1.9.73
  * Author: Sut
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useUI, useAudioContext } from '../../../AppContext';
-import { useVideoRecorder } from '../../../hooks/useVideoRecorder';
-import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
-import { Slider } from '../../visualizers/ui/controls/Slider';
-import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl';
-import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
-import { getAverage } from '../../../services/audioUtils';
+import { useVideoRecorder } from '../../../hooks/useVideoRecorder.ts';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
+import { Slider } from '../../visualizers/ui/controls/Slider.tsx';
+import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl.tsx';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
+import { getAverage } from '../../../services/audioUtils.ts';
 
 const formatSize = (b: number) => b === 0 ? '0 MB' : `${(b / (1024 * 1024)).toFixed(1)} MB`;
 const formatDur = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
@@ -148,8 +148,8 @@ export const StudioPanel: React.FC = () => {
 
   if (recordedBlob && previewUrl) {
     return createPortal(
-      <div id="studio-preview-modal" className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-3xl bg-[#0a0a0c] border border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-fade-in-up">
+      <div id="studio-preview-portal" className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center p-6">
+        <div id="studio-preview-modal" className="w-full max-w-3xl bg-[#0a0a0c] border border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-fade-in-up">
           <div className="p-5 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
             <div className="flex flex-col">
               <span className="text-xs font-black text-white uppercase tracking-widest">{studio.previewTitle}</span>
@@ -176,7 +176,7 @@ export const StudioPanel: React.FC = () => {
   return (
     <div id="panel-studio" className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
       <div className="lg:col-span-7 flex flex-col gap-3">
-        <BentoCard title={studio.videoConfig}>
+        <BentoCard id="panel-studio-video-config" title={studio.videoConfig}>
           <div className="space-y-4">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               <CustomSelect label={labels.resolution} value={resolution} onChange={(v) => setResolution(v === 'native' ? 'native' : Number(v))} options={[{ value: 'native', label: labels.resNative }, { value: 720, label: '720p' }, { value: 1080, label: '1080p' }, { value: 2160, label: '4K' }]} />
@@ -189,7 +189,7 @@ export const StudioPanel: React.FC = () => {
             </div>
           </div>
         </BentoCard>
-        <BentoCard title={studio.audioMix} className="flex-1">
+        <BentoCard id="panel-studio-audio-mix" title={studio.audioMix} className="flex-1">
           <div className="h-full flex flex-col justify-between gap-4">
             <div className="max-w-md"><Slider label={labels.recGain} value={recGain} min={0} max={2} step={0.1} onChange={setRecGain} hintText={hints.recGain} /></div>
             <div className="grid grid-cols-2 gap-3 pt-3 border-t border-black/5 dark:border-white/5">
@@ -199,7 +199,7 @@ export const StudioPanel: React.FC = () => {
           </div>
         </BentoCard>
       </div>
-      <BentoCard className="lg:col-span-5 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
+      <BentoCard id="panel-studio-recorder" className="lg:col-span-5 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
         <div className={`absolute inset-0 transition-colors duration-1000 ${isRecording ? 'bg-red-500/5' : isArmed ? 'bg-blue-500/5' : 'bg-transparent'}`} />
         <div className="relative z-10 flex flex-col items-center">
             <div className="relative group mb-6 flex items-center justify-center w-32 h-32">

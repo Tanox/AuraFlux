@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ui/UnsupportedScreen.tsx | Version: v1.9.65
+// File: app/components/visualizers/ui/UnsupportedScreen.tsx | Version: v1.9.72
 import React from 'react';
 import { useUI } from '../../../AppContext.tsx';
 

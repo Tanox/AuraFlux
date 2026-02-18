@@ -1,15 +1,15 @@
 /**
  * File: app/components/controls/panels/audio/InputSettings.tsx
- * Version: v1.9.36
+ * Version: v1.9.73
  * Author: Sut
  */
 
 import React from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { TooltipArea } from '../../../visualizers/ui/controls/Tooltip';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
-import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { useVisuals, useAudioContext, useUI } from '../../../../AppContext';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { TooltipArea } from '../../../visualizers/ui/controls/Tooltip.tsx';
+import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect.tsx';
+import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
+import { useVisuals, useAudioContext, useUI } from '../../../../AppContext.tsx';
 
 export const InputSettings: React.FC = () => {
   const { settings, setSettings, resetAudioSettings } = useVisuals();
@@ -23,7 +23,7 @@ export const InputSettings: React.FC = () => {
 
   const deviceOptions = [
     { value: '', label: t?.audioPanel?.defaultMic || "Default Microphone" },
-    ...audioDevices.map(d => ({ value: d.deviceId, label: d.label }))
+    ...audioDevices.map(d => ({ value: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }))
   ];
 
   const handleAudioSettingChange = (key: keyof typeof settings, value: any) => {
@@ -32,6 +32,7 @@ export const InputSettings: React.FC = () => {
 
   return (
     <BentoCard 
+        id="panel-audio-input"
         title={t?.audioPanel?.audioInput || "Signal Architecture"}
         action={
             <TooltipArea text={t?.hints?.resetAudio}>

@@ -1,4 +1,4 @@
-// File: app/components/controls/panels/VisualSettingsPanel.tsx | Version: v1.9.65
+// File: app/components/controls/panels/VisualSettingsPanel.tsx | Version: v1.9.72
 import React from 'react';
 import { CoreVisuals } from './visual/CoreVisuals.tsx';
 import { AiBackground } from './visual/AiBackground.tsx';

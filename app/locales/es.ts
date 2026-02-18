@@ -1,4 +1,4 @@
-// File: app/locales/es.ts | Version: v1.9.71
+// File: app/locales/es.ts | Version: v1.9.72
 import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
 import { COLOR_THEMES } from '../../constants/index.ts';
 
@@ -30,7 +30,7 @@ export const es = {
     advanced: "Avanzado",
     active: "Pistas",
   },
-  appVersion: "v1.9.71",
+  appVersion: "v1.9.72",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
@@ -365,10 +365,11 @@ export const es = {
       syncStart: "Sincro con Reproducción",
       countdown: "Cuenta Regresiva",
     },
+    // Fix: Corrected Portuguese translations to Spanish.
     hints: {
-      recGain: "Ajuste o volume para a gravação. Um ganho mais alto pode resultar em visuais mais reativos.",
-      syncStart: "Começa a gravar automaticamente quando a música começa.",
-      countdown: "Mostra uma contagem decrescente antes de começar a gravar.",
+      recGain: "Ajusta el volumen para la grabación. Una ganancia alta crea visuales más reactivos.",
+      syncStart: "Inicia la grabación automáticamente al empezar la reproducción.",
+      countdown: "Muestra una cuenta regresiva antes de grabar.",
     },
     formats: {
       vp9: "WebM (VP9)",

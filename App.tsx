@@ -100,6 +100,7 @@ const MainContent: React.FC = () => {
           </div>
       )}
       <div
+        id="visualizer-container"
         className={`visualizer-container ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
         onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
       >
@@ -125,7 +126,7 @@ const MainContent: React.FC = () => {
 
 export const App: React.FC = () => (
     <AppProvider>
-        <Suspense fallback={<div className="w-screen h-screen bg-black" />}>
+        <Suspense fallback={<div id="app-fallback-loader" className="w-screen h-screen bg-black" />}>
             <MainContent />
         </Suspense>
     </AppProvider>

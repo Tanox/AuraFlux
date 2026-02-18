@@ -1,16 +1,16 @@
-
 /**
  * File: app/components/controls/panels/audio/AiSettings.tsx
- * Version: v1.9.37 | Author: Sut
+ * Version: v1.9.73
+ * Author: Sut
  */
 
 import React, { useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
-import { useVisuals, useAudioContext, useUI, useAI } from '../../../../AppContext';
-import { generateVisualConfigFromAudio } from '../../../../services/aiService';
-import { VisualizerMode, AIProvider, Region } from '../../../../types';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
+import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect.tsx';
+import { useVisuals, useAudioContext, useUI, useAI } from '../../../../AppContext.tsx';
+import { generateVisualConfigFromAudio } from '../../../../services/aiService.ts';
+import { VisualizerMode, AIProvider, Region } from '../../../../types/index.ts';
 
 export const AiSettings: React.FC = () => {
   const { settings, setSettings, setMode, setColorTheme } = useVisuals();
@@ -50,7 +50,7 @@ export const AiSettings: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-3">
-        <BentoCard title={t?.audioPanel?.analysisAi || "Neural Engine"}>
+        <BentoCard id="panel-audio-ai-engine" title={t?.audioPanel?.analysisAi || "Neural Engine"}>
             <div className="space-y-6">
                 {/* AI Master Toggle & Region */}
                 <div className="bg-black/[0.04] dark:bg-white/[0.04] p-4 rounded-2xl border border-black/5 dark:border-white/5 flex flex-col gap-4">
@@ -100,7 +100,7 @@ export const AiSettings: React.FC = () => {
         </BentoCard>
 
         {/* Informational Hint Card */}
-        <div className="bg-black/5 dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-2xl p-4 flex gap-4 items-center group transition-colors hover:bg-black/[0.07] dark:hover:bg-white/[0.04]">
+        <div id="panel-audio-ai-guide" className="bg-black/5 dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-2xl p-4 flex gap-4 items-center group transition-colors hover:bg-black/[0.07] dark:hover:bg-white/[0.04]">
             <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>

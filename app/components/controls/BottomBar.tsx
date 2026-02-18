@@ -1,4 +1,4 @@
-// File: app/components/controls/BottomBar.tsx | Version: v1.9.65
+// File: app/components/controls/BottomBar.tsx | Version: v1.9.72
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudioContext, useUI, useVisuals } from '../../AppContext.tsx';
 import { TooltipArea } from '../visualizers/ui/controls/Tooltip.tsx';
@@ -30,7 +30,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
   }, [showPlaylist]);
 
   const handleAppShare = async () => {
-      const shareTitle = t?.share?.appTitle || "Aura Flux";
+      const shareTitle = t?.share?.appTitle || "Aura Flux - AI Music Visualizer";
       const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵✨";
       const url = window.location.href;
       const shareData = { title: shareTitle, text: shareText, url };
@@ -90,7 +90,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
         </div>
       )}
       <div id="bottom-bar-container" className={`fixed bottom-0 left-0 w-full z-[115] transition-all duration-500 transform ${isIdle && !isExpanded && !showPlaylist ? 'translate-y-full opacity-0' : 'translate-y-0 opacity-100'}`}>
-        <div className="max-w-lg mx-auto px-4 pb-6">
+        <div id="bottom-bar-wrapper" className="max-w-lg mx-auto px-4 pb-6">
             <div className="bg-white/90 dark:bg-[#0a0a0c]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-2 shadow-2xl flex items-center justify-between gap-3 transition-colors">
                 <div className="flex items-center gap-1">
                     <TooltipArea text={`${t?.hints?.randomize || 'Randomize'} [R]`}><button onClick={randomizeSettings} className="h-10 rounded-xl flex items-center justify-center bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-4 gap-2 transition-all"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>{playlist.length===0&&<span className="text-xs font-bold uppercase">{t?.randomize}</span>}</button></TooltipArea>

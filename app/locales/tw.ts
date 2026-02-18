@@ -1,4 +1,4 @@
-// File: app/locales/tw.ts | Version: v1.9.71
+// File: app/locales/tw.ts | Version: v1.9.72
 import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
 import { COLOR_THEMES } from '../../constants/index.ts';
 
@@ -30,7 +30,7 @@ export const tw = {
     advanced: "進階",
     active: "首曲目",
   },
-  appVersion: "v1.9.71",
+  appVersion: "v1.9.72",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "啟動系統",
@@ -383,7 +383,7 @@ export const tw = {
       shortcuts: "快捷鍵",
       about: "關於",
     },
-    intro: "Aura Flux 將聲音轉化為令人驚嘆的視覺體驗。潛入一個沉浸式世界，您的音樂決定著藝術。",
+    intro: "Aura Flux 將聲音轉化為令人驚嘆的視覺體驗。潛入一個沉浸式世界，您的音樂決定着藝術。",
     howItWorksTitle: "如何使用",
     howItWorksSteps: [
       "點擊“啟動系統”開始，授予麥克風存取權限以進行即時視覺化。",

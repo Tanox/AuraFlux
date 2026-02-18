@@ -1,13 +1,13 @@
 /**
  * File: app/components/controls/panels/playback/NowPlaying.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
  */
 
 import React from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { useAudioContext, useUI, useVisuals, useAI } from '../../../../AppContext';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
+import { useAudioContext, useUI, useVisuals, useAI } from '../../../../AppContext.tsx';
 
 export const NowPlaying: React.FC = () => {
   const { currentSong, playlist, playPrev, togglePlayback, playNext, isPlaying, currentTime, duration, seekFile } = useAudioContext();
@@ -19,7 +19,7 @@ export const NowPlaying: React.FC = () => {
   const progressPercent = (currentTime / (duration || 1)) * 100;
 
   return (
-    <BentoCard title={t?.player?.nowPlaying || "Now Playing"}>
+    <BentoCard id="panel-playback-now-playing" title={t?.player?.nowPlaying || "Now Playing"}>
         <div className="space-y-6">
             {playlist.length > 0 ? (
                 <div className="group/player relative flex flex-col gap-5 p-5 bg-black/[0.04] dark:bg-white/[0.04] rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden transition-all hover:border-black/10 dark:hover:border-white/10 shadow-xl">
@@ -85,8 +85,7 @@ export const NowPlaying: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
                 <SettingsToggle label={t?.showLyrics || "Lyrics"} value={showLyrics} onChange={() => setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
-                {/* @fix: Use correct localization key `info` */}
-                <SettingsToggle label={t?.player?.info || "Meta Info"} value={settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
+                <SettingsToggle label={t?.player?.info || "Song Info"} value={settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
             </div>
         </div>
     </BentoCard>

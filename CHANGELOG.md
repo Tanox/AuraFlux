@@ -4,10 +4,10 @@ All notable changes to the **Aura Flux** project will be documented in this file
 
 ## [v1.9.72]
 ### 🛡️ Bug Bash & System Synchronization
-*   **Critical Module Fix**: Resolved a fatal `TypeError` by correcting extensionless relative imports for the `types` module in `SongOverlay`, `LyricsOverlay`, and `CustomTextOverlay`, ensuring native browser ES module compatibility.
-*   **i18n Completion**: Fully translated and completed the previously partial `fr.ts` (French) language file based on the English source.
+*   **i18n Integrity**: Audited and synchronized all 12 language files. Completed the French (`fr.ts`) translations, corrected mistranslations in Spanish (`es.ts`), fixed a typo in English (`en.ts`), and unified inconsistent keys across all locales.
 *   **Version Synchronization**: Executed a comprehensive project-wide audit to synchronize all version numbers to a consistent `v1.9.72`. This includes all file headers, `package.json`, `README` files, all `openspec/` documentation, and internal i18n version constants.
 *   **Production Hardening**: Cleaned the production `index.html` import map to remove all development-only dependencies (e.g., `vite`) and conflicting `react-dom` entries, ensuring a stable and consistent production build.
+*   **Minor Fixes**: Corrected component fallback text in `NowPlaying.tsx` to align with the primary `en.ts` localization file.
 
 ## [v1.9.71]
 ### 🛡️ Deployment & Dependency Fix

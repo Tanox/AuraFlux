@@ -1,16 +1,16 @@
 /**
  * File: app/components/controls/panels/visual/ModeSelector.tsx
- * Version: v1.9.36
+ * Version: v1.9.73
  * Author: Sut
  */
 
 import React, { useCallback } from 'react';
-import { VisualizerMode } from '../../../../types';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { VisualizerPreview } from '../../panels/VisualizerPreview';
-import { useVisuals, useUI } from '../../../../AppContext';
+import { VisualizerMode } from '../../../../types/index.ts';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
+import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
+import { VisualizerPreview } from '../../panels/VisualizerPreview.tsx';
+import { useVisuals, useUI } from '../../../../AppContext.tsx';
 
 export const ModeSelector: React.FC = () => {
   const { mode: currentMode, setMode, settings, setSettings } = useVisuals();
@@ -43,7 +43,7 @@ export const ModeSelector: React.FC = () => {
 
   return (
     <BentoCard 
-        // @fix: Use correct localization key `visualizerMode`
+        id="panel-visual-mode-selector"
         title={t?.visualizerMode || "Visualizer Mode"} 
         className="h-full min-h-[500px]"
         action={

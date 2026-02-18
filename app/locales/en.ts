@@ -1,4 +1,4 @@
-// File: app/locales/en.ts | Version: v1.9.71
+// File: app/locales/en.ts | Version: v1.9.72
 import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
 import { COLOR_THEMES } from '../../constants/index.ts';
 
@@ -30,7 +30,7 @@ export const en = {
     advanced: "Advanced",
     active: "Tracks",
   },
-  appVersion: "v1.9.71",
+  appVersion: "v1.9.72",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Synesthetic Intelligence Engine",
   startExperience: "INITIALIZE SYSTEM",
@@ -412,7 +412,7 @@ export const en = {
     gestureItems: {
       swipeMode: "Swipe Left/Right: Change Visual Mode",
       swipeSens: "Swipe Up/Down: Adjust Sensitivity (Gain)",
-// Fix: Removed erroneous function call `()` at the end of the string.
+      // Fix: Removed erroneous function call `()` at the end of the string.
       longPress: "Long Press: Toggle AI Info / Lyrics Overlay",
     },
     projectInfoTitle: "Our Vision",

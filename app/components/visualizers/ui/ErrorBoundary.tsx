@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.65
+// File: app/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.72
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { STORAGE_PREFIX } from '../../../constants/index.ts';
 
@@ -129,7 +129,7 @@ export class ErrorBoundary extends Component<Props, State> {
     
     if (hasError) {
       return (
-        <div className="min-h-screen bg-black flex items-center justify-center p-6 text-center text-white">
+        <div id="error-boundary-screen" className="min-h-screen bg-black flex items-center justify-center p-6 text-center text-white">
           <div className="max-w-md w-full space-y-6 p-8 bg-[#0a0a0c] border border-red-500/30 rounded-3xl shadow-2xl animate-fade-in-up">
             <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mx-auto border border-red-500/20">
               <svg className="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -1,6 +1,6 @@
 /**
  * File: app/components/controls/panels/CustomTextSettingsPanel.tsx
- * Version: v1.9.68
+ * Version: v1.9.72
  * Author: Sut
  */
 
@@ -40,6 +40,7 @@ export const CustomTextSettingsPanel: React.FC = () => {
       {/* Column 1: Core Configuration (7 cols) */}
       <div className="lg:col-span-7 flex flex-col gap-3">
         <BentoCard 
+            id="panel-text-layer-setup"
             title={t?.textPanel?.overlay || "Text Layer Setup"}
             action={
                 <TooltipArea text={t?.hints?.resetText}>
@@ -89,7 +90,7 @@ export const CustomTextSettingsPanel: React.FC = () => {
             </div>
         </BentoCard>
 
-        <BentoCard title={t?.customColor || "Dynamic Chroma"} className="flex-1">
+        <BentoCard id="panel-text-chroma" title={t?.customColor || "Dynamic Chroma"} className="flex-1">
             <div className="flex flex-col sm:flex-row gap-6 items-center h-full py-1">
                 <div className="w-full sm:w-auto shrink-0">
                     <SettingsToggle label={t?.cycleColors || "Auto Cycle"} value={settings.customTextCycleColor} onChange={() => setSettings({...settings, customTextCycleColor: !settings.customTextCycleColor})} variant="clean" />
@@ -118,7 +119,7 @@ export const CustomTextSettingsPanel: React.FC = () => {
 
       {/* Column 2: Visual Style & Motion (5 cols) */}
       <div className="lg:col-span-5 flex flex-col gap-3">
-        <BentoCard title={t?.textPanel?.appearance || "Style & Typography"} className="flex-1">
+        <BentoCard id="panel-text-style" title={t?.textPanel?.appearance || "Style & Typography"} className="flex-1">
             <div className="space-y-5">
                 <div className="space-y-4">
                     <CustomSelect label={t?.textFont} value={selectValue} options={localizedFonts} onChange={handleFontChange} />

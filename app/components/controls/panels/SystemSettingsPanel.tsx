@@ -1,4 +1,4 @@
-// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.70
+// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.72
 import React, { useState, useRef, useEffect } from 'react';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
 import { useVisuals, useUI } from '../../../AppContext.tsx';
@@ -95,7 +95,7 @@ export const SystemSettingsPanel: React.FC = () => {
     <div id="panel-system" className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
       {/* Column 1: Appearance & Interaction (7 cols) */}
       <div className="lg:col-span-7 flex flex-col gap-3">
-        <BentoCard title={t?.systemPanel?.localization || "Aesthetics & Language"}>
+        <BentoCard id="panel-system-localization" title={t?.systemPanel?.localization || "Aesthetics & Language"}>
             <div className="space-y-4">
                 <CustomSelect label={t?.language} value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as Language)} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-black/5 dark:border-white/5">
@@ -105,7 +105,7 @@ export const SystemSettingsPanel: React.FC = () => {
             </div>
         </BentoCard>
 
-        <BentoCard title={t?.systemPanel?.interface || "System & Behavior"} className="flex-1">
+        <BentoCard id="panel-system-behavior" title={t?.systemPanel?.interface || "System & Behavior"} className="flex-1">
             <div className="flex flex-col h-full gap-4">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
                   <SettingsToggle label={t?.showTooltips} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
@@ -122,7 +122,7 @@ export const SystemSettingsPanel: React.FC = () => {
 
       {/* Column 2: Information & Data (5 cols) */}
       <div className="lg:col-span-5 flex flex-col gap-3">
-        <BentoCard title={t?.helpModal?.title || "Project Resources"}>
+        <BentoCard id="panel-system-resources" title={t?.helpModal?.title || "Project Resources"}>
             <div className="grid grid-cols-3 gap-2">
                 <button onClick={() => { setHelpModalInitialTab('guide'); setShowHelpModal(true); }} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5 flex items-center justify-center gap-2">{t?.helpModal?.tabs?.guide || 'Guide'}</button>
                 <button onClick={() => { setHelpModalInitialTab('shortcuts'); setShowHelpModal(true); }} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5 flex items-center justify-center gap-2">{t?.helpModal?.tabs?.shortcuts || 'Keys'}</button>
@@ -130,7 +130,7 @@ export const SystemSettingsPanel: React.FC = () => {
             </div>
         </BentoCard>
 
-        <BentoCard title={t?.config?.title || "Data Management"} className="flex-1">
+        <BentoCard id="panel-system-data" title={t?.config?.title || "Data Management"} className="flex-1">
             <div className="flex flex-col h-full space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                     <button onClick={handleExport} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5">{t?.config?.export}</button>
@@ -142,7 +142,7 @@ export const SystemSettingsPanel: React.FC = () => {
                     <span className={subHeaderClass}>{t?.config?.library || "PRESET ARCHIVE"} ({presets.length}/3)</span>
                     <div className="flex gap-2">
                         <input type="text" value={presetName} onChange={(e)=>setPresetName(e.target.value)} placeholder={t?.config?.placeholder} className="flex-1 bg-black/[0.04] dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 outline-none focus:border-blue-500/50" maxLength={18} />
-                        <button onClick={handleSavePreset} disabled={presets.length>=3 || !presetName.trim()} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest disabled:opacity-20 hover:bg-blue-50 transition-colors shadow-lg shadow-blue-500/20">{t?.config?.save}</button>
+                        <button onClick={handleSavePreset} disabled={presets.length>=3 || !presetName.trim()} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest disabled:opacity-20 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">{t?.config?.save}</button>
                     </div>
                     <div className="space-y-1.5 overflow-y-auto custom-scrollbar max-h-[140px] pr-1">
                         {presets.map(p => (

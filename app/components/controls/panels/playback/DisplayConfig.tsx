@@ -1,6 +1,6 @@
 /**
  * File: app/components/controls/panels/playback/DisplayConfig.tsx
- * Version: v1.9.66
+ * Version: v1.9.73
  * Author: Sut
  */
 
@@ -21,7 +21,7 @@ export const DisplayConfig: React.FC = () => {
   const positionOptions = useMemo(() => getPositionOptions(t), [t]);
 
   return (
-    <BentoCard title={t?.player?.supportInfo || "Display Architecture"} className="flex-1">
+    <BentoCard id="panel-playback-display-config" title={t?.player?.supportInfo || "Display Architecture"} className="flex-1">
         <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <CustomSelect label={t?.lyricsStyle} value={settings.lyricsStyle || LyricsStyle.KARAOKE} options={Object.values(LyricsStyle).map(s => ({ value: s, label: lyricsStyles[s] || s }))} onChange={(v) => setSettings({...settings, lyricsStyle: v as LyricsStyle})} />

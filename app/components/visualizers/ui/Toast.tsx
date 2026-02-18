@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ui/Toast.tsx | Version: v1.9.65
+// File: app/components/visualizers/ui/Toast.tsx | Version: v1.9.72
 import React, { useEffect, useState } from 'react';
 
 interface ToastProps {
