@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/SilkWaveScene.tsx
- * Version: v1.9.69
+ * Version: v1.9.70
  * Author: Sut
  * Description: "Lumina Silk" - Optimized fluid ribbons with staggered pulses to avoid clumping.
  */
@@ -113,7 +113,7 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
                 vDepth = aLayerIndex; 
                 vSideFade = 1.0 - pow(abs(uv.x-0.5)*2.0, 3.0); 
                 vVisibility = step(aRandom, uDensity); 
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0); 
+                gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(pos, 1.0); 
             }`
           }
           fragmentShader={`

@@ -1,6 +1,6 @@
 # OpenSpec: 视觉生成渲染规范 (03)
 
-## 1. 混合渲染管线 (v1.9.69)
+## 1. 混合渲染管线 (v1.9.70)
 
 ### 1.1. 2D Worker 渲染器
 - **控制权转移:** 使用 `transferControlToOffscreen` 将控制权移至独立线程。
@@ -20,5 +20,5 @@
 - **High:** 匹配设备原生 DPR (最高 1.5)，全粒子量，高采样 Bloom。
 
 ---
-*Aura Flux Rendering Specification - Version 1.9.69*
+*Aura Flux Rendering Specification - Version 1.9.70*
 *Author: Sut*

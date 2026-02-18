@@ -1,6 +1,6 @@
 # OpenSpec: 持久化与国际化规范 (06)
 
-## 1. 存储架构 (v1.9.69)
+## 1. 存储架构 (v1.9.70)
 
 ### 1.1. LocalStorage (配置层)
 - **前缀:** `av_v1_`。
@@ -17,5 +17,5 @@
 - **语义化:** 所有渲染器模式名称通过本地化字典映射。
 
 ---
-*Aura Flux Storage & i18n Specification - Version 1.9.69*
+*Aura Flux Storage & i18n Specification - Version 1.9.70*
 *Author: Sut*

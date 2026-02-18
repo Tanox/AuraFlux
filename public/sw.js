@@ -1,5 +1,5 @@
-// File: public/sw.js | Version: v1.9.69 | Author: Sut
-const CACHE_NAME = 'aura-flux-v1.9.69';
+// File: public/sw.js | Version: v1.9.70 | Author: Sut
+const CACHE_NAME = 'aura-flux-v1.9.70';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -13,7 +13,7 @@ const STATIC_ASSETS = [
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Warm up: Caching shell assets (v1.9.69)');
+      console.log('[SW] Warm up: Caching shell assets (v1.9.70)');
       return cache.addAll(STATIC_ASSETS).catch(err => {
           console.warn('[SW] Cache partial failure:', err);
       });

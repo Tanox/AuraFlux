@@ -1,11 +1,11 @@
-// File: app/constants/index.ts | Version: v1.9.69
+// File: app/constants/index.ts | Version: v1.9.70
 import { VisualizerMode, SmartPreset } from '../types/index.ts';
 import { COLOR_THEMES } from './visualThemes.ts';
 import { TranslationSchema } from '../locales/index.ts';
 
 export * from './visualThemes.ts';
 
-export const APP_VERSION = '1.9.69';
+export const APP_VERSION = '1.9.70';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
 

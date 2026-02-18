@@ -1,4 +1,4 @@
-// File: app/locales/es.ts | Version: v1.9.64
+// File: app/locales/es.ts | Version: v1.9.71
 import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
 import { COLOR_THEMES } from '../../constants/index.ts';
 
@@ -30,7 +30,7 @@ export const es = {
     advanced: "Avanzado",
     active: "Pistas",
   },
-  appVersion: "v1.9.64",
+  appVersion: "v1.9.71",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
@@ -48,7 +48,7 @@ export const es = {
         desc: "Transforma tu audio en arte generativo impresionante en tiempo real con visualizadores 2D y 3D."
       },
       ai: {
-        title: "Sinestesia AI",
+        title: "Sinestesia IA",
         desc: "Obtén identificación de canciones en tiempo real, análisis de humor y recomendaciones visuales inteligentes con Gemini 3.0."
       },
       privacy: {
@@ -366,9 +366,9 @@ export const es = {
       countdown: "Cuenta Regresiva",
     },
     hints: {
-      recGain: "Ajusta el volumen para la grabación. Una ganancia alta genera visuales más reactivos.",
-      syncStart: "Inicia la grabación automáticamente al empezar la música.",
-      countdown: "Cuenta regresiva antes de empezar a grabar.",
+      recGain: "Ajuste o volume para a gravação. Um ganho mais alto pode resultar em visuais mais reativos.",
+      syncStart: "Começa a gravar automaticamente quando a música começa.",
+      countdown: "Mostra uma contagem decrescente antes de começar a gravar.",
     },
     formats: {
       vp9: "WebM (VP9)",

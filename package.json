@@ -1,7 +1,7 @@
 {
   "name": "aura-flux",
   "private": true,
-  "version": "1.9.69",
+  "version": "1.9.70",
   "type": "module",
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
     "@google/genai": "^1.40.0",
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.0",
-    "@react-three/postprocessing": "^2.16.2",
+    "@react-three/postprocessing": "^2.17.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "three": "^0.182.0"

@@ -1,4 +1,4 @@
-// File: app/locales/zh.ts | Version: v1.9.64
+// File: app/locales/zh.ts | Version: v1.9.71
 import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
 import { COLOR_THEMES } from '../../constants/index.ts';
 
@@ -30,7 +30,7 @@ export const zh = {
     advanced: "高级",
     active: "首曲目",
   },
-  appVersion: "v1.9.64",
+  appVersion: "v1.9.71",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "启动系统",

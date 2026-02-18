@@ -2,6 +2,12 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.70]
+### 🛡️ Deployment & Dependency Fix
+*   **Critical Dependency Upgrade**: Upgraded `@react-three/postprocessing` to `v2.17.0` to resolve a peer dependency conflict with **React 19**, fixing `npm install` failures during deployment.
+*   **Version Synchronization**: Executed a comprehensive project-wide audit to synchronize all version numbers to a consistent `v1.9.70`.
+*   **Robustness Hardening**: Cleaned the production `index.html` import map to remove all development-only dependencies and conflicting entries, ensuring a stable and consistent production build.
+
 ## [v1.9.69]
 ### 🛠️ System Integrity Fix & Audit
 *   **Version Synchronization**: Executed a comprehensive project-wide audit to synchronize all version numbers to a consistent `v1.9.69`.

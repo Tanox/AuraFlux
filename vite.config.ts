@@ -1,4 +1,4 @@
-// File: vite.config.ts | Version: v1.9.69
+// File: vite.config.ts | Version: v1.9.70
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'

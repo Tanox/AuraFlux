@@ -1,6 +1,6 @@
 # OpenSpec: 音频引擎规范 (02)
 
-## 1. 信号处理流程 (v1.9.69)
+## 1. 信号处理流程 (v1.9.70)
 音频引擎由 `app/hooks/useAudio.ts` 驱动，并遵循 Web Audio API 标准。
 
 - **输入源:** `Microphone` (麦克风) / `File` (文件)。
@@ -16,5 +16,5 @@
 - **动态峰值限制:** (`DynamicPeakLimiter`) 自动调整增益，防止音频信号过载，确保视觉效果稳定。
 
 ---
-*Aura Flux Audio Engine Specification - Version 1.9.69*
+*Aura Flux Audio Engine Specification - Version 1.9.70*
 *Author: Sut*

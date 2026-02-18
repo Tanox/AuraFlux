@@ -1,6 +1,6 @@
 # OpenSpec: AI 智能与语义规范 (04)
 
-## 1. 模型架构 (v1.9.69)
+## 1. 模型架构 (v1.9.70)
 所有 AI 逻辑遵循 **Gemini 3.0 SDK** 最新规范。
 
 - **Gemini 3.0 Flash:** 负责实时音频识别与「视觉导演」模式。
@@ -20,5 +20,5 @@
 - **强制要求:** 密钥必须且仅能通过 `process.env.API_KEY` 访问。UI 严禁提供任何 Key 输入或配置界面。
 
 ---
-*Aura Flux AI Integration Specification - Version 1.9.69*
+*Aura Flux AI Integration Specification - Version 1.9.70*
 *Author: Sut*

@@ -1,4 +1,4 @@
-// File: index.tsx | Version: v1.9.69
+// File: index.tsx | Version: v1.9.70
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App.tsx';

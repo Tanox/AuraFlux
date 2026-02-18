@@ -1,4 +1,4 @@
-// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.69
+// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.70
 import React, { useState, useRef, useEffect } from 'react';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
 import { useVisuals, useUI } from '../../../AppContext.tsx';

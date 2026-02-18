@@ -1,4 +1,4 @@
-// File: app/locales/ja.ts | Version: v1.9.64
+// File: app/locales/ja.ts | Version: v1.9.71
 import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
 import { COLOR_THEMES } from '../../constants/index.ts';
 
@@ -30,7 +30,7 @@ export const ja = {
     advanced: "詳細設定",
     active: "曲",
   },
-  appVersion: "v1.9.64",
+  appVersion: "v1.9.71",
   appTitle: "Aura Flux",
   welcomeSubtitle: "共感覚インテリジェンス・エンジン",
   startExperience: "システムを初期化",
