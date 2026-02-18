@@ -1,4 +1,4 @@
-// File: app/services/visualizerStrategies.ts | Version: v1.9.65
+// File: app/services/visualizerStrategies.ts | Version: v1.9.72
 import { VisualizerMode, IVisualizerRenderer } from '../types/index.ts';
 import { BarsRenderer } from './renderers/BarsRenderer.ts';
 import { RingsRenderer } from './renderers/RingsRenderer.ts';

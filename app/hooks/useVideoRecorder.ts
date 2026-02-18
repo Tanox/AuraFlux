@@ -1,4 +1,4 @@
-// File: app/hooks/useVideoRecorder.ts | Version: v1.9.65
+// File: app/hooks/useVideoRecorder.ts | Version: v1.9.72
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { AudioSourceType } from '../types/index.ts';
 
@@ -158,7 +158,7 @@ export const useVideoRecorder = ({ audioContext, analyser, mediaStream, showToas
     const combinedStream = new MediaStream([...canvas.captureStream(config.fps).getVideoTracks(), ...audioStream.getAudioTracks()]);
     let mimeType = config.mimeType;
     if (!MediaRecorder.isTypeSupported(mimeType)) {
-        const supported = ['video/webm; codecs=vp9', 'video/webm; codecs=vp8', 'video/webm', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', 'video/mp4'].filter(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t));
+        const supported = ['video/webm; codecs=vp9', 'video/webm; codecs=vp8', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', 'video/mp4'].filter(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t));
         if (supported.length > 0) mimeType = supported[0];
         else { showToast(toasts.noVideoFormat || 'No supported video format.', 'error'); if (originalCanvasStateRef.current) stopRecording(); return; }
     }
@@ -177,5 +177,5 @@ export const useVideoRecorder = ({ audioContext, analyser, mediaStream, showToas
     if (config.duration && config.duration > 0) autoStopTimerRef.current = window.setTimeout(stopRecording, config.duration);
   }, [setupRecordingAudio, showToast, stopRecording, toasts]);
 
-  return { isRecording, isProcessing, isFadingOut, recordedBlob, duration, size, startRecording, stopRecording, discardRecording: () => { setRecordedBlob(null); setDuration(0); setSize(0); recordedChunksRef.current = []; }, getSupportedMimeTypes: () => ['video/webm; codecs=vp9', 'video/webm; codecs=vp8', 'video/webm', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', 'video/mp4'].filter(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t)) };
+  return { isRecording, isProcessing, isFadingOut, recordedBlob, duration, size, startRecording, stopRecording, discardRecording: () => { setRecordedBlob(null); setDuration(0); setSize(0); recordedChunksRef.current = []; }, getSupportedMimeTypes: () => ['video/webm; codecs=vp9', 'video/webm; codecs=vp8', 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', 'video/mp4'].filter(t => typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported(t)) };
 };

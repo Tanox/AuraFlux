@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/OceanWaveScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
  * Description: "Joy Division" Style Pulsar Terrain with scrolling history.
  */
@@ -8,7 +8,7 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
-import { VisualizerSettings } from '../../../types';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {
@@ -22,7 +22,6 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const meshRef = useRef<InstancedMesh>(null);
   const frameCounterRef = useRef(0);
   
-  // @fix: Destructure features object correctly from useAudioReactive
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
@@ -34,7 +33,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const LINE_HEIGHT = 25; 
   const Z_SPACING = 3.2;
   
-  const bins = settings.fftSize / 2; 
+  const bins = (settings.fftSize || 512) / 2;
   const historyData = useMemo(() => new Uint8Array(bins * NUM_LINES), [bins, NUM_LINES]);
   
   const audioTexture = useMemo(() => {
@@ -136,15 +135,13 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
               vUv = uv; 
               vLineProgress = aLineProgress;
               
-              // v1.8.44: Calculate smooth horizontal fade and envelope
               float xDist = abs(uv.x - 0.5) * 2.0;
-              float xFade = 1.0 - pow(xDist, 2.5); // Rounder profile than 3.5
-              vSideFade = smoothstep(1.0, 0.75, xDist); // Gradually fade alpha at ends
+              float xFade = 1.0 - pow(xDist, 2.5);
+              vSideFade = smoothstep(1.0, 0.75, xDist);
               
               vec3 pos = position;
               float audioVal = texture2D(uAudioHistory, vec2(uv.x, aLineProgress)).r;
               
-              // Apply smoother elevation scaling
               float elevation = audioVal * 4.2 * uSensitivity * xFade;
               float beatReaction = uBeat * sin(uv.x * 4.0 + uTime * 4.0) * 1.5 * (1.0 - aLineProgress) * xFade;
               float totalDisp = elevation + beatReaction;
@@ -163,20 +160,16 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
             varying float vLineProgress;
             varying float vSideFade;
             void main() {
-              // v1.8.44: Smooth line rendering with transparency at edges
               float thickness = mix(0.012, 0.003, vLineProgress);
               
-              // Use smoothstep for the line mask to reduce aliasing/sharpness
               float isLine = smoothstep(1.0 - thickness, 1.0 - thickness + 0.005, vUv.y);
               
               vec3 ridgeCol = uColorRidge + vec3(0.4) * smoothstep(2.0, 15.0, vElevation);
               ridgeCol *= (0.25 + pow(1.0 - vLineProgress, 1.3) * 0.75);
               
-              // Mix colors based on line mask and side fade
               vec3 finalRgb = mix(uColorBody, ridgeCol, isLine);
               float finalAlpha = mix(1.0, vSideFade, isLine);
               
-              // If not part of the line, it's the black body (occlusion)
               if (isLine < 0.1) {
                   gl_FragColor = vec4(uColorBody, 1.0);
               } else {

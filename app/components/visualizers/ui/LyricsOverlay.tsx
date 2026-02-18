@@ -1,11 +1,11 @@
 /**
  * File: app/components/visualizers/ui/LyricsOverlay.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
  */
 
 import React, { useRef, useMemo, useEffect, useState } from 'react';
-import { VisualizerSettings, SongInfo, LyricsStyle } from '../../../types';
+import { VisualizerSettings, SongInfo, LyricsStyle } from '../../../types/index.ts';
 import { useAudioPulse } from '../../../hooks/useAudioPulse';
 import { useAudioContext, useUI, useAI } from '../../../AppContext';
 import { TRANSLATIONS } from '../../../locales';

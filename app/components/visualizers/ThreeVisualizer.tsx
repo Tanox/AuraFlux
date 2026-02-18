@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.65
+// File: app/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.72
 import React, { Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Preload } from '@react-three/drei';

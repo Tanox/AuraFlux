@@ -1,6 +1,6 @@
 # OpenSpec: 测试与验证规范 (08)
 
-## 1. 测试层级 (v1.9.70)
+## 1. 测试层级 (v1.9.72)
 
 ### 1.1. 逻辑验证 (Unit)
 - **重点:** `audioUtils.ts` (WAV 转换), `beatDetector.ts` (算法准确性)。
@@ -17,5 +17,5 @@
 - **Worker 负载:** 2D 渲染不应阻塞 UI 线程的主响应循环。
 
 ---
-*Aura Flux Testing & Validation Specification - Version 1.9.70*
+*Aura Flux Testing & Validation Specification - Version 1.9.72*
 *Author: Sut*

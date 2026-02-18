@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/ui/help/ShortcutsContent.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
  */
 

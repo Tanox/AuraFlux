@@ -1,4 +1,4 @@
-// File: app/services/metadataService.ts | Version: v1.9.65
+// File: app/services/metadataService.ts | Version: v1.9.72
 import { Track } from '../types/index.ts';
 
 export const extractMetadata = (file: File): Promise<Track> => {

@@ -1,6 +1,6 @@
 # OpenSpec: 安全策略与漏洞报告 (11)
 
-## 1. 隐私保护声明 (v1.9.70)
+## 1. 隐私保护声明 (v1.9.72)
 - **本地优先:** 核心音频分析完全在浏览器沙箱内运行。
 - **API 安全:** API 密钥仅在用户本地持有，绝不进行云端上传或中转。
 - **匿名请求:** AI 歌曲识别仅发送音频流片段，不携带任何个人元数据。
@@ -12,5 +12,5 @@
 - 请通过 `security@ewuse.com` 报告潜在安全威胁，我们将在 48 小时内进行人工响应。
 
 ---
-*Aura Flux Security Policy - Version 1.9.70*
+*Aura Flux Security Policy - Version 1.9.72*
 *Author: Sut*

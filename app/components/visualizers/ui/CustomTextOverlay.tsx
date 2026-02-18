@@ -1,11 +1,11 @@
 /**
  * File: app/components/visualizers/ui/CustomTextOverlay.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
  */
 
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { VisualizerSettings, SongInfo } from '../../../types';
+import { VisualizerSettings, SongInfo } from '../../../types/index.ts';
 import { useAudioPulse } from '../../../hooks/useAudioPulse';
 
 interface CustomTextOverlayProps {

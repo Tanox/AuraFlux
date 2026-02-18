@@ -2,6 +2,18 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.72]
+### 🛡️ Bug Bash & System Synchronization
+*   **Critical Module Fix**: Resolved a fatal `TypeError` by correcting extensionless relative imports for the `types` module in `SongOverlay`, `LyricsOverlay`, and `CustomTextOverlay`, ensuring native browser ES module compatibility.
+*   **i18n Completion**: Fully translated and completed the previously partial `fr.ts` (French) language file based on the English source.
+*   **Version Synchronization**: Executed a comprehensive project-wide audit to synchronize all version numbers to a consistent `v1.9.72`. This includes all file headers, `package.json`, `README` files, all `openspec/` documentation, and internal i18n version constants.
+*   **Production Hardening**: Cleaned the production `index.html` import map to remove all development-only dependencies (e.g., `vite`) and conflicting `react-dom` entries, ensuring a stable and consistent production build.
+
+## [v1.9.71]
+### 🛡️ Deployment & Dependency Fix
+*   **Production Hardening**: Cleaned the production `index.html` import map to remove all development-only dependencies (e.g., `vite`) and conflicting `react-dom` entries, ensuring a stable and consistent production build.
+*   **Version Synchronization**: Executed a comprehensive project-wide audit to synchronize all version numbers to a consistent `v1.9.71`, ensuring code, documentation, and build configurations are in complete alignment.
+
 ## [v1.9.70]
 ### 🛡️ Deployment & Dependency Fix
 *   **Critical Dependency Upgrade**: Upgraded `@react-three/postprocessing` to `v2.17.0` to resolve a peer dependency conflict with **React 19**, fixing `npm install` failures during deployment.

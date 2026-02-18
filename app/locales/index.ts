@@ -1,4 +1,4 @@
-// File: app/locales/index.ts | Version: v1.9.67
+// File: app/locales/index.ts | Version: v1.9.72
 import { Language } from '../types/index.ts';
 import { en } from './en.ts';
 import { zh } from './zh.ts';

@@ -1,9 +1,8 @@
 /**
  * File: app/components/visualizers/ui/onboarding/ShortcutRow.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Aura Flux Team
  * Copyright (c) 2024 Aura Flux. All rights reserved.
- * Updated: 2025-07-16 16:30
  */
 
 import React from 'react';

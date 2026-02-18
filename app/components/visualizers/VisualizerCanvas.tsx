@@ -1,4 +1,4 @@
-// File: app/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.65
+// File: app/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.72
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, WorkerMessage } from '../../types/index.ts';
 
@@ -34,7 +34,7 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
     }
     
     // Create a new worker instance with a version query to bust cache
-    const worker = new Worker(new URL('../../workers/visualizer.worker.ts?v=1.9.65', import.meta.url), {
+    const worker = new Worker(new URL('../../workers/visualizer.worker.ts?v=1.9.72', import.meta.url), {
       type: 'module'
     });
     workerRef.current = worker;

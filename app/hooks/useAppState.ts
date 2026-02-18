@@ -1,4 +1,4 @@
-// File: app/hooks/useAppState.ts | Version: v1.9.65
+// File: app/hooks/useAppState.ts | Version: v1.9.72
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage.ts';
 import { Language, Region } from '../types/index.ts';

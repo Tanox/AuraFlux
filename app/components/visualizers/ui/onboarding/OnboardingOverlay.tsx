@@ -1,12 +1,12 @@
 /**
  * File: app/components/visualizers/ui/onboarding/OnboardingOverlay.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Aura Flux Team
  */
 
 import React, { useState } from 'react';
-import { Language } from '../../../../types';
-import { TRANSLATIONS } from '../../../../locales';
+import { Language } from '../../../../types/index.ts';
+import { TRANSLATIONS } from '../../../../locales/index.ts';
 import { FeatureCard } from './FeatureCard';
 import { ShortcutRow } from './ShortcutRow';
 

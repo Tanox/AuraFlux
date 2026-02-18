@@ -1,4 +1,4 @@
-// File: app/types/audio.ts | Version: v1.9.67
+// File: app/types/audio.ts | Version: v1.9.72
 import { AIProvider } from './common.ts';
 
 export enum LyricsStyle {

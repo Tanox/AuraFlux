@@ -1,6 +1,6 @@
 # OpenSpec: 部署与环境规范 (07)
 
-## 1. 构建环境 (v1.9.70)
+## 1. 构建环境 (v1.9.72)
 - **构建工具:** Vite 6.0+。
 - **注入变量:** `process.env.API_KEY` (必须)。
 - **目标平台:** `esnext`，压缩采用 `esbuild`。
@@ -14,5 +14,5 @@
 - **权限申请:** `metadata.json` 中必须显式声明 `camera` 和 `microphone` 权限。
 
 ---
-*Aura Flux Deployment Guide - Version 1.9.70*
+*Aura Flux Deployment Guide - Version 1.9.72*
 *Author: Sut*

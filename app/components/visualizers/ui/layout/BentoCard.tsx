@@ -1,9 +1,8 @@
 /**
  * File: app/components/visualizers/ui/layout/BentoCard.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Aura Vision Team
  * Copyright (c) 2025 Aura Vision. All rights reserved.
- * Updated: 2025-07-16 18:00
  */
 
 import React from 'react';

@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/ui/help/AboutContent.tsx
- * Version: v1.9.67
+ * Version: v1.9.72
  * Author: Sut
  */
 
@@ -19,7 +19,6 @@ const TechBadge = ({ label, colorClass }: { label: string, colorClass: string })
   </div>
 );
 
-// @fix(AboutContent): Export component to fix import error in HelpModal.tsx
 export const AboutContent: React.FC<AboutContentProps> = ({ h, t }) => {
   const tech = t?.about?.tech || {};
   

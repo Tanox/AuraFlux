@@ -1,12 +1,11 @@
 /**
  * File: app/components/visualizers/ui/HelpModal.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
- * Updated: 2025-07-29 14:00
  */
 
 import React, { useState } from 'react';
-import { useUI } from '../../../AppContext';
+import { useUI } from '../../../AppContext.tsx';
 import { GuideContent } from './help/GuideContent';
 import { ShortcutsContent } from './help/ShortcutsContent';
 import { AboutContent } from './help/AboutContent';

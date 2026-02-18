@@ -1,6 +1,6 @@
 /**
  * File: app/services/renderers/PlasmaRenderer.ts
- * Version: v1.9.66
+ * Version: v1.9.72
  * Author: Aura Flux Team
  */
 
@@ -126,40 +126,4 @@ export class PlasmaRenderer implements IVisualizerRenderer {
         ctx.globalCompositeOperation = 'lighter';
         const jitter = Math.sin(rotation * 5 + b.phase) * 10;
         const innerG = ctx.createRadialGradient(b.x + jitter, b.y + jitter, 0, b.x + jitter, b.y + jitter, dynamicRadius * 0.4);
-        innerG.addColorStop(0, `${color}33`);
-        innerG.addColorStop(1, 'transparent');
-        ctx.fillStyle = innerG;
-        ctx.beginPath();
-        ctx.arc(b.x + jitter, b.y + jitter, dynamicRadius * 0.4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-    });
-
-    ctx.globalCompositeOperation = 'lighter';
-    for (let i = this.sparks.length - 1; i >= 0; i--) {
-      const s = this.sparks[i];
-      s.life++;
-      s.x += s.vx;
-      s.y += s.vy;
-      s.vx *= 0.95;
-      s.vy *= 0.95;
-
-      const alpha = 1 - (s.life / s.maxLife);
-      if (alpha <= 0) {
-        this.sparks.splice(i, 1);
-        continue;
-      }
-
-      ctx.strokeStyle = s.color;
-      ctx.lineWidth = 2 * alpha;
-      ctx.globalAlpha = alpha;
-      ctx.beginPath();
-      ctx.moveTo(s.x, s.y);
-      ctx.lineTo(s.x - s.vx * 2, s.y - s.vy * 2);
-      ctx.stroke();
-    }
-
-    ctx.restore();
-  }
-}
+        innerG.addColorStop(

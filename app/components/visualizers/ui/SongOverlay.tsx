@@ -1,11 +1,11 @@
 /**
  * File: app/components/visualizers/ui/SongOverlay.tsx
- * Version: v1.9.36
+ * Version: v1.9.72
  * Author: Sut
  */
 
 import React, { useRef, useMemo } from 'react';
-import { SongInfo, Language } from '../../../types';
+import { SongInfo, Language } from '../../../types/index.ts';
 import { TRANSLATIONS } from '../../../locales';
 import { useAudioPulse } from '../../../hooks/useAudioPulse';
 

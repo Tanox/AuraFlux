@@ -2,7 +2,7 @@
 
 本项目严格遵循 **OpenSpec** 标准进行架构设计与文档编写。Aura Flux 是一项融合了高性能实时频谱分析与 Google Gemini 3 系列生成式 AI 的沉浸式视听交互实验。
 
-## 核心规范索引 (v1.9.70 Standard)
+## 核心规范索引 (v1.9.72 Standard)
 
 文档根据系统开发周期进行逻辑排序：
 
@@ -26,4 +26,4 @@
 11. **[11 安全策略与漏洞报告](./11_security_policy.md)** - 定义隐私声明与报告流程。
 
 ---
-*Aura Flux Project Specification - Final Audit v1.9.70*
+*Aura Flux Project Specification - Final Audit v1.9.72*

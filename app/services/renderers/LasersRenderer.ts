@@ -1,6 +1,6 @@
 /**
  * File: app/services/renderers/LasersRenderer.ts
- * Version: v1.9.66
+ * Version: v1.9.72
  * Author: Sut
   */
 

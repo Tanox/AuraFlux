@@ -1,6 +1,6 @@
 {
-  "name": "Aura Flux - AI Music Visualizer v1.9.70",
-  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 1.9.70 fixes a critical React 19 dependency conflict to resolve deployment failures and synchronizes all project versions.",
+  "name": "Aura Flux - AI Music Visualizer v1.9.72",
+  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 1.9.72 resolves a critical module path error, completes French translations, and synchronizes all project versions.",
   "requestFramePermissions": [
     "camera",
     "microphone"
