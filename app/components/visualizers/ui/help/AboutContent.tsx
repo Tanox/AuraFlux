@@ -1,11 +1,11 @@
 /**
  * File: app/components/visualizers/ui/help/AboutContent.tsx
- * Version: v1.9.36
+ * Version: v1.9.67
  * Author: Sut
  */
 
 import React from 'react';
-import { APP_VERSION } from '../../../../constants';
+import { APP_VERSION } from '../../../../constants/index.ts';
 
 interface AboutContentProps { 
   h: any; // helpModal translations

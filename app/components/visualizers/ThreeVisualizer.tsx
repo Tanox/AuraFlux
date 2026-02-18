@@ -1,15 +1,10 @@
-/**
- * File: app/components/visualizers/ThreeVisualizer.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.65
 import React, { Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Preload } from '@react-three/drei';
 import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing';
-import { VisualizerMode, VisualizerSettings } from '../../types';
-import { BLOOM_CONFIG } from '../../constants';
+import { VisualizerMode, VisualizerSettings } from '../../types/index.ts';
+import { BLOOM_CONFIG } from '../../constants/index.ts';
 import { 
     KineticWallScene, 
     LiquidSphereScene, 
@@ -18,7 +13,7 @@ import {
     DigitalGridScene,
     SilkWaveScene,
     OceanWaveScene
-} from './ThreeScenes';
+} from './ThreeScenes.tsx';
 
 interface ThreeVisualizerProps {
   analyser: AnalyserNode | null;

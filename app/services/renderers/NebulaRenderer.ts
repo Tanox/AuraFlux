@@ -1,11 +1,11 @@
 /**
  * File: app/services/renderers/NebulaRenderer.ts
- * Version: v1.9.36
+ * Version: v1.9.66
  * Author: Sut
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
-import { getAverage } from '../audioUtils';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index.ts';
+import { getAverage } from '../audioUtils.ts';
 
 const MAX_CLUSTERS = 3; 
 

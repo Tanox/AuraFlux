@@ -1,11 +1,6 @@
-/**
- * File: app/components/visualizers/ui/ErrorBoundary.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.65
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { STORAGE_PREFIX } from '../../../constants';
+import { STORAGE_PREFIX } from '../../../constants/index.ts';
 
 // Minimal static localization for critical errors
 const DICT: any = {

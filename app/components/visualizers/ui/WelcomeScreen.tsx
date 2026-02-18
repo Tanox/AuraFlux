@@ -1,11 +1,6 @@
-/**
- * File: app/components/visualizers/ui/WelcomeScreen.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/visualizers/ui/WelcomeScreen.tsx | Version: v1.9.65
 import React from 'react';
-import { useUI, useAudioContext } from '../../../AppContext';
+import { useUI, useAudioContext } from '../../../AppContext.tsx';
 
 export const WelcomeScreen: React.FC = () => {
   const { t, setHasStarted } = useUI();

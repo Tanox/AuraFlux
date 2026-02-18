@@ -1,10 +1,5 @@
-/**
- * File: app/services/metadataService.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
-import { Track } from '../types';
+// File: app/services/metadataService.ts | Version: v1.9.65
+import { Track } from '../types/index.ts';
 
 export const extractMetadata = (file: File): Promise<Track> => {
   return new Promise((resolve) => {

@@ -1,12 +1,7 @@
-/**
- * File: app/hooks/useMobileGestures.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useMobileGestures.ts | Version: v1.9.65
 import React, { useRef, useCallback } from 'react';
-import { useVisuals, useAI } from '../AppContext';
-import { VisualizerMode } from '../types';
+import { useVisuals, useAI } from '../AppContext.tsx';
+import { VisualizerMode } from '../types/index.ts';
 
 export const useMobileGestures = () => {
   const { mode, setMode, setSettings } = useVisuals();

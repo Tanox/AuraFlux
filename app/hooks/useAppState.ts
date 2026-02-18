@@ -1,13 +1,8 @@
-/**
- * File: app/hooks/useAppState.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useAppState.ts | Version: v1.9.65
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { useLocalStorage } from './useLocalStorage';
-import { Language, Region } from '../types';
-import { TRANSLATIONS } from '../locales';
+import { useLocalStorage } from './useLocalStorage.ts';
+import { Language, Region } from '../types/index.ts';
+import { TRANSLATIONS } from '../locales/index.ts';
 
 const DEFAULT_LANGUAGE: Language = 'en';
 const SUPPORTED_LANGUAGES: Language[] = ['en', 'zh', 'tw', 'ja', 'es', 'ko', 'de', 'fr', 'ar', 'ru', 'pt']; // Added pt

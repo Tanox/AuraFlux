@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/LiquidSphereScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  * Description: "Resonance Orb" - High-fidelity reactive sphere with fixed real-time feature access.
  */
@@ -8,7 +8,7 @@
 import React, { useRef, useMemo, Suspense } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { IcosahedronGeometry, BufferAttribute, DoubleSide, MeshPhysicalMaterial, PointLight, RectAreaLight, Mesh } from 'three';
-import { VisualizerSettings } from '../../../types';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { Stars } from '@react-three/drei';
 

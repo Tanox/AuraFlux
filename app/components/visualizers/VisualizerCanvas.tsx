@@ -1,11 +1,6 @@
-/**
- * File: app/components/visualizers/VisualizerCanvas.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.65
 import React, { useRef, useEffect } from 'react';
-import { VisualizerMode, VisualizerSettings, WorkerMessage } from '../../types';
+import { VisualizerMode, VisualizerSettings, WorkerMessage } from '../../types/index.ts';
 
 interface VisualizerCanvasProps {
   analyser: AnalyserNode | null;
@@ -38,8 +33,8 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
         workerRef.current.terminate();
     }
     
-    // Create a new worker instance
-    const worker = new Worker(new URL('../../workers/visualizer.worker.ts', import.meta.url), {
+    // Create a new worker instance with a version query to bust cache
+    const worker = new Worker(new URL('../../workers/visualizer.worker.ts?v=1.9.65', import.meta.url), {
       type: 'module'
     });
     workerRef.current = worker;

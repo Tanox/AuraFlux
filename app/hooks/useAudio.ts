@@ -1,13 +1,8 @@
-/**
- * File: app/hooks/useAudio.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useAudio.ts | Version: v1.9.65
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { AudioDevice, VisualizerSettings, Language, AudioSourceType, SongInfo, Track } from '../types';
-import { audioBufferToWav } from '../services/audioUtils';
-import { usePlaylist } from './usePlaylist';
+import { AudioDevice, VisualizerSettings, Language, AudioSourceType, SongInfo, Track } from '../types/index.ts';
+import { audioBufferToWav } from '../services/audioUtils.ts';
+import { usePlaylist } from './usePlaylist.ts';
 
 interface UseAudioProps {
   settings: VisualizerSettings;

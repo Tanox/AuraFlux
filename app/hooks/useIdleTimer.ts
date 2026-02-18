@@ -1,9 +1,4 @@
-/**
- * File: app/hooks/useIdleTimer.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useIdleTimer.ts | Version: v1.9.65
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 const DEFAULT_IDLE_TIMEOUT = 3000;

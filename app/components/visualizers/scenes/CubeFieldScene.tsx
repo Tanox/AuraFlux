@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/CubeFieldScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  * Copyright (c) 2024 Aura Flux. All rights reserved.
  */
@@ -8,7 +8,7 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, PointLight, Vector3, Euler, Object3D, MeshStandardMaterial } from 'three';
-import { VisualizerSettings } from '../../../types';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {

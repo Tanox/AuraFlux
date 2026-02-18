@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/DigitalGridScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  */
 
@@ -8,7 +8,7 @@ import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, InstancedBufferAttribute, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
-import { VisualizerSettings } from '../../../types';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 type Shader = {

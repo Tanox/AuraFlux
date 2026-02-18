@@ -1,11 +1,6 @@
-/**
- * File: app/hooks/useVideoRecorder.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useVideoRecorder.ts | Version: v1.9.65
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { AudioSourceType } from '../types';
+import { AudioSourceType } from '../types/index.ts';
 
 export interface RecorderConfig {
     resolution: number | 'native';

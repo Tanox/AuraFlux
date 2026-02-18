@@ -1,14 +1,14 @@
 /**
  * File: app/components/visualizers/scenes/SilkWaveScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.69
  * Author: Sut
  * Description: "Lumina Silk" - Optimized fluid ribbons with staggered pulses to avoid clumping.
  */
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, ShaderMaterial, Color, AdditiveBlending, MathUtils, DoubleSide } from 'three';
-import { VisualizerSettings } from '../../../types';
+import { InstancedMesh, ShaderMaterial, Color, AdditiveBlending, MathUtils, DoubleSide, InstancedBufferAttribute } from 'three';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {
@@ -34,7 +34,11 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
         ch[i] = i % 2 === 0 ? 1.0 : -1.0; 
         rnd[i] = Math.random(); 
     }
-    return { channels: ch, randoms: rnd, layerIndices: idx };
+    return { 
+        channels: new InstancedBufferAttribute(ch, 1), 
+        randoms: new InstancedBufferAttribute(rnd, 1), 
+        layerIndices: new InstancedBufferAttribute(idx, 1) 
+    };
   }, [MAX_LINES]);
 
   const uniforms = useMemo(() => ({
@@ -79,9 +83,9 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
       {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
       <instancedMesh ref={meshRef} args={[undefined, undefined, MAX_LINES]}>
         <planeGeometry args={[RIBBON_WIDTH, 1.0, SEGMENTS_X, 1]}>
-            <instancedBufferAttribute attach="attributes-aChannel" args={[channels, 1]} />
-            <instancedBufferAttribute attach="attributes-aRandom" args={[randoms, 1]} />
-            <instancedBufferAttribute attach="attributes-aLayerIndex" args={[layerIndices, 1]} />
+            <primitive attach="attributes-aChannel" object={channels} />
+            <primitive attach="attributes-aRandom" object={randoms} />
+            <primitive attach="attributes-aLayerIndex" object={layerIndices} />
         </planeGeometry>
         <shaderMaterial transparent depthWrite={false} side={DoubleSide} blending={AdditiveBlending} uniforms={uniforms}
           vertexShader={`
@@ -89,118 +93,44 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
             attribute float aChannel, aRandom, aLayerIndex; 
             varying float vIntensity, vDepth, vSideFade, vVisibility, vRandom; 
             varying vec2 vUv; 
-
             vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; } 
             vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; } 
             vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); } 
             vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; } 
-            
-            float snoise(vec3 v) { 
-                const vec2 C = vec2(1.0/6.0, 1.0/3.0); 
-                const vec4 D = vec4(0.0, 0.5, 1.0, 2.0); 
-                vec3 i = floor(v + dot(v, C.yyy)); 
-                vec3 x0 = v - i + dot(i, C.xxx); 
-                vec3 g = step(x0.yzx, x0.xyz); 
-                vec3 l = 1.0 - g; 
-                vec3 i1 = min(g.xyz, l.zxy); 
-                vec3 i2 = max(g.xyz, l.zxy); 
-                vec3 x1 = x0 - i1 + C.xxx; 
-                vec2 x2 = x0 - i2 + C.yyy; 
-                vec3 x3 = x0 - D.yyy; 
-                i = mod289(i); 
-                vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0)); 
-                vec4 j = p - 49.0 * floor(p * (1.0/49.0)); 
-                vec4 x_ = floor(j * (1.0/7.0)); 
-                vec4 y_ = floor(j - 7.0 * x_); 
-                vec4 x = x_ * (1.0/7.0) + vec4(-0.5); 
-                vec4 y = y_ * (1.0/7.0) + vec4(-0.5); 
-                vec4 h = 1.0 - abs(x) - abs(y); 
-                vec4 b0 = vec4(x.xy, y.xy); 
-                vec4 b1 = vec4(x.zw, y.zw); 
-                vec4 s0 = floor(b0)*2.0 + 1.0; 
-                vec4 s1 = floor(b1)*2.0 + 1.0; 
-                vec4 sh = -step(h, vec4(0.0)); 
-                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy; 
-                vec4 a1 = b1.xzyw + s1.zzww*sh.zzww; 
-                vec3 p0 = vec3(a0.xy,h.x); vec3 p1 = vec3(a0.zw,h.y); vec3 p2 = vec3(a1.xy,h.z); vec3 p3 = vec3(a1.zw,h.w); 
-                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3))); 
-                p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w; 
-                vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0); 
-                m = m * m; 
-                return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3))); 
-            } 
-            
-            vec3 curlNoise(vec3 p) { 
-                const float e = 0.1; 
-                vec3 dx = vec3(e, 0.0, 0.0), dy = vec3(0.0, e, 0.0), dz = vec3(0.0, 0.0, e); 
-                float p_dx = snoise(p + dx), m_dx = snoise(p - dx), p_dy = snoise(p + dy), m_dy = snoise(p - dy), p_dz = snoise(p + dz), m_dz = snoise(p - dz); 
-                return normalize(vec3((p_dy - m_dy) - (p_dz - m_dz), (p_dz - m_dz) - (p_dx - m_dx), (p_dx - m_dx) - (p_dy - m_dy))); 
-            } 
-
+            float snoise(vec3 v) { const vec2 C = vec2(1.0/6.0, 1.0/3.0); const vec4 D = vec4(0.0, 0.5, 1.0, 2.0); vec3 i = floor(v + dot(v, C.yyy)); vec3 x0 = v - i + dot(i, C.xxx); vec3 g = step(x0.yzx, x0.xyz); vec3 l = 1.0 - g; vec3 i1 = min(g.xyz, l.zxy); vec3 i2 = max(g.xyz, l.zxy); vec3 x1 = x0 - i1 + C.xxx; vec3 x2 = x0 - i2 + C.yyy; vec3 x3 = x0 - D.yyy; i = mod289(i); vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0)); vec4 j = p - 49.0 * floor(p * (1.0/49.0)); vec4 x_ = floor(j * (1.0/7.0)); vec4 y_ = floor(j - 7.0 * x_); vec4 x = x_ * (1.0/7.0) - 0.5; vec4 y = y_ * (1.0/7.0) - 0.5; vec4 h = 1.0 - abs(x) - abs(y); vec4 b0 = vec4(x.xy, y.xy); vec4 b1 = vec4(x.zw, y.zw); vec4 s0 = floor(b0)*2.0 + 1.0; vec4 s1 = floor(b1)*2.0 + 1.0; vec4 sh = -step(h, vec4(0.0)); vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy; vec4 a1 = b1.xzyw + s1.zzww*sh.zzww; vec3 p0 = vec3(a0.xy,h.x); vec3 p1 = vec3(a0.zw,h.y); vec3 p2 = vec3(a1.xy,h.z); vec3 p3 = vec3(a1.zw,h.w); vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3))); p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w; vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0); m = m * m; return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3))); } 
             void main() { 
-                vUv = uv; 
-                vRandom = aRandom;
-                vVisibility = smoothstep(uDensity + 0.05, uDensity - 0.05, aLayerIndex); 
-                vSideFade = smoothstep(0.0, 0.15, uv.x) * smoothstep(1.0, 0.85, uv.x); 
-                
-                float taper = smoothstep(0.0, 0.2, uv.x) * smoothstep(1.0, 0.8, uv.x);
-                float thickness = 0.1 * taper * (1.0 + uBass * 0.5);
-                
+                vUv = uv; vRandom = aRandom; 
                 vec3 pos = position; 
-                pos.y *= thickness; 
-                pos.z += (aLayerIndex * 2.0 - 1.0) * 45.0; 
-                
-                float energy = (aChannel > 0.0) ? uEnergyL : uEnergyR; 
-                float flowTime = uTime * uSpeed * 0.35; 
-                
-                vec3 noisePos = pos * 0.0018 + vec3(flowTime * 0.1, pos.z * 0.015, aLayerIndex * 0.4); 
-                pos += curlNoise(noisePos) * (8.0 + uBass * 6.0) * vSideFade; 
-                
-                float xInput = pos.x * 0.015 + aRandom * 40.0; 
-                float baseWave = sin(xInput + snoise(vec3(pos.x * 0.005, uTime * 0.1, aLayerIndex)) * 3.0); 
-                float amp = (baseWave + snoise(vec3(pos.x * 0.01, uTime * 0.15, aLayerIndex)) * 0.3); 
-                
-                pos.y += amp * (4.0 + pow(energy, 0.7) * 20.0) * aChannel; 
-                pos.y += aChannel * 3.0 + sin(flowTime + pos.x * 0.008) * uBass * 10.0 * aChannel; 
-                pos.y += sin(length(pos.xz) * 0.1 - uTime * 7.0) * uShockwave * 12.0 * aChannel; 
-                
-                vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0); 
-                gl_Position = projectionMatrix * mvPosition; 
-                
-                vIntensity = pow(energy, 0.7) * 0.8 + smoothstep(0.0, 50.0, abs(pos.y)) * 0.4 + uShockwave * 0.6; 
-                vDepth = -mvPosition.z; 
-            }
-          `}
+                float time = uTime * 0.6 * uSpeed; 
+                float wave1 = sin(pos.x * 0.012 + time + aRandom * 6.28) * 12.0 * (1.0 + uBass * 1.5); 
+                float wave2 = sin(pos.x * 0.02 + time * 1.4 + aRandom * 2.1) * 8.0 * (1.0 + uEnergyL * 1.8); 
+                float noise = snoise(vec3(pos.x * 0.01, aRandom * 5.0, time * 0.5)) * 14.0 * (1.0 + uEnergyR * 1.8); 
+                pos.y += wave1 + wave2 + noise; 
+                pos.z -= 110.0 * aLayerIndex; 
+                pos.z += sin(pos.x*0.02+time+aRandom*3.0)*5.0*(1.0+uBass); 
+                float shock = uShockwave * 12.0 * sin(uv.x * 3.14159) * (1.0-aLayerIndex); pos.y += shock; 
+                vIntensity = pow(abs(wave1 + noise)*0.02, 2.0); 
+                vDepth = aLayerIndex; 
+                vSideFade = 1.0 - pow(abs(uv.x-0.5)*2.0, 3.0); 
+                vVisibility = step(aRandom, uDensity); 
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0); 
+            }`
+          }
           fragmentShader={`
             uniform vec3 uColor1, uColor2, uColor3; 
-            uniform float uTime; 
             varying float vIntensity, vDepth, vSideFade, vVisibility, vRandom; 
             varying vec2 vUv; 
             void main() { 
-                if (vVisibility < 0.01) discard; 
-
-                float blur = smoothstep(0.0, 70.0, abs(vDepth - 30.0)); 
-                float alpha = smoothstep(0.0, mix(0.1, 0.9, blur), 1.0 - abs(vUv.y - 0.5) * 2.0); 
+                if (vVisibility < 0.5) discard; 
+                float edge = smoothstep(0.0, 0.05, abs(vUv.y-0.5)*2.0); 
+                float alpha = (0.3 + vIntensity * 3.0) * (1.0 - vDepth * 0.8) * vSideFade * (1.0 - edge); 
                 if (alpha < 0.01) discard; 
-
-                // v2.1.1 Optimization: Stagger pulse phase and speed per line using vRandom
-                float lineSpeed = 0.12 + vRandom * 0.18;
-                float linePhase = vRandom * 20.0;
-                float glowX = fract(uTime * lineSpeed + linePhase + vIntensity * 0.08); 
-                
-                // Narrower, sharper glow pulses to avoid clumping
-                float glow = exp(-abs(vUv.x - glowX) * 22.0) * (1.0 + vIntensity * 2.8); 
-                
-                vec3 baseCol = mix(uColor1, uColor2, vUv.x);
-                vec3 finalCol = baseCol * 0.4 + uColor3 * glow * 2.5 + vec3(1.0) * glow * smoothstep(0.5, 1.0, glow); 
-                
-                float tip = smoothstep(0.97, 1.0, vUv.x) * smoothstep(0.3, 1.0, sin(uTime * 5.0 + vIntensity * 80.0)); 
-                finalCol += vec3(1.0) * tip * 8.0 + uColor3 * tip * 4.0; 
-
-                float fAlpha = alpha * vSideFade * vVisibility * smoothstep(160.0, 30.0, vDepth); 
-                gl_FragColor = vec4(finalCol, fAlpha * (0.4 + glow * 0.6 + tip * 0.5) * (1.0 - blur * 0.3)); 
-            }
-          `}
+                vec3 c1 = mix(uColor1, uColor2, vRandom); 
+                vec3 c2 = mix(uColor2, uColor3, vRandom); 
+                vec3 finalColor = mix(c1, c2, smoothstep(0.0, 0.6, vIntensity)); 
+                gl_FragColor = vec4(finalColor, alpha); 
+            }`
+          }
         />
       </instancedMesh>
     </>

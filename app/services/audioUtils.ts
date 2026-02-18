@@ -1,9 +1,4 @@
-/**
- * File: app/services/audioUtils.ts
- * Version: v1.9.36
- * Author: Sut
-  */
-
+// File: app/services/audioUtils.ts | Version: v1.9.65
 export function getAverage(data: Uint8Array, start: number, end: number) {
   let sum = 0;
   const safeEnd = Math.min(end, data.length);

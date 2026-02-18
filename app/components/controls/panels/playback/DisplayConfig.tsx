@@ -1,17 +1,17 @@
 /**
  * File: app/components/controls/panels/playback/DisplayConfig.tsx
- * Version: v1.9.36
+ * Version: v1.9.66
  * Author: Sut
  */
 
 import React, { useMemo } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
-import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { useVisuals, useUI } from '../../../../AppContext';
-import { LyricsStyle, Position } from '../../../../types';
-import { getPositionOptions } from '../../../../constants';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
+import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect.tsx';
+import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
+import { useVisuals, useUI } from '../../../../AppContext.tsx';
+import { LyricsStyle, Position } from '../../../../types/index.ts';
+import { getPositionOptions } from '../../../../constants/index.ts';
 
 export const DisplayConfig: React.FC = () => {
   const { settings, setSettings } = useVisuals();

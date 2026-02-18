@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/ui/controls/Tooltip.tsx
- * Version: v1.9.36
+ * Version: v1.9.56
  * Author: Sut
  * Updated: 2025-07-29 14:00
  */
@@ -89,8 +89,8 @@ export const TooltipArea = memo(({ children, text, className = '' }: TooltipArea
   
   const handleMouseEnter = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
-    // Delay showing the tooltip by 1 second (1000ms)
-    timerRef.current = window.setInterval(() => {
+    // Fixed: Changed setInterval to setTimeout to avoid repeated triggering
+    timerRef.current = window.setTimeout(() => {
       setShouldShow(true);
     }, 1000);
   };

@@ -1,12 +1,12 @@
 /**
  * File: app/components/controls/panels/playback/PlaylistManager.tsx
- * Version: v1.9.36
+ * Version: v1.9.69
  * Author: Sut
  */
 
 import React, { useRef, useEffect, useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { useAudioContext, useUI, useAI } from '../../../../AppContext';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { useAudioContext, useUI } from '../../../../AppContext.tsx';
 
 export const PlaylistManager: React.FC = () => {
   const { 
@@ -14,7 +14,6 @@ export const PlaylistManager: React.FC = () => {
     importFiles, importFromUrl, importPlaylistFromUrl, clearPlaylist
   } = useAudioContext();
   const { t, showToast } = useUI();
-  const { apiKeys } = useAI();
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeTrackRef = useRef<HTMLDivElement>(null);
@@ -34,9 +33,7 @@ export const PlaylistManager: React.FC = () => {
   const handleUrlImport = async () => {
     if (!urlValue.trim()) return;
     
-    const apiKey = apiKeys['GEMINI'] || process.env.API_KEY;
-    if (!apiKey) {
-        // @fix: Use correct localization key `errors.configMissing`
+    if (!process.env.API_KEY) {
         showToast(t?.errors?.configMissing || "Gemini API Key Required", 'error');
         return;
     }
@@ -49,7 +46,7 @@ export const PlaylistManager: React.FC = () => {
 
         if (isPlatform) {
             showToast(t?.player?.importing || "AI Parsing Playlist...", 'info');
-            const tracks = await importPlaylistFromUrl(urlValue, apiKey);
+            const tracks = await importPlaylistFromUrl(urlValue);
             if (tracks.length > 0) {
                 showToast(`${t?.player?.import} ${tracks.length} ${t?.common?.active || "Tracks"}`, 'success');
                 setUrlValue('');
@@ -66,7 +63,6 @@ export const PlaylistManager: React.FC = () => {
             }
         }
     } catch (e) {
-        // @fix: Use correct localization key `errors.trackLoad`
         showToast(t?.errors?.trackLoad || "Parsing failed. Please check the URL.", 'error');
     } finally {
         setIsImporting(false);
@@ -79,7 +75,6 @@ export const PlaylistManager: React.FC = () => {
     const track = playlist[index];
     if (!track) return;
     removeFromPlaylist(index);
-    // @fix: Use correct localization key `config.delete`
     showToast((t?.config?.delete || "Removed") + ": " + track.title, 'info');
   };
 

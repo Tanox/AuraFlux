@@ -1,15 +1,8 @@
-/**
- * File: app/locales/pt-BR.ts
- * Version: v1.9.36
- * Author: Sut
- * Description: Portuguese (Brazil) translations.
- */
+// File: app/locales/pt-BR.ts | Version: v1.9.64
+import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
+import { COLOR_THEMES } from '../../constants/index.ts';
 
-import { LyricsStyle, VisualizerMode } from '../../types';
-import { COLOR_THEMES } from '../../constants';
-
-// --- Helper for creating theme names, directly from constants for now ---
-const THEME_NAMES = ["Vaporwave", "Aurora", "Sunset", "Cotton Candy", "Electric", "Neon", "Matrix", "Gold", "Royal", "Solar", "Ocean", "Cyber", "Sakura", "Arctic", "Desert", "Voltage", "Emerald", "Cyanide"];
+const THEME_NAMES = ["Vaporwave", "Aurora", "Pôr do Sol", "Algodão Doce", "Elétrico", "Néon", "Matrix", "Ouro", "Real", "Solar", "Oceano", "Ciber", "Sakura", "Ártico", "Deserto", "Voltagem", "Esmeralda", "Cianeto"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
   COLOR_THEMES.forEach((_, i) => {
@@ -19,7 +12,6 @@ const getThemeLabels = () => {
 };
 
 export const ptBR = {
-  // --- Global / Common strings ---
   common: {
     queue: "Fila",
     empty: "Vazia",
@@ -38,14 +30,10 @@ export const ptBR = {
     advanced: "Avançado",
     active: "Faixas",
   },
-
-  // --- App Version & Info ---
-  appVersion: "v1.9.36",
+  appVersion: "v1.9.64",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligência Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
-
-  // --- Onboarding ---
   onboarding: {
     welcome: "Bem-vindo",
     subtitle: "Vamos configurar sua experiência Aura Flux",
@@ -78,8 +66,6 @@ export const ptBR = {
       advanced: "Recursos Avançados",
     }
   },
-
-  // --- Controls / Tabs ---
   tabs: {
     visual: "Visuais",
     input: "Entrada de Áudio",
@@ -88,8 +74,6 @@ export const ptBR = {
     studio: "Estúdio",
     system: "Sistema",
   },
-
-  // --- Visual Panel ---
   visualPanel: {
     display: "Qualidade de Exibição",
     aiBg: "Fundo IA",
@@ -99,8 +83,6 @@ export const ptBR = {
     opacity: "Opacidade",
     bgGenerated: "Fundo IA Gerado",
   },
-
-  // --- Audio Panel ---
   audioPanel: {
     audioInput: "Arquitetura de Sinal",
     mic: "Microfone",
@@ -122,8 +104,6 @@ export const ptBR = {
     recognitionSource: "Protocolo IA",
     save: "SALVAR",
   },
-
-  // --- Player Panel ---
   player: {
     nowPlaying: "Tocando Agora",
     playlistTitle: "Playlist",
@@ -137,16 +117,12 @@ export const ptBR = {
     bg: "Fundo da Arte do Álbum",
     cover: "Sobreposição de Info",
     blur: "Desfoque",
-    info: "Meta Informações",
+    info: "Informação da Música",
   },
-
-  // --- Custom Text Panel ---
   textPanel: {
     overlay: "Configuração da Camada de Texto",
     appearance: "Estilo e Tipografia",
   },
-
-  // --- System Panel ---
   systemPanel: {
     localization: "Estética e Idioma",
     darkMode: "Modo Escuro",
@@ -156,8 +132,6 @@ export const ptBR = {
     installApp: "Instalar App Aura Flux",
     factoryReset: "Restaurar Configurações de Fábrica",
   },
-
-  // --- Global Settings / Shared ---
   sensitivity: "Ganho",
   speed: "Velocidade",
   smoothing: "Inércia",
@@ -195,8 +169,6 @@ export const ptBR = {
   showOptions: "Mostrar Controles",
   hideOptions: "Ocultar Controles",
   randomize: "Aleatório",
-
-  // --- Placeholders for dynamic lists / Enums ---
   modes: {
     [VisualizerMode.PLASMA]: "Fluxo de Plasma",
     [VisualizerMode.BARS]: "Barras de Espectro",
@@ -237,15 +209,12 @@ export const ptBR = {
     [VisualizerMode.KINETIC_WALL]: "Uma parede dinâmica de elementos que empurram e puxam em resposta ao áudio.",
     [VisualizerMode.RESONANCE_ORB]: "Uma esfera central que transforma sua superfície com base na entrada de áudio.",
   },
-
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Padrão",
     [LyricsStyle.KARAOKE]: "Karaokê",
     [LyricsStyle.MINIMAL]: "Mínimo",
   },
-
   themes: getThemeLabels(),
-
   aiProviders: {
     GEMINI: "Gemini 3.0 (Google)",
     OPENAI: "GPT-4o (OpenAI)",
@@ -255,7 +224,6 @@ export const ptBR = {
     QWEN: "Qwen (Alibaba Cloud)",
     MOCK: "Simulação Local (Dev)",
   },
-
   regions: {
     global: "Global",
     US: "Estados Unidos",
@@ -265,14 +233,12 @@ export const ptBR = {
     EU: "Europa",
     LATAM: "América Latina",
   },
-
   textSources: {
     auto: "Auto",
     custom: "Manual",
     song: "Música",
     clock: "Relógio",
   },
-
   fonts: {
     default: "Inter (Padrão)",
     system: "Interface do Sistema",
@@ -284,13 +250,11 @@ export const ptBR = {
     serif: "Times New Roman",
     custom: "Personalizado...",
   },
-
   positions: {
     tl: "Superior Esquerdo", tc: "Superior Centro", tr: "Superior Direito",
     ml: "Meio Esquerdo", mc: "Meio Centro", mr: "Meio Direito",
     bl: "Inferior Esquerdo", bc: "Inferior Centro", br: "Inferior Direito",
   },
-
   presets: {
     title: "Motor de Atmosfera",
     hint: "Predefinições Visuais",
@@ -310,8 +274,6 @@ export const ptBR = {
     med: "Média (Equilibrada)",
     high: "Alta (Fidelidade)",
   },
-
-  // --- Hints for Tooltips ---
   hints: {
     randomize: "Aleatorizar Visuais e Cores",
     resetVisual: "Redefinir Configurações Visuais",
@@ -324,8 +286,6 @@ export const ptBR = {
     syncStart: "Se estiver reproduzindo um arquivo, inicie a gravação automaticamente quando a reprodução começar.",
     countdown: "Exibir uma contagem regressiva antes de iniciar a gravação.",
   },
-
-  // --- Toasts / Notifications ---
   toasts: {
     canvasNotFound: "Elemento Canvas não encontrado.",
     audioNotReady: "Fonte de áudio não pronta. Tente iniciar o microfone ou reproduzir um arquivo.",
@@ -340,8 +300,6 @@ export const ptBR = {
     aiDirectorReq: "Chave API Gemini necessária para recursos de IA.",
     aiFail: "Falha na geração de IA. Verifique a chave API ou tente novamente.",
   },
-
-  // --- Errors ---
   errors: {
     accessDenied: "Acesso ao microfone negado. Por favor, habilite nas configurações do navegador.",
     trackLoad: "Não foi possível carregar a faixa ou decodificar os dados de áudio.",
@@ -349,7 +307,6 @@ export const ptBR = {
     unsupportedTitle: 'Navegador Não Suportado',
     unsupportedText: 'O Aura Flux requer recursos modernos de navegador (como acesso ao microfone) que não estão disponíveis. Por favor, atualize para uma versão recente do Chrome, Firefox ou Safari.',
   },
-
   config: {
     title: "Gerenciamento de Dados",
     export: "EXPORTAR",
@@ -366,7 +323,6 @@ export const ptBR = {
     limitReached: "Limite de presets atingido (máx 3).",
     saved: "Salvo",
   },
-
   songOverlay: {
     provider: {
       local: 'Cache Local',
@@ -376,10 +332,7 @@ export const ptBR = {
     aiSynesthesia: 'Sinestesia IA',
     googleSearch: 'Pesquisa Google',
   },
-
   wrongSong: "Tentar Novamente",
-
-  // --- Share ---
   share: {
     appTitle: "Aura Flux - Visualizador de Música IA",
     appMessage: "Experimente Aura Flux - Visualizador de Música IA! 🎵✨",
@@ -390,8 +343,6 @@ export const ptBR = {
     copied: "Texto copiado!",
     unsupported: "Compartilhamento não suportado",
   },
-
-  // --- Studio Panel ---
   studioPanel: {
     videoConfig: "Configurações de Vídeo",
     audioMix: "Mixagem de Áudio",
@@ -425,7 +376,6 @@ export const ptBR = {
       mp4_h264: "MP4 (H.264)",
     },
   },
-
   helpModal: {
     title: "Ajuda e Informações",
     tabs: {

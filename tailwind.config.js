@@ -1,4 +1,4 @@
-// File: tailwind.config.js | Version: v1.9.36 | Author: Sut
+// File: tailwind.config.js | Version: v1.9.67 | Author: Sut
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [

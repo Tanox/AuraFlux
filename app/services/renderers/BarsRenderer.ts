@@ -1,11 +1,11 @@
 /**
  * File: app/services/renderers/BarsRenderer.ts
- * Version: v1.9.36
+ * Version: v1.9.66
  * Author: Sut
   */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
-import { getAverage, applySoftCompression } from '../audioUtils';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index.ts';
+import { getAverage, applySoftCompression } from '../audioUtils.ts';
 
 export class BarsRenderer implements IVisualizerRenderer {
   private peaksL: number[] = [];

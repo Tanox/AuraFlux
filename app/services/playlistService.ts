@@ -1,10 +1,5 @@
-/**
- * File: app/services/playlistService.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
-import { Track } from '../types';
+// File: app/services/playlistService.ts | Version: v1.9.65
+import { Track } from '../types/index.ts';
 
 const DB_NAME = 'AuraFluxDB';
 const STORE_NAME = 'playlist';

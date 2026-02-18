@@ -1,19 +1,18 @@
 # OpenSpec: 部署与环境规范 (07)
 
-## 1. 环境配置 (v1.9.36)
-- **API 注入:** 通过 Vite 的 `define` 插件将 `process.env.API_KEY` 注入。
-- **构建目标:** `esnext`，压缩工具 `esbuild`。
+## 1. 构建环境 (v1.9.69)
+- **构建工具:** Vite 6.0+。
+- **注入变量:** `process.env.API_KEY` (必须)。
+- **目标平台:** `esnext`，压缩采用 `esbuild`。
 
-## 2. PWA 规范
-- **Service Worker (`sw.js`):** 
-  - 采用 **Stale-While-Revalidate** 策略。
-  - **更新逻辑:** 监听 `SKIP_WAITING` 消息。当 `onupdatefound` 触发时，UI 展示“立即刷新”横幅，点击后触发 `postMessage` 并调用 `window.location.reload()`。
-- **Manifest:** `manifest.json` 包含 `maskable` 图标支持。
+## 2. PWA 规范 (当前已停用)
+- **状态:** Service Worker (`sw.js`) 注册逻辑已暂时移除，以增强受限执行环境下的稳定性。
+- **资产清理:** `public/manifest.json` 与 `sw.js` 仍保留在代码库中，但不在 `index.html` 中引用。
 
-## 3. 构建发布
-- **目录:** `dist/` 为发布目录。
-- **权限:** `metadata.json` 显式声明 `microphone` 权限。
+## 3. 生产发布
+- **基准路径:** `./` (支持任意子路径部署)。
+- **权限申请:** `metadata.json` 中必须显式声明 `camera` 和 `microphone` 权限。
 
 ---
-*Aura Flux Deployment Guide - Version 1.9.36*
+*Aura Flux Deployment Guide - Version 1.9.69*
 *Author: Sut*

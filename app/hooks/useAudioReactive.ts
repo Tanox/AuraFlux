@@ -1,15 +1,10 @@
-/**
- * File: app/hooks/useAudioReactive.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useAudioReactive.ts | Version: v1.9.65
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color } from 'three';
-import { VisualizerSettings } from '../types';
-import { getAverage, AdaptiveNoiseFilter, DynamicPeakLimiter, applySoftCompression } from '../services/audioUtils';
-import { BeatDetector } from '../services/beatDetector';
+import { VisualizerSettings } from '../types/index.ts';
+import { getAverage, AdaptiveNoiseFilter, DynamicPeakLimiter, applySoftCompression } from '../services/audioUtils.ts';
+import { BeatDetector } from '../services/beatDetector.ts';
 
 interface UseAudioReactiveProps {
   analyser: AnalyserNode | null;

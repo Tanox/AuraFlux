@@ -1,13 +1,7 @@
-/**
- * File: app/locales/tw.ts
- * Version: v1.9.36
- * Author: Sut
- */
+// File: app/locales/tw.ts | Version: v1.9.64
+import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
+import { COLOR_THEMES } from '../../constants/index.ts';
 
-import { LyricsStyle, VisualizerMode } from '../../types';
-import { COLOR_THEMES } from '../../constants';
-
-// --- Helper for creating theme names, directly from constants for now ---
 const THEME_NAMES = ["蒸氣波", "極光", "日落", "棉花糖", "電光", "霓虹", "矩陣", "黃金", "皇家", "太陽", "海洋", "賽博", "櫻花", "北極", "沙漠", "電壓", "翡翠", "青色"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
@@ -18,7 +12,6 @@ const getThemeLabels = () => {
 };
 
 export const tw = {
-  // --- Global / Common strings ---
   common: {
     queue: "播放列表",
     empty: "空",
@@ -37,14 +30,10 @@ export const tw = {
     advanced: "進階",
     active: "首曲目",
   },
-
-  // --- App Version & Info ---
-  appVersion: "v1.9.36",
+  appVersion: "v1.9.64",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "啟動系統",
-
-  // --- Onboarding ---
   onboarding: {
     welcome: "歡迎",
     subtitle: "讓我們開始您的 Aura Flux 體驗",
@@ -77,8 +66,6 @@ export const tw = {
       advanced: "進階功能",
     }
   },
-
-  // --- Controls / Tabs ---
   tabs: {
     visual: "視覺",
     input: "音訊輸入",
@@ -87,8 +74,6 @@ export const tw = {
     studio: "工作室",
     system: "系統",
   },
-
-  // --- Visual Panel ---
   visualPanel: {
     display: "顯示品質",
     aiBg: "AI 背景",
@@ -98,8 +83,6 @@ export const tw = {
     opacity: "不透明度",
     bgGenerated: "AI 背景已生成",
   },
-
-  // --- Audio Panel ---
   audioPanel: {
     audioInput: "訊號架構",
     mic: "麥克風",
@@ -121,8 +104,6 @@ export const tw = {
     recognitionSource: "AI 協定",
     save: "儲存",
   },
-
-  // --- Player Panel ---
   player: {
     nowPlaying: "正在播放",
     playlistTitle: "播放列表",
@@ -138,14 +119,10 @@ export const tw = {
     blur: "模糊量",
     info: "元資訊",
   },
-
-  // --- Custom Text Panel ---
   textPanel: {
     overlay: "文字圖層設定",
     appearance: "樣式與排版",
   },
-
-  // --- System Panel ---
   systemPanel: {
     localization: "美學與語言",
     darkMode: "深色模式",
@@ -155,8 +132,6 @@ export const tw = {
     installApp: "安裝 Aura Flux 應用程式",
     factoryReset: "恢復所有出廠設定",
   },
-
-  // --- Global Settings / Shared ---
   sensitivity: "增益",
   speed: "速度",
   smoothing: "慣性",
@@ -194,8 +169,6 @@ export const tw = {
   showOptions: "顯示控制",
   hideOptions: "隱藏控制",
   randomize: "隨機化",
-
-  // --- Placeholders for dynamic lists / Enums ---
   modes: {
     [VisualizerMode.PLASMA]: "電漿流",
     [VisualizerMode.BARS]: "頻譜條",
@@ -226,7 +199,7 @@ export const tw = {
     [VisualizerMode.TUNNEL]: "脈動的幾何隧道，營造出曲速感。",
     [VisualizerMode.RINGS]: "同心圓環随音訊峰值膨脹收縮。",
     [VisualizerMode.LASERS]: "鋒利、鮮豔的雷射光束劃破視覺空間。",
-    [VisualizerMode.FLUID_CURVES]: "平滑流動的曲線，随聲音變化形態。",
+    [VisualizerMode.FLUID_CURVES]: "平滑流動的曲線，随聲音變化形态。",
     [VisualizerMode.WAVEFORM]: "抽象波形在螢幕上形成頻譜絲帶。",
     [VisualizerMode.NEBULA]: "柔和、演變的星雲氣體和塵埃，環境且具響應性。",
     [VisualizerMode.RIPPLES]: "以節拍為中心向外擴散的同心圓形漣漪。",
@@ -236,15 +209,12 @@ export const tw = {
     [VisualizerMode.KINETIC_WALL]: "動態元素牆，響應音訊推拉。",
     [VisualizerMode.RESONANCE_ORB]: "一個中心球體，根據音訊輸入改變其表面形態。",
   },
-
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "標準",
     [LyricsStyle.KARAOKE]: "卡拉OK",
     [LyricsStyle.MINIMAL]: "極簡",
   },
-
   themes: getThemeLabels(),
-
   aiProviders: {
     GEMINI: "Gemini 3.0 (Google)",
     OPENAI: "GPT-4o (OpenAI)",
@@ -254,7 +224,6 @@ export const tw = {
     QWEN: "Qwen (阿里云)",
     MOCK: "本地模擬 (僅開發)",
   },
-
   regions: {
     global: "全球",
     US: "美國",
@@ -264,14 +233,12 @@ export const tw = {
     EU: "歐洲",
     LATAM: "拉丁美洲",
   },
-
   textSources: {
     auto: "自動",
     custom: "手動",
     song: "歌曲",
     clock: "時鐘",
   },
-
   fonts: {
     default: "Inter (預設)",
     system: "系統 UI",
@@ -283,13 +250,11 @@ export const tw = {
     serif: "Times New Roman",
     custom: "自訂...",
   },
-
   positions: {
     tl: "左上", tc: "中上", tr: "右上",
     ml: "左中", mc: "正中", mr: "右中",
     bl: "左下", bc: "中下", br: "右下",
   },
-
   presets: {
     title: "氛圍引擎",
     hint: "視覺預設",
@@ -309,8 +274,6 @@ export const tw = {
     med: "中 (平衡)",
     high: "高 (保真)",
   },
-
-  // --- Hints for Tooltips ---
   hints: {
     randomize: "隨機化視覺效果與顏色",
     resetVisual: "重設視覺設定",
@@ -323,8 +286,6 @@ export const tw = {
     syncStart: "如果正在播放檔案，在播放開始時自動開始錄影。",
     countdown: "錄影開始前顯示倒數計時。",
   },
-
-  // --- Toasts / Notifications ---
   toasts: {
     canvasNotFound: "未找到 Canvas 元素。",
     audioNotReady: "音訊源未就緒。請嘗試啟動麥克風或播放檔案。",
@@ -339,8 +300,6 @@ export const tw = {
     aiDirectorReq: "AI 功能需要 Gemini API 密鑰。",
     aiFail: "AI 生成失敗。請檢查 API 密鑰或重試。",
   },
-
-  // --- Errors ---
   errors: {
     accessDenied: "麥克風存取被拒絕。請在瀏覽器設定中啟用。",
     trackLoad: "無法載入曲目或解碼音訊資料。",
@@ -348,7 +307,6 @@ export const tw = {
     unsupportedTitle: '瀏覽器不受支援',
     unsupportedText: 'Aura Flux 需要現代瀏覽器功能（如麥克風存取），但目前瀏覽器不支持。請更新到最新版本的 Chrome、Firefox 或 Safari。',
   },
-
   config: {
     title: "資料管理",
     export: "匯出",
@@ -365,7 +323,6 @@ export const tw = {
     limitReached: "達到預設限制（最多3個）。",
     saved: "已儲存",
   },
-
   songOverlay: {
     provider: {
       local: '本地快取',
@@ -375,10 +332,7 @@ export const tw = {
     aiSynesthesia: 'AI 通感',
     googleSearch: '谷歌搜尋',
   },
-
   wrongSong: "重新分析",
-
-  // --- Share ---
   share: {
     appTitle: "Aura Flux - AI 音樂視覺化器",
     appMessage: "體驗 Aura Flux - AI 音樂視覺化器！🎵✨",
@@ -389,8 +343,6 @@ export const tw = {
     copied: "文字已複製！",
     unsupported: "分享功能不受支援",
   },
-
-  // --- Studio Panel ---
   studioPanel: {
     videoConfig: "影片設定",
     audioMix: "音訊混音",
@@ -424,8 +376,6 @@ export const tw = {
       mp4_h264: "MP4 (H.264)",
     },
   },
-
-  // --- Help Modal ---
   helpModal: {
     title: "幫助與資訊",
     tabs: {

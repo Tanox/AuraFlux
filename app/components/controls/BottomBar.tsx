@@ -1,13 +1,8 @@
-/**
- * File: app/components/controls/BottomBar.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/controls/BottomBar.tsx | Version: v1.9.65
 import React, { useState, useRef, useEffect } from 'react';
-import { useAudioContext, useUI, useVisuals } from '../../AppContext';
-import { TooltipArea } from '../visualizers/ui/controls/Tooltip';
-import { PlaybackMode } from '../../types';
+import { useAudioContext, useUI, useVisuals } from '../../AppContext.tsx';
+import { TooltipArea } from '../visualizers/ui/controls/Tooltip.tsx';
+import { PlaybackMode } from '../../types/index.ts';
 
 interface BottomBarProps {
   isExpanded: boolean;

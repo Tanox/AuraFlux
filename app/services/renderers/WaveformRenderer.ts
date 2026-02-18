@@ -1,11 +1,11 @@
 /**
  * File: app/services/renderers/WaveformRenderer.ts
- * Version: v1.9.36
+ * Version: v1.9.66
  * Author: Sut
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
-import { getAverage, applySoftCompression, drawQuadraticPath } from '../audioUtils';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index.ts';
+import { getAverage, applySoftCompression, drawQuadraticPath } from '../audioUtils.ts';
 
 export class WaveformRenderer implements IVisualizerRenderer {
   private smoothedEnergiesL: number[] = new Array(5).fill(0);

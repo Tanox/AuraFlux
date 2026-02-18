@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/KineticWallScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  * Description: "Kinetic Wall" - Massive LED stage wall with rhythmic pulsing.
  */
@@ -8,7 +8,7 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial } from 'three';
-import { VisualizerSettings } from '../../../types';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {

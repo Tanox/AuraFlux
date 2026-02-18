@@ -1,16 +1,16 @@
-// File: app/services/visualizerStrategies.ts | Version: v1.9.37 | Author: Sut
-import { VisualizerMode, IVisualizerRenderer } from '../types';
-import { BarsRenderer } from './renderers/BarsRenderer';
-import { RingsRenderer } from './renderers/RingsRenderer';
-import { FluidCurvesRenderer } from './renderers/FluidCurvesRenderer';
-import { ParticlesRenderer } from './renderers/ParticlesRenderer';
-import { NebulaRenderer } from './renderers/NebulaRenderer';
-import { TunnelRenderer } from './renderers/GeometryRenderers';
-import { PlasmaRenderer } from './renderers/PlasmaRenderer';
-import { LasersRenderer } from './renderers/LasersRenderer';
-import { WaveformRenderer } from './renderers/WaveformRenderer';
-import { RippleRenderer } from './renderers/RippleRenderer';
-import { SpiralRenderer } from './renderers/SpiralRenderer';
+// File: app/services/visualizerStrategies.ts | Version: v1.9.65
+import { VisualizerMode, IVisualizerRenderer } from '../types/index.ts';
+import { BarsRenderer } from './renderers/BarsRenderer.ts';
+import { RingsRenderer } from './renderers/RingsRenderer.ts';
+import { FluidCurvesRenderer } from './renderers/FluidCurvesRenderer.ts';
+import { ParticlesRenderer } from './renderers/ParticlesRenderer.ts';
+import { NebulaRenderer } from './renderers/NebulaRenderer.ts';
+import { TunnelRenderer } from './renderers/GeometryRenderers.ts';
+import { PlasmaRenderer } from './renderers/PlasmaRenderer.ts';
+import { LasersRenderer } from './renderers/LasersRenderer.ts';
+import { WaveformRenderer } from './renderers/WaveformRenderer.ts';
+import { RippleRenderer } from './renderers/RippleRenderer.ts';
+import { SpiralRenderer } from './renderers/SpiralRenderer.ts';
 
 export { 
   BarsRenderer, RingsRenderer, FluidCurvesRenderer, 
@@ -18,7 +18,7 @@ export {
   LasersRenderer, WaveformRenderer, RippleRenderer, SpiralRenderer
 };
 
-export { BeatDetector } from './beatDetector';
+export { BeatDetector } from './beatDetector.ts';
 
 export const createVisualizerRenderers = (): Record<string, IVisualizerRenderer> => ({
   [VisualizerMode.BARS]: new BarsRenderer(),

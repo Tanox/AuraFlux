@@ -1,17 +1,10 @@
-// File: app/services/aiService.ts | Version: v1.9.36 | Author: Sut
+// File: app/services/aiService.ts | Version: v1.9.65
 import { GoogleGenAI, Type } from "@google/genai";
-import { SongInfo, Language, AIProvider, Region } from '../types';
+import { SongInfo, Language, AIProvider, Region } from '../types/index.ts';
 
-// --- Constants: Model Names ---
 const GEMINI_MODEL = 'gemini-3-flash-preview';
 const IMAGEN_MODEL = 'gemini-2.5-flash-image';
 
-// --- Constants: API Schemas for structured responses ---
-
-/**
- * Schema for the `identifySongFromAudio` function.
- * Ensures the AI returns a structured JSON object with song details.
- */
 const SONG_IDENTIFICATION_SCHEMA = {
     type: Type.OBJECT,
     properties: {
@@ -25,10 +18,6 @@ const SONG_IDENTIFICATION_SCHEMA = {
     required: ['title', 'artist', 'mood', 'identified']
 };
 
-/**
- * Schema for the `generateVisualConfigFromAudio` function.
- * Ensures the AI returns a structured JSON object with visual parameters.
- */
 const VISUAL_CONFIG_SCHEMA = {
     type: Type.OBJECT,
     properties: {
@@ -41,8 +30,6 @@ const VISUAL_CONFIG_SCHEMA = {
     required: ['mode', 'colors', 'speed', 'sensitivity', 'explanation']
 };
 
-// --- Constants: Prompts ---
-
 const IDENTIFY_SONG_PROMPT = (language: Language, region: Region) => 
     `Analyze the attached audio snippet. Identify the track name, artist, and emotional vibe. Language: ${language}, Region: ${region}.`;
 
@@ -51,171 +38,75 @@ const GENERATE_VISUAL_CONFIG_PROMPT = "Listen to this audio and choose the best 
 const GENERATE_ARTISTIC_BACKGROUND_PROMPT = (moodKeywords: string) => 
     `Breathtaking high-fidelity digital art background for a music visualizer. Concept: ${moodKeywords}. Style: Abstract, atmospheric lighting, volumetric depth, cinematic 8k.`;
 
-// --- Helper Functions ---
-
-/**
- * Cleans a JSON string that might be wrapped in Markdown code blocks.
- * @param str The raw string from the AI response.
- * @returns A clean, parsable JSON string.
- */
 const cleanJsonString = (str: string): string => {
     if (!str) return "{}";
     return str.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/, '').trim();
 };
 
-/**
- * Retrieves the API key, prioritizing the provided key, then falling back to environment variables.
- * Safe for environments where process is undefined.
- * @param apiKey An optional API key provided directly.
- * @returns The API key string, or null if none is available.
- */
-const getApiKey = (apiKey?: string): string | null => {
-    if (apiKey) return apiKey;
-    // Safely check for process.env
+export const identifySongFromAudio = async (base64Audio: string, mimeType: string, language: Language = 'en', region: Region = 'global', provider: AIProvider = 'GEMINI'): Promise<SongInfo | null> => {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     try {
-        if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
-            return process.env.API_KEY;
-        }
-    } catch (e) {
-        // Ignore reference errors for process
-    }
-    return null;
-}
-
-// --- Service Functions ---
-
-/**
- * Validates a Gemini API Key by performing a minimal content generation request.
- * @param provider The AI provider (currently only validates 'GEMINI').
- * @param apiKey The API key to validate.
- * @returns A boolean indicating if the key is valid.
- */
-export const validateApiKey = async (provider: AIProvider, apiKey: string): Promise<boolean> => {
-    if (provider !== 'GEMINI') return true; 
-    if (!apiKey || !apiKey.startsWith('AIza')) return false;
-    try {
-        const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
             model: GEMINI_MODEL,
-            contents: "ping",
+            contents: { parts: [{ inlineData: { mimeType, data: base64Audio } }, { text: IDENTIFY_SONG_PROMPT(language, region) }] },
             config: { 
-                maxOutputTokens: 10,
+                responseMimeType: "application/json", 
+                responseSchema: SONG_IDENTIFICATION_SCHEMA,
                 thinkingConfig: { thinkingBudget: 0 }
             }
         });
-        return !!response.text;
-    } catch (e) { 
-        return false; 
-    }
-};
-
-/**
- * Identifies a song from a base64 audio snippet.
- * @param base64Audio Base64 encoded audio data.
- * @param mimeType The MIME type of the audio data.
- * @param language The target language for the response.
- * @param region The geographical region for context.
- * @param provider The AI provider to use.
- * @param apiKey Optional API key.
- * @returns A promise that resolves to a `SongInfo` object or null on failure.
- */
-export const identifySongFromAudio = async (
-    base64Audio: string, 
-    mimeType: string, 
-    language: Language = 'en', 
-    region: Region = 'global', 
-    provider: AIProvider = 'GEMINI', 
-    apiKey?: string
-): Promise<SongInfo | null> => {
-    const key = getApiKey(apiKey);
-    if (!key) return null;
-    
-    const ai = new GoogleGenAI({ apiKey: key });
-    
-    try {
-        const response = await ai.models.generateContent({
-            model: GEMINI_MODEL,
-            contents: [
-                { inlineData: { mimeType, data: base64Audio } }, 
-                { text: IDENTIFY_SONG_PROMPT(language, region) }
-            ],
-            config: { 
-                responseMimeType: "application/json", 
-                responseSchema: SONG_IDENTIFICATION_SCHEMA
-            }
-        });
-        
         const text = response.text;
         if (!text) return null;
-        
-        const result = JSON.parse(cleanJsonString(text));
-        return { ...result, matchSource: provider };
+        try {
+            const result = JSON.parse(cleanJsonString(text));
+            return { ...result, matchSource: provider };
+        } catch (parseErr) {
+            console.error("[AI] JSON Parse failed for song ID:", text);
+            return null;
+        }
     } catch (e) { 
         console.error("[AI] Song Identification failed:", e);
         return null; 
     }
 };
 
-/**
- * Generates an optimized visual configuration from an audio snippet.
- * @param base64Audio Base64 encoded audio data (WAV format).
- * @param apiKey The API key.
- * @returns A promise resolving to a configuration object or null.
- */
-export const generateVisualConfigFromAudio = async (base64Audio: string, apiKey: string): Promise<any> => {
-    const key = getApiKey(apiKey);
-    if (!key) return null;
-    
-    const ai = new GoogleGenAI({ apiKey: key });
-    
+export const generateVisualConfigFromAudio = async (base64Audio: string): Promise<any> => {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     try {
         const response = await ai.models.generateContent({
             model: GEMINI_MODEL,
-            contents: [
-                { inlineData: { mimeType: 'audio/wav', data: base64Audio } }, 
-                { text: GENERATE_VISUAL_CONFIG_PROMPT }
-            ],
+            contents: { parts: [{ inlineData: { mimeType: 'audio/wav', data: base64Audio } }, { text: GENERATE_VISUAL_CONFIG_PROMPT }] },
             config: { 
                 responseMimeType: "application/json", 
-                responseSchema: VISUAL_CONFIG_SCHEMA 
+                responseSchema: VISUAL_CONFIG_SCHEMA,
+                thinkingConfig: { thinkingBudget: 1024 }
             }
         });
-        
         const text = response.text;
         if (!text) return null;
-        
-        return JSON.parse(cleanJsonString(text));
+        try {
+            return JSON.parse(cleanJsonString(text));
+        } catch (parseErr) {
+            console.error("[AI] JSON Parse failed for visual config:", text);
+            return null;
+        }
     } catch (e) { 
         console.error("[AI] Visual auto-direction failed:", e);
         return null; 
     }
 };
 
-/**
- * Generates an artistic background image based on mood keywords.
- * @param moodKeywords A string of keywords describing the desired mood.
- * @param apiKey The API key.
- * @returns A promise resolving to a base64 data URL string or null.
- */
-export const generateArtisticBackground = async (moodKeywords: string, apiKey: string): Promise<string | null> => {
-    const key = getApiKey(apiKey);
-    if (!key) return null;
-    
-    const ai = new GoogleGenAI({ apiKey: key });
+export const generateArtisticBackground = async (moodKeywords: string): Promise<string | null> => {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     try {
         const response = await ai.models.generateContent({
             model: IMAGEN_MODEL,
             contents: { parts: [{ text: GENERATE_ARTISTIC_BACKGROUND_PROMPT(moodKeywords) }] },
-            config: { 
-                imageConfig: { aspectRatio: "16:9" } 
-            }
+            config: { imageConfig: { aspectRatio: "16:9" } }
         });
-        
         if (response.candidates?.[0]?.content?.parts) {
             for (const part of response.candidates[0].content.parts) {
-                if (part.inlineData) {
-                    return `data:image/png;base64,${part.inlineData.data}`;
-                }
+                if (part.inlineData) return `data:image/png;base64,${part.inlineData.data}`;
             }
         }
         return null;

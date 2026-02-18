@@ -1,13 +1,8 @@
-/**
- * File: app/hooks/useVisualsState.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useVisualsState.ts | Version: v1.9.65
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useLocalStorage } from './useLocalStorage';
-import { VisualizerMode, VisualizerSettings, SmartPreset, LyricsStyle } from '../types';
-import { COLOR_THEMES, VISUALIZER_PRESETS } from '../constants';
+import { useLocalStorage } from './useLocalStorage.ts';
+import { VisualizerMode, VisualizerSettings, SmartPreset, LyricsStyle } from '../types/index.ts';
+import { COLOR_THEMES, VISUALIZER_PRESETS } from '../constants/index.ts';
 
 const DEFAULT_MODE = VisualizerMode.PLASMA;
 const DEFAULT_THEME_INDEX = 1;
@@ -22,8 +17,8 @@ export const DEFAULT_SETTINGS: VisualizerSettings = {
   autoRotate: false,
   rotateInterval: 30,
   includedModes: Object.values(VisualizerMode),
-  cycleColors: true, // v1.8.93: Enabled by default
-  colorInterval: 5,   // v1.8.93: Set to 5s for dynamic feedback
+  cycleColors: true,
+  colorInterval: 5,
   hideCursor: false,
   smoothing: 0.8,
   fftSize: 512,
@@ -58,7 +53,7 @@ export const DEFAULT_SETTINGS: VisualizerSettings = {
   showFps: false,
   showTooltips: true,
   doubleClickFullscreen: true,
-  autoHideUi: true,
+  autoHideUi: false, // Changed to false to prevent UI hiding issues
   mirrorDisplay: false
 };
 

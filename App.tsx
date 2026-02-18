@@ -1,21 +1,21 @@
-// File: App.tsx | Version: v1.9.36 | Author: Sut
+// File: App.tsx | Version: v1.9.69
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './app/AppContext';
-import { WelcomeScreen } from './app/components/visualizers/ui/WelcomeScreen';
-import { OnboardingOverlay } from './app/components/visualizers/ui/onboarding/OnboardingOverlay';
-import { UnsupportedScreen } from './app/components/visualizers/ui/UnsupportedScreen';
-import { HelpModal } from './app/components/visualizers/ui/HelpModal';
-import SongOverlay from './app/components/visualizers/ui/SongOverlay';
-import LyricsOverlay from './app/components/visualizers/ui/LyricsOverlay';
-import CustomTextOverlay from './app/components/visualizers/ui/CustomTextOverlay';
-import { FPSCounter } from './app/components/visualizers/ui/FPSCounter';
-import { useIdleTimer } from './app/hooks/useIdleTimer';
-import { useMobileGestures } from './app/hooks/useMobileGestures';
-import type { ControlsProps } from './app/components/controls/Controls';
+import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './app/AppContext.tsx';
+import { WelcomeScreen } from './app/components/visualizers/ui/WelcomeScreen.tsx';
+import { OnboardingOverlay } from './app/components/visualizers/ui/onboarding/OnboardingOverlay.tsx';
+import { UnsupportedScreen } from './app/components/visualizers/ui/UnsupportedScreen.tsx';
+import { HelpModal } from './app/components/visualizers/ui/HelpModal.tsx';
+import SongOverlay from './app/components/visualizers/ui/SongOverlay.tsx';
+import LyricsOverlay from './app/components/visualizers/ui/LyricsOverlay.tsx';
+import CustomTextOverlay from './app/components/visualizers/ui/CustomTextOverlay.tsx';
+import { FPSCounter } from './app/components/visualizers/ui/FPSCounter.tsx';
+import { useIdleTimer } from './app/hooks/useIdleTimer.ts';
+import { useMobileGestures } from './app/hooks/useMobileGestures.ts';
+import type { ControlsProps } from './app/components/controls/Controls.tsx';
 
-const VisualizerCanvas = lazy(() => import('./app/components/visualizers/VisualizerCanvas'));
-const ThreeVisualizer = lazy(() => import('./app/components/visualizers/ThreeVisualizer'));
-const Controls = lazy(() => import('./app/components/controls/Controls').then(module => ({ default: module.Controls as React.FC<ControlsProps> })));
+const VisualizerCanvas = lazy(() => import('./app/components/visualizers/VisualizerCanvas.tsx'));
+const ThreeVisualizer = lazy(() => import('./app/components/visualizers/ThreeVisualizer.tsx'));
+const Controls = lazy(() => import('./app/components/controls/Controls.tsx').then(module => ({ default: module.Controls as React.FC<ControlsProps> })));
 
 const MainContent: React.FC = () => {
   const ui = useUI();
@@ -29,7 +29,6 @@ const MainContent: React.FC = () => {
       hasStarted, language, setLanguage, manageWakeLock, 
       showHelpModal, setShowHelpModal, helpModalInitialTab, 
       isDragging, setIsDragging, t, 
-      isUpdateAvailable, performUpdate,
       toggleFullscreen
   } = ui;
   
@@ -89,95 +88,45 @@ const MainContent: React.FC = () => {
   return (
     <div 
       id="app-root"
-      className={`relative w-full h-full bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
+      className={`relative w-full h-full min-h-screen bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       {...gestures}
     >
-      {isUpdateAvailable && (
-        <div id="update-banner" className="fixed top-0 left-0 right-0 z-[500] p-3 flex justify-center animate-fade-in-down">
-            <div className="bg-blue-600/60 backdrop-blur-2xl border border-white/20 rounded-2xl px-6 py-3 flex items-center gap-6 shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
-                <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-white rounded-full animate-ping" />
-                    <span className="text-white text-xs font-black uppercase tracking-widest">{t.common.updateAvailable}</span>
-                </div>
-                <button 
-                    onClick={performUpdate}
-                    className="bg-white text-blue-600 px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider hover:bg-blue-50 transition-all shadow-lg active:scale-95"
-                >
-                    {t.common.updateAction}
-                </button>
-            </div>
-        </div>
-      )}
-
       {isDragging && (
-          <div id="drag-overlay" className="fixed inset-0 z-[300] bg-blue-600/10 backdrop-blur-md flex items-center justify-center pointer-events-none animate-fade-in-up transition-all duration-300">
-              <div className="bg-black/80 backdrop-blur-2xl border-4 border-dashed border-blue-500/40 p-16 rounded-[4rem] flex flex-col items-center gap-8 shadow-[0_0_100px_rgba(37,99,235,0.3)] transform scale-110">
-                  <div className="w-24 h-24 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 animate-bounce">
-                      <svg className="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                      </svg>
-                  </div>
-                  <div className="text-center space-y-3">
-                    <h3 className="text-3xl font-black text-white uppercase tracking-[0.25em] drop-shadow-xl">{t.common.dropFiles}</h3>
-                    <p className="text-blue-400/60 text-xs font-black uppercase tracking-[0.15em]">{t.player.supportInfo}</p>
-                  </div>
-              </div>
+          <div id="drag-overlay" className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none z-50">
+            <p className="text-white font-bold text-2xl drop-shadow-lg">{t.common.dropFiles}</p>
           </div>
       )}
-
-      {settings?.showAiBg && settings?.aiBgUrl && (
-          <div id="app-background-layer" className="absolute inset-0 z-0 transition-opacity duration-1000" style={{ opacity: settings.aiBgOpacity }}>
-              <img src={settings.aiBgUrl} className="w-full h-full object-cover" style={{ filter: `blur(${settings.aiBgBlur}px)` }} alt="" />
-          </div>
-      )}
-
-      <div id="visualizer-container" className={`visualizer-container z-[1] ${isExpanded ? 'scale-[0.98]' : 'scale-100'}`}>
+      <div
+        className={`visualizer-container ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
+        onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
+      >
         <Suspense fallback={null}>
           {isThreeMode ? (
             <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
           ) : (
-            <VisualizerCanvas analyser={analyser} analyserR={analyserR} mode={mode} colors={colorTheme} settings={settings} />
+            <VisualizerCanvas analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
           )}
         </Suspense>
       </div>
-
-      <SongOverlay 
-        song={currentSong} isVisible={settings?.showSongInfo} language={language} 
-        onRetry={handleRetryIdentification} 
-        onClose={() => setSettings(s=>({...s, showSongInfo: false}))} analyser={analyser} sensitivity={settings?.sensitivity}
-        showAlbumArt={settings?.showAlbumArtOverlay} isIdle={false}
-      />
-      <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
-      <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
-
-      <div id="controls-layer" className={`transition-opacity duration-700 ${isIdle && !isExpanded ? 'opacity-0 cursor-none' : 'opacity-100'}`}>
-        <Suspense fallback={null}>
-          <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
-        </Suspense>
-        {settings?.showFps && <FPSCounter />}
-      </div>
-      
-      <div id="version-watermark" className="fixed bottom-4 right-4 z-[5] pointer-events-none opacity-40 text-xs font-mono uppercase tracking-widest text-black dark:text-white drop-shadow-md">
-        {t.appTitle} {t.appVersion}
-      </div>
-      
       {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}
+      <SongOverlay song={currentSong} isVisible={settings.showSongInfo} language={language} onRetry={handleRetryIdentification} onClose={() => setSettings(s => ({...s, showSongInfo: false}))} analyser={analyser} sensitivity={settings.sensitivity} showAlbumArt={settings.showAlbumArtOverlay} />
+      <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
+      <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
+      {settings.showFps && <FPSCounter />}
+      <Suspense fallback={null}>
+        <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
+      </Suspense>
     </div>
   );
 };
 
-const App: React.FC = () => {
-  const [isSupported, setIsSupported] = useState(true);
-  useEffect(() => { 
-    if (typeof window !== 'undefined' && (!window.AudioContext && !(window as any).webkitAudioContext)) {
-      setIsSupported(false); 
-    }
-  }, []);
-  if (!isSupported) return <UnsupportedScreen />;
-  return <AppProvider><MainContent /></AppProvider>;
-};
-
-export { App, AppProvider };
+export const App: React.FC = () => (
+    <AppProvider>
+        <Suspense fallback={<div className="w-screen h-screen bg-black" />}>
+            <MainContent />
+        </Suspense>
+    </AppProvider>
+);

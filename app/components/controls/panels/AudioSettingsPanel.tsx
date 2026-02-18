@@ -1,13 +1,7 @@
-/**
- * File: app/components/controls/panels/AudioSettingsPanel.tsx
- * Version: v1.9.36
- * Author: Sut
- * Updated: 2025-07-28 16:30
- */
-
+// File: app/components/controls/panels/AudioSettingsPanel.tsx | Version: v1.9.65
 import React from 'react';
-import { InputSettings } from './audio/InputSettings';
-import { AiSettings } from './audio/AiSettings';
+import { InputSettings } from './audio/InputSettings.tsx';
+import { AiSettings } from './audio/AiSettings.tsx';
 
 export const AudioSettingsPanel: React.FC = () => {
   return (

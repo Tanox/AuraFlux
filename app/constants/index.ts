@@ -1,23 +1,13 @@
-/**
- * File: app/constants/index.ts
- * Version: v1.9.36
- * Author: Sut
- */
+// File: app/constants/index.ts | Version: v1.9.69
+import { VisualizerMode, SmartPreset } from '../types/index.ts';
+import { COLOR_THEMES } from './visualThemes.ts';
+import { TranslationSchema } from '../locales/index.ts';
 
-import { VisualizerMode, SmartPreset } from '../types';
-import { COLOR_THEMES } from './visualThemes';
-import { TranslationSchema } from '../locales';
+export * from './visualThemes.ts';
 
-export * from './visualThemes';
-
-export const APP_VERSION = '1.9.36';
+export const APP_VERSION = '1.9.69';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
-
-// REGION_NAMES are now part of the translation schema in en.ts
-// export const REGION_NAMES: Record<string, string> = {
-//   global: 'Global', US: 'United States', CN: 'China', JP: 'Japan', KR: 'Korea', EU: 'Europe', LATAM: 'Latin America'
-// };
 
 export const BLOOM_CONFIG: Partial<Record<VisualizerMode, number>> = {
   [VisualizerMode.KINETIC_WALL]: 3.0,
@@ -29,7 +19,13 @@ export const BLOOM_CONFIG: Partial<Record<VisualizerMode, number>> = {
   [VisualizerMode.OCEAN_WAVE]: 4.0
 };
 
-export const getFontOptions = (t: TranslationSchema) => { // Use TranslationSchema
+export const getPositionOptions = (t: TranslationSchema) => [
+  { value: 'tl', label: t.positions.tl }, { value: 'tc', label: t.positions.tc }, { value: 'tr', label: t.positions.tr },
+  { value: 'ml', label: t.positions.ml }, { value: 'mc', label: t.positions.mc }, { value: 'mr', label: t.positions.mr },
+  { value: 'bl', label: t.positions.bl }, { value: 'bc', label: t.positions.bc }, { value: 'br', label: t.positions.br },
+];
+
+export const getFontOptions = (t: TranslationSchema) => {
   const f = t.fonts;
   return [
     { value: 'Inter, sans-serif', label: f.default },
@@ -43,12 +39,6 @@ export const getFontOptions = (t: TranslationSchema) => { // Use TranslationSche
     { value: 'custom', label: f.custom }
   ];
 };
-
-export const getPositionOptions = (t: TranslationSchema) => [ // Use TranslationSchema
-  { value: 'tl', label: t.positions.tl }, { value: 'tc', label: t.positions.tc }, { value: 'tr', label: t.positions.tr },
-  { value: 'ml', label: t.positions.ml }, { value: 'mc', label: t.positions.mc }, { value: 'mr', label: t.positions.mr },
-  { value: 'bl', label: t.positions.bl }, { value: 'bc', label: t.positions.bc }, { value: 'br', label: t.positions.br },
-];
 
 export const SMART_PRESETS: Record<string, SmartPreset> = {
   all_modes: { nameKey: 'all_modes', settings: { mode: VisualizerMode.NEBULA, colorTheme: COLOR_THEMES[0], speed: 1.0, sensitivity: 1.5, glow: true, trails: true, smoothing: 0.8, autoRotate: true, includedModes: Object.values(VisualizerMode) } },

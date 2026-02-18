@@ -1,12 +1,7 @@
-/**
- * File: app/hooks/useAudioPulse.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useAudioPulse.ts | Version: v1.9.65
 import React, { useRef, useEffect } from 'react';
-import { VisualizerSettings } from '../types';
-import { BeatDetector } from '../services/beatDetector';
+import { VisualizerSettings } from '../types/index.ts';
+import { BeatDetector } from '../services/beatDetector.ts';
 
 interface UseAudioPulseProps {
   elementRef: React.RefObject<HTMLElement | null>;

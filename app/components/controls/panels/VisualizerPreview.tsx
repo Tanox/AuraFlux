@@ -1,13 +1,13 @@
 /**
  * File: app/components/controls/panels/VisualizerPreview.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  */
 
 import React, { memo, useMemo } from 'react';
-import { VisualizerMode } from '../../../types';
-import { TooltipArea } from '../../visualizers/ui/controls/Tooltip';
-import { useUI } from '../../../AppContext';
+import { VisualizerMode } from '../../../types/index.ts';
+import { TooltipArea } from '../../visualizers/ui/controls/Tooltip.tsx';
+import { useUI } from '../../../AppContext.tsx';
 
 const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.SILK_WAVE]: { background: 'linear-gradient(45deg, #000, #3b82f6 50%, #000), linear-gradient(-45deg, #000, #ff007f 50%, #000)' },

@@ -1,11 +1,6 @@
-/**
- * File: app/hooks/useLocalStorage.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useLocalStorage.ts | Version: v1.9.65
 import { useCallback } from 'react';
-import { STORAGE_PREFIX } from '../constants';
+import { STORAGE_PREFIX } from '../constants/index.ts';
 
 export const useLocalStorage = () => {
   const getStorage = useCallback(<T,>(key: string, fallback: T): T => {

@@ -1,13 +1,7 @@
-/**
- * File: app/locales/en.ts
- * Version: 1.9.36
- * Author: Sut
- */
+// File: app/locales/en.ts | Version: v1.9.64
+import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
+import { COLOR_THEMES } from '../../constants/index.ts';
 
-import { LyricsStyle, VisualizerMode } from '../../types';
-import { COLOR_THEMES } from '../../constants';
-
-// --- Helper for creating theme names, directly from constants for now ---
 const THEME_NAMES = ["Vaporwave", "Aurora", "Sunset", "Cotton Candy", "Electric", "Neon", "Matrix", "Gold", "Royal", "Solar", "Ocean", "Cyber", "Sakura", "Arctic", "Desert", "Voltage", "Emerald", "Cyanide"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
@@ -18,7 +12,6 @@ const getThemeLabels = () => {
 };
 
 export const en = {
-  // --- Global / Common strings ---
   common: {
     queue: "Queue",
     empty: "Empty",
@@ -37,14 +30,10 @@ export const en = {
     advanced: "Advanced",
     active: "Tracks",
   },
-
-  // --- App Version & Info ---
-  appVersion: "v1.9.36",
+  appVersion: "v1.9.64",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Synesthetic Intelligence Engine",
   startExperience: "INITIALIZE SYSTEM",
-
-  // --- Onboarding ---
   onboarding: {
     welcome: "Welcome",
     subtitle: "Let's set up your Aura Flux experience",
@@ -53,7 +42,7 @@ export const en = {
     back: "Back",
     finish: "Finish",
     features: {
-      title: "Unlock Your Aura Flux Experience",
+      title: "Unlock Your Aura Flux experience",
       visuals: {
         title: "Dynamic Visuals",
         desc: "Transform your audio into stunning, real-time generative art with 2D & 3D visualizers."
@@ -77,8 +66,6 @@ export const en = {
       advanced: "Advanced Features",
     }
   },
-
-  // --- Controls / Tabs ---
   tabs: {
     visual: "Visuals",
     input: "Audio Input",
@@ -87,8 +74,6 @@ export const en = {
     studio: "Studio",
     system: "System",
   },
-
-  // --- Visual Panel ---
   visualPanel: {
     display: "Display Quality",
     aiBg: "AI Background",
@@ -98,8 +83,6 @@ export const en = {
     opacity: "Opacity",
     bgGenerated: "AI Background Generated",
   },
-
-  // --- Audio Panel ---
   audioPanel: {
     audioInput: "Signal Architecture",
     mic: "Microphone",
@@ -114,15 +97,13 @@ export const en = {
     saved: "READY",
     update: "UPD",
     keyVerified: "Key Verified & Saved",
-    keyCleared: "API Key Cleared",
+    keyCleared: "Key Cleared",
     keyInvalid: "Invalid Gemini API Key",
     aiDirector: "AI Auto-Director",
     analyzing: "Analyzing...",
     recognitionSource: "AI Protocol",
     save: "SAVE",
   },
-
-  // --- Player Panel ---
   player: {
     nowPlaying: "Now Playing",
     playlistTitle: "Playlist",
@@ -136,16 +117,12 @@ export const en = {
     bg: "Album Art Background",
     cover: "Info Overlay",
     blur: "Blur Amount",
-    info: "Meta Info",
+    info: "Song Info",
   },
-
-  // --- Custom Text Panel ---
   textPanel: {
     overlay: "Text Layer Setup",
     appearance: "Style & Typography",
   },
-
-  // --- System Panel ---
   systemPanel: {
     localization: "Aesthetics & Language",
     darkMode: "Dark Mode",
@@ -155,8 +132,6 @@ export const en = {
     installApp: "Install Aura Flux App",
     factoryReset: "Factory Reset All Settings",
   },
-
-  // --- Global Settings / Shared ---
   sensitivity: "Gain",
   speed: "Speed",
   smoothing: "Inertia",
@@ -194,8 +169,6 @@ export const en = {
   showOptions: "Show Controls",
   hideOptions: "Hide Controls",
   randomize: "Randomize",
-
-  // --- Placeholders for dynamic lists / Enums ---
   modes: {
     [VisualizerMode.PLASMA]: "Plasma Flow",
     [VisualizerMode.BARS]: "Spectrum Bars",
@@ -236,15 +209,12 @@ export const en = {
     [VisualizerMode.KINETIC_WALL]: "A dynamic wall of elements that push and pull in response to audio.",
     [VisualizerMode.RESONANCE_ORB]: "A central sphere that morphs its surface based on audio input.",
   },
-
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Standard",
     [LyricsStyle.KARAOKE]: "Karaoke",
     [LyricsStyle.MINIMAL]: "Minimal",
   },
-
   themes: getThemeLabels(),
-
   aiProviders: {
     GEMINI: "Gemini 3.0 (Google)",
     OPENAI: "GPT-4o (OpenAI)",
@@ -254,7 +224,6 @@ export const en = {
     QWEN: "Qwen (Alibaba Cloud)",
     MOCK: "Local Mock (Dev Only)",
   },
-
   regions: {
     global: "Global",
     US: "United States",
@@ -264,14 +233,12 @@ export const en = {
     EU: "Europe",
     LATAM: "Latin America",
   },
-
   textSources: {
     auto: "Auto",
     custom: "Manual",
     song: "Song",
     clock: "Clock",
   },
-
   fonts: {
     default: "Inter (Default)",
     system: "System UI",
@@ -283,13 +250,11 @@ export const en = {
     serif: "Times New Roman",
     custom: "Custom...",
   },
-
   positions: {
     tl: "Top Left", tc: "Top Center", tr: "Top Right",
     ml: "Middle Left", mc: "Middle Center", mr: "Middle Right",
     bl: "Bottom Left", bc: "Bottom Center", br: "Bottom Right",
   },
-
   presets: {
     title: "Atmosphere Engine",
     hint: "Visual Presets",
@@ -309,8 +274,6 @@ export const en = {
     med: "Medium (Balanced)",
     high: "High (Fidelity)",
   },
-
-  // --- Hints for Tooltips ---
   hints: {
     randomize: "Randomize Visuals & Colors",
     resetVisual: "Reset Visual Settings",
@@ -323,8 +286,6 @@ export const en = {
     syncStart: "If playing a file, start recording automatically when playback begins.",
     countdown: "Display a countdown before recording starts.",
   },
-
-  // --- Toasts / Notifications ---
   toasts: {
     canvasNotFound: "Canvas element not found.",
     audioNotReady: "Audio source not ready. Try starting microphone or playing a file.",
@@ -339,8 +300,6 @@ export const en = {
     aiDirectorReq: "Gemini API Key required for AI features.",
     aiFail: "AI generation failed. Check API Key or try again.",
   },
-
-  // --- Errors ---
   errors: {
     accessDenied: "Microphone access denied. Please enable in browser settings.",
     trackLoad: "Unable to load track or decode audio data.",
@@ -348,8 +307,6 @@ export const en = {
     unsupportedTitle: 'Browser Not Supported',
     unsupportedText: 'Aura Flux requires modern browser features (like microphone access) that are not available. Please update to a recent version of Chrome, Firefox, or Safari.',
   },
-
-  // @fix: Add `config` object
   config: {
     title: "Data Management",
     export: "EXPORT",
@@ -366,8 +323,6 @@ export const en = {
     limitReached: "Preset limit reached (max 3).",
     saved: "Saved",
   },
-
-  // @fix: Add `songOverlay` object
   songOverlay: {
     provider: {
       local: 'Local Cache',
@@ -377,11 +332,7 @@ export const en = {
     aiSynesthesia: 'AI Synesthesia',
     googleSearch: 'Google Search',
   },
-
-  // @fix: Add `wrongSong` key
   wrongSong: "Retry Analysis",
-
-  // --- Share ---
   share: {
     appTitle: "Aura Flux - AI Music Visualizer",
     appMessage: "Experience Aura Flux - AI Music Visualizer! 🎵✨",
@@ -392,8 +343,6 @@ export const en = {
     copied: "Text copied!",
     unsupported: "Sharing not supported",
   },
-
-  // --- Studio Panel ---
   studioPanel: {
     videoConfig: "Video Settings",
     audioMix: "Audio Mix",
@@ -427,8 +376,6 @@ export const en = {
       mp4_h264: "MP4 (H.264)",
     },
   },
-
-  // --- Help Modal ---
   helpModal: {
     title: "Help & Info",
     tabs: {

@@ -1,13 +1,13 @@
 /**
  * File: app/components/visualizers/scenes/NeuralFlowScene.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  */
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Points, Color, AdditiveBlending, ShaderMaterial } from 'three';
-import { VisualizerSettings } from '../../../types';
+import { VisualizerSettings } from '../../../types/index.ts';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }

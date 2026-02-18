@@ -1,14 +1,9 @@
-/**
- * File: app/hooks/usePlaylist.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/usePlaylist.ts | Version: v1.9.65
 import { useState, useCallback, useEffect } from 'react';
-import { Track, PlaybackMode, SongInfo } from '../types';
-import { loadPlaylistFromDB, saveTrackToDB, clearPlaylistDB, removeTrackFromDB } from '../services/playlistService';
-import { extractMetadata } from '../services/metadataService';
-import { parsePlaylistSmart } from '../services/playlistParser';
+import { Track, PlaybackMode, SongInfo } from '../types/index.ts';
+import { loadPlaylistFromDB, saveTrackToDB, clearPlaylistDB, removeTrackFromDB } from '../services/playlistService.ts';
+import { extractMetadata } from '../services/metadataService.ts';
+import { parsePlaylistSmart } from '../services/playlistParser.ts';
 
 export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void, t?: any) => {
   const [state, setState] = useState<{list: Track[], currentIndex: number}>({ list: [], currentIndex: -1 });
@@ -40,11 +35,12 @@ export const usePlaylist = (setCurrentSong: (s: SongInfo | null) => void, t?: an
     return newTracks;
   }, [setCurrentSong]);
 
-  const importPlaylistFromUrl = useCallback(async (url: string, apiKey: string) => {
+  // @fix: Removed apiKey parameter as parsePlaylistSmart now uses process.env.API_KEY directly.
+  const importPlaylistFromUrl = useCallback(async (url: string) => {
     if (!url) return [];
     
     // 调用智能解析引擎 (from playlistParser)
-    const items = await parsePlaylistSmart(url, apiKey);
+    const items = await parsePlaylistSmart(url);
     
     const newTracks: Track[] = items.map(item => ({
         id: 'remote_' + Math.random().toString(36).substr(2, 9) + Date.now(),

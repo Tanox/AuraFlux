@@ -1,10 +1,5 @@
-/**
- * File: app/types/audio.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
-import { AIProvider } from './common';
+// File: app/types/audio.ts | Version: v1.9.67
+import { AIProvider } from './common.ts';
 
 export enum LyricsStyle {
   STANDARD = 'STANDARD',
@@ -13,21 +8,20 @@ export enum LyricsStyle {
 }
 
 export type AudioSourceType = 'MICROPHONE' | 'FILE';
-
 export type PlaybackMode = 'repeat-all' | 'repeat-one' | 'shuffle';
 
 export interface SongInfo {
   title: string;
   artist: string;
-  lyricsSnippet?: string; // AI generated short snippet
-  lyrics?: string; // Full lyrics from file (ID3)
+  lyricsSnippet?: string;
+  lyrics?: string;
   mood?: string;
-  mood_en_keywords?: string; // Canonical English keywords for styling
+  mood_en_keywords?: string;
   identified: boolean;
   searchUrl?: string;
   albumArtUrl?: string;
   matchSource?: 'AI' | 'LOCAL' | 'PREVIEW' | 'FILE' | AIProvider;
-  isError?: boolean; // Flag to indicate system messages/errors
+  isError?: boolean;
 }
 
 export interface Track extends SongInfo {
@@ -42,7 +36,7 @@ export interface AudioDevice {
 }
 
 export interface AudioFeatures {
-  rms: number;      // Smoothed volume level (0.0 - 1.0)
-  energy: number;   // Raw instantaneous energy (0.0 - 1.0)
+  rms: number;
+  energy: number;
   timestamp: number;
 }

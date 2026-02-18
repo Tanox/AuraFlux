@@ -1,18 +1,13 @@
-/**
- * File: app/components/controls/Controls.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/controls/Controls.tsx | Version: v1.9.65
 import React, { useState, useEffect } from 'react';
-import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
-import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
-import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel';
-import { AudioSettingsPanel } from './panels/AudioSettingsPanel';
-import { StudioPanel } from './panels/StudioPanel';
-import { PlaybackPanel } from './panels/PlaybackPanel';
-import { useUI } from '../../AppContext';
-import { BottomBar } from './BottomBar';
+import { VisualSettingsPanel } from './panels/VisualSettingsPanel.tsx';
+import { SystemSettingsPanel } from './panels/SystemSettingsPanel.tsx';
+import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel.tsx';
+import { AudioSettingsPanel } from './panels/AudioSettingsPanel.tsx';
+import { StudioPanel } from './panels/StudioPanel.tsx';
+import { PlaybackPanel } from './panels/PlaybackPanel.tsx';
+import { useUI } from '../../AppContext.tsx';
+import { BottomBar } from './BottomBar.tsx';
 
 type Tab = 'visual' | 'input' | 'playback' | 'text' | 'studio' | 'system';
 

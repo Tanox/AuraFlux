@@ -1,14 +1,8 @@
-/**
- * File: app/components/controls/panels/VisualSettingsPanel.tsx
- * Version: v1.9.36
- * Author: Sut
- * Updated: 2025-07-28 16:30
- */
-
+// File: app/components/controls/panels/VisualSettingsPanel.tsx | Version: v1.9.65
 import React from 'react';
-import { CoreVisuals } from './visual/CoreVisuals';
-import { AiBackground } from './visual/AiBackground';
-import { ModeSelector } from './visual/ModeSelector';
+import { CoreVisuals } from './visual/CoreVisuals.tsx';
+import { AiBackground } from './visual/AiBackground.tsx';
+import { ModeSelector } from './visual/ModeSelector.tsx';
 
 export const VisualSettingsPanel: React.FC = () => {
   return (

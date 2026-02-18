@@ -1,9 +1,4 @@
-/**
- * File: app/components/visualizers/ui/Toast.tsx
- * Version: v1.9.36
- * Author: Aura Flux Team
- */
-
+// File: app/components/visualizers/ui/Toast.tsx | Version: v1.9.65
 import React, { useEffect, useState } from 'react';
 
 interface ToastProps {

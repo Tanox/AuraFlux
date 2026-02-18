@@ -1,13 +1,13 @@
-// File: app/AppContext.tsx | Version: v1.9.36 | Author: Sut
+// File: app/AppContext.tsx | Version: v1.9.69
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
-import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from './types';
-import { useAudio } from './hooks/useAudio';
-import { useAppState } from './hooks/useAppState';
-import { useVisualsState } from './hooks/useVisualsState';
-import { useAiState } from './hooks/useAiState';
-import { usePWA } from './hooks/usePWA';
-import { Toast } from './components/visualizers/ui/Toast';
-import { TranslationSchema } from './locales';
+import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from './types/index.ts';
+import { useAudio } from './hooks/useAudio.ts';
+import { useAppState } from './hooks/useAppState.ts';
+import { useVisualsState } from './hooks/useVisualsState.ts';
+import { useAiState } from './hooks/useAiState.ts';
+import { Toast } from './components/visualizers/ui/Toast.tsx';
+import { TRANSLATIONS } from './locales/index.ts';
+import { TranslationSchema } from './locales/index.ts';
 
 type HelpTab = 'guide' | 'shortcuts' | 'about';
 
@@ -25,10 +25,6 @@ interface UIContextType {
   setHelpModalInitialTab: React.Dispatch<React.SetStateAction<HelpTab>>;
   isDragging: boolean;
   setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
-  isPwaInstallable: boolean;
-  installPwa: () => void;
-  isUpdateAvailable: boolean;
-  performUpdate: () => void;
 }
 const UIContext = createContext<UIContextType | null>(null);
 export const useUI = () => useContext(UIContext)!;
@@ -57,7 +53,7 @@ interface AudioContextType {
   setPlaybackMode: (m: PlaybackMode) => void;
   importFiles: (files: FileList | File[]) => Promise<any>;
   importFromUrl: (url: string) => Promise<Track>;
-  importPlaylistFromUrl: (url: string, apiKey: string) => Promise<Track[]>;
+  importPlaylistFromUrl: (url: string) => Promise<Track[]>;
   togglePlayback: () => void; seekFile: (t: number) => void;
   playNext: () => void; playPrev: () => void;
   playTrackByIndex: (i: number) => void; removeFromPlaylist: (i: number) => void;
@@ -76,8 +72,6 @@ interface AIContextType {
   isIdentifying: boolean;
   performIdentification: (s: MediaStream) => Promise<void>;
   resetAiSettings: () => void; 
-  apiKeys: Record<string, string>; 
-  setApiKeys: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }
 const AIContext = createContext<AIContextType | null>(null);
 export const useAI = () => useContext(AIContext)!;
@@ -90,29 +84,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const visualsState = useVisualsState(uiState.hasStarted, {} as any);
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
   const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
-  const pwaState = usePWA();
   
-  const [isUpdateAvailable, setIsUpdateAvailable] = useState(false);
-  const [swRegistration, setSwRegistration] = useState<ServiceWorkerRegistration | null>(null);
-
-  useEffect(() => {
-    const handleUpdate = (e: any) => {
-        setIsUpdateAvailable(true);
-        setSwRegistration(e.detail);
-    };
-    window.addEventListener('app-update-available', handleUpdate);
-    return () => window.removeEventListener('app-update-available', handleUpdate);
-  }, []);
-
-  const performUpdate = useCallback(() => {
-    if (swRegistration?.waiting) {
-      swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
-    } else {
-      // Fallback in case the waiting worker vanished
-      window.location.reload();
-    }
-  }, [swRegistration]);
-
   const aiState = useAiState({
     language: uiState.language,
     region: uiState.region,
@@ -154,12 +126,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const uiContextValue: UIContextType = useMemo(() => ({
     ...uiState,
     toggleFullscreen,
-    showToast,
-    isPwaInstallable: pwaState.isInstallable,
-    installPwa: pwaState.installPwa,
-    isUpdateAvailable,
-    performUpdate
-  }), [uiState, toggleFullscreen, showToast, pwaState, isUpdateAvailable, performUpdate]);
+    showToast
+  }), [uiState, toggleFullscreen, showToast]);
   
   const visualsContextValue = useMemo(() => ({ ...visualsState, isThreeMode }), [visualsState, isThreeMode]);
   const audioContextValue = useMemo(() => ({ ...audioState, currentSong, setCurrentSong, fileStatus, fileName }), [audioState, currentSong, fileStatus, fileName]);

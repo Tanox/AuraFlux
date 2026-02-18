@@ -1,13 +1,7 @@
-/**
- * File: app/locales/zh.ts
- * Version: v1.9.36
- * Author: Sut
- */
+// File: app/locales/zh.ts | Version: v1.9.64
+import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
+import { COLOR_THEMES } from '../../constants/index.ts';
 
-import { LyricsStyle, VisualizerMode } from '../../types';
-import { COLOR_THEMES } from '../../constants';
-
-// --- Helper for creating theme names, directly from constants for now ---
 const THEME_NAMES = ["赛博朋克", "极光", "日落", "棉花糖", "电光", "霓虹", "矩阵", "黄金", "皇家", "太阳", "海洋", "赛博", "樱花", "北极", "沙漠", "电压", "翡翠", "青色"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
@@ -18,7 +12,6 @@ const getThemeLabels = () => {
 };
 
 export const zh = {
-  // --- Global / Common strings ---
   common: {
     queue: "播放列表",
     empty: "空",
@@ -37,14 +30,10 @@ export const zh = {
     advanced: "高级",
     active: "首曲目",
   },
-
-  // --- App Version & Info ---
-  appVersion: "v1.9.36",
+  appVersion: "v1.9.64",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "启动系统",
-
-  // --- Onboarding ---
   onboarding: {
     welcome: "欢迎",
     subtitle: "让我们开始您的 Aura Flux 体验",
@@ -56,7 +45,7 @@ export const zh = {
       title: "解锁您的 Aura Flux 体验",
       visuals: {
         title: "动态视觉效果",
-        desc: "将您的音频转化为令人惊叹的实时生成艺术，拥有2D和3D可视化器。"
+        desc: "将您的音频转化为令人惊叹的实时生成艺术，拥有 2D 和 3D 可视化器。"
       },
       ai: {
         title: "AI 通感",
@@ -77,8 +66,6 @@ export const zh = {
       advanced: "高级功能",
     }
   },
-
-  // --- Controls / Tabs ---
   tabs: {
     visual: "视觉",
     input: "音频输入",
@@ -87,8 +74,6 @@ export const zh = {
     studio: "工作室",
     system: "系统",
   },
-
-  // --- Visual Panel ---
   visualPanel: {
     display: "显示质量",
     aiBg: "AI 背景",
@@ -98,8 +83,6 @@ export const zh = {
     opacity: "不透明度",
     bgGenerated: "AI 背景已生成",
   },
-
-  // --- Audio Panel ---
   audioPanel: {
     audioInput: "信号架构",
     mic: "麦克风",
@@ -121,8 +104,6 @@ export const zh = {
     recognitionSource: "AI 协议",
     save: "保存",
   },
-
-  // --- Player Panel ---
   player: {
     nowPlaying: "正在播放",
     playlistTitle: "播放列表",
@@ -136,16 +117,12 @@ export const zh = {
     bg: "专辑封面背景",
     cover: "信息叠加",
     blur: "模糊量",
-    info: "元信息",
+    info: "歌曲信息",
   },
-
-  // --- Custom Text Panel ---
   textPanel: {
     overlay: "文字图层设置",
     appearance: "样式与排版",
   },
-
-  // --- System Panel ---
   systemPanel: {
     localization: "美学与语言",
     darkMode: "深色模式",
@@ -155,8 +132,6 @@ export const zh = {
     installApp: "安装 Aura Flux 应用",
     factoryReset: "恢复所有出厂设置",
   },
-
-  // --- Global Settings / Shared ---
   sensitivity: "增益",
   speed: "速度",
   smoothing: "惯性",
@@ -194,8 +169,6 @@ export const zh = {
   showOptions: "显示控制",
   hideOptions: "隐藏控制",
   randomize: "随机化",
-
-  // --- Placeholders for dynamic lists / Enums ---
   modes: {
     [VisualizerMode.PLASMA]: "等离子流",
     [VisualizerMode.BARS]: "频谱条",
@@ -219,7 +192,7 @@ export const zh = {
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "令人着迷的流体能量场，色彩混合鲜艳。",
     [VisualizerMode.BARS]: "经典音频频谱条，动态响应频率。",
-    [VisualizerMode.DIGITAL_GRID]: "沉浸式3D数字网格，伴随灯光脉冲。",
+    [VisualizerMode.DIGITAL_GRID]: "沉浸式 3D 数字网格，伴随灯光脉冲。",
     [VisualizerMode.SILK_WAVE]: "流动的发光丝带，随音频能量起伏。",
     [VisualizerMode.OCEAN_WAVE]: "风格化的波浪地形，可视化音频历史。",
     [VisualizerMode.PARTICLES]: "动态星空或粒子云，对高频做出反应。",
@@ -236,15 +209,12 @@ export const zh = {
     [VisualizerMode.KINETIC_WALL]: "动态元素墙，响应音频推拉。",
     [VisualizerMode.RESONANCE_ORB]: "一个中心球体，根据音频输入改变其表面形态。",
   },
-
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "标准",
     [LyricsStyle.KARAOKE]: "卡拉OK",
     [LyricsStyle.MINIMAL]: "极简",
   },
-
   themes: getThemeLabels(),
-
   aiProviders: {
     GEMINI: "Gemini 3.0 (谷歌)",
     OPENAI: "GPT-4o (OpenAI)",
@@ -254,7 +224,6 @@ export const zh = {
     QWEN: "Qwen (阿里云)",
     MOCK: "本地模拟 (仅开发)",
   },
-
   regions: {
     global: "全球",
     US: "美国",
@@ -264,14 +233,12 @@ export const zh = {
     EU: "欧洲",
     LATAM: "拉丁美洲",
   },
-
   textSources: {
     auto: "自动",
     custom: "手动",
     song: "歌曲",
     clock: "时钟",
   },
-
   fonts: {
     default: "Inter (默认)",
     system: "系统 UI",
@@ -283,13 +250,11 @@ export const zh = {
     serif: "Times New Roman",
     custom: "自定义...",
   },
-
   positions: {
     tl: "左上", tc: "中上", tr: "右上",
     ml: "左中", mc: "正中", mr: "右中",
     bl: "左下", bc: "中下", br: "右下",
   },
-
   presets: {
     title: "氛围引擎",
     hint: "视觉预设",
@@ -309,8 +274,6 @@ export const zh = {
     med: "中 (平衡)",
     high: "高 (保真)",
   },
-
-  // --- Hints for Tooltips ---
   hints: {
     randomize: "随机化视觉效果与颜色",
     resetVisual: "重置视觉设置",
@@ -323,8 +286,6 @@ export const zh = {
     syncStart: "如果正在播放文件，在播放开始时自动开始录制。",
     countdown: "录制开始前显示倒计时。",
   },
-
-  // --- Toasts / Notifications ---
   toasts: {
     canvasNotFound: "未找到 Canvas 元素。",
     audioNotReady: "音频源未就绪。请尝试启动麦克风或播放文件。",
@@ -337,10 +298,8 @@ export const zh = {
     copied: "链接已复制！",
     unsupported: "您的浏览器不支持共享功能。",
     aiDirectorReq: "AI 功能需要 Gemini API 密钥。",
-    aiFail: "AI 生成失败。请检查 API 密钥或重试。",
+    aiFail: "AI 生成失败。请检查 API 对接或重试。",
   },
-
-  // --- Errors ---
   errors: {
     accessDenied: "麦克风访问被拒绝。请在浏览器设置中启用。",
     trackLoad: "无法加载曲目或解码音频数据。",
@@ -348,7 +307,6 @@ export const zh = {
     unsupportedTitle: '浏览器不受支持',
     unsupportedText: 'Aura Flux 需要现代浏览器功能（如麦克风访问），但当前浏览器不支持。请更新到最新版本的 Chrome、Firefox 或 Safari。',
   },
-
   config: {
     title: "数据管理",
     export: "导出",
@@ -362,10 +320,9 @@ export const zh = {
     load: "已加载预设",
     delete: "已移除",
     deleteConfirm: "您确定要删除此预设吗？",
-    limitReached: "达到预设限制（最多3个）。",
+    limitReached: "达到预设限制（最多 3 个）。",
     saved: "已保存",
   },
-
   songOverlay: {
     provider: {
       local: '本地缓存',
@@ -375,10 +332,7 @@ export const zh = {
     aiSynesthesia: 'AI 通感',
     googleSearch: '谷歌搜索',
   },
-
   wrongSong: "重新分析",
-
-  // --- Share ---
   share: {
     appTitle: "Aura Flux - AI 音乐可视化器",
     appMessage: "体验 Aura Flux - AI 音乐可视化器！🎵✨",
@@ -389,8 +343,6 @@ export const zh = {
     copied: "文本已复制！",
     unsupported: "分享功能不受支持",
   },
-
-  // --- Studio Panel ---
   studioPanel: {
     videoConfig: "视频设置",
     audioMix: "音频混音",
@@ -424,8 +376,6 @@ export const zh = {
       mp4_h264: "MP4 (H.264)",
     },
   },
-
-  // --- Help Modal ---
   helpModal: {
     title: "帮助与信息",
     tabs: {
@@ -465,7 +415,7 @@ export const zh = {
       longPress: "长按: 切换 AI 信息 / 歌词叠加",
     },
     projectInfoTitle: "我们的愿景",
-    aboutDescription: "Aura Flux 让您看到无形之物。它探索了生成艺术、实时音频处理和先进 AI 之间的协同作用。我们的使命是将听觉体验转化为深刻的个人化且视觉上令人惊叹的旅程。",
+    aboutDescription: "Aura Flux 让您看到无形之物。它探索了生成艺术、实时音频处理和先进 AI 之间的协同作用。我们的使命是将听觉体验转化为深刻的个人化且视觉上令人惊叹的 journey。",
     techStackTitle: "核心技术",
   },
 };

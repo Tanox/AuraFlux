@@ -1,9 +1,4 @@
-/**
- * File: app/services/playlistParser.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/services/playlistParser.ts | Version: v1.9.65
 import { GoogleGenAI, Type } from "@google/genai";
 
 const GEMINI_PRO_MODEL = 'gemini-3-pro-preview';
@@ -43,17 +38,8 @@ async function parseWithCodeStrategy(url: string): Promise<any[] | null> {
     return null;
 }
 
-export const parsePlaylistSmart = async (url: string, apiKey: string): Promise<any[]> => {
-    let key = apiKey;
-    if (!key) {
-        try {
-            if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
-                key = process.env.API_KEY;
-            }
-        } catch (e) {}
-    }
-    
-    if (!key) return [];
+export const parsePlaylistSmart = async (url: string): Promise<any[]> => {
+    if (!process.env.API_KEY) return [];
 
     try {
         const codePromise = parseWithCodeStrategy(url);
@@ -64,11 +50,11 @@ export const parsePlaylistSmart = async (url: string, apiKey: string): Promise<a
         if (codeResult && codeResult.length > 0) return codeResult;
     } catch (e) {}
 
-    const aiInstance = new GoogleGenAI({ apiKey: key });
+    const aiInstance = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const prompt = `Task: Extract all songs from this playlist URL: ${url}
     Platforms: Netease Music, QQ Music, Spotify, YouTube Music, Apple Music.
     Action: Search for the content and parse titles/artists.
-    Return: Strict JSON array of objects.`;
+    Return: Strict JSON array of objects only. No conversational text.`;
 
     try {
         const response = await aiInstance.models.generateContent({
@@ -77,7 +63,8 @@ export const parsePlaylistSmart = async (url: string, apiKey: string): Promise<a
             config: {
                 tools: [{ googleSearch: {} }],
                 responseMimeType: "application/json",
-                responseSchema: PLAYLIST_PARSE_SCHEMA
+                responseSchema: PLAYLIST_PARSE_SCHEMA,
+                thinkingConfig: { thinkingBudget: 4096 }
             }
         });
 
@@ -85,7 +72,12 @@ export const parsePlaylistSmart = async (url: string, apiKey: string): Promise<a
         if (text.startsWith('```')) {
             text = text.replace(/^```[a-z]*\n/, '').replace(/\n```$/, '');
         }
-        return JSON.parse(text);
+        try {
+            return JSON.parse(text.trim());
+        } catch (err) {
+            console.error("[PlaylistParser] JSON Parse Failed:", text);
+            return [];
+        }
     } catch (e) {
         console.error("[PlaylistParser] Smart Parsing Failed:", e);
         return [];

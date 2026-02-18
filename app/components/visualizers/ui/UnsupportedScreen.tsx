@@ -1,11 +1,6 @@
-/**
- * File: app/components/visualizers/ui/UnsupportedScreen.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/visualizers/ui/UnsupportedScreen.tsx | Version: v1.9.65
 import React from 'react';
-import { useUI } from '../../../AppContext';
+import { useUI } from '../../../AppContext.tsx';
 
 export const UnsupportedScreen: React.FC = () => {
     const { t } = useUI();

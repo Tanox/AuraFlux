@@ -1,31 +1,13 @@
-/**
- * File: app/hooks/useAiState.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useLocalStorage } from './useLocalStorage';
-import { useIdentification } from './useIdentification';
-import { LyricsStyle, Language, Region, VisualizerSettings, AIProvider, SongInfo } from '../types';
-import { TranslationSchema } from '../locales';
+// File: app/hooks/useAiState.ts | Version: v1.9.69
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLocalStorage } from './useLocalStorage.ts';
+import { useIdentification } from './useIdentification.ts';
+import { LyricsStyle, Language, Region, VisualizerSettings, AIProvider, SongInfo } from '../types/index.ts';
+import { TranslationSchema } from '../locales/index.ts';
 
 const DEFAULT_LYRICS_STYLE = LyricsStyle.KARAOKE;
 const DEFAULT_SHOW_LYRICS = false;
 const DEFAULT_ENABLE_ANALYSIS = false;
-
-const encodeKey = (key: string) => `enc:${btoa(key)}`;
-const decodeKey = (str: string) => {
-    if (typeof str === 'string' && str.startsWith('enc:')) {
-        try {
-            return atob(str.substring(4));
-        } catch (e) {
-            console.error("Failed to decode API key:", e);
-            return '';
-        }
-    }
-    return str;
-};
 
 interface UseAiStateProps {
     language: Language;
@@ -64,36 +46,13 @@ export const useAiState = ({
     const [showLyrics, setShowLyrics] = useState<boolean>(() => getStorage('showLyrics', DEFAULT_SHOW_LYRICS));
     const [enableAnalysis, setEnableAnalysis] = useState<boolean>(() => getStorage('enableAnalysis', DEFAULT_ENABLE_ANALYSIS));
     
-    // Store API keys in local storage, encoded for minimal security
-    const [apiKeys, setApiKeysInternal] = useState<Record<string, string>>(() => {
-        const storedKeys = getStorage<Record<string, string>>('apiKeys', {});
-        // Decode keys when loading
-        const decodedKeys: Record<string, string> = {};
-        for (const [p, k] of Object.entries(storedKeys)) {
-            decodedKeys[p] = decodeKey(k as string);
-        }
-        return decodedKeys;
-    });
-
-    // Encodes API keys before saving
-    const setApiKeys = useCallback((newKeys: React.SetStateAction<Record<string, string>>) => {
-        setApiKeysInternal(prevKeys => {
-            const resolvedKeys = typeof newKeys === 'function' ? newKeys(prevKeys) : newKeys;
-            const encodedKeys: Record<string, string> = {};
-            for (const [p, k] of Object.entries(resolvedKeys)) {
-                encodedKeys[p] = encodeKey(k as string);
-            }
-            setStorage('apiKeys', encodedKeys);
-            return resolvedKeys;
-        });
-    }, [setStorage]);
-
+    // @fix: Removed apiKeys state and persistence as keys must be exclusively obtained from environment variables.
+    
     const { isIdentifying, currentSong: identifiedSong, setCurrentSong: setIdentifiedSong, performIdentification: doIdentification } = useIdentification({
         language,
         region,
         provider,
         isEnabled: enableAnalysis && (isListening || isSimulating),
-        apiKey: apiKeys[provider],
         onSongUpdate: onSongIdentified,
     });
 
@@ -113,7 +72,6 @@ export const useAiState = ({
         setLyricsStyle(DEFAULT_LYRICS_STYLE);
         setShowLyrics(DEFAULT_SHOW_LYRICS);
         setEnableAnalysis(DEFAULT_ENABLE_ANALYSIS);
-        // Do not clear API keys here, they are user-specific and persistent across resets
         setSettings(prev => ({
             ...prev,
             recognitionProvider: initialSettings.recognitionProvider,
@@ -140,15 +98,14 @@ export const useAiState = ({
              return;
         }
 
-        const currentApiKey = apiKeys[provider] || process.env.API_KEY;
-
-        if (!currentApiKey && provider !== 'MOCK') {
+        // @fix: Rely solely on process.env.API_KEY as per the GenAI coding guidelines.
+        if (!process.env.API_KEY && provider !== 'MOCK') {
             showToast(t?.errors?.configMissing || "Gemini API Key Required", 'error');
             return;
         }
         
         await doIdentification(stream);
-    }, [enableAnalysis, isIdentifying, apiKeys, provider, t, showToast, doIdentification]);
+    }, [enableAnalysis, isIdentifying, provider, t, showToast, doIdentification]);
 
 
     return {
@@ -160,7 +117,5 @@ export const useAiState = ({
         isIdentifying,
         performIdentification,
         resetAiSettings,
-        apiKeys,
-        setApiKeys,
     };
 };

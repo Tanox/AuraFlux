@@ -1,11 +1,11 @@
 /**
  * File: app/services/renderers/PlasmaRenderer.ts
- * Version: v1.9.36
+ * Version: v1.9.66
  * Author: Aura Flux Team
  */
 
-import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index';
-import { getAverage } from '../audioUtils';
+import { IVisualizerRenderer, VisualizerSettings, RenderContext } from '../../types/index.ts';
+import { getAverage } from '../audioUtils.ts';
 
 interface PlasmaBlob {
   x: number;

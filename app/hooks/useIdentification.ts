@@ -1,23 +1,17 @@
-/**
- * File: app/hooks/useIdentification.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/hooks/useIdentification.ts | Version: v1.9.65
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { SongInfo, Language, Region, AIProvider } from '../types';
-import { identifySongFromAudio } from '../services/aiService';
+import { SongInfo, Language, Region, AIProvider } from '../types/index.ts';
+import { identifySongFromAudio } from '../services/aiService.ts';
 
 interface UseIdentificationProps {
   language: Language;
   region: Region;
   provider: AIProvider;
   isEnabled: boolean;
-  apiKey?: string;
   onSongUpdate?: (song: SongInfo | null) => void;
 }
 
-export const useIdentification = ({ language, region, provider, isEnabled, apiKey, onSongUpdate }: UseIdentificationProps) => {
+export const useIdentification = ({ language, region, provider, isEnabled, onSongUpdate }: UseIdentificationProps) => {
   const [isIdentifying, setIsIdentifying] = useState(false);
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
   
@@ -84,7 +78,8 @@ export const useIdentification = ({ language, region, provider, isEnabled, apiKe
           if (!isMounted.current || requestId !== latestRequestId.current) return;
           const base64Audio = (reader.result as string).split(',')[1];
           try {
-            const result = await identifySongFromAudio(base64Audio, mimeType, language, region, provider, apiKey);
+            // @fix: Removed manual apiKey parameter as service now uses process.env.API_KEY directly.
+            const result = await identifySongFromAudio(base64Audio, mimeType, language, region, provider);
             if (isMounted.current && requestId === latestRequestId.current) {
               setCurrentSong(result);
               if (onSongUpdate) onSongUpdate(result);
@@ -110,7 +105,7 @@ export const useIdentification = ({ language, region, provider, isEnabled, apiKe
       console.error("[AI] Recorder initialization failed:", e);
       setIsIdentifying(false);
     }
-  }, [isEnabled, isIdentifying, language, region, provider, apiKey, onSongUpdate, getSupportedMimeType, currentSong]);
+  }, [isEnabled, isIdentifying, language, region, provider, onSongUpdate, getSupportedMimeType, currentSong]);
 
   return { isIdentifying, currentSong, setCurrentSong, performIdentification };
 };

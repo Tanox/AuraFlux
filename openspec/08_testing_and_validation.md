@@ -1,41 +1,21 @@
 # OpenSpec: 测试与验证规范 (08)
 
-## 1. 测试策略概述 (v1.9.36)
-Aura Flux 采用分层测试策略，确保从底层逻辑到用户交互的稳定性和可靠性。
+## 1. 测试层级 (v1.9.69)
 
-### 1.1. 单元测试 (Unit Testing)
-- **范围:** 独立的、无副作用的函数和服务。例如 `app/services/audioUtils.ts` 中的辅助函数。
-- **目标:** 验证纯逻辑的正确性，确保输入和输出符合预期。
-- **工具:** Vitest 或 Jest。
+### 1.1. 逻辑验证 (Unit)
+- **重点:** `audioUtils.ts` (WAV 转换), `beatDetector.ts` (算法准确性)。
 
-### 1.2. 集成测试 (Integration Testing)
-- **范围:** 验证多个模块协同工作的正确性，特别是自定义 Hooks。
-    - **`useAudio` & `usePlaylist`:** 测试文件导入、播放/暂停、切换曲目等流程。
-    - **`useAiState` & `aiService`:** 模拟 `MediaRecorder` 和 API 调用，验证歌曲识别和 AI 导演功能的逻辑链。
-- **目标:** 确保核心业务逻辑（如音频处理、状态管理、API 调用）的端到端正确性。
-- **工具:** React Testing Library 配合 Vitest/Jest。
+### 1.2. 流程集成 (Integration)
+- **重点:** `useAudio` 到 `VisualizerCanvas` 的原始数据传递链。
+- **AI 模拟:** 使用 `MOCK` 模式测试 UI 对识别结果的响应。
 
-### 1.3. 端到端测试 (E2E Testing)
-- **范围:** 模拟真实用户在浏览器中的完整交互流程。
-- **关键场景:**
-    1.  **首次引导流程:** 验证语言选择和功能介绍的完整性。
-    2.  **麦克风可视化:** 启动应用 -> 授权麦克风 -> 验**证视觉效果出现。
-    3.  **文件播放流程:** 拖放音频文件 -> 验证播放列表更新 -> 验证音频播放和视觉同步。
-    4.  **工作室录制:** 启动录制 -> 停止录制 -> 验证预览模态框出现并可下载视频。
-- **工具:** Playwright 或 Cypress。
+### 1.3. 端到端 (E2E)
+- **关键场景:** 麦克风授权 -> 视觉反馈 -> 歌词加载 -> 视频录制导出。
 
-## 2. 性能与兼容性基准
-- **性能指标:**
-    - **目标 FPS:** 在 **Med** 质量设置下，所有模式在目标硬件上应稳定在 55-60 FPS。
-    - **内存占用:** 长期运行时内存不应出现显著泄漏。
-- **浏览器兼容性:**
-    - **A 级支持:** 最新版 Chrome, Edge, Firefox (所有功能完整)。
-    - **B 级支持:** 最新版 Safari (验证 Web Audio 自动播放策略和 WebM 编码支持)。
-
-## 3. 视觉回归测试
-- **目标 (未来规划):** 建立一套快照测试基准，确保对渲染器代码的修改不会意外破坏视觉效果。
-- **工具:** Playwright 或 Storybook 的视觉测试插件。
+## 2. 性能基准
+- **帧率:** 在标准硬件（Intel/M1+ 集显）上，Med 模式下必须稳定在 60FPS。
+- **Worker 负载:** 2D 渲染不应阻塞 UI 线程的主响应循环。
 
 ---
-*Aura Flux Testing & Validation Specification - Version 1.9.36*
+*Aura Flux Testing & Validation Specification - Version 1.9.69*
 *Author: Sut*

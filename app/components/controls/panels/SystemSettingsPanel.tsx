@@ -1,17 +1,13 @@
-/**
- * File: app/components/controls/panels/SystemSettingsPanel.tsx
- * Version: v1.9.36
- * Author: Sut
- */
-
+// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.69
 import React, { useState, useRef, useEffect } from 'react';
-import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
-import { useVisuals, useUI } from '../../../AppContext';
-import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
-import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl';
-import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
-import { Language, VisualizerSettings } from '../../../types';
-import { useLocalStorage } from '../../../hooks/useLocalStorage';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
+import { useVisuals, useUI } from '../../../AppContext.tsx';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
+import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl.tsx';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
+import { Language, VisualizerSettings } from '../../../types/index.ts';
+import { useLocalStorage } from '../../../hooks/useLocalStorage.ts';
+import { APP_VERSION } from '../../../constants/index.ts';
 
 const LANGUAGES: { value: Language; label: string }[] = [
   { value: 'en', label: 'English' }, { value: 'zh', label: '简体中文' }, { value: 'tw', label: '繁體中文' },
@@ -24,7 +20,7 @@ interface SavedPreset { id: number; name: string; data: VisualizerSettings; time
 
 export const SystemSettingsPanel: React.FC = () => {
   const { mode, settings, setSettings } = useVisuals();
-  const { t, resetSettings, language, setLanguage, showToast, setShowHelpModal, setHelpModalInitialTab, isPwaInstallable, installPwa } = useUI();
+  const { t, resetSettings, language, setLanguage, showToast, setShowHelpModal, setHelpModalInitialTab } = useUI();
   const { getStorage, setStorage } = useLocalStorage();
 
   const [presets, setPresets] = useState<SavedPreset[]>([]);
@@ -38,7 +34,7 @@ export const SystemSettingsPanel: React.FC = () => {
 
   const handleExport = () => {
       const exportData = {
-          version: '1.9.2',
+          version: APP_VERSION,
           timestamp: Date.now(),
           mode: mode,
           settings: settings
@@ -51,7 +47,6 @@ export const SystemSettingsPanel: React.FC = () => {
       document.body.appendChild(downloadAnchorNode); 
       downloadAnchorNode.click(); 
       downloadAnchorNode.remove();
-      // @fix: Use correct localization key
       showToast(t?.config?.exported || "Configuration Exported", 'success');
   };
 
@@ -65,13 +60,11 @@ export const SystemSettingsPanel: React.FC = () => {
               const data = raw.settings || raw;
               if (data && typeof data === 'object' && !Array.isArray(data)) {
                   setSettings(prev => ({ ...prev, ...data }));
-                  // @fix: Use correct localization key
                   showToast(t?.config?.importSuccess || "Configuration imported", 'success');
               } else {
                   throw new Error("Invalid structure");
               }
           } catch (err) {
-              // @fix: Use correct localization key
               showToast(t?.config?.invalidFile || "Invalid configuration file", 'error');
           }
       };
@@ -80,19 +73,16 @@ export const SystemSettingsPanel: React.FC = () => {
   };
 
   const handleSavePreset = () => {
-      // @fix: Use correct localization key
       if (presets.length >= 3) { showToast(t?.config?.limitReached || "Limit reached", 'error'); return; }
       if (!presetName.trim()) return;
       const newPreset = { id: Date.now(), name: presetName.trim().slice(0, 18), data: { ...settings }, timestamp: Date.now() };
       const newPresets = [...presets, newPreset];
       setPresets(newPresets); setStorage('user_presets', newPresets);
       setPresetName(''); 
-      // @fix: Use correct localization key (`config.saved` was missing)
       showToast(t?.config?.saved || "Saved", 'success');
   };
 
   const handleDeletePreset = (id: number) => {
-      // @fix: Use correct localization key
       if (window.confirm(t?.config?.deleteConfirm || "Delete?")) {
           const newPresets = presets.filter(p => p.id !== id);
           setPresets(newPresets); setStorage('user_presets', newPresets);
@@ -109,7 +99,6 @@ export const SystemSettingsPanel: React.FC = () => {
             <div className="space-y-4">
                 <CustomSelect label={t?.language} value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as Language)} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-black/5 dark:border-white/5">
-                    {/* @fix: Use correct localization key */}
                     <SegmentedControl label={t?.styleTheme || "Global Theme"} value={settings.appTheme} options={[{ value: 'dark', label: t?.systemPanel?.darkMode || 'Dark' }, { value: 'light', label: t?.systemPanel?.lightMode || 'Light' }]} onChange={(v) => setSettings({...settings, appTheme: v as any})} />
                     <SegmentedControl label={t?.systemPanel?.uiMode} value={settings.uiMode} options={[{ value: 'simple', label: t?.common?.simple }, { value: 'advanced', label: t?.common?.advanced }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
                 </div>
@@ -127,15 +116,6 @@ export const SystemSettingsPanel: React.FC = () => {
                   <SettingsToggle label={t?.mirrorDisplay} value={!!settings.mirrorDisplay} onChange={() => setSettings({...settings, mirrorDisplay: !settings.mirrorDisplay})} variant="clean" />
                   <SettingsToggle label={t?.showFps} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
               </div>
-              
-              {isPwaInstallable && (
-                <div className="mt-auto pt-4 border-t border-black/5 dark:border-white/5">
-                  <button onClick={installPwa} className="w-full py-3 bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 dark:text-blue-400 font-black uppercase tracking-[0.2em] rounded-xl border border-blue-500/20 transition-all text-[10px] flex items-center justify-center gap-2">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                    {t?.systemPanel?.installApp || "Install Aura Flux App"}
-                  </button>
-                </div>
-              )}
             </div>
         </BentoCard>
       </div>
@@ -150,7 +130,6 @@ export const SystemSettingsPanel: React.FC = () => {
             </div>
         </BentoCard>
 
-        {/* @fix: Use correct localization keys */}
         <BentoCard title={t?.config?.title || "Data Management"} className="flex-1">
             <div className="flex flex-col h-full space-y-4">
                 <div className="grid grid-cols-2 gap-3">
@@ -170,18 +149,17 @@ export const SystemSettingsPanel: React.FC = () => {
                             <div key={p.id} className="flex items-center justify-between bg-black/[0.02] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 rounded-xl px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-all group">
                                 <div className="flex flex-col flex-1 cursor-pointer" onClick={() => { setSettings({...settings, ...p.data}); showToast(`${t?.config?.load}: ${p.name}`, 'success'); }}>
                                     <span className="text-[10px] font-black text-black/80 dark:text-white/80 group-hover:text-blue-600 dark:group-hover:text-blue-400 uppercase truncate">{p.name}</span>
-                                    <span className="text-[8px] font-mono text-black/20 dark:text-white/20">{new Date(p.timestamp).toLocaleDateString()}</span>
+                                    <span className="text-[8px] font-mono text-black/40 dark:text-white/40">{new Date(p.timestamp).toLocaleDateString()}</span>
                                 </div>
-                                <button onClick={()=>handleDeletePreset(p.id)} className="p-2 opacity-20 group-hover:opacity-100 hover:text-red-500 transition-all"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/></svg></button>
+                                <button onClick={()=>handleDeletePreset(p.id)} className="p-1.5 rounded-full text-black/30 dark:text-white/30 hover:bg-red-500/10 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
                             </div>
                         ))}
-                        {presets.length === 0 && <div className="py-4 text-center text-[10px] font-bold text-black/10 dark:text-white/10 uppercase tracking-widest">{t?.common?.empty}</div>}
                     </div>
                 </div>
-                
-                <div className="mt-auto pt-4 border-t border-black/5 dark:border-white/5">
-                    <button onClick={() => window.confirm(t?.hints?.confirmReset) && resetSettings()} className="w-full py-3 bg-red-500/5 hover:bg-red-500 hover:text-white border border-red-500/10 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] text-red-500 transition-all">
-                        {t?.systemPanel?.factoryReset || 'Factory Reset All Settings'}
+
+                <div className="pt-2 mt-auto border-t border-black/5 dark:border-white/5">
+                    <button onClick={() => window.confirm(t?.hints?.confirmReset) && resetSettings()} className="w-full text-center py-2 bg-red-500/10 text-red-500 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-red-500/20 hover:text-red-400 transition-all border border-red-500/10">
+                        {t?.systemPanel?.factoryReset || 'HARD RESET'}
                     </button>
                 </div>
             </div>

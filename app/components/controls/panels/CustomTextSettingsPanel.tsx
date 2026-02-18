@@ -1,18 +1,18 @@
 /**
  * File: app/components/controls/panels/CustomTextSettingsPanel.tsx
- * Version: v1.9.36
+ * Version: v1.9.68
  * Author: Sut
  */
 
 import React, { useMemo } from 'react';
-import { getPositionOptions, getFontOptions } from '../../../constants';
-import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
-import { Slider } from '../../visualizers/ui/controls/Slider';
-import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
-import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
-import { useVisuals, useUI } from '../../../AppContext';
-import { Position } from '../../../types';
-import { TooltipArea } from '../../visualizers/ui/controls/Tooltip';
+import { getPositionOptions, getFontOptions } from '../../../constants/index.ts';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
+import { Slider } from '../../visualizers/ui/controls/Slider.tsx';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
+import { useVisuals, useUI } from '../../../AppContext.tsx';
+import { Position } from '../../../types/index.ts';
+import { TooltipArea } from '../../visualizers/ui/controls/Tooltip.tsx';
 
 export const CustomTextSettingsPanel: React.FC = () => {
   const { settings, setSettings, resetTextSettings } = useVisuals();

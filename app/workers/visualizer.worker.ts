@@ -1,8 +1,8 @@
-// File: app/workers/visualizer.worker.ts | Version: v1.9.37 | Author: Sut
+// File: app/workers/visualizer.worker.ts | Version: v1.9.65
 // --- 1. IMPORT DEPENDENCIES (Strictly Relative Paths) ---
-import { VisualizerMode, VisualizerSettings, WorkerMessage, IVisualizerRenderer } from '../types';
-import { createVisualizerRenderers, BeatDetector } from '../services/visualizerStrategies';
-import { AdaptiveNoiseFilter } from '../services/audioUtils';
+import { VisualizerMode, VisualizerSettings, WorkerMessage, IVisualizerRenderer } from '../types/index.ts';
+import { createVisualizerRenderers, BeatDetector } from '../services/visualizerStrategies.ts';
+import { AdaptiveNoiseFilter } from '../services/audioUtils.ts';
 
 // --- 2. WORKER MAIN LOGIC ---
 

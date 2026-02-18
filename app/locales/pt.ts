@@ -1,15 +1,8 @@
-/**
- * File: app/locales/pt.ts
- * Version: v1.9.36
- * Author: Sut
- * Description: Portuguese (pt) translations.
- */
+// File: app/locales/pt.ts | Version: v1.9.64
+import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
+import { COLOR_THEMES } from '../../constants/index.ts';
 
-import { LyricsStyle, VisualizerMode } from '../../types';
-import { COLOR_THEMES } from '../../constants';
-
-// --- Helper for creating theme names, directly from constants for now ---
-const THEME_NAMES = ["Vaporwave", "Aurora", "Sunset", "Cotton Candy", "Electric", "Neon", "Matrix", "Gold", "Royal", "Solar", "Ocean", "Cyber", "Sakura", "Arctic", "Desert", "Voltage", "Emerald", "Cyanide"];
+const THEME_NAMES = ["Vaporwave", "Aurora", "Pôr do Sol", "Algodão Doce", "Elétrico", "Néon", "Matrix", "Ouro", "Real", "Solar", "Oceano", "Ciber", "Sakura", "Ártico", "Deserto", "Voltagem", "Esmeralda", "Cianeto"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
   COLOR_THEMES.forEach((_, i) => {
@@ -19,12 +12,11 @@ const getThemeLabels = () => {
 };
 
 export const pt = {
-  // --- Global / Common strings ---
   common: {
     queue: "Fila",
     empty: "Vazia",
     clearAll: "Limpar Tudo",
-    confirmClear: "Tem certeza que deseja limpar a playlist?",
+    confirmClear: "Tem certeza que deseja limpar a lista de reprodução?",
     updateAvailable: "Nova atualização detectada",
     updateAction: "Atualizar Agora",
     dropFiles: "SOLTE PARA IMPORTAR",
@@ -32,45 +24,41 @@ export const pt = {
     unknownArtist: "Artista Desconhecido",
     track: "Faixa",
     artist: "Artista",
-    loading: "Carregando",
-    processing: "Processando",
+    loading: "A carregar",
+    processing: "A processar",
     simple: "Simples",
     advanced: "Avançado",
     active: "Faixas",
   },
-
-  // --- App Version & Info ---
-  appVersion: "v1.9.36",
+  appVersion: "v1.9.64",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligência Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
-
-  // --- Onboarding ---
   onboarding: {
     welcome: "Bem-vindo",
-    subtitle: "Vamos configurar sua experiência Aura Flux",
-    selectLanguage: "Selecione seu idioma preferido",
+    subtitle: "Vamos configurar a sua experiência Aura Flux",
+    selectLanguage: "Selecione o seu idioma preferido",
     next: "Próximo",
     back: "Voltar",
     finish: "Concluir",
     features: {
-      title: "Desbloqueie sua Experiência Aura Flux",
+      title: "Desbloqueie a sua Experiência Aura Flux",
       visuals: {
         title: "Visuais Dinâmicos",
-        desc: "Transforme seu áudio em arte generativa deslumbrante em tempo real com visualizadores 2D e 3D."
+        desc: "Transforme o seu áudio em arte generativa deslumbrante em tempo real com visualizadores 2D e 3D."
       },
       ai: {
-        title: "Sinestesia AI",
+        title: "Sinestesia IA",
         desc: "Obtenha identificação de músicas em tempo real, análise de humor e recomendações visuais inteligentes com Gemini 3.0."
       },
       privacy: {
         title: "Privacidade Primeiro",
-        desc: "O processamento de áudio acontece no seu dispositivo. As solicitações de IA são mínimas, anônimas e seguras."
+        desc: "O processamento de áudio acontece no seu dispositivo. As solicitações de IA são mínimas, anónimas e seguras."
       }
     },
     shortcuts: {
       title: "Domine o Fluxo",
-      desc: "Navegue e controle rapidamente sua experiência com atalhos intuitivos.",
+      desc: "Navegue e controle rapidamente a sua experiência com atalhos intuitivos.",
     },
     sections: {
       essentials: "Essenciais",
@@ -78,8 +66,6 @@ export const pt = {
       advanced: "Recursos Avançados",
     }
   },
-
-  // --- Controls / Tabs ---
   tabs: {
     visual: "Visuais",
     input: "Entrada de Áudio",
@@ -88,8 +74,6 @@ export const pt = {
     studio: "Estúdio",
     system: "Sistema",
   },
-
-  // --- Visual Panel ---
   visualPanel: {
     display: "Qualidade de Exibição",
     aiBg: "Fundo IA",
@@ -99,8 +83,6 @@ export const pt = {
     opacity: "Opacidade",
     bgGenerated: "Fundo IA Gerado",
   },
-
-  // --- Audio Panel ---
   audioPanel: {
     audioInput: "Arquitetura de Sinal",
     mic: "Microfone",
@@ -122,31 +104,25 @@ export const pt = {
     recognitionSource: "Protocolo IA",
     save: "SALVAR",
   },
-
-  // --- Player Panel ---
   player: {
-    nowPlaying: "Tocando Agora",
-    playlistTitle: "Playlist",
+    nowPlaying: "A Tocar Agora",
+    playlistTitle: "Lista de Reprodução",
     noActiveTrack: "Nenhuma Faixa Ativa",
-    add: "Arquivos Locais",
+    add: "Ficheiros Locais",
     addUrl: "Link IA",
-    urlPlaceholder: "Cole URL ou Link de Playlist...",
-    supportInfo: "Suporta MP3, WAV, FLAC, OGG e Plataformas de Streaming Populares (Powered by AI)",
+    urlPlaceholder: "Cole URL ou Link da Lista...",
+    supportInfo: "Suporta MP3, WAV, FLAC, OGG e Plataformas de Streaming Populares (IA)",
     import: "Importado",
-    importing: "IA Analisando Playlist...",
+    importing: "IA a Analisar a Lista...",
     bg: "Fundo da Arte do Álbum",
     cover: "Sobreposição de Info",
     blur: "Desfoque",
-    info: "Meta Informações",
+    info: "Informação da Música",
   },
-
-  // --- Custom Text Panel ---
   textPanel: {
     overlay: "Configuração da Camada de Texto",
     appearance: "Estilo e Tipografia",
   },
-
-  // --- System Panel ---
   systemPanel: {
     localization: "Estética e Idioma",
     darkMode: "Modo Escuro",
@@ -154,25 +130,23 @@ export const pt = {
     uiMode: "Modo UI",
     interface: "Sistema e Comportamento",
     installApp: "Instalar App Aura Flux",
-    factoryReset: "Restaurar Configurações de Fábrica",
+    factoryReset: "Repor Configurações de Fábrica",
   },
-
-  // --- Global Settings / Shared ---
   sensitivity: "Ganho",
   speed: "Velocidade",
   smoothing: "Inércia",
   glow: "Brilho",
-  trails: "Rastro",
+  trails: "Rasto",
   autoRotate: "Ciclo Automático",
   cycleColors: "Ciclo de Cores",
   hideCursor: "Ocultar Cursor",
   fftSize: "Tamanho FFT",
   quality: "Qualidade",
   monitor: "Monitor",
-  wakeLock: "Manter Tela Ligada",
+  wakeLock: "Manter Ecrã Ligado",
   showFps: "Mostrar FPS",
   showTooltips: "Mostrar Dicas",
-  doubleClickFullscreen: "Duplo Clique Tela Cheia",
+  doubleClickFullscreen: "Duplo Clique Ecrã Cheio",
   autoHideUi: "Ocultar UI Automaticamente",
   mirrorDisplay: "Espelhar Exibição",
   language: "Idioma",
@@ -195,12 +169,10 @@ export const pt = {
   showOptions: "Mostrar Controles",
   hideOptions: "Ocultar Controles",
   randomize: "Aleatório",
-
-  // --- Placeholders for dynamic lists / Enums ---
   modes: {
     [VisualizerMode.PLASMA]: "Fluxo de Plasma",
     [VisualizerMode.BARS]: "Barras de Espectro",
-    [VisualizerMode.DIGITAL_GRID]: "Grade Digital",
+    [VisualizerMode.DIGITAL_GRID]: "Grelha Digital",
     [VisualizerMode.SILK_WAVE]: "Seda Lumina",
     [VisualizerMode.OCEAN_WAVE]: "Ondas do Oceano",
     [VisualizerMode.PARTICLES]: "Campo Estelar",
@@ -220,7 +192,7 @@ export const pt = {
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Campos de energia fluidos e hipnóticos com mistura de cores vibrantes.",
     [VisualizerMode.BARS]: "Barras clássicas de espectro de áudio, reagindo dinamicamente às frequências.",
-    [VisualizerMode.DIGITAL_GRID]: "Uma grade digital 3D imersiva, reagindo com pulsos de luz.",
+    [VisualizerMode.DIGITAL_GRID]: "Uma grelha digital 3D imersiva, reagindo com pulsos de luz.",
     [VisualizerMode.SILK_WAVE]: "Fitas fluidas e brilhantes que ondulam com a energia do áudio.",
     [VisualizerMode.OCEAN_WAVE]: "Um terreno estilizado de ondas, visualizando o histórico de áudio.",
     [VisualizerMode.PARTICLES]: "Um campo estelar dinâmico ou nuvem de partículas, reagindo a altas frequências.",
@@ -228,24 +200,21 @@ export const pt = {
     [VisualizerMode.RINGS]: "Anéis concêntricos expandindo e contraindo com picos de áudio.",
     [VisualizerMode.LASERS]: "Feixes de laser nítidos e vibrantes cortando o espaço visual.",
     [VisualizerMode.FLUID_CURVES]: "Curvas suaves e fluidas que mudam e se transformam com o som.",
-    [VisualizerMode.WAVEFORM]: "Formas de onda abstratas criando fitas espectrais na tela.",
+    [VisualizerMode.WAVEFORM]: "Formas de onda abstratas criando fitas espectrais no ecrã.",
     [VisualizerMode.NEBULA]: "Uma nuvem suave e em evolução de gás e poeira, ambiental e reativa.",
     [VisualizerMode.RIPPLES]: "Ondulações circulares em expansão, emanando do centro nas batidas.",
     [VisualizerMode.SPIRAL]: "Uma espiral logarítmica de partículas, reagindo a mudanças de frequência.",
-    [VisualizerMode.NEURAL_FLOW]: "Linhas complexas e interconectadas formando uma rede fluida e orgânica.",
+    [VisualizerMode.NEURAL_FLOW]: "Linhas complexas e interligadas formando uma rede fluida e orgânica.",
     [VisualizerMode.CUBE_FIELD]: "Um campo de cubos brilhantes que animam e mudam de tamanho com a música.",
     [VisualizerMode.KINETIC_WALL]: "Uma parede dinâmica de elementos que empurram e puxam em resposta ao áudio.",
     [VisualizerMode.RESONANCE_ORB]: "Uma esfera central que transforma sua superfície com base na entrada de áudio.",
   },
-
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Padrão",
-    [LyricsStyle.KARAOKE]: "Karaokê",
+    [LyricsStyle.KARAOKE]: "Karaoke",
     [LyricsStyle.MINIMAL]: "Mínimo",
   },
-
   themes: getThemeLabels(),
-
   aiProviders: {
     GEMINI: "Gemini 3.0 (Google)",
     OPENAI: "GPT-4o (OpenAI)",
@@ -255,7 +224,6 @@ export const pt = {
     QWEN: "Qwen (Alibaba Cloud)",
     MOCK: "Simulação Local (Dev)",
   },
-
   regions: {
     global: "Global",
     US: "Estados Unidos",
@@ -265,14 +233,12 @@ export const pt = {
     EU: "Europa",
     LATAM: "América Latina",
   },
-
   textSources: {
     auto: "Auto",
     custom: "Manual",
     song: "Música",
     clock: "Relógio",
   },
-
   fonts: {
     default: "Inter (Padrão)",
     system: "Interface do Sistema",
@@ -284,25 +250,23 @@ export const pt = {
     serif: "Times New Roman",
     custom: "Personalizado...",
   },
-
   positions: {
     tl: "Superior Esquerdo", tc: "Superior Centro", tr: "Superior Direito",
     ml: "Meio Esquerdo", mc: "Meio Centro", mr: "Meio Direito",
     bl: "Inferior Esquerdo", bc: "Inferior Centro", br: "Inferior Direito",
   },
-
   presets: {
     title: "Motor de Atmosfera",
     hint: "Predefinições Visuais",
-    select: "Escolha um clima...",
+    select: "Escolha um ambiente...",
     all_modes: "Todos os Modos (Ciclo)",
     calm: "Meditação Calma",
-    party: "Vibe de Festa",
+    party: "Vibração de Festa",
     ambient: "Sonho Ambiente",
     galaxy: "Galáxia Profunda",
     cyberpunk: "Cidade Cyberpunk",
     retrowave: "Pôr do Sol Retrowave",
-    psychedelic: "Viagem Psicodélica",
+    psychedelic: "Viagem Psicadélica",
     vocal: "Foco Vocal",
   },
   qualities: {
@@ -310,63 +274,55 @@ export const pt = {
     med: "Média (Equilibrada)",
     high: "Alta (Fidelidade)",
   },
-
-  // --- Hints for Tooltips ---
   hints: {
     randomize: "Aleatorizar Visuais e Cores",
     resetVisual: "Redefinir Configurações Visuais",
     resetAudio: "Redefinir Configurações de Áudio",
-    resetText: "Redefinir Configurações de Texto",
+    resetText: "Redefinir Sobreposição de Texto",
     autoRotate: "Ciclar automaticamente pelos modos visuais",
     enterLocalFont: "ex: Arial, Helvetica Neue",
-    confirmReset: "Tem certeza que deseja restaurar todas as configurações para o padrão de fábrica? Isso não pode ser desfeito.",
-    recGain: "Ajuste o volume do áudio para gravação de vídeo. Ganho mais alto pode levar a visuais mais altos e reativos nas gravações.",
-    syncStart: "Se estiver reproduzindo um arquivo, inicie a gravação automaticamente quando a reprodução começar.",
-    countdown: "Exibir uma contagem regressiva antes de iniciar a gravação.",
+    confirmReset: "Tem a certeza que deseja repor todas as configurações para o padrão de fábrica? Esta ação não pode ser desfeita.",
+    recGain: "Ajuste o volume do áudio para gravação de vídeo. Um ganho mais alto pode levar a visuais mais altos e reativos nas gravações.",
+    syncStart: "Se estiver a reproduzir um ficheiro, inicie a gravação automaticamente quando a reprodução começar.",
+    countdown: "Exibir uma contagem decrescente antes de iniciar a gravação.",
   },
-
-  // --- Toasts / Notifications ---
   toasts: {
     canvasNotFound: "Elemento Canvas não encontrado.",
-    audioNotReady: "Fonte de áudio não pronta. Tente iniciar o microfone ou reproduzir um arquivo.",
+    audioNotReady: "Fonte de áudio não pronta. Tente iniciar o microfone ou reproduzir um ficheiro.",
     noVideoFormat: "Nenhum formato de vídeo suportado para gravação.",
     recInitFail: "Falha na inicialização da gravação.",
     recStart: "Gravação Iniciada!",
-    processing: "Processando vídeo...",
+    processing: "A processar vídeo...",
     reviewReady: "Vídeo Pronto para Revisão!",
     exportFail: "Falha na exportação do vídeo.",
     copied: "Link Copiado!",
-    unsupported: "Funcionalidade de compartilhamento não suportada pelo seu navegador.",
+    unsupported: "Funcionalidade de partilha não suportada pelo seu navegador.",
     aiDirectorReq: "Chave API Gemini necessária para recursos de IA.",
     aiFail: "Falha na geração de IA. Verifique a chave API ou tente novamente.",
   },
-
-  // --- Errors ---
   errors: {
-    accessDenied: "Acesso ao microfone negado. Por favor, habilite nas configurações do navegador.",
-    trackLoad: "Não foi possível carregar a faixa ou decodificar os dados de áudio.",
+    accessDenied: "Acesso ao microfone negado. Por favor, ative nas configurações do navegador.",
+    trackLoad: "Não foi possível carregar a faixa ou descodificar os dados de áudio.",
     configMissing: "Chave API ausente ou inválida. Por favor, configure nas Configurações do Sistema.",
     unsupportedTitle: 'Navegador Não Suportado',
     unsupportedText: 'O Aura Flux requer recursos modernos de navegador (como acesso ao microfone) que não estão disponíveis. Por favor, atualize para uma versão recente do Chrome, Firefox ou Safari.',
   },
-
   config: {
     title: "Gerenciamento de Dados",
     export: "EXPORTAR",
     import: "IMPORTAR",
     exported: "Configuração Exportada",
     importSuccess: "Configuração importada",
-    invalidFile: "Arquivo de configuração inválido",
+    invalidFile: "Ficheiro de configuração inválido",
     library: "ARQUIVO DE PRESETS",
     placeholder: "Nome do Preset...",
     save: "SALVAR",
     load: "Preset Carregado",
     delete: "Removido",
-    deleteConfirm: "Tem certeza que deseja excluir este preset?",
+    deleteConfirm: "Tem a certeza que deseja excluir este preset?",
     limitReached: "Limite de presets atingido (máx 3).",
     saved: "Salvo",
   },
-
   songOverlay: {
     provider: {
       local: 'Cache Local',
@@ -376,32 +332,27 @@ export const pt = {
     aiSynesthesia: 'Sinestesia IA',
     googleSearch: 'Pesquisa Google',
   },
-
   wrongSong: "Tentar Novamente",
-
-  // --- Share ---
   share: {
     appTitle: "Aura Flux - Visualizador de Música IA",
     appMessage: "Experimente Aura Flux - Visualizador de Música IA! 🎵✨",
-    shareApp: "Compartilhar App",
+    shareApp: "Partilhar App",
     title: "Criação Aura Flux",
     message: "Confira esta arte criada com Aura Flux! \n\n{song} por {artist}",
     hashtags: "#AuraFlux #AuraFluxVisualizer #AIMusicArt",
     copied: "Texto copiado!",
-    unsupported: "Compartilhamento não suportado",
+    unsupported: "Partilha não suportada",
   },
-
-  // --- Studio Panel ---
   studioPanel: {
     videoConfig: "Configurações de Vídeo",
     audioMix: "Mixagem de Áudio",
     previewTitle: "Prévia da Gravação",
     discard: "Descartar",
-    share: "Compartilhar",
+    share: "Partilhar",
     save: "Salvar",
-    stopping: "Parando...",
-    processing: "Processando...",
-    arming: "Armado e Aguardando...",
+    stopping: "A parar...",
+    processing: "A processar...",
+    arming: "Armado e a Aguardar...",
     start: "Gravar Vídeo",
     settings: {
       resolution: "Resolução",
@@ -412,12 +363,12 @@ export const pt = {
       bitrate: "Taxa de Bits",
       recGain: "Ganho de Gravação",
       syncStart: "Sincronizar com Reprodução",
-      countdown: "Contagem Regressiva",
+      countdown: "Contagem Decrescente",
     },
     hints: {
-      recGain: "Ajuste o volume do áudio para gravação de vídeo. Ganho mais alto pode levar a visuais mais altos e reativos nas gravações.",
-      syncStart: "Se estiver reproduzindo um arquivo, inicie a gravação automaticamente quando a reprodução começar.",
-      countdown: "Exibir uma contagem regressiva antes de iniciar a gravação.",
+      recGain: "Ajuste o volume para a gravação. Um ganho mais alto pode resultar em visuais mais reativos.",
+      syncStart: "Começa a gravar automaticamente quando a música começa.",
+      countdown: "Mostra uma contagem decrescente antes de começar a gravar.",
     },
     formats: {
       vp9: "WebM (VP9)",
@@ -425,7 +376,6 @@ export const pt = {
       mp4_h264: "MP4 (H.264)",
     },
   },
-
   helpModal: {
     title: "Ajuda e Informações",
     tabs: {
@@ -433,26 +383,26 @@ export const pt = {
       shortcuts: "Atalhos",
       about: "Sobre",
     },
-    intro: "Aura Flux transforma som em experiências visuais de tirar o fôlego. Mergulhe em um mundo imersivo onde sua música dita a arte.",
+    intro: "Aura Flux transforma som em experiências visuais de tirar o fôlego. Mergulhe num mundo imersivo onde a sua música dita a arte.",
     howItWorksTitle: "Como Usar",
     howItWorksSteps: [
       "Clique em 'Inicializar Sistema' para começar, concedendo acesso ao microfone para visualização em tempo real.",
       "Explore diversos modos visuais e ajuste configurações como velocidade, sensibilidade e cores na aba 'Visuais'.",
-      "Carregue arquivos de áudio locais em 'Reprodução' ou use 'Link IA' para analisar URLs de plataformas de streaming populares.",
+      "Carregue ficheiros de áudio locais em 'Reprodução' ou use 'Link IA' para analisar URLs de plataformas de streaming populares.",
       "Ative 'Análise ao Vivo' em 'Entrada de Áudio' para identificação de músicas por IA e recomendações visuais baseadas no humor.",
       "Personalize com sobreposições de texto personalizadas, fontes e efeitos 3D em 'Sobreposição de Texto'.",
-      "Capture suas criações em resolução de até 4K usando as ferramentas de 'Estúdio', ou gerencie idioma e preferências de UI em 'Sistema'.",
+      "Capture as suas criações em resolução de até 4K usando as ferramentas do 'Estúdio', ou gira o idioma e as preferências de UI em 'Sistema'.",
     ],
     shortcutsTitle: "Atalhos de Teclado",
     shortcutItems: {
       toggleMic: "Alternar Mic/Reprodução",
-      fullscreen: "Alternar Tela Cheia",
+      fullscreen: "Alternar Ecrã Cheio",
       lyrics: "Alternar Info IA / Letra",
       hideUi: "Alternar Visibilidade da UI",
       randomize: "Aleatorizar Visuais",
       speed: "Ajustar Velocidade",
       glow: "Alternar Brilho",
-      trails: "Alternar Rastro",
+      trails: "Alternar Rasto",
       changeMode: "Ciclar Modo Visual",
       changeTheme: "Ciclar Tema de Cores",
       tabs: "Alternar Abas do Painel",
@@ -461,11 +411,11 @@ export const pt = {
     gesturesTitle: "Gestos de Toque",
     gestureItems: {
       swipeMode: "Deslizar Esq/Dir: Mudar Modo Visual",
-      swipeSens: "Deslizar Cima/Baixo: Ajustar Sensibilidade (Ganho)",
+      swipeSens: "Deslizar Cima/Baixo: Ajustar Sensibilidade",
       longPress: "Pressionar Longo: Alternar Info IA / Sobreposição de Letra",
     },
     projectInfoTitle: "Nossa Visão",
-    aboutDescription: "Aura Flux permite que você veja o invisível. É uma exploração da sinergia entre arte generativa, processamento de áudio em tempo real e IA avançada. Nossa missão é transformar experiências auditivas em jornadas profundamente pessoais e visualmente deslumbrantes.",
+    aboutDescription: "Aura Flux permite que você veja o invisível. É uma exploração da sinergia entre arte generativa, processamento de áudio em tempo real e IA avançada.",
     techStackTitle: "Tecnologia Central",
   },
 };

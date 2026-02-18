@@ -1,10 +1,10 @@
 /**
  * File: app/constants/visualThemes.ts
- * Version: v1.9.36
+ * Version: v1.9.67
  * Author: Sut
  */
 
-import { VisualizerMode } from '../types';
+import { VisualizerMode } from '../types/index.ts';
 
 export const COLOR_THEMES: string[][] = [
   ['#ff007f', '#7a00ff', '#00e5ff'], ['#00ff87', '#60efff', '#a100ff'],

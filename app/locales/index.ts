@@ -1,21 +1,16 @@
-/**
- * File: app/locales/index.ts
- * Version: v1.9.36
- * Author: Sut
- */
-
-import { Language } from '../types';
-import { en } from './en';
-import { zh } from './zh';
-import { tw } from './tw';
-import { ja } from './ja';
-import { es } from './es';
-import { ko } from './ko';
-import { de } from './de';
-import { fr } from './fr';
-import { ar } from './ar';
-import { ru } from './ru';
-import { ptBR as pt } from './pt-BR';
+// File: app/locales/index.ts | Version: v1.9.67
+import { Language } from '../types/index.ts';
+import { en } from './en.ts';
+import { zh } from './zh.ts';
+import { tw } from './tw.ts';
+import { ja } from './ja.ts';
+import { es } from './es.ts';
+import { ko } from './ko.ts';
+import { de } from './de.ts';
+import { fr } from './fr.ts';
+import { ar } from './ar.ts';
+import { ru } from './ru.ts';
+import { ptBR as pt } from './pt-BR.ts';
 
 export type TranslationSchema = typeof en;
 

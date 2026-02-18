@@ -1,4 +1,4 @@
-/* File: app/styles/index.css | Version: v1.9.36 | Author: Sut */
+/* File: app/styles/index.css | Version: v1.9.62 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,15 +11,29 @@
 }
 
 body {
-  @apply bg-white dark:bg-black text-black dark:text-white;
+  background-color: #000000;
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
-  transition: background-color 0.5s ease, color 0.5s ease;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root, body, html {
+#root {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #000000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  isolation: isolate;
+}
+
+html {
   height: 100%;
   width: 100%;
   overscroll-behavior: none;
@@ -27,7 +41,6 @@ body {
 
 .pb-safe { padding-bottom: var(--safe-area-inset-bottom); }
 
-/* Custom scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -50,11 +63,10 @@ html:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
   display: none;
 }
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-/* For StudioPanel.tsx ArmedVisualizer */
 .armed-visualizer-container {
   @apply absolute inset-0 flex items-center justify-center;
 }
@@ -63,15 +75,12 @@ html:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
 }
 
-
-/* For SongOverlay.tsx */
 .song-info-card {
   @apply absolute p-4 md:p-5 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl w-auto max-w-md pointer-events-auto group;
   transition: transform 0.2s ease-out, box-shadow 0.3s ease;
   will-change: transform;
 }
 
-/* For CustomTextOverlay.tsx */
 .text-layer-anchor {
     @apply fixed inset-0 z-[16] p-8 flex pointer-events-none;
 }
@@ -82,13 +91,11 @@ html:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
     will-change: transform, opacity, color;
 }
 
-/* For LyricsOverlay.tsx */
 .mask-fade-vertical {
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
     mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%);
 }
 
-/* Animation utilities */
 @keyframes bounce {
   0%, 100% { transform: scaleY(0.5); }
   50% { transform: scaleY(1); }

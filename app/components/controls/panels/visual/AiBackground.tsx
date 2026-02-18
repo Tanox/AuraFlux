@@ -1,7 +1,7 @@
+
 /**
  * File: app/components/controls/panels/visual/AiBackground.tsx
- * Version: v1.9.36
- * Author: Sut
+ * Version: v1.9.37 | Author: Sut
  */
 
 import React, { useState } from 'react';
@@ -14,7 +14,6 @@ import { generateArtisticBackground } from '../../../../services/aiService';
 export const AiBackground: React.FC = () => {
   const { settings, setSettings } = useVisuals();
   const { currentSong } = useAudioContext();
-  const { apiKeys } = useAI();
   const { t, showToast } = useUI();
   
   const [isGenerating, setIsGenerating] = useState(false);
@@ -25,16 +24,16 @@ export const AiBackground: React.FC = () => {
 
   const handleGenerateAiBg = async () => {
       const mood = currentSong?.mood_en_keywords || currentSong?.mood || 'Vibrant, Abstract, Cosmic';
-      const apiKey = apiKeys['GEMINI'] || process.env.API_KEY;
       
-      if (!apiKey) {
+      // @fix: Removed manual apiKey retrieval as the service now handles this via process.env.API_KEY internally.
+      if (!process.env.API_KEY) {
           showToast(t?.toasts?.aiDirectorReq || 'Key required', 'error');
           return;
       }
       
       setIsGenerating(true);
       try {
-          const imgUrl = await generateArtisticBackground(mood, apiKey);
+          const imgUrl = await generateArtisticBackground(mood);
           if (imgUrl) {
               setSettings(p => ({ ...p, aiBgUrl: imgUrl, showAiBg: true }));
               showToast(t?.visualPanel?.bgGenerated || "Background Generated", 'success');
@@ -57,7 +56,6 @@ export const AiBackground: React.FC = () => {
                     disabled={isGenerating}
                     className={`px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 border ${isGenerating ? 'bg-black/5 dark:bg-white/5 text-black/40 dark:text-white/40 border-transparent' : 'bg-black dark:bg-white text-white dark:text-black border-black/10 dark:border-white/10 hover:bg-blue-600 dark:hover:bg-blue-400 hover:text-white dark:hover:text-black'}`}
                 >
-                    {/* @fix: Corrected a corrupted SVG path element that was causing a cryptic TypeScript error. */}
                     <svg className={`h-3 w-3 ${isGenerating ? 'animate-spin' : ''}`} fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" /></svg>
                     <span>{isGenerating ? t?.common?.processing : (settings.aiBgUrl ? t?.visualPanel?.regenerate : t?.visualPanel?.generateBg)}</span>
                 </button>
