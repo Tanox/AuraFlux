@@ -1,11 +1,11 @@
 // File: app/locales/de.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["Vaporwave", "Aurora", "Sonnenuntergang", "Zuckerwatte", "Elektrisch", "Neon", "Matrix", "Gold", "Königlich", "Solar", "Ozean", "Cyber", "Sakura", "Arktisch", "Wüste", "Spannung", "Smaragd", "Cyanid"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;
@@ -188,6 +188,7 @@ export const de = {
     [VisualizerMode.CUBE_FIELD]: "Würfelfeld",
     [VisualizerMode.KINETIC_WALL]: "Kinetische Wand",
     [VisualizerMode.RESONANCE_ORB]: "Resonanzkugel",
+    [VisualizerMode.VORTEX]: "Gravitationswirbel",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Hypnotisierende, fließende Energiefelder mit lebendiger Farbmischung.",
@@ -208,6 +209,7 @@ export const de = {
     [VisualizerMode.CUBE_FIELD]: "Ein Feld glühender Würfel, die sich zur Musik bewegen und ihre Größe ändern.",
     [VisualizerMode.KINETIC_WALL]: "Eine dynamische Wand aus Elementen, die im Takt geschoben und gezogen werden.",
     [VisualizerMode.RESONANCE_ORB]: "Eine zentrale Kugel, deren Oberfläche sich basierend auf dem Audioeingang verformt.",
+    [VisualizerMode.VORTEX]: "Ein wirbelnder Wirbel aus Licht und Partikeln, der den Raum um sich herum verzerrt."
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Standard",

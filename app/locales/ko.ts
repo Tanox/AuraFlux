@@ -1,11 +1,11 @@
 // File: app/locales/ko.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["베이퍼웨이브", "오로라", "노을", "솜사탕", "일렉트릭", "네온", "매트릭스", "골드", "로열", "솔라", "오션", "사이버", "사쿠라", "아크틱", "데저트", "볼티지", "에메랄드", "시아나이드"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;

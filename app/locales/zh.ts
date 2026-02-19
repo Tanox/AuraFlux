@@ -1,11 +1,11 @@
 // File: app/locales/zh.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["赛博朋克", "极光", "日落", "棉花糖", "电光", "霓虹", "矩阵", "黄金", "皇家", "太阳", "海洋", "赛博", "樱花", "北极", "沙漠", "电压", "翡翠", "青色"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;

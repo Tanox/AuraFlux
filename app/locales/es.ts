@@ -1,11 +1,11 @@
 // File: app/locales/es.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["Vaporwave", "Aurora", "Ocaso", "Algodón de Azúcar", "Eléctrico", "Neón", "Matrix", "Oro", "Real", "Solar", "Océano", "Cyber", "Sakura", "Ártico", "Desierto", "Voltaje", "Esmeralda", "Cianuro"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;
@@ -188,6 +188,7 @@ export const es = {
     [VisualizerMode.CUBE_FIELD]: "Campo de Cubos",
     [VisualizerMode.KINETIC_WALL]: "Pared Cinética",
     [VisualizerMode.RESONANCE_ORB]: "Orbe de Resonancia",
+    [VisualizerMode.VORTEX]: "Vórtice Gravitacional",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Campos de energía fluidos e hipnóticos con mezclas vibrantes.",
@@ -208,6 +209,7 @@ export const es = {
     [VisualizerMode.CUBE_FIELD]: "Campo de cubos brillantes que se animan con la música.",
     [VisualizerMode.KINETIC_WALL]: "Pared dinámica que empuja y tira en respuesta al audio.",
     [VisualizerMode.RESONANCE_ORB]: "Esfera central que muta su superficie según la entrada de audio.",
+    [VisualizerMode.VORTEX]: "Un vórtice arremolinado de luz y partículas que distorsiona el espacio a su alrededor."
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Estándar",

@@ -1,11 +1,11 @@
 // File: app/locales/ar.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["فيبورويف", "أورورا", "غروب", "حلوى القطن", "كهربائي", "نيون", "ماتريكس", "ذهبي", "ملكي", "شمسي", "محيط", "سايبر", "ساكورا", "قطبي", "صحراء", "فولت", "زمردي", "سيانيد"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;
@@ -188,6 +188,7 @@ export const ar = {
     [VisualizerMode.CUBE_FIELD]: "حقل المكعبات",
     [VisualizerMode.KINETIC_WALL]: "جدار حركي",
     [VisualizerMode.RESONANCE_ORB]: "كرة الرنين",
+    [VisualizerMode.VORTEX]: "دوامة الجاذبية",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "حقول طاقة متدفقة ومنومة مع مزيج ألوان نابض بالحياة.",
@@ -208,6 +209,7 @@ export const ar = {
     [VisualizerMode.CUBE_FIELD]: "حقل من المكعبات المتوهجة التي تتحرك وتغير حجمها مع الموسيقى.",
     [VisualizerMode.KINETIC_WALL]: "جدار ديناميكي من العناصر التي تدفع وتسحب استجابة للصوت.",
     [VisualizerMode.RESONANCE_ORB]: "كرة مركزية تغير سطحها بناءً على مدخلات الصوت.",
+    [VisualizerMode.VORTEX]: "دوامة دوارة من الضوء والجسيمات تشوه الفضاء من حولها."
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "قياسي",

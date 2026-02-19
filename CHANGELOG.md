@@ -2,6 +2,12 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.73]
+### ✨ New Features & Optimization
+*   **New Visualizer**: Introduced the **Gravitational Vortex** (`VortexScene.tsx`), a high-fidelity 3D particle visualizer with swirling gravitational distortion effects.
+*   **Asset Optimization**: Removed the legacy `app/assets/` directory and consolidated all static assets into the `public/` directory, adhering to the project's architectural specifications.
+*   **System Synchronization**: Executed a project-wide audit to synchronize all version numbers to `v1.9.73`, including file headers, `package.json`, `README` files, and all `openspec/` documentation.
+
 ## [v1.9.72]
 ### 🛡️ Bug Bash & System Synchronization
 *   **i18n Integrity**: Audited and synchronized all 12 language files. Completed the French (`fr.ts`) translations, corrected mistranslations in Spanish (`es.ts`), fixed a typo in English (`en.ts`), and unified inconsistent keys across all locales.

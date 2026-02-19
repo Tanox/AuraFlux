@@ -126,4 +126,31 @@ export class PlasmaRenderer implements IVisualizerRenderer {
         ctx.globalCompositeOperation = 'lighter';
         const jitter = Math.sin(rotation * 5 + b.phase) * 10;
         const innerG = ctx.createRadialGradient(b.x + jitter, b.y + jitter, 0, b.x + jitter, b.y + jitter, dynamicRadius * 0.4);
-        innerG.addColorStop(
+        innerG.addColorStop(0, '#ffffffaa');
+        innerG.addColorStop(1, 'transparent');
+        ctx.fillStyle = innerG;
+        ctx.beginPath();
+        ctx.arc(b.x + jitter, b.y + jitter, dynamicRadius * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    });
+
+    this.sparks = this.sparks.filter(s => s.life < s.maxLife);
+    this.sparks.forEach(s => {
+      s.x += s.vx;
+      s.y += s.vy;
+      s.vx *= 0.97;
+      s.vy *= 0.97;
+      s.life++;
+
+      ctx.globalAlpha = 1 - (s.life / s.maxLife);
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    ctx.restore();
+  }
+}

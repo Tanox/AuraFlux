@@ -65,7 +65,7 @@ export const ModeSelector: React.FC = () => {
                 <VisualizerPreview 
                     key={mode} 
                     mode={mode} 
-                    name={t?.modes?.[mode] || mode} 
+                    name={t?.modes?.[mode as keyof typeof t.modes] || mode} 
                     isActive={currentMode === mode}
                     isIncluded={settings.includedModes ? settings.includedModes.includes(mode) : true}
                     onClick={() => setMode(mode)}

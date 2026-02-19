@@ -20,7 +20,8 @@ export enum VisualizerMode {
   NEURAL_FLOW = 'NEURAL_FLOW',
   CUBE_FIELD = 'CUBE_FIELD',
   KINETIC_WALL = 'KINETIC_WALL', 
-  RESONANCE_ORB = 'RESONANCE_ORB'
+  RESONANCE_ORB = 'RESONANCE_ORB',
+  VORTEX = 'VORTEX'
 }
 
 export interface VisualizerSettings {

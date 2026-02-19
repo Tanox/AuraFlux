@@ -1,14 +1,16 @@
 {
   "name": "aura-flux",
   "private": true,
-  "version": "1.9.72",
+  "version": "1.9.73",
   "type": "module",
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "tsc --noEmit",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@google/genai": "^1.40.0",

@@ -37,7 +37,7 @@ export const CoreVisuals: React.FC = () => {
     { value: '', label: t?.presets?.select || 'Choose a mood...' },
     ...Object.values(SMART_PRESETS).map(p => ({
       value: p.nameKey,
-      label: t?.presets?.[p.nameKey] || p.nameKey
+      label: t?.presets?.[p.nameKey as keyof typeof t.presets] || p.nameKey
     }))
   ];
 

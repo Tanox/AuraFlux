@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.72
+// File: app/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.73
 import React, { Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Preload } from '@react-three/drei';
@@ -12,7 +12,8 @@ import {
     NeuralFlowScene,
     DigitalGridScene,
     SilkWaveScene,
-    OceanWaveScene
+    OceanWaveScene,
+    VortexScene
 } from './ThreeScenes.tsx';
 
 interface ThreeVisualizerProps {
@@ -45,6 +46,7 @@ const SceneSwitcher: React.FC<ThreeVisualizerProps> = ({ mode, analyser, analyse
       case VisualizerMode.DIGITAL_GRID: return <DigitalGridScene {...sceneProps} />;
       case VisualizerMode.SILK_WAVE: return <SilkWaveScene {...sceneProps} />;
       case VisualizerMode.OCEAN_WAVE: return <OceanWaveScene {...sceneProps} />;
+      case VisualizerMode.VORTEX: return <VortexScene {...sceneProps} />;
       default: return <NeuralFlowScene {...sceneProps} />;
   }
 };

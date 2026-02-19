@@ -1,11 +1,11 @@
 // File: app/locales/en.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["Vaporwave", "Aurora", "Sunset", "Cotton Candy", "Electric", "Neon", "Matrix", "Gold", "Royal", "Solar", "Ocean", "Cyber", "Sakura", "Arctic", "Desert", "Voltage", "Emerald", "Cyanide"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;
@@ -30,7 +30,7 @@ export const en = {
     advanced: "Advanced",
     active: "Tracks",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Synesthetic Intelligence Engine",
   startExperience: "INITIALIZE SYSTEM",
@@ -188,6 +188,7 @@ export const en = {
     [VisualizerMode.CUBE_FIELD]: "Cube Field",
     [VisualizerMode.KINETIC_WALL]: "Kinetic Wall",
     [VisualizerMode.RESONANCE_ORB]: "Resonance Orb",
+    [VisualizerMode.VORTEX]: "Gravitational Vortex",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Hypnotic, flowing energy fields with vibrant color blending.",
@@ -208,6 +209,7 @@ export const en = {
     [VisualizerMode.CUBE_FIELD]: "A field of glowing cubes that animate and change size with the music.",
     [VisualizerMode.KINETIC_WALL]: "A dynamic wall of elements that push and pull in response to audio.",
     [VisualizerMode.RESONANCE_ORB]: "A central sphere that morphs its surface based on audio input.",
+    [VisualizerMode.VORTEX]: "A swirling vortex of light and particles that distorts space around it.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Standard",

@@ -1,11 +1,11 @@
 // File: app/locales/ja.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["ヴェイパーウェイヴ", "オーロラ", "サンセット", "コットンキャンディ", "エレクトリック", "ネオン", "マトリックス", "ゴールド", "ロイヤル", "ソーラー", "オーシャン", "サイバー", "サクラ", "アークティック", "デザート", "ボルテージ", "エメラルド", "シアナイド"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;
@@ -188,6 +188,7 @@ export const ja = {
     [VisualizerMode.CUBE_FIELD]: "キューブ・フィールド",
     [VisualizerMode.KINETIC_WALL]: "キネティック・ウォール",
     [VisualizerMode.RESONANCE_ORB]: "共鳴オーブ",
+    [VisualizerMode.VORTEX]: "重力渦",,
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "鮮やかな色の混ざり合いが催眠的な、流動的なエネルギー場。",
@@ -208,6 +209,7 @@ export const ja = {
     [VisualizerMode.CUBE_FIELD]: "音楽に合わせてアニメーションしサイズが変わる、光る立方体のフィールド。",
     [VisualizerMode.KINETIC_WALL]: "オーディオに反応して押し引きされるダイナミックな壁の要素。",
     [VisualizerMode.RESONANCE_ORB]: "オーディオ入力に基づいて表面が変形する中心的な球体。",
+    [VisualizerMode.VORTEX]: "光と粒子の渦巻く渦が周囲の空間を歪ませる。"
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "標準",

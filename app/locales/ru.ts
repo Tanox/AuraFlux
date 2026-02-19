@@ -1,11 +1,11 @@
 // File: app/locales/ru.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["Вейпорвейв", "Аврора", "Закат", "Сахарная вата", "Электрик", "Неон", "Матрица", "Золото", "Королевский", "Солнечный", "Океан", "Кибер", "Сакура", "Арктика", "Пустыня", "Вольтаж", "Изумруд", "Цианид"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;

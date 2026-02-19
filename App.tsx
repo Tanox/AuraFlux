@@ -1,4 +1,4 @@
-// File: App.tsx | Version: v1.9.72
+// File: App.tsx | Version: v1.9.73
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './app/AppContext.tsx';
 import { WelcomeScreen } from './app/components/visualizers/ui/WelcomeScreen.tsx';

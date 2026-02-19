@@ -28,6 +28,7 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.BARS]: { background: 'linear-gradient(to top, #3b82f6, #8b5cf6)' },
     [VisualizerMode.RIPPLES]: { background: 'radial-gradient(circle, transparent 20%, #4f46e5 20%, #4f46e5 25%, transparent 25%, transparent 40%, #ec4899 40%, #ec4899 45%, transparent 45%)' },
     [VisualizerMode.SPIRAL]: { background: 'conic-gradient(from 0deg, #ff00ff, #00ffff, #ff00ff)' },
+    [VisualizerMode.VORTEX]: { background: 'radial-gradient(circle, #4f46e5, #000000)' },
 };
 
 const THREE_MODES = [
@@ -37,7 +38,8 @@ const THREE_MODES = [
   VisualizerMode.NEURAL_FLOW,
   VisualizerMode.CUBE_FIELD,
   VisualizerMode.KINETIC_WALL,
-  VisualizerMode.RESONANCE_ORB
+  VisualizerMode.RESONANCE_ORB,
+  VisualizerMode.VORTEX
 ];
 
 export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode, name, isActive, isIncluded, onClick, onToggleInclude }) => {
@@ -47,7 +49,7 @@ export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode,
   const modeTypeTag = is3D ? "3D" : "2D";
   
   const tooltipText = useMemo(() => {
-    const baseDesc = t?.modeDescriptions?.[mode] || '';
+    const baseDesc = t?.modeDescriptions?.[mode as keyof typeof t.modeDescriptions] || '';
     return `[${modeTypeTag}] ${baseDesc}`;
   }, [mode, modeTypeTag, t?.modeDescriptions]);
 

@@ -60,7 +60,7 @@ export const AiSettings: React.FC = () => {
                     </div>
                     {enableAnalysis && isAdvanced && (
                         <div className="w-full pt-2 border-t border-black/5 dark:border-white/5 animate-fade-in-up">
-                            <CustomSelect label={t?.region} value={settings.region || 'global'} options={Object.keys(t?.regions || {}).map(r=>({value:r,label:t?.regions?.[r]||r}))} onChange={(v)=>setSettings({...settings,region:v as Region})} />
+                            <CustomSelect label={t?.region} value={settings.region || 'global'} options={Object.keys(t?.regions || {}).map(r=>({value:r,label:t?.regions?.[r as keyof typeof t.regions]||r}))} onChange={(v)=>setSettings({...settings,region:v as Region})} />
                         </div>
                     )}
                 </div>
@@ -72,7 +72,7 @@ export const AiSettings: React.FC = () => {
                           <CustomSelect 
                               label={t?.recognitionSource || "AI Protocol"} 
                               value={currentProvider} 
-                              options={Object.keys(t?.aiProviders || {}).map(p => ({ value: p, label: t?.aiProviders?.[p] }))} 
+                              options={Object.keys(t?.aiProviders || {}).map(p => ({ value: p, label: t?.aiProviders?.[p as keyof typeof t.aiProviders] }))} 
                               onChange={(v) => setSettings(prev => ({ ...prev, recognitionProvider: v as AIProvider }))}
                           />
                           {/* @fix: API key input and validation UI removed in accordance with security and coding standards. */}

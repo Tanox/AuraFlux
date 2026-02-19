@@ -79,7 +79,7 @@ const SongOverlay: React.FC<SongOverlayProps> = ({ song, isVisible, language, on
 
   useAudioPulse({
     elementRef: containerRef,
-    analyser,
+    analyser: analyser || null,
     settings: { sensitivity },
     isEnabled: !!isEnabled,
     pulseStrength: 0.05, 

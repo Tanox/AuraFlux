@@ -1,11 +1,11 @@
 // File: app/locales/pt-BR.ts | Version: v1.9.72
-import { LyricsStyle, VisualizerMode } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { LyricsStyle, VisualizerMode } from '../types/index.js';
+import { COLOR_THEMES } from '../constants/index.js';
 
 const THEME_NAMES = ["Vaporwave", "Aurora", "Pôr do Sol", "Algodão Doce", "Elétrico", "Néon", "Matrix", "Ouro", "Real", "Solar", "Oceano", "Ciber", "Sakura", "Ártico", "Deserto", "Voltagem", "Esmeralda", "Cianeto"];
 const getThemeLabels = () => {
   const labels: { [key: string]: string } = {};
-  COLOR_THEMES.forEach((_, i) => {
+  COLOR_THEMES.forEach((_: any, i: number) => {
     labels[i.toString()] = THEME_NAMES[i];
   });
   return labels;

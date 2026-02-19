@@ -111,7 +111,7 @@ export const TooltipArea = memo(({ children, text, className = '' }: TooltipArea
   
   return (
     <div ref={containerRef} className={`relative ${className}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <FloatingTooltip text={text} visible={visible} anchorRef={containerRef} />
+      <FloatingTooltip text={text} visible={visible} anchorRef={containerRef as React.RefObject<HTMLElement>} />
       {children}
     </div>
   );

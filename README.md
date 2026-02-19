@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.72)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.73)
 
 [Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md)
 
@@ -14,7 +14,7 @@
 - **AI Synesthesia HUD:** Real-time track identification, mood analysis, and full lyrics retrieval powered by **Gemini 3.0 Flash**.
 - **AI Auto-Director:** Let the AI analyze 15 seconds of your music and automatically tune colors, speed, and visual modes to match the vibe.
 - **4K Studio Recording:** Export your creations in high resolution (up to 4K) with custom audio gain and bitrate control.
-- **Project Specification (OpenSpec):** Strictly follows the OpenSpec standard for documentation and architecture (v1.9.72).
+- **Project Specification (OpenSpec):** Strictly follows the OpenSpec standard for documentation and architecture (v1.9.73).
 
 *Note: PWA support is temporarily disabled for preview stability.*
 
@@ -23,5 +23,5 @@
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 1.9.72*  
+*Version: 1.9.73*  
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

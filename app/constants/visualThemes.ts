@@ -1,6 +1,6 @@
 /**
  * File: app/constants/visualThemes.ts
- * Version: v1.9.72
+ * Version: v1.9.73
  * Author: Sut
  */
 
@@ -40,4 +40,5 @@ export const VISUALIZER_PRESETS: Record<string, { description: string }> = {
   [VisualizerMode.OCEAN_WAVE]: { description: 'Pulsar terrain.' },
   [VisualizerMode.RIPPLES]: { description: 'Concentric beat ripples.' },
   [VisualizerMode.SPIRAL]: { description: 'Logarithmic frequency spiral.' },
+  [VisualizerMode.VORTEX]: { description: 'Swirling gravitational well.' },
 };
