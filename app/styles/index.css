@@ -76,7 +76,7 @@ html:not(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
 }
 
 .song-info-card {
-  @apply absolute p-4 md:p-5 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl w-auto max-w-md pointer-events-auto group;
+  @apply absolute p-4 md:p-5 rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 shadow-2xl w-auto max-w-md pointer-events-auto;
   transition: transform 0.2s ease-out, box-shadow 0.3s ease;
   will-change: transform;
 }

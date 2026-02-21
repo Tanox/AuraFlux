@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/CubeFieldScene.tsx
- * Version: v1.9.72
+ * Version: v1.9.73
  * Author: Sut
  * Copyright (c) 2024 Aura Flux. All rights reserved.
  */

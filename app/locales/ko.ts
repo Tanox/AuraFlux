@@ -1,4 +1,4 @@
-// File: app/locales/ko.ts | Version: v1.9.72
+// File: app/locales/ko.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ko = {
     advanced: "고급",
     active: "곡",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "공감각 인공지능 엔진",
   startExperience: "시스템 초기화",
@@ -188,6 +188,7 @@ export const ko = {
     [VisualizerMode.CUBE_FIELD]: "큐브 필드",
     [VisualizerMode.KINETIC_WALL]: "키네틱 월",
     [VisualizerMode.RESONANCE_ORB]: "공명 구체",
+    [VisualizerMode.VORTEX]: "중력 소용돌이",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "선명한 색상 혼합이 최면적인 유동적 에너지 장입니다.",
@@ -208,6 +209,7 @@ export const ko = {
     [VisualizerMode.CUBE_FIELD]: "음악에 맞춰 애니메이션되고 크기가 변하는 빛나는 큐브 필드입니다.",
     [VisualizerMode.KINETIC_WALL]: "오디오에 반응하여 밀고 당겨지는 역동적인 벽 요소입니다.",
     [VisualizerMode.RESONANCE_ORB]: "오디오 입력에 따라 표면이 변형되는 중심 구체입니다.",
+    [VisualizerMode.VORTEX]: "주변 공간을 왜곡하는 빛과 입자의 소용돌이입니다.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "표준",

@@ -1,4 +1,4 @@
-// File: app/components/controls/panels/AudioSettingsPanel.tsx | Version: v1.9.72
+// File: app/components/controls/panels/AudioSettingsPanel.tsx | Version: v1.9.73
 import React from 'react';
 import { InputSettings } from './audio/InputSettings.tsx';
 import { AiSettings } from './audio/AiSettings.tsx';

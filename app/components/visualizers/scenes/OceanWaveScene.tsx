@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/OceanWaveScene.tsx
- * Version: v1.9.72
+ * Version: v1.9.73
  * Author: Sut
  * Description: "Joy Division" Style Pulsar Terrain with scrolling history.
  */

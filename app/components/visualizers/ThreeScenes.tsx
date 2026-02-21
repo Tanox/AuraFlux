@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ThreeScenes.tsx | Version: v1.9.72
+// File: app/components/visualizers/ThreeScenes.tsx | Version: v1.9.73
 export { KineticWallScene } from './scenes/KineticWallScene.tsx';
 export { LiquidSphereScene } from './scenes/LiquidSphereScene.tsx';
 export { CubeFieldScene } from './scenes/CubeFieldScene.tsx';

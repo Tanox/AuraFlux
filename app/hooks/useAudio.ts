@@ -1,4 +1,4 @@
-// File: app/hooks/useAudio.ts | Version: v1.9.72
+// File: app/hooks/useAudio.ts | Version: v1.9.73
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { AudioDevice, VisualizerSettings, Language, AudioSourceType, SongInfo, Track } from '../types/index.ts';
 import { audioBufferToWav } from '../services/audioUtils.ts';

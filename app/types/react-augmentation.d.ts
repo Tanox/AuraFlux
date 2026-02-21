@@ -1,6 +1,6 @@
 /**
  * File: app/types/react-augmentation.d.ts
- * Version: v1.9.72
+ * Version: v1.9.73
  * Author: Sut
  */
 

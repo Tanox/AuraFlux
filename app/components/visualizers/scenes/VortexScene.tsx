@@ -83,6 +83,7 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
             attribute float aRandom;
             varying float vDist;
             varying float vRandom;
+            varying float vCameraDist;
 
             void main() {
               vec3 pos = position;
@@ -106,8 +107,9 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
               
               vec4 mvPos = modelViewMatrix * vec4(newPos, 1.0);
               gl_Position = projectionMatrix * mvPos;
+              vCameraDist = -mvPos.z;
               
-              gl_PointSize = (2.0 + aRandom * 4.0 + uTreble * 5.0) * (300.0 / -mvPos.z);
+              gl_PointSize = (2.0 + aRandom * 4.0 + uTreble * 5.0) * (300.0 / vCameraDist);
             }
           `}
           fragmentShader={`
@@ -117,6 +119,7 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
             uniform float uBass;
             varying float vDist;
             varying float vRandom;
+            varying float vCameraDist;
 
             void main() {
               float d = distance(gl_PointCoord, vec2(0.5));
@@ -128,7 +131,10 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
               // Glow near center
               col += vec3(1.0, 0.8, 0.5) * (1.0 - smoothstep(0.0, 20.0, vDist)) * uBass;
               
-              gl_FragColor = vec4(col, alpha * (0.7 + uBass * 0.3));
+              // LOD: Fade out distant particles
+              float lodAlpha = 1.0 - smoothstep(80.0, 150.0, vCameraDist);
+
+              gl_FragColor = vec4(col, alpha * (0.7 + uBass * 0.3) * lodAlpha);
             }
           `}
         />

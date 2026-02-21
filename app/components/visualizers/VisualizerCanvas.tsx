@@ -1,4 +1,4 @@
-// File: app/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.72
+// File: app/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.73
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, WorkerMessage } from '../../types/index.ts';
 

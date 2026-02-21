@@ -1,4 +1,4 @@
-// File: app/locales/zh.ts | Version: v1.9.72
+// File: app/locales/zh.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const zh = {
     advanced: "高级",
     active: "首曲目",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "启动系统",
@@ -188,6 +188,7 @@ export const zh = {
     [VisualizerMode.CUBE_FIELD]: "方块场",
     [VisualizerMode.KINETIC_WALL]: "动力墙",
     [VisualizerMode.RESONANCE_ORB]: "共振球",
+    [VisualizerMode.VORTEX]: "重力漩涡",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "令人着迷的流体能量场，色彩混合鲜艳。",
@@ -208,6 +209,7 @@ export const zh = {
     [VisualizerMode.CUBE_FIELD]: "一个发光的立方体场，随音乐动画和改变大小。",
     [VisualizerMode.KINETIC_WALL]: "动态元素墙，响应音频推拉。",
     [VisualizerMode.RESONANCE_ORB]: "一个中心球体，根据音频输入改变其表面形态。",
+    [VisualizerMode.VORTEX]: "光与粒子的旋转漩涡，扭曲周围的空间。",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "标准",

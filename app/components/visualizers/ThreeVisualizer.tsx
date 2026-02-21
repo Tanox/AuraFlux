@@ -104,7 +104,9 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
   }, [settings?.glow, bloomIntensity]);
 
   // Comprehensive fallback
-  if (!analyser || !settings || !Array.isArray(colors)) return null;
+  if (!analyser || !settings || !Array.isArray(colors) || colors.length === 0) {
+    return <div id="visualizer-three-wrapper" className="w-full h-full bg-black"></div>;
+  }
   
   return (
     <div id="visualizer-three-wrapper" className="w-full h-full">

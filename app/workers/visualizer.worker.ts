@@ -1,4 +1,4 @@
-// File: app/workers/visualizer.worker.ts | Version: v1.9.72
+// File: app/workers/visualizer.worker.ts | Version: v1.9.73
 // --- 1. IMPORT DEPENDENCIES (Strictly Relative Paths) ---
 import { VisualizerMode, VisualizerSettings, WorkerMessage, IVisualizerRenderer } from '../types/index.ts';
 import { createVisualizerRenderers, BeatDetector } from '../services/visualizerStrategies.ts';

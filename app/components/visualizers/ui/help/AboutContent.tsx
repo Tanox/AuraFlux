@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/ui/help/AboutContent.tsx
- * Version: v1.9.72
+ * Version: v1.9.73
  * Author: Sut
  */
 

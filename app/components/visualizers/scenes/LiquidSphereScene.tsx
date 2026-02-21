@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/LiquidSphereScene.tsx
- * Version: v1.9.72
+ * Version: v1.9.73
  * Author: Sut
  * Description: "Resonance Orb" - High-fidelity reactive sphere with fixed real-time feature access.
  */

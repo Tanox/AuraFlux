@@ -1,4 +1,4 @@
-// File: app/components/controls/BottomBar.tsx | Version: v1.9.72
+// File: app/components/controls/BottomBar.tsx | Version: v1.9.73
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudioContext, useUI, useVisuals } from '../../AppContext.tsx';
 import { TooltipArea } from '../visualizers/ui/controls/Tooltip.tsx';

@@ -1,4 +1,4 @@
-// File: app/locales/fr.ts | Version: v1.9.72
+// File: app/locales/fr.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const fr = {
     advanced: "Avancé",
     active: "Pistes",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Moteur d'Intelligence Synesthésique",
   startExperience: "INITIALISER LE SYSTÈME",
@@ -188,7 +188,7 @@ export const fr = {
     [VisualizerMode.CUBE_FIELD]: "Champ de Cubes",
     [VisualizerMode.KINETIC_WALL]: "Mur Cinétique",
     [VisualizerMode.RESONANCE_ORB]: "Orbe de Résonance",
-    [VisualizerMode.VORTEX]: "Vortex Gravitationnel",,
+    [VisualizerMode.VORTEX]: "Vortex Gravitationnel",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Champs d'énergie fluides et hypnotiques avec un mélange de couleurs vives.",

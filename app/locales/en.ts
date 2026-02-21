@@ -1,4 +1,4 @@
-// File: app/locales/en.ts | Version: v1.9.72
+// File: app/locales/en.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 

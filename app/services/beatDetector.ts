@@ -1,4 +1,4 @@
-// File: app/services/beatDetector.ts | Version: v1.9.72
+// File: app/services/beatDetector.ts | Version: v1.9.73
 export class BeatDetector {
   private prevSpectrum: Uint8Array = new Uint8Array(0);
   private fluxHistory: number[] = [];

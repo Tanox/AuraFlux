@@ -1,4 +1,4 @@
-// File: app/services/aiService.ts | Version: v1.9.72
+// File: app/services/aiService.ts | Version: v1.9.73
 import { GoogleGenAI, Type } from "@google/genai";
 import { SongInfo, Language, AIProvider, Region } from '../types/index.ts';
 

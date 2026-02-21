@@ -1,4 +1,4 @@
-// File: app/hooks/useLocalStorage.ts | Version: v1.9.72
+// File: app/hooks/useLocalStorage.ts | Version: v1.9.73
 import { useCallback } from 'react';
 import { STORAGE_PREFIX } from '../constants/index.ts';
 

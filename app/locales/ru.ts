@@ -1,4 +1,4 @@
-// File: app/locales/ru.ts | Version: v1.9.72
+// File: app/locales/ru.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ru = {
     advanced: "Продвинутый",
     active: "Треки",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Движок синестетического интеллекта",
   startExperience: "ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ",
@@ -188,6 +188,7 @@ export const ru = {
     [VisualizerMode.CUBE_FIELD]: "Поле кубов",
     [VisualizerMode.KINETIC_WALL]: "Кинетическая стена",
     [VisualizerMode.RESONANCE_ORB]: "Резонансная сфера",
+    [VisualizerMode.VORTEX]: "Гравитационный вихрь",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Гипнотические, текучие энергетические поля с ярким смешиванием цветов.",
@@ -208,6 +209,7 @@ export const ru = {
     [VisualizerMode.CUBE_FIELD]: "Поле светящихся кубов, которые анимируются и меняют размер под музыку.",
     [VisualizerMode.KINETIC_WALL]: "Динамическая стена из элементов, которые толкаются и тянутся в ответ на аудио.",
     [VisualizerMode.RESONANCE_ORB]: "Центральная сфера, меняющая свою поверхность в зависимости от аудиовхода.",
+    [VisualizerMode.VORTEX]: "Вращающийся вихрь света и частиц, искажающий пространство вокруг себя.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Стандартный",

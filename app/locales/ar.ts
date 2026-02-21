@@ -1,4 +1,4 @@
-// File: app/locales/ar.ts | Version: v1.9.72
+// File: app/locales/ar.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ar = {
     advanced: "متقدم",
     active: "مقطوعة",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "محرك الذكاء الحسي",
   startExperience: "بدء النظام",

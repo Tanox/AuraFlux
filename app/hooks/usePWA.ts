@@ -1,4 +1,4 @@
-// File: app/hooks/usePWA.ts | Version: v1.9.72
+// File: app/hooks/usePWA.ts | Version: v1.9.73
 import { useState, useEffect, useCallback } from 'react';
 
 export const usePWA = () => {

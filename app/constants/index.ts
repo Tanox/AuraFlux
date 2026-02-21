@@ -1,4 +1,4 @@
-// File: app/constants/index.ts | Version: v1.9.72
+// File: app/constants/index.ts | Version: v1.9.73
 import { VisualizerMode, SmartPreset } from '../types/index.ts';
 import { COLOR_THEMES } from './visualThemes.ts';
 import { TranslationSchema } from '../locales/index.ts';

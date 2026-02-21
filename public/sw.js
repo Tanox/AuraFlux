@@ -1,5 +1,5 @@
-// File: public/sw.js | Version: v1.9.72 | Author: Sut
-const CACHE_NAME = 'aura-flux-v1.9.72';
+// File: public/sw.js | Version: v1.9.73 | Author: Sut
+const CACHE_NAME = 'aura-flux-v1.9.73';
 const STATIC_ASSETS = [
   './',
   './index.html',

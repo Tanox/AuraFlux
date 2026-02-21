@@ -1,4 +1,4 @@
-// File: app/locales/ja.ts | Version: v1.9.72
+// File: app/locales/ja.ts | Version: v1.9.73
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ja = {
     advanced: "詳細設定",
     active: "曲",
   },
-  appVersion: "v1.9.72",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "共感覚インテリジェンス・エンジン",
   startExperience: "システムを初期化",
@@ -188,7 +188,7 @@ export const ja = {
     [VisualizerMode.CUBE_FIELD]: "キューブ・フィールド",
     [VisualizerMode.KINETIC_WALL]: "キネティック・ウォール",
     [VisualizerMode.RESONANCE_ORB]: "共鳴オーブ",
-    [VisualizerMode.VORTEX]: "重力渦",,
+    [VisualizerMode.VORTEX]: "重力渦",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "鮮やかな色の混ざり合いが催眠的な、流動的なエネルギー場。",

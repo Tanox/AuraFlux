@@ -1,4 +1,4 @@
-// File: app/hooks/useAudioPulse.ts | Version: v1.9.72
+// File: app/hooks/useAudioPulse.ts | Version: v1.9.73
 import React, { useRef, useEffect } from 'react';
 import { VisualizerSettings } from '../types/index.ts';
 import { BeatDetector } from '../services/beatDetector.ts';

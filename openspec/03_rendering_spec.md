@@ -1,6 +1,6 @@
 # OpenSpec: 视觉生成渲染规范 (03)
 
-## 1. 混合渲染管线 (v1.9.72)
+## 1. 混合渲染管线 (v1.9.73)
 
 ### 1.1. 2D Worker 渲染器
 - **控制权转移:** 使用 `transferControlToOffscreen` 将控制权移至独立线程。
@@ -12,6 +12,7 @@
 - **Shader 驱动:**
   - `DigitalGridScene`: 使用 `DataTexture` 传入音频频谱。
   - `SilkWaveScene`: 利用 `InstancedMesh` 渲染高精度丝绸纤维。
+  - `VortexScene`: 3D 粒子引力扭曲场景，模拟重力场对光的捕获。通过基于距离的 LOD (Level of Detail) 优化，在保持视觉质量的同时，显著提升了大规模粒子渲染的性能。
 - **后期处理:** 统一使用 `EffectComposer` 管理 `Bloom` (辉光) 和 `Noise` (去色阶噪点)。
 
 ## 2. 质量等级定义 (`settings.quality`)
@@ -20,5 +21,5 @@
 - **High:** 匹配设备原生 DPR (最高 1.5)，全粒子量，高采样 Bloom。
 
 ---
-*Aura Flux Rendering Specification - Version 1.9.72*
+*Aura Flux Rendering Specification - Version 1.9.73*
 *Author: Sut*

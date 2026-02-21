@@ -30,7 +30,7 @@ export const pt = {
     advanced: "Avançado",
     active: "Faixas",
   },
-  appVersion: "v1.9.64",
+  appVersion: "v1.9.73",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligência Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
@@ -188,6 +188,7 @@ export const pt = {
     [VisualizerMode.CUBE_FIELD]: "Campo de Cubos",
     [VisualizerMode.KINETIC_WALL]: "Parede Cinética",
     [VisualizerMode.RESONANCE_ORB]: "Orbe de Ressonância",
+    [VisualizerMode.VORTEX]: "Vórtice Gravitacional",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Campos de energia fluidos e hipnóticos com mistura de cores vibrantes.",
@@ -208,6 +209,7 @@ export const pt = {
     [VisualizerMode.CUBE_FIELD]: "Um campo de cubos brilhantes que animam e mudam de tamanho com a música.",
     [VisualizerMode.KINETIC_WALL]: "Uma parede dinâmica de elementos que empurram e puxam em resposta ao áudio.",
     [VisualizerMode.RESONANCE_ORB]: "Uma esfera central que transforma sua superfície com base na entrada de áudio.",
+    [VisualizerMode.VORTEX]: "Um vórtice rodopiante de luz e partículas que distorce o espaço ao seu redor.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Padrão",

@@ -1,4 +1,4 @@
-// File: app/hooks/useVideoRecorder.ts | Version: v1.9.72
+// File: app/hooks/useVideoRecorder.ts | Version: v1.9.73
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { AudioSourceType } from '../types/index.ts';
 

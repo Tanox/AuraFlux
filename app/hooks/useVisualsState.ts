@@ -1,4 +1,4 @@
-// File: app/hooks/useVisualsState.ts | Version: v1.9.72
+// File: app/hooks/useVisualsState.ts | Version: v1.9.73
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useLocalStorage } from './useLocalStorage.ts';
 import { VisualizerMode, VisualizerSettings, SmartPreset, LyricsStyle } from '../types/index.ts';

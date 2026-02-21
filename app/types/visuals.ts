@@ -1,4 +1,4 @@
-// File: app/types/visuals.ts | Version: v1.9.72
+// File: app/types/visuals.ts | Version: v1.9.73
 import { Position, Region, AIProvider } from './common.ts';
 import { LyricsStyle } from './audio.ts';
 

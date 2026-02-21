@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ui/WelcomeScreen.tsx | Version: v1.9.72
+// File: app/components/visualizers/ui/WelcomeScreen.tsx | Version: v1.9.73
 import React from 'react';
 import { useUI, useAudioContext } from '../../../AppContext.tsx';
 

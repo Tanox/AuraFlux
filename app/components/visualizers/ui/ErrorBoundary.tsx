@@ -1,4 +1,4 @@
-// File: app/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.72
+// File: app/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.73
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { STORAGE_PREFIX } from '../../../constants/index.ts';
 
