@@ -1,7 +1,8 @@
 {
-  "name": "Aura Flux",
-  "description": "A professional-grade music visualization application built with Next.js and Tailwind CSS.",
+  "name": "Aura Flux - AI Music Visualizer v1.9.73",
+  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 1.9.73 introduces the new Gravitational Vortex visualizer and cleans up legacy assets.",
   "requestFramePermissions": [
+    "camera",
     "microphone"
   ]
 }

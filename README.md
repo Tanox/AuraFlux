@@ -1,20 +1,27 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Aura Flux 🎵👁️
 
-# Run and deploy your AI Studio app
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.9.73)
 
-This contains everything you need to run your app locally.
+[Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md)
 
-View your app in AI Studio: https://ai.studio/apps/63d975e7-0cfb-425a-9758-b1017d532ba8
+**Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 19**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
+## 🚀 Key Features
 
+- **Hybrid Rendering Pipeline:** Seamlessly switch between high-fidelity 3D WebGL scenes (using R3F) and optimized 2D Canvas renderers for low-power devices.
+- **AI Synesthesia HUD:** Real-time track identification, mood analysis, and full lyrics retrieval powered by **Gemini 3.0 Flash**.
+- **AI Auto-Director:** Let the AI analyze 15 seconds of your music and automatically tune colors, speed, and visual modes to match the vibe.
+- **4K Studio Recording:** Export your creations in high resolution (up to 4K) with custom audio gain and bitrate control.
+- **Project Specification (OpenSpec):** Strictly follows the OpenSpec standard for documentation and architecture (v1.9.73).
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+*Note: PWA support is temporarily disabled for preview stability.*
+
+---
+
+## 📄 License & Signature
+
+Developed with ❤️ by **Sut**.  
+*Version: 1.9.73*  
+*Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)
