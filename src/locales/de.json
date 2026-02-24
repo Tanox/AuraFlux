@@ -1,0 +1,6 @@
+{
+  "app": {
+    "title": "Musikvisualisierer",
+    "description": "Eine Next.js Musikvisualisierungsanwendung"
+  }
+}

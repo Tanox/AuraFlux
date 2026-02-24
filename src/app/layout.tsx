@@ -1,3 +1,7 @@
+/**
+ * @file src/app/layout.tsx
+ * @version v1.0.1
+ */
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -11,6 +15,11 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
 });
 
+export const metadata = {
+  title: 'Music Visualizer v1.0.1',
+  description: 'A Next.js Music Visualizer Application',
+};
+
 export default function RootLayout({
   children,
 }: { 
@@ -18,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body id="app-root">{children}</body>
     </html>
   );
 }

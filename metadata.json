@@ -1,0 +1,7 @@
+{
+  "name": "Aura Flux",
+  "description": "A professional-grade music visualization application built with Next.js and Tailwind CSS.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
