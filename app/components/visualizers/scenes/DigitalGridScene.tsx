@@ -22,6 +22,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
+    if (!smoothedColors || smoothedColors.length < 3) return null;
   const [c0, c1, c2] = smoothedColors;
   
   const grid = useMemo(() => {

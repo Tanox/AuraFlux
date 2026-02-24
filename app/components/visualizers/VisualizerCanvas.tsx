@@ -16,6 +16,7 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const workerRef = useRef<Worker | null>(null);
   const animationFrameId = useRef<number>(0);
+  const canvasTransferredRef = useRef(false);
 
   // Use a ref to hold latest props to avoid re-triggering useEffect
   const propsRef = useRef({ mode, colors, settings });
@@ -40,9 +41,11 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
     workerRef.current = worker;
     
     // Setup offscreen canvas and initialize worker
-    const setup = () => {
+        const setup = () => {
+      if (canvasTransferredRef.current) return;
       try {
         const offscreen = canvas.transferControlToOffscreen();
+        canvasTransferredRef.current = true;
         const dpr = window.devicePixelRatio || 1;
         const initMessage: WorkerMessage = {
           type: 'INIT',

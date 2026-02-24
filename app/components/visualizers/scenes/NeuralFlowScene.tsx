@@ -15,6 +15,7 @@ interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: Visua
 export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
   const pointsRef = useRef<Points>(null);
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+    if (!smoothedColors || smoothedColors.length < 2) return null;
   const [c0, c1] = smoothedColors;
   
   const count = settings.quality === 'high' ? 12000 : settings.quality === 'med' ? 8000 : 4000;

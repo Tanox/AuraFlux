@@ -23,6 +23,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { bass, mids, treble, volume, isBeat } = features;
+    if (!smoothedColors || smoothedColors.length < 3) return null;
   const [c0, c1, c2] = smoothedColors;
   
   const count = settings.quality === 'high' ? 1200 : settings.quality === 'med' ? 800 : 400;

@@ -24,6 +24,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
+    if (!smoothedColors || smoothedColors.length < 3) return null;
   const [c0, , c2] = smoothedColors;
 
   const NUM_LINES = settings.quality === 'high' ? 64 : (settings.quality === 'med' ? 48 : 32);
