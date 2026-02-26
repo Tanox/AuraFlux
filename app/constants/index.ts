@@ -9,15 +9,7 @@ export const APP_VERSION = '1.9.72';
 export const GEMINI_MODEL = 'gemini-3-flash-preview';
 export const STORAGE_PREFIX = 'av_v1_';
 
-export const BLOOM_CONFIG: Partial<Record<VisualizerMode, number>> = {
-  [VisualizerMode.KINETIC_WALL]: 3.0,
-  [VisualizerMode.RESONANCE_ORB]: 3.0,
-  [VisualizerMode.CUBE_FIELD]: 2.4,
-  [VisualizerMode.NEURAL_FLOW]: 3.0,
-  [VisualizerMode.DIGITAL_GRID]: 3.6,
-  [VisualizerMode.SILK_WAVE]: 2.8,
-  [VisualizerMode.OCEAN_WAVE]: 4.0
-};
+
 
 export const getPositionOptions = (t: TranslationSchema) => [
   { value: 'tl', label: t.positions.tl }, { value: 'tc', label: t.positions.tc }, { value: 'tr', label: t.positions.tr },

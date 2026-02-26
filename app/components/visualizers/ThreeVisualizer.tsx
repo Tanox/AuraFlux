@@ -2,9 +2,7 @@
 import React, { Suspense, useMemo, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { Preload } from '@react-three/drei';
-import { EffectComposer, Bloom, Noise } from '@react-three/postprocessing';
 import { VisualizerMode, VisualizerSettings } from '../../types/index.ts';
-import { BLOOM_CONFIG } from '../../constants/index.ts';
 import { 
     KineticWallScene, 
     LiquidSphereScene, 
@@ -51,26 +49,7 @@ const SceneSwitcher: React.FC<ThreeVisualizerProps> = ({ mode, analyser, analyse
   }
 };
 
-const PostProcessing: React.FC<{ settings: VisualizerSettings; mode: VisualizerMode }> = ({ settings, mode }) => {
-    const bloomIntensity = useMemo(() => {
-        if (!mode) return 2.0;
-        return BLOOM_CONFIG[mode] || 2.0;
-    }, [mode]);
 
-    return (
-        <EffectComposer multisampling={0}>
-            <Bloom 
-                key="bloom"
-                luminanceThreshold={0.2} 
-                luminanceSmoothing={0.9} 
-                intensity={settings?.glow ? bloomIntensity : 0} 
-                mipmapBlur={true} 
-                radius={0.6}
-            />
-            <Noise key="noise" opacity={0.025} premultiply />
-        </EffectComposer>
-    );
-};
 
 const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, colors, settings, mode }) => {
   
@@ -136,7 +115,7 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
         <Suspense fallback={null}>
           <SceneSwitcher analyser={analyser} analyserR={analyserR} colors={safeColors} settings={settings} mode={mode} />
         </Suspense>
-        {settings && <PostProcessing settings={settings} mode={mode} />}
+
       </Canvas>
     </div>
   );

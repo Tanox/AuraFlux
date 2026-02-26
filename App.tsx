@@ -106,7 +106,11 @@ const MainContent: React.FC = () => {
       >
         <Suspense fallback={null}>
           {isThreeMode ? (
-            <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
+            analyser && settings ? (
+              <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
+            ) : (
+              <div className="w-full h-full bg-black" />
+            )
           ) : (
             <VisualizerCanvas analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
           )}
