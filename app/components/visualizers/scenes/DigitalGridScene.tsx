@@ -58,7 +58,12 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   }, [grid, lAttr, rAttr]);
 
   const data = useMemo(() => new Uint8Array(analyser.frequencyBinCount), [analyser]);
-  const tex = useMemo(() => { const t = new DataTexture(data, data.length, 1, RedFormat, UnsignedByteType); t.magFilter = LinearFilter; return t; }, [data.length]);
+  const tex = useMemo(() => { 
+    if (!data) return new DataTexture(new Uint8Array(1), 1, 1, RedFormat, UnsignedByteType);
+    const t = new DataTexture(data, data.length, 1, RedFormat, UnsignedByteType); 
+    t.magFilter = LinearFilter; 
+    return t; 
+  }, [data]);
   const uniforms = useMemo(() => ({ uAudioTexture: { value: tex }, uTime: { value: 0 }, uColor1: { value: new Color() }, uColor2: { value: new Color() }, uColor3: { value: new Color() }, uBeat: { value: 0.0 }, uSensitivity: { value: 1.0 } }), [tex]);
   
   const onCompile = useMemo(() => (s: Shader) => {
@@ -103,6 +108,8 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
     if(c1) uniforms.uColor1.value.copy(c1); if(c0) uniforms.uColor2.value.copy(c0); if(c2) uniforms.uColor3.value.copy(c2);
     state.camera.position.x += (Math.sin(uniforms.uTime.value*0.15)*3 - state.camera.position.x)*0.05; state.camera.lookAt(0,0,-50);
   });
+
+  if (!lAttr || !rAttr) return null;
 
   return (
     <>

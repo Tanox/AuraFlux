@@ -53,7 +53,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
     state.camera.position.x += (Math.sin(time*0.1)*5 - state.camera.position.x) * 0.05;
     state.camera.lookAt(centerX*0.1, centerY*0.1, -100);
     if (coreLightRef.current) { coreLightRef.current.position.set(centerX, centerY, -80); coreLightRef.current.color.set(c1); coreLightRef.current.intensity = 15+bass*35+(isBeat?50:0); }
-    if (meshRef.current) {
+    if (meshRef.current && dataArray) {
         const mat = meshRef.current.material as MeshStandardMaterial; mat.color.set(c0); mat.emissive.set(c1); mat.emissiveIntensity = 0.4 + treble*4.0 + (isBeat?3.5:0);
         const rotationBoost = 1.0 + mids*2.0 + treble*2.5;
         const binLimit = Math.floor(dataArray.length*0.6);

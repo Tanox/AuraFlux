@@ -35,7 +35,10 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const Z_SPACING = 3.2;
   
   const bins = (settings.fftSize || 512) / 2;
-  const historyData = useMemo(() => new Uint8Array(bins * NUM_LINES), [bins, NUM_LINES]);
+  const historyData = useMemo(() => {
+    if (!bins || !NUM_LINES || bins <= 0 || NUM_LINES <= 0) return new Uint8Array(0);
+    return new Uint8Array(bins * NUM_LINES);
+  }, [bins, NUM_LINES]);
   
   const audioTexture = useMemo(() => {
     const tex = new DataTexture(historyData, bins, NUM_LINES, RedFormat, UnsignedByteType);
@@ -77,7 +80,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const tempR = useMemo(() => new Uint8Array(bins), [bins]);
 
   useFrame((state) => {
-    if (historyData.length < bins) return;
+    if (!historyData || historyData.length < bins) return;
 
     frameCounterRef.current++;
     if (frameCounterRef.current >= 2) {
@@ -113,6 +116,8 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     state.camera.position.y = 22 + Math.cos(time * 0.08) * 4;
     state.camera.lookAt(0, -8, -70); 
   });
+
+  if (!historyData || historyData.length === 0) return null;
 
   return (
     <>{!settings.albumArtBackground && <color attach="background" args={['#000000']} />}

@@ -58,14 +58,17 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
     const quality = settings.quality;
     if (quality === 'low') return 0.8;
     if (quality === 'med') return 1.0;
-    return Math.min(window.devicePixelRatio, 1.5);
+    const deviceDpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+    return Math.max(0.5, Math.min(deviceDpr, 1.5));
   }, [settings?.quality]);
 
   const cameraConfig = useMemo(() => {
+      const base = { position: [0, 2, 16] as [number, number, number], fov: 55 };
       if (mode === VisualizerMode.OCEAN_WAVE) {
-          return { position: [0, 8, 15] as [number, number, number], fov: 60 };
+          base.position = [0, 8, 15];
+          base.fov = 60;
       }
-      return { position: [0, 2, 16] as [number, number, number], fov: 55 };
+      return base;
   }, [mode]);
 
   const glConfig = useMemo(() => ({ 
@@ -77,13 +80,15 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
   }), []);
 
   const bloomIntensity = useMemo(() => {
+      if (!mode) return 2.0;
       return BLOOM_CONFIG[mode] || 2.0;
   }, [mode]);
 
   const postProcessingEffects = useMemo(() => {
+      if (!settings) return null;
       const ditheringNoise = <Noise opacity={0.025} premultiply />;
 
-      if (!settings?.glow) return (
+      if (!settings.glow) return (
         <EffectComposer multisampling={0}>
             {ditheringNoise}
         </EffectComposer>
@@ -101,10 +106,15 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
               {ditheringNoise}
           </EffectComposer>
       );
-  }, [settings?.glow, bloomIntensity]);
+  }, [settings?.glow, bloomIntensity, settings]);
+
+  const safeColors = useMemo(() => {
+    if (Array.isArray(colors) && colors.length > 0) return colors;
+    return ['#ffffff', '#808080', '#000000'];
+  }, [colors]);
 
   // Comprehensive fallback
-  if (!analyser || !settings || !Array.isArray(colors) || colors.length === 0) {
+  if (!analyser || !settings) {
     return <div id="visualizer-three-wrapper" className="w-full h-full bg-black"></div>;
   }
   
@@ -115,18 +125,20 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
         camera={cameraConfig}
         dpr={dpr} 
         gl={glConfig}
-        onCreated={({ gl }) => {
-          gl.setClearColor('#000000', 1);
-          const handleContextLost = (event: Event) => { event.preventDefault(); };
-          gl.domElement.addEventListener('webglcontextlost', handleContextLost, false);
+        onCreated={(state) => {
+          const gl = state.gl;
+          if (gl) {
+            gl.setClearColor('#000000', 1);
+            const handleContextLost = (event: Event) => { event.preventDefault(); };
+            gl.domElement.addEventListener('webglcontextlost', handleContextLost, false);
+          }
         }}
       >
         <BackgroundController isTransparent={!!settings.albumArtBackground} />
         <Suspense fallback={null}>
-          <SceneSwitcher analyser={analyser} analyserR={analyserR} colors={colors} settings={settings} mode={mode} />
-          <Preload all />
+          <SceneSwitcher analyser={analyser} analyserR={analyserR} colors={safeColors} settings={settings} mode={mode} />
         </Suspense>
-        {postProcessingEffects}
+        {postProcessingEffects || null}
       </Canvas>
     </div>
   );

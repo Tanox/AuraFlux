@@ -66,13 +66,15 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
     pointsRef.current.rotation.y = accumulatedTimeRef.current * 0.1; 
   });
 
+  if (!positions || !randomness || positions.length === 0) return null;
+
   return (
     <>
       {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
       <points ref={pointsRef}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[positions, 3]} count={count} array={positions} itemSize={3} />
-          <bufferAttribute attach="attributes-aRandom" args={[randomness, 1]} count={count} array={randomness} itemSize={1} />
+          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+          <bufferAttribute attach="attributes-aRandom" args={[randomness, 1]} />
         </bufferGeometry>
         <shaderMaterial transparent depthWrite={false} blending={AdditiveBlending} uniforms={uniforms}
           vertexShader={`

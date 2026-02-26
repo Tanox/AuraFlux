@@ -119,7 +119,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       VisualizerMode.DIGITAL_GRID, VisualizerMode.SILK_WAVE,
       VisualizerMode.OCEAN_WAVE, VisualizerMode.NEURAL_FLOW,
       VisualizerMode.CUBE_FIELD, VisualizerMode.KINETIC_WALL,
-      VisualizerMode.RESONANCE_ORB
+      VisualizerMode.RESONANCE_ORB, VisualizerMode.VORTEX
     ].includes(visualsState.mode);
   }, [visualsState.mode]);
 
