@@ -22,12 +22,13 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
-    if (!smoothedColors || smoothedColors.length < 3) return null;
+    if (!smoothedColors || smoothedColors.length < 3) return <group />;
   const [c0, c1, c2] = smoothedColors;
   
   const grid = useMemo(() => {
       const isHigh = settings.quality !== 'low', radius = 45, colStep = (isHigh ? 2.4 : 3.6) + 0.25, vFov = (55 * Math.PI) / 180, dist = 66;
-      const targetH = 2 * Math.tan(vFov / 2) * dist * 1.15, targetW = targetH * (size.width/size.height) * 1.2;
+      const h = size.height || 1, w = size.width || 1;
+      const targetH = 2 * Math.tan(vFov / 2) * dist * 1.15, targetW = targetH * (w/h) * 1.2;
       let rows = Math.ceil(targetH / ((isHigh ? 0.6 : 0.9) + 0.12)), cols = Math.min(Math.ceil(targetW / colStep), Math.floor((Math.PI * 1.5 * radius) / colStep));
       if (rows % 2 === 0) rows++; if (cols % 2 === 0) cols++;
       return { RADIUS: radius, GAP_Y: 0.12, BRICK_W: isHigh ? 2.4 : 3.6, BRICK_H: isHigh ? 0.6 : 0.9, COLS: cols, ROWS: rows, COUNT: cols * rows, STEP: colStep / radius };
@@ -57,9 +58,9 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
     }
   }, [grid, lAttr, rAttr]);
 
-  const data = useMemo(() => new Uint8Array(analyser.frequencyBinCount), [analyser]);
+  const data = useMemo(() => new Uint8Array(Math.max(16, analyser.frequencyBinCount)), [analyser]);
   const tex = useMemo(() => { 
-    if (!data) return new DataTexture(new Uint8Array(1), 1, 1, RedFormat, UnsignedByteType);
+    if (!data || data.length === 0) return new DataTexture(new Uint8Array(1), 1, 1, RedFormat, UnsignedByteType);
     const t = new DataTexture(data, data.length, 1, RedFormat, UnsignedByteType); 
     t.magFilter = LinearFilter; 
     return t; 
@@ -109,7 +110,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
     state.camera.position.x += (Math.sin(uniforms.uTime.value*0.15)*3 - state.camera.position.x)*0.05; state.camera.lookAt(0,0,-50);
   });
 
-  if (!lAttr || !rAttr) return null;
+  if (!lAttr || !rAttr) return <group />;
 
   return (
     <>

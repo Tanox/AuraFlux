@@ -34,7 +34,8 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
    * 在并发模式下，useFrame 运行前组件可能已经尝试渲染并解构 smoothedColors。
    * 此逻辑在 Render Phase 执行，保证返回值永远可用。
    */
-  if (!Array.isArray(smoothedColorsRef.current) || smoothedColorsRef.current.length !== safeInputColors.length) {
+  const currentColors = smoothedColorsRef.current;
+  if (!currentColors || !Array.isArray(currentColors) || currentColors.length !== safeInputColors.length) {
       if (!Array.isArray(smoothedColorsRef.current)) smoothedColorsRef.current = [];
       const arr = smoothedColorsRef.current;
       if (safeInputColors.length > arr.length) {
@@ -47,7 +48,7 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: UseA
   }
 
   // 分析数组管理
-  const binCount = analyser?.frequencyBinCount || 512;
+  const binCount = Math.max(16, analyser?.frequencyBinCount || 512);
   const dataArray = useMemo(() => new Uint8Array(binCount), [binCount]);
   const dataArrayR = useMemo(() => new Uint8Array(binCount), [binCount]);
 

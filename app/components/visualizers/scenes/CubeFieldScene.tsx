@@ -23,12 +23,12 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { bass, mids, treble, volume, isBeat } = features;
-    if (!smoothedColors || smoothedColors.length < 3) return null;
+    if (!smoothedColors || smoothedColors.length < 3) return <group />;
   const [c0, c1, c2] = smoothedColors;
   
   const count = settings.quality === 'high' ? 1200 : settings.quality === 'med' ? 800 : 400;
   const dummy = useMemo(() => new Object3D(), []);
-  const dataArray = useMemo(() => new Uint8Array(analyser.frequencyBinCount), [analyser]);
+  const dataArray = useMemo(() => new Uint8Array(Math.max(16, analyser.frequencyBinCount)), [analyser]);
 
   const particles = useMemo(() => {
     const temp = [];

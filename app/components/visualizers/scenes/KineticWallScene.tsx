@@ -22,7 +22,7 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const meshRef = useRef<InstancedMesh>(null);
   
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
-    if (!smoothedColors || smoothedColors.length < 3) return null;
+    if (!smoothedColors || smoothedColors.length < 3) return <group />;
   const [c0, c1, c2] = smoothedColors;
   
   const COLS = 32;

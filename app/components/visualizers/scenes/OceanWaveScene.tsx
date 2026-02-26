@@ -24,7 +24,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
-    if (!smoothedColors || smoothedColors.length < 3) return null;
+    if (!smoothedColors || smoothedColors.length < 3) return <group />;
   const [c0, , c2] = smoothedColors;
 
   const NUM_LINES = settings.quality === 'high' ? 64 : (settings.quality === 'med' ? 48 : 32);
@@ -41,6 +41,9 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   }, [bins, NUM_LINES]);
   
   const audioTexture = useMemo(() => {
+    if (!historyData || historyData.length === 0 || bins <= 0 || NUM_LINES <= 0) {
+        return new DataTexture(new Uint8Array(1), 1, 1, RedFormat, UnsignedByteType);
+    }
     const tex = new DataTexture(historyData, bins, NUM_LINES, RedFormat, UnsignedByteType);
     tex.magFilter = LinearFilter;
     tex.minFilter = NearestFilter;
@@ -117,7 +120,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     state.camera.lookAt(0, -8, -70); 
   });
 
-  if (!historyData || historyData.length === 0) return null;
+  if (!historyData || historyData.length === 0) return <group />;
 
   return (
     <>{!settings.albumArtBackground && <color attach="background" args={['#000000']} />}

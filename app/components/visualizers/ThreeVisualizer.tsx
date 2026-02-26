@@ -29,12 +29,12 @@ const BackgroundController: React.FC<{ isTransparent: boolean }> = ({ isTranspar
     useEffect(() => {
         gl.setClearColor('#000000', isTransparent ? 0 : 1);
     }, [isTransparent, gl]);
-    return null;
+    return <group />;
 };
 
 const SceneSwitcher: React.FC<ThreeVisualizerProps> = ({ mode, analyser, analyserR, colors, settings }) => {
   // Robust safety guard for array properties
-  if (!analyser || !settings || !Array.isArray(colors) || colors.length === 0) return null;
+  if (!analyser || !settings || !Array.isArray(colors) || colors.length === 0) return <group />;
   
   const sceneProps = { analyser, analyserR, colors, settings };
 
@@ -49,6 +49,27 @@ const SceneSwitcher: React.FC<ThreeVisualizerProps> = ({ mode, analyser, analyse
       case VisualizerMode.VORTEX: return <VortexScene {...sceneProps} />;
       default: return <NeuralFlowScene {...sceneProps} />;
   }
+};
+
+const PostProcessing: React.FC<{ settings: VisualizerSettings; mode: VisualizerMode }> = ({ settings, mode }) => {
+    const bloomIntensity = useMemo(() => {
+        if (!mode) return 2.0;
+        return BLOOM_CONFIG[mode] || 2.0;
+    }, [mode]);
+
+    return (
+        <EffectComposer multisampling={0}>
+            <Bloom 
+                key="bloom"
+                luminanceThreshold={0.2} 
+                luminanceSmoothing={0.9} 
+                intensity={settings?.glow ? bloomIntensity : 0} 
+                mipmapBlur={true} 
+                radius={0.6}
+            />
+            <Noise key="noise" opacity={0.025} premultiply />
+        </EffectComposer>
+    );
 };
 
 const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, colors, settings, mode }) => {
@@ -79,39 +100,15 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
     powerPreference: "high-performance" as WebGLPowerPreference
   }), []);
 
-  const bloomIntensity = useMemo(() => {
-      if (!mode) return 2.0;
-      return BLOOM_CONFIG[mode] || 2.0;
-  }, [mode]);
-
-  const postProcessingEffects = useMemo(() => {
-      if (!settings) return null;
-      const ditheringNoise = <Noise opacity={0.025} premultiply />;
-
-      if (!settings.glow) return (
-        <EffectComposer multisampling={0}>
-            {ditheringNoise}
-        </EffectComposer>
-      );
-
-      return (
-          <EffectComposer multisampling={0}>
-              <Bloom 
-                  luminanceThreshold={0.2} 
-                  luminanceSmoothing={0.9} 
-                  intensity={bloomIntensity} 
-                  mipmapBlur={true} 
-                  radius={0.6}
-              />
-              {ditheringNoise}
-          </EffectComposer>
-      );
-  }, [settings?.glow, bloomIntensity, settings]);
-
   const safeColors = useMemo(() => {
     if (Array.isArray(colors) && colors.length > 0) return colors;
     return ['#ffffff', '#808080', '#000000'];
   }, [colors]);
+
+  const visualKey = useMemo(() => {
+    if (!settings) return mode;
+    return `${mode}-${settings.quality}-${settings.glow}`;
+  }, [mode, settings?.quality, settings?.glow]);
 
   // Comprehensive fallback
   if (!analyser || !settings) {
@@ -121,6 +118,7 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
   return (
     <div id="visualizer-three-wrapper" className="w-full h-full">
       <Canvas 
+        key={visualKey}
         shadows={false}
         camera={cameraConfig}
         dpr={dpr} 
@@ -138,7 +136,7 @@ const ThreeVisualizer: React.FC<ThreeVisualizerProps> = ({ analyser, analyserR, 
         <Suspense fallback={null}>
           <SceneSwitcher analyser={analyser} analyserR={analyserR} colors={safeColors} settings={settings} mode={mode} />
         </Suspense>
-        {postProcessingEffects || null}
+        {settings && <PostProcessing settings={settings} mode={mode} />}
       </Canvas>
     </div>
   );

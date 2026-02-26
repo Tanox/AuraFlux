@@ -21,7 +21,7 @@ interface SceneProps {
 export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
-    if (!smoothedColors || smoothedColors.length < 3) return null;
+    if (!smoothedColors || smoothedColors.length < 3) return <group />;
   const [c0, c1, c2] = smoothedColors;
 
   const SEGMENTS_X = settings.quality === 'high' ? 512 : (settings.quality === 'med' ? 320 : 160);

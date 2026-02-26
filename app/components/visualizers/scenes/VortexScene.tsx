@@ -15,7 +15,7 @@ interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: Visua
 export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
   const pointsRef = useRef<Points>(null);
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
-    if (!smoothedColors || smoothedColors.length < 2) return null;
+    if (!smoothedColors || smoothedColors.length < 2) return <group />;
   const [c0, c1] = smoothedColors;
   
   const count = settings.quality === 'high' ? 15000 : settings.quality === 'med' ? 10000 : 5000;
@@ -66,7 +66,7 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
     pointsRef.current.rotation.y = accumulatedTimeRef.current * 0.1; 
   });
 
-  if (!positions || !randomness || positions.length === 0) return null;
+  if (!positions || !randomness || positions.length === 0) return <group />;
 
   return (
     <>

@@ -28,7 +28,7 @@ export const LiquidSphereScene: React.FC<SceneProps> = ({ analyser, colors, sett
   const starsRef = useRef<any>(null);
 
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
-    if (!smoothedColors || smoothedColors.length < 3) return null;
+    if (!smoothedColors || smoothedColors.length < 3) return <group />;
   const [c0, c1, c2] = smoothedColors;
 
   const geometry = useMemo(() => {
