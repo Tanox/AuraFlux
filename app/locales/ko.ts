@@ -30,7 +30,7 @@ export const ko = {
     advanced: "고급",
     active: "곡",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "공감각 인공지능 엔진",
   startExperience: "시스템 초기화",

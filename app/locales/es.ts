@@ -30,7 +30,7 @@ export const es = {
     advanced: "Avanzado",
     active: "Pistas",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",

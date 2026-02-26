@@ -1,4 +1,4 @@
-// File: app/locales/ar.ts | Version: v1.9.73
+// File: app/locales/ar.ts | Version: v1.9.74
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ar = {
     advanced: "متقدم",
     active: "مقطوعة",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "محرك الذكاء الحسي",
   startExperience: "بدء النظام",
@@ -178,7 +178,7 @@ export const ar = {
     [VisualizerMode.PARTICLES]: "حقل النجوم",
     [VisualizerMode.TUNNEL]: "نفق الالتواء",
     [VisualizerMode.RINGS]: "حلقات الرنين",
-    [VisualizerMode.LASERS]: "أشعة الليزر",
+    [VisualizerMode.LASERS]: "أشعة ليزر",
     [VisualizerMode.FLUID_CURVES]: "منحنيات مائعة",
     [VisualizerMode.WAVEFORM]: "شرائط طيفية",
     [VisualizerMode.NEBULA]: "سديم كوني",

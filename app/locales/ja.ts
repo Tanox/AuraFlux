@@ -30,7 +30,7 @@ export const ja = {
     advanced: "詳細設定",
     active: "曲",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "共感覚インテリジェンス・エンジン",
   startExperience: "システムを初期化",

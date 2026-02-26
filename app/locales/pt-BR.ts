@@ -30,7 +30,7 @@ export const ptBR = {
     advanced: "Avançado",
     active: "Faixas",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligência Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",

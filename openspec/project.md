@@ -2,27 +2,29 @@
 
 ## 项目概述
 **项目名称**: Music Visualizer Next
-**版本**: v1.0.1
-**描述**: 一个基于 Next.js 16 和 Tailwind CSS v4 构建的音乐可视化应用基础框架。
+**版本**: v1.9.74
+**描述**: 一个基于 React 和 Three.js 构建的高级 AI 音乐可视化应用。
 
 ## 技术栈
-- **框架**: Next.js 16.1.6 (App Router)
-- **UI 样式**: Tailwind CSS v4.0.0-alpha.13
-- **动画**: Motion (Framer Motion)
-- **图标**: Lucide React
+- **框架**: Vite + React 19
+- **UI 样式**: Tailwind CSS v3.4
+- **3D 渲染**: Three.js + React Three Fiber
+- **AI 集成**: Google Gemini API
 - **语言**: TypeScript
 
 ## 核心功能
-1. **基础架构**: 搭建了 Next.js App Router 的基础结构 (`layout.tsx`, `page.tsx`)。
-2. **样式系统**: 配置了全局 Tailwind CSS 样式 (`globals.css`)，支持深色模式 (Dark Mode) 变量。
-3. **国际化 (i18n)**: 提供了多语言基础支持，包含 11 种语言的 JSON 配置文件 (`en`, `zh-CN`, `zh-TW`, `es`, `ar`, `fr`, `pt-BR`, `de`, `ja`, `ko`, `ru`)。
+1. **基础架构**: 搭建了 React + Vite 的基础结构。
+2. **样式系统**: 配置了全局 Tailwind CSS 样式。
+3. **国际化 (i18n)**: 提供了多语言支持，包含 12 种语言 (`en`, `zh`, `zh-TW`, `es`, `ar`, `fr`, `pt`, `pt-BR`, `de`, `ja`, `ko`, `ru`)。
 4. **鲁棒性 (Robustness)**: 
-   - 实现了全局错误边界 (`error.tsx`) 捕获运行时异常。
-   - 实现了全局 404 页面 (`not-found.tsx`) 处理未匹配路由。
+   - 实现了全局错误边界 (`ErrorBoundary`) 捕获运行时异常。
+   - 实现了版本更新检测 (`useVersionCheck`)，提示用户刷新以获取最新功能。
+5. **可视化**: 提供多种 2D 和 3D 音乐可视化模式。
+6. **AI 分析**: 集成 Gemini API 进行歌曲识别和情绪分析。
 
 ## 目录结构
-- `src/app/`: Next.js 核心路由目录。
-- `src/locales/`: 国际化语言文件目录。
+- `src/`: 源代码目录。
+- `app/locales/`: 国际化语言文件目录。
 - `openspec/`: 项目规范文档目录。
 
 ## 开发规范

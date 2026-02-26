@@ -30,7 +30,7 @@ export const ru = {
     advanced: "Продвинутый",
     active: "Треки",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Движок синестетического интеллекта",
   startExperience: "ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ",

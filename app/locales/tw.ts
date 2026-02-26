@@ -30,7 +30,7 @@ export const tw = {
     advanced: "進階",
     active: "首曲目",
   },
-  appVersion: "v1.9.73",
+  appVersion: "v1.9.74",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "啟動系統",
