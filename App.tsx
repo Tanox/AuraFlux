@@ -11,6 +11,7 @@ import CustomTextOverlay from './app/components/visualizers/ui/CustomTextOverlay
 import { FPSCounter } from './app/components/visualizers/ui/FPSCounter.tsx';
 import { useIdleTimer } from './app/hooks/useIdleTimer.ts';
 import { useMobileGestures } from './app/hooks/useMobileGestures.ts';
+import { useVersionCheck } from './app/hooks/useVersionCheck.ts';
 import type { ControlsProps } from './app/components/controls/Controls.tsx';
 
 const VisualizerCanvas = lazy(() => import('./app/components/visualizers/VisualizerCanvas.tsx'));
@@ -29,7 +30,7 @@ const MainContent: React.FC = () => {
       hasStarted, language, setLanguage, manageWakeLock, 
       showHelpModal, setShowHelpModal, helpModalInitialTab, 
       isDragging, setIsDragging, t, 
-      toggleFullscreen
+      toggleFullscreen, showToast
   } = ui;
   
   const { mode, colorTheme, settings, setSettings, isThreeMode } = visuals;
@@ -41,6 +42,11 @@ const MainContent: React.FC = () => {
 
   const { isIdle } = useIdleTimer(isExpanded, settings?.autoHideUi);
   const gestures = useMobileGestures();
+
+  // Version check logic
+  useVersionCheck('1.9.74', (newVersion) => {
+    showToast(`${t.common.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
+  });
 
   useEffect(() => {
     if (settings?.wakeLock) manageWakeLock(true);
