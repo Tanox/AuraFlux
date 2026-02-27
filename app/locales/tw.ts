@@ -1,4 +1,4 @@
-// File: app/locales/tw.ts | Version: v1.9.73
+// File: app/locales/tw.ts | Version: v1.9.75
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const tw = {
     advanced: "進階",
     active: "首曲目",
   },
-  appVersion: "v1.9.74",
+  appVersion: "v1.9.75",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "啟動系統",

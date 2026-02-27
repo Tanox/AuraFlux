@@ -1,4 +1,4 @@
-// File: app/locales/ko.ts | Version: v1.9.73
+// File: app/locales/ko.ts | Version: v1.9.75
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ko = {
     advanced: "고급",
     active: "곡",
   },
-  appVersion: "v1.9.74",
+  appVersion: "v1.9.75",
   appTitle: "Aura Flux",
   welcomeSubtitle: "공감각 인공지능 엔진",
   startExperience: "시스템 초기화",

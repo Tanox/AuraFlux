@@ -1,4 +1,4 @@
-// File: app/locales/pt-BR.ts | Version: v1.9.73
+// File: app/locales/pt-BR.ts | Version: v1.9.75
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const ptBR = {
     advanced: "Avançado",
     active: "Faixas",
   },
-  appVersion: "v1.9.74",
+  appVersion: "v1.9.75",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligência Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",

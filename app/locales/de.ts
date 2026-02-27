@@ -1,4 +1,4 @@
-// File: app/locales/de.ts | Version: v1.9.73
+// File: app/locales/de.ts | Version: v1.9.75
 import { LyricsStyle, VisualizerMode } from '../types/index.js';
 import { COLOR_THEMES } from '../constants/index.js';
 
@@ -30,7 +30,7 @@ export const de = {
     advanced: "Erweitert",
     active: "Titel",
   },
-  appVersion: "v1.9.74",
+  appVersion: "v1.9.75",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Synästhetische Intelligenz-Engine",
   startExperience: "SYSTEM INITIALISIEREN",

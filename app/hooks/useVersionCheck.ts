@@ -1,4 +1,4 @@
-// File: app/hooks/useVersionCheck.ts | Version: v1.9.74
+// File: app/hooks/useVersionCheck.ts | Version: v1.9.75
 import { useEffect, useRef } from 'react';
 
 interface VersionData {

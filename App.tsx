@@ -1,4 +1,4 @@
-// File: App.tsx | Version: v1.9.74
+// File: App.tsx | Version: v1.9.75
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from './app/AppContext.tsx';
 import { WelcomeScreen } from './app/components/visualizers/ui/WelcomeScreen.tsx';
@@ -44,7 +44,7 @@ const MainContent: React.FC = () => {
   const gestures = useMobileGestures();
 
   // Version check logic
-  useVersionCheck('1.9.74', (newVersion) => {
+  useVersionCheck('1.9.75', (newVersion) => {
     showToast(`${t.common.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
   });
 
