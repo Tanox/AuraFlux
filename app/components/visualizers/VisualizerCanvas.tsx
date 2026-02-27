@@ -34,8 +34,8 @@ const VisualizerCanvas: React.FC<VisualizerCanvasProps> = ({
         workerRef.current.terminate();
     }
     
-    // Create a new worker instance with a version query to bust cache
-    const worker = new Worker(new URL('../../workers/visualizer.worker.ts?v=1.9.72', import.meta.url), {
+    // Create a new worker instance
+    const worker = new Worker(new URL('../../workers/visualizer.worker.ts', import.meta.url), {
       type: 'module'
     });
     workerRef.current = worker;
