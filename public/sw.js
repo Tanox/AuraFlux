@@ -1,12 +1,10 @@
 // File: public/sw.js | Version: v1.9.73 | Author: Sut
 const CACHE_NAME = 'aura-flux-v1.9.73';
 const STATIC_ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  './favicon.svg',
-  './pwa-icon.svg',
-  './index.tsx'
+  '/',
+  '/manifest.json',
+  '/favicon.svg',
+  '/pwa-icon.svg'
 ];
 
 // Install: Cache critical assets

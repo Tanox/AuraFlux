@@ -1,7 +1,7 @@
 {
   "name": "Aura Flux | AI Music Visualizer",
   "short_name": "Aura Flux",
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
@@ -23,7 +23,7 @@
   "shortcuts": [
     {
       "name": "Start Visualizer",
-      "url": "./index.html",
+      "url": "/",
       "icons": [{ "src": "./favicon.svg", "sizes": "96x96", "type": "image/svg+xml" }]
     }
   ],
