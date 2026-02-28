@@ -46,7 +46,7 @@ export const InputSettings: React.FC = () => {
             <div className="space-y-4">
                 <CustomSelect label={t?.audioPanel?.mic} value={selectedDeviceId} options={deviceOptions} onChange={onDeviceChange} />
                 
-                {sourceType === 'FILE' && (
+                {sourceType === 'file' && (
                     <div className="px-4 py-2.5 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-between animate-fade-in-up">
                         <div className="flex flex-col min-w-0">
                             <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest">{t?.audioPanel?.fileActive || "ACTIVE STREAM"}</span>

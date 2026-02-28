@@ -14,6 +14,7 @@ import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
 import { getAverage } from '../../../services/audioUtils.ts';
+import { AudioSourceType } from '../../../types/index.ts';
 
 const formatSize = (b: number) => b === 0 ? '0 MB' : `${(b / (1024 * 1024)).toFixed(1)} MB`;
 const formatDur = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
@@ -99,7 +100,12 @@ export const StudioPanel: React.FC = () => {
 
   const triggerRecording = () => {
     setIsArmed(false);
-    const doStart = () => startRecording({ resolution, aspectRatio, fps, bitrate, mimeType, recGain, fadeDuration: 0 });
+    const doStart = () => {
+      const canvas = document.querySelector('canvas');
+      if (canvas) {
+        startRecording(canvas);
+      }
+    };
     if (enableCountdown) {
       let count = 3; setCountdownVal(count);
       const timer = setInterval(() => { count--; if (count > 0) setCountdownVal(count); else { clearInterval(timer); setCountdownVal(0); doStart(); } }, 1000);
@@ -107,8 +113,8 @@ export const StudioPanel: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isArmed && sourceType === 'FILE' && isPlaying) triggerRecording();
-    if (isArmed && sourceType === 'MICROPHONE' && !armCheckInterval.current && analyser) {
+    if (isArmed && sourceType === 'file' && isPlaying) triggerRecording();
+    if (isArmed && sourceType === 'microphone' && !armCheckInterval.current && analyser) {
       armCheckInterval.current = window.setInterval(() => {
         const data = new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(data);
@@ -185,7 +191,10 @@ export const StudioPanel: React.FC = () => {
             </div>
             <div className="pt-4 border-t border-black/5 dark:border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <CustomSelect label={labels.codec} value={mimeType} onChange={(v) => setMimeType(v as string)} options={supportedTypes.map(t => ({ value: t, label: getFormatLabel(t) }))} />
-              <SegmentedControl label={labels.bitrate} value={bitrate} onChange={(v) => setBitrate(Number(v))} options={[{ value: 4e6, label: "4M" }, { value: 8e6, label: "8M" }, { value: 12e6, label: "12M" }, { value: 24e6, label: "24M" }]} />
+              <div className="flex flex-col gap-2">
+                <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{labels.bitrate}</label>
+                <SegmentedControl value={bitrate.toString()} onChange={(v) => setBitrate(Number(v))} options={[{ id: "4000000", label: "4M" }, { id: "8000000", label: "8M" }, { id: "12000000", label: "12M" }, { id: "24000000", label: "24M" }]} />
+              </div>
             </div>
           </div>
         </BentoCard>

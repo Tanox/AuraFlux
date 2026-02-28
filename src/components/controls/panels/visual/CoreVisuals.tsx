@@ -80,12 +80,14 @@ export const CoreVisuals: React.FC = () => {
                 {isAdvanced && (
                     <>
                         <Slider label={t?.smoothing} value={settings.smoothing} min={0} max={0.95} step={0.01} onChange={(v)=>handleVisualSettingChange('smoothing', v)} />
-                        <SegmentedControl 
-                            label={t?.visualPanel?.display}
-                            value={settings.quality}
-                            options={[{value:'low', label: q.low}, {value:'med', label: q.med}, {value:'high', label: q.high}]}
-                            onChange={(val)=>handleVisualSettingChange('quality', val)}
-                        />
+                        <div className="space-y-2">
+                            <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.visualPanel?.display}</span>
+                            <SegmentedControl 
+                                value={settings.quality}
+                                options={[{id:'low', label: q.low}, {id:'med', label: q.med}, {id:'high', label: q.high}]}
+                                onChange={(val)=>handleVisualSettingChange('quality', val)}
+                            />
+                        </div>
                     </>
                 )}
             </div>
@@ -99,7 +101,7 @@ export const CoreVisuals: React.FC = () => {
                 {!settings.cycleColors ? (
                     <div className="grid grid-cols-6 sm:grid-cols-9 gap-2 animate-fade-in-up">
                         {COLOR_THEMES.map((theme, idx) => (
-                            <button key={idx} onClick={() => setColorTheme(theme)} title={localizedThemes[idx] || localizedThemes[idx]} className={`w-full aspect-square rounded-lg transition-all duration-300 relative overflow-hidden ${JSON.stringify(colorTheme) === JSON.stringify(theme) ? 'ring-2 ring-blue-500 scale-105 shadow-lg' : 'opacity-60 hover:opacity-100 hover:scale-105'}`} style={{ background: `linear-gradient(135deg, ${theme[0]}, ${theme[1]})` }} />
+                            <button key={idx} onClick={() => setColorTheme(theme.colors)} title={localizedThemes[idx] || localizedThemes[idx]} className={`w-full aspect-square rounded-lg transition-all duration-300 relative overflow-hidden ${JSON.stringify(colorTheme) === JSON.stringify(theme.colors) ? 'ring-2 ring-blue-500 scale-105 shadow-lg' : 'opacity-60 hover:opacity-100 hover:scale-105'}`} style={{ background: `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})` }} />
                         ))}
                     </div>
                 ) : (

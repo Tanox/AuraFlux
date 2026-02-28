@@ -24,7 +24,7 @@ export const ModeSelector: React.FC = () => {
       const current = settings.includedModes || Object.values(VisualizerMode);
       if (current.includes(m)) {
           if (current.length > 1) {
-              handleVisualSettingChange('includedModes', current.filter(x => x !== m));
+              handleVisualSettingChange('includedModes', current.filter((x: VisualizerMode) => x !== m));
           }
       } else {
           handleVisualSettingChange('includedModes', [...current, m]);
@@ -35,9 +35,9 @@ export const ModeSelector: React.FC = () => {
       const all = Object.values(VisualizerMode);
       const current = settings.includedModes || [];
       if (current.length === all.length) {
-          handleVisualSettingChange('includedModes', [currentMode]);
+          setSettings(prev => ({ ...prev, includedModes: [currentMode] }));
       } else {
-          handleVisualSettingChange('includedModes', all);
+          setSettings(prev => ({ ...prev, includedModes: all }));
       }
   }, [settings.includedModes, currentMode, setSettings]);
 

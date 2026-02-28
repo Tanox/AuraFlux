@@ -38,7 +38,7 @@ const MainContent: React.FC = () => {
   // Version check logic
   useVersionCheck('1.9.75', (newVersion) => {
     if (ui) {
-      ui.showToast(`${ui.t.common.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
+      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
     }
   });
 

@@ -133,7 +133,7 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
         .replace(/\r/g, '\n')
         .trim();
       
-      const allLines = text.split('\n').filter(l => l.trim() !== '');
+      const allLines = text.split('\n').filter((l: string) => l.trim() !== '');
       const lines = hasFullLyrics ? allLines.slice(0, 10) : allLines.slice(0, 4);
       
       let textClass = "";

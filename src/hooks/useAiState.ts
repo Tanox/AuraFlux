@@ -1,0 +1,56 @@
+// File: src/hooks/useAiState.ts | Version: v1.9.76
+import { useState, useCallback } from 'react';
+import { LyricsStyle, SongInfo } from '../types';
+
+interface UseAiStateProps {
+  language: string;
+  region: string;
+  provider: string;
+  isListening: boolean;
+  isSimulating: boolean;
+  mediaStream: MediaStream | null;
+  initialSettings: any;
+  setSettings: any;
+  onSongIdentified: (s: SongInfo | null) => void;
+  currentSong: SongInfo | null;
+  getAudioSlice: (s?: number) => Promise<Blob | null>;
+  t: any;
+  showToast: (m: string, type?: any) => void;
+}
+
+export const useAiState = ({ language, region, provider, isListening, isSimulating, mediaStream, initialSettings, setSettings, onSongIdentified, currentSong, getAudioSlice, t, showToast }: UseAiStateProps) => {
+  const [lyricsStyle, setLyricsStyle] = useState<LyricsStyle>(LyricsStyle.MODERN);
+  const [showLyrics, setShowLyrics] = useState(false);
+  const [enableAnalysis, setEnableAnalysis] = useState(true);
+  const [isIdentifying, setIsIdentifying] = useState(false);
+
+  const performIdentification = useCallback(async (stream: MediaStream) => {
+    if (isIdentifying) return;
+    setIsIdentifying(true);
+    showToast(t?.ai?.identifying || 'Identifying song...');
+    
+    try {
+      // Mock identification for now
+      setTimeout(() => {
+        setIsIdentifying(false);
+        showToast(t?.ai?.identified || 'Song identified!');
+      }, 2000);
+    } catch (err) {
+      setIsIdentifying(false);
+      showToast('Identification failed', 'error');
+    }
+  }, [isIdentifying, showToast, t]);
+
+  const resetAiSettings = useCallback(() => {
+    setShowLyrics(false);
+    setEnableAnalysis(true);
+  }, []);
+
+  return {
+    lyricsStyle, showLyrics, setShowLyrics,
+    enableAnalysis, setEnableAnalysis,
+    isIdentifying,
+    performIdentification,
+    resetAiSettings
+  };
+};

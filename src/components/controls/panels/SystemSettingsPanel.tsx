@@ -10,10 +10,10 @@ import { useLocalStorage } from '../../../hooks/useLocalStorage.ts';
 import { APP_VERSION } from '../../../constants/index.ts';
 
 const LANGUAGES: { value: Language; label: string }[] = [
-  { value: 'en', label: 'English' }, { value: 'zh', label: '简体中文' }, { value: 'tw', label: '繁體中文' },
+  { value: 'en', label: 'English' }, { value: 'zh', label: '简体中文' }, { value: 'zh-TW', label: '繁體中文' },
   { value: 'ja', label: '日本語' }, { value: 'es', label: 'Español' }, { value: 'ko', label: '한국어' },
   { value: 'de', label: 'Deutsch' }, { value: 'fr', label: 'Français' }, { value: 'ru', label: 'Русский' },
-  { value: 'ar', label: 'العربية' }, { value: 'pt', label: 'Português' }
+  { value: 'ar', label: 'العربية' }, { value: 'pt', label: 'Português' }, { value: 'pt-BR', label: 'Português (Brasil)' }
 ];
 
 interface SavedPreset { id: number; name: string; data: VisualizerSettings; timestamp: number; }
@@ -99,8 +99,14 @@ export const SystemSettingsPanel: React.FC = () => {
             <div className="space-y-4">
                 <CustomSelect label={t?.language} value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as Language)} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-black/5 dark:border-white/5">
-                    <SegmentedControl label={t?.styleTheme || "Global Theme"} value={settings.appTheme} options={[{ value: 'dark', label: t?.systemPanel?.darkMode || 'Dark' }, { value: 'light', label: t?.systemPanel?.lightMode || 'Light' }]} onChange={(v) => setSettings({...settings, appTheme: v as any})} />
-                    <SegmentedControl label={t?.systemPanel?.uiMode} value={settings.uiMode} options={[{ value: 'simple', label: t?.common?.simple }, { value: 'advanced', label: t?.common?.advanced }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.styleTheme || "Global Theme"}</label>
+                      <SegmentedControl value={settings.appTheme} options={[{ id: 'dark', label: t?.systemPanel?.darkMode || 'Dark' }, { id: 'light', label: t?.systemPanel?.lightMode || 'Light' }]} onChange={(v) => setSettings({...settings, appTheme: v as any})} />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.systemPanel?.uiMode}</label>
+                      <SegmentedControl value={settings.uiMode} options={[{ id: 'simple', label: t?.common?.simple }, { id: 'advanced', label: t?.common?.advanced }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
+                    </div>
                 </div>
             </div>
         </BentoCard>

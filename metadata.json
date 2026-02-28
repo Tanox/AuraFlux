@@ -3,6 +3,7 @@
   "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 1.9.75 introduces the new Gravitational Vortex visualizer and cleans up legacy assets.",
   "requestFramePermissions": [
     "camera",
-    "microphone"
+    "microphone",
+    "screen-wake-lock"
   ]
 }

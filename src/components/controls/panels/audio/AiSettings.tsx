@@ -10,7 +10,7 @@ import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.
 import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect.tsx';
 import { useVisuals, useAudioContext, useUI, useAI } from '@/src/context/AppContext';
 import { generateVisualConfigFromAudio } from '../../../../services/aiService.ts';
-import { VisualizerMode, AIProvider, Region } from '../../../../types/index.ts';
+import { VisualizerMode, Region } from '../../../../types/index.ts';
 
 export const AiSettings: React.FC = () => {
   const { settings, setSettings, setMode, setColorTheme } = useVisuals();
@@ -23,19 +23,17 @@ export const AiSettings: React.FC = () => {
   const isAdvanced = settings.uiMode === 'advanced';
   const currentProvider = settings.recognitionProvider || 'GEMINI';
 
-  // @fix: Removed all state and logic related to user-managed API keys.
-
   const handleAiDirector = async () => {
       if (fileStatus !== 'ready') return;
-      if (!process.env.API_KEY) { showToast(t?.toasts?.aiDirectorReq || 'Key required', 'error'); return; }
+      if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) { showToast(t?.toasts?.aiDirectorReq || 'Key required', 'error'); return; }
       setIsAnalyzing(true);
       try {
           const wavBlob = await getAudioSlice(15);
           if (!wavBlob) throw new Error("Failed");
-          const reader = new FileReader(); reader.readAsDataURL(wavBlob);
+          const reader = new FileReader();
+          reader.readAsDataURL(wavBlob);
           reader.onloadend = async () => {
               const base64Audio = (reader.result as string).split(',')[1];
-              // @fix: Service now uses process.env.API_KEY internally.
               const config = await generateVisualConfigFromAudio(base64Audio);
               if (config) {
                   if (config.mode && Object.values(VisualizerMode).includes(config.mode as VisualizerMode)) setMode(config.mode as VisualizerMode);
@@ -73,12 +71,11 @@ export const AiSettings: React.FC = () => {
                               label={t?.recognitionSource || "AI Protocol"} 
                               value={currentProvider} 
                               options={Object.keys(t?.aiProviders || {}).map(p => ({ value: p, label: t?.aiProviders?.[p as keyof typeof t.aiProviders] }))} 
-                              onChange={(v) => setSettings(prev => ({ ...prev, recognitionProvider: v as AIProvider }))}
+                              onChange={(v) => setSettings(prev => ({ ...prev, recognitionProvider: v as any }))}
                           />
-                          {/* @fix: API key input and validation UI removed in accordance with security and coding standards. */}
                       </div>
 
-                      {sourceType === 'FILE' && fileStatus === 'ready' && (
+                      {sourceType === 'file' && fileStatus === 'ready' && (
                         <div className="pt-4 border-t border-black/5 dark:border-white/5 animate-fade-in-up">
                             <button 
                                 onClick={handleAiDirector} 

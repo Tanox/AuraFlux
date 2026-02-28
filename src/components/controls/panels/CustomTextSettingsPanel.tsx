@@ -19,7 +19,7 @@ export const CustomTextSettingsPanel: React.FC = () => {
   const { t } = useUI();
   
   const positionOptions = useMemo(() => getPositionOptions(t), [t]);
-  const localizedFonts = useMemo(() => getFontOptions(t), [t]);
+  const localizedFonts = useMemo(() => getFontOptions(), []);
 
   const colorPresets = ['#ffffff', '#64748b', '#f87171', '#facc15', '#22c55e', '#00e5ff', '#3b82f6', '#8b5cf6', '#ff007f'];
 
