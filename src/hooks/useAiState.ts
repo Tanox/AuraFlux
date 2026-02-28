@@ -19,7 +19,7 @@ interface UseAiStateProps {
 }
 
 export const useAiState = ({ language, region, provider, isListening, isSimulating, mediaStream, initialSettings, setSettings, onSongIdentified, currentSong, getAudioSlice, t, showToast }: UseAiStateProps) => {
-  const [lyricsStyle, setLyricsStyle] = useState<LyricsStyle>(LyricsStyle.MODERN);
+  const [lyricsStyle, setLyricsStyle] = useState<LyricsStyle>(LyricsStyle.STANDARD);
   const [showLyrics, setShowLyrics] = useState(false);
   const [enableAnalysis, setEnableAnalysis] = useState(true);
   const [isIdentifying, setIsIdentifying] = useState(false);

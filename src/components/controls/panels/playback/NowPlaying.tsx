@@ -4,6 +4,7 @@
  * Author: Sut
  */
 
+import Image from 'next/image';
 import React from 'react';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
@@ -25,14 +26,26 @@ export const NowPlaying: React.FC = () => {
                 <div className="group/player relative flex flex-col gap-5 p-5 bg-black/[0.04] dark:bg-white/[0.04] rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden transition-all hover:border-black/10 dark:hover:border-white/10 shadow-xl">
                     {currentSong?.albumArtUrl && (
                         <div className="absolute inset-0 pointer-events-none opacity-20 blur-3xl scale-125 transition-opacity duration-1000">
-                            <img src={currentSong.albumArtUrl} className="w-full h-full object-cover" alt="" />
+                            <Image 
+                              src={currentSong.albumArtUrl} 
+                              fill 
+                              className="object-cover" 
+                              alt="" 
+                              referrerPolicy="no-referrer"
+                            />
                         </div>
                     )}
                     
                     <div className="flex items-center gap-4 relative z-10">
-                        <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 bg-black/40 shadow-lg transform transition-all group-hover/player:scale-105 duration-500">
+                        <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 bg-black/40 shadow-lg transform transition-all group-hover/player:scale-105 duration-500 relative">
                             {currentSong?.albumArtUrl ? (
-                                <img src={currentSong.albumArtUrl} className="w-full h-full object-cover" alt="Album Art" />
+                                <Image 
+                                  src={currentSong.albumArtUrl} 
+                                  fill 
+                                  className="object-cover" 
+                                  alt="Album Art" 
+                                  referrerPolicy="no-referrer"
+                                />
                             ) : (
                                 <div className="w-full h-full flex items-center justify-center text-black/5 dark:text-white/5">
                                     <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" /></svg>

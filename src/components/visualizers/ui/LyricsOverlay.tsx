@@ -8,7 +8,9 @@ import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { VisualizerSettings, SongInfo, LyricsStyle } from '../../../types/index.ts';
 import { useAudioPulse } from '../../../hooks/useAudioPulse';
 import { useAudioContext, useUI, useAI } from '@/src/context/AppContext';
-import { TRANSLATIONS } from '../../../locales';
+import { parseLrc, LrcLine } from '../../../utils/lyricsUtils';
+import { SyncedLyrics } from './lyrics/SyncedLyrics';
+import { StaticLyrics } from './lyrics/StaticLyrics';
 
 interface LyricsOverlayProps {
   settings: VisualizerSettings;
@@ -17,31 +19,6 @@ interface LyricsOverlayProps {
   lyricsStyle: LyricsStyle;
   analyser: AnalyserNode | null;
 }
-
-interface LrcLine {
-    time: number;
-    text: string;
-}
-
-const parseLrc = (lrc: string): LrcLine[] => {
-    const lines = lrc.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
-    const result: LrcLine[] = [];
-    const timeRegex = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?\]/;
-
-    for (const line of lines) {
-        const match = timeRegex.exec(line);
-        if (match) {
-            const min = parseInt(match[1]);
-            const sec = parseInt(match[2]);
-            const msStr = match[3] || '0';
-            const ms = parseInt(msStr.padEnd(3, '0').slice(0,3));
-            const time = min * 60 + sec + ms / 1000;
-            const text = line.replace(timeRegex, '').trim();
-            if (text) result.push({ time, text });
-        }
-    }
-    return result.sort((a, b) => a.time - b.time);
-};
 
 const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyrics, lyricsStyle, analyser }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -102,64 +79,23 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
       );
   } else if (isSynced) {
       content = (
-          <div ref={scrollContainerRef} className="flex flex-col items-center gap-6 w-full max-w-3xl px-4 py-[45vh] overflow-hidden no-scrollbar h-full mask-fade-vertical">
-              {lrcLines.map((line, i) => {
-                  const isActive = i === activeIndex;
-                  const isNear = Math.abs(i - activeIndex) <= 2;
-                  
-                  let className = "transition-all duration-700 text-center max-w-[90vw] ";
-                  let style: React.CSSProperties = { 
-                      fontFamily: settings.lyricsFont || 'Inter, sans-serif',
-                      fontSize: isActive ? '2.25rem' : '1.25rem',
-                      opacity: isActive ? 1 : (isNear ? 0.4 : 0.1),
-                      transform: isActive ? 'scale(1.05)' : 'scale(0.95)',
-                      filter: isActive ? 'blur(0px)' : 'blur(2px)',
-                      color: isActive ? '#ffffff' : '#888888',
-                      fontWeight: isActive ? 900 : 500
-                  };
-
-                  if (lyricsStyle === LyricsStyle.KARAOKE && isActive) {
-                      className += "text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]";
-                  }
-
-                  return <p key={i} className={className} style={style}>{line.text}</p>;
-              })}
-          </div>
+          <SyncedLyrics 
+            lrcLines={lrcLines}
+            activeIndex={activeIndex}
+            lyricsStyle={lyricsStyle}
+            settings={settings}
+            scrollContainerRef={scrollContainerRef}
+          />
       );
   } else {
-      const text = (rawText || "")
-        .replace(/\[\d{2}:\d{2}(\.\d{1,3})?\]/g, '')
-        .replace(/\r\n/g, '\n')
-        .replace(/\r/g, '\n')
-        .trim();
-      
-      const allLines = text.split('\n').filter((l: string) => l.trim() !== '');
-      const lines = hasFullLyrics ? allLines.slice(0, 10) : allLines.slice(0, 4);
-      
-      let textClass = "";
-      let fontStyle: React.CSSProperties = { fontFamily: settings.lyricsFont || 'Inter, sans-serif' };
-      const baseSizeVw = settings.lyricsFontSize || 4;
-
-      if (lyricsStyle === LyricsStyle.KARAOKE) {
-         textClass = "font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-purple-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]";
-         fontStyle = { ...fontStyle, fontSize: `max(24px, min(${baseSizeVw}vw, ${baseSizeVw * 12}px))`, lineHeight: 1.3 };
-      } else if (lyricsStyle === LyricsStyle.MINIMAL) {
-         textClass = "font-mono text-white/80 tracking-[0.2em]";
-         fontStyle = { ...fontStyle, fontSize: `max(14px, min(${baseSizeVw * 0.6}vw, ${baseSizeVw * 8}px))`, lineHeight: 1.8 };
-      } else {
-         textClass = "font-serif italic text-white drop-shadow-md";
-         fontStyle = { ...fontStyle, fontSize: `max(18px, min(${baseSizeVw * 0.9}vw, ${baseSizeVw * 10}px))`, lineHeight: 1.4 };
-      }
-
       content = (
-          <div className="select-none max-w-4xl text-center px-8 transition-all duration-1000 animate-fade-in-up">
-             {lines.length > 0 ? (
-                 lines.map((line, i) => <p key={i} className={`${textClass} mb-2`} style={fontStyle}>{line}</p>)
-             ) : (
-                 <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] italic">{t?.player?.noActiveTrack || "No lyrics content"}</p>
-             )}
-             {hasFullLyrics && lines.length < allLines.length && <p className="mt-4 text-[10px] text-white/20 uppercase tracking-widest animate-pulse">... scrolling paused ...</p>}
-          </div>
+          <StaticLyrics 
+            rawText={rawText || ""}
+            hasFullLyrics={hasFullLyrics}
+            lyricsStyle={lyricsStyle}
+            settings={settings}
+            t={t}
+          />
       );
   }
 

@@ -1,0 +1,18 @@
+export const common = {
+    queue: "Fila",
+    empty: "Vazia",
+    clearAll: "Limpar Tudo",
+    confirmClear: "Tem certeza que deseja limpar a lista de reprodução?",
+    updateAvailable: "Nova atualização detectada",
+    updateAction: "Atualizar Agora",
+    dropFiles: "SOLTE PARA IMPORTAR",
+    unknownTrack: "Faixa Desconhecida",
+    unknownArtist: "Artista Desconhecido",
+    track: "Faixa",
+    artist: "Artista",
+    loading: "A carregar",
+    processing: "A processar",
+    simple: "Simples",
+    advanced: "Avançado",
+    active: "Faixas",
+};

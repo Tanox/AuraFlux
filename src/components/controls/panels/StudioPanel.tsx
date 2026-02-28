@@ -4,8 +4,7 @@
  * Author: Sut
  */
 
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useUI, useAudioContext } from '@/src/context/AppContext';
 import { useVideoRecorder } from '../../../hooks/useVideoRecorder.ts';
 import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
@@ -14,50 +13,12 @@ import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
 import { getAverage } from '../../../services/audioUtils.ts';
-import { AudioSourceType } from '../../../types/index.ts';
+import { ArmedVisualizer } from './studio/ArmedVisualizer';
+import { RecordingPreview } from './studio/RecordingPreview';
+import { StudioConfig } from './studio/StudioConfig.tsx';
 
 const formatSize = (b: number) => b === 0 ? '0 MB' : `${(b / (1024 * 1024)).toFixed(1)} MB`;
 const formatDur = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${Math.floor(s % 60).toString().padStart(2, '0')}`;
-
-const ArmedVisualizer: React.FC<{ analyser: AnalyserNode | null }> = ({ analyser }) => {
-  const barsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    if (!analyser) return;
-    const data = new Uint8Array(analyser.frequencyBinCount);
-    let animFrameId: number;
-
-    const render = () => {
-      analyser.getByteFrequencyData(data);
-      const bass = getAverage(data, 0, 10) / 255;
-      const mid = getAverage(data, 20, 80) / 255;
-
-      barsRef.current.forEach((bar, i) => {
-        if (bar) {
-          const level = (i < 4) ? bass : mid;
-          bar.style.transform = `rotate(${i * 30}deg) translateY(-60px) scaleY(${Math.max(0.1, level * 2.5)})`;
-        }
-      });
-      animFrameId = requestAnimationFrame(render);
-    };
-    render();
-    return () => cancelAnimationFrame(animFrameId);
-  }, [analyser]);
-
-  return (
-    <div className="armed-visualizer-container">
-      <div className="w-48 h-48 relative">
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div
-            key={i}
-            className="armed-bar"
-            ref={el => { barsRef.current[i] = el; }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
 
 export const StudioPanel: React.FC = () => {
   const { t, showToast } = useUI();
@@ -98,7 +59,7 @@ export const StudioPanel: React.FC = () => {
 
   const previewUrl = useMemo(() => recordedBlob ? URL.createObjectURL(recordedBlob) : null, [recordedBlob]);
 
-  const triggerRecording = () => {
+  const triggerRecording = useCallback(() => {
     setIsArmed(false);
     const doStart = () => {
       const canvas = document.querySelector('canvas');
@@ -110,7 +71,7 @@ export const StudioPanel: React.FC = () => {
       let count = 3; setCountdownVal(count);
       const timer = setInterval(() => { count--; if (count > 0) setCountdownVal(count); else { clearInterval(timer); setCountdownVal(0); doStart(); } }, 1000);
     } else doStart();
-  };
+  }, [enableCountdown, startRecording]);
 
   useEffect(() => {
     if (isArmed && sourceType === 'file' && isPlaying) triggerRecording();
@@ -152,62 +113,31 @@ export const StudioPanel: React.FC = () => {
       try { await navigator.clipboard.writeText(textBody); showToast(shareT.copied || "Text copied!", 'success'); } catch (e) { showToast(shareT.unsupported || "Sharing not supported", 'error'); }
   };
 
-  if (recordedBlob && previewUrl) {
-    return createPortal(
-      <div id="studio-preview-portal" className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-3xl flex flex-col items-center justify-center p-6">
-        <div id="studio-preview-modal" className="w-full max-w-3xl bg-[#0a0a0c] border border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-[0_0_100px_rgba(0,0,0,0.8)] animate-fade-in-up">
-          <div className="p-5 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
-            <div className="flex flex-col">
-              <span className="text-xs font-black text-white uppercase tracking-widest">{studio.previewTitle}</span>
-              <span className="text-[10px] text-blue-400 font-mono mt-0.5">{currentSong?.title || t?.common?.unknownTrack || "Untitled Creation"}</span>
-            </div>
-            <div className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black rounded-lg uppercase tracking-wider">{formatSize(recordedBlob.size)} • {formatDur(duration)}</div>
-          </div>
-          <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
-            <video src={previewUrl} autoPlay loop controls className="max-h-[60vh] w-full" />
-          </div>
-          <div className="p-6 flex gap-4 bg-white/[0.01]">
-            <button onClick={discardRecording} className="flex-1 py-4 rounded-xl border border-white/10 text-white/40 hover:text-white hover:bg-white/5 transition-all text-xs font-black uppercase tracking-widest">{studio.discard}</button>
-            <button onClick={handleShare} className="flex-1 py-4 rounded-xl border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 transition-all text-xs font-black uppercase tracking-widest flex items-center justify-center gap-2">
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
-                {studio.share}
-            </button>
-            <button onClick={handleSaveVideo} className="flex-1 py-4 rounded-xl bg-white text-black hover:bg-blue-500 hover:text-white transition-all text-xs font-black uppercase tracking-widest shadow-xl shadow-white/5">{studio.save}</button>
-          </div>
-        </div>
-      </div>, document.body
-    );
-  }
-
   return (
     <div id="panel-studio" className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
-      <div className="lg:col-span-7 flex flex-col gap-3">
-        <BentoCard id="panel-studio-video-config" title={studio.videoConfig}>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-              <CustomSelect label={labels.resolution} value={resolution} onChange={(v) => setResolution(v === 'native' ? 'native' : Number(v))} options={[{ value: 'native', label: labels.resNative }, { value: 720, label: '720p' }, { value: 1080, label: '1080p' }, { value: 2160, label: '4K' }]} />
-              <CustomSelect label={labels.aspectRatio} value={aspectRatio} onChange={(v) => setAspectRatio(v === 'native' ? 'native' : Number(v))} options={[{ value: 'native', label: labels.resNative }, { value: 16 / 9, label: '16:9' }, { value: 9 / 16, label: '9:16' }, { value: 1, label: '1:1' }]} />
-              <CustomSelect label={labels.fps} value={fps} onChange={(v) => setFps(Number(v))} options={[{ value: 30, label: '30 FPS' }, { value: 60, label: '60 FPS' }]} />
-            </div>
-            <div className="pt-4 border-t border-black/5 dark:border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <CustomSelect label={labels.codec} value={mimeType} onChange={(v) => setMimeType(v as string)} options={supportedTypes.map(t => ({ value: t, label: getFormatLabel(t) }))} />
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{labels.bitrate}</label>
-                <SegmentedControl value={bitrate.toString()} onChange={(v) => setBitrate(Number(v))} options={[{ id: "4000000", label: "4M" }, { id: "8000000", label: "8M" }, { id: "12000000", label: "12M" }, { id: "24000000", label: "24M" }]} />
-              </div>
-            </div>
-          </div>
-        </BentoCard>
-        <BentoCard id="panel-studio-audio-mix" title={studio.audioMix} className="flex-1">
-          <div className="h-full flex flex-col justify-between gap-4">
-            <div className="max-w-md"><Slider label={labels.recGain} value={recGain} min={0} max={2} step={0.1} onChange={setRecGain} hintText={hints.recGain} /></div>
-            <div className="grid grid-cols-2 gap-3 pt-3 border-t border-black/5 dark:border-white/5">
-                <SettingsToggle label={labels.syncStart} value={syncStart} onChange={() => setSyncStart(!syncStart)} variant="clean" activeColor="blue" hintText={hints.syncStart} />
-                <SettingsToggle label={labels.countdown} value={enableCountdown} onChange={() => setEnableCountdown(!enableCountdown)} variant="clean" activeColor="blue" hintText={hints.countdown} />
-            </div>
-          </div>
-        </BentoCard>
-      </div>
+      <RecordingPreview 
+        recordedBlob={recordedBlob}
+        previewUrl={previewUrl}
+        duration={duration}
+        currentSong={currentSong}
+        studio={studio}
+        common={t.common}
+        onDiscard={discardRecording}
+        onShare={handleShare}
+        onSave={handleSaveVideo}
+      />
+      <StudioConfig 
+        studio={studio} labels={labels} hints={hints}
+        resolution={resolution} setResolution={setResolution}
+        aspectRatio={aspectRatio} setAspectRatio={setAspectRatio}
+        fps={fps} setFps={setFps}
+        mimeType={mimeType} setMimeType={setMimeType}
+        supportedTypes={supportedTypes} getFormatLabel={getFormatLabel}
+        bitrate={bitrate} setBitrate={setBitrate}
+        recGain={recGain} setRecGain={setRecGain}
+        syncStart={syncStart} setSyncStart={setSyncStart}
+        enableCountdown={enableCountdown} setEnableCountdown={setEnableCountdown}
+      />
       <BentoCard id="panel-studio-recorder" className="lg:col-span-5 flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
         <div className={`absolute inset-0 transition-colors duration-1000 ${isRecording ? 'bg-red-500/5' : isArmed ? 'bg-blue-500/5' : 'bg-transparent'}`} />
         <div className="relative z-10 flex flex-col items-center">

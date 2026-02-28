@@ -39,7 +39,7 @@ export const useAudioPulse = ({
     const animate = () => {
       if (!analyser || !elementRef.current || !dataArrayRef.current) return;
 
-      analyser.getByteFrequencyData(dataArrayRef.current);
+      analyser.getByteFrequencyData(dataArrayRef.current as any);
       
       // Calculate bass volume (low frequencies)
       let sum = 0;
@@ -61,15 +61,16 @@ export const useAudioPulse = ({
       rafRef.current = requestAnimationFrame(animate);
     };
 
+    const element = elementRef.current;
     animate();
 
     return () => {
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
-      if (elementRef.current) {
-        elementRef.current.style.transform = 'scale(1)';
-        elementRef.current.style.opacity = `${baseOpacity}`;
+      if (element) {
+        element.style.transform = 'scale(1)';
+        element.style.opacity = `${baseOpacity}`;
       }
     };
   }, [analyser, isEnabled, pulseStrength, opacityStrength, baseOpacity, settings, elementRef]);

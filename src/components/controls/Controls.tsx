@@ -1,5 +1,5 @@
 // File: app/components/controls/Controls.tsx | Version: v1.9.73
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel.tsx';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel.tsx';
 import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel.tsx';
@@ -22,14 +22,14 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
   const { t } = useUI();
   const [activeTab, setActiveTab] = useState<Tab>('visual');
 
-  const TABS: { id: Tab, label: keyof typeof t.tabs, component: React.ReactNode }[] = [
+  const TABS = useMemo<{ id: Tab, label: keyof typeof t.tabs, component: React.ReactNode }[]>(() => [
     { id: 'visual', label: 'visual', component: <VisualSettingsPanel /> },
     { id: 'input', label: 'input', component: <AudioSettingsPanel /> },
     { id: 'playback', label: 'playback', component: <PlaybackPanel /> },
     { id: 'text', label: 'text', component: <CustomTextSettingsPanel /> },
     { id: 'studio', label: 'studio', component: <StudioPanel /> },
     { id: 'system', label: 'system', component: <SystemSettingsPanel /> },
-  ];
+  ], [t]);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 
@@ -46,7 +46,7 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [TABS]);
 
   return (
     <>

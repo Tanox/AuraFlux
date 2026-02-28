@@ -24,9 +24,9 @@ export enum VisualizerMode {
 }
 
 export enum LyricsStyle {
-  CLASSIC = 'CLASSIC',
-  MODERN = 'MODERN',
-  KARAOKE = 'KARAOKE'
+  STANDARD = 'STANDARD',
+  KARAOKE = 'KARAOKE',
+  MINIMAL = 'MINIMAL'
 }
 
 export type Language = 'en' | 'zh' | 'zh-TW' | 'es' | 'ar' | 'fr' | 'pt' | 'pt-BR' | 'de' | 'ja' | 'ko' | 'ru';
