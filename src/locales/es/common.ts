@@ -6,7 +6,7 @@ export const common = {
     updateAvailable: "Nueva actualización detectada",
     updateAction: "Actualizar Ahora",
     dropFiles: "ARRASTRA PARA IMPORTAR",
-    unknownTrack: "Pista Desconhecida",
+    unknownTrack: "Pista Desconocida",
     unknownArtist: "Artista Desconocido",
     track: "Pista",
     artist: "Artista",
