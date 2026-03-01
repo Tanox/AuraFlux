@@ -1,0 +1,18 @@
+export const common = {
+    queue: "Cola",
+    empty: "Vacío",
+    clearAll: "Limpiar Todo",
+    confirmClear: "¿Estás seguro de que quieres limpiar la lista de reproducción?",
+    updateAvailable: "Nueva actualización detectada",
+    updateAction: "Actualizar Ahora",
+    dropFiles: "ARRASTRA PARA IMPORTAR",
+    unknownTrack: "Pista Desconhecida",
+    unknownArtist: "Artista Desconocido",
+    track: "Pista",
+    artist: "Artista",
+    loading: "Cargando",
+    processing: "Procesando",
+    simple: "Simple",
+    advanced: "Avanzado",
+    active: "Pistas",
+};

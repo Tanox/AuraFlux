@@ -1,0 +1,18 @@
+export const common = {
+    queue: "Очередь",
+    empty: "Пусто",
+    clearAll: "Очистить всё",
+    confirmClear: "Вы уверены, что хотите очистить список воспроизведения?",
+    updateAvailable: "Обнаружено обновление",
+    updateAction: "Обновить сейчас",
+    dropFiles: "ПЕРЕТАЩИТЕ ДЛЯ ИМПОРТА",
+    unknownTrack: "Неизвестный трек",
+    unknownArtist: "Неизвестный артист",
+    track: "Трек",
+    artist: "Артист",
+    loading: "Загрузка",
+    processing: "Обработка",
+    simple: "Простой",
+    advanced: "Продвинутый",
+    active: "Треки",
+};
