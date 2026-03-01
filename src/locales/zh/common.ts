@@ -1,0 +1,18 @@
+export const common = {
+  queue: "播放列表",
+  empty: "空",
+  clearAll: "清空所有",
+  confirmClear: "您确定要清空播放列表吗？",
+  updateAvailable: "检测到新版本",
+  updateAction: "立即刷新",
+  dropFiles: "拖放文件导入",
+  unknownTrack: "未知曲目",
+  unknownArtist: "未知艺术家",
+  track: "曲目",
+  artist: "艺术家",
+  loading: "加载中",
+  processing: "处理中",
+  simple: "简洁",
+  advanced: "高级",
+  active: "首曲目",
+};
