@@ -1,5 +1,5 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { VisualizerMode, LyricsStyle } from '../../types/index';
+import { COLOR_THEMES } from '../../constants/index';
 
 const THEME_NAMES = ["ヴェイパーウェイヴ", "オーロラ", "サンセット", "コットンキャンディ", "エレクトリック", "ネオン", "マトリックス", "ゴールド", "ロイヤル", "ソーラー", "オーシャン", "サイバー", "サクラ", "アークティック", "デザート", "ボルテージ", "エメラルド", "シアナイド"];
 const getThemeLabels = () => {

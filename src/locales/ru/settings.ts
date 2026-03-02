@@ -1,5 +1,5 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { VisualizerMode, LyricsStyle } from '../../types/index';
+import { COLOR_THEMES } from '../../constants/index';
 
 const THEME_NAMES = ["Вейпорвейв", "Аврора", "Закат", "Сахарная вата", "Электрик", "Неон", "Матрица", "Золото", "Королевский", "Солнечный", "Океан", "Кибер", "Сакура", "Арктика", "Пустыня", "Вольтаж", "Изумруд", "Цианид"];
 const getThemeLabels = () => {

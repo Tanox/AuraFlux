@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/FPSCounter.tsx | Version: v1.9.76
+// File: src/components/visualizers/ui/FPSCounter.tsx | Version: v1.9.80
 import React, { useState, useEffect } from 'react';
 
 export const FPSCounter: React.FC = () => {

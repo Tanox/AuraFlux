@@ -1,4 +1,4 @@
-// File: src/hooks/useAudioPulse.ts | Version: v1.9.76
+// File: src/hooks/useAudioPulse.ts | Version: v1.9.80
 import { useEffect, useRef } from 'react';
 
 interface AudioPulseProps {

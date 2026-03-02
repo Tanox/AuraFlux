@@ -8,10 +8,10 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
-import { oceanWaveVertexShader, oceanWaveFragmentShader } from './shaders/OceanWaveShaders.ts';
+import { oceanWaveVertexShader, oceanWaveFragmentShader } from './shaders/OceanWaveShaders';
 
 interface SceneProps {
   analyser: AnalyserNode;

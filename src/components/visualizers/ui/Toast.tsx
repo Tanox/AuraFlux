@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/Toast.tsx | Version: v1.9.76
+// File: src/components/visualizers/ui/Toast.tsx | Version: v1.9.80
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 

@@ -5,11 +5,11 @@
  */
 
 import React, { useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
-import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
+import { Slider } from '../../../visualizers/ui/controls/Slider';
 import { useVisuals, useUI, useAudioContext, useAI } from '@/src/context/AppContext';
-import { generateArtisticBackground } from '../../../../services/aiService.ts';
+import { generateArtisticBackground } from '../../../../services/aiService';
 
 export const AiBackground: React.FC = () => {
   const { settings, setSettings } = useVisuals();

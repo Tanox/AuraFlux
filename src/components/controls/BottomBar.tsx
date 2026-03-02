@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudioContext, useUI, useVisuals } from '@/src/context/AppContext';
-import { TooltipArea } from '../visualizers/ui/controls/Tooltip.tsx';
-import { PlaybackMode } from '../../types/index.ts';
-import { PlaylistPopup } from './PlaylistPopup.tsx';
+import { TooltipArea } from '../visualizers/ui/controls/Tooltip';
+import { PlaybackMode } from '../../types/index';
+import { PlaylistPopup } from './PlaylistPopup';
 
 interface BottomBarProps {
   isExpanded: boolean;

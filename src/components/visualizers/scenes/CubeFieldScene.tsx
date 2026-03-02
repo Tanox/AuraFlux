@@ -8,7 +8,7 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, PointLight, Vector3, Euler, Object3D, MeshStandardMaterial } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {

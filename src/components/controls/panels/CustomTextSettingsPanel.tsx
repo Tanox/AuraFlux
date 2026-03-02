@@ -5,14 +5,14 @@
  */
 
 import React, { useMemo } from 'react';
-import { getPositionOptions, getFontOptions } from '../../../constants/index.ts';
-import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
-import { Slider } from '../../visualizers/ui/controls/Slider.tsx';
-import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
-import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
+import { getPositionOptions, getFontOptions } from '../../../constants/index';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
+import { Slider } from '../../visualizers/ui/controls/Slider';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
 import { useVisuals, useUI } from '@/src/context/AppContext';
-import { Position } from '../../../types/index.ts';
-import { TooltipArea } from '../../visualizers/ui/controls/Tooltip.tsx';
+import { Position } from '../../../types/index';
+import { TooltipArea } from '../../visualizers/ui/controls/Tooltip';
 
 export const CustomTextSettingsPanel: React.FC = () => {
   const { settings, setSettings, resetTextSettings } = useVisuals();

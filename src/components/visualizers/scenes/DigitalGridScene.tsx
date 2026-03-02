@@ -8,7 +8,7 @@ import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, InstancedBufferAttribute, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 type Shader = {

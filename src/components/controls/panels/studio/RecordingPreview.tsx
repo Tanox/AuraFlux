@@ -1,11 +1,11 @@
 /**
  * File: src/components/controls/panels/studio/RecordingPreview.tsx
- * Version: v1.9.76
+ * Version: v1.9.80
  */
 
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { SongInfo } from '../../../../types/index.ts';
+import { SongInfo } from '../../../../types/index';
 
 interface Props {
   recordedBlob: Blob | null;

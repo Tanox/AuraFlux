@@ -1,4 +1,6 @@
-// File: src/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.76
+// File: src/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.80
+'use client';
+
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
@@ -21,7 +23,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Uncaught error:', error, errorInfo);
+    console.warn('Uncaught error:', error, errorInfo);
   }
 
   public render() {

@@ -5,11 +5,11 @@
  */
 
 import React, { useCallback } from 'react';
-import { VisualizerMode } from '../../../../types/index.ts';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
-import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
-import { VisualizerPreview } from '../../panels/VisualizerPreview.tsx';
+import { VisualizerMode } from '../../../../types/index';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
+import { Slider } from '../../../visualizers/ui/controls/Slider';
+import { VisualizerPreview } from '../../panels/VisualizerPreview';
 import { useVisuals, useUI } from '@/src/context/AppContext';
 
 export const ModeSelector: React.FC = () => {

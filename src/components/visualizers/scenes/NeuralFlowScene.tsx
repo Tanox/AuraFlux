@@ -7,7 +7,7 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Points, Color, AdditiveBlending, ShaderMaterial } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }

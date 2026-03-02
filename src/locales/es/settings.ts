@@ -1,5 +1,5 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { VisualizerMode, LyricsStyle } from '../../types/index';
+import { COLOR_THEMES } from '../../constants/index';
 
 const THEME_NAMES = ["Vaporwave", "Aurora", "Ocaso", "Algodón de Azúcar", "Eléctrico", "Neón", "Matrix", "Oro", "Real", "Solar", "Océano", "Cyber", "Sakura", "Ártico", "Desierto", "Voltaje", "Esmeralda", "Cianuro"];
 const getThemeLabels = () => {

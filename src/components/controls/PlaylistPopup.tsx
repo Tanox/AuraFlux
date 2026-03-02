@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useAudioContext, useUI } from '@/src/context/AppContext';
-import { TooltipArea } from '../visualizers/ui/controls/Tooltip.tsx';
-import { PlaybackMode } from '../../types/index.ts';
+import { TooltipArea } from '../visualizers/ui/controls/Tooltip';
+import { PlaybackMode } from '../../types/index';
 
 interface PlaylistPopupProps {
   showPlaylist: boolean;

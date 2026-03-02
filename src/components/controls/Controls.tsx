@@ -1,13 +1,13 @@
 // File: app/components/controls/Controls.tsx | Version: v1.9.73
 import React, { useState, useEffect, useMemo } from 'react';
-import { VisualSettingsPanel } from './panels/VisualSettingsPanel.tsx';
-import { SystemSettingsPanel } from './panels/SystemSettingsPanel.tsx';
-import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel.tsx';
-import { AudioSettingsPanel } from './panels/AudioSettingsPanel.tsx';
-import { StudioPanel } from './panels/StudioPanel.tsx';
-import { PlaybackPanel } from './panels/PlaybackPanel.tsx';
+import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
+import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
+import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel';
+import { AudioSettingsPanel } from './panels/AudioSettingsPanel';
+import { StudioPanel } from './panels/StudioPanel';
+import { PlaybackPanel } from './panels/PlaybackPanel';
 import { useUI } from '@/src/context/AppContext';
-import { BottomBar } from './BottomBar.tsx';
+import { BottomBar } from './BottomBar';
 
 type Tab = 'visual' | 'input' | 'playback' | 'text' | 'studio' | 'system';
 
@@ -29,7 +29,7 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
     { id: 'text', label: 'text', component: <CustomTextSettingsPanel /> },
     { id: 'studio', label: 'studio', component: <StudioPanel /> },
     { id: 'system', label: 'system', component: <SystemSettingsPanel /> },
-  ], [t]);
+  ], []);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 

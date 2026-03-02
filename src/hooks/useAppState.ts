@@ -1,4 +1,4 @@
-// File: src/hooks/useAppState.ts | Version: v1.9.76
+// File: src/hooks/useAppState.ts | Version: v1.9.80
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
 import { TRANSLATIONS } from '../locales';
@@ -26,7 +26,7 @@ export const useAppState = () => {
         }
       } catch (err: any) {
         if (err.name !== 'NotAllowedError') {
-          console.error('Wake Lock error:', err);
+          console.warn('Wake Lock error:', err);
         }
       }
     }

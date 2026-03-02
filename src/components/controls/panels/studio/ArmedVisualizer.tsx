@@ -1,10 +1,10 @@
 /**
  * File: src/components/controls/panels/studio/ArmedVisualizer.tsx
- * Version: v1.9.76
+ * Version: v1.9.80
  */
 
 import React, { useEffect, useRef } from 'react';
-import { getAverage } from '../../../../services/audioUtils.ts';
+import { getAverage } from '../../../../services/audioUtils';
 
 interface Props {
   analyser: AnalyserNode | null;

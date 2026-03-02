@@ -1,5 +1,5 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { VisualizerMode, LyricsStyle } from '../../types/index';
+import { COLOR_THEMES } from '../../constants/index';
 
 const THEME_NAMES = ["蒸氣波", "極光", "日落", "棉花糖", "電光", "霓虹", "矩陣", "黃金", "皇家", "太陽", "海洋", "賽博", "櫻花", "北極", "沙漠", "電壓", "翡翠", "青色"];
 const getThemeLabels = () => {

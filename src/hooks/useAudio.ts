@@ -1,4 +1,4 @@
-// File: src/hooks/useAudio.ts | Version: v1.9.76
+// File: src/hooks/useAudio.ts | Version: v1.9.80
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -38,7 +38,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
           .map(d => ({ deviceId: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }));
         setAudioDevices(audioInputs);
       } catch (err) {
-        console.error('Error getting devices:', err);
+        console.warn('Error getting devices:', err);
       }
     };
     getDevices();
@@ -54,7 +54,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { deviceId: deviceId ? { exact: deviceId } : undefined }
+        audio: deviceId ? { deviceId: { exact: deviceId } } : true
       });
 
       if (!audioContextRef.current) {
@@ -73,8 +73,8 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       setSourceType('microphone');
       setSelectedDeviceId(deviceId);
     } catch (err) {
-      console.error('Microphone error:', err);
-      showToast('Failed to access microphone', 'error');
+      console.warn('Microphone access skipped or denied:', err);
+      showToast('Microphone access denied. Running in silent mode.', 'error');
     }
   }, [isListening, mediaStream, showToast]);
 

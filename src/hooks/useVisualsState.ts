@@ -1,4 +1,4 @@
-// File: src/hooks/useVisualsState.ts | Version: v1.9.76
+// File: src/hooks/useVisualsState.ts | Version: v1.9.80
 import { useState, useCallback } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 

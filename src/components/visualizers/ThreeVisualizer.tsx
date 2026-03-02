@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.76
+// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.80
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';

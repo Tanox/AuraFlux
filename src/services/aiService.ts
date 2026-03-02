@@ -1,4 +1,4 @@
-// File: src/services/aiService.ts | Version: v1.9.76
+// File: src/services/aiService.ts | Version: v1.9.80
 import { GoogleGenAI } from '@google/genai';
 
 let aiInstance: GoogleGenAI | null = null;
@@ -58,7 +58,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
     }
     return null;
   } catch (err) {
-    console.error('AI Visual Config error:', err);
+    console.warn('AI Visual Config error:', err);
     return null;
   }
 };
@@ -86,7 +86,7 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
     }
     return null;
   } catch (err) {
-    console.error('AI Background Generation error:', err);
+    console.warn('AI Background Generation error:', err);
     return null;
   }
 };
@@ -130,7 +130,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
     }
     return null;
   } catch (err) {
-    console.error('AI Identification error:', err);
+    console.warn('AI Identification error:', err);
     return null;
   }
 };

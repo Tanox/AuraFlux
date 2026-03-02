@@ -1,12 +1,12 @@
 // File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.74
 import React from 'react';
-import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
 import { useVisuals, useUI } from '@/src/context/AppContext';
-import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
-import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl.tsx';
-import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
-import { Language } from '../../../types/index.ts';
-import { PresetManager } from './system/PresetManager.tsx';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
+import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
+import { Language } from '../../../types/index';
+import { PresetManager } from './system/PresetManager';
 
 const LANGUAGES: { value: Language; label: string }[] = [
   { value: 'en', label: 'English' }, { value: 'zh', label: '简体中文' }, { value: 'zh-TW', label: '繁體中文' },

@@ -8,7 +8,7 @@
 import React, { useRef, useMemo, Suspense } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { IcosahedronGeometry, BufferAttribute, DoubleSide, MeshPhysicalMaterial, PointLight, RectAreaLight, Mesh } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { Stars } from '@react-three/drei';
 

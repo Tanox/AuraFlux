@@ -6,16 +6,16 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useUI, useAudioContext } from '@/src/context/AppContext';
-import { useVideoRecorder } from '../../../hooks/useVideoRecorder.ts';
-import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect.tsx';
-import { Slider } from '../../visualizers/ui/controls/Slider.tsx';
-import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl.tsx';
-import { BentoCard } from '../../visualizers/ui/layout/BentoCard.tsx';
-import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle.tsx';
-import { getAverage } from '../../../services/audioUtils.ts';
+import { useVideoRecorder } from '../../../hooks/useVideoRecorder';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
+import { Slider } from '../../visualizers/ui/controls/Slider';
+import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
+import { getAverage } from '../../../services/audioUtils';
 import { ArmedVisualizer } from './studio/ArmedVisualizer';
 import { RecordingPreview } from './studio/RecordingPreview';
-import { StudioConfig } from './studio/StudioConfig.tsx';
+import { StudioConfig } from './studio/StudioConfig';
 
 const formatSize = (b: number) => b === 0 ? '0 MB' : `${(b / (1024 * 1024)).toFixed(1)} MB`;
 const formatDur = (s: number) => `${Math.floor(s / 60).toString().padStart(2, '0')}:${Math.floor(s % 60).toString().padStart(2, '0')}`;

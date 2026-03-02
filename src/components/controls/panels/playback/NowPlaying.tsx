@@ -6,8 +6,8 @@
 
 import Image from 'next/image';
 import React from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
 import { useAudioContext, useUI, useVisuals, useAI } from '@/src/context/AppContext';
 
 export const NowPlaying: React.FC = () => {

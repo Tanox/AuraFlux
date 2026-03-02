@@ -1,5 +1,5 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { VisualizerMode, LyricsStyle } from '../../types/index';
+import { COLOR_THEMES } from '../../constants/index';
 
 const THEME_NAMES = ["赛博朋克", "极光", "日落", "棉花糖", "电光", "霓虹", "矩阵", "黄金", "皇家", "太阳", "海洋", "赛博", "樱花", "北极", "沙漠", "电压", "翡翠", "青色"];
 const getThemeLabels = () => {

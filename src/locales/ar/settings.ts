@@ -1,5 +1,5 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index.ts';
-import { COLOR_THEMES } from '../../constants/index.ts';
+import { VisualizerMode, LyricsStyle } from '../../types/index';
+import { COLOR_THEMES } from '../../constants/index';
 
 const THEME_NAMES = ["فيبورويف", "أورورا", "غروب", "حلوى القطن", "كهربائي", "نيون", "ماتريكس", "ذهبي", "ملكي", "شمسي", "محيط", "سايبر", "ساكورا", "قطبي", "صحراء", "فولت", "زمردي", "سيانيد"];
 const getThemeLabels = () => {

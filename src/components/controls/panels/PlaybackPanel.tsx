@@ -1,4 +1,4 @@
-// File: src/components/controls/panels/PlaybackPanel.tsx | Version: v1.9.76
+// File: src/components/controls/panels/PlaybackPanel.tsx | Version: v1.9.80
 import React from 'react';
 import { NowPlaying } from './playback/NowPlaying';
 import { PlaylistManager } from './playback/PlaylistManager';
