@@ -1,6 +1,6 @@
 # OpenSpec: UI/UX 与交互规范 (05)
 
-## 1. 设计语言 (v1.9.75)
+## 1. 设计语言 (v1.9.81)
 Aura Flux 采用 **Bento Grid (便当盒)** 布局，结合高斯模糊 (Glassmorphism) 和霓虹光效，构建沉浸式控制界面。
 
 ## 2. 面板组织
@@ -9,7 +9,11 @@ Aura Flux 采用 **Bento Grid (便当盒)** 布局，结合高斯模糊 (Glassmo
 - **智能 HUD:** 包含 `SongOverlay` (歌曲信息) 和 `LyricsOverlay` (动态歌词)。
 - **全局通知:** `Toast` 系统用于显示操作反馈及 **版本更新提示**。
 
-## 3. 交互标准
+## 3. 布局与鲁棒性
+- **全屏渲染:** 强制 `html`, `body`, `#root` 及其子容器高度为 `100%`，确保视觉效果在不同浏览器环境下均能完美铺满。
+- **动态自适应:** 视觉容器 (`visualizer-container`) 始终保持 `w-full h-full`，并配合 `ResizeObserver` 实现无缝尺寸调整。
+
+## 4. 交互标准
 - **手势操作:** 
   - 左右滑动: 切换视觉模式。
   - 上下滑动: 调节音频增益 (Gain)。
@@ -19,5 +23,5 @@ Aura Flux 采用 **Bento Grid (便当盒)** 布局，结合高斯模糊 (Glassmo
 - **更新机制:** 检测到新版本时，顶部弹出持久化通知，引导用户刷新。
 
 ---
-*Aura Flux Interface Specification - Version 1.9.75*
+*Aura Flux Interface Specification - Version 1.9.81*
 *Author: Sut*

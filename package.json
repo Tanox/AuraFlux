@@ -1,7 +1,7 @@
 {
   "name": "aura-flux",
   "private": true,
-  "version": "1.9.75",
+  "version": "1.9.81",
   "type": "module",
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",

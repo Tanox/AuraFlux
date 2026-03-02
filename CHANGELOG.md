@@ -2,6 +2,14 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.81]
+### 🛠️ Robustness & Layout Fix
+*   **Module Resolution**: Removed all `.ts` and `.tsx` extensions from relative imports across the entire `src/` directory to resolve Next.js chunk loading failures and "Cannot find module" errors.
+*   **Layout Rendering**: Fixed a critical CSS issue where the visualizer display area was collapsed to a small strip. Added `height: 100%` to `html`, `body`, `#root`, and `#__next` in `globals.css`, and ensured the visualizer container uses `w-full h-full`.
+*   **Canvas Optimization**: Replaced the legacy `window.resize` listener with `ResizeObserver` in `VisualizerCanvas.tsx` for more reliable and performant canvas resizing.
+*   **Metadata**: Added `metadataBase` to Next.js metadata in `layout.tsx` for correct SEO and OpenGraph URL resolution.
+*   **Version Synchronization**: Updated all version strings to `v1.9.81` across `metadata.json`, `layout.tsx`, and `openspec/` documentation.
+
 ## [v1.9.80]
 ### 🔄 Version Synchronization
 *   **Global Update**: Executed a project-wide audit to synchronize all version numbers to `v1.9.80`, including file headers, `metadata.json`, `layout.tsx`, and all documentation.
