@@ -43,18 +43,17 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
       }
     };
 
-    const handleResize = () => {
+    const resizeObserver = new ResizeObserver(() => {
       canvas.width = canvas.clientWidth * window.devicePixelRatio;
       canvas.height = canvas.clientHeight * window.devicePixelRatio;
-    };
+    });
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
+    resizeObserver.observe(canvas);
     draw();
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
   }, [analyser, colors, settings.sensitivity]);
 

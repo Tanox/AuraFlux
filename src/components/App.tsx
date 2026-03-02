@@ -116,7 +116,7 @@ const MainContent: React.FC = () => {
       )}
       <div
         id="visualizer-container"
-        className={`visualizer-container ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
+        className={`visualizer-container w-full h-full ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
         onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
       >
         <Suspense fallback={null}>
