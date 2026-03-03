@@ -36,12 +36,12 @@ export const TextLayerSetup: React.FC = () => {
                         {/* Compact Text Input Area - Directly follows source logic */}
                         <div className="relative group flex-1">
                             <textarea 
-                                value={settings.customText} 
+                                value={settings.customText || ''} 
                                 onChange={(e) => setSettings({...settings, customText: e.target.value.toUpperCase()})} 
                                 placeholder={t?.customTextPlaceholder || "ENTER TEXT"} 
                                 className="w-full h-full min-h-[80px] bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xl px-4 py-3 text-xs font-black text-black dark:text-white tracking-[0.1em] uppercase focus:border-blue-500/50 outline-none resize-none transition-all placeholder-black/10 dark:placeholder-white/10" 
                             />
-                            <div className="absolute bottom-2 right-3 opacity-20 pointer-events-none text-[7px] font-mono uppercase tracking-widest">{settings.customText.length}</div>
+                            <div className="absolute bottom-2 right-3 opacity-20 pointer-events-none text-[7px] font-mono uppercase tracking-widest">{(settings.customText || '').length}</div>
                         </div>
                     </div>
 
