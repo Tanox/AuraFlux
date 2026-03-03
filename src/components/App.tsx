@@ -1,4 +1,4 @@
-// File: src/components/App.tsx | Version: v1.9.86
+// File: src/components/App.tsx | Version: v1.9.87
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/src/context/AppContext';
 import { WelcomeScreen } from '@/src/components/visualizers/ui/WelcomeScreen';
@@ -39,7 +39,7 @@ const MainContent: React.FC = () => {
   // Version check logic
   useVersionCheck(APP_VERSION, (newVersion) => {
     if (ui) {
-      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
+      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info', 10000, 'top');
     }
   });
 

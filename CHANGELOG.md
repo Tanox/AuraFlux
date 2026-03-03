@@ -2,6 +2,11 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.87]
+### 🛠️ UI & Notification Improvements
+*   **Auto-Dismissing Notifications**: Implemented a configurable duration for Toast notifications.
+*   **Version Update Logic**: Set the "New version available" notification to automatically disappear after 10 seconds, improving user experience by reducing persistent UI clutter.
+
 ## [v1.9.86]
 ### 🔄 Next.js Optimization & Audit
 *   **Gemini Model Upgrade**: Updated `aiService.ts` to use `gemini-3-flash-preview` for text tasks, providing faster and more accurate audio analysis and song identification.
