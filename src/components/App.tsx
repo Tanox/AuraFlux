@@ -104,7 +104,7 @@ const MainContent: React.FC = () => {
   return (
     <div 
       id="app-root"
-      className={`relative w-screen h-[100dvh] bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
+      className={`absolute inset-0 bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -117,7 +117,7 @@ const MainContent: React.FC = () => {
       )}
       <div
         id="visualizer-container"
-        className={`visualizer-container w-full h-full relative ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
+        className="visualizer-container w-full h-full relative"
         onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
       >
         <Suspense fallback={null}>
