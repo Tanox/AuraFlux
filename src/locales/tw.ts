@@ -1,4 +1,4 @@
-// File: src/locales/tw.ts | Version: v1.9.80
+// File: src/locales/tw.ts | Version: v1.9.85
 import { common } from './tw/common';
 import { onboarding } from './tw/onboarding';
 import { panels } from './tw/panels';
@@ -8,7 +8,7 @@ import { messages } from './tw/messages';
 
 export const tw = {
   common,
-  appVersion: "v1.9.80",
+  appVersion: "v1.9.85",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "啟動系統",
