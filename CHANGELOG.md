@@ -2,6 +2,13 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.86]
+### 🔄 Next.js Optimization & Audit
+*   **Gemini Model Upgrade**: Updated `aiService.ts` to use `gemini-3-flash-preview` for text tasks, providing faster and more accurate audio analysis and song identification.
+*   **Layout Hardening**: Finalized the transition to Next.js 15 App Router patterns, ensuring all components are correctly optimized for the new architecture.
+*   **UI Consistency**: Standardized all settings panels to a unified 12-column grid layout for a perfectly aligned and professional interface.
+*   **Code Quality**: Performed a project-wide audit to ensure no legacy React-only patterns remain and all file headers are accurate.
+
 ## [v1.9.85]
 ### 📝 Documentation
 *   **Changelog Consolidation**: Merged legacy `changelog.md` entries into `CHANGELOG.md` and removed the redundant file to maintain a single source of truth.

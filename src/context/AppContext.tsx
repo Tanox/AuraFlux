@@ -1,4 +1,4 @@
-// File: app/AppContext.tsx | Version: v1.9.73
+// File: src/context/AppContext.tsx | Version: v1.9.86
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/src/types/index';
 import { useAudio } from '@/src/hooks/useAudio';

@@ -1,4 +1,4 @@
-// File: src/services/aiService.ts | Version: v1.9.80
+// File: src/services/aiService.ts | Version: v1.9.86
 import { GoogleGenAI } from '@google/genai';
 
 let aiInstance: GoogleGenAI | null = null;
@@ -34,7 +34,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
     }
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: {
         parts: [
           {
@@ -90,6 +90,7 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
     return null;
   }
 };
+
 export const identifySong = async (audioBlob: Blob): Promise<any> => {
   const ai = getAiService();
   if (!ai) return null;
@@ -106,7 +107,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
     });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: {
         parts: [
           {
