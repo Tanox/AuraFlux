@@ -1,4 +1,4 @@
-// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.81
+// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.82
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/src/types';
 
@@ -43,12 +43,15 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
       }
     };
 
+    const parent = canvas.parentElement;
+    if (!parent) return;
+
     const resizeObserver = new ResizeObserver(() => {
-      canvas.width = canvas.clientWidth * window.devicePixelRatio;
-      canvas.height = canvas.clientHeight * window.devicePixelRatio;
+      canvas.width = parent.clientWidth * window.devicePixelRatio;
+      canvas.height = parent.clientHeight * window.devicePixelRatio;
     });
 
-    resizeObserver.observe(canvas);
+    resizeObserver.observe(parent);
     draw();
 
     return () => {
@@ -61,7 +64,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
     <canvas 
       ref={canvasRef} 
       id="visualizer-canvas-2d"
-      className="w-full h-full block"
+      className="absolute inset-0 w-full h-full block"
+      style={{ width: '100%', height: '100%' }}
     />
   );
 };

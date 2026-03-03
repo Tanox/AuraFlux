@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.81
+// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.82
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
@@ -36,11 +36,12 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
   }, [mode]);
 
   return (
-    <div id="three-visualizer-container" className="w-full h-full bg-black">
+    <div id="three-visualizer-container" className="absolute inset-0 w-full h-full bg-black">
       <Canvas
         camera={{ position: [0, 0, 10], fov: 75 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: false }}
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
       >
         <color attach="background" args={['#000000']} />
         <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />

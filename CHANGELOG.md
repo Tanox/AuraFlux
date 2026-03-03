@@ -2,6 +2,30 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.9.85]
+### 📝 Documentation
+*   **Changelog Consolidation**: Merged legacy `changelog.md` entries into `CHANGELOG.md` and removed the redundant file to maintain a single source of truth.
+*   **Version Synchronization**: Updated all version strings to `v1.9.85`.
+
+## [v1.9.84]
+### 🛠️ Viewport & Layout Hardening
+*   **Mobile Viewport Fix**: Updated `App.tsx` root container to use `h-[100dvh]` instead of `h-screen`. This solves layout issues on mobile browsers where the address bar would cut off the bottom of the application.
+*   **Three.js Container**: Updated `ThreeVisualizer.tsx` to use `absolute inset-0` and forced `width: 100%; height: 100%` on the Canvas element to prevent 3D scenes from shrinking or overflowing.
+*   **2D Canvas Sizing**: Added explicit inline styles `width: 100%; height: 100%` to `VisualizerCanvas.tsx` to ensure CSS dimensions always match the parent container, regardless of internal resolution scaling.
+
+## [v1.9.83]
+### 🐛 Bug Fixes
+*   **Update Notification Loop**: Fixed a bug where the update notification would persist indefinitely due to a hardcoded version string mismatch in `App.tsx`.
+*   **Version Normalization**: Implemented `normalizeVersion` in `useVersionCheck` to robustly handle version strings with or without the 'v' prefix.
+*   **Constants**: Introduced `src/constants/version.ts` to centralize version management and prevent future mismatches.
+
+## [v1.9.82]
+### 🛠️ Layout & Canvas Hardening
+*   **Full-Screen Reliability**: Changed `app-root` from `h-full min-h-screen` to `h-screen w-screen` to ensure absolute viewport coverage across all browsers.
+*   **Canvas Sizing**: Updated `VisualizerCanvas.tsx` to use `ResizeObserver` on its parent container instead of itself, and set the canvas to `absolute inset-0`. This ensures the internal resolution perfectly matches the parent's content area.
+*   **Global Styles**: Added `width: 100%` to `html`, `body`, `#root`, and `#__next` in `globals.css`.
+*   **Version Synchronization**: Updated all version strings to `v1.9.82`.
+
 ## [v1.9.81]
 ### 🛠️ Robustness & Layout Fix
 *   **Module Resolution**: Removed all `.ts` and `.tsx` extensions from relative imports across the entire `src/` directory to resolve Next.js chunk loading failures and "Cannot find module" errors.
@@ -69,3 +93,16 @@ All notable changes to the **Aura Flux** project will be documented in this file
 ### 🐛 Bug Fixes
 *   **Module Resolution**: Corrected all extensionless imports for the `types` module (e.g., `from '../types'`) to explicit paths (`from '../types/index.ts'`) to ensure compatibility with native browser ES module resolution via import maps.
 *   **Import Map**: Removed development-only dependencies (`vite`, `@vitejs/plugin-react`) and redundant entries from the `index.html` import map.
+
+## [v1.0.1]
+### 🐛 Bug Fixes & ✨ Features
+*   **Tailwind CSS**: Fixed `@apply` syntax error for Tailwind CSS v4.
+*   **Dependencies**: Removed invalid `tw-animate-css` dependency.
+*   **i18n**: Added basic support for internationalization.
+*   **Robustness**: Added Error Boundary and Not Found handling.
+*   **Documentation**: Synchronized project specifications to openspec documents.
+*   **Versioning**: Updated version header comments in all code files.
+
+## [v1.0.0]
+### 🎉 Initial Release
+*   **Project Setup**: Initialized Next.js project structure.

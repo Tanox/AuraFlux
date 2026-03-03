@@ -1,5 +1,7 @@
-// File: src/hooks/useVersionCheck.ts | Version: v1.9.80
+// File: src/hooks/useVersionCheck.ts | Version: v1.9.82
 import { useEffect } from 'react';
+
+const normalizeVersion = (v: string) => v.replace(/^v/, '');
 
 export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: string) => void) => {
   useEffect(() => {
@@ -8,7 +10,7 @@ export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: s
         const response = await fetch('/version.json');
         if (response.ok) {
           const data = await response.json();
-          if (data.version && data.version !== currentVersion) {
+          if (data.version && normalizeVersion(data.version) !== normalizeVersion(currentVersion)) {
             onUpdate(data.version);
           }
         }

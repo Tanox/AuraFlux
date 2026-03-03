@@ -1,4 +1,4 @@
-// File: App.tsx | Version: v1.9.81
+// File: App.tsx | Version: v1.9.82
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/src/context/AppContext';
 import { WelcomeScreen } from '@/src/components/visualizers/ui/WelcomeScreen';
@@ -12,6 +12,7 @@ import { FPSCounter } from '@/src/components/visualizers/ui/FPSCounter';
 import { useIdleTimer } from '@/src/hooks/useIdleTimer';
 import { useMobileGestures } from '@/src/hooks/useMobileGestures';
 import { useVersionCheck } from '@/src/hooks/useVersionCheck';
+import { APP_VERSION } from '@/src/constants/version';
 import type { ControlsProps } from '@/src/components/controls/Controls';
 
 const VisualizerCanvas = lazy(() => import('@/src/components/visualizers/VisualizerCanvas'));
@@ -36,7 +37,7 @@ const MainContent: React.FC = () => {
   const gestures = useMobileGestures();
 
   // Version check logic
-  useVersionCheck('1.9.75', (newVersion) => {
+  useVersionCheck(APP_VERSION, (newVersion) => {
     if (ui) {
       ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
     }
@@ -103,7 +104,7 @@ const MainContent: React.FC = () => {
   return (
     <div 
       id="app-root"
-      className={`relative w-full h-full min-h-screen bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
+      className={`relative w-screen h-[100dvh] bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -116,7 +117,7 @@ const MainContent: React.FC = () => {
       )}
       <div
         id="visualizer-container"
-        className={`visualizer-container w-full h-full ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
+        className={`visualizer-container w-full h-full relative ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
         onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
       >
         <Suspense fallback={null}>

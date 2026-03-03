@@ -1,4 +1,4 @@
-// File: app/components/controls/Controls.tsx | Version: v1.9.81
+// File: app/components/controls/Controls.tsx | Version: v1.9.82
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
