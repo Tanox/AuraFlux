@@ -1,4 +1,4 @@
-// File: app/components/controls/Controls.tsx | Version: v1.9.82
+// File: src/components/controls/Controls.tsx | Version: v1.9.89
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
@@ -6,7 +6,7 @@ import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel';
 import { AudioSettingsPanel } from './panels/AudioSettingsPanel';
 import { StudioPanel } from './panels/StudioPanel';
 import { PlaybackPanel } from './panels/PlaybackPanel';
-import { useUI } from '@/src/context/AppContext';
+import { useUI, useVisuals } from '@/src/context/AppContext';
 import { BottomBar } from './BottomBar';
 
 type Tab = 'visual' | 'input' | 'playback' | 'text' | 'studio' | 'system';
@@ -20,6 +20,7 @@ export interface ControlsProps {
 
 export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, toggleFullscreen }) => {
   const { t } = useUI();
+  const { randomizeSettings } = useVisuals();
   const [activeTab, setActiveTab] = useState<Tab>('visual');
 
   const TABS = useMemo<{ id: Tab, label: keyof typeof t.tabs, component: React.ReactNode }[]>(() => [
@@ -38,6 +39,12 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
       const target = e.target as HTMLElement;
       if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
 
+      if (e.key.toLowerCase() === 'r') {
+        e.preventDefault();
+        randomizeSettings();
+        return;
+      }
+
       const numKey = parseInt(e.key, 10);
       if (!isNaN(numKey) && numKey >= 1 && numKey <= TABS.length) {
         e.preventDefault();
@@ -46,7 +53,7 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [TABS]);
+  }, [TABS, randomizeSettings]);
 
   return (
     <>
