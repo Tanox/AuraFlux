@@ -43,9 +43,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${montserrat.variable} antialiased bg-black text-white`}>
-        <div id="root">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );
