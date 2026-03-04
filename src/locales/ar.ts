@@ -1,4 +1,4 @@
-// File: src/locales/ar.ts | Version: v1.9.85
+// File: src/locales/ar.ts | Version: v1.9.88
 import { common } from './ar/common';
 import { onboarding } from './ar/onboarding';
 import { panels } from './ar/panels';
@@ -8,7 +8,7 @@ import { messages } from './ar/messages';
 
 export const ar = {
   common,
-  appVersion: "v1.9.85",
+  appVersion: "v1.9.88",
   appTitle: "Aura Flux",
   welcomeSubtitle: "محرك الذكاء الحسي",
   startExperience: "بدء النظام",
