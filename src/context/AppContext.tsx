@@ -1,4 +1,4 @@
-// File: src/context/AppContext.tsx | Version: v1.9.87
+// File: src/context/AppContext.tsx | Version: v1.9.93
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/src/types/index';
 import { useAudio } from '@/src/hooks/useAudio';
@@ -78,8 +78,13 @@ export const useAI = () => useContext(AIContext)!;
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [toast, setToast] = useState({ message: null as string | null, type: 'info' as any, duration: 3000, position: 'bottom' as 'top' | 'bottom' });
+  
   const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' = 'info', duration = 3000, position: 'top' | 'bottom' = 'bottom') => 
     setToast({ message, type, duration, position }), []);
+
+  const hideToast = useCallback(() => {
+    setToast(prev => ({ ...prev, message: null }));
+  }, []);
   
   const uiState = useAppState();
   const visualsState = useVisualsState(uiState.hasStarted, {} as any);
@@ -145,7 +150,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
               type={toast.type} 
               duration={toast.duration}
               position={toast.position}
-              onClose={() => setToast({ ...toast, message: null })} 
+              onClose={hideToast} 
             />
           </AIContext.Provider>
         </AudioContext.Provider>

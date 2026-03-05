@@ -114,7 +114,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   return (
     <>
       {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
-      <ambientLight intensity={0.1}/><instancedMesh ref={meshRef} args={[undefined, undefined, grid.COLS * grid.ROWS]} position={[0,0,-50]}><planeGeometry args={[1,1]}/><meshStandardMaterial onBeforeCompile={onCompile} roughness={0.2} metalness={0.9} side={DoubleSide} transparent depthWrite={false}/></instancedMesh>
+      <ambientLight intensity={0.1}/><instancedMesh ref={meshRef} args={[undefined, undefined, grid.COLS * grid.ROWS]} position={[0,0,-50]}><planeGeometry args={[1.414, 1.414]}/><meshStandardMaterial onBeforeCompile={onCompile} roughness={0.2} metalness={0.9} side={DoubleSide} transparent depthWrite={false}/></instancedMesh>
       <mesh rotation={[-Math.PI/2,0,0]} position={[0,-30,-20]}>
         <planeGeometry args={[200,200]}/>
         {/* @ts-ignore */}

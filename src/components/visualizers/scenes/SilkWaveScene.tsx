@@ -104,9 +104,9 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
                 vUv = uv; vRandom = aRandom; 
                 vec3 pos = position; 
                 float time = uTime * 0.6 * uSpeed; 
-                float wave1 = sin(pos.x * 0.012 + time + aRandom * 6.28) * 12.0 * (1.0 + uBass * 1.5); 
-                float wave2 = sin(pos.x * 0.02 + time * 1.4 + aRandom * 2.1) * 8.0 * (1.0 + uEnergyL * 1.8); 
-                float noise = snoise(vec3(pos.x * 0.01, aRandom * 5.0, time * 0.5)) * 14.0 * (1.0 + uEnergyR * 1.8); 
+                float wave1 = sin(pos.x * 0.012 + time + aRandom * 6.28) * 36.0 * (1.0 + uBass * 4.5); 
+                float wave2 = sin(pos.x * 0.02 + time * 1.4 + aRandom * 2.1) * 24.0 * (1.0 + uEnergyL * 5.4); 
+                float noise = snoise(vec3(pos.x * 0.01, aRandom * 5.0, time * 0.5)) * 42.0 * (1.0 + uEnergyR * 5.4); 
                 pos.y += wave1 + wave2 + noise; 
                 pos.z -= 110.0 * aLayerIndex; 
                 pos.z += sin(pos.x*0.02+time+aRandom*3.0)*5.0*(1.0+uBass); 

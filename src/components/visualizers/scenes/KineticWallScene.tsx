@@ -24,8 +24,8 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1, c2] = smoothedColors;
   
-  const COLS = 32;
-  const ROWS = 16;
+  const COLS = 64;
+  const ROWS = 32;
   const COUNT = COLS * ROWS;
   const SPACING = 1.2;
   
