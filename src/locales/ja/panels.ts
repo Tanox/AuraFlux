@@ -7,6 +7,7 @@ export const panels = {
     showBg: "AI 背景を表示",
     opacity: "不透明度",
     bgGenerated: "AI 背景が生成されました",
+    coreTitle: "レンダリングとカラー",
   },
   audioPanel: {
     audioInput: "シグナル構成",
@@ -56,6 +57,9 @@ export const panels = {
     interface: "システムと動作",
     installApp: "Aura Flux アプリをインストール",
     factoryReset: "すべての設定を初期化",
+    uiSettings: "インターフェース",
+    interaction: "インタラクション",
+    performance: "パフォーマンス",
   },
   studioPanel: {
     videoConfig: "ビデオ設定",

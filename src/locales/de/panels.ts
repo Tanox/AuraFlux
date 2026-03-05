@@ -1,12 +1,4 @@
 export const panels = {
-  tabs: {
-    visual: "Visuelles",
-    input: "Audio-Eingang",
-    playback: "Wiedergabe",
-    text: "Textebene",
-    studio: "Studio",
-    system: "System",
-  },
   visualPanel: {
     display: "Anzeigequalität",
     aiBg: "KI-Hintergrund",
@@ -15,6 +7,7 @@ export const panels = {
     showBg: "KI-HG anzeigen",
     opacity: "Deckkraft",
     bgGenerated: "KI-Hintergrund generiert",
+    coreTitle: "Rendering & Farben",
   },
   audioPanel: {
     audioInput: "Signalarchitektur",
@@ -64,6 +57,9 @@ export const panels = {
     interface: "System & Verhalten",
     installApp: "Aura Flux App installieren",
     factoryReset: "Auf Werkseinstellungen zurücksetzen",
+    uiSettings: "Oberfläche",
+    interaction: "Interaktion",
+    performance: "Leistung",
   },
   studioPanel: {
     videoConfig: "Video-Einstellungen",

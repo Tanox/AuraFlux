@@ -11,6 +11,14 @@ const getThemeLabels = () => {
 };
 
 export const settings = {
+  tabs: {
+    visual: "Visuais",
+    input: "Entrada",
+    playback: "Reprodução",
+    text: "Texto",
+    studio: "Estúdio",
+    system: "Sistema",
+  },
   sensitivity: "Ganho",
   speed: "Velocidade",
   smoothing: "Inércia",

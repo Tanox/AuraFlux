@@ -7,6 +7,7 @@ export const panels = {
     showBg: "Показать ИИ фон",
     opacity: "Прозрачность",
     bgGenerated: "ИИ фон сгенерирован",
+    coreTitle: "Рендеринг и цвета",
   },
   audioPanel: {
     audioInput: "Архитектура сигнала",
@@ -56,6 +57,9 @@ export const panels = {
     interface: "Система и поведение",
     installApp: "Установить Aura Flux",
     factoryReset: "Сброс к заводским настройкам",
+    uiSettings: "Интерфейс",
+    interaction: "Взаимодействие",
+    performance: "Производительность",
   },
   studioPanel: {
     videoConfig: "Настройки видео",

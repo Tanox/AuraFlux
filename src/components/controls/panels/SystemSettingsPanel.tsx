@@ -1,4 +1,4 @@
-// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.9.74
+// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.10.3
 import React from 'react';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
 import { useVisuals, useUI } from '@/src/context/AppContext';
@@ -25,30 +25,47 @@ export const SystemSettingsPanel: React.FC = () => {
       <div className="lg:col-span-7 flex flex-col gap-3">
         <BentoCard id="panel-system-localization" title={t?.systemPanel?.localization || "Aesthetics & Language"}>
             <div className="space-y-4">
-                <CustomSelect label={t?.language} value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as Language)} />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-black/5 dark:border-white/5">
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.styleTheme || "Global Theme"}</label>
-                      <SegmentedControl value={settings.appTheme} options={[{ id: 'dark', label: t?.systemPanel?.darkMode || 'Dark' }, { id: 'light', label: t?.systemPanel?.lightMode || 'Light' }]} onChange={(v) => setSettings({...settings, appTheme: v as any})} />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.systemPanel?.uiMode}</label>
-                      <SegmentedControl value={settings.uiMode} options={[{ id: 'simple', label: t?.common?.simple }, { id: 'advanced', label: t?.common?.advanced }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <CustomSelect label={t?.language} value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as Language)} />
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.systemPanel?.uiMode}</label>
+                    <SegmentedControl value={settings.uiMode} options={[{ id: 'simple', label: t?.common?.simple }, { id: 'advanced', label: t?.common?.advanced }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
+                  </div>
+                </div>
+                <div className="pt-4 border-t border-black/5 dark:border-white/5">
+                  <div className="flex flex-col gap-2">
+                    <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.styleTheme || "Global Theme"}</label>
+                    <SegmentedControl value={settings.appTheme} options={[{ id: 'dark', label: t?.systemPanel?.darkMode || 'Dark' }, { id: 'light', label: t?.systemPanel?.lightMode || 'Light' }]} onChange={(v) => setSettings({...settings, appTheme: v as any})} />
+                  </div>
                 </div>
             </div>
         </BentoCard>
 
         <BentoCard id="panel-system-behavior" title={t?.systemPanel?.interface || "System & Behavior"} className="flex-1">
-            <div className="flex flex-col h-full gap-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.systemPanel?.uiSettings || "Interface"}</span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
                   <SettingsToggle label={t?.showTooltips} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
                   <SettingsToggle label={t?.autoHideUi} value={settings.autoHideUi} onChange={() => setSettings({...settings, autoHideUi: !settings.autoHideUi})} variant="clean" />
                   <SettingsToggle label={t?.hideCursor} value={settings.hideCursor} onChange={() => setSettings({...settings, hideCursor: !settings.hideCursor})} variant="clean" />
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-4 border-t border-black/5 dark:border-white/5">
+                <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.systemPanel?.interaction || "Interaction"}</span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
                   <SettingsToggle label={t?.doubleClickFullscreen} value={!!settings.doubleClickFullscreen} onChange={() => setSettings({...settings, doubleClickFullscreen: !settings.doubleClickFullscreen})} variant="clean" />
                   <SettingsToggle label={t?.wakeLock} value={settings.wakeLock} onChange={() => setSettings({...settings, wakeLock: !settings.wakeLock})} variant="clean" />
                   <SettingsToggle label={t?.mirrorDisplay} value={!!settings.mirrorDisplay} onChange={() => setSettings({...settings, mirrorDisplay: !settings.mirrorDisplay})} variant="clean" />
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-4 border-t border-black/5 dark:border-white/5">
+                <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.systemPanel?.performance || "Performance"}</span>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
                   <SettingsToggle label={t?.showFps} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
+                </div>
               </div>
             </div>
         </BentoCard>

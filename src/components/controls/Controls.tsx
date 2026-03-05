@@ -36,6 +36,7 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
 
   useEffect(() => {
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      console.log('Key pressed:', e.key);
       const target = e.target as HTMLElement;
       if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
 

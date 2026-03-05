@@ -1,12 +1,4 @@
 export const panels = {
-  tabs: {
-    visual: "视觉",
-    input: "音频输入",
-    playback: "播放",
-    text: "文字叠加",
-    studio: "工作室",
-    system: "系统",
-  },
   visualPanel: {
     display: "显示质量",
     aiBg: "AI 背景",
@@ -15,6 +7,7 @@ export const panels = {
     showBg: "显示 AI 背景",
     opacity: "不透明度",
     bgGenerated: "AI 背景已生成",
+    coreTitle: "渲染与色彩",
   },
   audioPanel: {
     audioInput: "信号架构",
@@ -64,6 +57,9 @@ export const panels = {
     interface: "系统与行为",
     installApp: "安装 Aura Flux 应用",
     factoryReset: "恢复所有出厂设置",
+    uiSettings: "界面",
+    interaction: "交互",
+    performance: "性能",
   },
   studioPanel: {
     videoConfig: "视频设置",

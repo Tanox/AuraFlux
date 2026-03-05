@@ -9,6 +9,7 @@ export const panels = {
     showBg: "Show AI BG",
     opacity: "Opacity",
     bgGenerated: "AI Background Generated",
+    coreTitle: "Rendering & Colors",
   },
   audioPanel: {
     audioInput: "Signal Architecture",
@@ -58,6 +59,9 @@ export const panels = {
     interface: "System & Behavior",
     installApp: "Install Aura Flux App",
     factoryReset: "Factory Reset All Settings",
+    uiSettings: "Interface",
+    interaction: "Interaction",
+    performance: "Performance",
   },
   studioPanel: {
     videoConfig: "Video Settings",

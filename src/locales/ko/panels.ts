@@ -7,6 +7,7 @@ export const panels = {
     showBg: "AI 배경 표시",
     opacity: "불투명도",
     bgGenerated: "AI 배경이 생성되었습니다",
+    coreTitle: "렌더링 및 색상",
   },
   audioPanel: {
     audioInput: "신호 설계",
@@ -56,6 +57,9 @@ export const panels = {
     interface: "시스템 및 동작",
     installApp: "Aura Flux 앱 설치",
     factoryReset: "모든 설정 초기화",
+    uiSettings: "인터페이스",
+    interaction: "상호작용",
+    performance: "성능",
   },
   studioPanel: {
     videoConfig: "비디오 설정",

@@ -11,6 +11,14 @@ const getThemeLabels = () => {
 };
 
 export const settings = {
+  tabs: {
+    visual: "视觉",
+    input: "音频输入",
+    playback: "播放",
+    text: "文字叠加",
+    studio: "工作室",
+    system: "系统",
+  },
   sensitivity: "增益",
   speed: "速度",
   smoothing: "惯性",

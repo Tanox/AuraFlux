@@ -8,7 +8,7 @@ import { messages } from './ar/messages';
 
 export const ar = {
   common,
-  appVersion: "v1.9.88",
+  appVersion: "v1.10.5",
   appTitle: "Aura Flux",
   welcomeSubtitle: "محرك الذكاء الحسي",
   startExperience: "بدء النظام",

@@ -1,12 +1,4 @@
 export const panels = {
-  tabs: {
-    visual: "المرئيات",
-    input: "مدخل الصوت",
-    playback: "التشغيل",
-    text: "نص متداخل",
-    studio: "الاستوديو",
-    system: "النظام",
-  },
   visualPanel: {
     display: "جودة العرض",
     aiBg: "خلفية الذكاء الاصطناعي",
@@ -15,6 +7,7 @@ export const panels = {
     showBg: "إظهار الخلفية",
     opacity: "الشفافية",
     bgGenerated: "تم إنشاء الخلفية بنجاح",
+    coreTitle: "الرندرة والألوان",
   },
   audioPanel: {
     audioInput: "هندسة الإشارة",
@@ -64,6 +57,9 @@ export const panels = {
     interface: "النظام والسلوك",
     installApp: "تثبيت Aura Flux",
     factoryReset: "إعادة ضبط المصنع",
+    uiSettings: "الواجهة",
+    interaction: "التفاعل",
+    performance: "الأداء",
   },
   studioPanel: {
     videoConfig: "إعدادات الفيديو",

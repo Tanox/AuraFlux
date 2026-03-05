@@ -1,14 +1,13 @@
 /**
  * File: app/components/controls/panels/visual/CoreVisuals.tsx
- * Version: v1.9.36
+ * Version: v1.10.3
  * Author: Sut
  */
 
 import React from 'react';
-import { COLOR_THEMES, SMART_PRESETS } from '../../../../constants';
+import { COLOR_THEMES } from '../../../../constants';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
 import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
 import { SegmentedControl } from '../../../visualizers/ui/controls/SegmentedControl';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { useVisuals, useUI } from '@/src/context/AppContext';
@@ -19,7 +18,6 @@ export const CoreVisuals: React.FC = () => {
     colorTheme, setColorTheme, 
     settings, setSettings, 
     resetVisualSettings, 
-    applyPreset, 
     activePreset, setActivePreset
   } = useVisuals();
   
@@ -33,17 +31,9 @@ export const CoreVisuals: React.FC = () => {
     setActivePreset('');
   };
 
-  const presetOptions = [
-    { value: '', label: t?.presets?.select || 'Choose a mood...' },
-    ...Object.values(SMART_PRESETS).map(p => ({
-      value: p.nameKey,
-      label: t?.presets?.[p.nameKey as keyof typeof t.presets] || p.nameKey
-    }))
-  ];
-
   return (
     <BentoCard 
-        title={t?.presets?.title || "Visual Core"}
+        title={t?.visualPanel?.coreTitle || "Rendering & Colors"}
         action={
             <div className="flex items-center gap-1">
                 <TooltipArea text={t?.hints?.resetVisual}>
@@ -55,25 +45,7 @@ export const CoreVisuals: React.FC = () => {
         }
     >
         <div className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
-                <div className="flex-1">
-                    <CustomSelect 
-                        label={t?.presets?.hint || "Atmosphere Engine"}
-                        value={activePreset}
-                        options={presetOptions}
-                        onChange={(val) => {
-                            const selected = SMART_PRESETS[val];
-                            if (selected) applyPreset(selected);
-                        }}
-                    />
-                </div>
-                <div className="grid grid-cols-2 gap-3 w-full sm:w-[260px] shrink-0">
-                    <SettingsToggle label={t?.glow || "Glow"} value={settings.glow} onChange={()=>handleVisualSettingChange('glow', !settings.glow)} variant="clean" />
-                    <SettingsToggle label={t?.trails || "Trail"} value={settings.trails} onChange={()=>handleVisualSettingChange('trails', !settings.trails)} variant="clean" />
-                </div>
-            </div>
-            
-            <div className="pt-4 border-t border-black/5 dark:border-white/5 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5">
                 <Slider label={t?.speed} value={settings.speed} min={0.1} max={3.0} step={0.1} onChange={(v)=>handleVisualSettingChange('speed', v)} />
                 <Slider label={t?.sensitivity} value={settings.sensitivity} min={0.5} max={4.0} step={0.1} onChange={(v)=>handleVisualSettingChange('sensitivity', v)} />
                 

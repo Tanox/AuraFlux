@@ -2,6 +2,30 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v1.10.6]
+### 🐛 Bug Fixes
+*   **Error Handling**: Fixed an issue where `FileReader` errors were being logged as raw Event objects (`{ "isTrusted": true }`), obscuring the actual error message.
+*   **Version Synchronization**: Updated all version strings to `v1.10.6`.
+
+## [v1.10.5]
+### 🌍 Internationalization & Code Quality
+*   **L10n Synchronization**: Completed and synchronized all 12 language translations (en, zh, tw, es, ar, fr, pt, pt-BR, de, ja, ko, ru).
+*   **Translation Standard**: Standardized the location of `tabs` in all locale files for better maintainability.
+*   **Bug Fix**: Resolved a React Hook dependency warning in the `Tooltip` component.
+*   **Version Synchronization**: Updated all version strings to `v1.10.5`.
+
+## [v1.10.4]
+### 🐛 Bug Fixes & 🛠️ UI Refinements
+*   **Randomization Engine**: Fixed a bug where the randomization button only affected sensitivity and speed. It now correctly randomizes the **Visualizer Mode**, **Color Theme**, **Glow**, and **Trails** for a truly dynamic experience.
+*   **Version Synchronization**: Updated all version strings to `v1.10.4` across the system.
+
+## [v1.10.3]
+### 🛠️ UI & Layout Refinements
+*   **Panel Re-balancing**: Reorganized the **Visual Settings** tab for a more balanced and scannable layout.
+*   **System Panel Categorization**: Grouped system toggles into *Interface*, *Interaction*, and *Performance* categories.
+*   **Performance Optimization**: Implemented `useMemo` across all core state hooks to resolve re-render loops.
+*   **Localization**: Added missing translation keys for new panel headers.
+
 ## [v1.9.87]
 ### 🛠️ UI & Notification Improvements
 *   **Auto-Dismissing Notifications**: Implemented a configurable duration for Toast notifications.

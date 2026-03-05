@@ -11,6 +11,14 @@ const getThemeLabels = () => {
 };
 
 export const settings = {
+  tabs: {
+    visual: "المرئيات",
+    input: "مدخل الصوت",
+    playback: "التشغيل",
+    text: "نص متداخل",
+    studio: "الاستوديو",
+    system: "النظام",
+  },
   sensitivity: "الحساسية",
   speed: "السرعة",
   smoothing: "النعومة",

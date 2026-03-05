@@ -1,12 +1,4 @@
 export const panels = {
-  tabs: {
-    visual: "Visuales",
-    input: "Entrada de Audio",
-    playback: "Reproducción",
-    text: "Texto Superpuesto",
-    studio: "Estudio",
-    system: "Sistema",
-  },
   visualPanel: {
     display: "Calidad de Imagen",
     aiBg: "Fondo IA",
@@ -15,6 +7,7 @@ export const panels = {
     showBg: "Mostrar Fondo IA",
     opacity: "Opacidad",
     bgGenerated: "Fondo IA Generado",
+    coreTitle: "Renderizado y Colores",
   },
   audioPanel: {
     audioInput: "Arquitectura de Señal",
@@ -64,6 +57,9 @@ export const panels = {
     interface: "Sistema y Comportamiento",
     installApp: "Instalar App Aura Flux",
     factoryReset: "Restablecimiento de Fábrica",
+    uiSettings: "Interfaz",
+    interaction: "Interacción",
+    performance: "Rendimiento",
   },
   studioPanel: {
     videoConfig: "Ajustes de Video",

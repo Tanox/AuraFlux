@@ -9,10 +9,10 @@ export const VisualSettingsPanel: React.FC = () => {
     <div id="visual-settings-panel" className="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
       <div className="lg:col-span-7 flex flex-col gap-3">
         <ModeSelector />
-        <CoreVisuals />
       </div>
       <div className="lg:col-span-5 flex flex-col gap-3">
         <AiBackground />
+        <CoreVisuals />
       </div>
     </div>
   );

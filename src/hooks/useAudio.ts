@@ -1,5 +1,5 @@
-// File: src/hooks/useAudio.ts | Version: v1.9.80
-import { useState, useCallback, useEffect, useRef } from 'react';
+// File: src/hooks/useAudio.ts | Version: v1.9.99
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
 interface UseAudioProps {
@@ -103,7 +103,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       return null;
   }, []);
 
-  return {
+  return useMemo(() => ({
     sourceType, isListening, isPending,
     analyser, analyserR,
     mediaStream, audioDevices,
@@ -120,5 +120,5 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
     clearPlaylist, getAudioSlice,
     isPlaying, duration, currentTime,
     audioContext: audioContextRef.current
-  };
+  }), [sourceType, isListening, isPending, analyser, analyserR, mediaStream, audioDevices, selectedDeviceId, setSelectedDeviceId, toggleMicrophone, playlist, currentIndex, playbackMode, setPlaybackMode, importFiles, togglePlayback, seekFile, playNext, playPrev, playTrackByIndex, removeFromPlaylist, clearPlaylist, getAudioSlice, isPlaying, duration, currentTime]);
 };

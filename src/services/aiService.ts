@@ -1,4 +1,4 @@
-// File: src/services/aiService.ts | Version: v1.9.86
+// File: src/services/aiService.ts | Version: v1.10.6
 import { GoogleGenAI } from '@google/genai';
 
 let aiInstance: GoogleGenAI | null = null;
@@ -28,7 +28,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
           const result = reader.result as string;
           resolve(result.split(',')[1]);
         };
-        reader.onerror = reject;
+        reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
         reader.readAsDataURL(audioInput);
       });
     }
@@ -102,7 +102,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
         const result = reader.result as string;
         resolve(result.split(',')[1]);
       };
-      reader.onerror = reject;
+      reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
       reader.readAsDataURL(audioBlob);
     });
 
