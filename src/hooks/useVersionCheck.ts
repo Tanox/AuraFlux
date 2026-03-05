@@ -3,6 +3,16 @@ import { useEffect } from 'react';
 
 const normalizeVersion = (v: string) => v.replace(/^v/, '');
 
+const isNewer = (newV: string, oldV: string) => {
+    const n = normalizeVersion(newV).split('.').map(Number);
+    const o = normalizeVersion(oldV).split('.').map(Number);
+    for (let i = 0; i < Math.max(n.length, o.length); i++) {
+        if ((n[i] || 0) > (o[i] || 0)) return true;
+        if ((n[i] || 0) < (o[i] || 0)) return false;
+    }
+    return false;
+};
+
 export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: string) => void) => {
   useEffect(() => {
     const checkVersion = async () => {
@@ -10,7 +20,7 @@ export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: s
         const response = await fetch('/version.json');
         if (response.ok) {
           const data = await response.json();
-          if (data.version && normalizeVersion(data.version) !== normalizeVersion(currentVersion)) {
+          if (data.version && isNewer(data.version, currentVersion)) {
             onUpdate(data.version);
           }
         }

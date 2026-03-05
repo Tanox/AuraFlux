@@ -49,7 +49,9 @@ const FloatingTooltipInternal = ({ text, visible, anchorRef }: FloatingTooltipPr
       const timer = setTimeout(() => setIsAutoHidden(true), 5000);
       return () => clearTimeout(timer);
     } else {
-      setIsAutoHidden(false);
+      if (isAutoHidden) {
+        setIsAutoHidden(false);
+      }
     }
   }, [visible, isMobile]);
 

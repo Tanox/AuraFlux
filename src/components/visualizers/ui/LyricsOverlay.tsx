@@ -46,8 +46,10 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
           const nextTime = lrcLines[i+1]?.time || Infinity;
           return currentTime >= line.time && currentTime < nextTime;
       });
-      setActiveIndex(idx);
-  }, [currentTime, isSynced, lrcLines]);
+      if (idx !== activeIndex) {
+          setActiveIndex(idx);
+      }
+  }, [currentTime, isSynced, lrcLines, activeIndex]);
 
   useEffect(() => {
       if (isSynced && activeIndex !== -1 && scrollContainerRef.current) {

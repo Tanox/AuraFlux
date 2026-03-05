@@ -1,6 +1,6 @@
 {
-  "name": "Aura Flux - AI Music Visualizer v1.9.88",
-  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 1.9.88 moves update notifications to the top.",
+  "name": "Aura Flux - AI Music Visualizer v1.9.97",
+  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 1.9.97 improves language detection and robustness.",
   "requestFramePermissions": [
     "camera",
     "microphone",
