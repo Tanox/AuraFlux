@@ -1,4 +1,4 @@
-// File: src/context/AppContext.tsx | Version: v1.9.93
+// File: src/context/AppContext.tsx | Version: v1.10.6
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/src/types/index';
 import { useAudio } from '@/src/hooks/useAudio';
@@ -125,7 +125,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       VisualizerMode.DIGITAL_GRID, VisualizerMode.SILK_WAVE,
       VisualizerMode.OCEAN_WAVE, VisualizerMode.NEURAL_FLOW,
       VisualizerMode.CUBE_FIELD, VisualizerMode.KINETIC_WALL,
-      VisualizerMode.RESONANCE_ORB, VisualizerMode.VORTEX
+      VisualizerMode.RESONANCE_ORB, VisualizerMode.VORTEX,
+      VisualizerMode.LIQUID_SPHERE
     ].includes(visualsState.mode);
   }, [visualsState.mode]);
 
