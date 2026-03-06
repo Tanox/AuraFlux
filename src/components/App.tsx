@@ -3,7 +3,6 @@ import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/src/context/AppContext';
 import { WelcomeScreen } from '@/src/components/visualizers/ui/WelcomeScreen';
 import { OnboardingOverlay } from '@/src/components/visualizers/ui/onboarding/OnboardingOverlay';
-import { UnsupportedScreen } from '@/src/components/visualizers/ui/UnsupportedScreen';
 import { HelpModal } from '@/src/components/visualizers/ui/HelpModal';
 import SongOverlay from '@/src/components/visualizers/ui/SongOverlay';
 import LyricsOverlay from '@/src/components/visualizers/ui/LyricsOverlay';
@@ -65,7 +64,7 @@ const MainContent: React.FC = () => {
       hasStarted, language, setLanguage, manageWakeLock, 
       showHelpModal, setShowHelpModal, helpModalInitialTab, 
       isDragging, setIsDragging, t, 
-      toggleFullscreen, showToast
+      toggleFullscreen
   } = ui;
   
   const { mode, colorTheme, settings, setSettings, isThreeMode } = visuals;

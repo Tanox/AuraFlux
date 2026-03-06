@@ -47,7 +47,7 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
     if (!pointsRef.current) return;
     const mat = pointsRef.current.material as ShaderMaterial, sysTime = state.clock.getElapsedTime();
     
-    accumulatedTimeRef.current += delta * settings.speed * (0.3 + features.volume * 2.0) * 0.2;
+    accumulatedTimeRef.current += delta * settings.speed * (0.3 + features.volume * 2.0) * 0.04; // Reduced to 20% (0.2 * 0.2 = 0.04)
     if (features.isBeat) beatTimerRef.current = sysTime;
     
     mat.uniforms.uTime.value = accumulatedTimeRef.current; 

@@ -24,10 +24,10 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1, c2] = smoothedColors;
   
-  const COLS = 64;
-  const ROWS = 32;
+  const COLS = 128; // Increased from 64
+  const ROWS = 64;  // Increased from 32
   const COUNT = COLS * ROWS;
-  const SPACING = 1.2;
+  const SPACING = 0.8; // Reduced spacing to keep it dense
   
   const dummy = useMemo(() => new Object3D(), []);
   
