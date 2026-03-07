@@ -15,4 +15,6 @@ export const common = {
   simple: "Simple",
   advanced: "Advanced",
   active: "Tracks",
+  selectAll: "SELECT ALL",
+  fontName: "Font Name",
 };

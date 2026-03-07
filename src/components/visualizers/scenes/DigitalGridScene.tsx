@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/DigitalGridScene.tsx
- * Version: v1.9.68
+ * Version: v1.10.7
  * Author: Sut
  */
 

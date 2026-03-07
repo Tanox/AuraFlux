@@ -15,4 +15,6 @@ export const common = {
   simple: "بسيط",
   advanced: "متقدم",
   active: "مقطوعة",
+  selectAll: "تحديد الكل",
+  fontName: "اسم الخط",
 };

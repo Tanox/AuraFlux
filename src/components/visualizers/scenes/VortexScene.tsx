@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/VortexScene.tsx
- * Version: v1.9.73
+ * Version: v1.10.7
  * Author: Sut
  */
 

@@ -15,4 +15,6 @@ export const common = {
     simple: "간편",
     advanced: "고급",
     active: "곡",
+    selectAll: "모두 선택",
+    fontName: "글꼴 이름",
 };

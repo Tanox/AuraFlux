@@ -15,4 +15,6 @@ export const common = {
   simple: "简洁",
   advanced: "高级",
   active: "首曲目",
+  selectAll: "全选",
+  fontName: "字体名字",
 };

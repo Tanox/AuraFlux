@@ -15,4 +15,6 @@ export const common = {
     simple: "Простой",
     advanced: "Продвинутый",
     active: "Треки",
+    selectAll: "ВЫБРАТЬ ВСЕ",
+    fontName: "Имя шрифта",
 };

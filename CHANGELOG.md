@@ -2,6 +2,18 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.0]
+### 🚀 Major Refactoring & Documentation
+*   **Documentation Consolidation**: Merged the legacy `docs/` directory into the `openspec/` directory to establish a single, unified source of truth for all project specifications and guides.
+*   **Code Optimization**: Refactored large visualizer components (`SilkWaveScene`, `VortexScene`, `NeuralFlowScene`, `DigitalGridScene`) by extracting complex inline shaders and logic into dedicated files and hooks, significantly reducing file size and improving maintainability.
+*   **Version Synchronization**: Updated all version strings to `v2.0.0`.
+
+## [v1.10.7]
+### 📝 Documentation & Refactoring
+*   **Documentation Consolidation**: Merged the legacy `docs/` directory into the `openspec/` directory to establish a single, unified source of truth for all project specifications and guides.
+*   **Code Optimization**: Refactored large visualizer components (`SilkWaveScene`, `VortexScene`, `NeuralFlowScene`, `DigitalGridScene`) by extracting complex inline shaders and logic into dedicated files and hooks, significantly reducing file size and improving maintainability.
+*   **Version Synchronization**: Updated all version strings to `v1.10.7`.
+
 ## [v1.10.6]
 ### 🐛 Bug Fixes
 *   **Error Handling**: Fixed an issue where `FileReader` errors were being logged as raw Event objects (`{ "isTrusted": true }`), obscuring the actual error message.

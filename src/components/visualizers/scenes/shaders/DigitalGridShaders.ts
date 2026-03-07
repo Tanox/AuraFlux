@@ -1,6 +1,4 @@
-import { Shader } from 'three';
-
-export const injectDigitalGridShader = (s: Shader, uniforms: any) => {
+export const injectDigitalGridShader = (s: any, uniforms: any) => {
     Object.assign(s.uniforms, uniforms);
     s.vertexShader = `
       attribute vec3 aLayout;

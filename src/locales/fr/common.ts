@@ -15,4 +15,6 @@ export const common = {
     simple: "Simple",
     advanced: "Avancé",
     active: "Pistes",
+    selectAll: "TOUT SÉLECTIONNER",
+    fontName: "Nom de la police",
 };

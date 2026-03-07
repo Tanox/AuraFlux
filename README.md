@@ -1,8 +1,8 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v1.10.6)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.0.0)
 
-[Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md) | [Documentation](./docs/)
+[Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md) | [Documentation](./openspec/)
 
 **Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 19**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
 
@@ -10,10 +10,10 @@
 
 ## 📚 Documentation Table of Contents
 
-- [**Project Architecture & Modules**](./docs/ARCHITECTURE.md) - 架构设计与核心模块说明
-- [**User Guide**](./docs/USER_GUIDE.md) - 用户操作指南与流程图
-- [**API Documentation**](./docs/API.md) - 接口定义与 Gemini 集成说明
-- [**FAQ & Troubleshooting**](./docs/FAQ.md) - 常见问题与故障排除
+- [**Project Architecture & Modules**](./openspec/13_architecture_overview.md) - 架构设计与核心模块说明
+- [**User Guide**](./openspec/14_user_guide.md) - 用户操作指南与流程图
+- [**API Documentation**](./openspec/12_api_reference.md) - 接口定义与 Gemini 集成说明
+- [**FAQ & Troubleshooting**](./openspec/15_faq.md) - 常见问题与故障排除
 - [**OpenSpec Standards**](./openspec/) - 详细的技术规范文档
 
 ---
@@ -90,5 +90,5 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_GEMINI_API_KEY=your_key aura-flux
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 1.10.6*  
+*Version: 2.0.0*  
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)
