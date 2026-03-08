@@ -26,8 +26,6 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.PARTICLES]: { background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%), repeating-radial-gradient(circle at center, white 0, white 0.5px, black 0.5px, black 15px)', backgroundSize: '100% 100%, 30px 30px' },
     [VisualizerMode.PLASMA]: { background: 'radial-gradient(circle, #ec4899, #8b5cf6, #3b82f6)' },
     [VisualizerMode.BARS]: { background: 'linear-gradient(to top, #3b82f6, #8b5cf6)' },
-    [VisualizerMode.RIPPLES]: { background: 'radial-gradient(circle, transparent 20%, #4f46e5 20%, #4f46e5 25%, transparent 25%, transparent 40%, #ec4899 40%, #ec4899 45%, transparent 45%)' },
-    [VisualizerMode.SPIRAL]: { background: 'conic-gradient(from 0deg, #ff00ff, #00ffff, #ff00ff)' },
     [VisualizerMode.VORTEX]: { background: 'radial-gradient(circle, #4f46e5, #000000)' },
 };
 

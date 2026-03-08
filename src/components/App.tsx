@@ -12,11 +12,12 @@ import { useIdleTimer } from '@/src/hooks/useIdleTimer';
 import { useMobileGestures } from '@/src/hooks/useMobileGestures';
 import { useVersionCheck } from '@/src/hooks/useVersionCheck';
 import { APP_VERSION } from '@/src/constants/version';
+import dynamic from 'next/dynamic';
 import type { ControlsProps } from '@/src/components/controls/Controls';
 
-const VisualizerCanvas = lazy(() => import('@/src/components/visualizers/VisualizerCanvas'));
-const ThreeVisualizer = lazy(() => import('@/src/components/visualizers/ThreeVisualizer'));
-const Controls = lazy(() => import('@/src/components/controls/Controls').then(module => ({ default: module.Controls as React.FC<ControlsProps> })));
+const VisualizerCanvas = dynamic(() => import('@/src/components/visualizers/VisualizerCanvas'), { ssr: false });
+const ThreeVisualizer = dynamic(() => import('@/src/components/visualizers/ThreeVisualizer'), { ssr: false });
+const Controls = dynamic(() => import('@/src/components/controls/Controls'), { ssr: false });
 
 const MainContent: React.FC = () => {
   const ui = useUI();

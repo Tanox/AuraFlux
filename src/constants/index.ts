@@ -51,7 +51,7 @@ export const SMART_PRESETS = [
     nameKey: 'ambient',
     mode: VisualizerMode.OCEAN_WAVE,
     colors: ['#2193b0', '#6dd5ed', '#000046'],
-    settings: { sensitivity: 0.8 }
+    settings: { sensitivity: 0.3 }
   },
   {
     name: 'Neon Vortex',

@@ -62,7 +62,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
     analyser.getByteFrequencyData(data); tex.needsUpdate = true; if (isBeat) beatRef.current = 1.0; beatRef.current *= 0.92;
     uniforms.uTime.value = state.clock.getElapsedTime(); uniforms.uBeat.value = beatRef.current; uniforms.uSensitivity.value = settings.sensitivity;
     if(c1) uniforms.uColor1.value.copy(c1); if(c0) uniforms.uColor2.value.copy(c0); if(c2) uniforms.uColor3.value.copy(c2);
-    state.camera.position.x += (Math.sin(uniforms.uTime.value*0.15)*3 - state.camera.position.x)*0.05; state.camera.lookAt(0,0,-50);
+    // Camera controlled by OrbitControls
   });
 
   if (!lAttr || !rAttr) return <group />;

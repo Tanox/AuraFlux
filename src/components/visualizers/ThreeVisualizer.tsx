@@ -1,7 +1,7 @@
-// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v1.9.82
+// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v2.0.2
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stars } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { VisualizerMode, VisualizerSettings } from '@/src/types';
 import { DigitalGridScene } from './scenes/DigitalGridScene';
 import { OceanWaveScene } from './scenes/OceanWaveScene';
@@ -11,6 +11,7 @@ import { KineticWallScene } from './scenes/KineticWallScene';
 import { CubeFieldScene } from './scenes/CubeFieldScene';
 import { LiquidSphereScene } from './scenes/LiquidSphereScene';
 import { NeuralFlowScene } from './scenes/NeuralFlowScene';
+import { LaserScene } from './scenes/LaserScene';
 
 interface Props {
   analyser: AnalyserNode;
@@ -29,8 +30,10 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
       case VisualizerMode.SILK_WAVE: return SilkWaveScene;
       case VisualizerMode.KINETIC_WALL: return KineticWallScene;
       case VisualizerMode.CUBE_FIELD: return CubeFieldScene;
+      case VisualizerMode.RESONANCE_ORB: return LiquidSphereScene;
       case VisualizerMode.LIQUID_SPHERE: return LiquidSphereScene;
       case VisualizerMode.NEURAL_FLOW: return NeuralFlowScene;
+      case VisualizerMode.LASERS: return LaserScene;
       default: return DigitalGridScene;
     }
   }, [mode]);
@@ -44,7 +47,6 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
         style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
       >
         <color attach="background" args={['#000000']} />
-        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         

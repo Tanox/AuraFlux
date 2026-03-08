@@ -1,4 +1,4 @@
-// File: src/locales/zh.ts | Version: v1.9.88
+// File: src/locales/zh.ts | Version: v2.0.3
 import { common } from './zh/common';
 import { onboarding } from './zh/onboarding';
 import { panels } from './zh/panels';
@@ -8,7 +8,7 @@ import { messages } from './zh/messages';
 
 export const zh = {
   common,
-  appVersion: "v1.10.5",
+  appVersion: "v2.0.3",
   appTitle: "Aura Flux",
   welcomeSubtitle: "通感智能引擎",
   startExperience: "启动系统",

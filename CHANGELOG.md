@@ -2,6 +2,18 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.3]
+### 🐛 Bug Fixes
+*   **Visualizer Modes**: Fixed an issue where the `PLASMA` (等离子流), `NEBULA` (宇宙星云), and `RINGS` (共振环) visualizer modes were not displaying. Implemented these modes in the 2D `VisualizerCanvas` engine.
+
+## [v2.0.2]
+### 🎨 Visuals
+*   **Background**: Removed the shared fixed particle background (`<Stars>`) from all 3D visualizer modes for a cleaner look.
+
+## [v2.0.1]
+### 🐛 Bug Fixes
+*   **Laser Visualizer**: Fixed a bug where the "Laser Beams" mode was not displaying by implementing the `LaserScene` 3D component and integrating it into the `ThreeVisualizer` switch logic and `AppContext` mode classification.
+
 ## [v2.0.0]
 ### 🚀 Major Refactoring & Documentation
 *   **Documentation Consolidation**: Merged the legacy `docs/` directory into the `openspec/` directory to establish a single, unified source of truth for all project specifications and guides.

@@ -109,16 +109,13 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity;
+        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.3; // Default gain reduced to 30%
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColorRidge.value.copy(c2); 
         else if (c0) mat.uniforms.uColorRidge.value.copy(c0);
     }
     
-    const time = state.clock.getElapsedTime();
-    state.camera.position.x = Math.sin(time * 0.1) * 12;
-    state.camera.position.y = 22 + Math.cos(time * 0.08) * 4;
-    state.camera.lookAt(0, -8, -70); 
+    // Camera controlled by OrbitControls
   });
 
   if (!historyData || historyData.length === 0) return <group />;

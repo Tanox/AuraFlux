@@ -1,4 +1,4 @@
-// File: src/components/controls/Controls.tsx | Version: v1.10.6
+// File: src/components/controls/Controls.tsx | Version: v2.0.3
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
@@ -18,7 +18,7 @@ export interface ControlsProps {
   toggleFullscreen: () => void;
 }
 
-export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, toggleFullscreen }) => {
+const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, toggleFullscreen }) => {
   const { t } = useUI();
   const { randomizeSettings } = useVisuals();
   const [activeTab, setActiveTab] = useState<Tab>('visual');
@@ -86,3 +86,5 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
     </>
   );
 };
+
+export default Controls;

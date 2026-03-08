@@ -57,8 +57,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
     const globalSpeed = settings.speed * 4.5 * (1.0 + volume * 2.0 + (isBeat ? 2.5 : 0));
     const centerX = Math.sin(time*0.2)*35, centerY = Math.cos(time*0.7)*25;
     
-    state.camera.position.x += (Math.sin(time*0.1)*5 - state.camera.position.x) * 0.05;
-    state.camera.lookAt(centerX*0.1, centerY*0.1, -100);
+    // Camera controlled by OrbitControls
     
     if (coreLightRef.current) { 
         coreLightRef.current.position.set(centerX, centerY, -80); 

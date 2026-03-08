@@ -74,9 +74,7 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
     if (c1) mat.uniforms.uColor2.value.copy(c1); 
     if (c2) mat.uniforms.uColor3.value.copy(c2);
     
-    state.camera.position.x = Math.sin(time * 0.05) * 12; 
-    state.camera.position.y = Math.cos(time * 0.07) * 4 + 2; 
-    state.camera.lookAt(0, 0, -40);
+    // Camera controlled by OrbitControls
   });
 
   if (!channels || !randoms || !layerIndices) return null;
