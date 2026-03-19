@@ -1,4 +1,4 @@
-// File: src/hooks/useVersionCheck.ts | Version: v1.9.76
+// File: src/hooks/useVersionCheck.ts | Version: v2.0.9
 import { useEffect } from 'react';
 
 export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: string) => void) => {
@@ -13,7 +13,7 @@ export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: s
           }
         }
       } catch (err) {
-        console.error('Version check failed:', err);
+        // Ignore fetch errors (e.g., network issues, missing file)
       }
     };
 

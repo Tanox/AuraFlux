@@ -1,13 +1,13 @@
-// File: app/components/controls/Controls.tsx | Version: v1.9.73
-import React, { useState, useEffect } from 'react';
-import { VisualSettingsPanel } from './panels/VisualSettingsPanel.tsx';
-import { SystemSettingsPanel } from './panels/SystemSettingsPanel.tsx';
-import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel.tsx';
-import { AudioSettingsPanel } from './panels/AudioSettingsPanel.tsx';
-import { StudioPanel } from './panels/StudioPanel.tsx';
-import { PlaybackPanel } from './panels/PlaybackPanel.tsx';
-import { useUI } from '@/src/context/AppContext';
-import { BottomBar } from './BottomBar.tsx';
+// File: src/components/controls/Controls.tsx | Version: v2.0.3
+import React, { useState, useEffect, useMemo } from 'react';
+import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
+import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
+import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel';
+import { AudioSettingsPanel } from './panels/AudioSettingsPanel';
+import { StudioPanel } from './panels/StudioPanel';
+import { PlaybackPanel } from './panels/PlaybackPanel';
+import { useUI, useVisuals } from '@/src/context/AppContext';
+import { BottomBar } from './BottomBar';
 
 type Tab = 'visual' | 'input' | 'playback' | 'text' | 'studio' | 'system';
 
@@ -18,25 +18,33 @@ export interface ControlsProps {
   toggleFullscreen: () => void;
 }
 
-export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, toggleFullscreen }) => {
+const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, toggleFullscreen }) => {
   const { t } = useUI();
+  const { randomizeSettings } = useVisuals();
   const [activeTab, setActiveTab] = useState<Tab>('visual');
 
-  const TABS: { id: Tab, label: keyof typeof t.tabs, component: React.ReactNode }[] = [
+  const TABS = useMemo<{ id: Tab, label: keyof typeof t.tabs, component: React.ReactNode }[]>(() => [
     { id: 'visual', label: 'visual', component: <VisualSettingsPanel /> },
     { id: 'input', label: 'input', component: <AudioSettingsPanel /> },
     { id: 'playback', label: 'playback', component: <PlaybackPanel /> },
     { id: 'text', label: 'text', component: <CustomTextSettingsPanel /> },
     { id: 'studio', label: 'studio', component: <StudioPanel /> },
     { id: 'system', label: 'system', component: <SystemSettingsPanel /> },
-  ];
+  ], []);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 
   useEffect(() => {
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      console.log('Key pressed:', e.key);
       const target = e.target as HTMLElement;
       if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
+
+      if (e.key.toLowerCase() === 'r') {
+        e.preventDefault();
+        randomizeSettings();
+        return;
+      }
 
       const numKey = parseInt(e.key, 10);
       if (!isNaN(numKey) && numKey >= 1 && numKey <= TABS.length) {
@@ -46,7 +54,7 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [TABS, randomizeSettings]);
 
   return (
     <>
@@ -78,3 +86,5 @@ export const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, i
     </>
   );
 };
+
+export default Controls;

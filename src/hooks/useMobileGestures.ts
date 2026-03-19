@@ -1,7 +1,7 @@
 // File: app/hooks/useMobileGestures.ts | Version: v1.9.73
 import React, { useRef, useCallback } from 'react';
 import { useVisuals, useAI } from '@/src/context/AppContext';
-import { VisualizerMode } from '../types/index.ts';
+import { VisualizerMode } from '../types/index';
 
 export const useMobileGestures = () => {
   const { mode, setMode, setSettings } = useVisuals();

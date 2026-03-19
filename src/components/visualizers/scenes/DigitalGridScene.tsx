@@ -1,15 +1,17 @@
 /**
  * File: app/components/visualizers/scenes/DigitalGridScene.tsx
- * Version: v1.9.68
+ * Version: v1.10.7
  * Author: Sut
  */
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { InstancedMesh, Object3D, Color, InstancedBufferAttribute, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
+import { InstancedMesh, Object3D, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { useDigitalGrid } from './hooks/useDigitalGrid';
+import { injectDigitalGridShader } from './shaders/DigitalGridShaders';
 
 type Shader = {
   uniforms: { [key: string]: any };
@@ -18,29 +20,13 @@ type Shader = {
 };
 
 export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, colors, settings }) => {
-  const meshRef = useRef<InstancedMesh>(null), { size } = useThree();
+  const meshRef = useRef<InstancedMesh>(null);
   
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { isBeat } = features;
   const [c0, c1, c2] = smoothedColors;
   
-  const grid = useMemo(() => {
-      const isHigh = settings.quality !== 'low', radius = 45, colStep = (isHigh ? 2.4 : 3.6) + 0.25, vFov = (55 * Math.PI) / 180, dist = 66;
-      const h = size.height || 1, w = size.width || 1;
-      const targetH = 2 * Math.tan(vFov / 2) * dist * 1.15, targetW = targetH * (w/h) * 1.2;
-      let rows = Math.ceil(targetH / ((isHigh ? 0.6 : 0.9) + 0.12)), cols = Math.min(Math.ceil(targetW / colStep), Math.floor((Math.PI * 1.5 * radius) / colStep));
-      if (rows % 2 === 0) rows++; if (cols % 2 === 0) cols++;
-      return { RADIUS: radius, GAP_Y: 0.12, BRICK_W: isHigh ? 2.4 : 3.6, BRICK_H: isHigh ? 0.6 : 0.9, COLS: cols, ROWS: rows, COUNT: cols * rows, STEP: colStep / radius };
-  }, [size.width, size.height, settings.quality]);
-
-  const { lAttr, rAttr } = useMemo(() => {
-      const l = new Float32Array(grid.COUNT * 3), r = new Float32Array(grid.COUNT);
-      for(let i=0; i<grid.COUNT; i++) {
-          const col = Math.floor(i / grid.ROWS), colNorm = (col / (grid.COLS - 1)) * 2 - 1;
-          l[i*3] = Math.pow(Math.abs(colNorm), 1.5); l[i*3+1] = (i % grid.ROWS) / (grid.ROWS - 1); l[i*3+2] = 1.0 - Math.pow(Math.abs(colNorm), 5.0); r[i] = Math.random();
-      }
-      return { lAttr: new InstancedBufferAttribute(l, 3), rAttr: new InstancedBufferAttribute(r, 1) };
-  }, [grid]);
+  const { grid, lAttr, rAttr } = useDigitalGrid(settings);
 
   useLayoutEffect(() => {
     if (meshRef.current) {
@@ -67,46 +53,16 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   const uniforms = useMemo(() => ({ uAudioTexture: { value: tex }, uTime: { value: 0 }, uColor1: { value: new Color() }, uColor2: { value: new Color() }, uColor3: { value: new Color() }, uBeat: { value: 0.0 }, uSensitivity: { value: 1.0 } }), [tex]);
   
   const onCompile = useMemo(() => (s: Shader) => {
-    Object.assign(s.uniforms, uniforms);
-    s.vertexShader = `
-      attribute vec3 aLayout;
-      attribute float aRandom;
-      varying float vA, vR, vE, vRn;
-      uniform sampler2D uAudioTexture;
-      uniform float uTime, uBeat, uSensitivity;
-      ${s.vertexShader}
-    `.replace('#include <begin_vertex>', `
-      #include <begin_vertex>
-      vR = aLayout.y;
-      vE = aLayout.z;
-      vRn = aRandom;
-      float i = texture2D(uAudioTexture, vec2(aLayout.x*0.9+0.02, 0.5)).r * uSensitivity * 0.5;
-      vA = clamp(smoothstep(0.0, 0.3, i*1.1 - abs(aLayout.y-0.5)*2.0) + smoothstep(0.8, 1.0, sin(aLayout.y*10.0-uTime*8.0))*uBeat*0.5, 0.0, 1.0);
-      transformed.z += vA * 2.5;
-    `);
-    
-    s.fragmentShader = `
-      uniform vec3 uColor1, uColor2, uColor3;
-      uniform float uBeat, uTime;
-      varying float vA, vR, vE, vRn;
-      ${s.fragmentShader}
-    `.replace('#include <color_fragment>', `
-      #include <color_fragment>
-      vec3 c = mix(mix(uColor1*0.2, uColor2, smoothstep(0.0,0.6,vA)), uColor3, smoothstep(0.4+vRn*0.3-0.15, 0.9, vA+vR*0.3)) * (0.2+vRn*vRn*2.0) * (smoothstep(-1.0,1.0,sin(uTime*6.0+vRn*15.0))*0.4+0.6) + uColor3*uBeat*0.5*vRn;
-      diffuseColor.rgb = c;
-      diffuseColor.a = smoothstep(0.0,0.15,vE) * smoothstep(0.01,0.15,vA);
-    `).replace('#include <emissivemap_fragment>', `
-      #include <emissivemap_fragment>
-      totalEmissiveRadiance = diffuseColor.rgb * (0.5+vRn*vRn*2.4) * (0.5+vA*0.8);
-    `);
+    injectDigitalGridShader(s, uniforms);
   }, [uniforms]);
 
   const beatRef = useRef(0);
+
   useFrame((state) => {
     analyser.getByteFrequencyData(data); tex.needsUpdate = true; if (isBeat) beatRef.current = 1.0; beatRef.current *= 0.92;
     uniforms.uTime.value = state.clock.getElapsedTime(); uniforms.uBeat.value = beatRef.current; uniforms.uSensitivity.value = settings.sensitivity;
     if(c1) uniforms.uColor1.value.copy(c1); if(c0) uniforms.uColor2.value.copy(c0); if(c2) uniforms.uColor3.value.copy(c2);
-    state.camera.position.x += (Math.sin(uniforms.uTime.value*0.15)*3 - state.camera.position.x)*0.05; state.camera.lookAt(0,0,-50);
+    // Camera controlled by OrbitControls
   });
 
   if (!lAttr || !rAttr) return <group />;
@@ -114,7 +70,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   return (
     <>
       {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
-      <ambientLight intensity={0.1}/><instancedMesh ref={meshRef} args={[undefined, undefined, grid.COLS * grid.ROWS]} position={[0,0,-50]}><planeGeometry args={[1,1]}/><meshStandardMaterial onBeforeCompile={onCompile} roughness={0.2} metalness={0.9} side={DoubleSide} transparent depthWrite={false}/></instancedMesh>
+      <ambientLight intensity={0.1}/><instancedMesh ref={meshRef} args={[undefined, undefined, grid.COLS * grid.ROWS]} position={[0,0,-50]}><planeGeometry args={[1.414, 1.414]}/><meshStandardMaterial onBeforeCompile={onCompile} roughness={0.2} metalness={0.9} side={DoubleSide} transparent depthWrite={false}/></instancedMesh>
       <mesh rotation={[-Math.PI/2,0,0]} position={[0,-30,-20]}>
         <planeGeometry args={[200,200]}/>
         {/* @ts-ignore */}

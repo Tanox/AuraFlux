@@ -1,4 +1,4 @@
-// File: src/services/audioUtils.ts | Version: v1.9.76
+// File: src/services/audioUtils.ts | Version: v1.9.80
 
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
   const startIndex = start || 0;
@@ -33,7 +33,7 @@ export const getAudioSlice = async (file: File, duration: number = 10): Promise<
     const wavBlob = audioBufferToWav(renderedBuffer);
     return wavBlob;
   } catch (err) {
-    console.error('Failed to get audio slice:', err);
+    console.warn('Failed to get audio slice:', err);
     return null;
   }
 };

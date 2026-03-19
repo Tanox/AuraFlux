@@ -5,13 +5,13 @@
  */
 
 import React, { useMemo } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect.tsx';
-import { Slider } from '../../../visualizers/ui/controls/Slider.tsx';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
+import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
+import { Slider } from '../../../visualizers/ui/controls/Slider';
 import { useVisuals, useUI } from '@/src/context/AppContext';
-import { LyricsStyle, Position } from '../../../../types/index.ts';
-import { getPositionOptions } from '../../../../constants/index.ts';
+import { LyricsStyle, Position } from '../../../../types/index';
+import { getPositionOptions } from '../../../../constants/index';
 
 export const DisplayConfig: React.FC = () => {
   const { settings, setSettings } = useVisuals();

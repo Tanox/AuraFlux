@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/controls/SegmentedControl.tsx | Version: v1.9.76
+// File: src/components/visualizers/ui/controls/SegmentedControl.tsx | Version: v1.9.80
 import React from 'react';
 import { motion } from 'motion/react';
 

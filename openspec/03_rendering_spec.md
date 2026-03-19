@@ -1,13 +1,13 @@
 # OpenSpec: 视觉生成渲染规范 (03)
 
-## 1. 混合渲染管线 (v1.9.75)
+## 1. 混合渲染管线 (v1.9.85)
 
-### 1.1. 2D Worker 渲染器
-- **架构:** 主线程负责音频分析 (`AnalyserNode`)，通过 `postMessage` 将频谱数据 (`Uint8Array`) 发送至 Worker。
-- **控制权转移:** 使用 `transferControlToOffscreen` 将 Canvas 控制权完全移交 Worker 线程，避免主线程 UI 阻塞。
-- **渲染循环:** Worker 内部维护独立的 `requestAnimationFrame` 循环，实现稳定的 60FPS 渲染。
-- **策略模式:** 动态加载渲染策略类（如 `PlasmaRenderer`, `BarsRenderer`, `GeometryRenderers` 等），支持热切换。
-- **通信优化:** 仅在配置变更 (`CONFIG`) 或窗口调整 (`RESIZE`) 时发送控制指令，帧数据 (`FRAME`) 保持最小载荷。
+### 1.1. 2D 渲染器
+- **架构:** 采用 React 状态驱动的 Canvas 2D 渲染。
+- **自适应布局:** 使用 `ResizeObserver` 实时监听容器尺寸变化，动态调整 Canvas 的物理像素分辨率 (`width`/`height`) 与 CSS 尺寸。
+- **性能优化:** 
+    - 移除了全局 `window.resize` 监听，减少不必要的重绘。
+    - 确保可视化容器在全局布局中保持 `w-full h-full`，解决渲染区域塌陷问题。
 
 ### 1.2. 3D R3F 渲染器
 - **架构:** 基于 `@react-three/fiber` (R3F) 和 `@react-three/drei` 构建声明式 3D 场景。
@@ -31,5 +31,5 @@
 - **High:** 匹配设备原生 DPR (最高 1.5)，全粒子量，启用高级光照和后期处理。
 
 ---
-*Aura Flux Rendering Specification - Version 1.9.75*
+*Aura Flux Rendering Specification - Version 1.9.85*
 *Author: Sut*

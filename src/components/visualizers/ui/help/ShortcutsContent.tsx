@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/help/ShortcutsContent.tsx | Version: v1.9.76
+// File: src/components/visualizers/ui/help/ShortcutsContent.tsx | Version: v1.9.80
 import React from 'react';
 
 interface Props {

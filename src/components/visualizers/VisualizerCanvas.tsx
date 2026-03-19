@@ -1,6 +1,11 @@
-// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v1.9.76
+// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.1.0
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/src/types';
+import { drawBars } from './canvas/modes/BarsMode';
+import { drawWaveform } from './canvas/modes/WaveformMode';
+import { drawPlasma } from './canvas/modes/PlasmaMode';
+import { drawTunnel } from './canvas/modes/TunnelMode';
+import { drawParticles } from './canvas/modes/ParticlesMode';
 
 interface Props {
   analyser: AnalyserNode | null;
@@ -23,6 +28,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
     let animationId: number;
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
+    const peaks = new Float32Array(bufferLength);
 
     const draw = () => {
       animationId = requestAnimationFrame(draw);
@@ -32,37 +38,48 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
 
-      const barWidth = (width / bufferLength) * 2.5;
-      let x = 0;
-
-      for (let i = 0; i < bufferLength; i++) {
-        const barHeight = (dataArray[i] / 255) * height * settings.sensitivity;
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.fillRect(x, height - barHeight, barWidth, barHeight);
-        x += barWidth + 1;
+      switch (mode) {
+        case VisualizerMode.BARS:
+          drawBars(ctx, width, height, dataArray, bufferLength, colors, settings, peaks);
+          break;
+        case VisualizerMode.WAVEFORM:
+          drawWaveform(ctx, width, height, dataArray, bufferLength, colors, settings);
+          break;
+        case VisualizerMode.PLASMA:
+          drawPlasma(ctx, width, height, dataArray, bufferLength, colors, settings);
+          break;
+        case VisualizerMode.TUNNEL:
+          drawTunnel(ctx, width, height, dataArray, bufferLength, colors, settings);
+          break;
+        case VisualizerMode.PARTICLES:
+          drawParticles(ctx, width, height, dataArray, bufferLength, colors, settings);
+          break;
       }
     };
 
-    const handleResize = () => {
-      canvas.width = canvas.clientWidth * window.devicePixelRatio;
-      canvas.height = canvas.clientHeight * window.devicePixelRatio;
-    };
+    const parent = canvas.parentElement;
+    if (!parent) return;
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
+    const resizeObserver = new ResizeObserver(() => {
+      canvas.width = parent.clientWidth * window.devicePixelRatio;
+      canvas.height = parent.clientHeight * window.devicePixelRatio;
+    });
+
+    resizeObserver.observe(parent);
     draw();
 
     return () => {
       cancelAnimationFrame(animationId);
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
-  }, [analyser, colors, settings.sensitivity]);
+  }, [analyser, colors, settings, mode]);
 
   return (
     <canvas 
       ref={canvasRef} 
       id="visualizer-canvas-2d"
-      className="w-full h-full block"
+      className="absolute inset-0 w-full h-full block"
+      style={{ width: '100%', height: '100%' }}
     />
   );
 };

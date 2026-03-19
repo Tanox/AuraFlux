@@ -1,6 +1,8 @@
-// File: src/hooks/useAudio.ts | Version: v1.9.76
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
+// File: src/hooks/useAudio.ts | Version: v2.2.0
+import { useState, useCallback, useRef } from 'react';
+import { VisualizerSettings, SongInfo } from '../types';
+import { useMediaDevices } from './audio/useMediaDevices';
+import { usePlaylist } from './audio/usePlaylist';
 
 interface UseAudioProps {
   settings: VisualizerSettings;
@@ -17,32 +19,14 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
   const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
   const [analyserR, setAnalyserR] = useState<AnalyserNode | null>(null);
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
-  const [audioDevices, setAudioDevices] = useState<AudioDevice[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState('');
-  const [playlist, setPlaylist] = useState<Track[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [playbackMode, setPlaybackMode] = useState<PlaybackMode>(PlaybackMode.SEQUENCE);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   
   const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceNodeRef = useRef<AudioNode | null>(null);
-
-  useEffect(() => {
-    const getDevices = async () => {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const audioInputs = devices
-          .filter(d => d.kind === 'audioinput')
-          .map(d => ({ deviceId: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }));
-        setAudioDevices(audioInputs);
-      } catch (err) {
-        console.error('Error getting devices:', err);
-      }
-    };
-    getDevices();
-  }, []);
+  const audioDevices = useMediaDevices();
+  const playlistState = usePlaylist(showToast);
 
   const toggleMicrophone = useCallback(async (deviceId: string) => {
     try {
@@ -54,7 +38,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       }
 
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { deviceId: deviceId ? { exact: deviceId } : undefined }
+        audio: deviceId ? { deviceId: { exact: deviceId } } : true
       });
 
       if (!audioContextRef.current) {
@@ -72,31 +56,17 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       setIsListening(true);
       setSourceType('microphone');
       setSelectedDeviceId(deviceId);
-    } catch (err) {
-      console.error('Microphone error:', err);
-      showToast('Failed to access microphone', 'error');
+    } catch (err: any) {
+      const isPermissionDenied = err?.name === 'NotAllowedError' || String(err).includes('Permission denied');
+      if (!isPermissionDenied) {
+        console.error('Microphone error:', err);
+      }
+      showToast(isPermissionDenied ? 'Microphone permission denied' : 'Failed to access microphone', 'error');
     }
   }, [isListening, mediaStream, showToast]);
 
-  const importFiles = useCallback(async (files: FileList | File[]) => {
-    const newTracks: Track[] = Array.from(files).map(file => ({
-      id: Math.random().toString(36).slice(2),
-      file: file as File,
-      title: (file as File).name.replace(/\.[^/.]+$/, ""),
-      artist: 'Unknown Artist'
-    }));
-    setPlaylist(prev => [...prev, ...newTracks]);
-    setSourceType('file');
-    showToast(`Imported ${newTracks.length} tracks`);
-  }, [showToast]);
-
   const togglePlayback = useCallback(() => setIsPlaying(prev => !prev), []);
   const seekFile = useCallback((t: number) => setCurrentTime(t), []);
-  const playNext = useCallback(() => setCurrentIndex(prev => (prev + 1) % playlist.length), [playlist.length]);
-  const playPrev = useCallback(() => setCurrentIndex(prev => (prev - 1 + playlist.length) % playlist.length), [playlist.length]);
-  const playTrackByIndex = useCallback((i: number) => setCurrentIndex(i), []);
-  const removeFromPlaylist = useCallback((i: number) => setPlaylist(prev => prev.filter((_, idx) => idx !== i)), []);
-  const clearPlaylist = useCallback(() => setPlaylist([]), []);
   
   const getAudioSlice = useCallback(async (s?: number) => {
       // Mock implementation for now
@@ -109,15 +79,15 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
     mediaStream, audioDevices,
     selectedDeviceId, onDeviceChange: setSelectedDeviceId,
     toggleMicrophone,
-    playlist, currentIndex, playbackMode,
-    setPlaybackMode,
-    importFiles,
+    ...playlistState,
+    importFiles: async (files: FileList | File[]) => {
+        setSourceType('file');
+        return playlistState.importFiles(files);
+    },
     importFromUrl: async () => ({} as any),
     importPlaylistFromUrl: async () => [],
     togglePlayback, seekFile,
-    playNext, playPrev,
-    playTrackByIndex, removeFromPlaylist,
-    clearPlaylist, getAudioSlice,
+    getAudioSlice,
     isPlaying, duration, currentTime,
     audioContext: audioContextRef.current
   };

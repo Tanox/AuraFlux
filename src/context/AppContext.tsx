@@ -1,148 +1,88 @@
-// File: app/AppContext.tsx | Version: v1.9.73
-import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
-import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/src/types/index';
-import { useAudio } from '@/src/hooks/useAudio';
-import { useAppState } from '@/src/hooks/useAppState';
-import { useVisualsState } from '@/src/hooks/useVisualsState';
-import { useAiState } from '@/src/hooks/useAiState';
+// File: src/context/AppContext.tsx | Version: v2.1.0
+import React, { useState, useCallback } from 'react';
+import { SongInfo } from '@/src/types/index';
 import { Toast } from '@/src/components/visualizers/ui/Toast';
-import { TRANSLATIONS } from '@/src/locales/index';
-import { TranslationSchema } from '@/src/locales/index';
+import { UIProvider, useUI } from './UIContext';
+import { VisualsProvider, useVisuals } from './VisualsContext';
+import { AudioProvider, useAudioContext } from './AudioContext';
+import { AIProvider, useAI } from './AIContext';
 
-type HelpTab = 'guide' | 'shortcuts' | 'about';
-
-interface UIContextType {
-  language: Language; setLanguage: React.Dispatch<React.SetStateAction<Language>>;
-  region: Region; setRegion: React.Dispatch<React.SetStateAction<Region>>;
-  hasStarted: boolean; setHasStarted: React.Dispatch<React.SetStateAction<boolean>>;
-  resetSettings: () => void;
-  manageWakeLock: (enabled: boolean) => Promise<void>;
-  toggleFullscreen: () => void; t: TranslationSchema;
-  showToast: (message: string, type?: 'success' | 'info' | 'error') => void;
-  showHelpModal: boolean;
-  setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;
-  helpModalInitialTab: HelpTab;
-  setHelpModalInitialTab: React.Dispatch<React.SetStateAction<HelpTab>>;
-  isDragging: boolean;
-  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
-}
-const UIContext = createContext<UIContextType | null>(null);
-export const useUI = () => useContext(UIContext)!;
-
-interface VisualsContextType {
-  mode: VisualizerMode; setMode: React.Dispatch<React.SetStateAction<VisualizerMode>>;
-  colorTheme: string[]; setColorTheme: React.Dispatch<React.SetStateAction<string[]>>;
-  settings: VisualizerSettings; setSettings: React.Dispatch<React.SetStateAction<VisualizerSettings>>;
-  activePreset: string; setActivePreset: React.Dispatch<React.SetStateAction<string>>;
-  isThreeMode: boolean;
-  randomizeSettings: () => void; resetVisualSettings: () => void;
-  resetTextSettings: () => void; resetAudioSettings: () => void;
-  applyPreset: (preset: SmartPreset) => void;
-}
-const VisualsContext = createContext<VisualsContextType | null>(null);
-export const useVisuals = () => useContext(VisualsContext)!;
-
-interface AudioContextType {
-  sourceType: AudioSourceType; isListening: boolean; isPending: boolean;
-  analyser: AnalyserNode | null; analyserR: AnalyserNode | null;
-  mediaStream: MediaStream | null; audioDevices: AudioDevice[];
-  selectedDeviceId: string; onDeviceChange: (id: string) => void;
-  toggleMicrophone: (id: string) => void;
-  currentSong: SongInfo | null; setCurrentSong: (s: SongInfo | null) => void;
-  playlist: Track[]; currentIndex: number; playbackMode: PlaybackMode;
-  setPlaybackMode: (m: PlaybackMode) => void;
-  importFiles: (files: FileList | File[]) => Promise<any>;
-  importFromUrl: (url: string) => Promise<Track>;
-  importPlaylistFromUrl: (url: string) => Promise<Track[]>;
-  togglePlayback: () => void; seekFile: (t: number) => void;
-  playNext: () => void; playPrev: () => void;
-  playTrackByIndex: (i: number) => void; removeFromPlaylist: (i: number) => void;
-  clearPlaylist: () => void; getAudioSlice: (s?: number) => Promise<Blob | null>;
-  isPlaying: boolean; duration: number; currentTime: number;
-  fileStatus?: 'ready' | 'loading' | 'none';
-  fileName?: string;
-  audioContext: AudioContext | null;
-}
-const AudioContext = createContext<AudioContextType | null>(null);
-export const useAudioContext = () => useContext(AudioContext)!;
-
-interface AIContextType {
-  lyricsStyle: LyricsStyle; showLyrics: boolean; setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
-  enableAnalysis: boolean; setEnableAnalysis: (b: boolean) => void;
-  isIdentifying: boolean;
-  performIdentification: (s: MediaStream) => Promise<void>;
-  resetAiSettings: () => void; 
-}
-const AIContext = createContext<AIContextType | null>(null);
-export const useAI = () => useContext(AIContext)!;
+export { useUI, useVisuals, useAudioContext, useAI };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [toast, setToast] = useState({ message: null as string | null, type: 'info' as any });
-  const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' = 'info') => setToast({ message, type }), []);
-  
-  const uiState = useAppState();
-  const visualsState = useVisualsState(uiState.hasStarted, {} as any);
+  const [toast, setToast] = useState({ message: null as string | null, type: 'info' as any, duration: 3000, position: 'bottom' as 'top' | 'bottom' });
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
-  const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
-  
-  const aiState = useAiState({
-    language: uiState.language,
-    region: uiState.region,
-    provider: visualsState.settings.recognitionProvider || 'GEMINI',
-    isListening: audioState.isListening,
-    isSimulating: visualsState.settings.recognitionProvider === 'MOCK',
-    mediaStream: audioState.mediaStream,
-    initialSettings: visualsState.settings,
-    setSettings: visualsState.setSettings,
-    onSongIdentified: setCurrentSong,
-    currentSong: currentSong,
-    getAudioSlice: audioState.getAudioSlice,
-    t: uiState.t,
-    showToast,
-  });
 
-  const toggleFullscreen = useCallback(() => {
-    if (typeof document !== 'undefined') {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(() => {});
-        } else {
-            if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
-        }
-    }
+  const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' = 'info', duration = 3000, position: 'top' | 'bottom' = 'bottom') => 
+    setToast({ message, type, duration, position }), []);
+
+  const hideToast = useCallback(() => {
+    setToast(prev => ({ ...prev, message: null }));
   }, []);
 
-  const fileStatus = audioState.playlist.length > 0 ? 'ready' as const : 'none' as const;
-  const fileName = audioState.playlist[audioState.currentIndex]?.file.name;
-
-  const isThreeMode = useMemo(() => {
-    return [
-      VisualizerMode.DIGITAL_GRID, VisualizerMode.SILK_WAVE,
-      VisualizerMode.OCEAN_WAVE, VisualizerMode.NEURAL_FLOW,
-      VisualizerMode.CUBE_FIELD, VisualizerMode.KINETIC_WALL,
-      VisualizerMode.RESONANCE_ORB, VisualizerMode.VORTEX
-    ].includes(visualsState.mode);
-  }, [visualsState.mode]);
-
-  const uiContextValue: UIContextType = useMemo(() => ({
-    ...uiState,
-    toggleFullscreen,
-    showToast
-  }), [uiState, toggleFullscreen, showToast]);
-  
-  const visualsContextValue = useMemo(() => ({ ...visualsState, isThreeMode }), [visualsState, isThreeMode]);
-  const audioContextValue = useMemo(() => ({ ...audioState, currentSong, setCurrentSong, fileStatus, fileName }), [audioState, currentSong, fileStatus, fileName]);
-  const aiContextValue = useMemo(() => aiState, [aiState]);
-
   return (
-    <UIContext.Provider value={uiContextValue}>
-      <VisualsContext.Provider value={visualsContextValue}>
-        <AudioContext.Provider value={audioContextValue}>
-          <AIContext.Provider value={aiContextValue}>
-            {children}
-            <Toast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, message: null })} />
-          </AIContext.Provider>
-        </AudioContext.Provider>
-      </VisualsContext.Provider>
-    </UIContext.Provider>
+    <UIProvider showToast={showToast}>
+      <UIContextConsumer>
+        {(ui) => (
+          <VisualsProvider hasStarted={ui.hasStarted}>
+            <VisualsContextConsumer>
+              {(visuals) => (
+                <AudioProvider 
+                  settings={visuals.settings} 
+                  language={ui.language} 
+                  t={ui.t} 
+                  showToast={showToast}
+                  currentSong={currentSong}
+                  setCurrentSong={setCurrentSong}
+                >
+                  <AudioContextConsumer>
+                    {(audio) => (
+                      <AIProvider
+                        language={ui.language}
+                        region={ui.region}
+                        settings={visuals.settings}
+                        isListening={audio.isListening}
+                        mediaStream={audio.mediaStream}
+                        setSettings={visuals.setSettings}
+                        onSongIdentified={setCurrentSong}
+                        currentSong={currentSong}
+                        getAudioSlice={audio.getAudioSlice}
+                        t={ui.t}
+                        showToast={showToast}
+                      >
+                        {children}
+                        <Toast 
+                          message={toast.message} 
+                          type={toast.type} 
+                          duration={toast.duration}
+                          position={toast.position}
+                          onClose={hideToast} 
+                        />
+                      </AIProvider>
+                    )}
+                  </AudioContextConsumer>
+                </AudioProvider>
+              )}
+            </VisualsContextConsumer>
+          </VisualsProvider>
+        )}
+      </UIContextConsumer>
+    </UIProvider>
   );
+};
+
+// Helper components to consume contexts during provider nesting
+const UIContextConsumer: React.FC<{ children: (ui: any) => React.ReactNode }> = ({ children }) => {
+    const ui = useUI();
+    return <>{children(ui)}</>;
+};
+
+const VisualsContextConsumer: React.FC<{ children: (visuals: any) => React.ReactNode }> = ({ children }) => {
+    const visuals = useVisuals();
+    return <>{children(visuals)}</>;
+};
+
+const AudioContextConsumer: React.FC<{ children: (audio: any) => React.ReactNode }> = ({ children }) => {
+    const audio = useAudioContext();
+    return <>{children(audio)}</>;
 };

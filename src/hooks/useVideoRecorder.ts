@@ -1,4 +1,4 @@
-// File: src/hooks/useVideoRecorder.ts | Version: v1.9.76
+// File: src/hooks/useVideoRecorder.ts | Version: v1.9.80
 import { useState, useCallback, useRef } from 'react';
 
 export const useVideoRecorder = (props: any = {}) => {
@@ -62,7 +62,7 @@ export const useVideoRecorder = (props: any = {}) => {
       
       return () => clearInterval(interval);
     } catch (err) {
-      console.error('Failed to start recording:', err);
+      console.warn('Failed to start recording:', err);
     }
   }, []);
 

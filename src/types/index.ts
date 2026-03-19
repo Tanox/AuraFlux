@@ -1,6 +1,7 @@
-// File: src/types/index.ts | Version: v1.9.76
+// File: src/types/index.ts | Version: v2.0.3
 
 export enum VisualizerMode {
+  PLASMA = 'PLASMA',
   DIGITAL_GRID = 'DIGITAL_GRID',
   SILK_WAVE = 'SILK_WAVE',
   OCEAN_WAVE = 'OCEAN_WAVE',
@@ -9,24 +10,17 @@ export enum VisualizerMode {
   KINETIC_WALL = 'KINETIC_WALL',
   RESONANCE_ORB = 'RESONANCE_ORB',
   VORTEX = 'VORTEX',
-  LIQUID_SPHERE = 'LIQUID_SPHERE',
   WAVEFORM = 'WAVEFORM',
-  FLUID_CURVES = 'FLUID_CURVES',
-  NEBULA = 'NEBULA',
   TUNNEL = 'TUNNEL',
   LASERS = 'LASERS',
-  RINGS = 'RINGS',
   PARTICLES = 'PARTICLES',
-  PLASMA = 'PLASMA',
-  BARS = 'BARS',
-  RIPPLES = 'RIPPLES',
-  SPIRAL = 'SPIRAL'
+  BARS = 'BARS'
 }
 
 export enum LyricsStyle {
-  CLASSIC = 'CLASSIC',
-  MODERN = 'MODERN',
-  KARAOKE = 'KARAOKE'
+  STANDARD = 'STANDARD',
+  KARAOKE = 'KARAOKE',
+  MINIMAL = 'MINIMAL'
 }
 
 export type Language = 'en' | 'zh' | 'zh-TW' | 'es' | 'ar' | 'fr' | 'pt' | 'pt-BR' | 'de' | 'ja' | 'ko' | 'ru';

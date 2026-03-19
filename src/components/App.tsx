@@ -1,9 +1,8 @@
-// File: App.tsx | Version: v1.9.75
+// File: src/components/App.tsx | Version: v2.3.0
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/src/context/AppContext';
 import { WelcomeScreen } from '@/src/components/visualizers/ui/WelcomeScreen';
 import { OnboardingOverlay } from '@/src/components/visualizers/ui/onboarding/OnboardingOverlay';
-import { UnsupportedScreen } from '@/src/components/visualizers/ui/UnsupportedScreen';
 import { HelpModal } from '@/src/components/visualizers/ui/HelpModal';
 import SongOverlay from '@/src/components/visualizers/ui/SongOverlay';
 import LyricsOverlay from '@/src/components/visualizers/ui/LyricsOverlay';
@@ -12,11 +11,13 @@ import { FPSCounter } from '@/src/components/visualizers/ui/FPSCounter';
 import { useIdleTimer } from '@/src/hooks/useIdleTimer';
 import { useMobileGestures } from '@/src/hooks/useMobileGestures';
 import { useVersionCheck } from '@/src/hooks/useVersionCheck';
+import { APP_VERSION } from '@/src/constants/version';
+import dynamic from 'next/dynamic';
 import type { ControlsProps } from '@/src/components/controls/Controls';
 
-const VisualizerCanvas = lazy(() => import('@/src/components/visualizers/VisualizerCanvas'));
-const ThreeVisualizer = lazy(() => import('@/src/components/visualizers/ThreeVisualizer'));
-const Controls = lazy(() => import('@/src/components/controls/Controls').then(module => ({ default: module.Controls as React.FC<ControlsProps> })));
+const VisualizerCanvas = dynamic(() => import('@/src/components/visualizers/VisualizerCanvas'), { ssr: false });
+const ThreeVisualizer = dynamic(() => import('@/src/components/visualizers/ThreeVisualizer'), { ssr: false });
+const Controls = dynamic(() => import('@/src/components/controls/Controls'), { ssr: false });
 
 const MainContent: React.FC = () => {
   const ui = useUI();
@@ -36,9 +37,9 @@ const MainContent: React.FC = () => {
   const gestures = useMobileGestures();
 
   // Version check logic
-  useVersionCheck('1.9.75', (newVersion) => {
+  useVersionCheck(APP_VERSION, (newVersion) => {
     if (ui) {
-      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info');
+      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info', 5000, 'top');
     }
   });
 
@@ -64,7 +65,7 @@ const MainContent: React.FC = () => {
       hasStarted, language, setLanguage, manageWakeLock, 
       showHelpModal, setShowHelpModal, helpModalInitialTab, 
       isDragging, setIsDragging, t, 
-      toggleFullscreen, showToast
+      toggleFullscreen
   } = ui;
   
   const { mode, colorTheme, settings, setSettings, isThreeMode } = visuals;
@@ -103,7 +104,7 @@ const MainContent: React.FC = () => {
   return (
     <div 
       id="app-root"
-      className={`relative w-full h-full min-h-screen bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isExpanded ? 'p-2' : 'p-0'} ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
+      className={`absolute inset-0 bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -116,7 +117,7 @@ const MainContent: React.FC = () => {
       )}
       <div
         id="visualizer-container"
-        className={`visualizer-container ${isExpanded ? 'rounded-2xl overflow-hidden' : ''}`}
+        className="visualizer-container w-full h-full relative"
         onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
       >
         <Suspense fallback={null}>

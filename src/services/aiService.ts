@@ -1,4 +1,4 @@
-// File: src/services/aiService.ts | Version: v1.9.76
+// File: src/services/aiService.ts | Version: v1.10.6
 import { GoogleGenAI } from '@google/genai';
 
 let aiInstance: GoogleGenAI | null = null;
@@ -28,13 +28,13 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
           const result = reader.result as string;
           resolve(result.split(',')[1]);
         };
-        reader.onerror = reject;
+        reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
         reader.readAsDataURL(audioInput);
       });
     }
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: {
         parts: [
           {
@@ -44,7 +44,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
             }
           },
           {
-            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, RESONANCE_ORB, VORTEX, LIQUID_SPHERE), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
+            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, RESONANCE_ORB, VORTEX), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
           }
         ]
       },
@@ -58,7 +58,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
     }
     return null;
   } catch (err) {
-    console.error('AI Visual Config error:', err);
+    console.warn('AI Visual Config error:', err);
     return null;
   }
 };
@@ -86,10 +86,11 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
     }
     return null;
   } catch (err) {
-    console.error('AI Background Generation error:', err);
+    console.warn('AI Background Generation error:', err);
     return null;
   }
 };
+
 export const identifySong = async (audioBlob: Blob): Promise<any> => {
   const ai = getAiService();
   if (!ai) return null;
@@ -101,12 +102,12 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
         const result = reader.result as string;
         resolve(result.split(',')[1]);
       };
-      reader.onerror = reject;
+      reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
       reader.readAsDataURL(audioBlob);
     });
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: {
         parts: [
           {
@@ -130,7 +131,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
     }
     return null;
   } catch (err) {
-    console.error('AI Identification error:', err);
+    console.warn('AI Identification error:', err);
     return null;
   }
 };

@@ -1,8 +1,8 @@
 # Aura Flux 🎵👁️
 
-### AI 驱动的 3D 音乐可视化与通感分析引擎 (v1.9.73)
+### AI 驱动的 3D 音乐可视化与通感分析引擎 (v2.3.0)
 
-[在线演示](https://aura.ewuse.com/) | [English](./README.md)
+[在线演示](https://aura.ewuse.com/) | [English](./README.md) | [文档](./openspec/)
 
 **Aura Flux** 是一款专业级的 Web 应用程序，可将音频频率转化为高保真生成艺术. 基于 **React 19**、**Three.js (WebGL)** 和 **Google Gemini 3 AI** 构建，实现了极致的边缘计算性能与云端智能的完美融合。
 
@@ -23,5 +23,5 @@
 ## 📄 许可与署名
 
 由 **Sut** 倾力开发。  
-*当前版本: 1.9.73*  
+*当前版本: 2.3.0*  
 *个人主页:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

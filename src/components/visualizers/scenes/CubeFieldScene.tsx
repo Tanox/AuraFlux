@@ -8,7 +8,7 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, PointLight, Vector3, Euler, Object3D, MeshStandardMaterial } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {
@@ -26,7 +26,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
   
   const [c0, c1, c2] = smoothedColors;
   
-  const count = settings.quality === 'high' ? 1200 : settings.quality === 'med' ? 800 : 400;
+  const count = settings.quality === 'high' ? 2000 : settings.quality === 'med' ? 1200 : 600;
   const dummy = useMemo(() => new Object3D(), []);
   
   // Use a local data array for spectral mapping if needed, but ensure it's safe
@@ -38,7 +38,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
     for (let i = 0; i < count; i++) {
         const x = (Math.random()-0.5)*300, y = (Math.random()-0.5)*200, z = (Math.random()-0.5)*450;
         const isStructure = Math.random() > 0.95;
-        const scaleBase = isStructure ? (1.5 + Math.random()*3.0) : (0.1 + Math.random()*0.4);
+        const scaleBase = isStructure ? (3.0 + Math.random()*6.0) : (0.5 + Math.random()*1.0); // Larger cubes
         const rotAxis = new Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize();
         const initialRotation = new Euler(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
         temp.push({ x, y, z, scale: scaleBase, currentScale: scaleBase, isStructure, speedOffset: isStructure ? 0.3 + Math.random()*0.9 : 1.5 + Math.random()*2.5, rotationAxis: rotAxis, initialRotation, rotationSpeed: (Math.random()-0.5)*(isStructure ? 0.0005 : 0.004), speedMult: isStructure ? 0.2 + Math.random()*1.8 : 0.66 + Math.random()*0.67, torque: 0, phase: Math.random()*Math.PI*2, driftX: (Math.random()-0.5)*(isStructure?0.05:0.2), driftY: (Math.random()-0.5)*(isStructure?0.05:0.2), spectralAffinity: Math.pow(Math.random(), 1.5), tumbleRate: 0.5 + Math.random()*2.0, tumblePhase: Math.random()*Math.PI*2 });
@@ -57,8 +57,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
     const globalSpeed = settings.speed * 4.5 * (1.0 + volume * 2.0 + (isBeat ? 2.5 : 0));
     const centerX = Math.sin(time*0.2)*35, centerY = Math.cos(time*0.7)*25;
     
-    state.camera.position.x += (Math.sin(time*0.1)*5 - state.camera.position.x) * 0.05;
-    state.camera.lookAt(centerX*0.1, centerY*0.1, -100);
+    // Camera controlled by OrbitControls
     
     if (coreLightRef.current) { 
         coreLightRef.current.position.set(centerX, centerY, -80); 

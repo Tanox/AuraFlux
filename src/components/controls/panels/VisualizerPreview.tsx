@@ -5,8 +5,8 @@
  */
 
 import React, { memo, useMemo } from 'react';
-import { VisualizerMode } from '../../../types/index.ts';
-import { TooltipArea } from '../../visualizers/ui/controls/Tooltip.tsx';
+import { VisualizerMode } from '../../../types/index';
+import { TooltipArea } from '../../visualizers/ui/controls/Tooltip';
 import { useUI } from '@/src/context/AppContext';
 
 const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
@@ -18,16 +18,11 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.CUBE_FIELD]: { background: 'linear-gradient(to bottom, transparent, #0c4a6e), repeating-linear-gradient(45deg, #0c4a6e, #0c4a6e 1px, transparent 1px, transparent 10px)' },
     [VisualizerMode.OCEAN_WAVE]: { background: 'linear-gradient(to top, #ff00ff 0%, #00ffff 50%, transparent 80%)' },
     [VisualizerMode.WAVEFORM]: { background: 'linear-gradient(to right, transparent, #8b5cf6, #ec4899, #8b5cf6, transparent)' },
-    [VisualizerMode.FLUID_CURVES]: { background: 'radial-gradient(ellipse at 50% 0%, #3b82f6 0%, transparent 50%), radial-gradient(ellipse at 50% 100%, #8b5cf6 0%, transparent 50%)' },
-    [VisualizerMode.NEBULA]: { background: 'radial-gradient(ellipse at 70% 30%, #af52de, transparent), radial-gradient(ellipse at 30% 70%, #5856d6, #020617)' },
     [VisualizerMode.TUNNEL]: { background: 'repeating-radial-gradient(circle at center, #8b5cf6, #8b5cf6 5px, #000 5px, #000 15px)' },
     [VisualizerMode.LASERS]: { background: 'linear-gradient(10deg, transparent 48%, #ff00ff 50%, transparent 52%), linear-gradient(-15deg, transparent 47%, #00e5ff 50%, transparent 53%)' },
-    [VisualizerMode.RINGS]: { background: 'repeating-radial-gradient(circle at center, #ec4899, #ec4899 2px, transparent 2px, transparent 20px)' },
     [VisualizerMode.PARTICLES]: { background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%), repeating-radial-gradient(circle at center, white 0, white 0.5px, black 0.5px, black 15px)', backgroundSize: '100% 100%, 30px 30px' },
     [VisualizerMode.PLASMA]: { background: 'radial-gradient(circle, #ec4899, #8b5cf6, #3b82f6)' },
     [VisualizerMode.BARS]: { background: 'linear-gradient(to top, #3b82f6, #8b5cf6)' },
-    [VisualizerMode.RIPPLES]: { background: 'radial-gradient(circle, transparent 20%, #4f46e5 20%, #4f46e5 25%, transparent 25%, transparent 40%, #ec4899 40%, #ec4899 45%, transparent 45%)' },
-    [VisualizerMode.SPIRAL]: { background: 'conic-gradient(from 0deg, #ff00ff, #00ffff, #ff00ff)' },
     [VisualizerMode.VORTEX]: { background: 'radial-gradient(circle, #4f46e5, #000000)' },
 };
 

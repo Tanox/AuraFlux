@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/OceanWaveScene.tsx
- * Version: v1.9.73
+ * Version: v2.4.1
  * Author: Sut
  * Description: "Joy Division" Style Pulsar Terrain with scrolling history.
  */
@@ -8,8 +8,10 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
+
+import { oceanWaveVertexShader, oceanWaveFragmentShader } from './shaders/OceanWaveShaders';
 
 interface SceneProps {
   analyser: AnalyserNode;
@@ -26,12 +28,12 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  const NUM_LINES = settings.quality === 'high' ? 64 : (settings.quality === 'med' ? 48 : 32);
+  const NUM_LINES = settings.quality === 'high' ? 128 : (settings.quality === 'med' ? 96 : 64); // Increased lines for longer history
   const SEGMENTS_X = settings.quality === 'high' ? 384 : (settings.quality === 'med' ? 192 : 128);
   
   const LINE_WIDTH = 180;
   const LINE_HEIGHT = 25; 
-  const Z_SPACING = 3.2;
+  const Z_SPACING = 2.0; // Adjusted spacing for more lines
   
   const bins = (settings.fftSize || 512) / 2;
   const historyData = useMemo(() => {
@@ -60,7 +62,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   useLayoutEffect(() => {
       if (meshRef.current) {
           for (let i = 0; i < NUM_LINES; i++) {
-              dummy.position.set(0, i * 0.75 - 12, -i * Z_SPACING);
+              dummy.position.set(0, i * 0.4 - 40, -i * Z_SPACING); // Adjusted Y offset for more lines
               dummy.updateMatrix();
               meshRef.current.setMatrixAt(i, dummy.matrix);
           }
@@ -85,7 +87,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (!historyData || historyData.length < bins) return;
 
     frameCounterRef.current++;
-    if (frameCounterRef.current >= 2) {
+    if (frameCounterRef.current >= 4) { // Lower sampling rate (every 4 frames instead of 2)
         frameCounterRef.current = 0;
         historyData.copyWithin(bins, 0, historyData.length - bins);
 
@@ -107,16 +109,13 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity;
+        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.3; // Lowered sensitivity
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColorRidge.value.copy(c2); 
         else if (c0) mat.uniforms.uColorRidge.value.copy(c0);
     }
     
-    const time = state.clock.getElapsedTime();
-    state.camera.position.x = Math.sin(time * 0.1) * 12;
-    state.camera.position.y = 22 + Math.cos(time * 0.08) * 4;
-    state.camera.lookAt(0, -8, -70); 
+    // Camera controlled by OrbitControls
   });
 
   if (!historyData || historyData.length === 0) return <group />;
@@ -129,62 +128,8 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
           side={DoubleSide}
           uniforms={uniforms}
           transparent={true}
-          vertexShader={`
-            attribute float aLineProgress;
-            varying vec2 vUv;
-            varying float vElevation;
-            varying float vLineProgress;
-            varying float vSideFade;
-            uniform sampler2D uAudioHistory;
-            uniform float uSensitivity;
-            uniform float uTime;
-            uniform float uBeat;
-            void main() {
-              vUv = uv; 
-              vLineProgress = aLineProgress;
-              
-              float xDist = abs(uv.x - 0.5) * 2.0;
-              float xFade = 1.0 - pow(xDist, 2.5);
-              vSideFade = smoothstep(1.0, 0.75, xDist);
-              
-              vec3 pos = position;
-              float audioVal = texture2D(uAudioHistory, vec2(uv.x, aLineProgress)).r;
-              
-              float elevation = audioVal * 4.2 * uSensitivity * xFade;
-              float beatReaction = uBeat * sin(uv.x * 4.0 + uTime * 4.0) * 1.5 * (1.0 - aLineProgress) * xFade;
-              float totalDisp = elevation + beatReaction;
-              
-              if (uv.y > 0.5) pos.y += totalDisp;
-              vElevation = totalDisp;
-              
-              gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(pos, 1.0);
-            }
-          `}
-          fragmentShader={`
-            uniform vec3 uColorRidge;
-            uniform vec3 uColorBody;
-            varying vec2 vUv;
-            varying float vElevation;
-            varying float vLineProgress;
-            varying float vSideFade;
-            void main() {
-              float thickness = mix(0.012, 0.003, vLineProgress);
-              
-              float isLine = smoothstep(1.0 - thickness, 1.0 - thickness + 0.005, vUv.y);
-              
-              vec3 ridgeCol = uColorRidge + vec3(0.4) * smoothstep(2.0, 15.0, vElevation);
-              ridgeCol *= (0.25 + pow(1.0 - vLineProgress, 1.3) * 0.75);
-              
-              vec3 finalRgb = mix(uColorBody, ridgeCol, isLine);
-              float finalAlpha = mix(1.0, vSideFade, isLine);
-              
-              if (isLine < 0.1) {
-                  gl_FragColor = vec4(uColorBody, 1.0);
-              } else {
-                  gl_FragColor = vec4(finalRgb, finalAlpha);
-              }
-            }
-          `}
+          vertexShader={oceanWaveVertexShader}
+          fragmentShader={oceanWaveFragmentShader}
         />
       </instancedMesh>
     </>

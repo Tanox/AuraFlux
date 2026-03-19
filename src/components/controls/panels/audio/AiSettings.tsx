@@ -5,12 +5,12 @@
  */
 
 import React, { useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle.tsx';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect.tsx';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
+import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
 import { useVisuals, useAudioContext, useUI, useAI } from '@/src/context/AppContext';
-import { generateVisualConfigFromAudio } from '../../../../services/aiService.ts';
-import { VisualizerMode, Region } from '../../../../types/index.ts';
+import { generateVisualConfigFromAudio } from '../../../../services/aiService';
+import { VisualizerMode, Region } from '../../../../types/index';
 
 export const AiSettings: React.FC = () => {
   const { settings, setSettings, setMode, setColorTheme } = useVisuals();

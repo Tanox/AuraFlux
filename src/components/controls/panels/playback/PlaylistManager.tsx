@@ -4,8 +4,9 @@
  * Author: Sut
  */
 
+import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard.tsx';
+import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { useAudioContext, useUI } from '@/src/context/AppContext';
 
 export const PlaylistManager: React.FC = () => {
@@ -80,8 +81,16 @@ export const PlaylistManager: React.FC = () => {
                         onClick={() => playTrackByIndex(index)}
                         className={`group flex items-center gap-3 p-2 rounded-lg cursor-pointer border outline-none focus-within:ring-1 focus-within:ring-blue-500/30 mb-1.5 ${index === currentIndex ? 'bg-blue-600/10 border-blue-500/30' : 'hover:bg-black/5 dark:hover:bg-white/5 border-transparent'}`}
                     >
-                        <div className="w-8 h-8 rounded bg-black/5 dark:bg-white/5 overflow-hidden border border-black/5 dark:border-white/5 shrink-0">
-                            {track.albumArtUrl && <img src={track.albumArtUrl} className="w-full h-full object-cover" alt="Art" />}
+                        <div className="w-8 h-8 rounded bg-black/5 dark:bg-white/5 overflow-hidden border border-black/5 dark:border-white/5 shrink-0 relative">
+                            {track.albumArtUrl && (
+                              <Image 
+                                src={track.albumArtUrl} 
+                                fill 
+                                className="object-cover" 
+                                alt={track.title} 
+                                referrerPolicy="no-referrer"
+                              />
+                            )}
                         </div>
                         <div className="flex-1 min-w-0">
                             <div className="text-xs font-bold truncate text-black dark:text-white">{track.title}</div>

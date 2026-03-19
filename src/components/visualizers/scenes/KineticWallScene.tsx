@@ -8,7 +8,7 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial } from 'three';
-import { VisualizerSettings } from '../../../types/index.ts';
+import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
 interface SceneProps {
@@ -24,10 +24,10 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1, c2] = smoothedColors;
   
-  const COLS = 32;
-  const ROWS = 16;
+  const COLS = Math.floor(128 * Math.sqrt(0.3)); // Reduce total count to ~30%
+  const ROWS = Math.floor(64 * Math.sqrt(0.3));  // Reduce total count to ~30%
   const COUNT = COLS * ROWS;
-  const SPACING = 1.2;
+  const SPACING = 4.5; // Increased spacing for a clear gap (box size is 3)
   
   const dummy = useMemo(() => new Object3D(), []);
   
@@ -117,7 +117,7 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
         args={[undefined, undefined, COUNT]} 
         position={[0, 0, -20]}
       >
-        <boxGeometry args={[1, 1, 1]} />
+        <boxGeometry args={[3, 3, 3]} />
         <meshStandardMaterial 
             roughness={0.2} 
             metalness={0.8} 

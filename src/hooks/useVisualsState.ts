@@ -1,6 +1,7 @@
-// File: src/hooks/useVisualsState.ts | Version: v1.9.76
-import { useState, useCallback } from 'react';
+// File: src/hooks/useVisualsState.ts | Version: v2.0.5
+import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
+import { COLOR_THEMES } from '../constants';
 
 const DEFAULT_SETTINGS: VisualizerSettings = {
   sensitivity: 1.0,
@@ -14,7 +15,9 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   recognitionProvider: 'GEMINI',
   bloom: 0.5,
   particleCount: 1000,
-  speed: 1.0
+  speed: 1.0,
+  cycleColors: true,
+  colorInterval: 5
 };
 
 export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
@@ -24,11 +27,25 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
   const [activePreset, setActivePreset] = useState('Default');
 
   const randomizeSettings = useCallback(() => {
+    // Randomize Mode
+    const modes = Object.values(VisualizerMode);
+    const randomMode = modes[Math.floor(Math.random() * modes.length)];
+    setMode(randomMode);
+
+    // Randomize Colors
+    const randomTheme = COLOR_THEMES[Math.floor(Math.random() * COLOR_THEMES.length)];
+    setColorTheme(randomTheme.colors);
+
+    // Randomize Settings
     setSettings(prev => ({
       ...prev,
-      sensitivity: 0.5 + Math.random(),
-      speed: 0.5 + Math.random() * 1.5
+      sensitivity: 0.8 + Math.random() * 1.2,
+      speed: 0.5 + Math.random() * 1.5,
+      glow: Math.random() > 0.5,
+      trails: Math.random() > 0.5
     }));
+
+    setActivePreset('Randomized');
   }, []);
 
   const resetVisualSettings = useCallback(() => setSettings(DEFAULT_SETTINGS), []);
@@ -42,7 +59,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
     setActivePreset(preset.name);
   }, []);
 
-  return {
+  return useMemo(() => ({
     mode, setMode,
     colorTheme, setColorTheme,
     settings, setSettings,
@@ -52,5 +69,5 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
     resetTextSettings,
     resetAudioSettings,
     applyPreset
-  };
+  }), [mode, setMode, colorTheme, setColorTheme, settings, setSettings, activePreset, setActivePreset, randomizeSettings, resetVisualSettings, resetTextSettings, resetAudioSettings, applyPreset]);
 };
