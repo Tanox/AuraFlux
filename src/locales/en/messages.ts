@@ -1,4 +1,6 @@
 export const messages = {
+  saveSuccess: "Settings saved to cloud",
+  loadSuccess: "Settings loaded from cloud",
   hints: {
     randomize: "Randomize Visuals & Colors",
     resetVisual: "Reset Visual Settings",

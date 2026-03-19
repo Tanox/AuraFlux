@@ -14,7 +14,11 @@ export enum VisualizerMode {
   TUNNEL = 'TUNNEL',
   LASERS = 'LASERS',
   PARTICLES = 'PARTICLES',
-  BARS = 'BARS'
+  BARS = 'BARS',
+  RINGS = 'RINGS',
+  FLUID_CURVES = 'FLUID_CURVES',
+  RIPPLES = 'RIPPLES',
+  SPIRAL = 'SPIRAL',
 }
 
 export enum LyricsStyle {

@@ -65,6 +65,8 @@ export const panels = {
     account: "Account",
     signOut: "Sign Out",
     personalManagement: "Personal Management",
+    profileSettings: "Profile Settings",
+    dataPrivacy: "Data & Privacy",
     cloudSync: "Cloud Storage",
     syncSettings: "Sync Configuration",
     saveToCloud: "Save to Cloud",

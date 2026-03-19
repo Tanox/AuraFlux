@@ -40,3 +40,6 @@ desktop.ini
 tmp/
 temp/
 .trae/
+
+.next
+*报告*.md
