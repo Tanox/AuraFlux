@@ -38,6 +38,18 @@ const CloudSyncSection: React.FC<{ uid: string }> = ({ uid }) => {
       });
   }, [uid]);
 
+  const handleCloudSyncError = (err: any, operation: 'save' | 'load') => {
+    if (err.message?.includes('permissions')) {
+      setPermissionError(true);
+      showToast("Cloud Sync Error: Missing permissions. Please check Firestore rules.", 'error', 5000);
+    } else {
+      const defaultMsg = operation === 'save'
+        ? "Failed to save settings"
+        : "Failed to load settings";
+      showToast(err.message || defaultMsg, 'error');
+    }
+  };
+
   const handleSave = async () => {
     setSyncing(true);
     try {
@@ -46,12 +58,7 @@ const CloudSyncSection: React.FC<{ uid: string }> = ({ uid }) => {
       showToast(t?.messages?.saveSuccess || "Settings saved to cloud", 'success');
       setPermissionError(false);
     } catch (err: any) {
-      if (err.message?.includes('permissions')) {
-        setPermissionError(true);
-        showToast("Cloud Sync Error: Missing permissions. Please check Firestore rules.", 'error', 5000);
-      } else {
-        showToast(err.message || "Failed to save settings", 'error');
-      }
+      handleCloudSyncError(err, 'save');
     } finally {
       setSyncing(false);
     }
@@ -67,12 +74,7 @@ const CloudSyncSection: React.FC<{ uid: string }> = ({ uid }) => {
         setPermissionError(false);
       }
     } catch (err: any) {
-      if (err.message?.includes('permissions')) {
-        setPermissionError(true);
-        showToast("Cloud Sync Error: Missing permissions. Please check Firestore rules.", 'error', 5000);
-      } else {
-        showToast(err.message || "Failed to load settings", 'error');
-      }
+      handleCloudSyncError(err, 'load');
     } finally {
       setSyncing(false);
     }
