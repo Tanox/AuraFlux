@@ -1,10 +1,6 @@
 {
   "name": "aura-flux",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "version": "2.4.1",
   "type": "module",
   "homepage": "https://aura.ewuse.com/",
