@@ -23,5 +23,5 @@ Aura Flux 采用 **Bento Grid (便当盒)** 布局，结合高斯模糊 (Glassmo
 - **更新机制:** 检测到新版本时，顶部弹出持久化通知，引导用户刷新。
 
 ---
-*Aura Flux Interface Specification - Version 1.9.85*
+*Aura Flux Interface Specification - Version 2.4.1*
 *Author: Sut*

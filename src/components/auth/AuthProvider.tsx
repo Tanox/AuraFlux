@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   const handleUserDocument = async (currentUser: User) => {
-    if (!currentUser) return;
+    if (!currentUser || !db) return;
     try {
       const userRef = doc(db, 'users', currentUser.uid);
       const userSnap = await getDoc(userRef);
@@ -52,6 +52,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
@@ -63,6 +67,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signInWithGoogle = async () => {
+    if (!auth) throw new Error('Firebase not configured');
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -73,6 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signInWithGithub = async () => {
+    if (!auth) throw new Error('Firebase not configured');
     const provider = new GithubAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -83,6 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
+    if (!auth) return;
     try {
       await signOut(auth);
     } catch (error) {

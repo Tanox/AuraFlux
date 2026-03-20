@@ -21,5 +21,5 @@
 - **频率分段:** `getAverage` 工具函数支持自定义频率范围（Bass, Mid, Treble）的能量提取。
 
 ---
-*Aura Flux Audio Engine Specification - Version 1.9.75*
+*Aura Flux Audio Engine Specification - Version 2.4.1*
 *Author: Sut*

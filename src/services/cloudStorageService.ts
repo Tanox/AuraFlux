@@ -4,6 +4,7 @@ import { db } from '@/src/lib/firebase';
 import { VisualizerSettings } from '@/src/types';
 
 export const saveSettingsToCloud = async (uid: string, settings: VisualizerSettings) => {
+  if (!db) throw new Error('Firebase not configured');
   try {
     const settingsRef = doc(db, 'userSettings', uid);
     await setDoc(settingsRef, {
@@ -18,6 +19,7 @@ export const saveSettingsToCloud = async (uid: string, settings: VisualizerSetti
 };
 
 export const loadSettingsFromCloud = async (uid: string): Promise<VisualizerSettings | null> => {
+  if (!db) return null;
   try {
     const settingsRef = doc(db, 'userSettings', uid);
     const settingsSnap = await getDoc(settingsRef);
@@ -33,6 +35,7 @@ export const loadSettingsFromCloud = async (uid: string): Promise<VisualizerSett
 };
 
 export const getLastSyncTime = async (uid: string): Promise<Date | null> => {
+  if (!db) return null;
   try {
     const settingsRef = doc(db, 'userSettings', uid);
     const settingsSnap = await getDoc(settingsRef);

@@ -14,6 +14,7 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!auth) return;
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);

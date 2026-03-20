@@ -55,7 +55,7 @@ const CloudSyncSection: React.FC<{ uid: string }> = ({ uid }) => {
     try {
       await saveSettingsToCloud(uid, settings);
       setLastSync(new Date());
-      showToast(t?.messages?.saveSuccess || "Settings saved to cloud", 'success');
+      showToast("Settings saved to cloud", 'success');
       setPermissionError(false);
     } catch (err: any) {
       handleCloudSyncError(err, 'save');
@@ -70,7 +70,7 @@ const CloudSyncSection: React.FC<{ uid: string }> = ({ uid }) => {
       const cloudSettings = await loadSettingsFromCloud(uid);
       if (cloudSettings) {
         setSettings(cloudSettings);
-        showToast(t?.messages?.loadSuccess || "Settings loaded from cloud", 'success');
+        showToast("Settings loaded from cloud", 'success');
         setPermissionError(false);
       }
     } catch (err: any) {

@@ -17,5 +17,5 @@
 - **Worker 负载:** 2D 渲染不应阻塞 UI 线程的主响应循环。
 
 ---
-*Aura Flux Testing & Validation Specification - Version 1.9.73*
+*Aura Flux Testing & Validation Specification - Version 2.4.1*
 *Author: Sut*

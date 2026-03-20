@@ -20,5 +20,5 @@
 - **强制要求:** 密钥必须且仅能通过 `process.env.API_KEY` 访问。UI 严禁提供任何 Key 输入或配置界面。
 
 ---
-*Aura Flux AI Integration Specification - Version 1.9.73*
+*Aura Flux AI Integration Specification - Version 2.4.1*
 *Author: Sut*

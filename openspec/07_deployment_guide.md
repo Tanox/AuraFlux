@@ -14,5 +14,5 @@
 - **权限申请:** `metadata.json` 中必须显式声明 `camera` 和 `microphone` 权限。
 
 ---
-*Aura Flux Deployment Guide - Version 1.9.73*
+*Aura Flux Deployment Guide - Version 2.4.1*
 *Author: Sut*

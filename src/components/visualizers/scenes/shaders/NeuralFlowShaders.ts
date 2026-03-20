@@ -63,7 +63,7 @@ export const neuralFlowVertexShader = `
     vec4 mvPos = modelViewMatrix * vec4(newPos, 1.0); 
     gl_Position = projectionMatrix * mvPos; 
     vSignal = step(0.95, aRandom); 
-    gl_PointSize = mix(1.5 * (1.0 + uTreble * 1.5 + noise * 0.5), 12.0 * (1.0 + uBass * 0.8), vSignal) * (300.0 / -mvPos.z); 
+    gl_PointSize = mix(4.5 * (1.0 + uTreble * 1.5 + noise * 0.5), 36.0 * (1.0 + uBass * 0.8), vSignal) * (300.0 / -mvPos.z); 
   }
 `;
 
@@ -83,6 +83,6 @@ export const neuralFlowFragmentShader = `
     float alpha = pow(1.0 - smoothstep(0.0, 0.5, d), 2.0); 
     float pulse = smoothstep(0.8, 1.0, sin(vNoise * 8.0 - uTime * 4.0)); 
     vec3 col = mix(mix(uColor1, uColor2, vSignal * 0.5), uColor2 * 2.0, pulse + uBass * 0.5) + vec3(1.0) * pulse * uTreble * 2.0; 
-    gl_FragColor = vec4(col, alpha * (1.0 - smoothstep(50.0, 150.0, vDist)) * (0.6 + uBass * 0.4)); 
+    gl_FragColor = vec4(col, alpha * (1.0 - smoothstep(50.0, 450.0, vDist)) * (0.6 + uBass * 0.4)); 
   }
 `;
