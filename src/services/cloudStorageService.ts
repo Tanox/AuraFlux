@@ -1,9 +1,10 @@
-// src/services/cloudStorageService.ts | Version: v1.0.0
+// src/services/cloudStorageService.ts | Version: v1.0.1
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/src/lib/firebase';
+import { db, firebaseReady } from '@/src/lib/firebase';
 import { VisualizerSettings } from '@/src/types';
 
 export const saveSettingsToCloud = async (uid: string, settings: VisualizerSettings) => {
+  await firebaseReady();
   if (!db) throw new Error('Firebase not configured');
   try {
     const settingsRef = doc(db, 'userSettings', uid);
@@ -19,6 +20,7 @@ export const saveSettingsToCloud = async (uid: string, settings: VisualizerSetti
 };
 
 export const loadSettingsFromCloud = async (uid: string): Promise<VisualizerSettings | null> => {
+  await firebaseReady();
   if (!db) return null;
   try {
     const settingsRef = doc(db, 'userSettings', uid);
@@ -35,6 +37,7 @@ export const loadSettingsFromCloud = async (uid: string): Promise<VisualizerSett
 };
 
 export const getLastSyncTime = async (uid: string): Promise<Date | null> => {
+  await firebaseReady();
   if (!db) return null;
   try {
     const settingsRef = doc(db, 'userSettings', uid);

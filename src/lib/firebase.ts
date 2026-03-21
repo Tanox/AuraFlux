@@ -1,4 +1,4 @@
-// src/lib/firebase.ts | Version: 2.0.11
+// src/lib/firebase.ts | Version: 2.0.13
 import type { FirebaseApp } from 'firebase/app';
 import type { Auth } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
@@ -27,20 +27,48 @@ const isValidConfig = isBrowser && Boolean(
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
 let db: Firestore | undefined;
+let isInitializing = false;
+let isInitialized = false;
+let initPromise: Promise<void> | undefined;
 
-async function initFirebase() {
+async function initFirebase(): Promise<void> {
+  if (isInitialized) return;
+  if (initPromise) return initPromise;
   if (!isValidConfig || !firebaseConfig) return;
   
-  try {
-    const { initializeApp, getApps, getApp } = await import('firebase/app');
-    const { getAuth } = await import('firebase/auth');
-    const { getFirestore } = await import('firebase/firestore');
+  initPromise = (async () => {
+    isInitializing = true;
     
-    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-    auth = getAuth(app);
-    db = getFirestore(app);
-  } catch (error) {
-    console.warn('Firebase initialization failed:', error);
+    const maxRetries = 3;
+    let lastError: Error | null = null;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const { initializeApp, getApps, getApp } = await import('firebase/app');
+        const { getAuth } = await import('firebase/auth');
+        const { getFirestore } = await import('firebase/firestore');
+        
+        app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+        auth = getAuth(app);
+        db = getFirestore(app);
+        isInitialized = true;
+        return;
+      } catch (error) {
+        lastError = error as Error;
+        console.warn(`Firebase initialization attempt ${attempt}/${maxRetries} failed:`, error);
+        if (attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+        }
+      }
+    }
+    
+    console.error('Firebase initialization failed after all retries:', lastError);
+  })();
+
+  try {
+    await initPromise;
+  } finally {
+    isInitializing = false;
   }
 }
 
@@ -49,3 +77,8 @@ if (isValidConfig && firebaseConfig) {
 }
 
 export { auth, db };
+
+export const firebaseReady = (): Promise<void> => {
+  if (isInitialized) return Promise.resolve();
+  return initFirebase() ?? Promise.resolve();
+};

@@ -1,10 +1,10 @@
-// src/components/auth/AuthProvider.tsx | Version: v2.0.8
+// src/components/auth/AuthProvider.tsx | Version: v2.0.9
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '@/src/lib/firebase';
+import { auth, db, firebaseReady } from '@/src/lib/firebase';
 
 interface AuthContextType {
   user: User | null;
@@ -52,18 +52,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (!auth) {
-      setLoading(false);
-      return;
-    }
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        await handleUserDocument(currentUser);
+    let mounted = true;
+    
+    const setupAuth = async () => {
+      await firebaseReady();
+      if (!mounted || !auth) {
+        setLoading(false);
+        return;
       }
-      setLoading(false);
-    });
-    return unsubscribe;
+      const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        setUser(currentUser);
+        if (currentUser) {
+          await handleUserDocument(currentUser);
+        }
+        setLoading(false);
+      });
+      return unsubscribe;
+    };
+
+    const unsubscribePromise = setupAuth();
+    
+    return () => {
+      mounted = false;
+      unsubscribePromise.then(unsubscribe => unsubscribe?.());
+    };
   }, []);
 
   const signInWithGoogle = async () => {

@@ -1,9 +1,9 @@
-// src/components/auth/LoginForm.tsx | Version: v2.0.6
+// src/components/auth/LoginForm.tsx | Version: v2.0.7
 'use client';
 
 import { useState } from 'react';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/src/lib/firebase';
+import { auth, firebaseReady } from '@/src/lib/firebase';
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 
@@ -14,6 +14,7 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await firebaseReady();
     if (!auth) return;
     try {
       if (isLogin) {
