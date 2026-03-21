@@ -1,4 +1,8 @@
-// src/lib/firebase.ts | Version: 2.0.10
+// src/lib/firebase.ts | Version: 2.0.11
+import type { FirebaseApp } from 'firebase/app';
+import type { Auth } from 'firebase/auth';
+import type { Firestore } from 'firebase/firestore';
+
 const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
 if (!isBrowser) {
@@ -20,15 +24,17 @@ const isValidConfig = isBrowser && Boolean(
   !firebaseConfig.apiKey.startsWith('demo')
 );
 
-let app: any;
-let auth: any;
-let db: any;
+let app: FirebaseApp | undefined;
+let auth: Auth | undefined;
+let db: Firestore | undefined;
 
-if (isValidConfig && firebaseConfig) {
+async function initFirebase() {
+  if (!isValidConfig || !firebaseConfig) return;
+  
   try {
-    const { initializeApp, getApps, getApp } = require("firebase/app");
-    const { getAuth } = require("firebase/auth");
-    const { getFirestore } = require("firebase/firestore");
+    const { initializeApp, getApps, getApp } = await import('firebase/app');
+    const { getAuth } = await import('firebase/auth');
+    const { getFirestore } = await import('firebase/firestore');
     
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
@@ -36,6 +42,10 @@ if (isValidConfig && firebaseConfig) {
   } catch (error) {
     console.warn('Firebase initialization failed:', error);
   }
+}
+
+if (isValidConfig && firebaseConfig) {
+  initFirebase();
 }
 
 export { auth, db };
