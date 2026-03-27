@@ -1,4 +1,5 @@
-// File: src/components/App.tsx | Version: v1.10.6
+'use client';
+// File: src/components/App.tsx | Version: v2.0.4
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/src/context/AppContext';
 import { WelcomeScreen } from '@/src/components/visualizers/ui/WelcomeScreen';

@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/visualizers/scenes/KineticWallScene.tsx
  * Version: v1.9.73

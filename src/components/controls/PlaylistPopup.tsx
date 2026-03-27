@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useAudioContext, useUI } from '@/src/context/AppContext';

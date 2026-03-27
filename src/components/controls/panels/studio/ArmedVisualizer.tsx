@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: src/components/controls/panels/studio/ArmedVisualizer.tsx
  * Version: v1.9.80

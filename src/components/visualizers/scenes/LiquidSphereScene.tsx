@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/visualizers/scenes/LiquidSphereScene.tsx
  * Version: v1.9.85

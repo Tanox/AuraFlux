@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { useVisuals, useUI } from '@/src/context/AppContext';
 import { VisualizerSettings } from '@/src/types';

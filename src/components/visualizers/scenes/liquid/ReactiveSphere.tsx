@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { IcosahedronGeometry, BufferAttribute, DoubleSide, MeshPhysicalMaterial, Mesh } from 'three';

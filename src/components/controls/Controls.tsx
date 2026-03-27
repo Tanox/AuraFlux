@@ -1,3 +1,4 @@
+'use client';
 // File: src/components/controls/Controls.tsx | Version: v2.0.3
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';

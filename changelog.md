@@ -2,6 +2,12 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.4]
+### 🔧 Maintenance
+*   **Next.js SSR Compatibility**: Added `'use client'` directive to 27 components for proper Next.js App Router compatibility.
+*   **PWA Configuration**: Restored PWA support in `next.config.ts` using `@ducanh2912/next-pwa`.
+*   **Version Synchronization**: Updated all file headers, documentation, and metadata to `v2.0.4`.
+
 ## [v2.0.3]
 ### 🐛 Bug Fixes
 *   **Visualizer Modes**: Fixed an issue where the `PLASMA` (等离子流), `NEBULA` (宇宙星云), and `RINGS` (共振环) visualizer modes were not displaying. Implemented these modes in the 2D `VisualizerCanvas` engine.

@@ -1,3 +1,4 @@
+'use client';
 // File: src/components/visualizers/scenes/LaserScene.tsx | Version: v2.0.1
 // Author: Sut
 

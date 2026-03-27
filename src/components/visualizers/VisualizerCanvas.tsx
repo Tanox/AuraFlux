@@ -1,3 +1,4 @@
+'use client';
 // File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.0.3
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/src/types';

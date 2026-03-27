@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/visualizers/scenes/CubeFieldScene.tsx
  * Version: v1.9.75

@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/visualizers/scenes/NeuralFlowScene.tsx
  * Version: v1.10.7

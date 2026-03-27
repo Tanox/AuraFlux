@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/visualizers/ui/controls/Tooltip.tsx
  * Version: v1.9.56

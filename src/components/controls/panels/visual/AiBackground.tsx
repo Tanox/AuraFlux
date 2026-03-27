@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/controls/panels/visual/AiBackground.tsx
  * Version: v1.10.3
@@ -10,7 +11,7 @@ import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle'
 import { Slider } from '../../../visualizers/ui/controls/Slider';
 import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
 import { useVisuals, useUI, useAudioContext } from '@/src/context/AppContext';
-import { generateArtisticBackground } from '../../../../services/aiService';
+import { generateArtisticBackground, checkAiServiceAvailability } from '../../../../services/aiService';
 import { SMART_PRESETS } from '../../../../constants';
 
 export const AiBackground: React.FC = () => {
@@ -35,10 +36,7 @@ export const AiBackground: React.FC = () => {
   const handleGenerateAiBg = async () => {
       const mood = currentSong?.mood_en_keywords || currentSong?.mood || 'Vibrant, Abstract, Cosmic';
       
-      if (!process.env.API_KEY) {
-          showToast(t?.toasts?.aiDirectorReq || 'Key required', 'error');
-          return;
-      }
+      if (!checkAiServiceAvailability((msg) => showToast(msg, 'error'))) return;
       
       setIsGenerating(true);
       try {

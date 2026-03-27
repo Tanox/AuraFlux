@@ -1,12 +1,39 @@
-// File: src/services/aiService.ts | Version: v1.10.6
+// File: src/services/aiService.ts | Version: v1.10.7
 import { GoogleGenAI } from '@google/genai';
+import { en } from '@/src/locales/en';
 
 let aiInstance: GoogleGenAI | null = null;
+
+/**
+ * 检查AI服务是否可用
+ * @returns {boolean} 如果API密钥已配置且有效则返回true
+ */
+export const isAiServiceAvailable = (): boolean => {
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  return Boolean(apiKey && apiKey.length > 0 && !apiKey.startsWith('demo'));
+};
+
+/**
+ * 检查AI服务是否可用，如果不可用则调用错误回调
+ * @param {Function} onError - 错误回调函数
+ * @param {string} customMessage - 自定义错误消息（可选）
+ * @returns {boolean} 如果AI服务可用则返回true
+ */
+export const checkAiServiceAvailability = (onError?: (message: string) => void, customMessage?: string): boolean => {
+  if (!isAiServiceAvailable()) {
+    const errorMsg = customMessage || en.toasts.aiDirectorReq || 'Gemini API Key required for AI features.';
+    if (onError) {
+      onError(errorMsg);
+    }
+    return false;
+  }
+  return true;
+};
 
 export const getAiService = () => {
   if (!aiInstance) {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-    if (apiKey) {
+    if (apiKey && apiKey.length > 0 && !apiKey.startsWith('demo')) {
       aiInstance = new GoogleGenAI({ apiKey });
     }
   }

@@ -1,3 +1,4 @@
+'use client';
 /**
  * File: app/components/controls/panels/audio/AiSettings.tsx
  * Version: v1.9.73
@@ -9,7 +10,7 @@ import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
 import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
 import { useVisuals, useAudioContext, useUI, useAI } from '@/src/context/AppContext';
-import { generateVisualConfigFromAudio } from '../../../../services/aiService';
+import { generateVisualConfigFromAudio, checkAiServiceAvailability } from '../../../../services/aiService';
 import { VisualizerMode, Region } from '../../../../types/index';
 
 export const AiSettings: React.FC = () => {
@@ -25,7 +26,7 @@ export const AiSettings: React.FC = () => {
 
   const handleAiDirector = async () => {
       if (fileStatus !== 'ready') return;
-      if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) { showToast(t?.toasts?.aiDirectorReq || 'Key required', 'error'); return; }
+      if (!checkAiServiceAvailability((msg) => showToast(msg, 'error'))) return;
       setIsAnalyzing(true);
       try {
           const wavBlob = await getAudioSlice(15);
