@@ -1,16 +1,25 @@
 import type { NextConfig } from "next";
 import path from "path";
-import withPWAInit from "@ducanh2912/next-pwa";
 
-const withPWA = withPWAInit({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
-  reloadOnOnline: true,
-});
+// Create a function to safely import optional dependencies
+function withPWA(nextConfig: NextConfig): NextConfig {
+  try {
+    const withPWAInit = require("@ducanh2912/next-pwa").default;
+    const withPWA = withPWAInit({
+      dest: "public",
+      disable: process.env.NODE_ENV === "development",
+      reloadOnOnline: true,
+    });
+    return withPWA(nextConfig);
+  } catch (error) {
+    console.warn("@ducanh2912/next-pwa not found, continuing without PWA support");
+    return nextConfig;
+  }
+}
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  distDir: ".next",
+  distDir: ".next", // Default directory, but it's ignored by git
   transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "postprocessing", "@react-three/postprocessing"],
   sassOptions: {
     includePaths: [path.join(__dirname, 'src')],

@@ -8,6 +8,7 @@ build/
 out/
 .parcel-cache
 .cache/
+.next/
 
 # 环境变量 (包含敏感的 API_KEY)
 .env
