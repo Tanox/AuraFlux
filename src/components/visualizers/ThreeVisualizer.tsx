@@ -31,6 +31,7 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
       case VisualizerMode.KINETIC_WALL: return KineticWallScene;
       case VisualizerMode.CUBE_FIELD: return CubeFieldScene;
       case VisualizerMode.RESONANCE_ORB: return LiquidSphereScene;
+      case VisualizerMode.LIQUID_SPHERE: return LiquidSphereScene;
       case VisualizerMode.NEURAL_FLOW: return NeuralFlowScene;
       case VisualizerMode.LASERS: return LaserScene;
       default: return DigitalGridScene;

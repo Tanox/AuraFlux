@@ -28,4 +28,4 @@
 11. **[11 安全策略与漏洞报告](./11_security_policy.md)** - 定义隐私声明与报告流程。
 
 ---
-*Aura Flux Project Specification - Final Audit v2.4.1*
+*Aura Flux Project Specification - Final Audit v2.0.0*

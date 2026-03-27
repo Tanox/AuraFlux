@@ -27,7 +27,7 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const COLS = Math.floor(128 * Math.sqrt(0.3)); // Reduce total count to ~30%
   const ROWS = Math.floor(64 * Math.sqrt(0.3));  // Reduce total count to ~30%
   const COUNT = COLS * ROWS;
-  const SPACING = 4.5; // Increased spacing for a clear gap (box size is 3)
+  const SPACING = 0.8 * 3; // Increase spacing to match larger cubes
   
   const dummy = useMemo(() => new Object3D(), []);
   

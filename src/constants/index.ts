@@ -1,9 +1,8 @@
-// File: src/constants/index.ts | Version: v2.3.0
+// File: src/constants/index.ts | Version: v1.9.80
 import { VisualizerMode } from '../types';
-import { APP_VERSION as VERSION_CONST } from './version';
 
 export const APP_NAME = 'Aura Flux';
-export const VERSION = VERSION_CONST;
+export const VERSION = '1.9.76';
 export const APP_VERSION = VERSION;
 
 export const FONTS = [
@@ -36,19 +35,7 @@ export const COLOR_THEMES = [
   { id: 'ocean', name: 'Ocean', colors: ['#2193b0', '#6dd5ed', '#000046'] },
   { id: 'forest', name: 'Forest', colors: ['#11998e', '#38ef7d', '#000000'] },
   { id: 'cyber', name: 'Cyber', colors: ['#00ffcc', '#ff0066', '#333399'] },
-  { id: 'monochrome', name: 'Monochrome', colors: ['#ffffff', '#888888', '#000000'] },
-  { id: 'fire', name: 'Fire', colors: ['#ff0000', '#ff8000', '#ffff00'] },
-  { id: 'ice', name: 'Ice', colors: ['#00ffff', '#0080ff', '#ffffff'] },
-  { id: 'amethyst', name: 'Amethyst', colors: ['#800080', '#ff00ff', '#4b0082'] },
-  { id: 'gold', name: 'Gold', colors: ['#ffd700', '#daa520', '#b8860b'] },
-  { id: 'emerald', name: 'Emerald', colors: ['#00ff00', '#008000', '#006400'] },
-  { id: 'ruby', name: 'Ruby', colors: ['#ff0000', '#8b0000', '#b22222'] },
-  { id: 'sapphire', name: 'Sapphire', colors: ['#0000ff', '#00008b', '#4169e1'] },
-  { id: 'topaz', name: 'Topaz', colors: ['#ffc87c', '#f08080', '#cd5c5c'] },
-  { id: 'pearl', name: 'Pearl', colors: ['#f0f8ff', '#e0ffff', '#dcdcdc'] },
-  { id: 'obsidian', name: 'Obsidian', colors: ['#000000', '#1a1a1a', '#333333'] },
-  { id: 'lavender', name: 'Lavender', colors: ['#e6e6fa', '#d8bfd8', '#dda0dd'] },
-  { id: 'mint', name: 'Mint', colors: ['#98ff98', '#bdfcc9', '#7fffd4'] }
+  { id: 'monochrome', name: 'Monochrome', colors: ['#ffffff', '#888888', '#000000'] }
 ];
 
 export const SMART_PRESETS = [

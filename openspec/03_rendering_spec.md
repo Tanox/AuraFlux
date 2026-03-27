@@ -31,5 +31,5 @@
 - **High:** 匹配设备原生 DPR (最高 1.5)，全粒子量，启用高级光照和后期处理。
 
 ---
-*Aura Flux Rendering Specification - Version 2.4.1*
+*Aura Flux Rendering Specification - Version 1.9.85*
 *Author: Sut*

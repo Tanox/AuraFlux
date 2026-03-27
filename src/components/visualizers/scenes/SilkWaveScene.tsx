@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/SilkWaveScene.tsx
- * Version: v2.4.1
+ * Version: v1.10.7
  * Author: Sut
  * Description: "Lumina Silk" - Optimized fluid ribbons with staggered pulses to avoid clumping.
  */
@@ -26,8 +26,7 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
 
   const SEGMENTS_X = settings.quality === 'high' ? 512 : (settings.quality === 'med' ? 320 : 160);
   const MAX_LINES = 50; 
-  const RIBBON_WIDTH = 780; 
-  const LINE_THICKNESS = 0.15; // Added thickness parameter
+  const RIBBON_WIDTH = 780; // Increased 3x from 260
 
   const { channels, randoms, layerIndices } = useMemo(() => {
     const ch = new Float32Array(MAX_LINES), rnd = new Float32Array(MAX_LINES), idx = new Float32Array(MAX_LINES);
@@ -67,9 +66,9 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
     mat.uniforms.uDensity.value = densityRef.current;
     
     const ls = 0.15; 
-    mat.uniforms.uBass.value += (features.bass * 0.3 - mat.uniforms.uBass.value) * ls;
-    mat.uniforms.uEnergyL.value += (features.energyL * 0.3 - mat.uniforms.uEnergyL.value) * ls;
-    mat.uniforms.uEnergyR.value += (features.energyR * 0.3 - mat.uniforms.uEnergyR.value) * ls;
+    mat.uniforms.uBass.value += (features.bass - mat.uniforms.uBass.value) * ls;
+    mat.uniforms.uEnergyL.value += (features.energyL - mat.uniforms.uEnergyL.value) * ls;
+    mat.uniforms.uEnergyR.value += (features.energyR - mat.uniforms.uEnergyR.value) * ls;
     
     if (c0) mat.uniforms.uColor1.value.copy(c0); 
     if (c1) mat.uniforms.uColor2.value.copy(c1); 
@@ -84,7 +83,7 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
     <>
       {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
       <instancedMesh ref={meshRef} args={[undefined, undefined, MAX_LINES]}>
-        <planeGeometry args={[RIBBON_WIDTH, 10.0, SEGMENTS_X, 1]}>
+        <planeGeometry args={[RIBBON_WIDTH, 1.0, SEGMENTS_X, 1]}>
             <primitive attach="attributes-aChannel" object={channels} />
             <primitive attach="attributes-aRandom" object={randoms} />
             <primitive attach="attributes-aLayerIndex" object={layerIndices} />

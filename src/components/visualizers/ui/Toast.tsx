@@ -11,18 +11,11 @@ interface Props {
   position?: 'top' | 'bottom';
 }
 
-export const Toast: React.FC<Props> = ({ message, type = 'info', onClose, duration = 3000, position = 'bottom' }) => {
+export const Toast: React.FC<Props> = memo(({ message, type = 'info', onClose, duration = 3000, position = 'bottom' }) => {
   useEffect(() => {
     if (message) {
-      console.log('Toast: message set, setting timeout', duration);
-      const timer = setTimeout(() => {
-        console.log('Toast: timeout reached, calling onClose');
-        onClose();
-      }, duration);
-      return () => {
-        console.log('Toast: clearing timeout');
-        clearTimeout(timer);
-      };
+      const timer = setTimeout(onClose, duration);
+      return () => clearTimeout(timer);
     }
   }, [message, onClose, duration]);
 
@@ -58,4 +51,6 @@ export const Toast: React.FC<Props> = ({ message, type = 'info', onClose, durati
       )}
     </AnimatePresence>
   );
-};
+});
+
+Toast.displayName = 'Toast';

@@ -1,6 +1,6 @@
 /**
  * File: app/components/visualizers/scenes/OceanWaveScene.tsx
- * Version: v2.4.1
+ * Version: v1.9.73
  * Author: Sut
  * Description: "Joy Division" Style Pulsar Terrain with scrolling history.
  */
@@ -28,12 +28,12 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  const NUM_LINES = settings.quality === 'high' ? 128 : (settings.quality === 'med' ? 96 : 64); // Increased lines for longer history
+  const NUM_LINES = settings.quality === 'high' ? 64 : (settings.quality === 'med' ? 48 : 32);
   const SEGMENTS_X = settings.quality === 'high' ? 384 : (settings.quality === 'med' ? 192 : 128);
   
   const LINE_WIDTH = 180;
   const LINE_HEIGHT = 25; 
-  const Z_SPACING = 2.0; // Adjusted spacing for more lines
+  const Z_SPACING = 3.2;
   
   const bins = (settings.fftSize || 512) / 2;
   const historyData = useMemo(() => {
@@ -62,7 +62,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   useLayoutEffect(() => {
       if (meshRef.current) {
           for (let i = 0; i < NUM_LINES; i++) {
-              dummy.position.set(0, i * 0.4 - 40, -i * Z_SPACING); // Adjusted Y offset for more lines
+              dummy.position.set(0, i * 0.75 - 12, -i * Z_SPACING);
               dummy.updateMatrix();
               meshRef.current.setMatrixAt(i, dummy.matrix);
           }
@@ -87,7 +87,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (!historyData || historyData.length < bins) return;
 
     frameCounterRef.current++;
-    if (frameCounterRef.current >= 4) { // Lower sampling rate (every 4 frames instead of 2)
+    if (frameCounterRef.current >= 2) {
         frameCounterRef.current = 0;
         historyData.copyWithin(bins, 0, historyData.length - bins);
 
@@ -109,7 +109,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.75; // Lowered sensitivity
+        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.3; // Default gain reduced to 30%
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColorRidge.value.copy(c2); 
         else if (c0) mat.uniforms.uColorRidge.value.copy(c0);

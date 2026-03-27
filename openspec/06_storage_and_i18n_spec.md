@@ -17,5 +17,5 @@
 - **语义化:** 所有渲染器模式名称通过本地化字典映射。
 
 ---
-*Aura Flux Storage & i18n Specification - Version 2.4.1*
+*Aura Flux Storage & i18n Specification - Version 1.9.73*
 *Author: Sut*

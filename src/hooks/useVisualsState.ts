@@ -1,4 +1,4 @@
-// File: src/hooks/useVisualsState.ts | Version: v2.0.5
+// File: src/hooks/useVisualsState.ts | Version: v1.10.4
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
@@ -15,9 +15,7 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   recognitionProvider: 'GEMINI',
   bloom: 0.5,
   particleCount: 1000,
-  speed: 1.0,
-  cycleColors: true,
-  colorInterval: 5
+  speed: 1.0
 };
 
 export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {

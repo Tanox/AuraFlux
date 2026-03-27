@@ -3,7 +3,6 @@
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
 import { InstancedMesh, Object3D, Color, AdditiveBlending } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
@@ -13,12 +12,9 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; se
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const { volume, bass, treble } = features;
   
-  const count = 128; // Increased count
+  const count = 64;
   const dummy = useMemo(() => new Object3D(), []);
   const color = useMemo(() => new Color(), []);
-  
-  // Cylinder geometry for laser look
-  const geometry = useMemo(() => new THREE.CylinderGeometry(0.05, 0.05, 1, 8), []);
 
   const laserData = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
@@ -49,24 +45,20 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; se
     laserData.forEach((data, i) => {
       const { angle, speed, offset, phase } = data;
       
-      // Concert laser show: originate from bottom stage area
-      const stageWidth = 100;
-      const x = (i / count - 0.5) * stageWidth;
-      const y = -30;
-      const z = Math.sin(i * 0.1) * 10 - 20;
+      // Dynamic rotation
+      const r = 15 + Math.sin(time * 0.5 + offset) * 5;
+      const x = Math.cos(angle + time * 0.1 * speed) * r;
+      const z = Math.sin(angle + time * 0.1 * speed) * r;
+      const y = Math.sin(time * 0.2 + phase) * 10;
 
       dummy.position.set(x, y, z);
       
-      // Sweep back and forth
-      const sweepAngle = Math.sin(time * speed + offset) * Math.PI / 3;
-      const pitchAngle = Math.PI / 4 + Math.cos(time * speed * 0.5 + phase) * Math.PI / 6;
-      
-      dummy.rotation.set(pitchAngle, sweepAngle, 0);
-      dummy.rotateX(Math.PI / 2); // Cylinder needs to be rotated to look right
+      // Point towards center or slightly offset
+      dummy.lookAt(0, Math.sin(time) * 5, 0);
       
       // Scale based on audio
-      const scaleY = 100 + volume * 200 + bass * 100;
-      const scaleXZ = 0.1 + treble * 0.2;
+      const scaleY = 50 + volume * 100 + bass * 50;
+      const scaleXZ = 0.05 + treble * 0.1;
       dummy.scale.set(scaleXZ, scaleXZ, scaleY);
       
       dummy.updateMatrix();
@@ -77,7 +69,7 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; se
       if (smoothedColors[colorIndex]) {
         color.copy(smoothedColors[colorIndex]);
         // Brighten based on volume
-        color.multiplyScalar(1.0 + volume * 3.0);
+        color.multiplyScalar(1.0 + volume * 2.0);
         meshRef.current!.setColorAt(i, color);
       }
     });
@@ -90,7 +82,8 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; se
 
   return (
     <group name="laser-scene">
-      <instancedMesh ref={meshRef} args={[geometry, undefined, count]}>
+      <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+        <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial 
           transparent 
           opacity={0.8} 

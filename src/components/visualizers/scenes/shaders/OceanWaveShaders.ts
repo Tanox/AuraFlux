@@ -20,7 +20,7 @@ export const oceanWaveVertexShader = `
     vec3 pos = position;
     float audioVal = texture2D(uAudioHistory, vec2(uv.x, aLineProgress)).r;
     
-    float elevation = audioVal * 12.6 * uSensitivity * xFade; // Lowered gain
+    float elevation = audioVal * 37.8 * uSensitivity * xFade; // Increased 3x from 12.6
     float beatReaction = uBeat * sin(uv.x * 4.0 + uTime * 4.0) * 1.5 * (1.0 - aLineProgress) * xFade;
     float totalDisp = elevation + beatReaction;
     

@@ -1,5 +1,17 @@
-// File: src/hooks/useVersionCheck.ts | Version: v2.0.9
+// File: src/hooks/useVersionCheck.ts | Version: v1.9.82
 import { useEffect } from 'react';
+
+const normalizeVersion = (v: string) => v.replace(/^v/, '');
+
+const isNewer = (newV: string, oldV: string) => {
+    const n = normalizeVersion(newV).split('.').map(Number);
+    const o = normalizeVersion(oldV).split('.').map(Number);
+    for (let i = 0; i < Math.max(n.length, o.length); i++) {
+        if ((n[i] || 0) > (o[i] || 0)) return true;
+        if ((n[i] || 0) < (o[i] || 0)) return false;
+    }
+    return false;
+};
 
 export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: string) => void) => {
   useEffect(() => {
@@ -8,12 +20,13 @@ export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: s
         const response = await fetch('/version.json');
         if (response.ok) {
           const data = await response.json();
-          if (data.version && data.version !== currentVersion) {
+          if (data.version && isNewer(data.version, currentVersion)) {
             onUpdate(data.version);
           }
         }
       } catch (err) {
-        // Ignore fetch errors (e.g., network issues, missing file)
+        // Suppress version check error in preview environment
+        console.warn('Version check skipped or failed.');
       }
     };
 

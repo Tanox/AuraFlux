@@ -44,7 +44,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
             }
           },
           {
-            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, RESONANCE_ORB, VORTEX), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
+            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, RESONANCE_ORB, VORTEX, LIQUID_SPHERE), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
           }
         ]
       },

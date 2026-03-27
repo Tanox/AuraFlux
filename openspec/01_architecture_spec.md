@@ -25,5 +25,5 @@ Aura Flux 采用 **React 19** 作为 UI 框架。视觉系统结合了 **Three.j
 - **原因:** 为了简化构建流程并符合 PWA/静态部署标准，所有图标、Logo 和元数据资产必须存放于 `public/` 目录下。
 
 ---
-*Aura Flux Architecture Specification - Version 2.4.1*
+*Aura Flux Architecture Specification - Version 1.9.85*
 *Author: Sut*

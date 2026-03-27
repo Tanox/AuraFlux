@@ -1,7 +1,9 @@
 {
-  "name": "Aura Flux v2.4.1",
-  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 2.4.0 adds full PWA support with offline capabilities and installability.",
+  "name": "Aura Flux - AI Music Visualizer v2.0.3",
+  "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 2.0.0 consolidates documentation into the openspec directory and refactors visualizer scenes.",
   "requestFramePermissions": [
-    "microphone"
+    "camera",
+    "microphone",
+    "screen-wake-lock"
   ]
 }

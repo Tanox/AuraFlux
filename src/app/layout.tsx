@@ -1,32 +1,18 @@
-import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata } from "next";
+import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";
-import { AuthProvider } from "@/src/components/auth/AuthProvider";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
-
-export const viewport: Viewport = {
-  themeColor: "#000000",
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aura.ewuse.com/"),
-  title: "Aura Flux v2.4.1",
+  title: "Aura Flux v2.0.1",
   description: "Experience Aura Flux: A next-gen 3D music visualizer powered by Google Gemini AI. Transform microphone input into real-time, audio-reactive WebGL art.",
-  keywords: ["music visualizer", "audio visualizer", "AI music recognition", "Google Gemini", "WebGL", "Three.js", "React 19", "generative art", "synesthesia", "PWA"],
+  keywords: ["music visualizer", "audio visualizer", "AI music recognition", "Google Gemini", "WebGL", "Three.js", "React 19", "generative art", "synesthesia"],
   authors: [{ name: "Sut" }],
-  manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Aura Flux",
-  },
   openGraph: {
     type: "website",
     url: "https://aura.ewuse.com/",
@@ -45,9 +31,9 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" strategy="lazyOnload" />
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-B3R0GXSDY8" strategy="lazyOnload" />
-        <Script id="google-analytics" strategy="lazyOnload">
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" strategy="beforeInteractive" />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-B3R0GXSDY8" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -56,10 +42,8 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-black text-white`}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${montserrat.variable} antialiased bg-black text-white`}>
+        {children}
       </body>
     </html>
   );

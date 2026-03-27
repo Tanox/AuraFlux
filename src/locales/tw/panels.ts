@@ -60,8 +60,6 @@ export const panels = {
     uiSettings: "介面",
     interaction: "交互",
     performance: "性能",
-    account: "帳戶",
-    signOut: "登出",
   },
   studioPanel: {
     videoConfig: "影片設定",

@@ -66,14 +66,13 @@ export const ReactiveSphere: React.FC<ReactiveSphereProps> = ({ settings, colors
                 const z = originalPositions[i * 3 + 2];
 
                 // Apply audio reactive displacement
-                const randomFactor = Math.sin(x * 0.5 + time * 2.0) * Math.cos(y * 0.5 + time * 2.0) * Math.sin(z * 0.5 + time * 2.0);
-                const displacement = (bass * 0.8 + treble * 0.5 + volume * 0.3) * settings.sensitivity * 0.8;
-                const noise = Math.sin(x * 0.5 + time * 0.8) * 0.2 + Math.cos(y * 0.5 + time * 0.9) * 0.2;
-                const pulse = Math.sin(x * 1.5 + y * 1.5 + z * 1.5 + time * 8.0) * 0.2 * randomFactor;
+                const displacement = (bass * 0.5 + treble * 0.3 + volume * 0.2) * settings.sensitivity * 0.5;
+                const noise = Math.sin(x * 0.8 + time * 0.5) * 0.1 + Math.cos(y * 0.7 + time * 0.6) * 0.1;
+                const pulse = Math.sin(x * 1.2 + y * 1.2 + z * 1.2 + time * 5.0) * 0.1;
 
-                vertex[0] = x * (1 + displacement + noise * 0.5 + pulse * 0.5);
-                vertex[1] = y * (1 + displacement + noise * 0.5 + pulse * 0.5);
-                vertex[2] = z * (1 + displacement + noise * 0.5 + pulse * 0.5);
+                vertex[0] = x * (1 + displacement + noise * 0.5 + pulse * 0.3);
+                vertex[1] = y * (1 + displacement + noise * 0.5 + pulse * 0.3);
+                vertex[2] = z * (1 + displacement + noise * 0.5 + pulse * 0.3);
 
                 positionAttribute.setXYZ(i, vertex[0], vertex[1], vertex[2]);
             }

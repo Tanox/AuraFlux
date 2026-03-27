@@ -62,8 +62,6 @@ export const panels = {
     uiSettings: "Interface",
     interaction: "Interaction",
     performance: "Performance",
-    account: "Compte",
-    signOut: "Déconnexion",
   },
   studioPanel: {
     videoConfig: "Paramètres Vidéo",
