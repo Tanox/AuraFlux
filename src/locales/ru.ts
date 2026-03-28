@@ -1,4 +1,4 @@
-// File: app/locales/ru.ts | Version: v1.9.85
+// File: src/locales/ru.ts | Version: v2.0.3
 import { common } from './ru/common';
 import { onboarding } from './ru/onboarding';
 import { panels } from './ru/panels';
@@ -8,7 +8,7 @@ import { messages } from './ru/messages';
 
 export const ru = {
   common,
-  appVersion: "v1.10.5",
+  appVersion: "v2.0.3",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Движок синестетического интеллекта",
   startExperience: "ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ",

@@ -11,6 +11,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "typeRoots": [
+      "C:\\Users\\Admin\\AppData\\Roaming\\npm\\node_modules\\@types",
       "./node_modules/@types"
     ],
     "types": [
