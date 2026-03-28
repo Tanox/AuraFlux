@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
+// 获取当前目录路径（ES 模块方式）
+const __dirname = path.dirname(new URL(import.meta.url).pathname).replace(/^\//, '');
+
 // 语言列表
 const languages = [
   'en', 'zh', 'tw', 'es', 'ar', 'fr', 'pt', 'pt-BR', 'de', 'ja', 'ko', 'ru'
@@ -19,18 +22,53 @@ const localesDir = path.join(__dirname, '../src/locales');
 function readFile(filePath: string): any {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
-    // 简单的 CommonJS 模块解析
-    const module = { exports: {} };
-    const require = (path: string) => {
-      if (path.startsWith('./')) {
-        const relativePath = path.replace('./', '');
-        const fullPath = path.join(__dirname, '../src/locales', baseLanguage, relativePath + '.ts');
-        return readFile(fullPath);
-      }
-      throw new Error(`Unsupported require: ${path}`);
-    };
-    eval(content.replace('export const', 'module.exports ='));
-    return module.exports;
+    
+    // 提取 export const 语句
+    const exportMatch = content.match(/export const\s+(\w+)\s*=\s*({[\s\S]*?});/);
+    if (!exportMatch) {
+      throw new Error('Could not find export const statement');
+    }
+    
+    const exportName = exportMatch[1];
+    let objectLiteral = exportMatch[2];
+    
+    // 清理对象字面量
+    // 1. 移除注释
+    objectLiteral = objectLiteral.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+    // 2. 移除尾随逗号
+    objectLiteral = objectLiteral.replace(/,\s*([\]}])/g, '$1');
+    
+    // 处理简单的对象字面量（没有扩展运算符和变量引用）
+    // 检查是否包含扩展运算符或变量引用
+    if (!objectLiteral.includes('...') && !/\b[a-zA-Z_$][a-zA-Z0-9_$]*\b(?=,|\s*})/.test(objectLiteral)) {
+      // 3. 将单引号转换为双引号
+      objectLiteral = objectLiteral.replace(/'([^']+)'/g, '"$1"');
+      // 4. 处理属性名没有引号的情况
+      objectLiteral = objectLiteral.replace(/([{,])\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1 "$2":');
+      
+      // 使用 JSON.parse 安全地解析对象
+      return JSON.parse(objectLiteral);
+    }
+    
+    // 对于包含扩展运算符或变量引用的文件，使用安全的解析方法
+    // 这里我们使用一个简单的方法：只提取我们需要的键
+    // 这种方法虽然简单，但可以避免执行恶意代码
+    const keys: string[] = [];
+    
+    // 提取所有键
+    const keyRegex = /([a-zA-Z_$][a-zA-Z0-9_$]*)\s*[:=]/g;
+    let match;
+    while ((match = keyRegex.exec(objectLiteral)) !== null) {
+      keys.push(match[1]);
+    }
+    
+    // 创建一个简单的对象，只包含键
+    const result: any = {};
+    keys.forEach(key => {
+      result[key] = true; // 使用布尔值作为占位符
+    });
+    
+    return result;
   } catch (error) {
     console.error(`Error reading file ${filePath}:`, error);
     return null;

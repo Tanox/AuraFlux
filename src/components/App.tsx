@@ -1,24 +1,24 @@
 'use client';
 // File: src/components/App.tsx | Version: v2.0.4
 import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/src/context/AppContext';
-import { WelcomeScreen } from '@/src/components/visualizers/ui/WelcomeScreen';
-import { OnboardingOverlay } from '@/src/components/visualizers/ui/onboarding/OnboardingOverlay';
-import { HelpModal } from '@/src/components/visualizers/ui/HelpModal';
-import SongOverlay from '@/src/components/visualizers/ui/SongOverlay';
-import LyricsOverlay from '@/src/components/visualizers/ui/LyricsOverlay';
-import CustomTextOverlay from '@/src/components/visualizers/ui/CustomTextOverlay';
-import { FPSCounter } from '@/src/components/visualizers/ui/FPSCounter';
-import { useIdleTimer } from '@/src/hooks/useIdleTimer';
-import { useMobileGestures } from '@/src/hooks/useMobileGestures';
-import { useVersionCheck } from '@/src/hooks/useVersionCheck';
-import { APP_VERSION } from '@/src/constants/version';
 import dynamic from 'next/dynamic';
-import type { ControlsProps } from '@/src/components/controls/Controls';
+import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
+import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';
+import { OnboardingOverlay } from '@/components/visualizers/ui/onboarding/OnboardingOverlay';
+import { HelpModal } from '@/components/visualizers/ui/HelpModal';
+import SongOverlay from '@/components/visualizers/ui/SongOverlay';
+import LyricsOverlay from '@/components/visualizers/ui/LyricsOverlay';
+import CustomTextOverlay from '@/components/visualizers/ui/CustomTextOverlay';
+import { FPSCounter } from '@/components/visualizers/ui/FPSCounter';
+import { useIdleTimer } from '@/hooks/useIdleTimer';
+import { useMobileGestures } from '@/hooks/useMobileGestures';
+import { useVersionCheck } from '@/hooks/useVersionCheck';
+import { APP_VERSION } from '@/constants/version';
+import type { ControlsProps } from '@/components/controls/Controls';
 
-const VisualizerCanvas = dynamic(() => import('@/src/components/visualizers/VisualizerCanvas'), { ssr: false });
-const ThreeVisualizer = dynamic(() => import('@/src/components/visualizers/ThreeVisualizer'), { ssr: false });
-const Controls = dynamic(() => import('@/src/components/controls/Controls'), { ssr: false });
+const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
+const ThreeVisualizer = dynamic(() => import('@/components/visualizers/ThreeVisualizer'), { ssr: false });
+const Controls = dynamic(() => import('@/components/controls/Controls'), { ssr: false });
 
 const MainContent: React.FC = () => {
   const ui = useUI();
@@ -87,7 +87,7 @@ const MainContent: React.FC = () => {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const audioFiles = Array.from(e.dataTransfer.files).filter((file: File) => file.type.startsWith('audio/'));
+      const audioFiles = Array.from(e.dataTransfer.files as FileList).filter((file: File) => file.type.startsWith('audio/'));
       if (audioFiles.length > 0) importFiles(audioFiles);
     }
   };

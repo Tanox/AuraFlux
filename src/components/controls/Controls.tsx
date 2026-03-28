@@ -7,7 +7,7 @@ import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel';
 import { AudioSettingsPanel } from './panels/AudioSettingsPanel';
 import { StudioPanel } from './panels/StudioPanel';
 import { PlaybackPanel } from './panels/PlaybackPanel';
-import { useUI, useVisuals } from '@/src/context/AppContext';
+import { useUI, useVisuals } from '@/context/AppContext';
 import { BottomBar } from './BottomBar';
 
 type Tab = 'visual' | 'input' | 'playback' | 'text' | 'studio' | 'system';

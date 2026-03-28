@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { useUI } from '@/src/context/AppContext';
+import { useUI } from '@/context/AppContext';
 import { GuideContent } from './help/GuideContent';
 import { ShortcutsContent } from './help/ShortcutsContent';
 import { AboutContent } from './help/AboutContent';

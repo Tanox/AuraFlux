@@ -1,6 +1,6 @@
 # OpenSpec: 音频引擎规范 (02)
 
-## 1. 信号处理流程 (v1.9.75)
+## 1. 信号处理流程 (v2.0.4)
 音频引擎由 `app/hooks/useAudio.ts` 驱动，并遵循 Web Audio API 标准。
 
 - **输入源:** `Microphone` (麦克风) / `File` (文件) / `Playlist` (播放列表)。
@@ -21,5 +21,5 @@
 - **频率分段:** `getAverage` 工具函数支持自定义频率范围（Bass, Mid, Treble）的能量提取。
 
 ---
-*Aura Flux Audio Engine Specification - Version 1.9.75*
+*Aura Flux Audio Engine Specification - Version 2.0.4*
 *Author: Sut*

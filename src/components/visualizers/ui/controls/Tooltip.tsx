@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
-import { useVisuals } from '@/src/context/AppContext';
+import { useVisuals } from '@/context/AppContext';
 
 interface FloatingTooltipProps {
   text: string | undefined | null;

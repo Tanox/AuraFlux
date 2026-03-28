@@ -1,6 +1,6 @@
 # OpenSpec: UI/UX 与交互规范 (05)
 
-## 1. 设计语言 (v1.9.85)
+## 1. 设计语言 (v2.0.4)
 Aura Flux 采用 **Bento Grid (便当盒)** 布局，结合高斯模糊 (Glassmorphism) 和霓虹光效，构建沉浸式控制界面。
 
 ## 2. 面板组织
@@ -23,5 +23,5 @@ Aura Flux 采用 **Bento Grid (便当盒)** 布局，结合高斯模糊 (Glassmo
 - **更新机制:** 检测到新版本时，顶部弹出持久化通知，引导用户刷新。
 
 ---
-*Aura Flux Interface Specification - Version 1.9.85*
+*Aura Flux Interface Specification - Version 2.0.4*
 *Author: Sut*

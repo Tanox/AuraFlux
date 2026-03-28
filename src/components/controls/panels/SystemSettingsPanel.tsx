@@ -1,7 +1,7 @@
 // File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.10.3
 import React from 'react';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
-import { useVisuals, useUI } from '@/src/context/AppContext';
+import { useVisuals, useUI } from '@/context/AppContext';
 import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
 import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';

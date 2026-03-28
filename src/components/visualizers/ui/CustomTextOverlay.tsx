@@ -1,6 +1,6 @@
 // File: src/components/visualizers/ui/CustomTextOverlay.tsx | Version: v1.9.80
 import React from 'react';
-import { VisualizerSettings, SongInfo } from '@/src/types';
+import { VisualizerSettings, SongInfo } from '@/types';
 
 interface Props {
   settings: VisualizerSettings;

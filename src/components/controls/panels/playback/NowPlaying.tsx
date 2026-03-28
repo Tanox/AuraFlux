@@ -8,7 +8,7 @@ import Image from 'next/image';
 import React from 'react';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { useAudioContext, useUI, useVisuals, useAI } from '@/src/context/AppContext';
+import { useAudioContext, useUI, useVisuals, useAI } from '@/context/AppContext';
 
 export const NowPlaying: React.FC = () => {
   const { currentSong, playlist, playPrev, togglePlayback, playNext, isPlaying, currentTime, duration, seekFile } = useAudioContext();

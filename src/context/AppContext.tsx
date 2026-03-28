@@ -1,14 +1,14 @@
 'use client';
 // File: src/context/AppContext.tsx | Version: v2.0.4
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
-import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/src/types/index';
-import { useAudio } from '@/src/hooks/useAudio';
-import { useAppState } from '@/src/hooks/useAppState';
-import { useVisualsState } from '@/src/hooks/useVisualsState';
-import { useAiState } from '@/src/hooks/useAiState';
-import { Toast } from '@/src/components/visualizers/ui/Toast';
-import { TRANSLATIONS } from '@/src/locales/index';
-import { TranslationSchema } from '@/src/locales/index';
+import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
+import { useAudio } from '@/hooks/useAudio';
+import { useAppState } from '@/hooks/useAppState';
+import { useVisualsState } from '@/hooks/useVisualsState';
+import { useAiState } from '@/hooks/useAiState';
+import { Toast } from '@/components/visualizers/ui/Toast';
+import { TRANSLATIONS } from '@/locales/index';
+import { TranslationSchema } from '@/locales/index';
 
 type HelpTab = 'guide' | 'shortcuts' | 'about';
 

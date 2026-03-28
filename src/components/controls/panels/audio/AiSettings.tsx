@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
 import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
-import { useVisuals, useAudioContext, useUI, useAI } from '@/src/context/AppContext';
+import { useVisuals, useAudioContext, useUI, useAI } from '@/context/AppContext';
 import { generateVisualConfigFromAudio, checkAiServiceAvailability } from '../../../../services/aiService';
 import { VisualizerMode, Region } from '../../../../types/index';
 

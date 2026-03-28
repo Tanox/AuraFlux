@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
-import { useVisuals, useUI } from '@/src/context/AppContext';
-import { BentoCard } from '@/src/components/visualizers/ui/layout/BentoCard';
-import { TooltipArea } from '@/src/components/visualizers/ui/controls/Tooltip';
-import { SettingsToggle } from '@/src/components/visualizers/ui/controls/SettingsToggle';
-import { CustomSelect } from '@/src/components/visualizers/ui/controls/CustomSelect';
-import { getPositionOptions } from '@/src/constants/index';
-import { Position } from '@/src/types/index';
+import { useVisuals, useUI } from '@/context/AppContext';
+import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
+import { TooltipArea } from '@/components/visualizers/ui/controls/Tooltip';
+import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
+import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect';
+import { getPositionOptions } from '@/constants/index';
+import { Position } from '@/types/index';
 
 export const TextLayerSetup: React.FC = () => {
     const { settings, setSettings, resetTextSettings } = useVisuals();

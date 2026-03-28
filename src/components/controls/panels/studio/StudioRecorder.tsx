@@ -1,5 +1,5 @@
 import React from 'react';
-import { BentoCard } from '@/src/components/visualizers/ui/layout/BentoCard';
+import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
 import { ArmedVisualizer } from './ArmedVisualizer';
 
 const formatSize = (b: number) => b === 0 ? '0 MB' : `${(b / (1024 * 1024)).toFixed(1)} MB`;

@@ -10,7 +10,7 @@ import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle'
 import { Slider } from '../../../visualizers/ui/controls/Slider';
 import { SegmentedControl } from '../../../visualizers/ui/controls/SegmentedControl';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { useVisuals, useUI } from '@/src/context/AppContext';
+import { useVisuals, useUI } from '@/context/AppContext';
 import { TooltipArea } from '../../../visualizers/ui/controls/Tooltip';
 
 export const CoreVisuals: React.FC = () => {

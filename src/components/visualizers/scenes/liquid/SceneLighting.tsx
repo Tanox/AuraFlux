@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { PointLight, RectAreaLight } from 'three';
-import { VisualizerSettings } from '@/src/types/index';
+import { VisualizerSettings } from '@/types/index';
 
 interface SceneLightingProps {
     settings: VisualizerSettings;

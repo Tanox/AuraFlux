@@ -2,7 +2,7 @@
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { VisualizerMode, VisualizerSettings } from '@/src/types';
+import { VisualizerMode, VisualizerSettings } from '@/types';
 import { DigitalGridScene } from './scenes/DigitalGridScene';
 import { OceanWaveScene } from './scenes/OceanWaveScene';
 import { VortexScene } from './scenes/VortexScene';

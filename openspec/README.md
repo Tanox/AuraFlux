@@ -4,7 +4,7 @@
 
 > **Note:** 原 `docs/` 目录下的文档已合并至本目录。请参阅 [Architecture](./13_architecture_overview.md) 与 [API Documentation](./12_api_reference.md)。
 
-## 核心规范索引 (v2.0.0 Standard)
+## 核心规范索引 (v2.0.4 Standard)
 
 文档根据系统开发周期进行逻辑排序：
 
@@ -28,4 +28,4 @@
 11. **[11 安全策略与漏洞报告](./11_security_policy.md)** - 定义隐私声明与报告流程。
 
 ---
-*Aura Flux Project Specification - Final Audit v2.0.0*
+*Aura Flux Project Specification - Final Audit v2.0.4*

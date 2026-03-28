@@ -6,13 +6,12 @@
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@ducanh2912/next-pwa": "^10.2.9",
     "@google/genai": "^1.40.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "^10.0.0",
@@ -20,7 +19,6 @@
     "@react-three/postprocessing": "^3.0.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "firebase": "^12.10.0",
     "lucide-react": "^0.577.0",
     "motion": "^12.34.3",
     "next": "15.1.0",

@@ -1,9 +1,9 @@
 import React from 'react';
-import { CustomSelect } from '@/src/components/visualizers/ui/controls/CustomSelect';
-import { Slider } from '@/src/components/visualizers/ui/controls/Slider';
-import { SegmentedControl } from '@/src/components/visualizers/ui/controls/SegmentedControl';
-import { BentoCard } from '@/src/components/visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '@/src/components/visualizers/ui/controls/SettingsToggle';
+import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect';
+import { Slider } from '@/components/visualizers/ui/controls/Slider';
+import { SegmentedControl } from '@/components/visualizers/ui/controls/SegmentedControl';
+import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
 
 interface StudioConfigProps {
   studio: any;

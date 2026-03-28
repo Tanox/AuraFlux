@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { useVisuals, useUI } from '@/src/context/AppContext';
-import { BentoCard } from '@/src/components/visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '@/src/components/visualizers/ui/controls/SettingsToggle';
-import { Slider } from '@/src/components/visualizers/ui/controls/Slider';
-import { CustomSelect } from '@/src/components/visualizers/ui/controls/CustomSelect';
-import { getFontOptions } from '@/src/constants/index';
+import { useVisuals, useUI } from '@/context/AppContext';
+import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
+import { Slider } from '@/components/visualizers/ui/controls/Slider';
+import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect';
+import { getFontOptions } from '@/constants/index';
 
 export const TextStyleSettings: React.FC = () => {
     const { settings, setSettings } = useVisuals();

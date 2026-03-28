@@ -2,7 +2,7 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { IcosahedronGeometry, BufferAttribute, DoubleSide, MeshPhysicalMaterial, Mesh } from 'three';
-import { VisualizerSettings } from '@/src/types/index';
+import { VisualizerSettings } from '@/types/index';
 
 interface ReactiveSphereProps {
     settings: VisualizerSettings;

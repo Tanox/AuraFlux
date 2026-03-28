@@ -1,8 +1,8 @@
 import React from 'react';
-import { useVisuals, useUI } from '@/src/context/AppContext';
-import { BentoCard } from '@/src/components/visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '@/src/components/visualizers/ui/controls/SettingsToggle';
-import { Slider } from '@/src/components/visualizers/ui/controls/Slider';
+import { useVisuals, useUI } from '@/context/AppContext';
+import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
+import { Slider } from '@/components/visualizers/ui/controls/Slider';
 
 export const TextChromaSettings: React.FC = () => {
     const { settings, setSettings } = useVisuals();

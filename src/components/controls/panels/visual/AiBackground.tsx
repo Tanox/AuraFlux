@@ -10,7 +10,7 @@ import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
 import { Slider } from '../../../visualizers/ui/controls/Slider';
 import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
-import { useVisuals, useUI, useAudioContext } from '@/src/context/AppContext';
+import { useVisuals, useUI, useAudioContext } from '@/context/AppContext';
 import { generateArtisticBackground, checkAiServiceAvailability } from '../../../../services/aiService';
 import { SMART_PRESETS } from '../../../../constants';
 

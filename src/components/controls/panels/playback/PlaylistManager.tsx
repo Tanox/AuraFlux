@@ -8,8 +8,8 @@
 import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { useAudioContext, useUI } from '@/src/context/AppContext';
-import { checkAiServiceAvailability } from '@/src/services/aiService';
+import { useAudioContext, useUI } from '@/context/AppContext';
+import { checkAiServiceAvailability } from '@/services/aiService';
 
 export const PlaylistManager: React.FC = () => {
   const { 

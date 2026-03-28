@@ -1,9 +1,9 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import { useVisuals, useUI } from '@/src/context/AppContext';
-import { VisualizerSettings } from '@/src/types';
-import { useLocalStorage } from '@/src/hooks/useLocalStorage';
-import { APP_VERSION } from '@/src/constants';
+import { useVisuals, useUI } from '@/context/AppContext';
+import { VisualizerSettings } from '@/types';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { APP_VERSION } from '@/constants';
 
 interface SavedPreset { id: number; name: string; data: VisualizerSettings; timestamp: number; }
 

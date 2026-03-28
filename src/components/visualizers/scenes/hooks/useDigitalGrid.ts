@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useThree } from '@react-three/fiber';
 import { InstancedBufferAttribute } from 'three';
-import { VisualizerSettings } from '@/src/types';
+import { VisualizerSettings } from '@/types';
 
 export const useDigitalGrid = (settings: VisualizerSettings) => {
   const { size } = useThree();

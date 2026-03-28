@@ -9,7 +9,7 @@ import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
 import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
 import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { useVisuals, useUI } from '@/src/context/AppContext';
+import { useVisuals, useUI } from '@/context/AppContext';
 import { LyricsStyle, Position } from '../../../../types/index';
 import { getPositionOptions } from '../../../../constants/index';
 

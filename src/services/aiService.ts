@@ -1,6 +1,6 @@
 // File: src/services/aiService.ts | Version: v1.10.7
 import { GoogleGenAI } from '@google/genai';
-import { en } from '@/src/locales/en';
+import { en } from '@/locales/en';
 
 let aiInstance: GoogleGenAI | null = null;
 

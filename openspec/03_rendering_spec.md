@@ -1,6 +1,6 @@
 # OpenSpec: 视觉生成渲染规范 (03)
 
-## 1. 混合渲染管线 (v1.9.85)
+## 1. 混合渲染管线 (v2.0.4)
 
 ### 1.1. 2D 渲染器
 - **架构:** 采用 React 状态驱动的 Canvas 2D 渲染。
@@ -31,5 +31,5 @@
 - **High:** 匹配设备原生 DPR (最高 1.5)，全粒子量，启用高级光照和后期处理。
 
 ---
-*Aura Flux Rendering Specification - Version 1.9.85*
+*Aura Flux Rendering Specification - Version 2.0.4*
 *Author: Sut*
