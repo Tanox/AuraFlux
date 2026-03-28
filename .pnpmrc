@@ -1,0 +1,4 @@
+# pnpm configuration
+store-dir=C:\Users\Admin\.trae-cn\binaries\node\pnpm-store
+package-import-method=copy
+link-workspace-packages=false
