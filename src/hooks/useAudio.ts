@@ -37,8 +37,8 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
           .filter(d => d.kind === 'audioinput')
           .map(d => ({ deviceId: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }));
         setAudioDevices(audioInputs);
-      } catch (err) {
-        console.warn('Error getting devices:', err);
+      } catch (err: any) {
+        console.warn('Error getting devices:', err?.message || err);
       }
     };
     getDevices();
@@ -72,8 +72,8 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       setIsListening(true);
       setSourceType('microphone');
       setSelectedDeviceId(deviceId);
-    } catch (err) {
-      console.warn('Microphone access skipped or denied:', err);
+    } catch (err: any) {
+      console.warn('Microphone access skipped or denied:', err?.message || err);
       showToast('Microphone access denied. Running in silent mode.', 'error');
     }
   }, [isListening, mediaStream, showToast]);

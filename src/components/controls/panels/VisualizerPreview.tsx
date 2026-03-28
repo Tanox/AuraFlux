@@ -14,12 +14,9 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.DIGITAL_GRID]: { background: 'linear-gradient(45deg, #000 0%, #00ffff 50%, #ff00ff 100%)' },
     [VisualizerMode.NEURAL_FLOW]: { background: 'radial-gradient(circle at 30% 30%, #00ffaa, transparent), radial-gradient(circle at 70% 70%, #00aaff, #000)' },
     [VisualizerMode.KINETIC_WALL]: { background: 'radial-gradient(ellipse at bottom, #1e3a8a 20%, #020617 80%)' }, 
-    [VisualizerMode.RESONANCE_ORB]: { background: 'radial-gradient(circle, #9333ea, #1e1b4b)' },
     [VisualizerMode.CUBE_FIELD]: { background: 'linear-gradient(to bottom, transparent, #0c4a6e), repeating-linear-gradient(45deg, #0c4a6e, #0c4a6e 1px, transparent 1px, transparent 10px)' },
     [VisualizerMode.OCEAN_WAVE]: { background: 'linear-gradient(to top, #ff00ff 0%, #00ffff 50%, transparent 80%)' },
     [VisualizerMode.WAVEFORM]: { background: 'linear-gradient(to right, transparent, #8b5cf6, #ec4899, #8b5cf6, transparent)' },
-    [VisualizerMode.FLUID_CURVES]: { background: 'radial-gradient(ellipse at 50% 0%, #3b82f6 0%, transparent 50%), radial-gradient(ellipse at 50% 100%, #8b5cf6 0%, transparent 50%)' },
-    [VisualizerMode.NEBULA]: { background: 'radial-gradient(ellipse at 70% 30%, #af52de, transparent), radial-gradient(ellipse at 30% 70%, #5856d6, #020617)' },
     [VisualizerMode.TUNNEL]: { background: 'repeating-radial-gradient(circle at center, #8b5cf6, #8b5cf6 5px, #000 5px, #000 15px)' },
     [VisualizerMode.LASERS]: { background: 'linear-gradient(10deg, transparent 48%, #ff00ff 50%, transparent 52%), linear-gradient(-15deg, transparent 47%, #00e5ff 50%, transparent 53%)' },
     [VisualizerMode.RINGS]: { background: 'repeating-radial-gradient(circle at center, #ec4899, #ec4899 2px, transparent 2px, transparent 20px)' },
@@ -36,7 +33,6 @@ const THREE_MODES = [
   VisualizerMode.NEURAL_FLOW,
   VisualizerMode.CUBE_FIELD,
   VisualizerMode.KINETIC_WALL,
-  VisualizerMode.RESONANCE_ORB,
   VisualizerMode.VORTEX
 ];
 

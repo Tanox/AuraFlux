@@ -9,7 +9,6 @@ import { VortexScene } from './scenes/VortexScene';
 import { SilkWaveScene } from './scenes/SilkWaveScene';
 import { KineticWallScene } from './scenes/KineticWallScene';
 import { CubeFieldScene } from './scenes/CubeFieldScene';
-import { LiquidSphereScene } from './scenes/LiquidSphereScene';
 import { NeuralFlowScene } from './scenes/NeuralFlowScene';
 import { LaserScene } from './scenes/LaserScene';
 
@@ -30,8 +29,6 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
       case VisualizerMode.SILK_WAVE: return SilkWaveScene;
       case VisualizerMode.KINETIC_WALL: return KineticWallScene;
       case VisualizerMode.CUBE_FIELD: return CubeFieldScene;
-      case VisualizerMode.RESONANCE_ORB: return LiquidSphereScene;
-      case VisualizerMode.LIQUID_SPHERE: return LiquidSphereScene;
       case VisualizerMode.NEURAL_FLOW: return NeuralFlowScene;
       case VisualizerMode.LASERS: return LaserScene;
       default: return DigitalGridScene;

@@ -71,7 +71,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
             }
           },
           {
-            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, RESONANCE_ORB, VORTEX, LIQUID_SPHERE), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
+            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, VORTEX, LASERS), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
           }
         ]
       },
@@ -84,8 +84,8 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
       return JSON.parse(response.text);
     }
     return null;
-  } catch (err) {
-    console.warn('AI Visual Config error:', err);
+  } catch (err: any) {
+    console.warn('AI Visual Config error:', err?.message || err);
     return null;
   }
 };
@@ -112,8 +112,8 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
       }
     }
     return null;
-  } catch (err) {
-    console.warn('AI Background Generation error:', err);
+  } catch (err: any) {
+    console.warn('AI Background Generation error:', err?.message || err);
     return null;
   }
 };
@@ -157,8 +157,8 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
       return JSON.parse(response.text);
     }
     return null;
-  } catch (err) {
-    console.warn('AI Identification error:', err);
+  } catch (err: any) {
+    console.warn('AI Identification error:', err?.message || err);
     return null;
   }
 };

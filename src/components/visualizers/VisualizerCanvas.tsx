@@ -6,9 +6,7 @@ import { renderBarsMode } from './modes/BarsMode';
 import { renderWaveformMode } from './modes/WaveformMode';
 import { renderRingsMode } from './modes/RingsMode';
 import { renderPlasmaMode } from './modes/PlasmaMode';
-import { renderNebulaMode } from './modes/NebulaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
-import { renderFluidCurvesMode } from './modes/FluidCurvesMode';
 import { renderParticlesMode } from './modes/ParticlesMode';
 
 interface Props {
@@ -84,28 +82,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
             sensitivity: settings.sensitivity
           });
           break;
-        case VisualizerMode.NEBULA:
-          renderNebulaMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity
-          });
-          break;
         case VisualizerMode.TUNNEL:
           renderTunnelMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity
-          });
-          break;
-        case VisualizerMode.FLUID_CURVES:
-          renderFluidCurvesMode({
             ctx,
             dataArray,
             width,

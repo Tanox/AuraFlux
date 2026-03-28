@@ -7,8 +7,8 @@ export const useLocalStorage = () => {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
+    } catch (error: any) {
+      console.warn(`Error reading localStorage key "${key}":`, error?.message || error);
       return initialValue;
     }
   };
@@ -17,8 +17,8 @@ export const useLocalStorage = () => {
     if (typeof window === 'undefined') return;
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.warn(`Error setting localStorage key "${key}":`, error);
+    } catch (error: any) {
+      console.warn(`Error setting localStorage key "${key}":`, error?.message || error);
     }
   };
 

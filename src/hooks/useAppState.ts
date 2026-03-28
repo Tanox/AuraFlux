@@ -56,7 +56,7 @@ export const useAppState = () => {
         }
       } catch (err: any) {
         if (err.name !== 'NotAllowedError') {
-          console.warn('Wake Lock error:', err);
+          console.warn('Wake Lock error:', err?.message || err);
         }
       }
     }
