@@ -2,6 +2,14 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.5]
+### ✨ System Updates & Documentation
+*   **i18n Integrity**: Checked and ensured all internationalization language files are complete and consistent.
+*   **Robustness Testing**: Verified application robustness by successfully starting the development server.
+*   **Documentation Update**: Updated README.md and README_ZH.md with the latest version information.
+*   **OpenSpec Sync**: Synchronized code functionality details to the spec documentation, including updated visualization modes and directory structure.
+*   **Version Synchronization**: Updated all files to version v2.0.5, ensuring consistency across the project.
+
 ## [v1.9.73]
 ### ✨ New Features & Optimization
 *   **New Visualizer**: Introduced the **Gravitational Vortex** (`VortexScene.tsx`), a high-fidelity 3D particle visualizer with swirling gravitational distortion effects.
