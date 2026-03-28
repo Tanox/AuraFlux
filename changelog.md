@@ -2,6 +2,11 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.5]
+### ✨ Visualizer Optimization
+*   **Ocean Wave Visualizer**: Optimized the wave visualization to anchor the bottom edge of lines to the bottom of the canvas, creating a more grounded visual effect.
+*   **TypeScript Fix**: Resolved a type inference issue in `Controls.tsx` to ensure proper type checking.
+
 ## [v1.9.73]
 ### ✨ New Features & Optimization
 *   **New Visualizer**: Introduced the **Gravitational Vortex** (`VortexScene.tsx`), a high-fidelity 3D particle visualizer with swirling gravitational distortion effects.

@@ -21,10 +21,17 @@ const GoogleAnalyticsScript = () => {
     </>
   );
 
-  if (typeof window === 'undefined') {
-    return process.env.NODE_ENV === 'production' ? AnalyticsTags : null;
+  // Only load Google Analytics in production and not on localhost
+  if (process.env.NODE_ENV === 'production') {
+    if (typeof window === 'undefined') {
+      // Server-side: always return AnalyticsTags in production
+      return AnalyticsTags;
+    } else {
+      // Client-side: check if not localhost
+      return !window.location.hostname.match(/localhost|127\.0\.0\.1/) ? AnalyticsTags : null;
+    }
   }
-  return !window.location.hostname.match(/localhost|127\.0\.0\.1/) ? AnalyticsTags : null;
+  return null;
 };
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });

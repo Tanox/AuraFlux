@@ -25,7 +25,6 @@ export const renderTunnelMode = ({
   const centerY = height / 2;
   const maxRadius = Math.max(width, height);
   
-  ctx.lineWidth = 2;
   for (let i = 0; i < 20; i++) {
     const dataIndex = Math.floor((i / 20) * dataArray.length);
     const val = dataArray[dataIndex] / 255;
@@ -35,6 +34,7 @@ export const renderTunnelMode = ({
     
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.lineWidth = 1 + val * 8 * sensitivity;
     ctx.strokeStyle = colors[i % colors.length];
     ctx.globalAlpha = alpha * (0.5 + val * 0.5 * sensitivity);
     ctx.stroke();

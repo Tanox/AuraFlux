@@ -36,6 +36,8 @@ export const settings = {
   doubleClickFullscreen: "Double-Click Fullscreen",
   autoHideUi: "Auto Hide UI",
   mirrorDisplay: "Mirror Display",
+  showPlaybackTab: "Playback Tab",
+  showStudioTab: "Studio Tab",
   language: "Language",
   region: "Region",
   visualizerMode: "Visualizer Mode",

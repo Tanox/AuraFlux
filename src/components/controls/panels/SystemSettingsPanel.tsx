@@ -49,6 +49,8 @@ export const SystemSettingsPanel: React.FC = () => {
                   <SettingsToggle label={t?.showTooltips} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
                   <SettingsToggle label={t?.autoHideUi} value={settings.autoHideUi} onChange={() => setSettings({...settings, autoHideUi: !settings.autoHideUi})} variant="clean" />
                   <SettingsToggle label={t?.hideCursor} value={settings.hideCursor} onChange={() => setSettings({...settings, hideCursor: !settings.hideCursor})} variant="clean" />
+                  <SettingsToggle label={t?.showPlaybackTab} value={settings.showPlaybackTab !== false} onChange={() => setSettings({...settings, showPlaybackTab: !settings.showPlaybackTab})} variant="clean" />
+                  <SettingsToggle label={t?.showStudioTab} value={settings.showStudioTab !== false} onChange={() => setSettings({...settings, showStudioTab: !settings.showStudioTab})} variant="clean" />
                 </div>
               </div>
 

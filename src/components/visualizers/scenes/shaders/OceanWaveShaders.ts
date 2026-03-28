@@ -1,3 +1,5 @@
+// File: src/components/visualizers/scenes/shaders/OceanWaveShaders.ts | Version: v2.0.5
+
 export const oceanWaveVertexShader = `
   attribute float aLineProgress;
   varying vec2 vUv;
@@ -24,7 +26,12 @@ export const oceanWaveVertexShader = `
     float beatReaction = uBeat * sin(uv.x * 4.0 + uTime * 4.0) * 1.5 * (1.0 - aLineProgress) * xFade;
     float totalDisp = elevation + beatReaction;
     
-    if (uv.y > 0.5) pos.y += totalDisp;
+    // Move bottom edge to y=0, only top edge rises with audio
+    if (uv.y > 0.5) {
+        pos.y += totalDisp;
+    } else {
+        pos.y = -12.5; // Keep bottom edge fixed at lower position
+    }
     vElevation = totalDisp;
     
     gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(pos, 1.0);

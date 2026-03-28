@@ -36,6 +36,8 @@ export const settings = {
   doubleClickFullscreen: "双击全屏",
   autoHideUi: "自动隐藏 UI",
   mirrorDisplay: "镜像显示",
+  showPlaybackTab: "播放选项卡",
+  showStudioTab: "工作室选项卡",
   language: "语言",
   region: "区域",
   visualizerMode: "视觉模式",

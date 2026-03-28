@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/controls/Controls.tsx | Version: v2.0.3
+// File: src/components/controls/Controls.tsx | Version: v2.0.4
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
@@ -21,17 +21,25 @@ export interface ControlsProps {
 
 const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, toggleFullscreen }) => {
   const { t } = useUI();
-  const { randomizeSettings } = useVisuals();
+  const { randomizeSettings, settings } = useVisuals();
   const [activeTab, setActiveTab] = useState<Tab>('visual');
 
-  const TABS = useMemo<{ id: Tab, label: keyof typeof t.tabs, component: React.ReactNode }[]>(() => [
-    { id: 'visual', label: 'visual', component: <VisualSettingsPanel /> },
-    { id: 'input', label: 'input', component: <AudioSettingsPanel /> },
-    { id: 'playback', label: 'playback', component: <PlaybackPanel /> },
-    { id: 'text', label: 'text', component: <CustomTextSettingsPanel /> },
-    { id: 'studio', label: 'studio', component: <StudioPanel /> },
-    { id: 'system', label: 'system', component: <SystemSettingsPanel /> },
-  ], []);
+  const TABS = useMemo(() => {
+    const tabs: { id: Tab; label: keyof typeof t.tabs; component: React.ReactNode }[] = [
+      { id: 'visual', label: 'visual', component: <VisualSettingsPanel /> },
+      { id: 'input', label: 'input', component: <AudioSettingsPanel /> },
+      { id: 'playback', label: 'playback', component: <PlaybackPanel /> },
+      { id: 'text', label: 'text', component: <CustomTextSettingsPanel /> },
+      { id: 'studio', label: 'studio', component: <StudioPanel /> },
+      { id: 'system', label: 'system', component: <SystemSettingsPanel /> },
+    ];
+
+    return tabs.filter(tab => {
+      if (tab.id === 'playback' && settings.showPlaybackTab === false) return false;
+      if (tab.id === 'studio' && settings.showStudioTab === false) return false;
+      return true;
+    });
+  }, [settings, t]);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 
