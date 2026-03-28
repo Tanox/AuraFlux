@@ -36,16 +36,42 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" strategy="beforeInteractive" />
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-B3R0GXSDY8" strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-B3R0GXSDY8');
-          `}
-        </Script>
+        {/* Google Analytics - only load in production */}
+        {typeof window === 'undefined' ? (
+          // Server-side: check NODE_ENV
+          process.env.NODE_ENV === 'production' && (
+            <>
+              <Script src="https://www.googletagmanager.com/gtag/js?id=G-B3R0GXSDY8" strategy="afterInteractive" />
+              <Script id="google-analytics" strategy="afterInteractive">
+                {
+                  `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-B3R0GXSDY8');
+                  `
+                }
+              </Script>
+            </>
+          )
+        ) : (
+          // Client-side: check if hostname is not localhost
+          !window.location.hostname.match(/localhost|127\.0\.0\.1/) && (
+            <>
+              <Script src="https://www.googletagmanager.com/gtag/js?id=G-B3R0GXSDY8" strategy="afterInteractive" />
+              <Script id="google-analytics" strategy="afterInteractive">
+                {
+                  `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-B3R0GXSDY8');
+                  `
+                }
+              </Script>
+            </>
+          )
+        )}
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${montserrat.variable} antialiased bg-black text-white`}>
         {children}
