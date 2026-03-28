@@ -1,4 +1,4 @@
-// File: src/components/visualizers/modes/RingsMode.ts | Version: v2.0.4
+// File: src/components/visualizers/modes/RingsMode.ts | Version: v2.0.5
 
 interface RingsModeProps {
   ctx: CanvasRenderingContext2D;

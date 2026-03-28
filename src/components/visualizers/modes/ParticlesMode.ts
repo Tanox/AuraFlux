@@ -1,4 +1,4 @@
-// File: src/components/visualizers/modes/ParticlesMode.ts | Version: v2.0.4
+// File: src/components/visualizers/modes/ParticlesMode.ts | Version: v2.0.5
 
 interface ParticlesModeProps {
   ctx: CanvasRenderingContext2D;

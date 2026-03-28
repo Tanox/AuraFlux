@@ -43,16 +43,22 @@ graph TD
 ### 2.2 渲染引擎 (Rendering Engine)
 - **核心功能**: 将音频数据转化为 3D 视觉效果。
 - **支持模式**:
-  - **Digital Grid**: 数字化网格，适合科技感音乐。
-  - **Silk Wave**: 丝绸波浪效果，适合柔和音乐。
-  - **Ocean Wave**: 海洋波浪，适合舒缓节奏。
-  - **Neon City**: 赛博朋克风格，适合电子音乐。
-  - **Cosmic Void**: 宇宙粒子效果，适合氛围音乐。
-  - **Vortex**: 漩涡引力效果，适合高能音乐。
-  - **Kinetic Wall**: 动能墙，适合强节奏。
-  - **Cube Field**: 立方体场，适合极简风格。
-  - **Liquid Sphere**: 液态球体，适合流动感音乐。
-  - **Neural Flow**: 神经流，适合复杂编曲。
+  - **2D Canvas 模式**:
+    - **BarsMode**: 柱状频谱效果，适合所有类型音乐。
+    - **WaveformMode**: 波形效果，适合展示音频时域特征。
+    - **RingsMode**: 环形效果，适合节奏明快的音乐。
+    - **PlasmaMode**: 等离子效果，适合电子音乐。
+    - **TunnelMode**: 隧道效果，适合沉浸式体验。
+    - **ParticlesMode**: 粒子效果，适合氛围音乐。
+  - **3D WebGL 模式**:
+    - **Digital Grid**: 数字化网格，适合科技感音乐。
+    - **Silk Wave**: 丝绸波浪效果，适合柔和音乐。
+    - **Ocean Wave**: 海洋波浪，适合舒缓节奏。
+    - **Vortex**: 漩涡引力效果，适合高能音乐。
+    - **Kinetic Wall**: 动能墙，适合强节奏。
+    - **Cube Field**: 立方体场，适合极简风格。
+    - **Neural Flow**: 神经流，适合复杂编曲。
+    - **Laser**: 激光效果，适合电子音乐。
 - **关键逻辑**:
   - `useFrame` 钩子每帧更新几何体顶点或材质 Uniforms。
   - 响应音频能量值，动态调整物体大小、颜色、发光强度。
@@ -80,14 +86,22 @@ graph TD
 ├── src/
 │   ├── app/              # Next.js App Router 页面
 │   ├── components/       # React 组件
-│   │   ├── ui/           # 通用 UI 组件 (Button, Slider)
-│   │   ├── visualizers/  # 3D 视觉效果组件
-│   │   └── panels/       # 控制面板组件
-│   ├── hooks/            # 自定义 Hooks (useAudioAnalyzer, useAIService)
+│   │   ├── controls/     # 控制面板组件
+│   │   ├── visualizers/  # 可视化组件
+│   │   │   ├── modes/    # 2D Canvas 渲染模式
+│   │   │   ├── scenes/   # 3D WebGL 场景
+│   │   │   │   ├── hooks/    # 场景相关钩子
+│   │   │   │   ├── liquid/   # 液态效果组件
+│   │   │   │   └── shaders/  # 着色器定义
+│   │   │   └── ui/       # 可视化相关 UI 组件
+│   │   └── ui/           # 通用 UI 组件
+│   ├── context/          # React Context 状态管理
+│   ├── hooks/            # 自定义 Hooks
+│   ├── locales/          # 国际化语言文件
 │   ├── services/         # 业务逻辑服务 (AI, Audio)
 │   ├── types/            # TypeScript 类型定义
 │   └── utils/            # 工具函数
 ├── public/               # 静态资源
-├── openspec/             # 项目规范文档
+├── spec/                 # 项目规范文档
 └── ...配置文件
 ```

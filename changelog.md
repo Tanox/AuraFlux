@@ -3,9 +3,12 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.0.5]
-### ✨ Visualizer Optimization
-*   **Ocean Wave Visualizer**: Optimized the wave visualization to anchor the bottom edge of lines to the bottom of the canvas, creating a more grounded visual effect.
-*   **TypeScript Fix**: Resolved a type inference issue in `Controls.tsx` to ensure proper type checking.
+### ✨ System Updates & Documentation
+*   **i18n Integrity**: Checked and ensured all internationalization language files are complete and consistent.
+*   **Robustness Testing**: Verified application robustness by successfully starting the development server.
+*   **Documentation Update**: Updated README.md and README_ZH.md with the latest version information.
+*   **OpenSpec Sync**: Synchronized code functionality details to the spec documentation, including updated visualization modes and directory structure.
+*   **Version Synchronization**: Updated all files to version v2.0.5, ensuring consistency across the project.
 
 ## [v1.9.73]
 ### ✨ New Features & Optimization

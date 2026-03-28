@@ -1,5 +1,5 @@
 'use client';
-// File: src/context/AppContext.tsx | Version: v2.0.4
+// File: src/context/AppContext.tsx | Version: v2.0.5
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
 import { useAudio } from '@/hooks/useAudio';
