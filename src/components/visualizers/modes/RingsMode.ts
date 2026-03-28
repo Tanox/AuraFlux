@@ -32,7 +32,7 @@ export const renderRingsMode = ({
     
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-    ctx.lineWidth = 4 + val * 6;
+    ctx.lineWidth = 2 + val * 12;
     ctx.strokeStyle = colors[i % colors.length];
     ctx.shadowBlur = 10 + val * 20;
     ctx.shadowColor = colors[i % colors.length];

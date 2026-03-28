@@ -15,7 +15,8 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   recognitionProvider: 'GEMINI',
   bloom: 0.5,
   particleCount: 1000,
-  speed: 1.0
+  speed: 1.0,
+  cycleColors: true
 };
 
 export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {

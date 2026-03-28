@@ -2,7 +2,7 @@
 
 interface WaveformModeProps {
   ctx: CanvasRenderingContext2D;
-  dataArray: Uint8Array<ArrayBufferLike>;
+  dataArray: Uint8Array<ArrayBuffer>;
   width: number;
   height: number;
   colors: string[];
@@ -20,7 +20,7 @@ export const renderWaveformMode = ({
   colors,
   analyser
 }: WaveformModeProps) => {
-  analyser.getByteTimeDomainData(dataArray as Uint8Array<ArrayBuffer>);
+  analyser.getByteTimeDomainData(dataArray);
   
   ctx.lineWidth = 3;
   const sliceWidth = width / dataArray.length;
