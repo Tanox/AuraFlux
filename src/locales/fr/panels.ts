@@ -2,32 +2,32 @@ import { VisualizerMode, LyricsStyle } from '../../types/index';
 
 export const panels = {
   visualPanel: {
-    display: "Qualité d'Affichage",
-    aiBg: "Arrière-plan IA",
+    display: "Qualit茅 d'Affichage",
+    aiBg: "Arri猫re-plan IA",
     generateBg: "Forger Art IA",
     regenerate: "Reforger l'Art",
-    showBg: "Afficher Arrière-plan IA",
-    opacity: "Opacité",
-    bgGenerated: "Arrière-plan IA généré",
+    showBg: "Afficher Arri猫re-plan IA",
+    opacity: "Opacit茅",
+    bgGenerated: "Arri猫re-plan IA g茅n茅r茅",
     coreTitle: "Rendu & Couleurs",
   },
   audioPanel: {
     audioInput: "Architecture du Signal",
     mic: "Microphone",
-    defaultMic: "Microphone par Défaut",
-    start: "DÉMARRER LA CAPTURE",
-    stop: "ARRÊTER LA CAPTURE",
+    defaultMic: "Microphone par D茅faut",
+    start: "D脡MARRER LA CAPTURE",
+    stop: "ARR脢TER LA CAPTURE",
     fileActive: "FLUX ACTIF",
     analysisAi: "Moteur Neuronal",
     enableAi: "Analyse en Direct",
-    apiKey: "Clé API Gemini",
-    apiKeyPlaceholder: "Clé Gemini...",
-    saved: "PRÊT",
+    apiKey: "Cl茅 API Gemini",
+    apiKeyPlaceholder: "Cl茅 Gemini...",
+    saved: "PR脢T",
     update: "MAJ",
-    keyVerified: "Clé Vérifiée et Enregistrée",
-    keyCleared: "Clé Effacée",
-    keyInvalid: "Clé API Gemini Invalide",
-    aiDirector: "Auto-Réalisateur IA",
+    keyVerified: "Cl茅 V茅rifi茅e et Enregistr茅e",
+    keyCleared: "Cl茅 Effac茅e",
+    keyInvalid: "Cl茅 API Gemini Invalide",
+    aiDirector: "Auto-R茅alisateur IA",
     analyzing: "Analyse en cours...",
     recognitionSource: "Protocole IA",
     save: "SAUVEGARDER",
@@ -40,10 +40,10 @@ export const panels = {
     addUrl: "Lien IA",
     urlPlaceholder: "Collez une URL ou un lien de playlist...",
     supportInfo: "Supporte MP3, WAV, FLAC, OGG & Plateformes Populaires (via IA)",
-    import: "Importé",
+    import: "Import茅",
     importing: "L'IA analyse la playlist...",
     bg: "Fond d'Pochette d'Album",
-    cover: "Infos Superposées",
+    cover: "Infos Superpos茅es",
     blur: "Flou",
     info: "Infos Chanson",
   },
@@ -52,48 +52,14 @@ export const panels = {
     appearance: "Style & Typographie",
   },
   systemPanel: {
-    localization: "Esthétique & Langue",
+    localization: "Esth茅tique & Langue",
     darkMode: "Mode Sombre",
     lightMode: "Mode Clair",
     uiMode: "Mode UI",
-    interface: "Système & Comportement",
+    interface: "Syst猫me & Comportement",
     installApp: "Installer l'App Aura Flux",
-    factoryReset: "Réinitialisation d'Usine",
+    factoryReset: "R茅initialiser les Param猫tres d'Usine",
     uiSettings: "Interface",
     interaction: "Interaction",
     performance: "Performance",
-  },
-  studioPanel: {
-    videoConfig: "Paramètres Vidéo",
-    audioMix: "Mixage Audio",
-    previewTitle: "Aperçu de l'Enregistrement",
-    discard: "Annuler",
-    share: "Partager",
-    save: "Enregistrer",
-    stopping: "Arrêt...",
-    processing: "Traitement...",
-    arming: "Armé & En Attente...",
-    start: "Enregistrer la Vidéo",
-    settings: {
-      resolution: "Résolution",
-      resNative: "Native",
-      aspectRatio: "Format",
-      fps: "IPS",
-      codec: "Format Vidéo",
-      bitrate: "Débit",
-      recGain: "Gain d'Enregistrement",
-      syncStart: "Synchro Lecture",
-      countdown: "Compte à Rebours",
-    },
-    hints: {
-      recGain: "Ajuste le volume pour l'enregistrement. Un gain élevé rendra les visuels plus réactifs.",
-      syncStart: "Démarre l'enregistrement automatiquement au début de la lecture.",
-      countdown: "Affiche un compte à rebours avant de démarrer l'enregistrement.",
-    },
-    formats: {
-      vp9: "WebM (VP9)",
-      vp8: "WebM (VP8)",
-      mp4_h264: "MP4 (H.264)",
-    },
-  },
-};
+  },};

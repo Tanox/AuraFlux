@@ -10,7 +10,7 @@ export const pt = {
   common,
   appVersion: "v2.0.3",
   appTitle: "Aura Flux",
-  welcomeSubtitle: "Motor de Inteligência Sinestésica",
+  welcomeSubtitle: "Motor de Intelig锚ncia Sinest茅sica",
   startExperience: "INICIALIZAR SISTEMA",
   onboarding,
   ...settings,

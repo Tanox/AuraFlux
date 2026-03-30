@@ -154,5 +154,4 @@ export const settings = {
     low: "Low (Energy)",
     med: "Medium (Balanced)",
     high: "High (Fidelity)",
-  },
-};
+  },};

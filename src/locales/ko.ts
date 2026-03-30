@@ -1,4 +1,4 @@
-// File: src/locales/ko.ts | Version: v2.0.3
+// File: src/locales/ko.ts | Version: v2.0.7
 import { common } from './ko/common';
 import { onboarding } from './ko/onboarding';
 import { panels } from './ko/panels';
@@ -8,9 +8,9 @@ import { messages } from './ko/messages';
 
 export const ko = {
   common,
-  appVersion: "v2.0.3",
+  appVersion: "v2.0.7",
   appTitle: "Aura Flux",
-  welcomeSubtitle: "공감각 인공지능 엔진",
+  welcomeSubtitle: "시네스테틱 인텔리전스 엔진",
   startExperience: "시스템 초기화",
   onboarding,
   ...settings,

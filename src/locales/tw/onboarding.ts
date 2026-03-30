@@ -1,32 +1,32 @@
 export const onboarding = {
   welcome: "歡迎",
-  subtitle: "讓我們開始您的 Aura Flux 體驗",
-  selectLanguage: "選擇您的偏好語言",
+  subtitle: "讓我引領您開始使用 Aura Flux 音視覺",
+  selectLanguage: "選擇您的語言",
   next: "下一步",
   back: "返回",
   finish: "完成",
   features: {
-    title: "解鎖您的 Aura Flux 體驗",
+    title: "探索您的 Aura Flux 音視覺",
     visuals: {
-      title: "動態視覺效果",
-      desc: "將您的音訊轉化為令人驚嘆的即時生成藝術，擁有2D和3D視覺化器。"
+      title: "絢麗視覺效果",
+      desc: "將您的音樂轉化為令人震撼的即時生成動畫，擁有 2D 和 3D 視覺化器。",
     },
     ai: {
-      title: "AI 通感",
-      desc: "透過 Gemini 3.0 獲得即時歌曲識別、情緒分析和智能視覺推薦。"
+      title: "AI 感知",
+      desc: "利用 Gemini 3.0 獲得智能場景識別、情感分析和動態視覺建議。",
     },
     privacy: {
       title: "隱私優先",
-      desc: "音訊處理在您的裝置上進行。AI 請求最少、匿名且安全。"
-    }
+      desc: "音頻處理在您的設備上進行、AI 請求最少、匿名且安全。",
+    },
   },
   shortcuts: {
-    title: "掌控流程",
-    desc: "透過直觀的快捷方式快速導航和控制您的體驗。",
+    title: "快捷流程",
+    desc: "利用直覺的快捷方式快速調整和控制您的音視覺。",
   },
   sections: {
     essentials: "基本操作",
     visual: "視覺控制",
-    advanced: "進階功能",
-  }
+    advanced: "高級功能",
+  },
 };

@@ -95,5 +95,4 @@ export const panels = {
       vp8: "WebM (VP8)",
       mp4_h264: "MP4 (H.264)",
     },
-  },
-};
+  },};

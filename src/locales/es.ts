@@ -1,4 +1,4 @@
-// File: src/locales/es.ts | Version: v2.0.3
+// File: src/locales/es.ts | Version: v2.0.7
 import { common } from './es/common';
 import { onboarding } from './es/onboarding';
 import { panels } from './es/panels';
@@ -8,7 +8,7 @@ import { messages } from './es/messages';
 
 export const es = {
   common,
-  appVersion: "v2.0.3",
+  appVersion: "v2.0.7",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",

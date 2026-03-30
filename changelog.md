@@ -2,7 +2,12 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v2.0.5]
+## [v2.0.7]
+### ✨ Version Synchronization
+*   **Version Update**: Updated application version from v2.0.5 to v2.0.7 across all key files.
+*   **Build Fix**: Resolved file encoding issues caused by previous version update attempt.
+
+## [v2.0.6]
 ### ✨ System Updates & Documentation
 *   **i18n Integrity**: Checked and ensured all internationalization language files are complete and consistent.
 *   **Robustness Testing**: Verified application robustness by successfully starting the development server.

@@ -1,4 +1,4 @@
-// File: src/locales/ja.ts | Version: v2.0.3
+// File: src/locales/ja.ts | Version: v2.0.7
 import { common } from './ja/common';
 import { onboarding } from './ja/onboarding';
 import { panels } from './ja/panels';
@@ -8,9 +8,9 @@ import { messages } from './ja/messages';
 
 export const ja = {
   common,
-  appVersion: "v2.0.3",
+  appVersion: "v2.0.7",
   appTitle: "Aura Flux",
-  welcomeSubtitle: "共感覚インテリジェンス・エンジン",
+  welcomeSubtitle: "シナエスセティックインテリジェンスエンジン",
   startExperience: "システムを初期化",
   onboarding,
   ...settings,
