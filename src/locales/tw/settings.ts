@@ -138,4 +138,5 @@ export const settings = {
     low: "低 (性能)",
     med: "中 (平衡)",
     high: "高 (保真度)",
-  },};
+  },
+};

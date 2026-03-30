@@ -1,7 +1,7 @@
 'use client';
 /**
  * File: app/components/visualizers/scenes/KineticWallScene.tsx
- * Version: v1.9.73
+ * Version: v2.0.8
  * Author: Sut
  * Description: "Kinetic Wall" - Massive LED stage wall with rhythmic pulsing.
  */
@@ -28,7 +28,7 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const COLS = Math.floor(128 * Math.sqrt(0.3)); // Reduce total count to ~30%
   const ROWS = Math.floor(64 * Math.sqrt(0.3));  // Reduce total count to ~30%
   const COUNT = COLS * ROWS;
-  const SPACING = 0.8 * 3; // Increase spacing to match larger cubes
+  const SPACING = 1.5 * 3; // Increase spacing to create larger gaps between cubes
   
   const dummy = useMemo(() => new Object3D(), []);
   

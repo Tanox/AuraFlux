@@ -154,4 +154,5 @@ export const settings = {
     low: "낮음 (에너지)",
     med: "중간 (균형)",
     high: "높음 (충실도)",
-  },};
+  },
+};

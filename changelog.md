@@ -2,6 +2,15 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.9]
+### ✨ Visualizer Optimization
+*   **Plasma Mode**: Enhanced the plasma visualization with more glowing particles and improved gradient effects, creating a more dynamic and immersive visual experience.
+
+## [v2.0.8]
+### ✨ Visualizer Optimization
+*   **Kinetic Wall**: Increased spacing between cubes to create larger gaps, improving visual clarity.
+*   **Equalizer Mode**: Reduced the number of frequency bars to 25% of the original count, creating a cleaner visual effect.
+
 ## [v2.0.7]
 ### ✨ Version Synchronization
 *   **Version Update**: Updated application version from v2.0.5 to v2.0.7 across all key files.
