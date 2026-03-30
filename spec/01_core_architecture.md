@@ -4,7 +4,7 @@
 
 ### 1.1 主应用组件 (App.tsx)
 - **文件**: `src/components/App.tsx`
-- **版本**: v2.0.4
+- **版本**: v2.0.5
 - **功能**: 应用的顶层入口组件
 
 **核心特性:**
@@ -61,7 +61,7 @@
 
 **内容:**
 ```typescript
-export const APP_VERSION = '2.0.4';
+export const APP_VERSION = '2.0.5';
 ```
 
 ### 3.2 通用常量 (index.ts)

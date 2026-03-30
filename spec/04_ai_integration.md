@@ -4,7 +4,7 @@
 
 ### 1.1 aiService.ts
 - **文件**: `src/services/aiService.ts`
-- **版本**: v1.10.7
+- **版本**: v2.0.5
 - **功能**: 提供 Google Gemini AI 服务集成
 
 **核心功能:**

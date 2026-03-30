@@ -69,14 +69,15 @@ export const settings = {
     [VisualizerMode.TUNNEL]: "隧道",
     [VisualizerMode.WAVEFORM]: "波形",
     [VisualizerMode.KINETIC_WALL]: "动态墙",
-    [VisualizerMode.LASER]: "激光",
+    [VisualizerMode.LASERS]: "激光",
     [VisualizerMode.CUBE_FIELD]: "立方体场",
     [VisualizerMode.VORTEX]: "漩涡",
     [VisualizerMode.NEURAL_FLOW]: "神经流",
   },
   lyrics: {
-    [LyricsStyle.STATIC]: "静态",
-    [LyricsStyle.SYNCED]: "同步",
+    [LyricsStyle.STANDARD]: "标准",
+    [LyricsStyle.KARAOKE]: "卡拉OK",
+    [LyricsStyle.MINIMAL]: "极简",
   },
   themeLabels: getThemeLabels(),
 };
