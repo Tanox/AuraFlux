@@ -28,8 +28,8 @@ export const SystemSettingsPanel: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <CustomSelect label={t?.language} value={language} options={LANGUAGES} onChange={(v) => setLanguage(v as Language)} />
                   <div className="flex flex-col gap-2">
-                    <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.systemPanel?.uiMode}</label>
-                    <SegmentedControl value={settings.uiMode} options={[{ id: 'simple', label: t?.common?.simple }, { id: 'advanced', label: t?.common?.advanced }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
+                    <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.systemPanel?.uiMode || "UI Mode"}</label>
+                    <SegmentedControl value={settings.uiMode} options={[{ id: 'simple', label: t?.common?.simple || "Simple" }, { id: 'advanced', label: t?.common?.advanced || "Advanced" }]} onChange={(v) => setSettings({...settings, uiMode: v as any})} />
                   </div>
                 </div>
                 <div className="pt-4 border-t border-black/5 dark:border-white/5">
@@ -46,27 +46,27 @@ export const SystemSettingsPanel: React.FC = () => {
               <div className="space-y-3">
                 <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.systemPanel?.uiSettings || "Interface"}</span>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
-                  <SettingsToggle label={t?.showTooltips} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
-                  <SettingsToggle label={t?.autoHideUi} value={settings.autoHideUi} onChange={() => setSettings({...settings, autoHideUi: !settings.autoHideUi})} variant="clean" />
-                  <SettingsToggle label={t?.hideCursor} value={settings.hideCursor} onChange={() => setSettings({...settings, hideCursor: !settings.hideCursor})} variant="clean" />
-                  <SettingsToggle label={t?.showPlaybackTab} value={settings.showPlaybackTab !== false} onChange={() => setSettings({...settings, showPlaybackTab: !settings.showPlaybackTab})} variant="clean" />
-                  <SettingsToggle label={t?.showStudioTab} value={settings.showStudioTab !== false} onChange={() => setSettings({...settings, showStudioTab: !settings.showStudioTab})} variant="clean" />
+                  <SettingsToggle label={t?.showTooltips || "Show Tooltips"} value={settings.showTooltips} onChange={() => setSettings({...settings, showTooltips: !settings.showTooltips})} variant="clean" />
+                  <SettingsToggle label={t?.autoHideUi || "Auto Hide UI"} value={settings.autoHideUi} onChange={() => setSettings({...settings, autoHideUi: !settings.autoHideUi})} variant="clean" />
+                  <SettingsToggle label={t?.hideCursor || "Hide Cursor"} value={settings.hideCursor} onChange={() => setSettings({...settings, hideCursor: !settings.hideCursor})} variant="clean" />
+                  <SettingsToggle label={t?.showPlaybackTab || "Playback Tab"} value={settings.showPlaybackTab !== false} onChange={() => setSettings({...settings, showPlaybackTab: !settings.showPlaybackTab})} variant="clean" />
+                  <SettingsToggle label={t?.showStudioTab || "Studio Tab"} value={settings.showStudioTab !== false} onChange={() => setSettings({...settings, showStudioTab: !settings.showStudioTab})} variant="clean" />
                 </div>
               </div>
 
               <div className="space-y-3 pt-4 border-t border-black/5 dark:border-white/5">
                 <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.systemPanel?.interaction || "Interaction"}</span>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
-                  <SettingsToggle label={t?.doubleClickFullscreen} value={!!settings.doubleClickFullscreen} onChange={() => setSettings({...settings, doubleClickFullscreen: !settings.doubleClickFullscreen})} variant="clean" />
-                  <SettingsToggle label={t?.wakeLock} value={settings.wakeLock} onChange={() => setSettings({...settings, wakeLock: !settings.wakeLock})} variant="clean" />
-                  <SettingsToggle label={t?.mirrorDisplay} value={!!settings.mirrorDisplay} onChange={() => setSettings({...settings, mirrorDisplay: !settings.mirrorDisplay})} variant="clean" />
+                  <SettingsToggle label={t?.doubleClickFullscreen || "Double-Click Fullscreen"} value={!!settings.doubleClickFullscreen} onChange={() => setSettings({...settings, doubleClickFullscreen: !settings.doubleClickFullscreen})} variant="clean" />
+                  <SettingsToggle label={t?.wakeLock || "Keep Awake"} value={settings.wakeLock} onChange={() => setSettings({...settings, wakeLock: !settings.wakeLock})} variant="clean" />
+                  <SettingsToggle label={t?.mirrorDisplay || "Mirror Display"} value={!!settings.mirrorDisplay} onChange={() => setSettings({...settings, mirrorDisplay: !settings.mirrorDisplay})} variant="clean" />
                 </div>
               </div>
 
               <div className="space-y-3 pt-4 border-t border-black/5 dark:border-white/5">
                 <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.systemPanel?.performance || "Performance"}</span>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
-                  <SettingsToggle label={t?.showFps} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
+                  <SettingsToggle label={t?.showFps || "Show FPS"} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
                 </div>
               </div>
             </div>
@@ -87,7 +87,7 @@ export const SystemSettingsPanel: React.FC = () => {
             <div className="flex flex-col h-full space-y-4">
                 <PresetManager />
                 <div className="pt-2 mt-auto border-t border-black/5 dark:border-white/5">
-                    <button onClick={() => window.confirm(t?.hints?.confirmReset) && resetSettings()} className="w-full text-center py-2 bg-red-500/10 text-red-500 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-red-500/20 hover:text-red-400 transition-all border border-red-500/10">
+                    <button onClick={() => window.confirm(t?.hints?.confirmReset || "Are you sure?") && resetSettings()} className="w-full text-center py-2 bg-red-500/10 text-red-500 rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-red-500/20 hover:text-red-400 transition-all border border-red-500/10">
                         {t?.systemPanel?.factoryReset || 'HARD RESET'}
                     </button>
                 </div>
