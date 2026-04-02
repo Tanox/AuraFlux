@@ -1,9 +1,5 @@
 'use client';
-/**
- * File: app/components/controls/panels/playback/PlaylistManager.tsx
- * Version: v1.9.73
- * Author: Sut
- */
+// File: src/components/controls/panels/playback/PlaylistManager.tsx | Version: v2.0.5
 
 import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';

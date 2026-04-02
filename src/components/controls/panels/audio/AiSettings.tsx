@@ -1,9 +1,5 @@
 'use client';
-/**
- * File: app/components/controls/panels/audio/AiSettings.tsx
- * Version: v1.9.73
- * Author: Sut
- */
+// File: src/components/controls/panels/audio/AiSettings.tsx | Version: v2.0.5
 
 import React, { useState } from 'react';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
