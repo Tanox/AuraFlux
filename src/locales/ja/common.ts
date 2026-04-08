@@ -1,11 +1,11 @@
 export const common = {
-  queue: "再生リスト",
+  queue: "キュー",
   empty: "空",
   clearAll: "すべてクリア",
-  confirmClear: "再生リストをクリアしてもよろしいですか？",
-  updateAvailable: "新しいバージョンが利用可能です",
-  updateAction: "すぐに更新",
-  dropFiles: "ファイルをドロップしてインポート",
+  confirmClear: "プレイリストをクリアしますか？",
+  updateAvailable: "新しい更新を検出",
+  updateAction: "今すぐ更新",
+  dropFiles: "インポートするにはドロップ",
   unknownTrack: "不明なトラック",
   unknownArtist: "不明なアーティスト",
   track: "トラック",
@@ -14,7 +14,11 @@ export const common = {
   processing: "処理中",
   simple: "シンプル",
   advanced: "高度",
-  active: "アクティブ",
+  active: "トラック",
   selectAll: "すべて選択",
   fontName: "フォント名",
+  "404": {
+    title: "ページが見つかりません",
+    back_home: "ホームに戻る"
+  }
 };

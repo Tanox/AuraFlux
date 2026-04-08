@@ -887,5 +887,9 @@ export const common = {
   alignItems2: "对齐项目",
   justifyItems: "对齐项目",
   alignSelf2: "对齐自身",
-  justifySelf: "对齐自身"
+  justifySelf: "对齐自身",
+  "404": {
+    title: "頁面未找到",
+    back_home: "返回首頁"
+  }
 };

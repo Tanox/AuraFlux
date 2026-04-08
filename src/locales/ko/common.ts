@@ -17,4 +17,8 @@ export const common = {
   active: "활성",
   selectAll: "전체 선택",
   fontName: "글꼴 이름",
+  "404": {
+    title: "페이지를 찾을 수 없습니다",
+    back_home: "홈으로 돌아가기"
+  }
 };

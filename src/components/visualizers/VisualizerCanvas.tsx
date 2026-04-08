@@ -8,6 +8,15 @@ import { renderPlasmaMode } from './modes/PlasmaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
 import { renderStarfieldMode } from './modes/StarfieldMode';
 
+interface Star {
+  x: number;
+  y: number;
+  z: number;
+  size: number;
+  speed: number;
+  color: string;
+}
+
 interface Props {
   analyser: AnalyserNode | null;
   analyserR: AnalyserNode | null;
@@ -18,6 +27,7 @@ interface Props {
 
 const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const starsRef = useRef<Star[]>([]);
 
   useEffect(() => {
     if (!canvasRef.current || !analyser) return;
@@ -30,6 +40,29 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
     const peaks = new Float32Array(bufferLength);
+
+    // 初始化星星数据
+    const initStars = (width: number, height: number) => {
+      if (mode === VisualizerMode.STARFIELD) {
+        starsRef.current = [];
+        const starCount = 200;
+        for (let i = 0; i < starCount; i++) {
+          starsRef.current.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            z: Math.random() * 1000,
+            size: Math.random() * 3 + 1,
+            speed: Math.random() * 2 + 0.5,
+            color: colors[Math.floor(Math.random() * colors.length)]
+          });
+        }
+      }
+    };
+
+    // 初始初始化
+    const width = canvas.width;
+    const height = canvas.height;
+    initStars(width, height);
 
     const draw = () => {
       animationId = requestAnimationFrame(draw);
@@ -88,7 +121,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
             width,
             height,
             colors,
-            sensitivity: settings.sensitivity
+            sensitivity: settings.sensitivity,
+            stars: starsRef.current
           });
           break;
       }
@@ -100,6 +134,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
     const resizeObserver = new ResizeObserver(() => {
       canvas.width = parent.clientWidth * window.devicePixelRatio;
       canvas.height = parent.clientHeight * window.devicePixelRatio;
+      // 重新初始化星星数据以适应新的画布尺寸
+      initStars(canvas.width, canvas.height);
     });
 
     resizeObserver.observe(parent);
@@ -108,6 +144,10 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
     return () => {
       cancelAnimationFrame(animationId);
       resizeObserver.disconnect();
+      // 清理星星数据
+      if (mode === VisualizerMode.STARFIELD) {
+        starsRef.current = [];
+      }
     };
   }, [analyser, colors, settings.sensitivity, mode]);
 

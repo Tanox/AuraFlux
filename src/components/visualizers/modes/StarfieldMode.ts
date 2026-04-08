@@ -16,33 +16,16 @@ interface StarfieldModeProps {
   height: number;
   colors: string[];
   sensitivity: number;
+  stars: Star[];
 }
 
-export const renderStarfieldMode = ({ ctx, dataArray, width, height, colors, sensitivity }: StarfieldModeProps) => {
+export const renderStarfieldMode = ({ ctx, dataArray, width, height, colors, sensitivity, stars }: StarfieldModeProps) => {
   // 计算音频能量
   let energy = 0;
   for (let i = 0; i < dataArray.length; i++) {
     energy += dataArray[i];
   }
   energy = energy / dataArray.length / 255 * sensitivity;
-  
-  // 初始化星星数组（如果还没有）
-  if (!window.stars) {
-    window.stars = [];
-    const starCount = 200;
-    for (let i = 0; i < starCount; i++) {
-      window.stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        z: Math.random() * 1000,
-        size: Math.random() * 3 + 1,
-        speed: Math.random() * 2 + 0.5,
-        color: colors[Math.floor(Math.random() * colors.length)]
-      });
-    }
-  }
-  
-  const stars = window.stars as Star[];
   
   // 清空画布
   ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
@@ -103,9 +86,4 @@ export const renderStarfieldMode = ({ ctx, dataArray, width, height, colors, sen
   ctx.fill();
 };
 
-// 扩展 Window 接口以存储星星数据
-declare global {
-  interface Window {
-    stars?: Star[];
-  }
-}
+

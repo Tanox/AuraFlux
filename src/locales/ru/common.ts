@@ -17,4 +17,8 @@ export const common = {
   active: "Активный",
   selectAll: "Выбрать все",
   fontName: "Название шрифта",
+  "404": {
+    title: "Страница не найдена",
+    back_home: "Вернуться на главную" 
+  }
 };

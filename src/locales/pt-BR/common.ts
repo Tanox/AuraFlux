@@ -1,13 +1,13 @@
 export const common = {
   queue: "Fila",
-  empty: "Vazia",
-  clearAll: "Limpar Tudo",
+  empty: "Vazio",
+  clearAll: "Limpar tudo",
   confirmClear: "Tem certeza que deseja limpar a playlist?",
   updateAvailable: "Nova atualização detectada",
-  updateAction: "Atualizar Agora",
+  updateAction: "Atualizar agora",
   dropFiles: "SOLTE PARA IMPORTAR",
-  unknownTrack: "Faixa Desconhecida",
-  unknownArtist: "Artista Desconhecido",
+  unknownTrack: "Faixa desconhecida",
+  unknownArtist: "Artista desconhecido",
   track: "Faixa",
   artist: "Artista",
   loading: "Carregando",
@@ -17,4 +17,8 @@ export const common = {
   active: "Faixas",
   selectAll: "SELECIONAR TUDO",
   fontName: "Nome da fonte",
+  "404": {
+    title: "Página não encontrada",
+    back_home: "Voltar para a página inicial"
+  }
 };

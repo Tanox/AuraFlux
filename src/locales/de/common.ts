@@ -17,4 +17,8 @@ export const common = {
   active: "Titel",
   selectAll: "ALLES AUSW脛HLEN",
   fontName: "Schriftartname",
+  "404": {
+    title: "Seite nicht gefunden",
+    back_home: "Zurück zur Startseite"
+  }
 };

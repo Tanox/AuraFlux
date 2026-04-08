@@ -17,4 +17,8 @@ export const common = {
   active: "Pistes",
   selectAll: "TOUT S脡LECTIONNER",
   fontName: "Nom de la police",
+  "404": {
+    title: "Page non trouvée",
+    back_home: "Retour à la page d'accueil"
+  }
 };
