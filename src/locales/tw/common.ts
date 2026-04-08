@@ -886,6 +886,6 @@ export const common = {
   justifyContent2: "对齐内容",
   alignItems2: "对齐项目",
   justifyItems: "对齐项目",
-  alignSelf2: "对齐自身",
+  alignSelf: "对齐自身",
   justifySelf: "对齐自身"
 };

@@ -5,6 +5,23 @@ import { en } from '@/locales/en';
 let aiInstance: GoogleGenAI | null = null;
 
 /**
+ * 将Blob对象转换为Base64字符串
+ * @param {Blob} blob - 要转换的Blob对象
+ * @returns {Promise<string>} Base64字符串
+ */
+const blobToBase64 = async (blob: Blob): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      resolve(result.split(',')[1]);
+    };
+    reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
+    reader.readAsDataURL(blob);
+  });
+};
+
+/**
  * 检查AI服务是否可用
  * @returns {boolean} 如果API密钥已配置且有效则返回true
  */
@@ -49,15 +66,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
     if (typeof audioInput === 'string') {
       base64Audio = audioInput;
     } else {
-      base64Audio = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const result = reader.result as string;
-          resolve(result.split(',')[1]);
-        };
-        reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
-        reader.readAsDataURL(audioInput);
-      });
+      base64Audio = await blobToBase64(audioInput);
     }
 
     const response = await ai.models.generateContent({
@@ -123,15 +132,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
   if (!ai) return null;
 
   try {
-    const base64Audio = await new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        resolve(result.split(',')[1]);
-      };
-      reader.onerror = () => reject(new Error(`Failed to read audio data: ${reader.error?.message || 'Unknown error'}`));
-      reader.readAsDataURL(audioBlob);
-    });
+    const base64Audio = await blobToBase64(audioBlob);
 
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
