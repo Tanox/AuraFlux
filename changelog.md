@@ -3,6 +3,9 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.0.6]
+### ⚠️ Version Rollback
+- **Rollback Reason**: Reverted from v2.0.7 to v2.0.6 due to stability issues with the new STARFIELD visualization mode that required further refinement.
+
 ### ✨ Documentation Improvements
 - **Documentation Structure**: Improved README.md structure with better categorization and navigation
 - **Technical Details**: Enhanced core architecture documentation with detailed code examples

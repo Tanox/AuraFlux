@@ -1,4 +1,4 @@
-// File: src/hooks/useVisualsState.ts | Version: v1.10.4
+// File: src/hooks/useVisualsState.ts | Version: v2.0.6
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';

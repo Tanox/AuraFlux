@@ -1,4 +1,4 @@
-// File: src/hooks/useAiState.ts | Version: v1.9.99
+// File: src/hooks/useAiState.ts | Version: v2.0.6
 import { useState, useCallback, useMemo } from 'react';
 import { LyricsStyle, SongInfo } from '../types';
 
