@@ -2,6 +2,21 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.6]
+### ✨ Documentation Improvements
+- **Documentation Structure**: Improved README.md structure with better categorization and navigation
+- **Technical Details**: Enhanced core architecture documentation with detailed code examples
+- **Architecture Diagrams**: Added comprehensive Mermaid diagrams for system architecture and data flows
+- **API Documentation**: Expanded API reference with complete service interfaces and state management
+- **Version Synchronization**: Updated version numbers across all specification documents to v2.0.6
+- **Documentation Guidelines**: Added documentation review and maintenance mechanisms
+
+## [v2.0.6]
+### ✨ System Updates
+- **Core Architecture Update**: Updated core architecture specifications to v2.0.6
+- **App Version Display**: Fixed application name and version display in the bottom right corner of the canvas
+- **Version Synchronization**: Updated version numbers across all files to v2.0.6
+
 ## [v2.0.7]
 ### ✨ Visualization Mode Updates
 *   **Removed Modes**: Removed RINGS and PARTICLES visualization modes.

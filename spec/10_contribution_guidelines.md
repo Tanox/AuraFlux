@@ -1,6 +1,6 @@
 # OpenSpec: 贡献者行为准则 (10)
 
-## 1. 开发工作流 (v2.0.5)
+## 1. 开发工作流 (v2.0.6)
 - **分支:** `main` (稳定版), `dev` (集成版)。
 - **提交:** 强制执行 **Semantic Commits** (feat:, fix:, docs:, perf:)。
 
@@ -10,8 +10,8 @@
 - **资产:** 禁止将静态资产放入 `app/` 目录。
 
 ## 3. 规范更新
-- 每次代码变更必须同步更新相应的 `openspec/` 文档，确保代码与文档的绝对一致性。
+- 每次代码变更必须同步更新相应的 `spec/` 文档，确保代码与文档的绝对一致性。
 
 ---
-*Aura Flux Contribution Guidelines - Version 2.0.5*
+*Aura Flux Contribution Guidelines - Version 2.0.6*
 *Author: Sut*

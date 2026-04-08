@@ -4,7 +4,7 @@
 
 ### 1.1 VisualizerCanvas 组件
 - **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **版本**: v2.0.5
+- **版本**: v2.0.6
 - **功能**: 2D 音频可视化画布
 
 **核心特性:**

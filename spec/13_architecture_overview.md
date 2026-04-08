@@ -79,7 +79,76 @@ graph TD
   - **AI 面板**: 显示识别结果与歌词。
   - **设置面板**: 语言切换、性能监控、版本信息。
 
-## 3. 目录结构说明
+## 3. 数据流分析
+
+### 3.1 音频数据流
+```mermaid
+flowchart LR
+    AudioInput[音频输入] -->|麦克风/文件| useAudio[useAudio Hook]
+    useAudio -->|创建| AudioContext[AudioContext]
+    AudioContext -->|分析| AnalyserNode[AnalyserNode]
+    AnalyserNode -->|频域数据| getByteFrequencyData[getByteFrequencyData]
+    AnalyserNode -->|时域数据| getByteTimeDomainData[getByteTimeDomainData]
+    getByteFrequencyData -->|频谱数据| VisualizerCanvas[2D 可视化]
+    getByteFrequencyData -->|频谱数据| ThreeVisualizer[3D 可视化]
+    getByteTimeDomainData -->|波形数据| VisualizerCanvas
+    useAudio -->|播放控制| Playback[播放控制]
+    Playback -->|状态更新| AppContext[应用上下文]
+```
+
+### 3.2 状态管理流程
+```mermaid
+flowchart LR
+    UserInteraction[用户交互] -->|事件| Controls[控制界面]
+    Controls -->|dispatch| AppContext[应用上下文]
+    AppContext -->|状态变化| VisualizerCanvas[2D 可视化]
+    AppContext -->|状态变化| ThreeVisualizer[3D 可视化]
+    AppContext -->|状态变化| Overlays[信息覆盖层]
+    useAudio[音频 Hook] -->|音频状态| AppContext
+    useAIState[AI 状态 Hook] -->|AI 状态| AppContext
+    useVisuals[视觉状态 Hook] -->|视觉设置| AppContext
+```
+
+### 3.3 AI 服务流程
+```mermaid
+flowchart LR
+    AudioInput[音频输入] -->|音频片段| aiService[AI 服务]
+    aiService -->|调用| GeminiAPI[Google Gemini API]
+    GeminiAPI -->|识别结果| aiService
+    aiService -->|歌曲信息| useAIState[AI 状态 Hook]
+    aiService -->|歌词数据| useAIState
+    aiService -->|情感分析| useAIState
+    useAIState -->|状态更新| AppContext[应用上下文]
+    AppContext -->|显示| SongOverlay[歌曲信息覆盖层]
+    AppContext -->|显示| LyricsOverlay[歌词覆盖层]
+    AppContext -->|调整| VisualizerCanvas[2D 可视化]
+```
+
+### 3.4 组件交互流程
+```mermaid
+flowchart LR
+    App[App 组件] -->|初始化| AppProvider[AppProvider]
+    App -->|渲染| VisualizerCanvas[2D 可视化]
+    App -->|渲染| ThreeVisualizer[3D 可视化]
+    App -->|渲染| Controls[控制界面]
+    App -->|渲染| Overlays[信息覆盖层]
+    
+    Controls -->|用户操作| VisualSettings[视觉设置]
+    Controls -->|用户操作| AudioSettings[音频设置]
+    Controls -->|用户操作| PlaybackSettings[播放设置]
+    Controls -->|用户操作| AISettings[AI 设置]
+    
+    VisualSettings -->|更新| AppContext[应用上下文]
+    AudioSettings -->|更新| AppContext
+    PlaybackSettings -->|更新| AppContext
+    AISettings -->|更新| AppContext
+    
+    AppContext -->|状态变化| VisualizerCanvas
+    AppContext -->|状态变化| ThreeVisualizer
+    AppContext -->|状态变化| Overlays
+```
+
+## 4. 目录结构说明
 
 ```
 /
