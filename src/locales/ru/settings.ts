@@ -60,16 +60,12 @@ export const settings = {
     [VisualizerMode.PLASMA]: "Плазменный поток",
     [VisualizerMode.BARS]: "Панели спектра",
     [VisualizerMode.WAVEFORM]: "Волны",
-    [VisualizerMode.RINGS]: "Кольца",
-    [VisualizerMode.PARTICLES]: "Частицы",
     [VisualizerMode.TUNNEL]: "Туннель",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Гипнотические и текучие энергетические поля с сочетаниями ярких цветов.",
     [VisualizerMode.BARS]: "Классические панели аудиоспектра, динамически реагирующие на частоты.",
     [VisualizerMode.WAVEFORM]: "Текучие и волнистые волны, адаптирующиеся к аудиоэнергии.",
-    [VisualizerMode.RINGS]: "Концентрические кольца, расширяющиеся и сжимающиеся с аудиопиками.",
-    [VisualizerMode.PARTICLES]: "Динамическое звездное поле или облако частиц, реагирующее на высокие частоты.",
     [VisualizerMode.TUNNEL]: "Пульсирующий геометрический туннель, создающий ощущение сверхскорости.",
   },
   lyricsStyles: {

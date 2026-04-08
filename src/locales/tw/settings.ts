@@ -62,8 +62,6 @@ export const settings = {
     [VisualizerMode.PLASMA]: "等离子流",
     [VisualizerMode.BARS]: "频谱条",
     [VisualizerMode.WAVEFORM]: "波形",
-    [VisualizerMode.RINGS]: "圆环",
-    [VisualizerMode.PARTICLES]: "粒子",
     [VisualizerMode.TUNNEL]: "隧道",
   },
   modeDescriptions: {

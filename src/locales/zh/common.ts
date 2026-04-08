@@ -1,20 +1,24 @@
 export const common = {
-  queue: "播放列表",
+  queue: "队列",
   empty: "空",
-  clearAll: "清空所有",
-  confirmClear: "您确定要清空播放列表吗？",
-  updateAvailable: "检测到新版本",
-  updateAction: "立即更新",
-  dropFiles: "拖放文件导入",
+  clearAll: "清空全部",
+  confirmClear: "确定要清空播放列表吗？",
+  updateAvailable: "检测到新更新",
+  updateAction: "立即刷新",
+  dropFiles: "拖放导入",
   unknownTrack: "未知曲目",
   unknownArtist: "未知艺术家",
   track: "曲目",
   artist: "艺术家",
   loading: "加载中",
   processing: "处理中",
-  simple: "简易",
+  simple: "简单",
   advanced: "高级",
-  active: "当前选中",
+  active: "曲目",
   selectAll: "全选",
   fontName: "字体名称",
+  "404": {
+    title: "页面未找到",
+    back_home: "返回首页"
+  }
 };

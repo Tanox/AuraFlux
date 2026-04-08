@@ -17,4 +17,8 @@ export const common = {
   active: "Tracks",
   selectAll: "SELECT ALL",
   fontName: "Font Name",
+  "404": {
+    title: "Page not found",
+    back_home: "Back to Home"
+  }
 };

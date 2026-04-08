@@ -60,16 +60,12 @@ export const settings = {
     [VisualizerMode.PLASMA]: "Fluxo de Plasma",
     [VisualizerMode.BARS]: "Barras de Espectro",
     [VisualizerMode.WAVEFORM]: "Ondas",
-    [VisualizerMode.RINGS]: "Anéis",
-    [VisualizerMode.PARTICLES]: "Partículas",
     [VisualizerMode.TUNNEL]: "Túnel",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Campos de energia hipnóticos e fluídos com combinações de cores vibrantes.",
     [VisualizerMode.BARS]: "Barras de espectro de áudio clássicas, reagindo dinamicamente às frequências.",
     [VisualizerMode.WAVEFORM]: "Ondas fluídas e ondulantes que se adaptam à energia do áudio.",
-    [VisualizerMode.RINGS]: "Anéis concêntricos que se expandem e contraem com os picos de áudio.",
-    [VisualizerMode.PARTICLES]: "Campo de estrelas dinâmico ou nuvem de partículas que reagem a frequências altas.",
     [VisualizerMode.TUNNEL]: "Túnel geométrico pulsante que cria uma sensação de velocidade de curvatura.",
   },
   lyricsStyles: {
