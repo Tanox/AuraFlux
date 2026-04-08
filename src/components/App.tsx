@@ -138,6 +138,12 @@ const MainContent: React.FC = () => {
       <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
       <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
       {settings.showFps && <FPSCounter />}
+      <div 
+        id="app-version"
+        className="absolute bottom-4 right-4 text-xs font-medium text-white/60 drop-shadow-md z-10"
+      >
+        Aura Flux {APP_VERSION}
+      </div>
       <Suspense fallback={null}>
         <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
       </Suspense>
