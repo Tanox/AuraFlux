@@ -60,16 +60,12 @@ export const settings = {
     [VisualizerMode.PLASMA]: "Flux de Plasma",
     [VisualizerMode.BARS]: "Bars de Spectre",
     [VisualizerMode.WAVEFORM]: "Ondes",
-    [VisualizerMode.RINGS]: "Anneaux",
-    [VisualizerMode.PARTICLES]: "Particules",
     [VisualizerMode.TUNNEL]: "Tunnel",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Champs d'énergie hypnotiques et fluides avec un mélange de couleurs vibrantes.",
     [VisualizerMode.BARS]: "Bars de spectre audio classiques, réagissant dynamiquement aux fréquences.",
     [VisualizerMode.WAVEFORM]: "Ondes fluides et ondulantes qui s'adaptent à l'énergie audio.",
-    [VisualizerMode.RINGS]: "Anneaux concentriques qui s'étendent et se contractent avec les pics audio.",
-    [VisualizerMode.PARTICLES]: "Champ d'étoiles dynamique ou nuage de particules réagissant aux hautes fréquences.",
     [VisualizerMode.TUNNEL]: "Tunnel géométrique pulsant créant une sensation de vitesse de distorsion.",
   },
   lyricsStyles: {

@@ -2,6 +2,11 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.7]
+### ✨ Visualization Mode Updates
+*   **Removed Modes**: Removed RINGS and PARTICLES visualization modes.
+*   **Added Mode**: Added STARFIELD (星空) visualization mode with audio-reactive star movement and center effects.
+
 ## [v2.0.6]
 ### ✨ Visualization Enhancement
 *   **Silk Wave Line Width**: Increased the line width in the Silk Wave visualization mode by 6x for a more prominent and immersive visual effect.

@@ -4,10 +4,9 @@ import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderBarsMode } from './modes/BarsMode';
 import { renderWaveformMode } from './modes/WaveformMode';
-import { renderRingsMode } from './modes/RingsMode';
 import { renderPlasmaMode } from './modes/PlasmaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
-import { renderParticlesMode } from './modes/ParticlesMode';
+import { renderStarfieldMode } from './modes/StarfieldMode';
 
 interface Props {
   analyser: AnalyserNode | null;
@@ -62,16 +61,6 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
             analyser
           });
           break;
-        case VisualizerMode.RINGS:
-          renderRingsMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity
-          });
-          break;
         case VisualizerMode.PLASMA:
           renderPlasmaMode({
             ctx,
@@ -92,8 +81,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
             sensitivity: settings.sensitivity
           });
           break;
-        case VisualizerMode.PARTICLES:
-          renderParticlesMode({
+        case VisualizerMode.STARFIELD:
+          renderStarfieldMode({
             ctx,
             dataArray,
             width,
