@@ -1,3 +1,4 @@
+// src/components/visualizers/scenes/shaders/SilkWaveShaders.ts v2.0.6
 export const silkWaveVertexShader = `
   uniform float uTime, uSpeed, uBass, uEnergyL, uEnergyR, uShockwave, uDensity; 
   attribute float aChannel, aRandom, aLayerIndex; 
@@ -33,7 +34,7 @@ export const silkWaveFragmentShader = `
   varying vec2 vUv; 
   void main() { 
       if (vVisibility < 0.5) discard; 
-      float edge = smoothstep(0.0, 0.05, abs(vUv.y-0.5)*2.0); 
+      float edge = smoothstep(0.0, 0.3, abs(vUv.y-0.5)*2.0); 
       float alpha = (0.3 + vIntensity * 3.0) * (1.0 - vDepth * 0.8) * vSideFade * (1.0 - edge); 
       if (alpha < 0.01) discard; 
       vec3 c1 = mix(uColor1, uColor2, vRandom); 

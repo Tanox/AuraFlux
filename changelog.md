@@ -2,6 +2,10 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.0.6]
+### ✨ Visualization Enhancement
+*   **Silk Wave Line Width**: Increased the line width in the Silk Wave visualization mode by 6x for a more prominent and immersive visual effect.
+
 ## [v2.0.5]
 ### ✨ System Updates & Documentation
 *   **i18n Integrity**: Checked and ensured all internationalization language files are complete and consistent.
