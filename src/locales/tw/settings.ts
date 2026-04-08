@@ -68,8 +68,6 @@ export const settings = {
     [VisualizerMode.PLASMA]: "催眠和流畅的能量场，带有鲜艳的色彩组合。",
     [VisualizerMode.BARS]: "经典的音频频谱条，动态响应频率。",
     [VisualizerMode.WAVEFORM]: "流畅的波形，适应音频能量。",
-    [VisualizerMode.RINGS]: "同心圆，随着音频峰值扩展和收缩。",
-    [VisualizerMode.PARTICLES]: "动态星场或粒子云，对高频做出反应。",
     [VisualizerMode.TUNNEL]: "脉动的几何隧道，创造 warp speed 的感觉。",
   },
   lyricsStyles: {

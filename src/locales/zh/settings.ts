@@ -64,8 +64,6 @@ export const settings = {
     [VisualizerMode.DIGITAL_GRID]: "数字网格",
     [VisualizerMode.SILK_WAVE]: "丝光波",
     [VisualizerMode.OCEAN_WAVE]: "海洋",
-    [VisualizerMode.PARTICLES]: "粒子",
-    [VisualizerMode.RINGS]: "环形",
     [VisualizerMode.TUNNEL]: "隧道",
     [VisualizerMode.WAVEFORM]: "波形",
     [VisualizerMode.KINETIC_WALL]: "动态墙",

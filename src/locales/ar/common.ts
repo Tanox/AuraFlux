@@ -17,4 +17,8 @@ export const common = {
   active: "نشط",
   selectAll: "اختر الكل",
   fontName: "اسم الخط",
+  "404": {
+    title: "الصفحة غير موجودة",
+    back_home: "العودة إلى الرئيسية"
+  }
 };
