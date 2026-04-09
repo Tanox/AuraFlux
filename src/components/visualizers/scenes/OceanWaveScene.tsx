@@ -1,13 +1,13 @@
 'use client';
 /**
- * File: app/components/visualizers/scenes/OceanWaveScene.tsx
- * Version: v1.9.73
+ * File: src/components/visualizers/scenes/OceanWaveScene.tsx
+ * Version: v2.0.6
  * Author: Sut
  * Description: "Joy Division" Style Pulsar Terrain with scrolling history.
  */
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, group } from '@react-three/fiber';
 import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
@@ -110,7 +110,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.75; // Gain increased by 150%
+        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.75; // Gain increased by 50%
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColorRidge.value.copy(c2); 
         else if (c0) mat.uniforms.uColorRidge.value.copy(c0);
