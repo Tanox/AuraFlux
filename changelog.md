@@ -16,8 +16,9 @@ All notable changes to the **Aura Flux** project will be documented in this file
 
 ### 🔄 Code and Documentation Synchronization
 - **Core Architecture**: Updated App.tsx and AppContext.tsx code examples in core architecture documentation to match actual implementation
-- **Visual Rendering**: Updated visual rendering system documentation to reflect current 2D and 3D visualization modes
-- **AI Integration**: Updated AI state management documentation to match actual useAiState implementation
+- **404 Page**: Added documentation for the _not-found.tsx component
+- **Visual Rendering**: Updated visual rendering system documentation to reflect current 2D and 3D visualization modes, including corresponding enum values
+- **AI Integration**: Updated AI state management documentation to match actual useAiState implementation, including parameter details
 - **API Reference**: Updated state management interfaces to match current AppContext implementations
 - **Constants**: Updated version constant example to match actual implementation
 - **File Structure**: Verified and updated documentation to reflect current project file structure

@@ -8,7 +8,7 @@ import { messages } from './ja/messages';
 
 export const ja = {
   common,
-  appVersion: "v2.0.7",
+  appVersion: "v2.0.6",
   appTitle: "Aura Flux",
   welcomeSubtitle: "シナエスセティックインテリジェンスエンジン",
   startExperience: "システムを初期化",

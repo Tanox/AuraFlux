@@ -67,9 +67,9 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
     mat.uniforms.uDensity.value = densityRef.current;
     
     const ls = 0.15; 
-    mat.uniforms.uBass.value += (features.bass - mat.uniforms.uBass.value) * ls;
-    mat.uniforms.uEnergyL.value += (features.energyL - mat.uniforms.uEnergyL.value) * ls;
-    mat.uniforms.uEnergyR.value += (features.energyR - mat.uniforms.uEnergyR.value) * ls;
+    mat.uniforms.uBass.value += (features.bass * 0.3 - mat.uniforms.uBass.value) * ls;
+    mat.uniforms.uEnergyL.value += (features.energyL * 0.3 - mat.uniforms.uEnergyL.value) * ls;
+    mat.uniforms.uEnergyR.value += (features.energyR * 0.3 - mat.uniforms.uEnergyR.value) * ls;
     
     if (c0) mat.uniforms.uColor1.value.copy(c0); 
     if (c1) mat.uniforms.uColor2.value.copy(c1); 

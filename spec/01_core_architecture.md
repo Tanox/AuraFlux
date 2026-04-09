@@ -204,6 +204,50 @@ export const App: React.FC = () => (
 );
 ```
 
+### 1.2 404 页面组件 (_not-found.tsx)
+- **文件**: `src/app/_not-found.tsx`
+- **版本**: v2.0.6
+- **功能**: 处理未找到页面的情况
+
+**核心特性:**
+- 使用 `AppProvider` 提供全局状态管理
+- 支持多语言文本
+- 响应式设计
+- 提供返回首页的链接
+
+**代码示例:**
+```tsx
+// _not-found.tsx 核心结构
+import { AppProvider, useUI } from '@/context/AppContext';
+import React from 'react';
+
+const NotFoundContent = () => {
+  const ui = useUI();
+  const t = ui?.t;
+  
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-4">
+      <h1 className="text-6xl font-bold mb-4">404</h1>
+      <p className="text-xl mb-8">{t?.common?.['404']?.title || 'Page not found'}</p>
+      <a
+        href="/"
+        className="px-6 py-3 bg-white text-black rounded-full hover:bg-gray-200 transition-colors"
+      >
+        {t?.common?.['404']?.back_home || 'Back to Home'}
+      </a>
+    </div>
+  );
+};
+
+export default function NotFound() {
+  return (
+    <AppProvider>
+      <NotFoundContent />
+    </AppProvider>
+  );
+}
+```
+
 ## 2. 状态管理系统
 
 ### 2.1 应用上下文 (AppContext.tsx)

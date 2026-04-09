@@ -21,6 +21,13 @@
 - `TUNNEL` - 隧道效果
 - `STARFIELD` - 星场效果
 
+**对应枚举值:**
+- `VisualizerMode.BARS`
+- `VisualizerMode.WAVEFORM`
+- `VisualizerMode.PLASMA`
+- `VisualizerMode.TUNNEL`
+- `VisualizerMode.STARFIELD`
+
 **渲染流程:**
 1. 获取音频频谱数据
 2. 根据选择的模式调用相应的渲染函数
@@ -48,6 +55,16 @@
 - `CubeFieldScene` - 立方体场
 - `NeuralFlowScene` - 神经网络粒子流
 - `LaserScene` - 激光效果
+
+**对应枚举值:**
+- `VisualizerMode.DIGITAL_GRID`
+- `VisualizerMode.OCEAN_WAVE`
+- `VisualizerMode.VORTEX`
+- `VisualizerMode.SILK_WAVE`
+- `VisualizerMode.KINETIC_WALL`
+- `VisualizerMode.CUBE_FIELD`
+- `VisualizerMode.NEURAL_FLOW`
+- `VisualizerMode.LASERS`
 
 ## 3. 可视化模式实现
 

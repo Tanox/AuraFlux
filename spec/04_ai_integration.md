@@ -36,14 +36,29 @@
 - **功能**: 管理 AI 相关状态
 
 **核心状态:**
-- `lyricsStyle` - 歌词样式
-- `showLyrics` - 歌词显示状态
-- `enableAnalysis` - 启用分析状态
-- `isIdentifying` - 正在识别状态
+- `lyricsStyle` - 歌词样式 (默认: `LyricsStyle.STANDARD`)
+- `showLyrics` - 歌词显示状态 (默认: `false`)
+- `enableAnalysis` - 启用分析状态 (默认: `true`)
+- `isIdentifying` - 正在识别状态 (默认: `false`)
 
 **核心方法:**
-- `performIdentification` - 执行歌曲识别
-- `resetAiSettings` - 重置 AI 设置
+- `performIdentification(stream: MediaStream)` - 执行歌曲识别
+- `resetAiSettings()` - 重置 AI 设置
+
+**参数说明:**
+- `language` - 当前语言
+- `region` - 当前区域
+- `provider` - AI 服务提供商 (GEMINI 或 MOCK)
+- `isListening` - 是否正在监听
+- `isSimulating` - 是否使用模拟模式
+- `mediaStream` - 媒体流
+- `initialSettings` - 初始设置
+- `setSettings` - 设置更新函数
+- `onSongIdentified` - 歌曲识别完成回调
+- `currentSong` - 当前歌曲信息
+- `getAudioSlice` - 获取音频片段的函数
+- `t` - 翻译函数
+- `showToast` - 显示提示的函数
 
 ## 3. AI 集成场景
 

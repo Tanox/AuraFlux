@@ -8,7 +8,7 @@ import { messages } from './tw/messages';
 
 export const tw = {
   common,
-  appVersion: "v1.10.5",
+  appVersion: "v2.0.6",
   appTitle: "Aura Flux",
   welcomeSubtitle: "閫氭劅鏅鸿兘寮曟搸",
   startExperience: "鍟熷嫊绯荤当",

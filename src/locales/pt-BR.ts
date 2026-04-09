@@ -8,7 +8,7 @@ import { messages } from './pt-BR/messages';
 
 export const ptBR = {
   common,
-  appVersion: "v2.0.3",
+  appVersion: "v2.0.6",
   appTitle: "Aura Flux",
   welcomeSubtitle: "Motor de Inteligência Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
