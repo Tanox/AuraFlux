@@ -9,8 +9,8 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame, group } from '@react-three/fiber';
 import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
 
 import { oceanWaveVertexShader, oceanWaveFragmentShader } from './shaders/OceanWaveShaders';
 
