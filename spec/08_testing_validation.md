@@ -89,6 +89,34 @@
 - **推荐**: Jest
 - **配置**: 支持 TypeScript
 
+**代码示例:**
+```javascript
+// jest.config.js 核心结构
+// File: jest.config.js | Version: v2.0.6
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/**/index.ts',
+    '!src/**/types/**'
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80
+    }
+  }
+};
+```
+
 ### 4.2 模拟工具
 - **推荐**: MSW (Mock Service Worker)
 - **用途**: 模拟 AI 服务响应

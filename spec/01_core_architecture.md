@@ -252,6 +252,7 @@ export default function NotFound() {
 
 ### 2.1 应用上下文 (AppContext.tsx)
 - **文件**: `src/context/AppContext.tsx`
+- **版本**: v2.0.6
 - **功能**: 提供全局状态管理和共享功能
 
 **核心功能:**
@@ -433,9 +434,300 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 };
 ```
 
-## 3. 核心常量
+### 2.2 应用状态 Hook (useAppState.ts)
+- **文件**: `src/hooks/useAppState.ts`
+- **版本**: v2.0.6
+- **功能**: 管理应用的 UI 状态
 
-### 3.1 版本常量 (version.ts)
+**核心功能:**
+- 语言管理（支持多语言）
+- 区域设置
+- 应用启动状态
+- 帮助模态框状态
+- 拖放状态
+- 唤醒锁管理
+- 设置重置
+
+**代码示例:**
+```tsx
+// useAppState.ts 核心结构
+// File: src/hooks/useAppState.ts | Version: v2.0.6
+import { useState, useCallback, useMemo } from 'react';
+import { Language, Region } from '../types';
+import { TRANSLATIONS } from '../locales';
+
+const getInitialLanguage = (): Language => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('av_v1_language');
+    if (saved) return saved as Language;
+    
+    const navLang = navigator.language;
+    if (navLang.startsWith('zh-TW')) return 'zh-TW';
+    if (navLang.startsWith('zh')) return 'zh';
+    if (navLang.startsWith('pt-BR')) return 'pt-BR';
+    if (navLang.startsWith('pt')) return 'pt';
+    if (navLang.startsWith('es')) return 'es';
+    if (navLang.startsWith('ar')) return 'ar';
+    if (navLang.startsWith('fr')) return 'fr';
+    if (navLang.startsWith('de')) return 'de';
+    if (navLang.startsWith('ja')) return 'ja';
+    if (navLang.startsWith('ko')) return 'ko';
+    if (navLang.startsWith('ru')) return 'ru';
+  }
+  return 'en';
+};
+
+export const useAppState = () => {
+  const [language, _setLanguage] = useState<Language>(getInitialLanguage);
+  
+  const setLanguage = useCallback((lang: Language | ((prev: Language) => Language)) => {
+    _setLanguage(prev => {
+      const next = typeof lang === 'function' ? lang(prev) : lang;
+      localStorage.setItem('av_v1_language', next);
+      return next;
+    });
+  }, []);
+
+  const [region, setRegion] = useState<Region>('US');
+  const [hasStarted, setHasStarted] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [helpModalInitialTab, setHelpModalInitialTab] = useState<'guide' | 'shortcuts' | 'about'>('guide');
+  const [isDragging, setIsDragging] = useState(false);
+
+  const t = useMemo(() => TRANSLATIONS[language] || TRANSLATIONS.en, [language]);
+
+  const resetSettings = useCallback(() => {
+    localStorage.clear();
+    window.location.reload();
+  }, []);
+
+  const manageWakeLock = useCallback(async (enabled: boolean) => {
+    if (typeof window !== 'undefined' && 'wakeLock' in navigator) {
+      try {
+        if (enabled) {
+          await (navigator as any).wakeLock.request('screen');
+        }
+      } catch (err: any) {
+        if (err.name !== 'NotAllowedError') {
+          console.warn('Wake Lock error:', err?.message || err);
+        }
+      }
+    }
+  }, []);
+
+  return useMemo(() => ({
+    language, setLanguage,
+    region, setRegion,
+    hasStarted, setHasStarted,
+    showHelpModal, setShowHelpModal,
+    helpModalInitialTab, setHelpModalInitialTab,
+    isDragging, setIsDragging,
+    t,
+    resetSettings,
+    manageWakeLock
+  }), [language, setLanguage, region, setRegion, hasStarted, setHasStarted, showHelpModal, setShowHelpModal, helpModalInitialTab, setHelpModalInitialTab, isDragging, setIsDragging, t, resetSettings, manageWakeLock]);
+};
+```
+
+### 2.3 视觉状态 Hook (useVisualsState.ts)
+- **文件**: `src/hooks/useVisualsState.ts`
+- **版本**: v2.0.6
+- **功能**: 管理可视化相关的状态
+
+**核心功能:**
+- 可视化模式管理
+- 颜色主题管理
+- 可视化设置管理
+- 预设管理
+- 设置随机化
+- 设置重置
+
+**代码示例:**
+```tsx
+// useVisualsState.ts 核心结构
+// File: src/hooks/useVisualsState.ts | Version: v2.0.6
+import { useState, useCallback, useMemo } from 'react';
+import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
+import { COLOR_THEMES } from '../constants';
+
+const DEFAULT_SETTINGS: VisualizerSettings = {
+  sensitivity: 1.0,
+  autoHideUi: true,
+  showSongInfo: true,
+  showAlbumArtOverlay: true,
+  showFps: false,
+  appTheme: 'dark',
+  wakeLock: true,
+  doubleClickFullscreen: true,
+  recognitionProvider: 'GEMINI',
+  bloom: 0.5,
+  particleCount: 1000,
+  speed: 1.0,
+  cycleColors: true
+};
+
+export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
+  const [mode, setMode] = useState<VisualizerMode>(VisualizerMode.DIGITAL_GRID);
+  const [colorTheme, setColorTheme] = useState<string[]>(['#00f2ff', '#0062ff', '#7000ff']);
+  const [settings, setSettings] = useState<VisualizerSettings>(DEFAULT_SETTINGS);
+  const [activePreset, setActivePreset] = useState('Default');
+
+  const randomizeSettings = useCallback(() => {
+    // Randomize Mode
+    const modes = Object.values(VisualizerMode);
+    const randomMode = modes[Math.floor(Math.random() * modes.length)];
+    setMode(randomMode);
+
+    // Randomize Colors
+    const randomTheme = COLOR_THEMES[Math.floor(Math.random() * COLOR_THEMES.length)];
+    setColorTheme(randomTheme.colors);
+
+    // Randomize Settings
+    setSettings(prev => ({
+      ...prev,
+      sensitivity: 0.8 + Math.random() * 1.2,
+      speed: 0.5 + Math.random() * 1.5,
+      glow: Math.random() > 0.5,
+      trails: Math.random() > 0.5
+    }));
+
+    setActivePreset('Randomized');
+  }, []);
+
+  const resetVisualSettings = useCallback(() => setSettings(DEFAULT_SETTINGS), []);
+  const resetTextSettings = useCallback(() => {}, []);
+  const resetAudioSettings = useCallback(() => {}, []);
+
+  const applyPreset = useCallback((preset: SmartPreset) => {
+    setMode(preset.mode);
+    setSettings(prev => ({ ...prev, ...preset.settings }));
+    setColorTheme(preset.colors);
+    setActivePreset(preset.name);
+  }, []);
+
+  return useMemo(() => ({
+    mode, setMode,
+    colorTheme, setColorTheme,
+    settings, setSettings,
+    activePreset, setActivePreset,
+    randomizeSettings,
+    resetVisualSettings,
+    resetTextSettings,
+    resetAudioSettings,
+    applyPreset
+  }), [mode, setMode, colorTheme, setColorTheme, settings, setSettings, activePreset, setActivePreset, randomizeSettings, resetVisualSettings, resetTextSettings, resetAudioSettings, applyPreset]);
+};
+```
+
+## 3. 类型定义
+
+### 3.1 核心类型 (types/index.ts)
+- **文件**: `src/types/index.ts`
+- **版本**: v2.0.6
+- **功能**: 定义应用中使用的类型
+
+**主要类型:**
+- `VisualizerMode` - 可视化模式枚举
+- `LyricsStyle` - 歌词风格枚举
+- `Language` - 语言类型
+- `Region` - 区域类型
+- `VisualizerSettings` - 可视化设置接口
+- `AudioDevice` - 音频设备接口
+- `SongInfo` - 歌曲信息接口
+- `SmartPreset` - 智能预设接口
+- `AudioSourceType` - 音频源类型
+- `Track` - 音频轨道接口
+- `PlaybackMode` - 播放模式枚举
+- `Position` - 位置类型
+
+**代码示例:**
+```tsx
+// types/index.ts 核心结构
+// File: src/types/index.ts | Version: v2.0.6
+export enum VisualizerMode {
+  DIGITAL_GRID = 'DIGITAL_GRID',
+  SILK_WAVE = 'SILK_WAVE',
+  OCEAN_WAVE = 'OCEAN_WAVE',
+  NEURAL_FLOW = 'NEURAL_FLOW',
+  CUBE_FIELD = 'CUBE_FIELD',
+  KINETIC_WALL = 'KINETIC_WALL',
+  VORTEX = 'VORTEX',
+  WAVEFORM = 'WAVEFORM',
+  TUNNEL = 'TUNNEL',
+  LASERS = 'LASERS',
+  PLASMA = 'PLASMA',
+  BARS = 'BARS',
+  STARFIELD = 'STARFIELD'
+}
+
+export enum LyricsStyle {
+  STANDARD = 'STANDARD',
+  KARAOKE = 'KARAOKE',
+  MINIMAL = 'MINIMAL'
+}
+
+export type Language = 'en' | 'zh' | 'zh-TW' | 'es' | 'ar' | 'fr' | 'pt' | 'pt-BR' | 'de' | 'ja' | 'ko' | 'ru';
+
+export type Region = 'US' | 'CN' | 'EU' | 'OTHER';
+
+export interface VisualizerSettings {
+  sensitivity: number;
+  autoHideUi: boolean;
+  showSongInfo: boolean;
+  showAlbumArtOverlay: boolean;
+  showFps: boolean;
+  appTheme: 'light' | 'dark';
+  wakeLock: boolean;
+  doubleClickFullscreen: boolean;
+  recognitionProvider: 'GEMINI' | 'MOCK';
+  [key: string]: any;
+}
+
+export interface AudioDevice {
+  deviceId: string;
+  label: string;
+}
+
+export interface SongInfo {
+  title: string;
+  artist: string;
+  album?: string;
+  artwork?: string;
+  lyrics?: string;
+  [key: string]: any;
+}
+
+export interface SmartPreset {
+  name: string;
+  nameKey: string;
+  settings: Partial<VisualizerSettings>;
+  mode: VisualizerMode;
+  colors: string[];
+}
+
+export type AudioSourceType = 'microphone' | 'file' | 'url';
+
+export interface Track {
+  id: string;
+  file: File;
+  url?: string;
+  title: string;
+  artist: string;
+  albumArtUrl?: string;
+}
+
+export enum PlaybackMode {
+  SEQUENCE = 'SEQUENCE',
+  LOOP = 'LOOP',
+  SHUFFLE = 'SHUFFLE'
+}
+
+export type Position = 'top' | 'center' | 'bottom';
+```
+
+## 4. 核心常量
+
+### 4.1 版本常量 (version.ts)
 - **文件**: `src/constants/version.ts`
 - **功能**: 定义应用版本号
 
@@ -444,7 +736,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 export const APP_VERSION = 'v2.0.6';
 ```
 
-### 3.2 通用常量 (index.ts)
+### 4.2 通用常量 (index.ts)
 - **文件**: `src/constants/index.ts`
 - **功能**: 定义应用中使用的常量
 

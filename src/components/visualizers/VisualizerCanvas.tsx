@@ -8,15 +8,6 @@ import { renderPlasmaMode } from './modes/PlasmaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
 import { renderStarfieldMode } from './modes/StarfieldMode';
 
-interface Star {
-  x: number;
-  y: number;
-  z: number;
-  size: number;
-  speed: number;
-  color: string;
-}
-
 interface Props {
   analyser: AnalyserNode | null;
   analyserR: AnalyserNode | null;
@@ -25,9 +16,9 @@ interface Props {
   mode: VisualizerMode;
 }
 
-const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode }) => {
+const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const starsRef = useRef<Star[]>([]);
+  const starsRef = useRef<any[]>([]);
 
   useEffect(() => {
     if (!canvasRef.current || !analyser) return;

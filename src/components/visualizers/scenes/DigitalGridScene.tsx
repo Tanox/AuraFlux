@@ -1,16 +1,16 @@
 'use client';
 /**
- * File: app/components/visualizers/scenes/DigitalGridScene.tsx
+ * File: src/components/visualizers/scenes/DigitalGridScene.tsx
  * Version: v1.10.7
  * Author: Sut
  */
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { useDigitalGrid } from './hooks/useDigitalGrid';
 import { injectDigitalGridShader } from './shaders/DigitalGridShaders';
 
@@ -71,12 +71,26 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
   return (
     <>
       {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
-      <ambientLight intensity={0.1}/><instancedMesh ref={meshRef} args={[undefined, undefined, grid.COLS * grid.ROWS]} position={[0,0,-50]}><planeGeometry args={[1.414, 1.414]}/><meshStandardMaterial onBeforeCompile={onCompile} roughness={0.2} metalness={0.9} side={DoubleSide} transparent depthWrite={false}/></instancedMesh>
-      <mesh rotation={[-Math.PI/2,0,0]} position={[0,-30,-20]}>
-        <planeGeometry args={[200,200]}/>
-        {/* @ts-ignore */}
+      <ambientLight intensity={0.1} />
+      <instancedMesh 
+        ref={meshRef} 
+        args={[undefined, undefined, grid.COLS * grid.ROWS]} 
+        position={[0, 0, -50]}
+      >
+        <planeGeometry args={[1.414, 1.414]} />
+        <meshStandardMaterial 
+          onBeforeCompile={onCompile} 
+          roughness={0.2} 
+          metalness={0.9} 
+          side={DoubleSide} 
+          transparent 
+          depthWrite={false}
+        />
+      </instancedMesh>
+      <mesh rotation={[-Math.PI/2, 0, 0]} position={[0, -30, -20]}>
+        <planeGeometry args={[200, 200]} />
         <MeshReflectorMaterial 
-          blur={[400,100]} 
+          blur={[400, 100]} 
           resolution={1024} 
           mixBlur={1} 
           mixStrength={10} 

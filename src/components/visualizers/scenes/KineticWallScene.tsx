@@ -1,14 +1,13 @@
 'use client';
 /**
- * File: app/components/visualizers/scenes/KineticWallScene.tsx
+ * File: src/components/visualizers/scenes/KineticWallScene.tsx
  * Version: v2.0.8
  * Author: Sut
- * Description: "Kinetic Wall" - Massive LED stage wall with rhythmic pulsing.
  */
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, Object3D, MeshStandardMaterial } from 'three';
+import { InstancedMesh, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, PointLight } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 
@@ -26,7 +25,7 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   const [c0, c1, c2] = smoothedColors;
   
   const COLS = Math.floor(128 * Math.sqrt(0.3)); // Reduce total count to ~30%
-  const ROWS = Math.floor(64 * Math.sqrt(0.3));  // Reduce total count to ~30%
+  const ROWS = Math.floor(64 * Math.sqrt(0.3)); // Reduce total count to ~30%
   const COUNT = COLS * ROWS;
   const SPACING = 1.5 * 3; // Increase spacing to create larger gaps between cubes
   
@@ -86,9 +85,9 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
       dummy.scale.set(scale, scale, scale);
       
       if (isBeat) {
-          dummy.rotation.z = Math.sin(time * 5.0 + dist) * 0.1;
+        dummy.rotation.z = Math.sin(time * 5.0 + dist) * 0.1;
       } else {
-          dummy.rotation.z *= 0.9;
+        dummy.rotation.z *= 0.9;
       }
       
       dummy.updateMatrix();
@@ -99,9 +98,9 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
     
     const mat = meshRef.current.material as MeshStandardMaterial;
     if (mat) {
-        if (c0) mat.color.lerp(c0, 0.1);
-        if (c1) mat.emissive.lerp(c1, 0.1);
-        mat.emissiveIntensity = 0.2 + bass * 0.5 + (isBeat ? 0.5 : 0);
+      if (c0) mat.color.lerp(c0, 0.1);
+      if (c1) mat.emissive.lerp(c1, 0.1);
+      mat.emissiveIntensity = 0.2 + bass * 0.5 + (isBeat ? 0.5 : 0);
     }
   });
 
@@ -109,21 +108,21 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
     <>
       {!settings.albumArtBackground && <color attach="background" args={['#050505']} />}
       
-      <ambientLight intensity={0.2} />
-      <directionalLight position={[10, 10, 20]} intensity={1} color={c2} />
-      <pointLight position={[0, 0, 10]} intensity={2 + features.bass * 5} color={c0} distance={50} />
+      <AmbientLight intensity={0.2} />
+      <DirectionalLight position={[10, 10, 20]} intensity={1} color={c2} />
+      <PointLight position={[0, 0, 10]} intensity={2 + features.bass * 5} color={c0} distance={50} />
       
-      <instancedMesh 
+      <InstancedMesh 
         ref={meshRef} 
         args={[undefined, undefined, COUNT]} 
         position={[0, 0, -20]}
       >
-        <boxGeometry args={[3, 3, 3]} />
-        <meshStandardMaterial 
-            roughness={0.2} 
-            metalness={0.8} 
+        <BoxGeometry args={[3, 3, 3]} />
+        <MeshStandardMaterial 
+          roughness={0.2} 
+          metalness={0.8} 
         />
-      </instancedMesh>
+      </InstancedMesh>
     </>
   );
 };

@@ -25,6 +25,41 @@
 - 构建优化
 - 环境变量配置
 
+**代码示例:**
+```tsx
+// next.config.ts 核心结构
+// File: next.config.ts | Version: v2.0.6
+import type { NextConfig } from 'next';
+import path from 'path';
+
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**'
+      }
+    ]
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, './src')
+    };
+    return config;
+  },
+  env: {
+    NEXT_PUBLIC_APP_VERSION: '2.0.6'
+  },
+  trailingSlash: false,
+  output: 'export'
+};
+
+export default nextConfig;
+```
+
 ## 2. PWA 支持
 
 ### 2.1 PWA 状态

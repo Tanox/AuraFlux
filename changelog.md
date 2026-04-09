@@ -3,6 +3,17 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.0.6]
+### ✨ Documentation Updates
+- **Core Architecture**: Updated 01_core_architecture.md with detailed code examples for App.tsx, _not-found.tsx, AppContext.tsx, useAppState.ts, useVisualsState.ts, and types/index.ts
+- **Audio Engine**: Updated 02_audio_engine.md with comprehensive code examples for useAudio.ts and audioUtils.ts
+- **Visual Rendering**: Updated 03_visual_rendering.md with detailed code examples for VisualizerCanvas.tsx and ThreeVisualizer.tsx
+- **AI Integration**: Updated 04_ai_integration.md with comprehensive code examples for aiService.ts and useAiState.ts
+- **UI Interaction**: Updated 05_ui_interaction.md with detailed code examples for Controls.tsx and BottomBar.tsx
+- **Internationalization**: Updated 06_i18n_storage.md with comprehensive code examples for locales/index.ts and useLocalStorage.ts
+- **Deployment**: Updated 07_deployment.md with detailed code examples for next.config.ts, package.json, vercel.json, and PWA configuration
+- **Testing**: Updated 08_testing_validation.md with comprehensive code examples for jest.config.js and test cases
+
+## [v2.0.6]
 ### ⚠️ Version Rollback
 - **Rollback Reason**: Reverted from v2.0.7 to v2.0.6 due to stability issues with the new STARFIELD visualization mode that required further refinement.
 
