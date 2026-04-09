@@ -17,12 +17,9 @@
 **支持的可视化模式:**
 - `BARS` - 频谱柱状图
 - `WAVEFORM` - 波形图
-- `RINGS` - 环形可视化
 - `PLASMA` - 等离子效果
-- `NEBULA` - 星云效果
 - `TUNNEL` - 隧道效果
-- `FLUID_CURVES` - 流体曲线
-- `PARTICLES` - 粒子效果
+- `STARFIELD` - 星场效果
 
 **渲染流程:**
 1. 获取音频频谱数据
@@ -43,14 +40,14 @@
 - 高性能渲染
 
 **支持的 3D 场景:**
-- `KineticWallScene` - 动态几何墙体
-- `LiquidSphereScene` - 液态球体
-- `CubeFieldScene` - 立方体场
-- `NeuralFlowScene` - 神经网络粒子流
 - `DigitalGridScene` - 数字网格
-- `SilkWaveScene` - 丝绸纤维
 - `OceanWaveScene` - 海洋波浪
 - `VortexScene` - 粒子引力扭曲
+- `SilkWaveScene` - 丝绸纤维
+- `KineticWallScene` - 动态几何墙体
+- `CubeFieldScene` - 立方体场
+- `NeuralFlowScene` - 神经网络粒子流
+- `LaserScene` - 激光效果
 
 ## 3. 可视化模式实现
 
@@ -64,63 +61,51 @@
 - **文件**: `src/components/visualizers/modes/WaveformMode.ts`
 - **功能**: 波形图可视化
 
-#### 3.1.3 RingsMode
-- **文件**: `src/components/visualizers/modes/RingsMode.ts`
-- **功能**: 环形可视化
-
-#### 3.1.4 PlasmaMode
+#### 3.1.3 PlasmaMode
 - **文件**: `src/components/visualizers/modes/PlasmaMode.ts`
 - **功能**: 等离子效果
 
-#### 3.1.5 NebulaMode
-- **文件**: `src/components/visualizers/modes/NebulaMode.ts`
-- **功能**: 星云效果
-
-#### 3.1.6 TunnelMode
+#### 3.1.4 TunnelMode
 - **文件**: `src/components/visualizers/modes/TunnelMode.ts`
 - **功能**: 隧道效果
 
-#### 3.1.7 FluidCurvesMode
-- **文件**: `src/components/visualizers/modes/FluidCurvesMode.ts`
-- **功能**: 流体曲线
-
-#### 3.1.8 ParticlesMode
-- **文件**: `src/components/visualizers/modes/ParticlesMode.ts`
-- **功能**: 粒子效果
+#### 3.1.5 StarfieldMode
+- **文件**: `src/components/visualizers/modes/StarfieldMode.ts`
+- **功能**: 星场效果
 
 ### 3.2 3D 场景实现
 
-#### 3.2.1 CubeFieldScene
-- **文件**: `src/components/visualizers/scenes/CubeFieldScene.tsx`
-- **功能**: 立方体场场景
-
-#### 3.2.2 DigitalGridScene
+#### 3.2.1 DigitalGridScene
 - **文件**: `src/components/visualizers/scenes/DigitalGridScene.tsx`
 - **功能**: 数字网格场景
 
-#### 3.2.3 KineticWallScene
-- **文件**: `src/components/visualizers/scenes/KineticWallScene.tsx`
-- **功能**: 动态几何墙体场景
-
-#### 3.2.4 LiquidSphereScene
-- **文件**: `src/components/visualizers/scenes/liquid/LiquidSphereScene.tsx`
-- **功能**: 液态球体场景
-
-#### 3.2.5 NeuralFlowScene
-- **文件**: `src/components/visualizers/scenes/NeuralFlowScene.tsx`
-- **功能**: 神经网络粒子流场景
-
-#### 3.2.6 OceanWaveScene
+#### 3.2.2 OceanWaveScene
 - **文件**: `src/components/visualizers/scenes/OceanWaveScene.tsx`
 - **功能**: 海洋波浪场景
 
-#### 3.2.7 SilkWaveScene
+#### 3.2.3 VortexScene
+- **文件**: `src/components/visualizers/scenes/VortexScene.tsx`
+- **功能**: 粒子引力扭曲场景
+
+#### 3.2.4 SilkWaveScene
 - **文件**: `src/components/visualizers/scenes/SilkWaveScene.tsx`
 - **功能**: 丝绸纤维场景
 
-#### 3.2.8 VortexScene
-- **文件**: `src/components/visualizers/scenes/VortexScene.tsx`
-- **功能**: 粒子引力扭曲场景
+#### 3.2.5 KineticWallScene
+- **文件**: `src/components/visualizers/scenes/KineticWallScene.tsx`
+- **功能**: 动态几何墙体场景
+
+#### 3.2.6 CubeFieldScene
+- **文件**: `src/components/visualizers/scenes/CubeFieldScene.tsx`
+- **功能**: 立方体场场景
+
+#### 3.2.7 NeuralFlowScene
+- **文件**: `src/components/visualizers/scenes/NeuralFlowScene.tsx`
+- **功能**: 神经网络粒子流场景
+
+#### 3.2.8 LaserScene
+- **文件**: `src/components/visualizers/scenes/LaserScene.tsx`
+- **功能**: 激光效果场景
 
 ## 4. 着色器系统
 

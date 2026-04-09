@@ -36,17 +36,14 @@
 - **功能**: 管理 AI 相关状态
 
 **核心状态:**
-- `isProcessing` - AI 处理状态
-- `showLyrics` - 歌词显示状态
 - `lyricsStyle` - 歌词样式
-- `currentSong` - 当前歌曲信息
-- `aiGeneratedBackground` - AI 生成的背景
+- `showLyrics` - 歌词显示状态
+- `enableAnalysis` - 启用分析状态
+- `isIdentifying` - 正在识别状态
 
 **核心方法:**
 - `performIdentification` - 执行歌曲识别
-- `generateBackground` - 生成背景
-- `toggleLyrics` - 切换歌词显示
-- `setLyricsStyle` - 设置歌词样式
+- `resetAiSettings` - 重置 AI 设置
 
 ## 3. AI 集成场景
 
