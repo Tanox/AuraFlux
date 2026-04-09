@@ -44,58 +44,164 @@
 ```tsx
 // App.tsx 核心结构
 'use client';
+// File: src/components/App.tsx | Version: v2.0.6
+import React, { useState, useEffect, Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
+import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';
+import { OnboardingOverlay } from '@/components/visualizers/ui/onboarding/OnboardingOverlay';
+import { HelpModal } from '@/components/visualizers/ui/HelpModal';
+import SongOverlay from '@/components/visualizers/ui/SongOverlay';
+import LyricsOverlay from '@/components/visualizers/ui/LyricsOverlay';
+import CustomTextOverlay from '@/components/visualizers/ui/CustomTextOverlay';
+import { FPSCounter } from '@/components/visualizers/ui/FPSCounter';
+import { useIdleTimer } from '@/hooks/useIdleTimer';
+import { useMobileGestures } from '@/hooks/useMobileGestures';
+import { useVersionCheck } from '@/hooks/useVersionCheck';
+import { APP_VERSION } from '@/constants/version';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { AppProvider, useUI } from '@/context/AppContext';
-import { WelcomeScreen } from './visualizers/ui/WelcomeScreen';
-import { OnboardingOverlay } from './visualizers/ui/onboarding/OnboardingOverlay';
-import { HelpModal } from './visualizers/ui/HelpModal';
-import { SongOverlay } from './visualizers/ui/SongOverlay';
-import { LyricsOverlay } from './visualizers/ui/LyricsOverlay';
-import { CustomTextOverlay } from './visualizers/ui/CustomTextOverlay';
-import { FPSCounter } from './visualizers/ui/FPSCounter';
-import { VisualizerCanvas } from './visualizers/VisualizerCanvas';
-import { ThreeVisualizer } from './visualizers/ThreeVisualizer';
-import { Controls } from './controls/Controls';
+const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
+const ThreeVisualizer = dynamic(() => import('@/components/visualizers/ThreeVisualizer'), { ssr: false });
+const Controls = dynamic(() => import('@/components/controls/Controls'), { ssr: false });
 
-function AppContent() {
-  const { isExpanded, setIsExpanded, onboarded, setOnboarded, isIdle, setIsIdle } = useUI();
+const MainContent: React.FC = () => {
+  const ui = useUI();
+  const visuals = useVisuals();
+  const audio = useAudioContext();
+  const ai = useAI();
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [onboarded, setOnboarded] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !!localStorage.getItem('av_v1_onboarded');
+    }
+    return false;
+  });
+
+  const { isIdle } = useIdleTimer(isExpanded, visuals?.settings?.autoHideUi);
+  const gestures = useMobileGestures();
+
+  // Version check logic
+  useVersionCheck(APP_VERSION, (newVersion) => {
+    if (ui) {
+      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info', 5000, 'top');
+    }
+  });
+
+  useEffect(() => {
+    if (visuals?.settings?.wakeLock && ui) ui.manageWakeLock(true);
+    return () => { if (ui) ui.manageWakeLock(false); };
+  }, [visuals?.settings?.wakeLock, ui]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const root = document.documentElement;
+      if (visuals?.settings?.appTheme === 'light') {
+          root.classList.remove('dark');
+      } else {
+          root.classList.add('dark');
+      }
+    }
+  }, [visuals?.settings?.appTheme]);
+
+  if (!ui || !visuals || !audio || !ai) return null;
+
+  const { 
+      hasStarted, language, setLanguage, manageWakeLock, 
+      showHelpModal, setShowHelpModal, helpModalInitialTab, 
+      isDragging, setIsDragging, t, 
+      toggleFullscreen
+  } = ui;
   
-  // 处理拖放文件
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+  const { mode, colorTheme, settings, setSettings, isThreeMode } = visuals;
+  const { analyser, analyserR, currentSong, importFiles } = audio;
+  const { showLyrics, lyricsStyle, performIdentification } = ai;
+  
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const files = Array.from(e.dataTransfer.files);
-    // 处理文件导入逻辑
-  }, []);
+    if (e.dataTransfer.types.includes('Files')) setIsDragging(true);
+  };
+  
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+  
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const audioFiles = Array.from(e.dataTransfer.files as FileList).filter((file: File) => file.type.startsWith('audio/'));
+      if (audioFiles.length > 0) importFiles(audioFiles);
+    }
+  };
+
+  const handleRetryIdentification = () => {
+      const stream = audio.mediaStream;
+      if (performIdentification && stream) {
+          performIdentification(stream);
+      }
+  };
+
+  if (!hasStarted) return <WelcomeScreen />;
+  if (!onboarded) return <OnboardingOverlay language={language} setLanguage={setLanguage} onComplete={() => { setOnboarded(true); localStorage.setItem('av_v1_onboarded', 'true'); }} />;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      {/* 可视化组件 */}
-      <VisualizerCanvas />
-      <ThreeVisualizer />
-      
-      {/* 控制界面 */}
-      <Controls />
-      
-      {/* 覆盖层 */}
-      <WelcomeScreen />
-      <OnboardingOverlay />
-      <HelpModal />
-      <SongOverlay />
-      <LyricsOverlay />
-      <CustomTextOverlay />
-      <FPSCounter />
+    <div 
+      id="app-root"
+      className={`absolute inset-0 bg-white dark:bg-black select-none overflow-hidden transition-all duration-700 ${isDragging ? 'ring-4 ring-blue-500 ring-inset' : ''}`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      {...gestures}
+    >
+      {isDragging && (
+          <div id="drag-overlay" className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none z-50">
+            <p className="text-white font-bold text-2xl drop-shadow-lg">{t.common.dropFiles}</p>
+          </div>
+      )}
+      <div
+        id="visualizer-container"
+        className="visualizer-container w-full h-full relative"
+        onDoubleClick={settings?.doubleClickFullscreen ? toggleFullscreen : undefined}
+      >
+        <Suspense fallback={null}>
+          {isThreeMode ? (
+            analyser && settings ? (
+              <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
+            ) : (
+              <div className="w-full h-full bg-black" />
+            )
+          ) : (
+            <VisualizerCanvas analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
+          )}
+        </Suspense>
+      </div>
+      {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}
+      <SongOverlay song={currentSong} isVisible={settings.showSongInfo} language={language} onRetry={handleRetryIdentification} onClose={() => setSettings((s: any) => ({...s, showSongInfo: false}))} analyser={analyser} sensitivity={settings.sensitivity} showAlbumArt={settings.showAlbumArtOverlay} />
+      <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
+      <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
+      {settings.showFps && <FPSCounter />}
+      <div 
+        id="app-version"
+        className="absolute bottom-4 right-4 text-xs font-medium text-white/60 drop-shadow-md z-10"
+      >
+        Aura Flux {APP_VERSION}
+      </div>
+      <Suspense fallback={null}>
+        <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
+      </Suspense>
     </div>
   );
-}
+};
 
-export function App() {
-  return (
+export const App: React.FC = () => (
     <AppProvider>
-      <AppContent />
+        <Suspense fallback={<div id="app-fallback-loader" className="w-screen h-screen bg-black" />}>
+            <MainContent />
+        </Suspense>
     </AppProvider>
-  );
-}
+);
 ```
 
 ## 2. 状态管理系统
@@ -120,69 +226,167 @@ export function App() {
 **代码示例:**
 ```tsx
 // AppContext.tsx 核心结构
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+'use client';
+// File: src/context/AppContext.tsx | Version: v2.0.6
+import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
+import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
+import { useAudio } from '@/hooks/useAudio';
+import { useAppState } from '@/hooks/useAppState';
+import { useVisualsState } from '@/hooks/useVisualsState';
+import { useAiState } from '@/hooks/useAiState';
+import { Toast } from '@/components/visualizers/ui/Toast';
+import { TRANSLATIONS } from '@/locales/index';
+import { TranslationSchema } from '@/locales/index';
 
-// UI 状态类型
-type UIState = {
-  isExpanded: boolean;
-  onboarded: boolean;
-  isIdle: boolean;
-  setIsExpanded: (expanded: boolean) => void;
-  setOnboarded: (onboarded: boolean) => void;
-  setIsIdle: (idle: boolean) => void;
-};
+type HelpTab = 'guide' | 'shortcuts' | 'about';
 
-// 应用上下文类型
-type AppContextType = {
-  ui: UIState;
-  // 其他状态...
-};
+interface UIContextType {
+  language: Language; setLanguage: React.Dispatch<React.SetStateAction<Language>>;
+  region: Region; setRegion: React.Dispatch<React.SetStateAction<Region>>;
+  hasStarted: boolean; setHasStarted: React.Dispatch<React.SetStateAction<boolean>>;
+  resetSettings: () => void;
+  manageWakeLock: (enabled: boolean) => Promise<void>;
+  toggleFullscreen: () => void; t: TranslationSchema;
+  showToast: (message: string, type?: 'success' | 'info' | 'error', duration?: number, position?: 'top' | 'bottom') => void;
+  showHelpModal: boolean;
+  setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;
+  helpModalInitialTab: HelpTab;
+  setHelpModalInitialTab: React.Dispatch<React.SetStateAction<HelpTab>>;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const UIContext = createContext<UIContextType | null>(null);
+export const useUI = () => useContext(UIContext)!;
 
-// 创建上下文
-const AppContext = createContext<AppContextType | undefined>(undefined);
+interface VisualsContextType {
+  mode: VisualizerMode; setMode: React.Dispatch<React.SetStateAction<VisualizerMode>>;
+  colorTheme: string[]; setColorTheme: React.Dispatch<React.SetStateAction<string[]>>;
+  settings: VisualizerSettings; setSettings: React.Dispatch<React.SetStateAction<VisualizerSettings>>;
+  activePreset: string; setActivePreset: React.Dispatch<React.SetStateAction<string>>;
+  isThreeMode: boolean;
+  randomizeSettings: () => void; resetVisualSettings: () => void;
+  resetTextSettings: () => void; resetAudioSettings: () => void;
+  applyPreset: (preset: SmartPreset) => void;
+}
+const VisualsContext = createContext<VisualsContextType | null>(null);
+export const useVisuals = () => useContext(VisualsContext)!;
 
-// 上下文提供者
-export function AppProvider({ children }: { children: ReactNode }) {
-  // UI 状态
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [onboarded, setOnboarded] = useState(() => {
-    const stored = localStorage.getItem('av_v1_onboarded');
-    return stored === 'true';
+interface AudioContextType {
+  sourceType: AudioSourceType; isListening: boolean; isPending: boolean;
+  analyser: AnalyserNode | null; analyserR: AnalyserNode | null;
+  mediaStream: MediaStream | null; audioDevices: AudioDevice[];
+  selectedDeviceId: string; onDeviceChange: (id: string) => void;
+  toggleMicrophone: (id: string) => void;
+  currentSong: SongInfo | null; setCurrentSong: (s: SongInfo | null) => void;
+  playlist: Track[]; currentIndex: number; playbackMode: PlaybackMode;
+  setPlaybackMode: (m: PlaybackMode) => void;
+  importFiles: (files: FileList | File[]) => Promise<any>;
+  importFromUrl: (url: string) => Promise<Track>;
+  importPlaylistFromUrl: (url: string) => Promise<Track[]>;
+  togglePlayback: () => void; seekFile: (t: number) => void;
+  playNext: () => void; playPrev: () => void;
+  playTrackByIndex: (i: number) => void; removeFromPlaylist: (i: number) => void;
+  clearPlaylist: () => void; getAudioSlice: (s?: number) => Promise<Blob | null>;
+  isPlaying: boolean; duration: number; currentTime: number;
+  fileStatus?: 'ready' | 'loading' | 'none';
+  fileName?: string;
+  audioContext: AudioContext | null;
+}
+const AudioContext = createContext<AudioContextType | null>(null);
+export const useAudioContext = () => useContext(AudioContext)!;
+
+interface AIContextType {
+  lyricsStyle: LyricsStyle; showLyrics: boolean; setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
+  enableAnalysis: boolean; setEnableAnalysis: (b: boolean) => void;
+  isIdentifying: boolean;
+  performIdentification: (s: MediaStream) => Promise<void>;
+  resetAiSettings: () => void; 
+}
+const AIContext = createContext<AIContextType | null>(null);
+export const useAI = () => useContext(AIContext)!;
+
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [toast, setToast] = useState({ message: null as string | null, type: 'info' as any, duration: 3000, position: 'bottom' as 'top' | 'bottom' });
+  
+  const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' = 'info', duration = 3000, position: 'top' | 'bottom' = 'bottom') => 
+    setToast({ message, type, duration, position }), []);
+
+  const hideToast = useCallback(() => {
+    setToast(prev => ({ ...prev, message: null }));
+  }, []);
+  
+  const uiState = useAppState();
+  const visualsState = useVisualsState(uiState.hasStarted, {} as any);
+  const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
+  const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
+  
+  const aiState = useAiState({
+    language: uiState.language,
+    region: uiState.region,
+    provider: visualsState.settings.recognitionProvider || 'GEMINI',
+    isListening: audioState.isListening,
+    isSimulating: visualsState.settings.recognitionProvider === 'MOCK',
+    mediaStream: audioState.mediaStream,
+    initialSettings: visualsState.settings,
+    setSettings: visualsState.setSettings,
+    onSongIdentified: setCurrentSong,
+    currentSong: currentSong,
+    getAudioSlice: audioState.getAudioSlice,
+    t: uiState.t,
+    showToast,
   });
-  const [isIdle, setIsIdle] = useState(false);
 
-  // 当引导状态改变时，持久化到本地存储
-  useEffect(() => {
-    localStorage.setItem('av_v1_onboarded', onboarded.toString());
-  }, [onboarded]);
+  const toggleFullscreen = useCallback(() => {
+    if (typeof document !== 'undefined') {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+        }
+    }
+  }, []);
 
-  const ui: UIState = {
-    isExpanded,
-    onboarded,
-    isIdle,
-    setIsExpanded,
-    setOnboarded,
-    setIsIdle,
-  };
+  const fileStatus = audioState.playlist.length > 0 ? 'ready' as const : 'none' as const;
+  const fileName = audioState.playlist[audioState.currentIndex]?.file.name;
 
-  const value: AppContextType = {
-    ui,
-    // 其他状态...
-  };
+  const isThreeMode = useMemo(() => {
+    return [
+      VisualizerMode.DIGITAL_GRID, VisualizerMode.SILK_WAVE,
+      VisualizerMode.OCEAN_WAVE, VisualizerMode.NEURAL_FLOW,
+      VisualizerMode.CUBE_FIELD, VisualizerMode.KINETIC_WALL,
+      VisualizerMode.VORTEX, VisualizerMode.LASERS
+    ].includes(visualsState.mode);
+  }, [visualsState.mode]);
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-}
+  const uiContextValue: UIContextType = useMemo(() => ({
+    ...uiState,
+    toggleFullscreen,
+    showToast
+  }), [uiState, toggleFullscreen, showToast]);
+  
+  const visualsContextValue = useMemo(() => ({ ...visualsState, isThreeMode }), [visualsState, isThreeMode]);
+  const audioContextValue = useMemo(() => ({ ...audioState, currentSong, setCurrentSong, fileStatus, fileName }), [audioState, currentSong, fileStatus, fileName]);
+  const aiContextValue = useMemo(() => aiState, [aiState]);
 
-// 自定义钩子
-export function useUI() {
-  const context = useContext(AppContext);
-  if (!context) {
-    throw new Error('useUI must be used within an AppProvider');
-  }
-  return context.ui;
-}
-
-// 其他自定义钩子...
+  return (
+    <UIContext.Provider value={uiContextValue}>
+      <VisualsContext.Provider value={visualsContextValue}>
+        <AudioContext.Provider value={audioContextValue}>
+          <AIContext.Provider value={aiContextValue}>
+            {children}
+            <Toast 
+              message={toast.message} 
+              type={toast.type} 
+              duration={toast.duration}
+              position={toast.position}
+              onClose={hideToast} 
+            />
+          </AIContext.Provider>
+        </AudioContext.Provider>
+      </VisualsContext.Provider>
+    </UIContext.Provider>
+  );
+};
 ```
 
 ## 3. 核心常量
@@ -193,7 +397,7 @@ export function useUI() {
 
 **内容:**
 ```typescript
-export const APP_VERSION = '2.0.6';
+export const APP_VERSION = 'v2.0.6';
 ```
 
 ### 3.2 通用常量 (index.ts)
@@ -208,46 +412,67 @@ export const APP_VERSION = '2.0.6';
 
 **代码示例:**
 ```typescript
-// 视觉模式定义
-export enum VisualizerMode {
-  BARS = 'BARS',
-  WAVEFORM = 'WAVEFORM',
-  RINGS = 'RINGS',
-  PLASMA = 'PLASMA',
-  NEBULA = 'NEBULA',
-  TUNNEL = 'TUNNEL',
-  FLUID_CURVES = 'FLUID_CURVES',
-  PARTICLES = 'PARTICLES',
-}
+// File: src/constants/index.ts | Version: v2.0.6
+import { VisualizerMode } from '../types';
 
-// 颜色主题
-export const COLOR_THEMES = {
-  default: {
-    primary: '#6366f1',
-    secondary: '#8b5cf6',
-    accent: '#ec4899',
-    background: '#0f172a',
-    text: '#f8fafc',
+export const APP_NAME = 'Aura Flux';
+export const VERSION = '2.0.6';
+export const APP_VERSION = VERSION;
+
+export const FONTS = [
+  'Inter',
+  'JetBrains Mono',
+  'Space Grotesk',
+  'Outfit',
+  'Playfair Display',
+  'Cormorant Garamond',
+  'Anton',
+  'Montserrat'
+];
+
+export const THEMES = {
+  DARK: 'dark',
+  LIGHT: 'light'
+};
+
+export const getPositionOptions = (t: any) => [
+  { value: 'top', label: t?.positions?.top || 'Top' },
+  { value: 'center', label: t?.positions?.center || 'Center' },
+  { value: 'bottom', label: t?.positions?.bottom || 'Bottom' }
+];
+
+export const getFontOptions = () => FONTS.map(font => ({ value: font, label: font }));
+
+export const COLOR_THEMES = [
+  { id: 'neon', name: 'Neon', colors: ['#ff00ff', '#00ffff', '#00ff00'] },
+  { id: 'sunset', name: 'Sunset', colors: ['#ff4e50', '#f9d423', '#ff9a9e'] },
+  { id: 'ocean', name: 'Ocean', colors: ['#2193b0', '#6dd5ed', '#000046'] },
+  { id: 'forest', name: 'Forest', colors: ['#11998e', '#38ef7d', '#000000'] },
+  { id: 'cyber', name: 'Cyber', colors: ['#00ffcc', '#ff0066', '#333399'] },
+  { id: 'monochrome', name: 'Monochrome', colors: ['#ffffff', '#888888', '#000000'] }
+];
+
+export const SMART_PRESETS = [
+  {
+    name: 'Cyber Grid',
+    nameKey: 'cyberpunk',
+    mode: VisualizerMode.DIGITAL_GRID,
+    colors: ['#00ffcc', '#ff0066', '#333399'],
+    settings: { sensitivity: 1.2 }
   },
-  // 其他主题...
-};
-
-// 音频分析参数
-export const AUDIO_ANALYSIS = {
-  fftSize: 2048,
-  smoothingTimeConstant: 0.8,
-  minDecibels: -90,
-  maxDecibels: -10,
-};
-
-// UI 配置选项
-export const UI_CONFIG = {
-  idleTimeout: 30000, // 30秒
-  animationDuration: 300,
-  responsiveBreakpoints: {
-    mobile: 640,
-    tablet: 768,
-    desktop: 1024,
+  {
+    name: 'Deep Ocean',
+    nameKey: 'ambient',
+    mode: VisualizerMode.OCEAN_WAVE,
+    colors: ['#2193b0', '#6dd5ed', '#000046'],
+    settings: { sensitivity: 0.3 }
   },
-};
+  {
+    name: 'Neon Vortex',
+    nameKey: 'galaxy',
+    mode: VisualizerMode.VORTEX,
+    colors: ['#ff00ff', '#00ffff', '#00ff00'],
+    settings: { sensitivity: 1.5 }
+  }
+];
 ```

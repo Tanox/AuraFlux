@@ -231,13 +231,20 @@
 
 **返回值**:
 ```typescript
-interface UIState {
-  isExpanded: boolean;            // 控制界面展开状态
-  onboarded: boolean;             // 引导完成状态
-  isIdle: boolean;                // 空闲状态
-  setIsExpanded: (expanded: boolean) => void; // 设置展开状态
-  setOnboarded: (onboarded: boolean) => void; // 设置引导状态
-  setIsIdle: (idle: boolean) => void;       // 设置空闲状态
+interface UIContextType {
+  language: Language; setLanguage: React.Dispatch<React.SetStateAction<Language>>;
+  region: Region; setRegion: React.Dispatch<React.SetStateAction<Region>>;
+  hasStarted: boolean; setHasStarted: React.Dispatch<React.SetStateAction<boolean>>;
+  resetSettings: () => void;
+  manageWakeLock: (enabled: boolean) => Promise<void>;
+  toggleFullscreen: () => void; t: TranslationSchema;
+  showToast: (message: string, type?: 'success' | 'info' | 'error', duration?: number, position?: 'top' | 'bottom') => void;
+  showHelpModal: boolean;
+  setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;
+  helpModalInitialTab: HelpTab;
+  setHelpModalInitialTab: React.Dispatch<React.SetStateAction<HelpTab>>;
+  isDragging: boolean;
+  setIsDragging: React.Dispatch<React.SetStateAction<boolean>>;
 }
 ```
 
@@ -248,15 +255,15 @@ interface UIState {
 
 **返回值**:
 ```typescript
-interface VisualState {
-  mode: string;                   // 当前视觉模式
-  theme: string;                  // 当前主题
-  sensitivity: number;            // 灵敏度
-  speed: number;                  // 速度
-  setMode: (mode: string) => void; // 设置视觉模式
-  setTheme: (theme: string) => void; // 设置主题
-  setSensitivity: (sensitivity: number) => void; // 设置灵敏度
-  setSpeed: (speed: number) => void; // 设置速度
+interface VisualsContextType {
+  mode: VisualizerMode; setMode: React.Dispatch<React.SetStateAction<VisualizerMode>>;
+  colorTheme: string[]; setColorTheme: React.Dispatch<React.SetStateAction<string[]>>;
+  settings: VisualizerSettings; setSettings: React.Dispatch<React.SetStateAction<VisualizerSettings>>;
+  activePreset: string; setActivePreset: React.Dispatch<React.SetStateAction<string>>;
+  isThreeMode: boolean;
+  randomizeSettings: () => void; resetVisualSettings: () => void;
+  resetTextSettings: () => void; resetAudioSettings: () => void;
+  applyPreset: (preset: SmartPreset) => void;
 }
 ```
 
@@ -267,15 +274,26 @@ interface VisualState {
 
 **返回值**:
 ```typescript
-interface AudioState {
-  sourceType: 'microphone' | 'file' | 'url'; // 音频源类型
-  isListening: boolean;           // 麦克风监听状态
-  isPlaying: boolean;             // 播放状态
-  volume: number;                 // 音量
-  setSourceType: (type: 'microphone' | 'file' | 'url') => void; // 设置音频源类型
-  setIsListening: (listening: boolean) => void; // 设置监听状态
-  setIsPlaying: (playing: boolean) => void; // 设置播放状态
-  setVolume: (volume: number) => void; // 设置音量
+interface AudioContextType {
+  sourceType: AudioSourceType; isListening: boolean; isPending: boolean;
+  analyser: AnalyserNode | null; analyserR: AnalyserNode | null;
+  mediaStream: MediaStream | null; audioDevices: AudioDevice[];
+  selectedDeviceId: string; onDeviceChange: (id: string) => void;
+  toggleMicrophone: (id: string) => void;
+  currentSong: SongInfo | null; setCurrentSong: (s: SongInfo | null) => void;
+  playlist: Track[]; currentIndex: number; playbackMode: PlaybackMode;
+  setPlaybackMode: (m: PlaybackMode) => void;
+  importFiles: (files: FileList | File[]) => Promise<any>;
+  importFromUrl: (url: string) => Promise<Track>;
+  importPlaylistFromUrl: (url: string) => Promise<Track[]>;
+  togglePlayback: () => void; seekFile: (t: number) => void;
+  playNext: () => void; playPrev: () => void;
+  playTrackByIndex: (i: number) => void; removeFromPlaylist: (i: number) => void;
+  clearPlaylist: () => void; getAudioSlice: (s?: number) => Promise<Blob | null>;
+  isPlaying: boolean; duration: number; currentTime: number;
+  fileStatus?: 'ready' | 'loading' | 'none';
+  fileName?: string;
+  audioContext: AudioContext | null;
 }
 ```
 
@@ -286,15 +304,12 @@ interface AudioState {
 
 **返回值**:
 ```typescript
-interface AIState {
-  isProcessing: boolean;          // AI 处理状态
-  showLyrics: boolean;            // 歌词显示状态
-  currentSong: SongInfo | null;   // 当前歌曲信息
-  aiGeneratedBackground: string | null; // AI 生成的背景
-  setIsProcessing: (processing: boolean) => void; // 设置处理状态
-  setShowLyrics: (show: boolean) => void; // 设置歌词显示状态
-  setCurrentSong: (song: SongInfo | null) => void; // 设置当前歌曲
-  setAiGeneratedBackground: (background: string | null) => void; // 设置 AI 背景
+interface AIContextType {
+  lyricsStyle: LyricsStyle; showLyrics: boolean; setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
+  enableAnalysis: boolean; setEnableAnalysis: (b: boolean) => void;
+  isIdentifying: boolean;
+  performIdentification: (s: MediaStream) => Promise<void>;
+  resetAiSettings: () => void; 
 }
 ```
 
@@ -370,16 +385,20 @@ import { useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext'
 
 function ControlsPanel() {
   // 使用 UI 状态
-  const { isExpanded, setIsExpanded } = useUI();
+  const ui = useUI();
+  const { isDragging, setIsDragging, showToast, toggleFullscreen } = ui;
   
   // 使用视觉状态
-  const { mode, setMode, sensitivity, setSensitivity } = useVisuals();
+  const visuals = useVisuals();
+  const { mode, setMode, colorTheme, setColorTheme, settings, setSettings, isThreeMode } = visuals;
   
   // 使用音频状态
-  const { sourceType, setSourceType, isListening, setIsListening } = useAudioContext();
+  const audio = useAudioContext();
+  const { sourceType, isListening, currentSong, playlist, togglePlayback, playNext, playPrev } = audio;
   
   // 使用 AI 状态
-  const { isProcessing, currentSong, showLyrics, setShowLyrics } = useAI();
+  const ai = useAI();
+  const { showLyrics, setShowLyrics, isIdentifying, performIdentification } = ai;
   
   return (
     <div className="controls-panel">
