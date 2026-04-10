@@ -11,7 +11,7 @@ import { Points, Color, AdditiveBlending, ShaderMaterial } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { vortexVertexShader, vortexFragmentShader } from './shaders/VortexShaders';
-import { SceneBackground } from '../../ui/SceneBackground';
+import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
 

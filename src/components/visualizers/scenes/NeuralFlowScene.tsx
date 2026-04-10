@@ -11,7 +11,7 @@ import { Color, AdditiveBlending, ShaderMaterial } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from './shaders/NeuralFlowShaders';
-import { SceneBackground } from '../../ui/SceneBackground';
+import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
 

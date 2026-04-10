@@ -12,7 +12,7 @@ import { InstancedMesh, ShaderMaterial, Color, AdditiveBlending, MathUtils, Doub
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { silkWaveVertexShader, silkWaveFragmentShader } from './shaders/SilkWaveShaders';
-import { SceneBackground } from '../../ui/SceneBackground';
+import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;
