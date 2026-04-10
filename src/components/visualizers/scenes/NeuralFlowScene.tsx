@@ -16,7 +16,7 @@ import { SceneBackground } from '../../ui/SceneBackground';
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
 
 export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
-  const pointsRef = useRef<Points>(null);
+  const pointsRef = useRef<any>(null);
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const [c0, c1] = smoothedColors;
   
