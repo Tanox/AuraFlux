@@ -1,4 +1,4 @@
-// File: src/locales/pt.ts | Version: v2.0.3
+// File: src\locales\pt.ts | Version: v2.0.6
 import { common } from './pt/common';
 import { onboarding } from './pt/onboarding';
 import { panels } from './pt/panels';
@@ -18,3 +18,4 @@ export const pt = {
   ...messages,
   helpModal,
 };
+

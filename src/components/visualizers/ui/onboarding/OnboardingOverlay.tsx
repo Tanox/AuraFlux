@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/ui/onboarding/OnboardingOverlay.tsx | Version: v1.9.80
+// File: src\components\visualizers\ui\onboarding\OnboardingOverlay.tsx | Version: v2.0.6
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '@/types';
@@ -17,7 +17,7 @@ export const OnboardingOverlay: React.FC<Props> = ({ language, setLanguage, onCo
     {
       title: 'Welcome to Aura Flux',
       description: 'Experience your music like never before with AI-powered 3D visualizations.',
-      icon: 'âœ¨'
+      icon: 'âœ?
     },
     {
       title: 'Interactive Controls',
@@ -79,3 +79,4 @@ export const OnboardingOverlay: React.FC<Props> = ({ language, setLanguage, onCo
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-// File: src/hooks/useAudio.ts | Version: v2.0.6
+// File: src\hooks\useAudio.ts | Version: v2.0.6
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -122,3 +122,4 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
     audioContext: audioContextRef.current
   }), [sourceType, isListening, isPending, analyser, analyserR, mediaStream, audioDevices, selectedDeviceId, setSelectedDeviceId, toggleMicrophone, playlist, currentIndex, playbackMode, setPlaybackMode, importFiles, togglePlayback, seekFile, playNext, playPrev, playTrackByIndex, removeFromPlaylist, clearPlaylist, getAudioSlice, isPlaying, duration, currentTime]);
 };
+

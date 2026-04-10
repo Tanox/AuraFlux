@@ -1,4 +1,4 @@
-// File: src/components/visualizers/modes/ParticlesMode.ts | Version: v2.0.5
+// File: src\components\visualizers\modes\ParticlesMode.ts | Version: v2.0.6
 
 interface ParticlesModeProps {
   ctx: CanvasRenderingContext2D;
@@ -43,3 +43,4 @@ export const renderParticlesMode = ({
   }
   ctx.globalCompositeOperation = 'source-over';
 };
+

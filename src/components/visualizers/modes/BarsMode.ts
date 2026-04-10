@@ -1,4 +1,4 @@
-// File: src/components/visualizers/modes/BarsMode.ts | Version: v2.0.5
+// File: src\components\visualizers\modes\BarsMode.ts | Version: v2.0.6
 
 interface BarsModeProps {
   ctx: CanvasRenderingContext2D;
@@ -49,3 +49,4 @@ export const renderBarsMode = ({
     x += barWidth + 1;
   }
 };
+

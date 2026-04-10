@@ -1,4 +1,4 @@
-// File: src/components/visualizers/modes/PlasmaMode.ts | Version: v2.0.5
+// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.0.6
 
 interface PlasmaModeProps {
   ctx: CanvasRenderingContext2D;
@@ -44,11 +44,9 @@ export const renderPlasmaMode = ({
     const x = centerX + Math.cos(angle) * distance;
     const y = centerY + Math.sin(angle) * distance;
     
-    // 粒子大小基于音频值
-    const radius = 2 + val * 10 * sensitivity;
+    // 粒子大小基于音频�?    const radius = 2 + val * 10 * sensitivity;
     
-    // 创建径向渐变，增强发光效果
-    const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);
+    // 创建径向渐变，增强发光效�?    const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);
     gradient.addColorStop(0, colors[i % colors.length]);
     gradient.addColorStop(0.5, colors[(i + 1) % colors.length]);
     gradient.addColorStop(1, 'transparent');
@@ -60,3 +58,4 @@ export const renderPlasmaMode = ({
   }
   ctx.globalCompositeOperation = 'source-over';
 };
+

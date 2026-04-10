@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/controls/SegmentedControl.tsx | Version: v1.9.80
+// File: src\components\visualizers\ui\controls\SegmentedControl.tsx | Version: v2.0.6
 import React from 'react';
 import { motion } from 'motion/react';
 
@@ -41,3 +41,4 @@ export const SegmentedControl: React.FC<Props> = ({ options, value, onChange, cl
     </div>
   );
 };
+

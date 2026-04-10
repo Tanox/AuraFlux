@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/controls/BottomBar.tsx | Version: v2.0.5
+// File: src\components\controls\BottomBar.tsx | Version: v2.0.6
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudioContext, useUI, useVisuals } from '@/context/AppContext';
@@ -34,7 +34,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
 
   const handleAppShare = async () => {
       const shareTitle = t?.share?.appTitle || "Aura Flux - AI Music Visualizer";
-      const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵✨";
+      const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵�?;
       const url = window.location.href;
       const shareData = { title: shareTitle, text: shareText, url };
 
@@ -112,3 +112,4 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
     </>
   );
 };
+

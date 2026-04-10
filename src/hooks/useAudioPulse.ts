@@ -1,4 +1,4 @@
-// File: src/hooks/useAudioPulse.ts | Version: v1.9.80
+// File: src\hooks\useAudioPulse.ts | Version: v2.0.6
 import { useEffect, useRef } from 'react';
 
 interface AudioPulseProps {
@@ -75,3 +75,4 @@ export const useAudioPulse = ({
     };
   }, [analyser, isEnabled, pulseStrength, opacityStrength, baseOpacity, settings, elementRef]);
 };
+

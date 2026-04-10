@@ -1,4 +1,4 @@
-// File: src/hooks/useVersionCheck.ts | Version: v1.9.82
+// File: src\hooks\useVersionCheck.ts | Version: v2.0.6
 import { useEffect } from 'react';
 
 const normalizeVersion = (v: string) => v.replace(/^v/, '');
@@ -37,3 +37,4 @@ export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: s
     return () => clearInterval(interval);
   }, [currentVersion, onUpdate]);
 };
+

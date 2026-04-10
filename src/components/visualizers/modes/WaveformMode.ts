@@ -1,4 +1,4 @@
-// File: src/components/visualizers/modes/WaveformMode.ts | Version: v2.0.5
+// File: src\components\visualizers\modes\WaveformMode.ts | Version: v2.0.6
 
 interface WaveformModeProps {
   ctx: CanvasRenderingContext2D;
@@ -48,3 +48,4 @@ export const renderWaveformMode = ({
   }
   ctx.shadowBlur = 0; // Reset for other drawings
 };
+

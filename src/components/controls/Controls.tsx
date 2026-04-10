@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/controls/Controls.tsx | Version: v2.0.5
+// File: src\components\controls\Controls.tsx | Version: v2.0.6
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';

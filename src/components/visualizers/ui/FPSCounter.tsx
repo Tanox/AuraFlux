@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/ui/FPSCounter.tsx | Version: v1.9.80
+// File: src\components\visualizers\ui\FPSCounter.tsx | Version: v2.0.6
 import React, { useState, useEffect } from 'react';
 
 export const FPSCounter: React.FC = () => {
@@ -30,3 +30,4 @@ export const FPSCounter: React.FC = () => {
     </div>
   );
 };
+

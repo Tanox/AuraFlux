@@ -1,4 +1,4 @@
-// File: src/services/audioUtils.ts | Version: v1.9.80
+// File: src\services\audioUtils.ts | Version: v2.0.6
 
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
   const startIndex = start || 0;
@@ -90,3 +90,4 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 
   return new Blob([view], { type: 'audio/wav' });
 }
+

@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/controls/panels/playback/PlaylistManager.tsx | Version: v2.0.5
+// File: src\components\controls\panels\playback\PlaylistManager.tsx | Version: v2.0.6
 
 import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';
@@ -119,3 +119,4 @@ export const PlaylistManager: React.FC = () => {
     </BentoCard>
   );
 };
+

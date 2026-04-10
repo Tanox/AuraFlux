@@ -1,4 +1,4 @@
-// File: src/hooks/useAppState.ts | Version: v2.0.6
+// File: src\hooks\useAppState.ts | Version: v2.0.6
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
 import { TRANSLATIONS } from '../locales';
@@ -74,3 +74,4 @@ export const useAppState = () => {
     manageWakeLock
   }), [language, setLanguage, region, setRegion, hasStarted, setHasStarted, showHelpModal, setShowHelpModal, helpModalInitialTab, setHelpModalInitialTab, isDragging, setIsDragging, t, resetSettings, manageWakeLock]);
 };
+

@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/ui/Toast.tsx | Version: v1.9.93
+// File: src\components\visualizers\ui\Toast.tsx | Version: v2.0.6
 import React, { useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
@@ -55,3 +55,4 @@ export const Toast: React.FC<Props> = memo(({ message, type = 'info', onClose, d
 });
 
 Toast.displayName = 'Toast';
+

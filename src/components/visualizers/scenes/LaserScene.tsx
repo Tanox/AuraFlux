@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/scenes/LaserScene.tsx | Version: v2.0.1
+// File: src\components\visualizers\scenes\LaserScene.tsx | Version: v2.0.6
 // Author: Sut
 
 import React, { useRef, useMemo } from 'react';
@@ -83,28 +83,31 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; se
   });
 
   return (
-    <group name="laser-scene">
+    <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshBasicMaterial 
-          transparent 
-          opacity={0.8} 
-          blending={AdditiveBlending}
-          depthWrite={false}
-        />
-      </instancedMesh>
-      
-      {/* Central glow */}
-      <mesh>
-        <sphereGeometry args={[2, 32, 32]} />
-        <meshBasicMaterial 
-          color={smoothedColors[0] || '#ffffff'} 
-          transparent 
-          opacity={0.2 * volume} 
-          blending={AdditiveBlending}
-        />
-      </mesh>
-    </group>
+      <group name="laser-scene">
+        <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+          <boxGeometry args={[1, 1, 1]} />
+          <meshBasicMaterial 
+            transparent 
+            opacity={0.8} 
+            blending={AdditiveBlending}
+            depthWrite={false}
+          />
+        </instancedMesh>
+        
+        {/* Central glow */}
+        <mesh>
+          <sphereGeometry args={[2, 32, 32]} />
+          <meshBasicMaterial 
+            color={smoothedColors[0] || '#ffffff'} 
+            transparent 
+            opacity={0.2 * volume} 
+            blending={AdditiveBlending}
+          />
+        </mesh>
+      </group>
+    </>
   );
 };
+

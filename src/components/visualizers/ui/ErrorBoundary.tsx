@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/ErrorBoundary.tsx | Version: v1.9.82
+// File: src\components\visualizers\ui\ErrorBoundary.tsx | Version: v2.0.6
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
@@ -52,3 +52,4 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+

@@ -8,9 +8,9 @@
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, PointLight } from 'three';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
-import { SceneBackground } from '../../ui/SceneBackground';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;
@@ -109,21 +109,21 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#050505" />
       
-      <AmbientLight intensity={0.2} />
-      <DirectionalLight position={[10, 10, 20]} intensity={1} color={c2} />
-      <PointLight position={[0, 0, 10]} intensity={2 + features.bass * 5} color={c0} distance={50} />
+      <ambientLight intensity={0.2} />
+      <directionalLight position={[10, 10, 20]} intensity={1} color={c2} />
+      <pointLight position={[0, 0, 10]} intensity={2 + features.bass * 5} color={c0} distance={50} />
       
-      <InstancedMesh 
+      <instancedMesh 
         ref={meshRef} 
         args={[undefined, undefined, COUNT]} 
         position={[0, 0, -20]}
       >
-        <BoxGeometry args={[3, 3, 3]} />
-        <MeshStandardMaterial 
+        <boxGeometry args={[3, 3, 3]} />
+        <meshStandardMaterial 
           roughness={0.2} 
           metalness={0.8} 
         />
-      </InstancedMesh>
+      </instancedMesh>
     </>
   );
 };

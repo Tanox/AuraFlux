@@ -1,4 +1,4 @@
-// File: src/constants/index.ts | Version: v2.0.6
+// File: src\constants\index.ts | Version: v2.0.6
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';
@@ -61,3 +61,4 @@ export const SMART_PRESETS = [
     settings: { sensitivity: 1.5 }
   }
 ];
+

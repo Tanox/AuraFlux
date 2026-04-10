@@ -1,4 +1,4 @@
-// File: src/components/controls/panels/PlaybackPanel.tsx | Version: v1.9.86
+// File: src\components\controls\panels\PlaybackPanel.tsx | Version: v2.0.6
 import React from 'react';
 import { NowPlaying } from './playback/NowPlaying';
 import { PlaylistManager } from './playback/PlaylistManager';
@@ -17,3 +17,4 @@ export const PlaybackPanel: React.FC = () => {
     </div>
   );
 };
+

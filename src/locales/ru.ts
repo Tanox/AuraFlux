@@ -1,4 +1,4 @@
-// File: src/locales/ru.ts | Version: v2.0.3
+// File: src\locales\ru.ts | Version: v2.0.6
 import { common } from './ru/common';
 import { onboarding } from './ru/onboarding';
 import { panels } from './ru/panels';
@@ -18,3 +18,4 @@ export const ru = {
   ...messages,
   helpModal,
 };
+

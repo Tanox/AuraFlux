@@ -1,4 +1,4 @@
-// File: src/hooks/useAudioReactive.ts | Version: v1.9.80
+// File: src\hooks\useAudioReactive.ts | Version: v2.0.6
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color } from 'three';
@@ -71,3 +71,4 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: Prop
     smoothedColors
   };
 };
+

@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/SongOverlay.tsx | Version: v1.9.80
+// File: src\components\visualizers\ui\SongOverlay.tsx | Version: v2.0.6
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { SongInfo } from '@/types';
@@ -42,10 +42,11 @@ const SongOverlay: React.FC<Props> = ({ song, isVisible, onClose }) => {
           <p className="text-gray-400 text-sm truncate">{song.artist}</p>
           {song.album && <p className="text-gray-500 text-xs truncate">{song.album}</p>}
         </div>
-        <button onClick={onClose} className="text-white/40 hover:text-white p-2">âœ•</button>
+        <button onClick={onClose} className="text-white/40 hover:text-white p-2">âœ?/button>
       </motion.div>
     </AnimatePresence>
   );
 };
 
 export default SongOverlay;
+

@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.0.5
+// File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.0.6
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderBarsMode } from './modes/BarsMode';
@@ -32,8 +32,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const dataArray = new Uint8Array(bufferLength);
     const peaks = new Float32Array(bufferLength);
 
-    // 初始化星星数据
-    const initStars = (width: number, height: number) => {
+    // 初始化星星数�?    const initStars = (width: number, height: number) => {
       if (mode === VisualizerMode.STARFIELD) {
         starsRef.current = [];
         const starCount = 200;
@@ -50,8 +49,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       }
     };
 
-    // 初始初始化
-    const width = canvas.width;
+    // 初始初始�?    const width = canvas.width;
     const height = canvas.height;
     initStars(width, height);
 
@@ -153,3 +151,4 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
 };
 
 export default VisualizerCanvas;
+

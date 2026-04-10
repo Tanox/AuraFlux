@@ -1,4 +1,4 @@
-// File: src/hooks/useVideoRecorder.ts | Version: v1.9.80
+// File: src\hooks\useVideoRecorder.ts | Version: v2.0.6
 import { useState, useCallback, useRef } from 'react';
 
 export const useVideoRecorder = (props: any = {}) => {
@@ -93,3 +93,4 @@ export const useVideoRecorder = (props: any = {}) => {
     getSupportedMimeTypes
   };
 };
+

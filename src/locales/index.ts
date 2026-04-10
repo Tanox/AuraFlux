@@ -1,4 +1,4 @@
-// File: src/locales/index.ts | Version: v1.9.85
+// File: src\locales\index.ts | Version: v2.0.6
 import { en } from './en';
 import { zh } from './zh';
 import { tw } from './tw';
@@ -28,3 +28,4 @@ export const TRANSLATIONS: Record<string, any> = {
 };
 
 export type TranslationSchema = typeof en;
+

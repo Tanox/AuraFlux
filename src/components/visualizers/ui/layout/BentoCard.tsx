@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/layout/BentoCard.tsx | Version: v1.9.80
+// File: src\components\visualizers\ui\layout\BentoCard.tsx | Version: v2.0.6
 import React from 'react';
 
 interface Props {
@@ -31,3 +31,4 @@ export const BentoCard: React.FC<Props> = ({ children, title, className = '', id
     </div>
   );
 };
+

@@ -1,4 +1,4 @@
-// File: src/components/controls/panels/AudioSettingsPanel.tsx | Version: v1.9.86
+// File: src\components\controls\panels\AudioSettingsPanel.tsx | Version: v2.0.6
 import React from 'react';
 import { InputSettings } from './audio/InputSettings';
 import { AiSettings } from './audio/AiSettings';
@@ -15,3 +15,4 @@ export const AudioSettingsPanel: React.FC = () => {
     </div>
   );
 };
+

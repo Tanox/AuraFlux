@@ -1,4 +1,4 @@
-// File: src/types/index.ts | Version: v2.0.6
+// File: src\types\index.ts | Version: v2.0.6
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
@@ -79,3 +79,4 @@ export enum PlaybackMode {
 }
 
 export type Position = 'top' | 'center' | 'bottom';
+

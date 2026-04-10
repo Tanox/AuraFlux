@@ -1,4 +1,4 @@
-// File: src/hooks/useIdleTimer.ts | Version: v1.9.80
+// File: src\hooks\useIdleTimer.ts | Version: v2.0.6
 import { useState, useEffect } from 'react';
 
 export const useIdleTimer = (isExpanded: boolean, autoHide: boolean = true) => {
@@ -38,3 +38,4 @@ export const useIdleTimer = (isExpanded: boolean, autoHide: boolean = true) => {
 
   return { isIdle };
 };
+

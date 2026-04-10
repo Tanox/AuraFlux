@@ -1,4 +1,4 @@
-// File: src/hooks/useVisualsState.ts | Version: v2.0.6
+// File: src\hooks\useVisualsState.ts | Version: v2.0.6
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
@@ -70,3 +70,4 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
     applyPreset
   }), [mode, setMode, colorTheme, setColorTheme, settings, setSettings, activePreset, setActivePreset, randomizeSettings, resetVisualSettings, resetTextSettings, resetAudioSettings, applyPreset]);
 };
+

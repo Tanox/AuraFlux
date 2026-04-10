@@ -1,4 +1,4 @@
-// File: src/hooks/useAiState.ts | Version: v2.0.6
+// File: src\hooks\useAiState.ts | Version: v2.0.6
 import { useState, useCallback, useMemo } from 'react';
 import { LyricsStyle, SongInfo } from '../types';
 
@@ -54,3 +54,4 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
     resetAiSettings
   }), [lyricsStyle, showLyrics, setShowLyrics, enableAnalysis, setEnableAnalysis, isIdentifying, performIdentification, resetAiSettings]);
 };
+

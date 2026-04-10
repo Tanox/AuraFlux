@@ -1,4 +1,4 @@
-// File: app/components/controls/panels/SystemSettingsPanel.tsx | Version: v1.10.3
+// File: src\components\controls\panels\SystemSettingsPanel.tsx | Version: v2.0.6
 import React from 'react';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
 import { useVisuals, useUI } from '@/context/AppContext';
@@ -9,8 +9,8 @@ import { Language } from '../../../types/index';
 import { PresetManager } from './system/PresetManager';
 
 const LANGUAGES: { value: Language; label: string }[] = [
-  { value: 'en', label: 'English' }, { value: 'zh', label: '简体中文' }, { value: 'zh-TW', label: '繁體中文' },
-  { value: 'ja', label: '日本語' }, { value: 'es', label: 'Español' }, { value: 'ko', label: '한국어' },
+  { value: 'en', label: 'English' }, { value: 'zh', label: '简体中�? }, { value: 'zh-TW', label: '繁體中文' },
+  { value: 'ja', label: '日本�? }, { value: 'es', label: 'Español' }, { value: 'ko', label: '한국�? },
   { value: 'de', label: 'Deutsch' }, { value: 'fr', label: 'Français' }, { value: 'ru', label: 'Русский' },
   { value: 'ar', label: 'العربية' }, { value: 'pt', label: 'Português' }, { value: 'pt-BR', label: 'Português (Brasil)' }
 ];

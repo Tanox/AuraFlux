@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ui/CustomTextOverlay.tsx | Version: v1.9.80
+// File: src\components\visualizers\ui\CustomTextOverlay.tsx | Version: v2.0.6
 import React from 'react';
 import { VisualizerSettings, SongInfo } from '@/types';
 
@@ -28,3 +28,4 @@ const CustomTextOverlay: React.FC<Props> = ({ settings }) => {
 };
 
 export default CustomTextOverlay;
+

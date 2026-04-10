@@ -1,4 +1,4 @@
-// File: src/locales/tw.ts | Version: v1.9.85
+// File: src\locales\tw.ts | Version: v2.0.6
 import { common } from './tw/common';
 import { onboarding } from './tw/onboarding';
 import { panels } from './tw/panels';
@@ -10,7 +10,7 @@ export const tw = {
   common,
   appVersion: "v2.0.6",
   appTitle: "Aura Flux",
-  welcomeSubtitle: "閫氭劅鏅鸿兘寮曟搸",
+  welcomeSubtitle: "閫氭劅鏅鸿兘寮曟�?,
   startExperience: "鍟熷嫊绯荤当",
   onboarding,
   ...settings,
@@ -18,3 +18,4 @@ export const tw = {
   ...messages,
   helpModal,
 };
+

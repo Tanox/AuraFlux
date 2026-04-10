@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/controls/PlaylistPopup.tsx | Version: v2.0.5
+// File: src\components\controls\PlaylistPopup.tsx | Version: v2.0.6
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useAudioContext, useUI } from '@/context/AppContext';
@@ -71,3 +71,4 @@ export const PlaylistPopup: React.FC<PlaylistPopupProps> = ({ showPlaylist, setS
     </div>
   );
 };
+

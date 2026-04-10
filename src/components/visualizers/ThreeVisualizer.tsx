@@ -1,4 +1,4 @@
-// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v2.0.2
+// File: src\components\visualizers\ThreeVisualizer.tsx | Version: v2.0.6
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
@@ -64,3 +64,4 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
 };
 
 export default ThreeVisualizer;
+
