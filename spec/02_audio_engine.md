@@ -175,7 +175,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 
 ### 2.1 音频工具 (audioUtils.ts)
 - **文件**: `src/services/audioUtils.ts`
-- **版本**: v1.9.80
+- **版本**: v2.0.6
 - **功能**: 提供音频处理工具函数
 
 **主要功能:**
@@ -290,6 +290,7 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 
 ### 3.1 useAudioReactive Hook
 - **文件**: `src/hooks/useAudioReactive.ts`
+- **版本**: v2.0.6
 - **功能**: 将音频数据转换为视觉响应
 
 **核心功能:**
@@ -298,11 +299,160 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 - 支持不同频率范围的分析
 - 提供平滑过渡效果
 
+**代码示例:**
+```tsx
+// useAudioReactive.ts 核心结构
+// File: src/hooks/useAudioReactive.ts | Version: v2.0.6
+import { useState, useEffect, useRef } from 'react';
+
+export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: number = 1.0) => {
+  const [audioData, setAudioData] = useState<Uint8Array | null>(null);
+  const [smoothedData, setSmoothedData] = useState<number[]>([]);
+  const [bass, setBass] = useState(0);
+  const [mid, setMid] = useState(0);
+  const [treble, setTreble] = useState(0);
+  const animationFrameRef = useRef<number>();
+
+  useEffect(() => {
+    if (!analyser) return;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    const smoothData = Array(bufferLength).fill(0);
+
+    const update = () => {
+      analyser.getByteFrequencyData(dataArray);
+      
+      // Calculate frequency ranges
+      const bassRange = Math.floor(bufferLength * 0.1);
+      const midRange = Math.floor(bufferLength * 0.3);
+      
+      let bassSum = 0;
+      let midSum = 0;
+      let trebleSum = 0;
+
+      for (let i = 0; i < bassRange; i++) {
+        bassSum += dataArray[i];
+      }
+      
+      for (let i = bassRange; i < midRange; i++) {
+        midSum += dataArray[i];
+      }
+      
+      for (let i = midRange; i < bufferLength; i++) {
+        trebleSum += dataArray[i];
+      }
+
+      // Smooth the data
+      for (let i = 0; i < bufferLength; i++) {
+        smoothData[i] = smoothData[i] * 0.8 + dataArray[i] * 0.2;
+      }
+
+      setAudioData(dataArray);
+      setSmoothedData(smoothData);
+      setBass((bassSum / bassRange) / 255 * sensitivity);
+      setMid((midSum / (midRange - bassRange)) / 255 * sensitivity);
+      setTreble((trebleSum / (bufferLength - midRange)) / 255 * sensitivity);
+
+      animationFrameRef.current = requestAnimationFrame(update);
+    };
+
+    update();
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [analyser, sensitivity]);
+
+  return {
+    audioData,
+    smoothedData,
+    bass,
+    mid,
+    treble
+  };
+};
+```
+
 ### 3.2 useAudioPulse Hook
 - **文件**: `src/hooks/useAudioPulse.ts`
+- **版本**: v2.0.6
 - **功能**: 检测音频脉冲和节拍
 
 **核心功能:**
 - 分析音频能量变化
 - 检测节拍和脉冲
 - 生成脉冲触发事件
+
+**代码示例:**
+```tsx
+// useAudioPulse.ts 核心结构
+// File: src/hooks/useAudioPulse.ts | Version: v2.0.6
+import { useState, useEffect, useRef, useCallback } from 'react';
+
+export const useAudioPulse = (analyser: AnalyserNode | null, threshold: number = 0.5) => {
+  const [isPulse, setIsPulse] = useState(false);
+  const [pulseStrength, setPulseStrength] = useState(0);
+  const energyRef = useRef(0);
+  const lastPulseRef = useRef(0);
+  const pulseCooldownRef = useRef(0);
+  const animationFrameRef = useRef<number>();
+
+  const resetPulse = useCallback(() => {
+    setIsPulse(false);
+  }, []);
+
+  useEffect(() => {
+    if (!analyser) return;
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    const update = () => {
+      analyser.getByteFrequencyData(dataArray);
+
+      // Calculate total energy
+      let totalEnergy = 0;
+      for (let i = 0; i < bufferLength; i++) {
+        totalEnergy += dataArray[i];
+      }
+      const averageEnergy = totalEnergy / bufferLength / 255;
+
+      // Calculate energy change
+      const energyChange = averageEnergy - energyRef.current;
+      energyRef.current = averageEnergy * 0.8 + energyRef.current * 0.2;
+
+      // Check for pulse
+      const now = Date.now();
+      if (pulseCooldownRef.current < now) {
+        if (energyChange > threshold) {
+          setIsPulse(true);
+          setPulseStrength(energyChange);
+          lastPulseRef.current = now;
+          pulseCooldownRef.current = now + 200; // 200ms cooldown
+
+          // Reset pulse after 100ms
+          setTimeout(resetPulse, 100);
+        }
+      }
+
+      animationFrameRef.current = requestAnimationFrame(update);
+    };
+
+    update();
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [analyser, threshold, resetPulse]);
+
+  return {
+    isPulse,
+    pulseStrength
+  };
+};
+```

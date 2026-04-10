@@ -92,7 +92,7 @@ export default nextConfig;
 **内容结构:**
 ```json
 {
-  "version": "2.0.5"
+  "version": "2.0.6"
 }
 ```
 
@@ -127,3 +127,47 @@ export default nextConfig;
 - 代码分割
 - 资源优化
 - 缓存策略
+
+## 6. 构建与部署流程
+
+### 6.1 构建命令
+- **开发构建**: `npm run build`
+- **生产构建**: `npm run build:prod`
+- **预览构建**: `npm run preview`
+
+### 6.2 部署平台
+- **Vercel** (推荐)
+- **Netlify**
+- **GitHub Pages**
+- **AWS Amplify**
+- **Firebase Hosting**
+
+### 6.3 CI/CD 配置
+- **GitHub Actions**: 自动构建和部署
+- **Vercel**: 自动部署
+- **Netlify**: 自动部署
+
+### 6.4 环境变量配置
+- **开发环境**: `.env.development`
+- **生产环境**: `.env.production`
+
+### 6.5 部署最佳实践
+- 使用 HTTPS
+- 启用 gzip/brotli 压缩
+- 配置正确的缓存策略
+- 使用 CDN 加速静态资源
+- 监控部署状态
+
+## 7. 故障排查
+
+### 7.1 常见部署问题
+- **API 密钥问题**: 确保 `NEXT_PUBLIC_GEMINI_API_KEY` 正确配置
+- **构建失败**: 检查依赖和 TypeScript 类型
+- **运行时错误**: 检查浏览器控制台错误信息
+- **性能问题**: 优化资源加载和代码分割
+
+### 7.2 调试技巧
+- 使用浏览器开发者工具
+- 检查网络请求
+- 查看构建日志
+- 测试不同浏览器和设备

@@ -4,7 +4,7 @@
 
 ### 1.1 aiService.ts
 - **文件**: `src/services/aiService.ts`
-- **版本**: v1.10.7
+- **版本**: v2.0.6
 - **功能**: 提供 Google Gemini AI 服务集成
 
 **核心功能:**
@@ -32,7 +32,7 @@
 **代码示例:**
 ```tsx
 // aiService.ts 核心结构
-// File: src/services/aiService.ts | Version: v1.10.7
+// File: src/services/aiService.ts | Version: v2.0.6
 import { GoogleGenAI } from '@google/genai';
 import { en } from '@/locales/en';
 
@@ -296,6 +296,8 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 
 ### 3.1 AI 背景生成
 - **组件**: `AiBackground.tsx`
+- **文件**: `src/components/visualizers/AiBackground.tsx`
+- **版本**: v2.0.6
 - **功能**: 基于音乐情绪生成艺术背景
 
 **工作流程:**
@@ -304,7 +306,72 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 3. 调用 Gemini 2.5 Flash Image 生成背景
 4. 应用生成的背景到可视化场景
 
+**代码示例:**
+```tsx
+// AiBackground.tsx 核心结构
+// File: src/components/visualizers/AiBackground.tsx | Version: v2.0.6
+import React, { useState, useEffect, useCallback } from 'react';
+import { generateArtisticBackground } from '@/services/aiService';
+import { useAudioContext } from '@/context/AppContext';
+
+interface AiBackgroundProps {
+  analyser: AnalyserNode | null;
+  isVisible: boolean;
+}
+
+export const AiBackground: React.FC<AiBackgroundProps> = ({ analyser, isVisible }) => {
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const { isListening } = useAudioContext();
+
+  const generateBackground = useCallback(async () => {
+    if (!isVisible || !isListening || isGenerating) return;
+    
+    setIsGenerating(true);
+    
+    try {
+      // Analyze audio to generate prompt
+      const prompt = 'Create a beautiful abstract background that matches the mood of electronic music with dynamic beats and energetic rhythms. Use vibrant colors and flowing patterns.';
+      
+      const image = await generateArtisticBackground(prompt);
+      if (image) {
+        setBackgroundImage(image);
+      }
+    } catch (error) {
+      console.warn('Failed to generate background:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  }, [isVisible, isListening, isGenerating]);
+
+  useEffect(() => {
+    if (isVisible && isListening) {
+      const timer = setTimeout(generateBackground, 3000); // Generate after 3 seconds of listening
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, isListening, generateBackground]);
+
+  if (!isVisible) return null;
+
+  return (
+    <div 
+      id="ai-background" 
+      className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${isGenerating ? 'opacity-50' : 'opacity-100'}`}
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        zIndex: -1
+      }}
+    />
+  );
+};
+```
+
 ### 3.2 AI 视觉导演
+- **组件**: `AiVisualDirector.tsx`
+- **文件**: `src/components/visualizers/AiVisualDirector.tsx`
+- **版本**: v2.0.6
 - **功能**: 基于音频分析自动配置视觉效果
 
 **工作流程:**
@@ -313,7 +380,68 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 3. 自动应用到可视化系统
 4. 实时调整视觉参数
 
+**代码示例:**
+```tsx
+// AiVisualDirector.tsx 核心结构
+// File: src/components/visualizers/AiVisualDirector.tsx | Version: v2.0.6
+import React, { useEffect, useCallback } from 'react';
+import { generateVisualConfigFromAudio } from '@/services/aiService';
+import { useVisuals } from '@/context/AppContext';
+import { VisualizerMode } from '@/types';
+
+interface AiVisualDirectorProps {
+  analyser: AnalyserNode | null;
+  isEnabled: boolean;
+  getAudioSlice: () => Promise<Blob | null>;
+}
+
+export const AiVisualDirector: React.FC<AiVisualDirectorProps> = ({ analyser, isEnabled, getAudioSlice }) => {
+  const { setMode, setColorTheme, setSettings } = useVisuals();
+
+  const analyzeAndConfigure = useCallback(async () => {
+    if (!isEnabled || !analyser) return;
+
+    try {
+      const audioSlice = await getAudioSlice();
+      if (!audioSlice) return;
+
+      const config = await generateVisualConfigFromAudio(audioSlice);
+      if (config) {
+        // Apply the generated configuration
+        if (config.mode && Object.values(VisualizerMode).includes(config.mode as VisualizerMode)) {
+          setMode(config.mode as VisualizerMode);
+        }
+        if (config.colors && Array.isArray(config.colors) && config.colors.length === 3) {
+          setColorTheme(config.colors);
+        }
+        if (config.sensitivity) {
+          setSettings(prev => ({ ...prev, sensitivity: config.sensitivity }));
+        }
+      }
+    } catch (error) {
+      console.warn('AI Visual Director error:', error);
+    }
+  }, [isEnabled, analyser, getAudioSlice, setMode, setColorTheme, setSettings]);
+
+  useEffect(() => {
+    if (isEnabled && analyser) {
+      // Initial analysis
+      analyzeAndConfigure();
+      
+      // Schedule periodic analysis every 30 seconds
+      const interval = setInterval(analyzeAndConfigure, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [isEnabled, analyser, analyzeAndConfigure]);
+
+  return null; // This component doesn't render anything
+};
+```
+
 ### 3.3 歌曲识别
+- **组件**: `SongIdentification.tsx`
+- **文件**: `src/components/visualizers/SongIdentification.tsx`
+- **版本**: v2.0.6
 - **功能**: 识别正在播放的歌曲
 
 **工作流程:**
@@ -321,3 +449,86 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 2. 发送到 Gemini 3.0 Flash 进行分析
 3. 解析识别结果
 4. 显示歌曲信息和专辑封面
+
+**代码示例:**
+```tsx
+// SongIdentification.tsx 核心结构
+// File: src/components/visualizers/SongIdentification.tsx | Version: v2.0.6
+import React, { useState, useCallback } from 'react';
+import { identifySong } from '@/services/aiService';
+import { useAI, useAudioContext } from '@/context/AppContext';
+
+interface SongIdentificationProps {
+  isVisible: boolean;
+  onClose: () => void;
+}
+
+export const SongIdentification: React.FC<SongIdentificationProps> = ({ isVisible, onClose }) => {
+  const { isIdentifying, performIdentification } = useAI();
+  const { mediaStream } = useAudioContext();
+  const [songInfo, setSongInfo] = useState<any>(null);
+
+  const handleIdentify = useCallback(async () => {
+    if (mediaStream) {
+      await performIdentification(mediaStream);
+    }
+  }, [mediaStream, performIdentification]);
+
+  // Mock implementation for demo purposes
+  const mockIdentify = useCallback(async () => {
+    setSongInfo({
+      title: 'Blinding Lights',
+      artist: 'The Weeknd',
+      album: 'After Hours',
+      artwork: 'https://example.com/artwork.jpg'
+    });
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <div 
+      id="song-identification" 
+      className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
+    >
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 max-w-md w-full text-white">
+        <h2 className="text-2xl font-bold mb-4 text-center">Song Identification</h2>
+        
+        {songInfo ? (
+          <div className="text-center">
+            {songInfo.artwork && (
+              <img 
+                src={songInfo.artwork} 
+                alt={`${songInfo.title} album art`} 
+                className="w-40 h-40 rounded-lg mx-auto mb-4"
+              />
+            )}
+            <h3 className="text-xl font-bold">{songInfo.title}</h3>
+            <p className="text-gray-300">{songInfo.artist}</p>
+            {songInfo.album && (
+              <p className="text-gray-400 text-sm">{songInfo.album}</p>
+            )}
+            <button 
+              onClick={onClose} 
+              className="mt-6 px-6 py-2 bg-blue-500 rounded-full hover:bg-blue-600 transition-colors"
+            >
+              Close
+            </button>
+          </div>
+        ) : (
+          <div className="text-center">
+            <p className="mb-6">Click the button below to identify the currently playing song.</p>
+            <button 
+              onClick={mockIdentify} 
+              disabled={isIdentifying}
+              className="px-8 py-3 bg-blue-500 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isIdentifying ? 'Identifying...' : 'Identify Song'}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+```

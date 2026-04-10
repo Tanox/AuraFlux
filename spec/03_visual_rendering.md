@@ -4,7 +4,7 @@
 
 ### 1.1 VisualizerCanvas 组件
 - **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **版本**: v2.0.5
+- **版本**: v2.0.6
 - **功能**: 2D 音频可视化画布
 
 **核心特性:**
@@ -206,7 +206,7 @@ export default VisualizerCanvas;
 
 ### 2.1 ThreeVisualizer 组件
 - **文件**: `src/components/visualizers/ThreeVisualizer.tsx`
-- **版本**: v2.0.2
+- **版本**: v2.0.6
 - **功能**: 3D 音频可视化场景
 
 **核心特性:**
@@ -314,9 +314,104 @@ export default ThreeVisualizer;
 - **文件**: `src/components/visualizers/modes/BarsMode.ts`
 - **功能**: 频谱柱状图可视化
 
+**代码示例:**
+```tsx
+// BarsMode.ts 核心结构
+// File: src/components/visualizers/modes/BarsMode.ts | Version: v2.0.6
+interface BarsModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  peaks: Float32Array;
+  width: number;
+  height: number;
+  colors: string[];
+  sensitivity: number;
+}
+
+export const renderBarsMode = ({ ctx, dataArray, peaks, width, height, colors, sensitivity }: BarsModeProps) => {
+  const barWidth = (width / dataArray.length) * 2.5;
+  let x = 0;
+
+  for (let i = 0; i < dataArray.length; i++) {
+    const barHeight = (dataArray[i] / 255) * height * sensitivity;
+    
+    // Update peak value with decay
+    peaks[i] = Math.max(peaks[i] * 0.95, barHeight);
+
+    // Gradient for bars
+    const gradient = ctx.createLinearGradient(0, height, 0, height - barHeight);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(0.5, colors[1]);
+    gradient.addColorStop(1, colors[2]);
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(x, height - barHeight, barWidth - 2, barHeight);
+
+    // Draw peak line
+    ctx.strokeStyle = colors[0];
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x, height - peaks[i]);
+    ctx.lineTo(x + barWidth - 2, height - peaks[i]);
+    ctx.stroke();
+
+    x += barWidth + 1;
+  }
+};
+```
+
 #### 3.1.2 WaveformMode
 - **文件**: `src/components/visualizers/modes/WaveformMode.ts`
 - **功能**: 波形图可视化
+
+**代码示例:**
+```tsx
+// WaveformMode.ts 核心结构
+// File: src/components/visualizers/modes/WaveformMode.ts | Version: v2.0.6
+interface WaveformModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  analyser: AnalyserNode;
+}
+
+export const renderWaveformMode = ({ ctx, dataArray, width, height, colors, analyser }: WaveformModeProps) => {
+  // Get waveform data instead of frequency data
+  const bufferLength = analyser.fftSize;
+  const waveformArray = new Uint8Array(bufferLength);
+  analyser.getByteTimeDomainData(waveformArray);
+
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = colors[0];
+  ctx.beginPath();
+
+  const sliceWidth = (width * 1.0) / bufferLength;
+  let x = 0;
+
+  for (let i = 0; i < bufferLength; i++) {
+    const v = waveformArray[i] / 128.0;
+    const y = (v * height) / 2;
+
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+
+    x += sliceWidth;
+  }
+
+  ctx.lineTo(width, height / 2);
+  ctx.stroke();
+
+  // Add glow effect
+  ctx.strokeStyle = colors[1];
+  ctx.lineWidth = 1;
+  ctx.stroke();
+};
+```
 
 #### 3.1.3 PlasmaMode
 - **文件**: `src/components/visualizers/modes/PlasmaMode.ts`
@@ -335,6 +430,109 @@ export default ThreeVisualizer;
 #### 3.2.1 DigitalGridScene
 - **文件**: `src/components/visualizers/scenes/DigitalGridScene.tsx`
 - **功能**: 数字网格场景
+
+**代码示例:**
+```tsx
+// DigitalGridScene.tsx 核心结构
+// File: src/components/visualizers/scenes/DigitalGridScene.tsx | Version: v2.0.6
+import React, { useEffect, useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { VisualizerSettings } from '@/types';
+
+interface DigitalGridSceneProps {
+  analyser: AnalyserNode;
+  analyserR: AnalyserNode | null;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export const DigitalGridScene: React.FC<DigitalGridSceneProps> = ({ analyser, colors, settings }) => {
+  const gridRef = useRef<any>(null);
+  const dataArrayRef = useRef<Uint8Array>(new Uint8Array(analyser.frequencyBinCount));
+  const timeRef = useRef(0);
+
+  useEffect(() => {
+    dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
+  }, [analyser]);
+
+  useFrame((state, delta) => {
+    timeRef.current += delta;
+    
+    // Get audio data
+    analyser.getByteFrequencyData(dataArrayRef.current);
+    
+    if (gridRef.current) {
+      // Update grid based on audio data
+      const positions = gridRef.current.attributes.position.array;
+      const count = positions.length / 3;
+      
+      for (let i = 0; i < count; i++) {
+        const index = i * 3;
+        const frequencyIndex = Math.floor((i / count) * dataArrayRef.current.length);
+        const intensity = dataArrayRef.current[frequencyIndex] / 255;
+        
+        // Calculate height based on audio intensity
+        positions[index + 2] = intensity * 5 * settings.sensitivity;
+      }
+      
+      gridRef.current.attributes.position.needsUpdate = true;
+    }
+  });
+
+  // Create grid geometry
+  const createGridGeometry = () => {
+    const size = 20;
+    const divisions = 50;
+    const positions: number[] = [];
+    const colors: number[] = [];
+    
+    for (let i = -size; i <= size; i += size / divisions) {
+      for (let j = -size; j <= size; j += size / divisions) {
+        // Add vertex
+        positions.push(i, j, 0);
+        
+        // Add color
+        colors.push(0.1, 0.5, 1.0);
+      }
+    }
+    
+    // Create indices for lines
+    const indices: number[] = [];
+    const pointsPerRow = divisions * 2 + 1;
+    
+    // Horizontal lines
+    for (let i = 0; i < pointsPerRow; i++) {
+      for (let j = 0; j < pointsPerRow - 1; j++) {
+        indices.push(i * pointsPerRow + j, i * pointsPerRow + j + 1);
+      }
+    }
+    
+    // Vertical lines
+    for (let i = 0; i < pointsPerRow - 1; i++) {
+      for (let j = 0; j < pointsPerRow; j++) {
+        indices.push(i * pointsPerRow + j, (i + 1) * pointsPerRow + j);
+      }
+    }
+    
+    return { positions, colors, indices };
+  };
+
+  const { positions, colors: gridColors, indices } = createGridGeometry();
+
+  return (
+    <group>
+      <lineSegments>
+        <bufferGeometry ref={gridRef}>
+          <bufferAttribute attach="position" count={positions.length / 3} array={new Float32Array(positions)} itemSize={3} />
+          <bufferAttribute attach="color" count={gridColors.length / 3} array={new Float32Array(gridColors)} itemSize={3} />
+          <bufferAttribute attach="index" count={indices.length} array={new Uint16Array(indices)} itemSize={1} />
+        </bufferGeometry>
+        <lineBasicMaterial vertexColors linewidth={1} />
+      </lineSegments>
+    </group>
+  );
+};
+```
 
 #### 3.2.2 OceanWaveScene
 - **文件**: `src/components/visualizers/scenes/OceanWaveScene.tsx`
