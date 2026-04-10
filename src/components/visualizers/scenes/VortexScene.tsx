@@ -7,16 +7,16 @@
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Color, AdditiveBlending, ShaderMaterial } from 'three';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { Color, AdditiveBlending, ShaderMaterial, Points } from 'three';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { vortexVertexShader, vortexFragmentShader } from './shaders/VortexShaders';
 import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
 
 export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
-  const pointsRef = useRef<any>(null);
+  const pointsRef = useRef<Points>(null);
   const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
   const [c0, c1] = smoothedColors;
   
