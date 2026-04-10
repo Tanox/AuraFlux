@@ -10,6 +10,7 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, PointLight } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;
@@ -106,7 +107,7 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
 
   return (
     <>
-      {!settings.albumArtBackground && <color attach="background" args={['#050505']} />}
+      <SceneBackground enabled={!settings.albumArtBackground} color="#050505" />
       
       <AmbientLight intensity={0.2} />
       <DirectionalLight position={[10, 10, 20]} intensity={1} color={c2} />

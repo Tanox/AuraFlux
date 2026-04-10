@@ -11,6 +11,7 @@ import { Points, Color, AdditiveBlending, ShaderMaterial, Group } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from './shaders/NeuralFlowShaders';
+import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
 
@@ -76,7 +77,7 @@ export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settin
 
   return (
     <>
-      {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       <Points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />

@@ -10,6 +10,7 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, PointLight, Vector3, Euler, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, Fog } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;
@@ -163,7 +164,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
 
   return (
     <>
-      {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       {!settings.albumArtBackground && <fog attach="fog" args={['#000000', 30, 220]} />}
       <ambientLight intensity={0.2} />
       <pointLight ref={coreLightRef} distance={350} decay={2.0} />

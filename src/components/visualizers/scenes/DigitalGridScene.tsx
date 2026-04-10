@@ -13,6 +13,7 @@ import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { useDigitalGrid } from './hooks/useDigitalGrid';
 import { injectDigitalGridShader } from './shaders/DigitalGridShaders';
+import { SceneBackground } from '../ui/SceneBackground';
 
 type Shader = {
   uniforms: { [key: string]: any };
@@ -70,7 +71,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string
 
   return (
     <>
-      {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       <ambientLight intensity={0.1} />
       <instancedMesh 
         ref={meshRef} 

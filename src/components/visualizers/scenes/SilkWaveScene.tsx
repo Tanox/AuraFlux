@@ -12,6 +12,7 @@ import { InstancedMesh, ShaderMaterial, Color, AdditiveBlending, MathUtils, Doub
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { silkWaveVertexShader, silkWaveFragmentShader } from './shaders/SilkWaveShaders';
+import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;
@@ -82,7 +83,7 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
 
   return (
     <>
-      {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       <instancedMesh ref={meshRef} args={[undefined, undefined, MAX_LINES]}>
         <planeGeometry args={[RIBBON_WIDTH, 1.0, SEGMENTS_X, 1]}>
             <primitive attach="attributes-aChannel" object={channels} />

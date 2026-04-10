@@ -7,6 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, AdditiveBlending } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { SceneBackground } from '../ui/SceneBackground';
 
 export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
@@ -83,6 +84,7 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; se
 
   return (
     <group name="laser-scene">
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshBasicMaterial 

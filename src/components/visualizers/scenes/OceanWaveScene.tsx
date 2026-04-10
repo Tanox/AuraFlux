@@ -11,6 +11,7 @@ import { useFrame, group } from '@react-three/fiber';
 import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { SceneBackground } from '../ui/SceneBackground';
 
 import { oceanWaveVertexShader, oceanWaveFragmentShader } from './shaders/OceanWaveShaders';
 
@@ -122,7 +123,8 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   if (!historyData || historyData.length === 0) return <group />;
 
   return (
-    <>{!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
+    <>
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       <instancedMesh ref={meshRef} args={[undefined, undefined, NUM_LINES]}>
         <planeGeometry args={[LINE_WIDTH, LINE_HEIGHT, SEGMENTS_X, 1]} />
         <shaderMaterial

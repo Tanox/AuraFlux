@@ -11,6 +11,7 @@ import { Points, Color, AdditiveBlending, ShaderMaterial } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { vortexVertexShader, vortexFragmentShader } from './shaders/VortexShaders';
+import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
 
@@ -71,7 +72,7 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
 
   return (
     <>
-      {!settings.albumArtBackground && <color attach="background" args={['#000000']} />}
+      <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
