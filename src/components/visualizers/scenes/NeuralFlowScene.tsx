@@ -7,7 +7,7 @@
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Points, Color, AdditiveBlending, ShaderMaterial, Group } from 'three';
+import { Color, AdditiveBlending, ShaderMaterial } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from './shaders/NeuralFlowShaders';
@@ -73,12 +73,12 @@ export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settin
     pointsRef.current.rotation.z = Math.sin(accumulatedTimeRef.current * 0.1) * 0.1;
   });
 
-  if (!positions || !randomness || positions.length === 0) return <Group />;
+  if (!positions || !randomness || positions.length === 0) return <group />;
 
   return (
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <Points ref={pointsRef}>
+      <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
           <bufferAttribute attach="attributes-aRandom" args={[randomness, 1]} />
@@ -87,7 +87,7 @@ export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settin
           vertexShader={neuralFlowVertexShader}
           fragmentShader={neuralFlowFragmentShader}
         />
-      </Points>
+      </points>
     </>
   );
 };

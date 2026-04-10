@@ -1,6 +1,6 @@
 'use client';
 // File: src\components\App.tsx | Version: v2.0.6
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
 import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';
