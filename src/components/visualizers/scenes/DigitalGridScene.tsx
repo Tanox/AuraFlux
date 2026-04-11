@@ -21,10 +21,10 @@ type Shader = {
   fragmentShader: string;
 };
 
-export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, colors, settings }) => {
+export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; analyserR?: AnalyserNode | null; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
   
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+  const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const { isBeat } = features;
   const [c0, c1, c2] = smoothedColors;
   
