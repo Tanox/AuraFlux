@@ -17,7 +17,7 @@ export const OnboardingOverlay: React.FC<Props> = ({ language, setLanguage, onCo
     {
       title: 'Welcome to Aura Flux',
       description: 'Experience your music like never before with AI-powered 3D visualizations.',
-      icon: 'âœ?
+      icon: 'ðŸŽµ'
     },
     {
       title: 'Interactive Controls',

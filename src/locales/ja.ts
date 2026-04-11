@@ -10,7 +10,7 @@ export const ja = {
   common,
   appVersion: "v2.0.6",
   appTitle: "Aura Flux",
-  welcomeSubtitle: "シナエスセティックインテリジェンスエンジ�?,
+  welcomeSubtitle: "シナエスセティックインテリジェンスエンジン",
   startExperience: "システムを初期化",
   onboarding,
   ...settings,

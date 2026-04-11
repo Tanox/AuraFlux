@@ -34,7 +34,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
 
   const handleAppShare = async () => {
       const shareTitle = t?.share?.appTitle || "Aura Flux - AI Music Visualizer";
-      const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵�?;
+      const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵";
       const url = window.location.href;
       const shareData = { title: shareTitle, text: shareText, url };
 
