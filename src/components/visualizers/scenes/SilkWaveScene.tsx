@@ -1,10 +1,5 @@
 'use client';
-/**
- * File: app/components/visualizers/scenes/SilkWaveScene.tsx
- * Version: v1.10.7
- * Author: Sut
- * Description: "Lumina Silk" - Optimized fluid ribbons with staggered pulses to avoid clumping.
- */
+// File: src/components/visualizers/scenes/SilkWaveScene.tsx | Version: v2.0.6
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
