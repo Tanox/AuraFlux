@@ -2,6 +2,26 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.0]
+### ✨ Visualization Enhancements
+- **Silk Wave Mode**: Thickened lines by 3-5x, made lines thicker near the viewer, and improved smoothness
+- **Ocean Mode**: Optimized line default height to be at canvas bottom for more natural appearance
+- **Neural Flow Mode**: Enhanced particles to follow sound changes
+- **Tunnel Mode**: Increased ring thickness intensity with volume changes
+- **Laser Mode**: Updated laser lines to react to sound
+- **Plasma Mode**: Increased particle size several times
+- **Bars Mode**: Reduced bar count by 50% and increased width
+
+### 🗑️ Removed Modes
+- **Vortex Mode**: Removed from the visualization options
+- **Waveform Mode**: Removed from the visualization options
+
+### 📋 Version Updates
+- **Version Synchronization**: Updated all project files to version v2.2.0
+- **Metadata**: Updated metadata.json with the new version
+- **Layout**: Updated the HTML title in src/app/layout.tsx
+- **Constants**: Updated version constants in src/constants/
+
 ## [v2.1.0]
 ### ✨ Version Update
 - **Version Synchronization**: Updated all project files to version v2.1.0
