@@ -11,6 +11,10 @@ All notable changes to the **Aura Flux** project will be documented in this file
 - **Constants**: Updated version constants in src/constants/
 - **Locales**: Updated all language files in src/locales/
 
+## [v2.1.0]
+### ✨ Visualization Enhancement
+- **Ocean Visualization**: Optimized the ocean visualization mode to position the default line height at the canvas bottom for a more natural ocean-like appearance.
+
 ## [v2.0.7]
 ### ✨ Documentation Comprehensive Updates
 - **Core Architecture**: Enhanced 01_core_architecture.md with complete code examples and detailed implementation details
