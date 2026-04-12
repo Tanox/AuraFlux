@@ -34,8 +34,8 @@ export const silkWaveFragmentShader = `
   varying vec2 vUv; 
   void main() { 
       if (vVisibility < 0.5) discard; 
-      float edge = smoothstep(0.0, 0.3, abs(vUv.y-0.5)*2.0); 
-      float alpha = (0.3 + vIntensity * 3.0) * (1.0 - vDepth * 0.8) * vSideFade * (1.0 - edge); 
+      float edge = smoothstep(0.0, 0.1, abs(vUv.y-0.5)*2.0); 
+      float alpha = (0.5 + vIntensity * 5.0) * (1.0 - vDepth * 0.9) * vSideFade * (1.0 - edge); 
       if (alpha < 0.01) discard; 
       vec3 c1 = mix(uColor1, uColor2, vRandom); 
       vec3 c2 = mix(uColor2, uColor3, vRandom); 

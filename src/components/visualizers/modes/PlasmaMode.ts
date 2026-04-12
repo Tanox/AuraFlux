@@ -45,7 +45,7 @@ export const renderPlasmaMode = ({
     const y = centerY + Math.sin(angle) * distance;
     
     // 粒子大小基于音频数据
-    const radius = 2 + val * 10 * sensitivity;
+    const radius = 5 + val * 30 * sensitivity;
     
     // 创建径向渐变，增强发光效果
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);

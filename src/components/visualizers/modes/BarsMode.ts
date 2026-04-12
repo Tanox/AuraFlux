@@ -23,8 +23,8 @@ export const renderBarsMode = ({
   sensitivity
 }: BarsModeProps) => {
   const bufferLength = dataArray.length;
-  const newBufferLength = Math.max(1, Math.floor(bufferLength * 0.25)); // Reduce to 25%
-  const barWidth = (width / newBufferLength) * 2.5;
+  const newBufferLength = Math.max(1, Math.floor(bufferLength * 0.5)); // Reduce to 50%
+  const barWidth = (width / newBufferLength) * 1.8;
   let x = 0;
   
   for (let i = 0; i < newBufferLength; i++) {

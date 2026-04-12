@@ -5,7 +5,6 @@ import { OrbitControls } from '@react-three/drei';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { DigitalGridScene } from './scenes/DigitalGridScene';
 import { OceanWaveScene } from './scenes/OceanWaveScene';
-import { VortexScene } from './scenes/VortexScene';
 import { SilkWaveScene } from './scenes/SilkWaveScene';
 import { KineticWallScene } from './scenes/KineticWallScene';
 import { CubeFieldScene } from './scenes/CubeFieldScene';
@@ -31,7 +30,6 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
     switch (mode) {
       case VisualizerMode.DIGITAL_GRID: return DigitalGridScene;
       case VisualizerMode.OCEAN_WAVE: return OceanWaveScene;
-      case VisualizerMode.VORTEX: return VortexScene;
       case VisualizerMode.SILK_WAVE: return SilkWaveScene;
       case VisualizerMode.KINETIC_WALL: return KineticWallScene;
       case VisualizerMode.CUBE_FIELD: return CubeFieldScene;

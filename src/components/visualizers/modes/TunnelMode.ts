@@ -34,7 +34,7 @@ export const renderTunnelMode = ({
     
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.lineWidth = 2 + val * 15 * sensitivity;
+    ctx.lineWidth = 2 + val * 30 * sensitivity;
     ctx.strokeStyle = colors[i % colors.length];
     ctx.globalAlpha = alpha * (0.5 + val * 0.5 * sensitivity);
     ctx.stroke();

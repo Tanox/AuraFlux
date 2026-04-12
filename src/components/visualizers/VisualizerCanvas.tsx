@@ -3,7 +3,6 @@
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderBarsMode } from './modes/BarsMode';
-import { renderWaveformMode } from './modes/WaveformMode';
 import { renderPlasmaMode } from './modes/PlasmaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
 import { renderStarfieldMode } from './modes/StarfieldMode';
@@ -75,16 +74,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
             sensitivity: settings.sensitivity
           });
           break;
-        case VisualizerMode.WAVEFORM:
-          renderWaveformMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            analyser
-          });
-          break;
+
         case VisualizerMode.PLASMA:
           renderPlasmaMode({
             ctx,
