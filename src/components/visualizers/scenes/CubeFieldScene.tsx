@@ -1,7 +1,7 @@
 'use client';
 /**
  * File: src/components/visualizers/scenes/CubeFieldScene.tsx
- * Version: v1.9.75
+ * Version: v1.9.76
  * Author: Sut
  */
 
@@ -167,14 +167,14 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
       {!settings.albumArtBackground && <fog attach="fog" args={['#000000', 30, 220]} />}
-      <ambientLight intensity={0.2} />
-      <pointLight ref={coreLightRef} distance={350} decay={2.0} />
-      <pointLight position={[0, 0, 20]} intensity={3} color={c2 || 0xffffff} distance={150} />
-      <directionalLight position={[40, 40, 20]} intensity={1.2} color={c0 || 0xffffff} />
-      <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial roughness={0.1} metalness={0.95} />
-      </instancedMesh>
+      <AmbientLight intensity={0.2} />
+      <PointLight ref={coreLightRef} distance={350} decay={2.0} />
+      <PointLight position={[0, 0, 20]} intensity={3} color={c2 || 0xffffff} distance={150} />
+      <DirectionalLight position={[40, 40, 20]} intensity={1.2} color={c0 || 0xffffff} />
+      <InstancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+        <BoxGeometry args={[1, 1, 1]} />
+        <MeshStandardMaterial roughness={0.1} metalness={0.95} />
+      </InstancedMesh>
     </>
   );
 };

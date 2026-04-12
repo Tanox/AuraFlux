@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/scenes/VortexScene.tsx | Version: v2.0.6
+// File: src\components\visualizers\scenes\VortexScene.tsx | Version: v2.0.6
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
@@ -82,3 +82,4 @@ export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }
     </>
   );
 };
+

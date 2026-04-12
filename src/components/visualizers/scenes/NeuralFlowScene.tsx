@@ -1,19 +1,24 @@
 'use client';
-// File: src/components/visualizers/scenes/NeuralFlowScene.tsx | Version: v2.0.6
+// File: src\components\visualizers\scenes\NeuralFlowScene.tsx | Version: v2.0.6
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Color, AdditiveBlending, ShaderMaterial } from 'three';
+import { Color, AdditiveBlending, ShaderMaterial, Group, BufferGeometry, BufferAttribute } from 'three';
 import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from './shaders/NeuralFlowShaders';
 import { SceneBackground } from '../ui/SceneBackground';
 
-interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
+interface SceneProps {
+  analyser: AnalyserNode;
+  analyserR?: AnalyserNode | null;
+  colors: string[];
+  settings: VisualizerSettings;
+}
 
-export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
+export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const pointsRef = useRef<any>(null);
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+  const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1] = smoothedColors;
   
   const count = settings.quality === 'high' ? 12000 : settings.quality === 'med' ? 8000 : 4000;
@@ -69,21 +74,21 @@ export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, colors, settin
     pointsRef.current.rotation.z = Math.sin(accumulatedTimeRef.current * 0.1) * 0.1;
   });
 
-  if (!positions || !randomness || positions.length === 0) return <group />;
+  if (!positions || !randomness || positions.length === 0) return <Group />;
 
   return (
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <points ref={pointsRef}>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-          <bufferAttribute attach="attributes-aRandom" args={[randomness, 1]} />
-        </bufferGeometry>
-        <shaderMaterial transparent depthWrite={false} blending={AdditiveBlending} uniforms={uniforms}
+      <Points ref={pointsRef}>
+        <BufferGeometry>
+          <BufferAttribute attach="attributes-position" args={[positions, 3]} />
+          <BufferAttribute attach="attributes-aRandom" args={[randomness, 1]} />
+        </BufferGeometry>
+        <ShaderMaterial transparent depthWrite={false} blending={AdditiveBlending} uniforms={uniforms}
           vertexShader={neuralFlowVertexShader}
           fragmentShader={neuralFlowFragmentShader}
         />
-      </points>
+      </Points>
     </>
   );
 };
