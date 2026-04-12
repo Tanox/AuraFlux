@@ -1,4 +1,4 @@
-// File: src\locales\ar.ts | Version: v2.0.6
+// File: src\locales\ar.ts | Version: v2.1.0
 import { common } from './ar/common';
 import { onboarding } from './ar/onboarding';
 import { panels } from './ar/panels';

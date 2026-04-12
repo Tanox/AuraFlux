@@ -2,6 +2,15 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.1.0]
+### ✨ Version Update
+- **Version Synchronization**: Updated all project files to version v2.1.0
+- **Documentation**: Updated all specification documents in the spec/ directory
+- **Metadata**: Updated metadata.json and package.json with the new version
+- **Layout**: Updated the HTML title in src/app/layout.tsx
+- **Constants**: Updated version constants in src/constants/
+- **Locales**: Updated all language files in src/locales/
+
 ## [v2.0.7]
 ### ✨ Documentation Comprehensive Updates
 - **Core Architecture**: Enhanced 01_core_architecture.md with complete code examples and detailed implementation details

@@ -1,4 +1,4 @@
-// File: src\locales\ja.ts | Version: v2.0.6
+// File: src\locales\ja.ts | Version: v2.1.0
 import { common } from './ja/common';
 import { onboarding } from './ja/onboarding';
 import { panels } from './ja/panels';

@@ -1,4 +1,4 @@
-// File: src\locales\es.ts | Version: v2.0.6
+// File: src\locales\es.ts | Version: v2.1.0
 import { common } from './es/common';
 import { onboarding } from './es/onboarding';
 import { panels } from './es/panels';

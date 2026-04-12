@@ -1,4 +1,4 @@
-// File: src\locales\zh.ts | Version: v2.0.6
+// File: src\locales\zh.ts | Version: v2.1.0
 import { common } from './zh/common';
 import { onboarding } from './zh/onboarding';
 import { panels } from './zh/panels';

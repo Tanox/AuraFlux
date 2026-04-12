@@ -2,7 +2,18 @@ import fs from 'fs';
 import path from 'path';
 
 // 获取当前目录路径（ES 模块方式）
-const __dirname = path.dirname(new URL(import.meta.url).pathname).replace(/^\//, '');
+let __dirname = path.resolve(path.dirname(new URL(import.meta.url).pathname).replace(/^\//, ''));
+
+// 确保路径正确
+if (__dirname.includes('node_modules')) {
+  // 如果在 node_modules 中运行，使用项目根目录
+  const projectRoot = path.resolve(__dirname, '../../..');
+  console.log(`Running from node_modules, using project root: ${projectRoot}`);
+  __dirname = projectRoot;
+}
+
+console.log(`Current directory: ${__dirname}`);
+console.log(`Locales directory: ${path.join(__dirname, '../src/locales')}`);
 
 // 语言列表
 const languages = [
