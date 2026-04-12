@@ -9,9 +9,9 @@ import { VisualizerSettings } from '../../../types/index';
 import { useAudioReactive } from '../../../hooks/useAudioReactive';
 import { SceneBackground } from '../ui/SceneBackground';
 
-export const LaserScene: React.FC<{ analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, colors, settings }) => {
+export const LaserScene: React.FC<{ analyser: AnalyserNode; analyserR?: AnalyserNode | null; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+  const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const { volume, bass, treble } = features;
   
   const count = 64;

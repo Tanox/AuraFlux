@@ -110,8 +110,8 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
       <SceneBackground enabled={!settings.albumArtBackground} color="#050505" />
       
       <ambientLight intensity={0.2} />
-      <directionalLight position={[10, 10, 20]} intensity={1} color={c2} />
-      <pointLight position={[0, 0, 10]} intensity={2 + features.bass * 5} color={c0} distance={50} />
+      <directionalLight position={[10, 10, 20]} intensity={1} color={c2 || 0xffffff} />
+      <pointLight position={[0, 0, 10]} intensity={2 + (features.bass || 0) * 5} color={c0 || 0xffffff} distance={50} />
       
       <instancedMesh 
         ref={meshRef} 

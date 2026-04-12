@@ -14,15 +14,16 @@ import { SceneBackground } from '../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;
+  analyserR?: AnalyserNode | null;
   colors: string[];
   settings: VisualizerSettings;
 }
 
-export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
+export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
   const coreLightRef = useRef<PointLight>(null);
   
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+  const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const { bass, mids, treble, volume, isBeat } = features;
   
   const [c0, c1, c2] = smoothedColors;
@@ -168,8 +169,8 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, colors, setting
       {!settings.albumArtBackground && <fog attach="fog" args={['#000000', 30, 220]} />}
       <ambientLight intensity={0.2} />
       <pointLight ref={coreLightRef} distance={350} decay={2.0} />
-      <pointLight position={[0, 0, 20]} intensity={3} color={c2} distance={150} />
-      <directionalLight position={[40, 40, 20]} intensity={1.2} color={c0} />
+      <pointLight position={[0, 0, 20]} intensity={3} color={c2 || 0xffffff} distance={150} />
+      <directionalLight position={[40, 40, 20]} intensity={1.2} color={c0 || 0xffffff} />
       <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial roughness={0.1} metalness={0.95} />
