@@ -1,7 +1,7 @@
 'use client';
 /**
  * File: app/components/controls/panels/StudioPanel.tsx
- * Version: v1.9.85
+ * Version: v1.9.86
  * Author: Sut
  */
 
@@ -79,7 +79,7 @@ export const StudioPanel: React.FC = () => {
   }, [isArmed, sourceType, isPlaying, analyser, triggerRecording]);
 
   const getFormatLabel = (mime: string) => {
-    const f = t.studioPanel.formats;
+    const f = t.studioPanel.formats || {};
     if (mime.includes('vp9')) return f.vp9 || 'WebM (VP9)';
     if (mime.includes('vp8')) return f.vp8 || 'WebM (VP8)';
     if (mime.includes('avc1')) return f.mp4_h264 || 'MP4 (Social)';

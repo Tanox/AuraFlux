@@ -1,4 +1,4 @@
-// File: src\locales\ko.ts | Version: v2.1.0
+// File: src\locales\ko.ts | Version: v2.1.1
 import { common } from './ko/common';
 import { onboarding } from './ko/onboarding';
 import { panels } from './ko/panels';

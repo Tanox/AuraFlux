@@ -4,7 +4,7 @@
 
 ### 1.1 主应用组件 (App.tsx)
 - **文件**: `src/components/App.tsx`
-- **版本**: v2.1.0
+- **版本**: v2.1.1
 - **功能**: 应用的顶层入口组件
 
 **核心特性:**
@@ -206,7 +206,7 @@ export const App: React.FC = () => (
 
 ### 1.2 404 页面组件 (_not-found.tsx)
 - **文件**: `src/app/_not-found.tsx`
-- **版本**: v2.1.0
+- **版本**: v2.1.1
 - **功能**: 处理未找到页面的情况
 
 **核心特性:**
@@ -252,7 +252,7 @@ export default function NotFound() {
 
 ### 2.1 应用上下文 (AppContext.tsx)
 - **文件**: `src/context/AppContext.tsx`
-- **版本**: v2.1.0
+- **版本**: v2.1.1
 - **功能**: 提供全局状态管理和共享功能
 
 **核心功能:**
@@ -436,7 +436,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 ### 2.2 应用状态 Hook (useAppState.ts)
 - **文件**: `src/hooks/useAppState.ts`
-- **版本**: v2.1.0
+- **版本**: v2.1.1
 - **功能**: 管理应用的 UI 状态
 
 **核心功能:**
@@ -531,7 +531,7 @@ export const useAppState = () => {
 
 ### 2.3 视觉状态 Hook (useVisualsState.ts)
 - **文件**: `src/hooks/useVisualsState.ts`
-- **版本**: v2.1.0
+- **版本**: v2.1.1
 - **功能**: 管理可视化相关的状态
 
 **核心功能:**
@@ -623,7 +623,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 
 ### 3.1 核心类型 (types/index.ts)
 - **文件**: `src/types/index.ts`
-- **版本**: v2.1.0
+- **版本**: v2.1.1
 - **功能**: 定义应用中使用的类型
 
 **主要类型:**

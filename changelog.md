@@ -2,6 +2,19 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.1.1]
+### ✨ Version Update
+- **Version Synchronization**: Updated all project files to version v2.1.1
+- **Documentation**: Updated all specification documents in the spec/ directory
+- **Metadata**: Updated metadata.json and package.json with the new version
+- **Layout**: Updated the HTML title in src/app/layout.tsx
+- **Constants**: Updated version constants in src/constants/
+- **Locales**: Updated all language files in src/locales/
+
+## [v1.9.86]
+### 🐛 Bug Fixes
+*   **Localization Fix**: Added safe default for missing `studioPanel.formats` property in localization files, preventing "Cannot read properties of undefined (reading 'vp9')" error.
+
 ## [v2.0.5]
 ### ✨ System Updates & Documentation
 *   **i18n Integrity**: Checked and ensured all internationalization language files are complete and consistent.
