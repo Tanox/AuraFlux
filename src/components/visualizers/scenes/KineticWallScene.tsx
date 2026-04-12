@@ -1,7 +1,7 @@
 'use client';
 /**
  * File: src/components/visualizers/scenes/KineticWallScene.tsx
- * Version: v2.0.9
+ * Version: v2.0.10
  * Author: Sut
  */
 
@@ -109,21 +109,21 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#050505" />
       
-      <AmbientLight intensity={0.2} />
-      <DirectionalLight position={[10, 10, 20]} intensity={1} color={c2 || 0xffffff} />
-      <PointLight position={[0, 0, 10]} intensity={2 + (features.bass || 0) * 5} color={c0 || 0xffffff} distance={50} />
+      <ambientLight intensity={0.2} />
+      <directionalLight position={[10, 10, 20]} intensity={1} color={c2 || 0xffffff} />
+      <pointLight position={[0, 0, 10]} intensity={2 + (features.bass || 0) * 5} color={c0 || 0xffffff} distance={50} />
       
-      <InstancedMesh 
+      <instancedMesh 
         ref={meshRef} 
         args={[undefined, undefined, COUNT]} 
         position={[0, 0, -20]}
       >
-        <BoxGeometry args={[3, 3, 3]} />
-        <MeshStandardMaterial 
+        <boxGeometry args={[3, 3, 3]} />
+        <meshStandardMaterial 
           roughness={0.2} 
           metalness={0.8} 
         />
-      </InstancedMesh>
+      </instancedMesh>
     </>
   );
 };
