@@ -5,8 +5,8 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, AdditiveBlending } from 'three';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { SceneBackground } from '../ui/SceneBackground';
 
 export const LaserScene: React.FC<{ analyser: AnalyserNode; analyserR?: AnalyserNode | null; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, analyserR, colors, settings }) => {

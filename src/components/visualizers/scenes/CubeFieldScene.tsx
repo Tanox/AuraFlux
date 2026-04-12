@@ -1,9 +1,5 @@
 'use client';
-/**
- * File: src/components/visualizers/scenes/CubeFieldScene.tsx
- * Version: v1.9.77
- * Author: Sut
- */
+// File: src\components\visualizers\scenes\CubeFieldScene.tsx | Version: v2.0.6
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';

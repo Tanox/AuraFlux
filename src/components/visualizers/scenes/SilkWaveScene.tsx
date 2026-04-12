@@ -4,8 +4,8 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, ShaderMaterial, Color, AdditiveBlending, MathUtils, DoubleSide, InstancedBufferAttribute } from 'three';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { silkWaveVertexShader, silkWaveFragmentShader } from './shaders/SilkWaveShaders';
 import { SceneBackground } from '../ui/SceneBackground';
 

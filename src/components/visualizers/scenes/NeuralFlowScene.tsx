@@ -1,11 +1,11 @@
 'use client';
-// File: src\components\visualizers\scenes\NeuralFlowScene.tsx | Version: v2.0.7
+// File: src\components\visualizers\scenes\NeuralFlowScene.tsx | Version: v2.0.6
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color, AdditiveBlending, ShaderMaterial, Group, BufferGeometry, BufferAttribute } from 'three';
-import { VisualizerSettings } from '../../../types/index';
-import { useAudioReactive } from '../../../hooks/useAudioReactive';
+import { VisualizerSettings } from '@/types';
+import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from './shaders/NeuralFlowShaders';
 import { SceneBackground } from '../ui/SceneBackground';
 

@@ -9,11 +9,11 @@ import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { vortexVertexShader, vortexFragmentShader } from './shaders/VortexShaders';
 import { SceneBackground } from '../ui/SceneBackground';
 
-interface SceneProps { analyser: AnalyserNode; colors: string[]; settings: VisualizerSettings; }
+interface SceneProps { analyser: AnalyserNode; analyserR?: AnalyserNode | null; colors: string[]; settings: VisualizerSettings; }
 
-export const VortexScene: React.FC<SceneProps> = ({ analyser, colors, settings }) => {
+export const VortexScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const pointsRef = useRef<Points>(null);
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+  const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1] = smoothedColors;
   
   const count = settings.quality === 'high' ? 15000 : settings.quality === 'med' ? 10000 : 5000;
