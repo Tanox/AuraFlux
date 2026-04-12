@@ -2,10 +2,6 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v2.0.7]
-### 🐛 Bug Fixes
-*   **Build Fix**: Added missing `WAVEFORM` and `VORTEX` modes to the `VisualizerMode` enum to resolve TypeScript build errors.
-
 ## [v2.1.1]
 ### ✨ Version Update
 - **Version Synchronization**: Updated all project files to version v2.1.1
@@ -14,11 +10,13 @@ All notable changes to the **Aura Flux** project will be documented in this file
 - **Layout**: Updated the HTML title in src/app/layout.tsx
 - **Constants**: Updated version constants in src/constants/
 - **Locales**: Updated all language files in src/locales/
-
-## [v2.1.1]
 ### 🐛 Bug Fixes
 *   **Localization Fix**: Added safe default for missing `studioPanel.formats` property in localization files, preventing "Cannot read properties of undefined (reading 'vp9')" error.
 *   **Version Consistency**: Unified version numbers across all files to v2.1.1.
+
+## [v2.0.7]
+### 🐛 Bug Fixes
+*   **Build Fix**: Added missing `WAVEFORM` and `VORTEX` modes to the `VisualizerMode` enum to resolve TypeScript build errors.
 
 ## [v2.0.5]
 ### ✨ System Updates & Documentation
