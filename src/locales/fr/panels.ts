@@ -62,4 +62,12 @@ export const panels = {
     uiSettings: "Interface",
     interaction: "Interaction",
     performance: "Performance",
-  },};
+  },
+  studioPanel: {
+    formats: {
+      vp9: "WebM (VP9)",
+      vp8: "WebM (VP8)",
+      mp4_h264: "MP4 (H.264)",
+    },
+  },
+};

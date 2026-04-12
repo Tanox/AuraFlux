@@ -181,5 +181,10 @@ export const panels = {
     nextPlaylist: "下一个播放列表",
     firstPlaylist: "第一个播放列表",
     lastPlaylist: "最后一个播放列表",
+    formats: {
+      vp9: "WebM (VP9)",
+      vp8: "WebM (VP8)",
+      mp4_h264: "MP4 (H.264)",
+    },
   },
 };

@@ -1,7 +1,7 @@
 'use client';
 /**
  * File: app/components/controls/panels/StudioPanel.tsx
- * Version: v1.9.86
+ * Version: v2.1.1
  * Author: Sut
  */
 

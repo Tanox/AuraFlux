@@ -61,4 +61,11 @@ export const panels = {
     interaction: "التعامل",
     performance: "الاداء",
   },
+  studioPanel: {
+    formats: {
+      vp9: "WebM (VP9)",
+      vp8: "WebM (VP8)",
+      mp4_h264: "MP4 (H.264)",
+    },
+  },
 };
