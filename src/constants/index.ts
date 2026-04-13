@@ -1,8 +1,8 @@
-// File: src\constants\index.ts | Version: v2.2.10
+// File: src\constants\index.ts | Version: v2.2.12
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';
-export const VERSION = '2.2.10';
+export const VERSION = '2.2.12';
 export const APP_VERSION = VERSION;
 
 export const FONTS = [
