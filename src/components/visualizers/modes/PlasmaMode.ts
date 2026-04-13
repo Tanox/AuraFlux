@@ -47,7 +47,7 @@ export const renderPlasmaMode = ({
   for (let i = 0; i < particleCount; i++) {
     const dataIndex = Math.floor((i / particleCount) * dataArray.length);
     const val = dataArray[dataIndex] / 255;
-    const params = particleParams[i];
+    const params = particleParams[i % particleParams.length];
     
     // 计算粒子位置，基于更复杂的随机运动和音频数据
     const noiseX = Math.sin(time * params.speed + params.offset) * Math.cos(time * 0.1 + params.offset);

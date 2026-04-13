@@ -1,4 +1,4 @@
-// File: src\locales\ru.ts | Version: v2.1.1
+// File: src\locales\ru.ts | Version: v2.2.12
 import { common } from './ru/common';
 import { onboarding } from './ru/onboarding';
 import { panels } from './ru/panels';

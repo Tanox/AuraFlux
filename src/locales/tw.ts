@@ -1,4 +1,4 @@
-// File: src\locales\tw.ts | Version: v2.1.1
+// File: src\locales\tw.ts | Version: v2.2.12
 import { common } from './tw/common';
 import { onboarding } from './tw/onboarding';
 import { panels } from './tw/panels';
