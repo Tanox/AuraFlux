@@ -68,7 +68,6 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "تدفق عصبي",
     [VisualizerMode.CUBE_FIELD]: "ميدان المكعبات",
     [VisualizerMode.KINETIC_WALL]: "جدار حركي",
-    [VisualizerMode.VORTEX]: "دوامة",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "حقول طاقة هائجة متدفقة مع مزيج من الألوان الزاهية.",
@@ -82,7 +81,6 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "خطوط معقدة متصلبة تشكل شبكة سائلة وعضوية.",
     [VisualizerMode.CUBE_FIELD]: "ميدان من المكعبات المضيئة التي تتحرك وتتغير حجمها مع الموسيقى.",
     [VisualizerMode.KINETIC_WALL]: "جدار ديناميكي من العناصر التي تدفع وتجذب استجابة للصوت.",
-    [VisualizerMode.VORTEX]: "دوامة من الضوء والجسيمات تشويه المساحة المحيطة بها.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "قياسي",
@@ -147,6 +145,8 @@ export const settings = {
   qualities: {
     low: "منخفض (طاقة)",
     med: "متوسط (متوازن)",
-    high: "عالي (دقة)",
+    high: "مرتفع (دقة)",
   },
+  selectAll: "تحديد الكل",
+  unselectAll: "إلغاء التحديد",
 };

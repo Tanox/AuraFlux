@@ -2,6 +2,31 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.12]
+### 🎨 UI Improvements
+- **Settings Panel**: Updated to completely hide the settings options UI when closed, instead of just moving it off-screen
+
+### ✨ Visualization Enhancements
+- **Ocean Mode**: Doubled initial gain from 75% to 150% and adjusted initial position to be fixed at canvas bottom for more impactful visual effect
+
+## [v2.2.11]
+### 🐛 Bug Fixes
+- **Visualization Mode Cycle**: Fixed the auto-rotate functionality for visualization modes, ensuring that enabled modes cycle correctly based on the specified interval
+
+### ✨ Visualization Enhancements
+- **Plasma Mode**: Enhanced with more complex random motion patterns, stronger audio reactivity, particle trails, and improved glow effects
+
+## [v2.2.10]
+### ✨ Visualization Enhancements
+- **Plasma Mode**: Restored to five glowing particles with random motion, enhanced with audio-reactive behavior
+
+## [v2.2.9]
+### ✨ Visualization Enhancements
+- **Color Themes**: Optimized color schemes by replacing dim colors with more vibrant alternatives while preserving theme identities. Updated Ocean, Forest, Aurora, Cosmic, Desert, Sakura, Forest Dusk, Deep Sea, Lava, and Mint themes with brighter, more vivid color palettes
+
+### 🎨 UI Improvements
+- **Settings Panel**: Moved the settings options UI from the top to the bottom of the canvas, positioned above the mini toolbar to avoid遮挡 (obstruction)
+
 ## [v2.2.8]
 ### ✨ Visualization Enhancements
 - **Color Themes**: Added 12 new color themes, expanding the total to 18 themes. New themes include: Aurora, Fire, Cosmic, Desert, Sakura, Neon Glow, Forest Dusk, Deep Sea, Lava, Mint, Amethyst, and Sunset Beach

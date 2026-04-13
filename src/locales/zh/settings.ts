@@ -157,6 +157,8 @@ export const settings = {
     med: "中 (平衡)",
     high: "高 (保真)",
   },
+  selectAll: "全选",
+  unselectAll: "取消全选",
   common: {
     simple: "简单",
     advanced: "高级",

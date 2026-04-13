@@ -1,5 +1,5 @@
-// File: src\hooks\useVisualsState.ts | Version: v2.0.6
-import { useState, useCallback, useMemo } from 'react';
+// File: src\hooks\useVisualsState.ts | Version: v2.2.11
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
 
@@ -16,7 +16,10 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   bloom: 0.5,
   particleCount: 1000,
   speed: 1.0,
-  cycleColors: true
+  cycleColors: true,
+  autoRotate: false,
+  rotateInterval: 30,
+  includedModes: Object.values(VisualizerMode)
 };
 
 export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
@@ -57,6 +60,28 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
     setColorTheme(preset.colors);
     setActivePreset(preset.name);
   }, []);
+
+  // Auto rotate visualizer modes
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+
+    if (settings.autoRotate && hasStarted) {
+      intervalId = setInterval(() => {
+        const included = settings.includedModes || Object.values(VisualizerMode);
+        if (included.length > 1) {
+          const currentIndex = included.indexOf(mode);
+          const nextIndex = (currentIndex + 1) % included.length;
+          setMode(included[nextIndex]);
+        }
+      }, (settings.rotateInterval || 30) * 1000);
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [settings.autoRotate, settings.rotateInterval, settings.includedModes, mode, setMode, hasStarted]);
 
   return useMemo(() => ({
     mode, setMode,

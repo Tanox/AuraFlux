@@ -49,7 +49,7 @@ export const ModeSelector: React.FC = () => {
         action={
             <div className="flex items-center gap-3">
                 <button onClick={toggleAllModes} className="text-[9px] font-black uppercase text-blue-500 hover:text-blue-400 tracking-widest px-2 transition-colors">
-                    {(settings.includedModes || []).length === Object.keys(VisualizerMode).length ? 'Unselect All' : 'Select All'}
+                    {(settings.includedModes || []).length === Object.keys(VisualizerMode).length ? t?.unselectAll || 'Unselect All' : t?.selectAll || 'Select All'}
                 </button>
                 {settings.autoRotate && (
                     <div className="animate-fade-in-up w-16">

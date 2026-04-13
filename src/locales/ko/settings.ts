@@ -151,4 +151,6 @@ export const settings = {
     med: "중간 (균형)",
     high: "높음 (충실도)",
   },
+  selectAll: "전체 선택",
+  unselectAll: "선택 취소",
 };

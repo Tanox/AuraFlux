@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\controls\Controls.tsx | Version: v2.0.6
+// File: src\components\controls\Controls.tsx | Version: v2.2.12
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
@@ -69,8 +69,8 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
     <>
       <div
         id="controls-expanded-panel"
-        className={`fixed inset-x-0 top-0 z-[110] transition-transform duration-500 ease-in-out ${isExpanded ? 'translate-y-0' : '-translate-y-full'}`}
-        style={{ pointerEvents: isExpanded ? 'auto' : 'none' }}
+        className={`fixed inset-x-0 bottom-24 z-[110] transition-transform duration-500 ease-in-out ${isExpanded ? 'translate-y-0' : 'translate-y-full'}`}
+        style={{ pointerEvents: isExpanded ? 'auto' : 'none', display: isExpanded ? 'block' : 'none' }}
       >
         <div id="controls-panel-content" className="max-w-6xl mx-auto p-4 pt-6">
           <div className="bg-white/90 dark:bg-[#0a0a0c]/90 backdrop-blur-2xl border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-fade-in-down">

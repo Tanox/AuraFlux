@@ -81,9 +81,14 @@ const MainContent: React.FC = () => {
     const interval = setInterval(() => {
       if (setColorTheme) {
         const currentTheme = colorTheme;
-        const currentIndex = COLOR_THEMES.findIndex(theme => 
-          JSON.stringify(theme.colors) === JSON.stringify(currentTheme)
-        );
+        // More efficient comparison than JSON.stringify
+        const currentIndex = COLOR_THEMES.findIndex(theme => {
+          if (theme.colors.length !== currentTheme.length) return false;
+          for (let i = 0; i < theme.colors.length; i++) {
+            if (theme.colors[i] !== currentTheme[i]) return false;
+          }
+          return true;
+        });
         const nextIndex = (currentIndex + 1) % COLOR_THEMES.length;
         setColorTheme(COLOR_THEMES[nextIndex].colors);
       }

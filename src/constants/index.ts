@@ -1,8 +1,8 @@
-// File: src\constants\index.ts | Version: v2.2.8
+// File: src\constants\index.ts | Version: v2.2.10
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';
-export const VERSION = '2.2.8';
+export const VERSION = '2.2.10';
 export const APP_VERSION = VERSION;
 
 export const FONTS = [
@@ -32,20 +32,20 @@ export const getFontOptions = () => FONTS.map(font => ({ value: font, label: fon
 export const COLOR_THEMES = [
   { id: 'neon', name: 'Neon', colors: ['#ff00ff', '#00ffff', '#00ff00'] },
   { id: 'sunset', name: 'Sunset', colors: ['#ff4e50', '#f9d423', '#ff9a9e'] },
-  { id: 'ocean', name: 'Ocean', colors: ['#2193b0', '#6dd5ed', '#000046'] },
-  { id: 'forest', name: 'Forest', colors: ['#11998e', '#38ef7d', '#000000'] },
+  { id: 'ocean', name: 'Ocean', colors: ['#00b4d8', '#48cae4', '#90e0ef'] },
+  { id: 'forest', name: 'Forest', colors: ['#06d6a0', '#1b9aaa', '#ef476f'] },
   { id: 'cyber', name: 'Cyber', colors: ['#00ffcc', '#ff0066', '#333399'] },
   { id: 'monochrome', name: 'Monochrome', colors: ['#ffffff', '#888888', '#000000'] },
-  { id: 'aurora', name: 'Aurora', colors: ['#0b486b', '#3b8686', '#79bd9a'] },
+  { id: 'aurora', name: 'Aurora', colors: ['#ff6b6b', '#4ecdc4', '#45b7d1'] },
   { id: 'fire', name: 'Fire', colors: ['#ff4500', '#ff8c00', '#ffd700'] },
-  { id: 'cosmic', name: 'Cosmic', colors: ['#1a1a2e', '#16213e', '#0f3460'] },
-  { id: 'desert', name: 'Desert', colors: ['#d4a373', '#e9edc9', '#faedcd'] },
-  { id: 'sakura', name: 'Sakura', colors: ['#ffb3ba', '#ffc0cb', '#f7e7eb'] },
+  { id: 'cosmic', name: 'Cosmic', colors: ['#4cc9f0', '#4361ee', '#3a0ca3'] },
+  { id: 'desert', name: 'Desert', colors: ['#f4a261', '#e76f51', '#2a9d8f'] },
+  { id: 'sakura', name: 'Sakura', colors: ['#ff8fab', '#f9a8d4', '#c4b5fd'] },
   { id: 'neon-glow', name: 'Neon Glow', colors: ['#39ff14', '#00f0ff', '#ff00c8'] },
-  { id: 'forest-dusk', name: 'Forest Dusk', colors: ['#2d5016', '#639a67', '#a7c5bd'] },
-  { id: 'deep-sea', name: 'Deep Sea', colors: ['#05445e', '#189ab4', '#75e6da'] },
-  { id: 'lava', name: 'Lava', colors: ['#c2410c', '#f97316', '#fb923c'] },
-  { id: 'mint', name: 'Mint', colors: ['#d1fae5', '#a7f3d0', '#6ee7b7'] },
+  { id: 'forest-dusk', name: 'Forest Dusk', colors: ['#70e000', '#00b4d8', '#0077b6'] },
+  { id: 'deep-sea', name: 'Deep Sea', colors: ['#0096c7', '#00b4d8', '#48cae4'] },
+  { id: 'lava', name: 'Lava', colors: ['#ff5722', '#ff9800', '#ffc107'] },
+  { id: 'mint', name: 'Mint', colors: ['#00b4d8', '#90e0ef', '#ade8f4'] },
   { id: 'amethyst', name: 'Amethyst', colors: ['#9f7aea', '#8b5cf6', '#7c3aed'] },
   { id: 'sunset-beach', name: 'Sunset Beach', colors: ['#f97316', '#fdba74', '#fef08a'] }
 ];

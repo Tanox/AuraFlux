@@ -149,4 +149,6 @@ export const settings = {
     med: "Media (Equilibrada)",
     high: "Alta (Fidelidad)",
   },
+  selectAll: "Seleccionar Todo",
+  unselectAll: "Deseleccionar Todo",
 };

@@ -32,9 +32,9 @@ export const StudioPanel: React.FC = () => {
     audioContext, analyser, mediaStream, sourceType, t, showToast
   });
 
-  const studio = t.studioPanel;
-  const labels = studio.settings;
-  const hints = studio.hints;
+  const studio = t.studioPanel || {};
+  const labels = studio.settings || {};
+  const hints = studio.hints || {};
 
   const shareT = (t as any).share || { 
       title: "Aura Flux Creation", 

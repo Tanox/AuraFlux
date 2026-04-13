@@ -155,4 +155,6 @@ export const settings = {
     med: "中 (バランス)",
     high: "高 (忠実度)",
   },
+  selectAll: "すべて選択",
+  unselectAll: "選択解除",
 };

@@ -147,8 +147,10 @@ export const settings = {
     vocal: "专注人声",
   },
   qualities: {
-    low: "低 (性能)",
+    low: "低 (節能)",
     med: "中 (平衡)",
-    high: "高 (保真度)",
+    high: "高 (保真)",
   },
+  selectAll: "全選",
+  unselectAll: "取消全選",
 };

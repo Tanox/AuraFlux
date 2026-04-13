@@ -1,7 +1,7 @@
 'use client';
 /**
  * File: src/components/visualizers/scenes/OceanWaveScene.tsx
- * Version: v2.0.6
+ * Version: v2.2.12
  * Author: Sut
  * Description: "Joy Division" Style Pulsar Terrain with scrolling history.
  */
@@ -64,7 +64,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   useLayoutEffect(() => {
       if (meshRef.current) {
           for (let i = 0; i < NUM_LINES; i++) {
-              dummy.position.set(0, i * 0.75 - 12, -i * Z_SPACING);
+              dummy.position.set(0, i * 0.75 - 20, -i * Z_SPACING);
               dummy.updateMatrix();
               meshRef.current.setMatrixAt(i, dummy.matrix);
           }
@@ -111,7 +111,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity * 0.75; // Gain adjusted to 75%
+        mat.uniforms.uSensitivity.value = settings.sensitivity * 1.5; // Gain doubled to 150%
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColorRidge.value.copy(c2); 
         else if (c0) mat.uniforms.uColorRidge.value.copy(c0);

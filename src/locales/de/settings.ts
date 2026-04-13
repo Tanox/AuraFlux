@@ -147,6 +147,8 @@ export const settings = {
   qualities: {
     low: "Niedrig (Energie)",
     med: "Mittel (Ausgeglichen)",
-    high: "Hoch (Fidelity)",
+    high: "Hoch (Fidelität)",
   },
+  selectAll: "Alle Auswählen",
+  unselectAll: "Auswahl Aufheben",
 };
