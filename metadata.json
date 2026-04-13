@@ -1,5 +1,5 @@
 {
-  "name": "Aura Flux - AI Music Visualizer v2.2.14",
+  "name": "Aura Flux - AI Music Visualizer v2.2.15",
   "description": "A world-class 3D music visualizer utilizing Gemini 3.0. Version 2.0.0 consolidates documentation into the openspec directory and refactors visualizer scenes.",
   "requestFramePermissions": [
     "camera",

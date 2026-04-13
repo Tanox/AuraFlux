@@ -1,4 +1,14 @@
-// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.14
+// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.15
+
+interface ParticleState {
+  x: number;
+  y: number;
+  radius: number;
+  targetX: number;
+  targetY: number;
+  targetRadius: number;
+  colorIndex: number;
+}
 
 interface PlasmaModeProps {
   ctx: CanvasRenderingContext2D;
@@ -8,6 +18,9 @@ interface PlasmaModeProps {
   colors: string[];
   sensitivity: number;
 }
+
+// 粒子状态缓存
+let particleStates: ParticleState[] = [];
 
 /**
  * 渲染PLASMA模式的可视化效果
@@ -44,12 +57,28 @@ export const renderPlasmaMode = ({
     { speed: 0.32, noise: 0.05, offset: 4 }
   ];
   
+  // 初始化粒子状态
+  if (particleStates.length !== particleCount) {
+    particleStates = [];
+    for (let i = 0; i < particleCount; i++) {
+      particleStates.push({
+        x: centerX,
+        y: centerY,
+        radius: 20,
+        targetX: centerX,
+        targetY: centerY,
+        targetRadius: 20,
+        colorIndex: i % colors.length
+      });
+    }
+  }
+  
   for (let i = 0; i < particleCount; i++) {
     const dataIndex = Math.floor((i / particleCount) * dataArray.length);
     const val = dataArray[dataIndex] / 255;
     const params = particleParams[i % particleParams.length];
     
-    // 计算粒子位置，基于更复杂的随机运动和音频数据
+    // 计算粒子目标位置，基于更复杂的随机运动和音频数据
     const noiseX = Math.sin(time * params.speed + params.offset) * Math.cos(time * 0.1 + params.offset);
     const noiseY = Math.cos(time * params.speed + params.offset) * Math.sin(time * 0.15 + params.offset);
     const baseX = (Math.sin(time * params.speed + params.offset) * 0.5 + 0.5) * width;
@@ -63,18 +92,36 @@ export const renderPlasmaMode = ({
     const randomOffsetX = (Math.random() * 2 - 1) * 30 * val;
     const randomOffsetY = (Math.random() * 2 - 1) * 30 * val;
     
-    const x = baseX + noiseX * 50 + audioOffsetX + randomOffsetX;
-    const y = baseY + noiseY * 50 + audioOffsetY + randomOffsetY;
+    // 更新目标位置和大小
+    particleStates[i].targetX = baseX + noiseX * 50 + audioOffsetX + randomOffsetX;
+    particleStates[i].targetY = baseY + noiseY * 50 + audioOffsetY + randomOffsetY;
+    particleStates[i].targetRadius = 20 + val * 100 * sensitivity;
     
-    // 粒子大小基于音频数据，大幅增加最大值
-    const radius = 20 + val * 100 * sensitivity;
+    // 缓动过渡到目标位置和大小
+    const easing = 0.08; // 缓动系数，越小过渡越平滑
+    particleStates[i].x += (particleStates[i].targetX - particleStates[i].x) * easing;
+    particleStates[i].y += (particleStates[i].targetY - particleStates[i].y) * easing;
+    particleStates[i].radius += (particleStates[i].targetRadius - particleStates[i].radius) * easing;
     
-    // 创建巨大的径向渐变，铺满整个画面的光晕效果
+    const x = particleStates[i].x;
+    const y = particleStates[i].y;
+    const radius = particleStates[i].radius;
+    const colorIndex = particleStates[i].colorIndex;
+    
+    // 创建巨大的径向渐变，铺满整个画面的光晕效果，使用更平滑的颜色过渡
     const gradientSize = Math.max(width, height) * 2;
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, gradientSize);
-    gradient.addColorStop(0, colors[i % colors.length]);
-    gradient.addColorStop(0.1, colors[(i + 1) % colors.length]);
-    gradient.addColorStop(0.3, colors[(i + 2) % colors.length]);
+    
+    // 更平滑的颜色过渡
+    const color1 = colors[colorIndex % colors.length];
+    const color2 = colors[(colorIndex + 1) % colors.length];
+    const color3 = colors[(colorIndex + 2) % colors.length];
+    
+    gradient.addColorStop(0, color1);
+    gradient.addColorStop(0.15, color1);
+    gradient.addColorStop(0.3, color2);
+    gradient.addColorStop(0.5, color3);
+    gradient.addColorStop(0.7, color2);
     gradient.addColorStop(1, 'transparent');
     
     // 绘制超大光晕背景
@@ -84,49 +131,54 @@ export const renderPlasmaMode = ({
     ctx.arc(x, y, gradientSize, 0, Math.PI * 2);
     ctx.fill();
     
-    // 绘制粒子拖尾效果（增强）
-    const tailLength = 5;
+    // 绘制粒子拖尾效果（增强且更顺滑）
+    const tailLength = 8; // 增加拖尾长度
     for (let t = 0; t < tailLength; t++) {
       const tailProgress = t / tailLength;
-      const tailX = x - (audioOffsetX + randomOffsetX) * tailProgress * 0.3;
-      const tailY = y - (audioOffsetY + randomOffsetY) * tailProgress * 0.3;
-      const tailRadius = radius * (1 - tailProgress * 0.4);
+      const tailEasing = 1 - Math.pow(1 - tailProgress, 3); // 缓动拖尾
+      const tailX = x - (particleStates[i].targetX - x) * tailEasing * 0.8;
+      const tailY = y - (particleStates[i].targetY - y) * tailEasing * 0.8;
+      const tailRadius = radius * (1 - tailEasing * 0.6);
       
-      const tailGradient = ctx.createRadialGradient(tailX, tailY, 0, tailX, tailY, tailRadius * 5);
-      tailGradient.addColorStop(0, colors[i % colors.length]);
-      tailGradient.addColorStop(0.3, colors[(i + 1) % colors.length]);
+      const tailGradient = ctx.createRadialGradient(tailX, tailY, 0, tailX, tailY, tailRadius * 6);
+      tailGradient.addColorStop(0, color1);
+      tailGradient.addColorStop(0.2, color2);
+      tailGradient.addColorStop(0.4, color3);
       tailGradient.addColorStop(1, 'transparent');
       
       ctx.fillStyle = tailGradient;
-      ctx.globalAlpha = 0.4 * (1 - tailProgress) * average;
+      ctx.globalAlpha = 0.3 * (1 - tailEasing) * average;
       ctx.beginPath();
-      ctx.arc(tailX, tailY, tailRadius * 5, 0, Math.PI * 2);
+      ctx.arc(tailX, tailY, tailRadius * 6, 0, Math.PI * 2);
       ctx.fill();
     }
     
-    // 绘制主粒子
+    // 绘制主粒子，使用更平滑的渐变
     ctx.globalAlpha = 1;
-    const particleGradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 3);
-    particleGradient.addColorStop(0, colors[i % colors.length]);
-    particleGradient.addColorStop(0.5, colors[(i + 1) % colors.length]);
+    const particleGradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 4);
+    particleGradient.addColorStop(0, color1);
+    particleGradient.addColorStop(0.2, color1);
+    particleGradient.addColorStop(0.4, color2);
+    particleGradient.addColorStop(0.6, color3);
     particleGradient.addColorStop(1, 'transparent');
     
     ctx.fillStyle = particleGradient;
     ctx.beginPath();
-    ctx.arc(x, y, radius * 3, 0, Math.PI * 2);
+    ctx.arc(x, y, radius * 4, 0, Math.PI * 2);
     ctx.fill();
     
     // 绘制粒子核心
-    ctx.fillStyle = colors[i % colors.length];
+    ctx.fillStyle = color1;
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
   }
   
-  // 绘制全屏发光效果
+  // 绘制全屏发光效果，使用更平滑的渐变
   const fullScreenGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.max(width, height));
   fullScreenGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-  fullScreenGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.1)');
+  fullScreenGradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.2)');
+  fullScreenGradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.1)');
   fullScreenGradient.addColorStop(1, 'transparent');
   
   ctx.globalAlpha = 0.8 * average;

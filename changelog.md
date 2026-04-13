@@ -2,6 +2,11 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.15]
+### ✨ Visualization Enhancements
+- **Plasma Mode**: Optimized particle glow transitions with smooth easing effects, improved color gradients, and enhanced trail animations for more fluid visual experience
+- **Plasma Mode**: Added particle state caching and缓动过渡 to create seamless movements and size changes
+
 ## [v2.2.14]
 ### ✨ Visualization Enhancements
 - **Plasma Mode**: Dramatically increased glow effects by 10x, creating full-screen光晕 coverage with enhanced particle trails and background illumination

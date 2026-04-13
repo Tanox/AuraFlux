@@ -70,6 +70,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Neural Flow",
     [VisualizerMode.CUBE_FIELD]: "Cube Field",
     [VisualizerMode.KINETIC_WALL]: "Kinetic Wall",
+    [VisualizerMode.STARFIELD]: "Starfield",
     [VisualizerMode.VORTEX]: "Gravitational Vortex",
   },
   modeDescriptions: {
