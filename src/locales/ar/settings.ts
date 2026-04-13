@@ -68,6 +68,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "تدفق عصبي",
     [VisualizerMode.CUBE_FIELD]: "ميدان المكعبات",
     [VisualizerMode.KINETIC_WALL]: "جدار حركي",
+    [VisualizerMode.STARFIELD]: "ميدان النجوم",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "حقول طاقة هائجة متدفقة مع مزيج من الألوان الزاهية.",
