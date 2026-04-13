@@ -90,5 +90,5 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_GEMINI_API_KEY=your_key aura-flux
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 2.1.1*  
+*Version: 2.2.12*  
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)
