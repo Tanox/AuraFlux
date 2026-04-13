@@ -1,4 +1,4 @@
-// src/components/visualizers/scenes/shaders/SilkWaveShaders.ts v2.0.6
+// src/components/visualizers/scenes/shaders/SilkWaveShaders.ts v2.2.1
 export const silkWaveVertexShader = `
   uniform float uTime, uSpeed, uBass, uEnergyL, uEnergyR, uShockwave, uDensity; 
   attribute float aChannel, aRandom, aLayerIndex; 
@@ -13,14 +13,14 @@ export const silkWaveVertexShader = `
       vUv = uv; vRandom = aRandom; 
       vec3 pos = position; 
       float time = uTime * 0.6 * uSpeed; 
-      float wave1 = sin(pos.x * 0.012 + time + aRandom * 6.28) * 72.0 * (1.0 + uBass * 4.5); 
-      float wave2 = sin(pos.x * 0.02 + time * 1.4 + aRandom * 2.1) * 48.0 * (1.0 + uEnergyL * 5.4); 
-      float noise = snoise(vec3(pos.x * 0.01, aRandom * 5.0, time * 0.5)) * 84.0 * (1.0 + uEnergyR * 5.4); 
+      float wave1 = sin(pos.x * 0.012 + time + aRandom * 6.28) * 36.0 * (1.0 + uBass * 4.5); 
+      float wave2 = sin(pos.x * 0.02 + time * 1.4 + aRandom * 2.1) * 24.0 * (1.0 + uEnergyL * 5.4); 
+      float noise = snoise(vec3(pos.x * 0.01, aRandom * 5.0, time * 0.5)) * 42.0 * (1.0 + uEnergyR * 5.4); 
       pos.y += wave1 + wave2 + noise; 
       pos.z -= 110.0 * aLayerIndex; 
       pos.z += sin(pos.x*0.02+time+aRandom*3.0)*5.0*(1.0+uBass); 
-      float shock = uShockwave * 12.0 * sin(uv.x * 3.14159) * (1.0-aLayerIndex); pos.y += shock; 
-      vIntensity = pow(abs(wave1 + noise)*0.02, 2.0); 
+      float shock = uShockwave * 6.0 * sin(uv.x * 3.14159) * (1.0-aLayerIndex); pos.y += shock; 
+      vIntensity = pow(abs(wave1 + noise)*0.04, 2.0); 
       vDepth = aLayerIndex; 
       vSideFade = 1.0 - pow(abs(uv.x-0.5)*2.0, 3.0); 
       vVisibility = step(aRandom, uDensity); 
@@ -34,8 +34,8 @@ export const silkWaveFragmentShader = `
   varying vec2 vUv; 
   void main() { 
       if (vVisibility < 0.5) discard; 
-      float edge = smoothstep(0.0, 0.1, abs(vUv.y-0.5)*2.0); 
-      float alpha = (0.5 + vIntensity * 5.0) * (1.0 - vDepth * 0.9) * vSideFade * (1.0 - edge); 
+      float edge = smoothstep(0.0, 0.3, abs(vUv.y-0.5)*2.0); 
+      float alpha = (0.8 + vIntensity * 15.0) * (1.0 - vDepth * 0.9) * vSideFade * (1.0 - edge); 
       if (alpha < 0.01) discard; 
       vec3 c1 = mix(uColor1, uColor2, vRandom); 
       vec3 c2 = mix(uColor2, uColor3, vRandom); 

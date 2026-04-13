@@ -2,6 +2,10 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.1]
+### ✨ Visualization Enhancements
+- **Silk Wave Mode**: Further thickened lines by 3-5x, reduced amplitude to 50%, and improved smoothness
+
 ## [v2.1.1]
 ### ✨ Version Update
 - **Version Synchronization**: Updated all project files to version v2.1.1
