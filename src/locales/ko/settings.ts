@@ -71,6 +71,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "큐브 필드",
     [VisualizerMode.KINETIC_WALL]: "키네틱 벽",
     [VisualizerMode.VORTEX]: "중력 소용돌이",
+    [VisualizerMode.STARFIELD]: "스타필드",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "생생한 색상 혼합을 가진 최면적이고 흐르는 에너지 필드입니다.",
@@ -85,6 +86,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "음악에 따라 애니메이션되고 크기가 변하는 빛나는 큐브 필드입니다.",
     [VisualizerMode.KINETIC_WALL]: "오디오에 반응하여 밀고 당기는 요소의 동적 벽입니다.",
     [VisualizerMode.VORTEX]: "주위 공간을 왜곡하는 빛과 입자의 소용돌이입니다.",
+    [VisualizerMode.STARFIELD]: "오디오 에너지에 반응하는 깊이와 움직임이 있는 매혹적인 별장 필드입니다.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "표준",

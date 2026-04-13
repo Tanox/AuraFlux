@@ -71,6 +71,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Поле кубов",
     [VisualizerMode.KINETIC_WALL]: "Кинетическая стена",
     [VisualizerMode.VORTEX]: "Гравитационный вихрь",
+    [VisualizerMode.STARFIELD]: "Звездное поле",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Гипнотические и текучие энергетические поля с сочетаниями ярких цветов.",
@@ -85,6 +86,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Поле светящихся кубов, которые анимируются и меняют размер под музыку.",
     [VisualizerMode.KINETIC_WALL]: "Динамическая стена элементов, которая толкает и тянет в ответ на аудио.",
     [VisualizerMode.VORTEX]: "Вихрь света и частиц, искажающий окружающее пространство.",
+    [VisualizerMode.STARFIELD]: "Фантастическое поле звезд, реагирующее на аудиоэнергию с глубиной и движением.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Стандартный",

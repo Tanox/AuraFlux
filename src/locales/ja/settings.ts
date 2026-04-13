@@ -69,6 +69,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "キューブフィールド",
     [VisualizerMode.KINETIC_WALL]: "キネティックウォール",
     [VisualizerMode.VORTEX]: "グラビテーショナルボルテックス",
+    [VisualizerMode.STARFIELD]: "スターフィールド",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "鮮やかな色の組み合わせを備えた催眠的で流動的なエネルギーフィールド。",
@@ -83,6 +84,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "音楽に合わせてアニメーションしサイズが変化する光るキューブのフィールド。",
     [VisualizerMode.KINETIC_WALL]: "オーディオに反応して押したり引いたりする要素の動的な壁。",
     [VisualizerMode.VORTEX]: "周囲の空間を歪める光と粒子の渦。",
+    [VisualizerMode.STARFIELD]: "オーディオエネルギーに反応し、深度と動きを持った魅惑的な星空フィールド。",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "標準",

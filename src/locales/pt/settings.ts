@@ -71,6 +71,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Campo de Cubos",
     [VisualizerMode.KINETIC_WALL]: "Parede Cinética",
     [VisualizerMode.VORTEX]: "Vórtice Gravitacional",
+    [VisualizerMode.STARFIELD]: "Campo de Estrelas",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Campos de energia hipnóticos e fluídos com combinações de cores vibrantes.",
@@ -85,6 +86,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Um campo de cubos brilhantes que se animam e mudam de tamanho com a música.",
     [VisualizerMode.KINETIC_WALL]: "Uma parede dinâmica de elementos que empurram e puxam em resposta ao áudio.",
     [VisualizerMode.VORTEX]: "Um vórtice de luz e partículas que distorce o espaço ao seu redor.",
+    [VisualizerMode.STARFIELD]: "Um campo de estrelas fascinante que reage à energia do áudio com profundidade e movimento.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Padrão",
