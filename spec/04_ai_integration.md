@@ -4,7 +4,7 @@
 
 ### 1.1 aiService.ts
 - **文件**: `src/services/aiService.ts`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 提供 Google Gemini AI 服务集成
 
 **核心功能:**
@@ -203,7 +203,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
 
 ### 2.1 useAiState Hook
 - **文件**: `src/hooks/useAiState.ts`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 管理 AI 相关状态
 
 **核心状态:**
@@ -297,7 +297,7 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 ### 3.1 AI 背景生成
 - **组件**: `AiBackground.tsx`
 - **文件**: `src/components/visualizers/AiBackground.tsx`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 基于音乐情绪生成艺术背景
 
 **工作流程:**
@@ -371,7 +371,7 @@ export const AiBackground: React.FC<AiBackgroundProps> = ({ analyser, isVisible 
 ### 3.2 AI 视觉导演
 - **组件**: `AiVisualDirector.tsx`
 - **文件**: `src/components/visualizers/AiVisualDirector.tsx`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 基于音频分析自动配置视觉效果
 
 **工作流程:**
@@ -441,7 +441,7 @@ export const AiVisualDirector: React.FC<AiVisualDirectorProps> = ({ analyser, is
 ### 3.3 歌曲识别
 - **组件**: `SongIdentification.tsx`
 - **文件**: `src/components/visualizers/SongIdentification.tsx`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 识别正在播放的歌曲
 
 **工作流程:**

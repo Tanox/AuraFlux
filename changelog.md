@@ -2,6 +2,10 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.13]
+### 🐛 Bug Fixes
+- **Plasma Mode**: Fixed particle parameter array out-of-bounds issue by using modulo operation to ensure safe access
+
 ## [v2.2.12]
 ### 🎨 UI Improvements
 - **Settings Panel**: Updated to completely hide the settings options UI when closed, instead of just moving it off-screen

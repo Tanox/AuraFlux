@@ -4,7 +4,7 @@
 
 ### 1.1 useAudio Hook
 - **文件**: `src/hooks/useAudio.ts`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 提供音频处理和分析功能
 
 **核心状态:**
@@ -175,7 +175,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 
 ### 2.1 音频工具 (audioUtils.ts)
 - **文件**: `src/services/audioUtils.ts`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 提供音频处理工具函数
 
 **主要功能:**
@@ -290,7 +290,7 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 
 ### 3.1 useAudioReactive Hook
 - **文件**: `src/hooks/useAudioReactive.ts`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 将音频数据转换为视觉响应
 
 **核心功能:**
@@ -378,7 +378,7 @@ export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: num
 
 ### 3.2 useAudioPulse Hook
 - **文件**: `src/hooks/useAudioPulse.ts`
-- **版本**: v2.1.1
+- **版本**: v2.2.12
 - **功能**: 检测音频脉冲和节拍
 
 **核心功能:**
