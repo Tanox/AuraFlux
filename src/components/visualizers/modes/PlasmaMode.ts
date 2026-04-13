@@ -1,4 +1,4 @@
-// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.11
+// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.13
 
 interface PlasmaModeProps {
   ctx: CanvasRenderingContext2D;
