@@ -85,6 +85,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Complex, interconnected lines forming a fluid, organic network.",
     [VisualizerMode.CUBE_FIELD]: "A field of glowing cubes that animate and change size with the music.",
     [VisualizerMode.KINETIC_WALL]: "A dynamic wall of elements that push and pull in response to audio.",
+    [VisualizerMode.STARFIELD]: "A mesmerizing field of stars that react to audio energy with depth and motion.",
     [VisualizerMode.VORTEX]: "A swirling vortex of light and particles that distorts space around it.",
   },
   lyricsStyles: {

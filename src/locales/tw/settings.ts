@@ -71,6 +71,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "立方体场",
     [VisualizerMode.KINETIC_WALL]: "动态墙",
     [VisualizerMode.VORTEX]: "漩涡",
+    [VisualizerMode.STARFIELD]: "星空",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "催眠和流畅的能量场，带有鲜艳的色彩组合。",
@@ -85,6 +86,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "发光立方体场，随音乐动画和改变大小。",
     [VisualizerMode.KINETIC_WALL]: "动态元素墙，响应音频推拉。",
     [VisualizerMode.VORTEX]: "旋转的光和粒子漩涡，扭曲周围空间。",
+    [VisualizerMode.STARFIELD]: "令人著迷的星空場，隨音頻能量反應，具有深度和動感。",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "标准",
