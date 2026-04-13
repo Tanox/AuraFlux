@@ -2,21 +2,19 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v2.2.12]
-### ✨ Version Update
-- **Version Synchronization**: Updated all project files to version v2.2.12
-- **Documentation**: Updated all specification documents in the spec/ directory
-- **Metadata**: Updated metadata.json and package.json with the new version
-- **Layout**: Updated the HTML title in src/app/layout.tsx
-- **Constants**: Updated version constants in src/constants/
-- **Locales**: Updated all language files in src/locales/
-- **README**: Updated README.md and README_ZH.md with the new version
+## [v2.2.14]
+### ✨ Visualization Enhancements
+- **Plasma Mode**: Dramatically increased glow effects by 10x, creating full-screen光晕 coverage with enhanced particle trails and background illumination
+- **Starfield Mode**: Enhanced with brightness variation, stronger audio reactivity, and improved glow effects
+- **Starfield Mode**: Added center pulse effect and optimized particle movement
 
 ## [v2.2.13]
 ### 🐛 Bug Fixes
 - **Plasma Mode**: Fixed particle parameter array out-of-bounds issue by using modulo operation to ensure safe access
 
-
+## [v2.2.12]
+### ✨ Visualization Enhancements
+- **Ocean Mode**: Doubled initial gain from 75% to 150% and adjusted initial position to be fixed at canvas bottom for more impactful visual effect
 
 ## [v2.2.11]
 ### 🐛 Bug Fixes
