@@ -14,6 +14,7 @@ import { useIdleTimer } from '@/hooks/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
 import { useVersionCheck } from '@/hooks/useVersionCheck';
 import { APP_VERSION } from '@/constants/version';
+import { COLOR_THEMES } from '@/constants';
 import type { ControlsProps } from '@/components/controls/Controls';
 
 const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
@@ -69,9 +70,27 @@ const MainContent: React.FC = () => {
       toggleFullscreen
   } = ui;
   
-  const { mode, colorTheme, settings, setSettings, isThreeMode } = visuals;
+  const { mode, colorTheme, settings, setSettings, isThreeMode, setColorTheme } = visuals;
   const { analyser, analyserR, currentSong, importFiles } = audio;
   const { showLyrics, lyricsStyle, performIdentification } = ai;
+
+  // Style theme auto cycle functionality
+  useEffect(() => {
+    if (!settings?.cycleColors || !setColorTheme) return;
+
+    const interval = setInterval(() => {
+      if (setColorTheme) {
+        const currentTheme = colorTheme;
+        const currentIndex = COLOR_THEMES.findIndex(theme => 
+          JSON.stringify(theme.colors) === JSON.stringify(currentTheme)
+        );
+        const nextIndex = (currentIndex + 1) % COLOR_THEMES.length;
+        setColorTheme(COLOR_THEMES[nextIndex].colors);
+      }
+    }, (settings.colorInterval || 10) * 1000);
+
+    return () => clearInterval(interval);
+  }, [settings?.cycleColors, settings?.colorInterval, colorTheme, setColorTheme]);
   
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

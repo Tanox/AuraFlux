@@ -21,7 +21,7 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.LASERS]: { background: 'linear-gradient(10deg, transparent 48%, #ff00ff 50%, transparent 52%), linear-gradient(-15deg, transparent 47%, #00e5ff 50%, transparent 53%)' },
     [VisualizerMode.PLASMA]: { background: 'radial-gradient(circle, #ec4899, #8b5cf6, #3b82f6)' },
     [VisualizerMode.BARS]: { background: 'linear-gradient(to top, #3b82f6, #8b5cf6)' },
-    [VisualizerMode.VORTEX]: { background: 'radial-gradient(circle, #4f46e5, #000000)' },
+
 };
 
 const THREE_MODES = [
@@ -30,8 +30,7 @@ const THREE_MODES = [
   VisualizerMode.OCEAN_WAVE,
   VisualizerMode.NEURAL_FLOW,
   VisualizerMode.CUBE_FIELD,
-  VisualizerMode.KINETIC_WALL,
-  VisualizerMode.VORTEX
+  VisualizerMode.KINETIC_WALL
 ];
 
 export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode, name, isActive, isIncluded, onClick, onToggleInclude }) => {

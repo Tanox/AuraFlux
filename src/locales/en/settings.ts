@@ -63,7 +63,7 @@ export const settings = {
     [VisualizerMode.BARS]: "Spectrum Bars",
     [VisualizerMode.DIGITAL_GRID]: "Digital Grid",
     [VisualizerMode.SILK_WAVE]: "Lumina Silk",
-    [VisualizerMode.OCEAN_WAVE]: "Ocean Waves",
+    [VisualizerMode.OCEAN_WAVE]: "海洋",
     [VisualizerMode.TUNNEL]: "Warp Tunnel",
     [VisualizerMode.LASERS]: "Laser Beams",
     [VisualizerMode.WAVEFORM]: "Spectral Ribbons",

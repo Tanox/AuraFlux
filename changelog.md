@@ -2,9 +2,43 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.8]
+### ✨ Visualization Enhancements
+- **Color Themes**: Added 12 new color themes, expanding the total to 18 themes. New themes include: Aurora, Fire, Cosmic, Desert, Sakura, Neon Glow, Forest Dusk, Deep Sea, Lava, Mint, Amethyst, and Sunset Beach
+
+## [v2.2.7]
+### 🗑️ Removal
+- **Vortex Mode**: Removed the vortex visualization mode
+
+### ✨ Visualization Enhancements
+- **Ocean Mode**: Confirmed curve lines default height is fixed at canvas bottom
+- **Bars Mode**: Reduced bar count by 60% (to 40% of original) and increased bar width to 300% for more impactful visualization
+
+## [v2.2.6]
+### ✨ Visualization Enhancements
+- **Bars Mode**: Adjusted bar count to 50% of original for balanced visualization
+
+## [v2.2.5]
+### ✨ Visualization Enhancements
+- **Bars Mode**: Reduced bar count to 30% of original for cleaner visualization
+
+## [v2.2.4]
+### ✨ Visualization Enhancements
+- **Ocean Mode**: Further reduced curve lines height to 10% of original and renamed to "海洋" (Ocean)
+- **Localization**: Updated all translation files to use the new name "海洋" for Ocean Wave mode
+
+## [v2.2.3]
+### 🗑️ Removal
+- **Vortex Mode**: Removed the vortex visualization mode
+
+## [v2.2.2]
+### ✨ Visualization Enhancements
+- **Ocean Mode**: Further reduced curve lines height to 20% for more natural appearance
+
 ## [v2.2.1]
 ### ✨ Visualization Enhancements
 - **Silk Wave Mode**: Further thickened lines by 3-5x, reduced amplitude to 50%, and improved smoothness
+- **Ocean Mode**: Optimized curve lines to be fixed at canvas bottom and reduced height to 30% for more natural appearance
 
 ## [v2.1.1]
 ### ✨ Version Update
