@@ -71,6 +71,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Champ de Cubes",
     [VisualizerMode.KINETIC_WALL]: "Mur Cinétique",
     [VisualizerMode.VORTEX]: "Tourbillon Gravitationnel",
+    [VisualizerMode.STARFIELD]: "Champ d'Étoiles",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Champs d'énergie hypnotiques et fluides avec un mélange de couleurs vibrantes.",
@@ -85,6 +86,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Un champ de cubes lumineux qui s'animent et changent de taille avec la musique.",
     [VisualizerMode.KINETIC_WALL]: "Un mur dynamique d'éléments qui poussent et tirent en réponse à l'audio.",
     [VisualizerMode.VORTEX]: "Un tourbillon de lumière et de particules qui distord l'espace qui l'entoure.",
+    [VisualizerMode.STARFIELD]: "Un champ d'étoiles fascinant qui réagit à l'énergie audio avec profondeur et mouvement.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Standard",

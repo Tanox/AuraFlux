@@ -82,6 +82,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "خطوط معقدة متصلبة تشكل شبكة سائلة وعضوية.",
     [VisualizerMode.CUBE_FIELD]: "ميدان من المكعبات المضيئة التي تتحرك وتتغير حجمها مع الموسيقى.",
     [VisualizerMode.KINETIC_WALL]: "جدار ديناميكي من العناصر التي تدفع وتجذب استجابة للصوت.",
+    [VisualizerMode.STARFIELD]: "ميدان نجوم ساحر يستجيب لطاقة الصوت بعمق وحركة.",
   },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "قياسي",
