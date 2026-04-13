@@ -2,6 +2,10 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.16]
+### 🐛 Bug Fixes
+- **Portuguese Localization**: Fixed character encoding issues in Portuguese language file, correcting 'Inteligência' and 'Sinestésica' display
+
 ## [v2.2.15]
 ### ✨ Version Update
 - **Version Synchronization**: Updated all project files to version v2.2.15
