@@ -1,4 +1,4 @@
-// File: src\locales\ko.ts | Version: v2.2.12
+// File: src\locales\ko.ts
 import { common } from './ko/common';
 import { onboarding } from './ko/onboarding';
 import { panels } from './ko/panels';
@@ -8,7 +8,6 @@ import { messages } from './ko/messages';
 
 export const ko = {
   common,
-  appVersion: "v2.0.6",
   appTitle: "Aura Flux",
   welcomeSubtitle: "시네스테틱 인텔리전스 엔진",
   startExperience: "시스템 초기화",

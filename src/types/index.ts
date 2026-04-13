@@ -1,4 +1,4 @@
-// File: src/types/index.ts | Version: v2.0.7
+// File: src/types/index.ts | Version: v2.2.13
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
@@ -12,7 +12,8 @@ export enum VisualizerMode {
   PLASMA = 'PLASMA',
   BARS = 'BARS',
   STARFIELD = 'STARFIELD',
-  WAVEFORM = 'WAVEFORM'
+  WAVEFORM = 'WAVEFORM',
+  VORTEX = 'VORTEX'
 }
 
 export enum LyricsStyle {

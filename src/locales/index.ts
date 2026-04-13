@@ -1,4 +1,4 @@
-// File: src\locales\index.ts | Version: v2.2.12
+// File: src\locales\index.ts | Version: v2.2.15
 import { en } from './en';
 import { zh } from './zh';
 import { tw } from './tw';

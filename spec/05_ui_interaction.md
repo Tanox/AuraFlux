@@ -4,7 +4,7 @@
 
 ### 1.1 Controls 组件
 - **文件**: `src/components/controls/Controls.tsx`
-- **版本**: v2.2.12
+- **版本**: v2.2.15
 - **功能**: 主控制界面组件
 
 **核心特性:**

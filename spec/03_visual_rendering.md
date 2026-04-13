@@ -4,7 +4,7 @@
 
 ### 1.1 VisualizerCanvas 组件
 - **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **版本**: v2.2.12
+- **版本**: v2.2.15
 - **功能**: 2D 音频可视化画布
 
 **核心特性:**
@@ -206,7 +206,7 @@ export default VisualizerCanvas;
 
 ### 2.1 ThreeVisualizer 组件
 - **文件**: `src/components/visualizers/ThreeVisualizer.tsx`
-- **版本**: v2.2.12
+- **版本**: v2.2.15
 - **功能**: 3D 音频可视化场景
 
 **核心特性:**

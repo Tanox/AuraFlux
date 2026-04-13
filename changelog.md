@@ -3,9 +3,18 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.2.15]
-### ✨ Visualization Enhancements
-- **Plasma Mode**: Optimized particle glow transitions with smooth easing effects, improved color gradients, and enhanced trail animations for more fluid visual experience
-- **Plasma Mode**: Added particle state caching and缓动过渡 to create seamless movements and size changes
+### ✨ Version Update
+- **Version Synchronization**: Updated all project files to version v2.2.15
+- **Documentation**: Updated all specification documents in the spec/ directory
+- **Metadata**: Updated metadata.json and package.json with the new version
+- **Layout**: Updated the HTML title in src/app/layout.tsx
+- **Constants**: Updated version constants in src/constants/
+- **Locales**: Updated all language files in src/locales/
+- **README**: Updated README.md and README_ZH.md with the new version
+
+## [v2.2.13]
+### 🐛 Bug Fixes
+- **Build Fix**: Added missing `VORTEX` mode to the `VisualizerMode` enum to resolve TypeScript build errors
 
 ## [v2.2.14]
 ### ✨ Visualization Enhancements
