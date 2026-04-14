@@ -12,5 +12,5 @@
 - 请通过 `security@ewuse.com` 报告潜在安全威胁，我们将在 48 小时内进行人工响应。
 
 ---
-*Aura Flux Security Policy - Version 2.1.0*
+*Aura Flux Security Policy - Version 2.2.15*
 *Author: Sut*

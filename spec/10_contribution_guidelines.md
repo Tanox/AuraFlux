@@ -13,5 +13,5 @@
 - 每次代码变更必须同步更新相应的 `spec/` 文档，确保代码与文档的绝对一致性。
 
 ---
-*Aura Flux Contribution Guidelines - Version 2.1.0*
+*Aura Flux Contribution Guidelines - Version 2.2.15*
 *Author: Sut*

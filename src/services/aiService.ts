@@ -1,4 +1,4 @@
-// File: src\services\aiService.ts | Version: v2.0.6
+// File: src\services\aiService.ts | Version: v2.2.16
 import { GoogleGenAI } from '@google/genai';
 import { en } from '@/locales/en';
 

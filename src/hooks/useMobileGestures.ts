@@ -1,4 +1,4 @@
-// File: src\hooks\useMobileGestures.ts | Version: v2.0.6
+// File: src\hooks\useMobileGestures.ts | Version: v2.2.16
 import React, { useRef, useCallback } from 'react';
 import { useVisuals, useAI } from '@/context/AppContext';
 import { VisualizerMode } from '../types/index';

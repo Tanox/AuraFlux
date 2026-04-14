@@ -44,7 +44,7 @@
 ```tsx
 // App.tsx 核心结构
 'use client';
-// File: src/components/App.tsx | Version: v2.0.6
+// File: src/components/App.tsx | Version: v2.2.15
 import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
@@ -272,7 +272,7 @@ export default function NotFound() {
 ```tsx
 // AppContext.tsx 核心结构
 'use client';
-// File: src/context/AppContext.tsx | Version: v2.0.6
+// File: src/context/AppContext.tsx | Version: v2.2.15
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
 import { useAudio } from '@/hooks/useAudio';
@@ -451,7 +451,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 **代码示例:**
 ```tsx
 // useAppState.ts 核心结构
-// File: src/hooks/useAppState.ts | Version: v2.0.6
+// File: src/hooks/useAppState.ts | Version: v2.2.15
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
 import { TRANSLATIONS } from '../locales';
@@ -545,7 +545,7 @@ export const useAppState = () => {
 **代码示例:**
 ```tsx
 // useVisualsState.ts 核心结构
-// File: src/hooks/useVisualsState.ts | Version: v2.0.6
+// File: src/hooks/useVisualsState.ts | Version: v2.2.15
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
@@ -643,7 +643,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 **代码示例:**
 ```tsx
 // types/index.ts 核心结构
-// File: src/types/index.ts | Version: v2.0.6
+// File: src/types/index.ts | Version: v2.2.15
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
   SILK_WAVE = 'SILK_WAVE',
@@ -733,7 +733,7 @@ export type Position = 'top' | 'center' | 'bottom';
 
 **内容:**
 ```typescript
-export const APP_VERSION = 'v2.0.6';
+export const APP_VERSION = 'v2.2.15';
 ```
 
 ### 4.2 通用常量 (index.ts)
@@ -748,11 +748,11 @@ export const APP_VERSION = 'v2.0.6';
 
 **代码示例:**
 ```typescript
-// File: src/constants/index.ts | Version: v2.0.6
+// File: src/constants/index.ts | Version: v2.2.15
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';
-export const VERSION = '2.0.6';
+export const VERSION = '2.2.15';
 export const APP_VERSION = VERSION;
 
 export const FONTS = [

@@ -28,7 +28,7 @@
 **代码示例:**
 ```tsx
 // Controls.tsx 核心结构
-// File: src/components/controls/Controls.tsx | Version: v2.0.6
+// File: src/components/controls/Controls.tsx | Version: v2.2.15
 import React, { useState, useMemo } from 'react';
 import { VisualizerMode, ColorTheme } from '@/types';
 
@@ -321,7 +321,7 @@ export default Controls;
 **代码示例:**
 ```tsx
 // BottomBar.tsx 核心结构
-// File: src/components/controls/BottomBar.tsx | Version: v2.0.6
+// File: src/components/controls/BottomBar.tsx | Version: v2.2.15
 import React, { useState } from 'react';
 import { Track, SongInfo } from '@/types';
 

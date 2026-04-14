@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\controls\panels\audio\AiSettings.tsx | Version: v2.0.6
+// File: src\components\controls\panels\audio\AiSettings.tsx | Version: v2.2.16
 
 import React, { useState } from 'react';
 import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';

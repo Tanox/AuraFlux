@@ -28,7 +28,7 @@
 **代码示例:**
 ```tsx
 // next.config.ts 核心结构
-// File: next.config.ts | Version: v2.0.6
+// File: next.config.ts | Version: v2.2.15
 import type { NextConfig } from 'next';
 import path from 'path';
 
@@ -51,7 +51,7 @@ const nextConfig: NextConfig = {
     return config;
   },
   env: {
-    NEXT_PUBLIC_APP_VERSION: '2.0.6'
+    NEXT_PUBLIC_APP_VERSION: '2.2.15'
   },
   trailingSlash: false,
   output: 'export'
@@ -92,7 +92,7 @@ export default nextConfig;
 **内容结构:**
 ```json
 {
-  "version": "2.0.6"
+  "version": "2.2.15"
 }
 ```
 

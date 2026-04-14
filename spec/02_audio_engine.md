@@ -45,7 +45,7 @@
 **代码示例:**
 ```tsx
 // useAudio.ts 核心结构
-// File: src/hooks/useAudio.ts | Version: v2.0.6
+// File: src/hooks/useAudio.ts | Version: v2.2.15
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -192,7 +192,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 **代码示例:**
 ```tsx
 // audioUtils.ts 核心结构
-// File: src/services/audioUtils.ts | Version: v1.9.80
+// File: src/services/audioUtils.ts | Version: v2.2.15
 
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
   const startIndex = start || 0;
@@ -302,7 +302,7 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 **代码示例:**
 ```tsx
 // useAudioReactive.ts 核心结构
-// File: src/hooks/useAudioReactive.ts | Version: v2.0.6
+// File: src/hooks/useAudioReactive.ts | Version: v2.2.15
 import { useState, useEffect, useRef } from 'react';
 
 export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: number = 1.0) => {
@@ -389,7 +389,7 @@ export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: num
 **代码示例:**
 ```tsx
 // useAudioPulse.ts 核心结构
-// File: src/hooks/useAudioPulse.ts | Version: v2.0.6
+// File: src/hooks/useAudioPulse.ts | Version: v2.2.15
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 export const useAudioPulse = (analyser: AnalyserNode | null, threshold: number = 0.5) => {

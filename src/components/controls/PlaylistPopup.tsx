@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\controls\PlaylistPopup.tsx | Version: v2.0.6
+// File: src\components\controls\PlaylistPopup.tsx | Version: v2.2.16
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useAudioContext, useUI } from '@/context/AppContext';

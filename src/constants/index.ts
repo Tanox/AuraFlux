@@ -1,4 +1,4 @@
-// File: src\constants\index.ts | Version: v2.2.15
+// File: src\constants\index.ts | Version: v2.2.16
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';

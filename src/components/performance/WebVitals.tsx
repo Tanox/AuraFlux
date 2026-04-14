@@ -6,7 +6,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { onLCP, onINP, onFCP, onCLS, onTTFB } from 'web-vitals';
 
 interface WebVitalsProps {
   reportMetric?: (metric: any) => void;
@@ -14,18 +13,32 @@ interface WebVitalsProps {
 
 export const WebVitals = ({ reportMetric }: WebVitalsProps) => {
   useEffect(() => {
-    const handleMetric = (metric: any) => {
-      console.log('Web Vitals Metric:', metric);
-      if (reportMetric) {
-        reportMetric(metric);
+    const loadWebVitals = async () => {
+      try {
+        const { onLCP, onINP, onFCP, onCLS, onTTFB } = await import('web-vitals');
+        
+        const handleMetric = (metric: any) => {
+          if (process.env.NODE_ENV !== 'production') {
+            console.log('Web Vitals Metric:', metric);
+          }
+          if (reportMetric) {
+            reportMetric(metric);
+          }
+        };
+
+        onLCP(handleMetric);
+        onINP(handleMetric);
+        onFCP(handleMetric);
+        onCLS(handleMetric);
+        onTTFB(handleMetric);
+      } catch (error) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('Failed to load web-vitals:', error);
+        }
       }
     };
 
-    onLCP(handleMetric);
-    onINP(handleMetric);
-    onFCP(handleMetric);
-    onCLS(handleMetric);
-    onTTFB(handleMetric);
+    loadWebVitals();
   }, [reportMetric]);
 
   return null;

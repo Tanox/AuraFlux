@@ -1,4 +1,4 @@
-// File: src\hooks\useAudio.ts | Version: v2.0.6
+// File: src\hooks\useAudio.ts | Version: v2.2.16
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 

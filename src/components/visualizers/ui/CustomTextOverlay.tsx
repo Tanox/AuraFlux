@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\CustomTextOverlay.tsx | Version: v2.0.6
+// File: src\components\visualizers\ui\CustomTextOverlay.tsx | Version: v2.2.16
 import React from 'react';
 import { VisualizerSettings, SongInfo } from '@/types';
 

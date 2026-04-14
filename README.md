@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.2.15)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.2.16)
 
 [Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md) | [Documentation](./openspec/)
 
@@ -89,6 +89,6 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_GEMINI_API_KEY=your_key aura-flux
 
 ## 📄 License & Signature
 
-Developed with ❤️ by **Sut**.  
-*Version: 2.2.15*  
+Developed with ❤️ by **Sut**.
+*Version: 2.2.16*
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

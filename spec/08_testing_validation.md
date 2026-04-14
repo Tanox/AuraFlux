@@ -92,7 +92,7 @@
 **代码示例:**
 ```javascript
 // jest.config.js 核心结构
-// File: jest.config.js | Version: v2.0.6
+// File: jest.config.js | Version: v2.2.15
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',

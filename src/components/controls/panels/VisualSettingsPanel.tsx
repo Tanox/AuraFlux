@@ -1,4 +1,4 @@
-// File: src\components\controls\panels\VisualSettingsPanel.tsx | Version: v2.0.6
+// File: src\components\controls\panels\VisualSettingsPanel.tsx | Version: v2.2.16
 import React from 'react';
 import { ModeSelector } from './visual/ModeSelector';
 import { CoreVisuals } from './visual/CoreVisuals';
