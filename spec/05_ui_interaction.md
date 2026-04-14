@@ -4,7 +4,7 @@
 
 ### 1.1 Controls 组件
 - **文件**: `src/components/controls/Controls.tsx`
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **功能**: 主控制界面组件
 
 **核心特性:**
@@ -28,7 +28,7 @@
 **代码示例:**
 ```tsx
 // Controls.tsx 核心结构
-// File: src/components/controls/Controls.tsx | Version: v2.2.15
+// File: src/components/controls/Controls.tsx | Version: v2.2.22
 import React, { useState, useMemo } from 'react';
 import { VisualizerMode, ColorTheme } from '@/types';
 
@@ -321,7 +321,7 @@ export default Controls;
 **代码示例:**
 ```tsx
 // BottomBar.tsx 核心结构
-// File: src/components/controls/BottomBar.tsx | Version: v2.2.15
+// File: src/components/controls/BottomBar.tsx | Version: v2.2.22
 import React, { useState } from 'react';
 import { Track, SongInfo } from '@/types';
 

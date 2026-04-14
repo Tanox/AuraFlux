@@ -7,6 +7,7 @@ import { renderPlasmaMode } from './modes/PlasmaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
 import { renderStarfieldMode } from './modes/StarfieldMode';
 import { renderWaveformMode } from './modes/WaveformMode';
+import { APP_VERSION } from '@/constants/version';
 
 interface Props {
   analyser: AnalyserNode | null;
@@ -127,6 +128,19 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
           });
           break;
       }
+
+      // 绘制应用名称和版本号（单行显示）
+      ctx.font = '12px Inter, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'bottom';
+      const appName = 'Aura Flux';
+      const versionText = APP_VERSION;
+      const padding = 16;
+      
+      // 单行显示应用名称和版本号
+      const text = `${appName} ${versionText}`;
+      ctx.fillText(text, width - padding, height - padding);
     };
 
     const parent = canvas.parentElement;

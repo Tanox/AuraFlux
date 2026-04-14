@@ -39,13 +39,15 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
       if (tab.id === 'studio' && settings.showStudioTab === false) return false;
       return true;
     });
-  }, [settings.showPlaybackTab, settings.showStudioTab]);
+  }, [settings.showPlaybackTab, settings.showStudioTab, t]);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 
   useEffect(() => {
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      console.log('Key pressed:', e.key);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('Key pressed:', e.key);
+      }
       const target = e.target as HTMLElement;
       if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
 

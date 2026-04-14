@@ -4,7 +4,7 @@
 
 ### 1.1 aiService.ts
 - **文件**: `src/services/aiService.ts`
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **功能**: 提供 Google Gemini AI 服务集成
 
 **核心功能:**
@@ -32,7 +32,7 @@
 **代码示例:**
 ```tsx
 // aiService.ts 核心结构
-// File: src/services/aiService.ts | Version: v2.2.15
+// File: src/services/aiService.ts | Version: v2.2.22
 import { GoogleGenAI } from '@google/genai';
 import { en } from '@/locales/en';
 
@@ -203,7 +203,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
 
 ### 2.1 useAiState Hook
 - **文件**: `src/hooks/useAiState.ts`
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **功能**: 管理 AI 相关状态
 
 **核心状态:**
@@ -234,7 +234,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
 **代码示例:**
 ```tsx
 // useAiState.ts 核心结构
-// File: src/hooks/useAiState.ts | Version: v2.2.15
+// File: src/hooks/useAiState.ts | Version: v2.2.22
 import { useState, useCallback, useMemo } from 'react';
 import { LyricsStyle, SongInfo } from '../types';
 
@@ -297,7 +297,7 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 ### 3.1 AI 背景生成
 - **组件**: `AiBackground.tsx`
 - **文件**: `src/components/visualizers/AiBackground.tsx`
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **功能**: 基于音乐情绪生成艺术背景
 
 **工作流程:**
@@ -309,7 +309,7 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
 **代码示例:**
 ```tsx
 // AiBackground.tsx 核心结构
-// File: src/components/visualizers/AiBackground.tsx | Version: v2.2.15
+// File: src/components/visualizers/AiBackground.tsx | Version: v2.2.22
 import React, { useState, useEffect, useCallback } from 'react';
 import { generateArtisticBackground } from '@/services/aiService';
 import { useAudioContext } from '@/context/AppContext';
@@ -371,7 +371,7 @@ export const AiBackground: React.FC<AiBackgroundProps> = ({ analyser, isVisible 
 ### 3.2 AI 视觉导演
 - **组件**: `AiVisualDirector.tsx`
 - **文件**: `src/components/visualizers/AiVisualDirector.tsx`
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **功能**: 基于音频分析自动配置视觉效果
 
 **工作流程:**
@@ -383,7 +383,7 @@ export const AiBackground: React.FC<AiBackgroundProps> = ({ analyser, isVisible 
 **代码示例:**
 ```tsx
 // AiVisualDirector.tsx 核心结构
-// File: src/components/visualizers/AiVisualDirector.tsx | Version: v2.2.15
+// File: src/components/visualizers/AiVisualDirector.tsx | Version: v2.2.22
 import React, { useEffect, useCallback } from 'react';
 import { generateVisualConfigFromAudio } from '@/services/aiService';
 import { useVisuals } from '@/context/AppContext';
@@ -441,7 +441,7 @@ export const AiVisualDirector: React.FC<AiVisualDirectorProps> = ({ analyser, is
 ### 3.3 歌曲识别
 - **组件**: `SongIdentification.tsx`
 - **文件**: `src/components/visualizers/SongIdentification.tsx`
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **功能**: 识别正在播放的歌曲
 
 **工作流程:**
@@ -453,7 +453,7 @@ export const AiVisualDirector: React.FC<AiVisualDirectorProps> = ({ analyser, is
 **代码示例:**
 ```tsx
 // SongIdentification.tsx 核心结构
-// File: src/components/visualizers/SongIdentification.tsx | Version: v2.2.15
+// File: src/components/visualizers/SongIdentification.tsx | Version: v2.2.22
 import React, { useState, useCallback } from 'react';
 import { identifySong } from '@/services/aiService';
 import { useAI, useAudioContext } from '@/context/AppContext';

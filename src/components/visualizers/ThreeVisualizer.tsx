@@ -10,6 +10,7 @@ import { KineticWallScene } from './scenes/KineticWallScene';
 import { CubeFieldScene } from './scenes/CubeFieldScene';
 import { NeuralFlowScene } from './scenes/NeuralFlowScene';
 import { LaserScene } from './scenes/LaserScene';
+import { APP_VERSION } from '@/constants/version';
 
 interface Props {
   analyser: AnalyserNode;
@@ -57,6 +58,11 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
 
         <OrbitControls enablePan={false} enableZoom={true} minDistance={5} maxDistance={50} />
       </Canvas>
+      
+      {/* 应用名称和版本号（单行显示） */}
+      <div className="absolute bottom-16 right-16 text-white text-opacity-60 font-sans" style={{ fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>
+        Aura Flux {APP_VERSION}
+      </div>
     </div>
   );
 };

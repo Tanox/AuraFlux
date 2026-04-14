@@ -1,7 +1,7 @@
 # 部署与环境系统规范
 
 ## 版本信息
-- **版本**: v2.2.15
+- **版本**: v2.2.22
 - **更新日期**: 2026-04-08
 - **作者**: Sut
 
@@ -28,7 +28,7 @@
 **代码示例:**
 ```tsx
 // next.config.ts 核心结构
-// File: next.config.ts | Version: v2.2.15
+// File: next.config.ts | Version: v2.2.22
 import type { NextConfig } from 'next';
 import path from 'path';
 
