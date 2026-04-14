@@ -17,6 +17,16 @@ export const common = {
   active: "Pistes",
   selectAll: "TOUT S脡LECTIONNER",
   fontName: "Nom de la police",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "Page non trouvée",
     back_home: "Retour à la page d'accueil"

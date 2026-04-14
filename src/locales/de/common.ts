@@ -17,6 +17,16 @@ export const common = {
   active: "Titel",
   selectAll: "ALLES AUSW脛HLEN",
   fontName: "Schriftartname",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "Seite nicht gefunden",
     back_home: "Zurück zur Startseite"

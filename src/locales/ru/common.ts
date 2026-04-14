@@ -17,6 +17,16 @@ export const common = {
   active: "Активный",
   selectAll: "Выбрать все",
   fontName: "Название шрифта",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "Страница не найдена",
     back_home: "Вернуться на главную" 

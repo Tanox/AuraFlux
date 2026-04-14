@@ -1,13 +1,13 @@
 export const common = {
   queue: "Cola",
-  empty: "Vacío",
-  clearAll: "Borrar todo",
-  confirmClear: "¿Estás seguro de que quieres borrar la lista de reproducción?",
+  empty: "Vacio",
+  clearAll: "Limpiar Todo",
+  confirmClear: "¿Estás seguro de que quieres limpiar la lista de reproducción?",
   updateAvailable: "Nueva actualización detectada",
-  updateAction: "Actualizar ahora",
+  updateAction: "Actualizar Ahora",
   dropFiles: "SOLTAR PARA IMPORTAR",
-  unknownTrack: "Pista desconocida",
-  unknownArtist: "Artista desconocido",
+  unknownTrack: "Pista Desconocida",
+  unknownArtist: "Artista Desconocido",
   track: "Pista",
   artist: "Artista",
   loading: "Cargando",
@@ -16,9 +16,19 @@ export const common = {
   advanced: "Avanzado",
   active: "Pistas",
   selectAll: "SELECCIONAR TODO",
-  fontName: "Nombre de la fuente",
+  fontName: "Nombre de la Fuente",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "Página no encontrada",
-    back_home: "Volver a la página de inicio"
+    back_home: "Volver a Inicio"
   }
 };

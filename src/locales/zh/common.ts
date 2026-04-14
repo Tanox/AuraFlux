@@ -17,6 +17,16 @@ export const common = {
   active: "曲目",
   selectAll: "全选",
   fontName: "字体名称",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "页面未找到",
     back_home: "返回首页"

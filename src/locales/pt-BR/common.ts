@@ -17,6 +17,16 @@ export const common = {
   active: "Faixas",
   selectAll: "SELECIONAR TUDO",
   fontName: "Nome da fonte",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "Página não encontrada",
     back_home: "Voltar para a página inicial"

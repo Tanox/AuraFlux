@@ -17,6 +17,16 @@ export const common = {
   active: "نشط",
   selectAll: "اختر الكل",
   fontName: "اسم الخط",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "الصفحة غير موجودة",
     back_home: "العودة إلى الرئيسية"

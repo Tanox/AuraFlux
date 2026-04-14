@@ -4,12 +4,21 @@ import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
 import { Slider } from '@/components/visualizers/ui/controls/Slider';
 import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect';
-import { getFontOptions } from '@/constants/index';
+import { FONTS } from '@/constants/index';
 
 export const TextStyleSettings: React.FC = () => {
     const { settings, setSettings } = useVisuals();
     const { t } = useUI();
-    const localizedFonts = useMemo(() => getFontOptions(), []);
+    const localizedFonts = useMemo(() => {
+        const fonts = FONTS.map(font => ({
+            value: font,
+            label: t?.common?.fonts?.[font as keyof typeof t.common.fonts] || font
+        }));
+        return [
+            ...fonts,
+            { value: 'custom', label: 'Custom' }
+        ];
+    }, [t]);
 
     const currentFont = settings.customTextFont || 'Inter, sans-serif';
     const isPresetFont = localizedFonts.some(f => f.value !== 'custom' && f.value === currentFont);
@@ -27,7 +36,7 @@ export const TextStyleSettings: React.FC = () => {
         <BentoCard id="panel-text-style" title={t?.textPanel?.appearance || "Style & Typography"} className="flex-1">
             <div className="space-y-5">
                 <div className="space-y-4">
-                    <CustomSelect label={t?.textFont} value={selectValue} options={localizedFonts} onChange={handleFontChange} />
+                    <CustomSelect label={t?.textFont || "Font"} value={selectValue} options={localizedFonts} onChange={handleFontChange} />
                     {selectValue === 'custom' && (
                         <div className="animate-fade-in-up">
                             <input 
@@ -42,7 +51,7 @@ export const TextStyleSettings: React.FC = () => {
                 </div>
 
                 <div className="pt-3 border-t border-black/5 dark:border-white/5 grid gap-4">
-                    <Slider label={t?.textSize} value={settings.customTextSize ?? 12} min={2} max={60} step={1} onChange={(v) => setSettings({...settings, customTextSize: v})} />
+                    <Slider label={t?.textSize || "Size"} value={settings.customTextSize ?? 12} min={2} max={60} step={1} onChange={(v) => setSettings({...settings, customTextSize: v})} />
                     <Slider label={t?.visualPanel?.opacity || "Opacity"} value={settings.customTextOpacity ?? 0.5} min={0} max={1} step={0.05} onChange={(v) => setSettings({...settings, customTextOpacity: v})} />
                     <Slider label={t?.textRotation || "Rotation"} value={settings.customTextRotation ?? 0} min={-180} max={180} step={5} onChange={(v) => setSettings({...settings, customTextRotation: v})} unit="°" />
                 </div>

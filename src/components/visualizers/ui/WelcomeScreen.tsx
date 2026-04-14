@@ -2,7 +2,6 @@
 import React from 'react';
 import { useUI, useAudioContext } from '@/context/AppContext';
 
-
 export const WelcomeScreen: React.FC = () => {
   const { t, setHasStarted } = useUI();
   const { toggleMicrophone, selectedDeviceId } = useAudioContext();

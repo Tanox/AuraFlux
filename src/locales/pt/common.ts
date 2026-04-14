@@ -1,13 +1,13 @@
 export const common = {
   queue: "Fila",
   empty: "Vazio",
-  clearAll: "Limpar tudo",
+  clearAll: "Limpar Tudo",
   confirmClear: "Tem certeza que deseja limpar a lista de reprodução?",
   updateAvailable: "Nova atualização detectada",
-  updateAction: "Atualizar agora",
+  updateAction: "Atualizar Agora",
   dropFiles: "SOLTE PARA IMPORTAR",
-  unknownTrack: "Faixa desconhecida",
-  unknownArtist: "Artista desconhecido",
+  unknownTrack: "Faixa Desconhecida",
+  unknownArtist: "Artista Desconhecido",
   track: "Faixa",
   artist: "Artista",
   loading: "Carregando",
@@ -16,9 +16,19 @@ export const common = {
   advanced: "Avançado",
   active: "Faixas",
   selectAll: "SELECIONAR TUDO",
-  fontName: "Nome da fonte",
+  fontName: "Nome da Fonte",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "Página não encontrada",
-    back_home: "Voltar para a página inicial"
+    back_home: "Voltar para a Página Inicial"
   }
 };

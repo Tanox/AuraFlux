@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { WebVitals } from "@/components/performance/WebVitals";
 
 // Reusable Google Analytics script component
 const GoogleAnalyticsScript = () => {
@@ -71,6 +72,7 @@ export default function RootLayout({
         <GoogleAnalyticsScript />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${montserrat.variable} antialiased bg-black text-white`}>
+        <WebVitals />
         {children}
       </body>
     </html>

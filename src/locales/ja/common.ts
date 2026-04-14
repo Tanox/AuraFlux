@@ -17,6 +17,16 @@ export const common = {
   active: "トラック",
   selectAll: "すべて選択",
   fontName: "フォント名",
+  fonts: {
+    Inter: "Inter",
+    "JetBrains Mono": "JetBrains Mono",
+    "Space Grotesk": "Space Grotesk",
+    Outfit: "Outfit",
+    "Playfair Display": "Playfair Display",
+    "Cormorant Garamond": "Cormorant Garamond",
+    Anton: "Anton",
+    Montserrat: "Montserrat"
+  },
   "404": {
     title: "ページが見つかりません",
     back_home: "ホームに戻る"

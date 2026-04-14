@@ -27,8 +27,6 @@ export const getPositionOptions = (t: any) => [
   { value: 'bottom', label: t?.positions?.bottom || 'Bottom' }
 ];
 
-export const getFontOptions = () => FONTS.map(font => ({ value: font, label: font }));
-
 export const COLOR_THEMES = [
   { id: 'neon', name: 'Neon', colors: ['#ff00ff', '#00ffff', '#00ff00'] },
   { id: 'sunset', name: 'Sunset', colors: ['#ff4e50', '#f9d423', '#ff9a9e'] },

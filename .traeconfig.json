@@ -1,0 +1,13 @@
+{
+  "npm": {
+    "useGlobal": true,
+    "skipLocalInstall": true
+  },
+  "build": {
+    "outputDir": "dist",
+    "cleanBeforeBuild": true
+  },
+  "cache": {
+    "disabled": true
+  }
+}
