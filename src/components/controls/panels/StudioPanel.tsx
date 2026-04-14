@@ -32,16 +32,27 @@ export const StudioPanel: React.FC = () => {
     audioContext, analyser, mediaStream, sourceType, t, showToast
   });
 
-  const studio = t('studioPanel') || {};
-  const labels = studio.settings || {};
-  const hints = studio.hints || {};
+  const labels = {
+    quality: t('studioPanel.settings.quality') || "Quality",
+    resolution: t('studioPanel.settings.resolution') || "Resolution",
+    fps: t('studioPanel.settings.fps') || "FPS",
+    format: t('studioPanel.settings.format') || "Format",
+    duration: t('studioPanel.settings.duration') || "Duration"
+  };
+  const hints = {
+    quality: t('studioPanel.hints.quality') || "Higher quality means larger file size",
+    resolution: t('studioPanel.hints.resolution') || "Higher resolution creates more detailed visuals",
+    fps: t('studioPanel.hints.fps') || "Higher FPS makes smoother animations",
+    format: t('studioPanel.hints.format') || "Choose a format compatible with your platform",
+    duration: t('studioPanel.hints.duration') || "Maximum recording duration in seconds"
+  };
 
-  const shareT = (t as any).share || { 
-      title: "Aura Flux Creation", 
-      message: "Check out this art created with Aura Flux! \n\n{song} by {artist}", 
-      hashtags: "#AuraFlux",
-      copied: "Text copied!",
-      unsupported: "Sharing not supported"
+  const shareT = {
+      title: t('share.title') || "Aura Flux Creation",
+      message: t('share.message') || "Check out this art created with Aura Flux! \n\n{song} by {artist}",
+      hashtags: t('share.hashtags') || "#AuraFlux",
+      copied: t('share.copied') || "Text copied!",
+      unsupported: t('share.unsupported') || "Sharing not supported"
   };
 
   const supportedTypes = useMemo(() => {
@@ -79,10 +90,9 @@ export const StudioPanel: React.FC = () => {
   }, [isArmed, sourceType, isPlaying, analyser, triggerRecording]);
 
   const getFormatLabel = (mime: string) => {
-    const f = t('studioPanel.formats') || {};
-    if (mime.includes('vp9')) return f.vp9 || 'WebM (VP9)';
-    if (mime.includes('vp8')) return f.vp8 || 'WebM (VP8)';
-    if (mime.includes('avc1')) return f.mp4_h264 || 'MP4 (Social)';
+    if (mime.includes('vp9')) return t('studioPanel.formats.vp9') || 'WebM (VP9)';
+    if (mime.includes('vp8')) return t('studioPanel.formats.vp8') || 'WebM (VP8)';
+    if (mime.includes('avc1')) return t('studioPanel.formats.mp4_h264') || 'MP4 (Social)';
     return mime.split('/')[1].toUpperCase();
   };
 
@@ -113,14 +123,15 @@ export const StudioPanel: React.FC = () => {
         previewUrl={previewUrl}
         duration={duration}
         currentSong={currentSong}
-        studio={studio}
+        studio={{}}
         common={t('common')}
         onDiscard={discardRecording}
         onShare={handleShare}
         onSave={handleSaveVideo}
       />
       <StudioConfig 
-        studio={studio} labels={labels} hints={hints}
+        studio={{}}
+        labels={labels} hints={hints}
         resolution={resolution} setResolution={setResolution}
         aspectRatio={aspectRatio} setAspectRatio={setAspectRatio}
         fps={fps} setFps={setFps}
@@ -144,7 +155,7 @@ export const StudioPanel: React.FC = () => {
         triggerRecording={triggerRecording}
         analyser={analyser}
         countdownVal={countdownVal}
-        studio={studio}
+        studio={{}}
         t={t}
       />
     </div>

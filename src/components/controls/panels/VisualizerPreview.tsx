@@ -38,7 +38,7 @@ export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode,
   const modeTypeTag = is3D ? "3D" : "2D";
   
   const tooltipText = useMemo(() => {
-    const baseDesc = t?.modeDescriptions?.[mode as keyof typeof t.modeDescriptions] || '';
+    const baseDesc = t?.(`modeDescriptions.${mode}`) || '';
     return `[${modeTypeTag}] ${baseDesc}`;
   }, [mode, modeTypeTag, t]);
 

@@ -12,10 +12,10 @@ export const TextChromaSettings: React.FC = () => {
     const colorPresets = ['#ffffff', '#64748b', '#f87171', '#facc15', '#22c55e', '#00e5ff', '#3b82f6', '#8b5cf6', '#ff007f'];
 
     return (
-        <BentoCard id="panel-text-chroma" title={t?.customColor || "Dynamic Chroma"} className="flex-1">
+        <BentoCard id="panel-text-chroma" title={t?.('customColor') || "Dynamic Chroma"} className="flex-1">
             <div className="flex flex-col sm:flex-row gap-6 items-center h-full py-1">
                 <div className="w-full sm:w-auto shrink-0">
-                    <SettingsToggle label={t?.cycleColors || "Auto Cycle"} value={settings.customTextCycleColor} onChange={() => setSettings({...settings, customTextCycleColor: !settings.customTextCycleColor})} variant="clean" />
+                    <SettingsToggle label={t?.('cycleColors') || "Auto Cycle"} value={settings.customTextCycleColor} onChange={() => setSettings({...settings, customTextCycleColor: !settings.customTextCycleColor})} variant="clean" />
                 </div>
                 <div className="flex-1 w-full">
                     {!settings.customTextCycleColor ? (
@@ -31,7 +31,7 @@ export const TextChromaSettings: React.FC = () => {
                         </div>
                     ) : (
                         <div className="animate-fade-in-up">
-                            <Slider label={t?.speed || "Tempo"} value={settings.customTextCycleInterval || 5} min={1} max={30} step={1} onChange={(v) => setSettings({...settings, customTextCycleInterval: v})} unit="s" />
+                            <Slider label={t?.('speed') || "Tempo"} value={settings.customTextCycleInterval || 5} min={1} max={30} step={1} onChange={(v) => setSettings({...settings, customTextCycleInterval: v})} unit="s" />
                         </div>
                     )}
                 </div>

@@ -41,10 +41,10 @@ export const PlaylistManager: React.FC = () => {
                            urlValue.includes('music.apple.com');
 
         if (isPlatform) {
-            showToast(t?.player?.importing || "AI Parsing Playlist...", 'info');
+            showToast(t?.('player.importing') || "AI Parsing Playlist...", 'info');
             const tracks = await importPlaylistFromUrl(urlValue);
             if (tracks.length > 0) {
-                showToast(`${t?.player?.import} ${tracks.length} ${t?.common?.active || "Tracks"}`, 'success');
+                showToast(`${t?.('player.import')} ${tracks.length} ${t?.('common.active') || "Tracks"}`, 'success');
                 setUrlValue('');
                 setShowUrlInput(false);
             } else {
@@ -53,7 +53,7 @@ export const PlaylistManager: React.FC = () => {
         } else {
             const track = await importFromUrl(urlValue);
             if (track) {
-                showToast(`${t?.player?.import}: ${track.title}`, 'success');
+                showToast(`${t?.('player.import')}: ${track.title}`, 'success');
                 setUrlValue('');
                 setShowUrlInput(false);
             }
@@ -66,7 +66,7 @@ export const PlaylistManager: React.FC = () => {
   };
 
   return (
-    <BentoCard id="panel-playback-playlist-manager" title={t?.player?.playlistTitle || "Playlist"} className="h-full">
+    <BentoCard id="panel-playback-playlist-manager" title={t?.('player.playlistTitle') || "Playlist"} className="h-full">
         <div className="h-full flex flex-col">
             <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar pr-1 -mr-1">
                 {playlist.length > 0 ? playlist.map((track, index) => (
@@ -97,7 +97,7 @@ export const PlaylistManager: React.FC = () => {
                     </div>
                 )) : (
                     <div className="h-full flex items-center justify-center text-center text-black/20 dark:text-white/20">
-                        <span className="text-[10px] uppercase font-bold tracking-widest">{t?.common?.empty}</span>
+                        <span className="text-[10px] uppercase font-bold tracking-widest">{t?.('common.empty')}</span>
                     </div>
                 )}
             </div>
@@ -105,14 +105,14 @@ export const PlaylistManager: React.FC = () => {
             <div className="pt-3 mt-auto border-t border-black/5 dark:border-white/5 space-y-3">
                 {showUrlInput && (
                     <div className="flex gap-2 animate-fade-in-up">
-                        <input type="text" value={urlValue} onChange={(e)=>setUrlValue(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleUrlImport()} placeholder={t?.player?.urlPlaceholder} className="flex-1 bg-black/[0.04] dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 outline-none focus:border-blue-500/50" />
-                        <button onClick={handleUrlImport} disabled={isImporting} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest disabled:opacity-50 hover:bg-blue-500 shadow-lg shadow-blue-500/20">{isImporting ? t?.common?.loading : t?.player?.import}</button>
+                        <input type="text" value={urlValue} onChange={(e)=>setUrlValue(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleUrlImport()} placeholder={t?.('player.urlPlaceholder')} className="flex-1 bg-black/[0.04] dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 outline-none focus:border-blue-500/50" />
+                        <button onClick={handleUrlImport} disabled={isImporting} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest disabled:opacity-50 hover:bg-blue-500 shadow-lg shadow-blue-500/20">{isImporting ? t?.('common.loading') : t?.('player.import')}</button>
                     </div>
                 )}
                 <div className="flex gap-3">
-                    <button onClick={() => fileInputRef.current?.click()} className="flex-1 py-3 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/60 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-transparent dark:hover:bg-transparent transition-all border border-black/5 dark:border-white/5 flex items-center justify-center gap-2">{t?.player?.add}</button>
+                    <button onClick={() => fileInputRef.current?.click()} className="flex-1 py-3 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/60 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-transparent dark:hover:bg-transparent transition-all border border-black/5 dark:border-white/5 flex items-center justify-center gap-2">{t?.('player.add')}</button>
                     <input type="file" ref={fileInputRef} className="hidden" accept="audio/*" multiple onChange={handleFileUpload} />
-                    <button onClick={() => setShowUrlInput(!showUrlInput)} className="flex-1 py-3 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/60 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-transparent dark:hover:bg-transparent transition-all border border-black/5 dark:border-white/5 flex items-center justify-center gap-2">{t?.player?.addUrl}</button>
+                    <button onClick={() => setShowUrlInput(!showUrlInput)} className="flex-1 py-3 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest text-black/60 dark:text-white/60 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-transparent dark:hover:bg-transparent transition-all border border-black/5 dark:border-white/5 flex items-center justify-center gap-2">{t?.('player.addUrl')}</button>
                 </div>
             </div>
         </div>

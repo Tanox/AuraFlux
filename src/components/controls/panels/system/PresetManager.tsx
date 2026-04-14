@@ -34,9 +34,9 @@ export const PresetManager: React.FC = () => {
       const dateStr = new Date().toISOString().slice(0,10);
       downloadAnchorNode.setAttribute("download", `aura_${mode}_${dateStr}.json`);
       document.body.appendChild(downloadAnchorNode); 
-      downloadAnchorNode.click(); 
+      downloadAnchorNode.click();
       downloadAnchorNode.remove();
-      showToast(t?.config?.exported || "Configuration Exported", 'success');
+      showToast(t?.('config.exported') || "Configuration Exported", 'success');
   };
 
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,12 +49,12 @@ export const PresetManager: React.FC = () => {
               const data = raw.settings || raw;
               if (data && typeof data === 'object' && !Array.isArray(data)) {
                   setSettings(prev => ({ ...prev, ...data }));
-                  showToast(t?.config?.importSuccess || "Configuration imported", 'success');
+                  showToast(t?.('config.importSuccess') || "Configuration imported", 'success');
               } else {
                   throw new Error("Invalid structure");
               }
           } catch (err) {
-              showToast(t?.config?.invalidFile || "Invalid configuration file", 'error');
+              showToast(t?.('config.invalidFile') || "Invalid configuration file", 'error');
           }
       };
       reader.readAsText(file);
@@ -62,17 +62,17 @@ export const PresetManager: React.FC = () => {
   };
 
   const handleSavePreset = () => {
-      if (presets.length >= 3) { showToast(t?.config?.limitReached || "Limit reached", 'error'); return; }
+      if (presets.length >= 3) { showToast(t?.('config.limitReached') || "Limit reached", 'error'); return; }
       if (!presetName.trim()) return;
       const newPreset = { id: Date.now(), name: presetName.trim().slice(0, 18), data: { ...settings }, timestamp: Date.now() };
       const newPresets = [...presets, newPreset];
       setPresets(newPresets); setStorage('user_presets', newPresets);
       setPresetName(''); 
-      showToast(t?.config?.saved || "Saved", 'success');
+      showToast(t?.('config.saved') || "Saved", 'success');
   };
 
   const handleDeletePreset = (id: number) => {
-      if (window.confirm(t?.config?.deleteConfirm || "Delete?")) {
+      if (window.confirm(t?.('config.deleteConfirm') || "Delete?")) {
           const newPresets = presets.filter(p => p.id !== id);
           setPresets(newPresets); setStorage('user_presets', newPresets);
       }
@@ -83,21 +83,21 @@ export const PresetManager: React.FC = () => {
   return (
     <div className="flex flex-col h-full space-y-4">
         <div className="grid grid-cols-2 gap-3">
-            <button onClick={handleExport} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5">{t?.config?.export}</button>
-            <button onClick={() => fileInputRef.current?.click()} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5">{t?.config?.import}</button>
+            <button onClick={handleExport} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5">{t?.('config.export')}</button>
+            <button onClick={() => fileInputRef.current?.click()} className="py-2.5 bg-black/[0.04] dark:bg-white/5 rounded-xl text-[9px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-blue-600 hover:text-white transition-all border border-black/5 dark:border-white/5">{t?.('config.import')}</button>
             <input type="file" ref={fileInputRef} className="hidden" accept=".json" onChange={handleImport} />
         </div>
 
         <div className="pt-2 border-t border-black/5 dark:border-white/5 space-y-3">
-            <span className={subHeaderClass}>{t?.config?.library || "PRESET ARCHIVE"} ({presets.length}/3)</span>
+            <span className={subHeaderClass}>{t?.('config.library') || "PRESET ARCHIVE"} ({presets.length}/3)</span>
             <div className="flex gap-2">
-                <input type="text" value={presetName} onChange={(e)=>setPresetName(e.target.value)} placeholder={t?.config?.placeholder} className="flex-1 bg-black/[0.04] dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 outline-none focus:border-blue-500/50" maxLength={18} />
-                <button onClick={handleSavePreset} disabled={presets.length>=3 || !presetName.trim()} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest disabled:opacity-20 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">{t?.config?.save}</button>
+                <input type="text" value={presetName} onChange={(e)=>setPresetName(e.target.value)} placeholder={t?.('config.placeholder')} className="flex-1 bg-black/[0.04] dark:bg-black/40 border border-black/5 dark:border-white/10 rounded-xl px-3 py-2 text-xs text-black dark:text-white placeholder-black/20 dark:placeholder-white/20 outline-none focus:border-blue-500/50" maxLength={18} />
+                <button onClick={handleSavePreset} disabled={presets.length>=3 || !presetName.trim()} className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest disabled:opacity-20 hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">{t?.('config.save')}</button>
             </div>
             <div className="space-y-1.5 overflow-y-auto custom-scrollbar max-h-[140px] pr-1">
                 {presets.map(p => (
                     <div key={p.id} className="flex items-center justify-between bg-black/[0.02] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 rounded-xl px-3 py-2 hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-all group">
-                        <div className="flex flex-col flex-1 cursor-pointer" onClick={() => { setSettings({...settings, ...p.data}); showToast(`${t?.config?.load}: ${p.name}`, 'success'); }}>
+                        <div className="flex flex-col flex-1 cursor-pointer" onClick={() => { setSettings({...settings, ...p.data}); showToast(`${t?.('config.load')}: ${p.name}`, 'success'); }}>
                             <span className="text-[10px] font-black text-black/80 dark:text-white/80 group-hover:text-blue-600 dark:group-hover:text-blue-400 uppercase truncate">{p.name}</span>
                             <span className="text-[8px] font-mono text-black/40 dark:text-white/40">{new Date(p.timestamp).toLocaleDateString()}</span>
                         </div>

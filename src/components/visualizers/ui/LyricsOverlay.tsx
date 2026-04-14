@@ -77,7 +77,7 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
       content = (
           <div className="flex flex-col items-center gap-4 animate-pulse">
               <div className="w-12 h-12 border-4 border-white/10 border-t-blue-500 rounded-full animate-spin" />
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">{t?.audioPanel?.analyzing || "Retrieving Lyrics..."}</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">{t?.('audioPanel.analyzing') || "Retrieving Lyrics..."}</p>
           </div>
       );
   } else if (isSynced) {

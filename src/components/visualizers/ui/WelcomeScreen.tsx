@@ -37,7 +37,7 @@ export const WelcomeScreen: React.FC = () => {
         </button>
 
         <div className="flex justify-center gap-8 text-[10px] font-mono text-white/20 uppercase tracking-widest">
-          <span>{t.appVersion || "v2.2.15"}</span>
+          <span>{t('appVersion') || "v2.2.15"}</span>
           <span>•</span>
           <span>{t('common.webAudioApi') || "WebAudio API"}</span>
           <span>•</span>

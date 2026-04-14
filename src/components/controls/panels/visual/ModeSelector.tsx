@@ -44,21 +44,21 @@ export const ModeSelector: React.FC = () => {
   }, [settings.includedModes, currentMode, setSettings]);
 
   return (
-    <BentoCard 
+    <BentoCard
         id="panel-visual-mode-selector"
-        title={t?.visualizerMode || "Visualizer Mode"} 
+        title={t?.('visualizerMode') || "Visualizer Mode"}
         className="h-full min-h-[500px]"
         action={
             <div className="flex items-center gap-3">
                 <button onClick={toggleAllModes} className="text-[9px] font-black uppercase text-blue-500 hover:text-blue-400 tracking-widest px-2 transition-colors">
-                    {(settings.includedModes || []).length === Object.keys(VisualizerMode).length ? t?.unselectAll || 'Unselect All' : t?.selectAll || 'Select All'}
+                    {(settings.includedModes || []).length === Object.keys(VisualizerMode).length ? t?.('unselectAll') || 'Unselect All' : t?.('selectAll') || 'Select All'}
                 </button>
                 {settings.autoRotate && (
                     <div className="animate-fade-in-up w-16">
                         <Slider label="" value={settings.rotateInterval || 30} min={5} max={120} step={5} onChange={(v) => handleVisualSettingChange('rotateInterval', v)} unit="s" />
                     </div>
                 )}
-                <SettingsToggle label="" value={settings.autoRotate} onChange={() => handleVisualSettingChange('autoRotate', !settings.autoRotate)} variant="clean" hintText={t?.hints?.autoRotate} />
+                <SettingsToggle label="" value={settings.autoRotate} onChange={() => handleVisualSettingChange('autoRotate', !settings.autoRotate)} variant="clean" hintText={t?.('hints.autoRotate')} />
             </div>
         }
     >
@@ -67,7 +67,7 @@ export const ModeSelector: React.FC = () => {
                 <VisualizerPreview 
                     key={mode} 
                     mode={mode} 
-                    name={t?.modes?.[mode as keyof typeof t.modes] || mode} 
+                    name={t?.(`modes.${mode}`) || mode} 
                     isActive={currentMode === mode}
                     isIncluded={settings.includedModes ? settings.includedModes.includes(mode) : true}
                     onClick={() => setMode(mode)}

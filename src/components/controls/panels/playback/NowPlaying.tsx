@@ -94,13 +94,13 @@ export const NowPlaying: React.FC = () => {
             ) : (
                 <div className="h-40 rounded-2xl border-2 border-dashed border-black/5 dark:border-white/5 flex flex-col items-center justify-center text-black/10 dark:text-white/10 gap-3">
                     <svg className="w-10 h-10 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
-                    <span className="uppercase text-[10px] font-black tracking-[0.2em]">{t?.player?.noActiveTrack}</span>
+                    <span className="uppercase text-[10px] font-black tracking-[0.2em]">{t?.('player.noActiveTrack')}</span>
                 </div>
             )}
 
             <div className="grid grid-cols-2 gap-3">
-                <SettingsToggle label={t?.showLyrics || "Lyrics"} value={showLyrics} onChange={() => setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
-                <SettingsToggle label={t?.player?.info || "Song Info"} value={settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
+                <SettingsToggle label={t?.('showLyrics') || "Lyrics"} value={showLyrics} onChange={() => setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
+                <SettingsToggle label={t?.('player.info') || "Song Info"} value={settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
             </div>
         </div>
     </BentoCard>
