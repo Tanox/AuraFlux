@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * File: app/components/controls/panels/playback/NowPlaying.tsx
  * Version: v1.9.73
@@ -20,7 +22,7 @@ export const NowPlaying: React.FC = () => {
   const progressPercent = (currentTime / (duration || 1)) * 100;
 
   return (
-    <BentoCard id="panel-playback-now-playing" title={t?.player?.nowPlaying || "Now Playing"}>
+    <BentoCard id="panel-playback-now-playing" title={t?.('player.nowPlaying') || "Now Playing"}>
         <div className="space-y-6">
             {playlist.length > 0 ? (
                 <div className="group/player relative flex flex-col gap-5 p-5 bg-black/[0.04] dark:bg-white/[0.04] rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden transition-all hover:border-black/10 dark:hover:border-white/10 shadow-xl">
@@ -55,10 +57,10 @@ export const NowPlaying: React.FC = () => {
 
                         <div className="flex-1 min-w-0 flex flex-col justify-center">
                             <div className="text-lg font-black text-black dark:text-white truncate leading-tight uppercase tracking-tight">
-                                {currentSong?.title || t?.common?.unknownTrack}
+                                {currentSong?.title || t?.('common.unknownTrack')}
                             </div>
                             <div className="text-[10px] text-blue-500 dark:text-blue-400 truncate font-black uppercase tracking-[0.2em] mt-1.5 opacity-80">
-                                {currentSong?.artist || t?.common?.unknownArtist}
+                                {currentSong?.artist || t?.('common.unknownArtist')}
                             </div>
                         </div>
                     </div>

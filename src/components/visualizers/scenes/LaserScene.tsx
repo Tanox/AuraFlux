@@ -189,21 +189,7 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; analyserR?: Analyser
           </mesh>
         ))}
         
-        {/* 反射效果 */}
-        {reflectionEffectsRef.current.map((effect, index) => {
-          const points = [effect.start, effect.end];
-          const geometry = new BufferGeometry().setFromPoints(points);
-          return (
-            <Line key={`reflection-${index}`} geometry={geometry}>
-              <LineBasicMaterial 
-                color={effect.color} 
-                transparent 
-                opacity={effect.alpha} 
-                linewidth={2}
-              />
-            </Line>
-          );
-        })}
+
         
         {/* 中心光晕 */}
         <mesh>

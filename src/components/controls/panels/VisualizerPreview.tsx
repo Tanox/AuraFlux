@@ -1,3 +1,5 @@
+'use client';
+
 // File: src\components\controls\panels\VisualizerPreview.tsx | Version: v2.2.21
 
 import React, { memo, useMemo } from 'react';

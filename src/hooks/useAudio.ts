@@ -47,6 +47,12 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
     getDevices();
   }, []);
 
+  const playNext = useCallback(() => {
+    if (playlist.length > 0) {
+      setCurrentIndex(prev => (prev + 1) % playlist.length);
+    }
+  }, [playlist.length]);
+
   useEffect(() => {
     if (sourceType === 'file' && playlist.length > 0 && currentIndex >= 0) {
       const track = playlist[currentIndex];
@@ -72,6 +78,17 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
         }
         
         const objectURL = URL.createObjectURL(track.file);
+        const previousSrc = audioElementRef.current?.src;
+        
+        // 清理之前的对象URL
+        if (previousSrc && previousSrc.startsWith('blob:')) {
+          try {
+            URL.revokeObjectURL(previousSrc);
+          } catch (e) {
+            console.warn('Error revoking object URL:', e);
+          }
+        }
+        
         audioElementRef.current.src = objectURL;
         
         if (isPlaying) {
@@ -82,8 +99,12 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
         }
         
         return () => {
-          if (audioElementRef.current) {
-            URL.revokeObjectURL(audioElementRef.current.src);
+          if (audioElementRef.current && audioElementRef.current.src.startsWith('blob:')) {
+            try {
+              URL.revokeObjectURL(audioElementRef.current.src);
+            } catch (e) {
+              console.warn('Error revoking object URL in cleanup:', e);
+            }
           }
         };
       }
@@ -159,12 +180,6 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
       setCurrentTime(t);
     }
   }, []);
-  
-  const playNext = useCallback(() => {
-    if (playlist.length > 0) {
-      setCurrentIndex(prev => (prev + 1) % playlist.length);
-    }
-  }, [playlist.length]);
   
   const playPrev = useCallback(() => {
     if (playlist.length > 0) {

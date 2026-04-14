@@ -8,7 +8,7 @@ import { useVisualsState } from '@/hooks/useVisualsState';
 import { useAiState } from '@/hooks/useAiState';
 import { Toast } from '@/components/visualizers/ui/Toast';
 import { TRANSLATIONS } from '@/locales/index';
-import { TranslationSchema } from '@/locales/index';
+import type { TFunction } from 'i18next';
 
 type HelpTab = 'guide' | 'shortcuts' | 'about';
 
@@ -18,7 +18,7 @@ interface UIContextType {
   hasStarted: boolean; setHasStarted: React.Dispatch<React.SetStateAction<boolean>>;
   resetSettings: () => void;
   manageWakeLock: (enabled: boolean) => Promise<void>;
-  toggleFullscreen: () => void; t: TranslationSchema;
+  toggleFullscreen: () => void; t: TFunction<'translation', undefined>;
   showToast: (message: string, type?: 'success' | 'info' | 'error', duration?: number, position?: 'top' | 'bottom') => void;
   showHelpModal: boolean;
   setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;

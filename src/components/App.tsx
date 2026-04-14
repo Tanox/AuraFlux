@@ -131,7 +131,7 @@ const MainContent: React.FC = () => {
     >
       {isDragging && (
           <div id="drag-overlay" className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none z-50">
-            <p className="text-white font-bold text-2xl drop-shadow-lg">{t.common.dropFiles}</p>
+            <p className="text-white font-bold text-2xl drop-shadow-lg">{t('common.dropFiles')}</p>
           </div>
       )}
       <div

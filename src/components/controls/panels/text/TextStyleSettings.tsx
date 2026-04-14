@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
 import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
@@ -12,7 +14,7 @@ export const TextStyleSettings: React.FC = () => {
     const localizedFonts = useMemo(() => {
         const fonts = FONTS.map(font => ({
             value: font,
-            label: t?.common?.fonts?.[font as keyof typeof t.common.fonts] || font
+            label: t?.(`common.fonts.${font}`) || font
         }));
         return [
             ...fonts,

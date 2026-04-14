@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * File: app/components/controls/panels/visual/CoreVisuals.tsx
  * Version: v1.10.3

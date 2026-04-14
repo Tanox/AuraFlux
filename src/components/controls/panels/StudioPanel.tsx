@@ -32,7 +32,7 @@ export const StudioPanel: React.FC = () => {
     audioContext, analyser, mediaStream, sourceType, t, showToast
   });
 
-  const studio = t.studioPanel || {};
+  const studio = t('studioPanel') || {};
   const labels = studio.settings || {};
   const hints = studio.hints || {};
 
@@ -79,7 +79,7 @@ export const StudioPanel: React.FC = () => {
   }, [isArmed, sourceType, isPlaying, analyser, triggerRecording]);
 
   const getFormatLabel = (mime: string) => {
-    const f = t.studioPanel.formats || {};
+    const f = t('studioPanel.formats') || {};
     if (mime.includes('vp9')) return f.vp9 || 'WebM (VP9)';
     if (mime.includes('vp8')) return f.vp8 || 'WebM (VP8)';
     if (mime.includes('avc1')) return f.mp4_h264 || 'MP4 (Social)';
@@ -98,7 +98,7 @@ export const StudioPanel: React.FC = () => {
 
   const handleShare = async () => {
       if (!recordedBlob) return;
-      const textBody = shareT.message.replace('{song}', currentSong?.title || t.common.unknownTrack).replace('{artist}', currentSong?.artist || t.common.unknownArtist) + `\n\n${window.location.origin}\n\n${shareT.hashtags}`;
+      const textBody = shareT.message.replace('{song}', currentSong?.title || t('common.unknownTrack')).replace('{artist}', currentSong?.artist || t('common.unknownArtist')) + `\n\n${window.location.origin}\n\n${shareT.hashtags}`;
       const file = new File([recordedBlob], `aura_flux_${Date.now()}.${mimeType.includes('mp4')?'mp4':'webm'}`, { type: mimeType });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try { await navigator.share({ title: shareT.title, text: textBody, files: [file] }); return; } catch (err) {}
@@ -114,7 +114,7 @@ export const StudioPanel: React.FC = () => {
         duration={duration}
         currentSong={currentSong}
         studio={studio}
-        common={t.common}
+        common={t('common')}
         onDiscard={discardRecording}
         onShare={handleShare}
         onSave={handleSaveVideo}

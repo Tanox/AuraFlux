@@ -25,7 +25,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
   const [activeTab, setActiveTab] = useState<Tab>('visual');
 
   const TABS = useMemo(() => {
-    const tabs: { id: Tab; label: keyof typeof t.tabs; component: React.ReactNode }[] = [
+    const tabs: { id: Tab; label: Tab; component: React.ReactNode }[] = [
       { id: 'visual', label: 'visual', component: <VisualSettingsPanel /> },
       { id: 'input', label: 'input', component: <AudioSettingsPanel /> },
       { id: 'playback', label: 'playback', component: <PlaybackPanel /> },
@@ -39,7 +39,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
       if (tab.id === 'studio' && settings.showStudioTab === false) return false;
       return true;
     });
-  }, [settings.showPlaybackTab, settings.showStudioTab, t.tabs]);
+  }, [settings.showPlaybackTab, settings.showStudioTab, t]);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 
@@ -81,7 +81,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
                   onClick={() => setActiveTab(tab.id)}
                   className={`px-4 sm:px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-colors whitespace-nowrap ${activeTab === tab.id ? 'bg-white dark:bg-black/40 text-black dark:text-white' : 'text-black/40 dark:text-white/40 hover:text-black/80 dark:hover:text-white/80'}`}
                 >
-                  {t.tabs[tab.label]}
+                  {t(`tabs.${tab.label}`)}
                 </button>
               ))}
             </div>

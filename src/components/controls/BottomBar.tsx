@@ -33,8 +33,8 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
   }, [showPlaylist]);
 
   const handleAppShare = async () => {
-      const shareTitle = t?.share?.appTitle || "Aura Flux - AI Music Visualizer";
-      const shareText = t?.share?.appMessage || "Check out Aura Flux - AI Music Visualizer! 🎵";
+      const shareTitle = t?.('share.appTitle') || "Aura Flux - AI Music Visualizer";
+      const shareText = t?.('share.appMessage') || "Check out Aura Flux - AI Music Visualizer! 🎵";
       const url = window.location.href;
       const shareData = { title: shareTitle, text: shareText, url };
 
@@ -43,9 +43,9 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
       } else {
           try {
               await navigator.clipboard.writeText(`${shareText}\n${url}`);
-              showToast(t?.share?.copied || "Link Copied!", 'success');
+              showToast(t?.('share.copied') || "Link Copied!", 'success');
           } catch (e) {
-              showToast(t?.share?.unsupported || "Error", 'error');
+              showToast(t?.('share.unsupported') || "Error", 'error');
           }
       }
   };
@@ -59,9 +59,9 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
         <div id="bottom-bar-wrapper" className="max-w-lg mx-auto px-3 pb-6">
             <div className="bg-white/90 dark:bg-[#0a0a0c]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-2 shadow-2xl flex items-center justify-between gap-2 transition-colors">
                 <div className="flex items-center gap-1">
-                    <TooltipArea text={`${t?.hints?.randomize || 'Randomize'} [R]`}><button onClick={randomizeSettings} aria-label={t?.randomize || 'Randomize'} className="h-10 rounded-xl flex items-center justify-center bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-4 gap-2 transition-all"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>{playlist.length===0&&<span className="text-xs font-bold uppercase">{t?.randomize}</span>}</button></TooltipArea>
-                    <TooltipArea text={t?.share?.shareApp || "Share"}>
-                        <button onClick={handleAppShare} aria-label={t?.share?.shareApp || 'Share'} className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-blue-500 dark:hover:text-blue-400 flex items-center justify-center transition-all">
+                    <TooltipArea text={`${t?.('hints.randomize') || 'Randomize'} [R]`}><button onClick={randomizeSettings} aria-label={t?.('randomize') || 'Randomize'} className="h-10 rounded-xl flex items-center justify-center bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-4 gap-2 transition-all"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>{playlist.length===0&&<span className="text-xs font-bold uppercase">{t?.('randomize')}</span>}</button></TooltipArea>
+                    <TooltipArea text={t?.('share.shareApp') || "Share"}>
+                        <button onClick={handleAppShare} aria-label={t?.('share.shareApp') || 'Share'} className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-blue-500 dark:hover:text-blue-400 flex items-center justify-center transition-all">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                             </svg>
@@ -94,7 +94,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
                 <div className="flex items-center gap-1 justify-end">
                     {playlist.length > 0 && <div className="hidden sm:flex flex-col items-end mr-1"><span className="text-[8px] font-mono text-black/40 dark:text-white/40">{fmt(currentTime)} / {fmt(duration)}</span><div className="w-16 h-1 bg-black/10 dark:bg-white/10 rounded-full mt-1 relative overflow-hidden"><div className="absolute h-full bg-blue-600 dark:bg-blue-500" style={{width:`${(currentTime/(duration||1))*100}%`}}/><input type="range" min={0} max={duration||1} step={0.1} value={currentTime} onChange={(e)=>seekFile(parseFloat(e.target.value))} className="absolute inset-0 opacity-0 cursor-pointer"/></div></div>}
                     <button onClick={()=>setShowPlaylist(!showPlaylist)} aria-label={showPlaylist ? 'Hide playlist' : 'Show playlist'} className={`w-10 h-10 rounded-xl relative transition-all ${showPlaylist?'bg-blue-600 text-white':'bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white'}`}><svg className="w-5 h-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7"/></svg>{playlist.length>0&&<span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[9px] flex items-center justify-center font-bold text-white border border-white dark:border-[#0a0a0c]">{playlist.length}</span>}</button>
-                    <button onClick={() => setIsExpanded(p => !p)} aria-label={isExpanded ? t?.hideOptions || 'Hide options' : t?.showOptions || 'Show options'} className={`h-10 rounded-xl flex items-center justify-center transition-all ${playlist.length === 0 ? 'px-4 gap-4' : 'w-10'} ${isExpanded ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg' : 'bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white'}`}>
+                    <button onClick={() => setIsExpanded(p => !p)} aria-label={isExpanded ? t?.('hideOptions') || 'Hide options' : t?.('showOptions') || 'Show options'} className={`h-10 rounded-xl flex items-center justify-center transition-all ${playlist.length === 0 ? 'px-4 gap-4' : 'w-10'} ${isExpanded ? 'bg-black dark:bg-white text-white dark:text-black shadow-lg' : 'bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white'}`}>
                         {isExpanded ? (
                           <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M20 12H4" />
@@ -104,7 +104,7 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 12H13.5" />
                           </svg>
                         )}
-                        {playlist.length === 0 && <span className="text-xs font-black uppercase tracking-widest">{isExpanded ? t?.hideOptions : t?.showOptions}</span>}
+                        {playlist.length === 0 && <span className="text-xs font-black uppercase tracking-widest">{isExpanded ? t?.('hideOptions') : t?.('showOptions')}</span>}
                     </button>
                 </div>
             </div>

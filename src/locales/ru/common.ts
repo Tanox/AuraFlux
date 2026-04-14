@@ -17,6 +17,8 @@ export const common = {
   active: "Активный",
   selectAll: "Выбрать все",
   fontName: "Название шрифта",
+  webAudioApi: "WebAudio API",
+  gemini3: "Gemini 3.0",
   fonts: {
     Inter: "Inter",
     "JetBrains Mono": "JetBrains Mono",

@@ -10,21 +10,22 @@ interface WaveformModeProps {
   sensitivity: number;
 }
 
-// 粒子状态缓存
-let particles: { x: number; y: number; size: number; speed: number; alpha: number; color: string }[] = [];
-
 /**
  * 渲染WAVEFORM模式的可视化效果
  */
-export const renderWaveformMode = ({
-  ctx,
-  dataArray,
-  dataArrayR,
-  width,
-  height,
-  colors,
-  sensitivity
-}: WaveformModeProps) => {
+export const renderWaveformMode = (() => {
+  // 粒子状态缓存 - 使用闭包避免全局状态污染
+  let particles: { x: number; y: number; size: number; speed: number; alpha: number; color: string }[] = [];
+  
+  return ({
+    ctx,
+    dataArray,
+    dataArrayR,
+    width,
+    height,
+    colors,
+    sensitivity
+  }: WaveformModeProps) => {
   const bufferLength = dataArray.length;
   const sliceWidth = (width * 1.0) / bufferLength;
   let x = 0;
@@ -171,4 +172,5 @@ export const renderWaveformMode = ({
   });
   
   ctx.globalAlpha = 1.0;
-};
+  };
+})();

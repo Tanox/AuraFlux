@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '@/types';
-import { useUI } from '@/context/AppContext';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   language: Language;
@@ -12,23 +12,23 @@ interface Props {
 }
 
 export const OnboardingOverlay: React.FC<Props> = ({ language, setLanguage, onComplete }) => {
-  const { t } = useUI();
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
 
   const steps = [
     {
-      title: t?.onboarding?.steps?.[0]?.title || 'Welcome to Aura Flux',
-      description: t?.onboarding?.steps?.[0]?.description || 'Experience your music like never before with AI-powered 3D visualizations.',
+      title: t('onboarding.steps.0.title', 'Welcome to Aura Flux'),
+      description: t('onboarding.steps.0.description', 'Experience your music like never before with AI-powered 3D visualizations.'),
       icon: '🎵'
     },
     {
-      title: t?.onboarding?.steps?.[1]?.title || 'Interactive Controls',
-      description: t?.onboarding?.steps?.[1]?.description || 'Use gestures or the control panel to customize colors, sensitivity, and modes.',
+      title: t('onboarding.steps.1.title', 'Interactive Controls'),
+      description: t('onboarding.steps.1.description', 'Use gestures or the control panel to customize colors, sensitivity, and modes.'),
       icon: '🎮'
     },
     {
-      title: t?.onboarding?.steps?.[2]?.title || 'AI Song Recognition',
-      description: t?.onboarding?.steps?.[2]?.description || 'Our AI can identify songs from your microphone and provide real-time lyrics.',
+      title: t('onboarding.steps.2.title', 'AI Song Recognition'),
+      description: t('onboarding.steps.2.description', 'Our AI can identify songs from your microphone and provide real-time lyrics.'),
       icon: '🧠'
     }
   ];
@@ -60,13 +60,13 @@ export const OnboardingOverlay: React.FC<Props> = ({ language, setLanguage, onCo
               onClick={nextStep}
               className="w-full py-4 bg-white text-black rounded-2xl font-bold text-lg hover:bg-gray-200 transition-colors"
             >
-              {step === steps.length - 1 ? (t?.onboarding?.getStarted || 'Get Started') : (t?.onboarding?.next || 'Next')}
+              {step === steps.length - 1 ? t('onboarding.getStarted', 'Get Started') : t('onboarding.next', 'Next')}
             </button>
             
             {step === 0 && (
               <div className="flex justify-center gap-2 mt-4">
-                <button onClick={() => setLanguage('en')} className={`px-3 py-1 rounded ${language === 'en' ? 'bg-white/20' : ''}`}>{t?.onboarding?.languages?.en || 'EN'}</button>
-                <button onClick={() => setLanguage('zh')} className={`px-3 py-1 rounded ${language === 'zh' ? 'bg-white/20' : ''}`}>{t?.onboarding?.languages?.zh || '中文'}</button>
+                <button onClick={() => setLanguage('en')} className={`px-3 py-1 rounded ${language === 'en' ? 'bg-white/20' : ''}`}>{t('onboarding.languages.en', 'EN')}</button>
+                <button onClick={() => setLanguage('zh')} className={`px-3 py-1 rounded ${language === 'zh' ? 'bg-white/20' : ''}`}>{t('onboarding.languages.zh', '中文')}</button>
               </div>
             )}
           </div>

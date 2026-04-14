@@ -1,7 +1,7 @@
 // File: src\hooks\useAppState.ts | Version: v2.2.18
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
-import { TRANSLATIONS } from '../locales';
+import { useTranslation } from 'react-i18next';
 
 const getInitialLanguage = (): Language => {
   if (typeof window !== 'undefined') {
@@ -25,23 +25,23 @@ const getInitialLanguage = (): Language => {
 };
 
 export const useAppState = () => {
+  const { i18n, t } = useTranslation();
   const [language, _setLanguage] = useState<Language>(getInitialLanguage);
   
   const setLanguage = useCallback((lang: Language | ((prev: Language) => Language)) => {
     _setLanguage(prev => {
       const next = typeof lang === 'function' ? lang(prev) : lang;
       localStorage.setItem('av_v1_language', next);
+      i18n.changeLanguage(next);
       return next;
     });
-  }, []);
+  }, [i18n]);
 
   const [region, setRegion] = useState<Region>('US');
   const [hasStarted, setHasStarted] = useState(false);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [helpModalInitialTab, setHelpModalInitialTab] = useState<'guide' | 'shortcuts' | 'about'>('guide');
   const [isDragging, setIsDragging] = useState(false);
-
-  const t = useMemo(() => TRANSLATIONS[language] || TRANSLATIONS.en, [language]);
 
   const resetSettings = useCallback(() => {
     localStorage.clear();

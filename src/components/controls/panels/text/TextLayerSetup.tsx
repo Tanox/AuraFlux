@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
 import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';

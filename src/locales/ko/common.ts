@@ -17,6 +17,8 @@ export const common = {
   active: "트랙",
   selectAll: "전체 선택",
   fontName: "글꼴 이름",
+  webAudioApi: "WebAudio API",
+  gemini3: "Gemini 3.0",
   fonts: {
     Inter: "Inter",
     "JetBrains Mono": "JetBrains Mono",

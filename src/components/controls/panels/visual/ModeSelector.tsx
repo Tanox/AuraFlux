@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * File: app/components/controls/panels/visual/ModeSelector.tsx
  * Version: v1.9.73
