@@ -11,7 +11,7 @@ export const ja = {
   appTitle: "Aura Flux",
   welcomeSubtitle: "共感覚知能エンジン",
   startExperience: "システムを初期化",
-  appVersion: "v2.2.15",
+  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

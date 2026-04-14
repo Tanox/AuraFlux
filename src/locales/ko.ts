@@ -11,7 +11,7 @@ export const ko = {
   appTitle: "Aura Flux",
   welcomeSubtitle: "공감각 지능 엔진",
   startExperience: "시스템 초기화",
-  appVersion: "v2.2.15",
+  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

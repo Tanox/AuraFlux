@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\visualizers\ui\Toast.tsx | Version: v2.2.16
+// File: src\components\visualizers\ui\Toast.tsx | Version: v2.2.18
 import React, { useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';

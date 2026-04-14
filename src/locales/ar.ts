@@ -11,7 +11,7 @@ export const ar = {
   appTitle: "Aura Flux",
   welcomeSubtitle: "محرك الذكاء الإحساسي",
   startExperience: "تهيئة النظام",
-  appVersion: "v2.2.15",
+  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

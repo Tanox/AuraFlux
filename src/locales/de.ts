@@ -11,7 +11,7 @@ export const de = {
   appTitle: "Aura Flux",
   welcomeSubtitle: "Synästhetischer Intelligenz-Motor",
   startExperience: "SYSTEM INITIALISIEREN",
-  appVersion: "v2.2.15",
+  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

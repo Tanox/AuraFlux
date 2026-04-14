@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\App.tsx | Version: v2.2.16
+// File: src\components\App.tsx | Version: v2.2.18
 import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
@@ -12,8 +12,7 @@ import CustomTextOverlay from '@/components/visualizers/ui/CustomTextOverlay';
 import { FPSCounter } from '@/components/visualizers/ui/FPSCounter';
 import { useIdleTimer } from '@/hooks/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
-import { useVersionCheck } from '@/hooks/useVersionCheck';
-import { APP_VERSION } from '@/constants/version';
+
 import { COLOR_THEMES } from '@/constants';
 import type { ControlsProps } from '@/components/controls/Controls';
 
@@ -38,12 +37,7 @@ const MainContent: React.FC = () => {
   const { isIdle } = useIdleTimer(isExpanded, visuals?.settings?.autoHideUi);
   const gestures = useMobileGestures();
 
-  // Version check logic
-  useVersionCheck(APP_VERSION, (newVersion) => {
-    if (ui) {
-      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info', 5000, 'top');
-    }
-  });
+
 
   useEffect(() => {
     if (visuals?.settings?.wakeLock && ui) ui.manageWakeLock(true);
@@ -162,12 +156,7 @@ const MainContent: React.FC = () => {
       <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
       <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
       {settings.showFps && <FPSCounter />}
-      <div 
-        id="app-version"
-        className="absolute bottom-4 right-4 text-xs font-medium text-white/60 drop-shadow-md z-10"
-      >
-        Aura Flux {APP_VERSION}
-      </div>
+
       <Suspense fallback={null}>
         <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
       </Suspense>

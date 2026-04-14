@@ -1,11 +1,12 @@
 'use client';
-// File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.2.16
+// File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.2.18
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderBarsMode } from './modes/BarsMode';
 import { renderPlasmaMode } from './modes/PlasmaMode';
 import { renderTunnelMode } from './modes/TunnelMode';
 import { renderStarfieldMode } from './modes/StarfieldMode';
+import { renderWaveformMode } from './modes/WaveformMode';
 
 interface Props {
   analyser: AnalyserNode | null;
@@ -104,6 +105,16 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
             colors,
             sensitivity: settings.sensitivity,
             stars: starsRef.current
+          });
+          break;
+        case VisualizerMode.WAVEFORM:
+          renderWaveformMode({
+            ctx,
+            dataArray,
+            width,
+            height,
+            colors,
+            sensitivity: settings.sensitivity
           });
           break;
       }

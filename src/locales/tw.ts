@@ -11,7 +11,7 @@ export const tw = {
   appTitle: "Aura Flux",
   welcomeSubtitle: "聯覺智能引擎",
   startExperience: "啟動系統",
-  appVersion: "v2.2.15",
+  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

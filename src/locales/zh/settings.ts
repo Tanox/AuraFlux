@@ -57,7 +57,7 @@ export const settings = {
   textSource: "内容来源",
   showOptions: "显示控制",
   hideOptions: "隐藏控制",
-  randomize: "随机化",
+  randomize: "随机",
   modes: {
     [VisualizerMode.PLASMA]: "等离子流",
     [VisualizerMode.BARS]: "均衡器",
@@ -161,10 +161,6 @@ export const settings = {
   },
   selectAll: "全选",
   unselectAll: "取消全选",
-  common: {
-    simple: "简单",
-    advanced: "高级",
-  },
   systemPanel: {
     localization: "美学与语言",
     uiMode: "UI 模式",
@@ -189,7 +185,7 @@ export const settings = {
   },
   hints: {
     confirmReset: "确定要重置所有设置吗？",
-    randomize: "随机化设置",
+    randomize: "随机设置",
   },
   share: {
     appTitle: "Aura Flux - AI 音乐可视化",

@@ -21,7 +21,7 @@ export const helpModal = {
     fullscreen: "切换全屏模式",
     lyrics: "切换 AI 歌词/字幕",
     hideUi: "切换 UI 可见性",
-    randomize: "随机化视觉效果",
+    randomize: "随机视觉效果",
     speed: "调整速度",
     glow: "切换辉光",
     trails: "切换轨迹",

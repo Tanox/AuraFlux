@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const targetVersion = 'v2.2.16';
+const targetVersion = 'v2.2.18';
 const srcDir = path.join(__dirname, 'src');
 
 function updateFileVersion(filePath) {

@@ -1,4 +1,4 @@
-// File: src\hooks\useVisualsState.ts | Version: v2.2.16
+// File: src\hooks\useVisualsState.ts | Version: v2.2.18
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
@@ -17,9 +17,11 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   particleCount: 1000,
   speed: 1.0,
   cycleColors: true,
+  colorInterval: 5,
   autoRotate: false,
   rotateInterval: 30,
-  includedModes: Object.values(VisualizerMode)
+  includedModes: Object.values(VisualizerMode),
+  showStudioTab: false
 };
 
 export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {

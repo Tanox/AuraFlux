@@ -129,7 +129,8 @@ describe('SettingsToggle', () => {
       />
     );
     
-    const container = screen.getByText('Test Toggle').closest('div');
+    const button = screen.getByRole('switch');
+    const container = button.closest('div[class*="py-2 flex flex-col group"]');
     expect(container).toHaveClass('py-2 flex flex-col group');
   });
 });

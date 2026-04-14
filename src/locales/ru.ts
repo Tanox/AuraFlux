@@ -11,7 +11,7 @@ export const ru = {
   appTitle: "Aura Flux",
   welcomeSubtitle: "Синэстетический интеллектуальный движок",
   startExperience: "ИНИЦИАЛИЗИРОВАТЬ СИСТЕМУ",
-  appVersion: "v2.2.15",
+  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

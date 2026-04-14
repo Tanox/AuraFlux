@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const targetVersion = 'v2.2.16';
+const targetVersion = 'v2.2.18';
 const srcDir = path.join(__dirname, 'src');
 
 function updateFileVersion(filePath: string) {

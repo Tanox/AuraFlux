@@ -1,4 +1,4 @@
-// File: src\hooks\useAppState.ts | Version: v2.2.16
+// File: src\hooks\useAppState.ts | Version: v2.2.18
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
 import { TRANSLATIONS } from '../locales';

@@ -86,7 +86,8 @@ export const TooltipArea = memo(({ children, text, className = '' }: TooltipArea
   const [shouldShow, setShouldShow] = useState(false);
   const timerRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { settings } = useVisuals();
+  const visuals = useVisuals();
+  const settings = visuals?.settings;
   
   const handleMouseEnter = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -108,7 +109,7 @@ export const TooltipArea = memo(({ children, text, className = '' }: TooltipArea
     };
   }, []);
 
-  const visible = (settings && settings.showTooltips) && shouldShow;
+  const visible = (settings?.showTooltips ?? true) && shouldShow;
   
   return (
     <div ref={containerRef} className={`relative ${className}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>

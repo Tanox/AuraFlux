@@ -2,6 +2,25 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.19]
+### 🗑️ Removal
+- **Vortex Mode**: Removed the vortex visualization mode
+
+### ✨ Visualization Enhancements
+- **Waveform Mode**: Added new waveform visualization mode with gradient coloring and smooth rendering
+- **Waveform Mode**: Implemented audio-reactive waveform display with sensitivity control
+
+## [v2.2.18]
+### ✨ Visualization Enhancements
+- **Bars Mode**: Updated bar count to 24 bars for cleaner visualization
+- **Bars Mode**: Enhanced color scheme to synchronize with theme colors and implement height-based color variation
+- **Bars Mode**: Added gradient effect from base to tip for more dynamic visual impact
+
+## [v2.2.17]
+### ✨ Visualization Enhancements
+- **Bars Mode**: Reduced bar count to 24 bars for cleaner visualization
+- **Bars Mode**: Implemented height-based color变化 from green (low) to red (high)
+
 ## [v2.2.16]
 ### 🐛 Bug Fixes
 - **Portuguese Localization**: Fixed character encoding issues in Portuguese language file, correcting 'Inteligência' and 'Sinestésica' display

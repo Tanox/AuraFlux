@@ -1,6 +1,6 @@
 export const messages = {
   hints: {
-    randomize: "随机化视觉效果与颜色",
+    randomize: "随机视觉效果与颜色",
     resetVisual: "重置视觉设置",
     resetAudio: "重置音频设置",
     resetText: "重置文本叠加设置",
