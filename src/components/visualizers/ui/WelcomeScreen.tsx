@@ -1,6 +1,7 @@
 // File: src\components\visualizers\ui\WelcomeScreen.tsx | Version: v2.0.6
 import React from 'react';
 import { useUI, useAudioContext } from '@/context/AppContext';
+import { APP_VERSION } from '@/constants/version';
 
 export const WelcomeScreen: React.FC = () => {
   const { t, setHasStarted } = useUI();
@@ -32,7 +33,7 @@ export const WelcomeScreen: React.FC = () => {
         </button>
 
         <div className="flex justify-center gap-8 text-[10px] font-mono text-white/20 uppercase tracking-widest">
-          <span>{t.appVersion}</span>
+          <span>{APP_VERSION}</span>
           <span>•</span>
           <span>WebAudio API</span>
           <span>•</span>
