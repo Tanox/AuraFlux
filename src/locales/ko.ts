@@ -9,8 +9,9 @@ import { messages } from './ko/messages';
 export const ko = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "시네스테틱 인텔리전스 엔진",
+  welcomeSubtitle: "공감각 지능 엔진",
   startExperience: "시스템 초기화",
+  appVersion: "v2.2.15",
   onboarding,
   ...settings,
   ...panels,

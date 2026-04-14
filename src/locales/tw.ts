@@ -9,8 +9,9 @@ import { messages } from './tw/messages';
 export const tw = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "通感智能引擎",
-  startExperience: "初始化系统",
+  welcomeSubtitle: "聯覺智能引擎",
+  startExperience: "啟動系統",
+  appVersion: "v2.2.15",
   onboarding,
   ...settings,
   ...panels,

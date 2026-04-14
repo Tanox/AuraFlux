@@ -9,8 +9,9 @@ import { messages } from './ja/messages';
 export const ja = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "シナエスセティックインテリジェンスエンジン",
+  welcomeSubtitle: "共感覚知能エンジン",
   startExperience: "システムを初期化",
+  appVersion: "v2.2.15",
   onboarding,
   ...settings,
   ...panels,

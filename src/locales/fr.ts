@@ -9,8 +9,9 @@ import { messages } from './fr/messages';
 export const fr = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "Moteur d'Intelligence Synesth茅sique",
-  startExperience: "INITIALISER LE SYST脠ME",
+  welcomeSubtitle: "Moteur d'Intelligence Synesthésique",
+  startExperience: "INITIALISER LE SYSTÈME",
+  appVersion: "v2.2.15",
   onboarding,
   ...settings,
   ...panels,

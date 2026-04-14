@@ -9,8 +9,9 @@ import { messages } from './ru/messages';
 export const ru = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "Двигатель Синтезетической Интеллектуальности",
+  welcomeSubtitle: "Синэстетический интеллектуальный движок",
   startExperience: "ИНИЦИАЛИЗИРОВАТЬ СИСТЕМУ",
+  appVersion: "v2.2.15",
   onboarding,
   ...settings,
   ...panels,

@@ -9,8 +9,9 @@ import { messages } from './ar/messages';
 export const ar = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "محرك الذكاء السينسيليتيك",
+  welcomeSubtitle: "محرك الذكاء الإحساسي",
   startExperience: "تهيئة النظام",
+  appVersion: "v2.2.15",
   onboarding,
   ...settings,
   ...panels,
