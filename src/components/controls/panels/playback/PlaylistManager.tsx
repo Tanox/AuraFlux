@@ -48,7 +48,7 @@ export const PlaylistManager: React.FC = () => {
                 setUrlValue('');
                 setShowUrlInput(false);
             } else {
-                throw new Error("Empty results");
+                throw new Error(t?.messages?.errors?.emptyResults || "Empty results");
             }
         } else {
             const track = await importFromUrl(urlValue);
@@ -59,8 +59,8 @@ export const PlaylistManager: React.FC = () => {
             }
         }
     } catch (e) {
-        showToast("Import failed", 'error');
-    } finally {
+            showToast(t?.messages?.errors?.importFailed || "Import failed", 'error');
+        } finally {
         setIsImporting(false);
     }
   };

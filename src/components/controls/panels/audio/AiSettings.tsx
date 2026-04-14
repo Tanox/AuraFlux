@@ -26,7 +26,7 @@ export const AiSettings: React.FC = () => {
       setIsAnalyzing(true);
       try {
           const wavBlob = await getAudioSlice(15);
-          if (!wavBlob) throw new Error("Failed");
+          if (!wavBlob) throw new Error(t?.messages?.errors?.failed || "Failed");
           const reader = new FileReader();
           reader.readAsDataURL(wavBlob);
           reader.onloadend = async () => {

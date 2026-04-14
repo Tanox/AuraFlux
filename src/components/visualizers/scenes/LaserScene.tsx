@@ -194,14 +194,14 @@ export const LaserScene: React.FC<{ analyser: AnalyserNode; analyserR?: Analyser
           const points = [effect.start, effect.end];
           const geometry = new BufferGeometry().setFromPoints(points);
           return (
-            <line key={`reflection-${index}`} geometry={geometry}>
-              <lineBasicMaterial 
+            <Line key={`reflection-${index}`} geometry={geometry}>
+              <LineBasicMaterial 
                 color={effect.color} 
                 transparent 
                 opacity={effect.alpha} 
                 linewidth={2}
               />
-            </line>
+            </Line>
           );
         })}
         

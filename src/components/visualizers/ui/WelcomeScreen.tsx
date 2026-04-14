@@ -38,9 +38,9 @@ export const WelcomeScreen: React.FC = () => {
         <div className="flex justify-center gap-8 text-[10px] font-mono text-white/20 uppercase tracking-widest">
           <span>{t.appVersion || "v2.2.15"}</span>
           <span>•</span>
-          <span>WebAudio API</span>
+          <span>{t.common.webAudioApi || "WebAudio API"}</span>
           <span>•</span>
-          <span>Gemini 3.0</span>
+          <span>{t.common.gemini3 || "Gemini 3.0"}</span>
         </div>
       </div>
     </div>
