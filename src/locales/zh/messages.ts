@@ -1,4 +1,7 @@
 export const messages = {
+  welcomeSubtitle: "通感智能引擎",
+  startExperience: "初始化系统",
+  appVersion: "v2.2.18",
   hints: {
     randomize: "随机视觉效果与颜色",
     resetVisual: "重置视觉设置",
@@ -60,6 +63,11 @@ export const messages = {
     aiSynesthesia: 'AI 通感',
     googleSearch: '按歌搜索',
   },
+  textFont: "字体",
+  textSize: "大小",
+  textRotation: "旋转",
+  textAudioReactive: "脉冲",
+  text3D: "3D",
   wrongSong: "重新分析",
   share: "分享",
   copy: "复制链接",

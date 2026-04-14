@@ -3,7 +3,6 @@ import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { WebVitals } from "@/components/performance/WebVitals";
-import "@/i18n";
 
 // Reusable Google Analytics script component
 const GoogleAnalyticsScript = () => {

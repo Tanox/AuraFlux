@@ -22,7 +22,17 @@ export const onboarding = {
   ],
   languages: {
     en: "EN",
-    zh: "中文"
+    zh: "中文",
+    "zh-TW": "繁中",
+    es: "西班牙语",
+    ar: "阿拉伯语",
+    fr: "法语",
+    pt: "葡萄牙语",
+    "pt-BR": "巴西葡萄牙语",
+    de: "德语",
+    ja: "日语",
+    ko: "韩语",
+    ru: "俄语"
   },
   features: {
     title: "解锁您的 Aura Flux 体验",

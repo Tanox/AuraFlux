@@ -22,7 +22,17 @@ export const onboarding = {
   ],
   languages: {
     en: "EN",
-    zh: "中文"
+    zh: "中文",
+    "zh-TW": "繁中",
+    es: "ES",
+    ar: "AR",
+    fr: "FR",
+    pt: "PT",
+    "pt-BR": "PT-BR",
+    de: "DE",
+    ja: "JA",
+    ko: "KO",
+    ru: "RU"
   },
   features: {
     title: "Unlock Your Aura Flux experience",

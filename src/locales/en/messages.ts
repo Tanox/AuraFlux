@@ -1,4 +1,7 @@
 export const messages = {
+  welcomeSubtitle: "Synesthetic Intelligence Engine",
+  startExperience: "INITIALIZE SYSTEM",
+  appVersion: "v2.2.18",
   hints: {
     randomize: "Randomize Visuals & Colors",
     resetVisual: "Reset Visual Settings",
@@ -60,6 +63,11 @@ export const messages = {
     aiSynesthesia: 'AI Synesthesia',
     googleSearch: 'Google Search',
   },
+  textFont: "Font",
+  textSize: "Size",
+  textRotation: "Rotation",
+  textAudioReactive: "Pulse",
+  text3D: "3D",
   wrongSong: "Retry Analysis",
   share: {
     appTitle: "Aura Flux - AI Music Visualizer",
