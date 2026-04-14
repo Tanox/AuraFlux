@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\layout\BentoCard.tsx | Version: v2.2.21
+// File: /src/components/visualizers/ui/layout/BentoCard.tsx | Version: v2.2.22
 import React from 'react';
 
 interface Props {

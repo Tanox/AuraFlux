@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\ErrorBoundary.tsx | Version: v2.2.18
+// File: /src/components/visualizers/ui/ErrorBoundary.tsx | Version: v2.2.22
 'use client';
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';

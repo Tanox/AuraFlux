@@ -70,7 +70,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Нейронный поток",
     [VisualizerMode.CUBE_FIELD]: "Поле кубов",
     [VisualizerMode.KINETIC_WALL]: "Кинетическая стена",
-    [VisualizerMode.VORTEX]: "Гравитационный вихрь",
+
     [VisualizerMode.STARFIELD]: "Звездное поле",
   },
   modeDescriptions: {
@@ -85,7 +85,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Сложные, взаимосвязанные линии, формирующие текущую органическую сеть.",
     [VisualizerMode.CUBE_FIELD]: "Поле светящихся кубов, которые анимируются и меняют размер под музыку.",
     [VisualizerMode.KINETIC_WALL]: "Динамическая стена элементов, которая толкает и тянет в ответ на аудио.",
-    [VisualizerMode.VORTEX]: "Вихрь света и частиц, искажающий окружающее пространство.",
+
     [VisualizerMode.STARFIELD]: "Фантастическое поле звезд, реагирующее на аудиоэнергию с глубиной и движением.",
   },
   lyricsStyles: {

@@ -70,7 +70,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Fluxo Neural",
     [VisualizerMode.CUBE_FIELD]: "Campo de Cubos",
     [VisualizerMode.KINETIC_WALL]: "Parede Cinética",
-    [VisualizerMode.VORTEX]: "Vórtice Gravitacional",
+
     [VisualizerMode.STARFIELD]: "Campo de Estrelas",
   },
   modeDescriptions: {
@@ -85,7 +85,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Linhas complexas e interconectadas formando uma rede fluida e orgânica.",
     [VisualizerMode.CUBE_FIELD]: "Um campo de cubos brilhantes que se animam e mudam de tamanho com a música.",
     [VisualizerMode.KINETIC_WALL]: "Uma parede dinâmica de elementos que empurram e puxam em resposta ao áudio.",
-    [VisualizerMode.VORTEX]: "Um vórtice de luz e partículas que distorce o espaço ao seu redor.",
+
     [VisualizerMode.STARFIELD]: "Um campo de estrelas fascinante que reage à energia do áudio com profundidade e movimento.",
   },
   lyricsStyles: {

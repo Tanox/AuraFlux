@@ -1,7 +1,7 @@
 export const messages = {
   welcomeSubtitle: "Synesthetic Intelligence Engine",
   startExperience: "INITIALIZE SYSTEM",
-  appVersion: "v2.2.18",
+  appVersion: "v2.2.22",
   hints: {
     randomize: "Randomize Visuals & Colors",
     resetVisual: "Reset Visual Settings",

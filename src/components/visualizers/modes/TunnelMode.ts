@@ -1,4 +1,4 @@
-// File: src\components\visualizers\modes\TunnelMode.ts | Version: v2.2.18
+// File: /src/components/visualizers/modes/TunnelMode.ts | Version: v2.2.22
 
 interface TunnelModeProps {
   ctx: CanvasRenderingContext2D;

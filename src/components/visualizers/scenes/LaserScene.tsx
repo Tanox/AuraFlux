@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\visualizers\scenes\LaserScene.tsx | Version: v2.2.19
+// File: /src/components/visualizers/scenes/LaserScene.tsx | Version: v2.2.22
 // Author: Sut
 
 import React, { useRef, useMemo } from 'react';

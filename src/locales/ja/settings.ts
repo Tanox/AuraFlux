@@ -68,7 +68,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "ニューラルフロー",
     [VisualizerMode.CUBE_FIELD]: "キューブフィールド",
     [VisualizerMode.KINETIC_WALL]: "キネティックウォール",
-    [VisualizerMode.VORTEX]: "グラビテーショナルボルテックス",
+
     [VisualizerMode.STARFIELD]: "スターフィールド",
   },
   modeDescriptions: {
@@ -83,7 +83,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "流動的で有機的なネットワークを形成する複雑で相互接続された線。",
     [VisualizerMode.CUBE_FIELD]: "音楽に合わせてアニメーションしサイズが変化する光るキューブのフィールド。",
     [VisualizerMode.KINETIC_WALL]: "オーディオに反応して押したり引いたりする要素の動的な壁。",
-    [VisualizerMode.VORTEX]: "周囲の空間を歪める光と粒子の渦。",
+
     [VisualizerMode.STARFIELD]: "オーディオエネルギーに反応し、深度と動きを持った魅惑的な星空フィールド。",
   },
   lyricsStyles: {

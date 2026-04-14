@@ -1,6 +1,6 @@
 'use client';
 
-// File: src\hooks\useMobileGestures.ts | Version: v2.2.18
+// File: /src/hooks/useMobileGestures.ts | Version: v2.2.22
 import React, { useRef, useCallback } from 'react';
 import { useVisuals, useAI } from '@/context/AppContext';
 import { VisualizerMode } from '../types/index';

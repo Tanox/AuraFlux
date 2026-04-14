@@ -70,7 +70,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "神经流",
     [VisualizerMode.CUBE_FIELD]: "立方体场",
     [VisualizerMode.KINETIC_WALL]: "动态墙",
-    [VisualizerMode.VORTEX]: "漩涡",
+
     [VisualizerMode.STARFIELD]: "星空",
   },
   modeDescriptions: {
@@ -85,7 +85,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "复杂、相互连接的线条形成流畅的有机网络。",
     [VisualizerMode.CUBE_FIELD]: "发光立方体场，随音乐动画和改变大小。",
     [VisualizerMode.KINETIC_WALL]: "动态元素墙，响应音频推拉。",
-    [VisualizerMode.VORTEX]: "旋转的光和粒子漩涡，扭曲周围空间。",
+
     [VisualizerMode.STARFIELD]: "令人著迷的星空場，隨音頻能量反應，具有深度和動感。",
   },
   lyricsStyles: {

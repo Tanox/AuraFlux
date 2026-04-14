@@ -1,6 +1,9 @@
 'use client';
-// File: src\components\App.tsx | Version: v2.2.21
+// File: /src/components/App.tsx | Version: v2.2.22
 import React, { useState, useEffect, Suspense } from 'react';
+
+// Import i18n configuration
+import '@/i18n';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
 import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';

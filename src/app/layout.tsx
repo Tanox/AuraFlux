@@ -4,6 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import { WebVitals } from "@/components/performance/WebVitals";
 
+
+
 // Reusable Google Analytics script component
 const GoogleAnalyticsScript = () => {
   const AnalyticsTags = (
@@ -41,7 +43,7 @@ const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aura.ewuse.com/"),
-  title: "Aura Flux v2.2.21",
+  title: "Aura Flux v2.2.22",
   description: "Experience Aura Flux: A next-gen 3D music visualizer powered by Google Gemini AI. Transform microphone input into real-time, audio-reactive WebGL art.",
   keywords: ["music visualizer", "audio visualizer", "AI music recognition", "Google Gemini", "WebGL", "Three.js", "React 19", "generative art", "synesthesia"],
   authors: [{ name: "Sut" }],

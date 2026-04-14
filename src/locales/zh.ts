@@ -9,9 +9,6 @@ import { messages } from './zh/messages';
 export const zh = {
   common,
   appTitle: "Aura Flux",
-  welcomeSubtitle: "联觉智能引擎",
-  startExperience: "启动系统",
-  appVersion: "v2.2.18",
   onboarding,
   ...settings,
   ...panels,

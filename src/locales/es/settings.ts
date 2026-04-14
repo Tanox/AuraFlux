@@ -68,7 +68,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Flujo Neuronal",
     [VisualizerMode.CUBE_FIELD]: "Campo de Cubos",
     [VisualizerMode.KINETIC_WALL]: "Pared Cin茅tica",
-    [VisualizerMode.VORTEX]: "V贸rtice Gravitacional",
+
     [VisualizerMode.STARFIELD]: "Campo de Estrellas",
   },
   modeDescriptions: {
@@ -83,7 +83,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "L铆neas complejas e interconectadas que forman una red fluida y org谩nica.",
     [VisualizerMode.CUBE_FIELD]: "Un campo de cubos brillantes que se animan y cambian de tama帽o con la m煤sica.",
     [VisualizerMode.KINETIC_WALL]: "Una pared din谩mica de elementos que empujan y jalan en respuesta al audio.",
-    [VisualizerMode.VORTEX]: "Un v贸rtice de luz y part铆culas que distorsiona el espacio que le rodea.",
+
     [VisualizerMode.STARFIELD]: "Un campo de estrellas fascinante que reacciona a la energ铆a del audio con profundidad y movimiento.",
   },
   lyricsStyles: {

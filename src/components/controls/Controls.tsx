@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\controls\Controls.tsx | Version: v2.2.21
+// File: /src/components/controls/Controls.tsx | Version: v2.2.22
 import React, { useState, useEffect, useMemo } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
@@ -39,7 +39,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
       if (tab.id === 'studio' && settings.showStudioTab === false) return false;
       return true;
     });
-  }, [settings.showPlaybackTab, settings.showStudioTab, t]);
+  }, [settings.showPlaybackTab, settings.showStudioTab]);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 

@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\controls\BottomBar.tsx | Version: v2.2.21
+// File: /src/components/controls/BottomBar.tsx | Version: v2.2.22
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudioContext, useUI, useVisuals } from '@/context/AppContext';
@@ -32,24 +32,6 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
     return () => document.removeEventListener('mousedown', clickOut);
   }, [showPlaylist]);
 
-  const handleAppShare = async () => {
-      const shareTitle = t?.('share.appTitle') || "Aura Flux - AI Music Visualizer";
-      const shareText = t?.('share.appMessage') || "Check out Aura Flux - AI Music Visualizer! 🎵";
-      const url = window.location.href;
-      const shareData = { title: shareTitle, text: shareText, url };
-
-      if (navigator.share && navigator.canShare(shareData)) {
-          try { await navigator.share(shareData); } catch (e) {}
-      } else {
-          try {
-              await navigator.clipboard.writeText(`${shareText}\n${url}`);
-              showToast(t?.('share.copied') || "Link Copied!", 'success');
-          } catch (e) {
-              showToast(t?.('share.unsupported') || "Error", 'error');
-          }
-      }
-  };
-
   const fmt = (s: number) => `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2, '0')}`;
   
   return (
@@ -60,13 +42,6 @@ export const BottomBar: React.FC<BottomBarProps> = ({ isExpanded, setIsExpanded,
             <div className="bg-white/90 dark:bg-[#0a0a0c]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-2xl p-2 shadow-2xl flex items-center justify-between gap-2 transition-colors">
                 <div className="flex items-center gap-1">
                     <TooltipArea text={`${t?.('hints.randomize') || 'Randomize'} [R]`}><button onClick={randomizeSettings} aria-label={t?.('randomize') || 'Randomize'} className="h-10 rounded-xl flex items-center justify-center bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white px-4 gap-2 transition-all"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>{playlist.length===0&&<span className="text-xs font-bold uppercase">{t?.('randomize')}</span>}</button></TooltipArea>
-                    <TooltipArea text={t?.('share.shareApp') || "Share"}>
-                        <button onClick={handleAppShare} aria-label={t?.('share.shareApp') || 'Share'} className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-blue-500 dark:hover:text-blue-400 flex items-center justify-center transition-all">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
-                            </svg>
-                        </button>
-                    </TooltipArea>
                     <button onClick={toggleFullscreen} aria-label="Toggle fullscreen" className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white flex items-center justify-center transition-all"><svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg></button>
                 </div>
                 {playlist.length > 0 ? (

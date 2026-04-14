@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.2.18)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.2.22)
 
 [Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md) | [Documentation](./openspec/)
 
@@ -81,7 +81,7 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_GEMINI_API_KEY=your_key aura-flux
 | Module | Description |
 | :--- | :--- |
 | **Audio Engine** | Real-time FFT analysis using Web Audio API. Extracts Bass, Mid, Treble energy. |
-| **Visualizer Engine** | Three.js based rendering system supporting multiple scenes (Silk, Neon, Vortex). |
+| **Visualizer Engine** | Three.js based rendering system supporting multiple scenes (Silk, Neon). |
 | **AI Service** | Integration with Google Gemini for song ID, lyrics, and mood analysis. |
 | **UI System** | Responsive controls built with React & Tailwind CSS. |
 
@@ -90,5 +90,5 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_GEMINI_API_KEY=your_key aura-flux
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.
-*Version: 2.2.18*
+*Version: 2.2.22*
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

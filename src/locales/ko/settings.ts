@@ -70,7 +70,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "뉴럴 흐름",
     [VisualizerMode.CUBE_FIELD]: "큐브 필드",
     [VisualizerMode.KINETIC_WALL]: "키네틱 벽",
-    [VisualizerMode.VORTEX]: "중력 소용돌이",
+
     [VisualizerMode.STARFIELD]: "스타필드",
   },
   modeDescriptions: {
@@ -85,7 +85,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "유체이고 유기적인 네트워크를 형성하는 복잡하고 상호 연결된 라인입니다.",
     [VisualizerMode.CUBE_FIELD]: "음악에 따라 애니메이션되고 크기가 변하는 빛나는 큐브 필드입니다.",
     [VisualizerMode.KINETIC_WALL]: "오디오에 반응하여 밀고 당기는 요소의 동적 벽입니다.",
-    [VisualizerMode.VORTEX]: "주위 공간을 왜곡하는 빛과 입자의 소용돌이입니다.",
+
     [VisualizerMode.STARFIELD]: "오디오 에너지에 반응하는 깊이와 움직임이 있는 매혹적인 별장 필드입니다.",
   },
   lyricsStyles: {

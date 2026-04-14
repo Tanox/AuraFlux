@@ -68,7 +68,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Neuraler Fluss",
     [VisualizerMode.CUBE_FIELD]: "Würfel-Feld",
     [VisualizerMode.KINETIC_WALL]: "Kinetische Wand",
-    [VisualizerMode.VORTEX]: "Gravitationswirbel",
+
     [VisualizerMode.STARFIELD]: "Sternenhimmel",
   },
   modeDescriptions: {
@@ -83,7 +83,7 @@ export const settings = {
     [VisualizerMode.NEURAL_FLOW]: "Komplexe, miteinander verbundene Linien, die ein fließendes, organisches Netzwerk bilden.",
     [VisualizerMode.CUBE_FIELD]: "Ein Feld leuchtender Würfel, die sich mit der Musik animieren und ihre Größe ändern.",
     [VisualizerMode.KINETIC_WALL]: "Eine dynamische Wand aus Elementen, die als Reaktion auf Audio drücken und ziehen.",
-    [VisualizerMode.VORTEX]: "Ein sich drehender Vortex aus Licht und Partikeln, der den umgebenden Raum verzerrt.",
+
     [VisualizerMode.STARFIELD]: "Ein faszinierender Sternenhimmel, der mit Audioenergie reagiert und Tiefe und Bewegung erzeugt.",
   },
   lyricsStyles: {
