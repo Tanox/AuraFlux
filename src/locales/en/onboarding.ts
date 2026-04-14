@@ -5,6 +5,25 @@ export const onboarding = {
   next: "Next",
   back: "Back",
   finish: "Finish",
+  getStarted: "Get Started",
+  steps: [
+    {
+      title: "Welcome to Aura Flux",
+      description: "Experience your music like never before with AI-powered 3D visualizations."
+    },
+    {
+      title: "Interactive Controls",
+      description: "Use gestures or the control panel to customize colors, sensitivity, and modes."
+    },
+    {
+      title: "AI Song Recognition",
+      description: "Our AI can identify songs from your microphone and provide real-time lyrics."
+    }
+  ],
+  languages: {
+    en: "EN",
+    zh: "中文"
+  },
   features: {
     title: "Unlock Your Aura Flux experience",
     visuals: {

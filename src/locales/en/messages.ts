@@ -31,6 +31,9 @@ export const messages = {
     configMissing: "API Key is missing or invalid. Please configure in System Settings.",
     unsupportedTitle: 'Browser Not Supported',
     unsupportedText: 'Aura Flux requires modern browser features (like microphone access) that are not available. Please update to a recent version of Chrome, Firefox, or Safari.',
+    importFailed: "Import failed",
+    failed: "Failed",
+    emptyResults: "Empty results",
   },
   config: {
     title: "Data Management",

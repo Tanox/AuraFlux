@@ -5,6 +5,25 @@ export const onboarding = {
   next: "下一步",
   back: "返回",
   finish: "完成",
+  getStarted: "开始使用",
+  steps: [
+    {
+      title: "欢迎使用 Aura Flux",
+      description: "通过 AI 驱动的 3D 可视化效果，以前所未有的方式体验您的音乐。"
+    },
+    {
+      title: "交互式控制",
+      description: "使用手势或控制面板自定义颜色、灵敏度和模式。"
+    },
+    {
+      title: "AI 歌曲识别",
+      description: "我们的 AI 可以通过您的麦克风识别歌曲并提供实时歌词。"
+    }
+  ],
+  languages: {
+    en: "EN",
+    zh: "中文"
+  },
   features: {
     title: "解锁您的 Aura Flux 体验",
     visuals: {

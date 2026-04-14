@@ -1,8 +1,4 @@
-/**
- * File: app/components/controls/panels/VisualizerPreview.tsx
- * Version: v1.9.68
- * Author: Sut
- */
+// File: src\components\controls\panels\VisualizerPreview.tsx | Version: v2.2.21
 
 import React, { memo, useMemo } from 'react';
 import { VisualizerMode } from '../../../types/index';
@@ -47,9 +43,9 @@ export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode,
   return (
     <div className="relative w-full group">
       <TooltipArea text={tooltipText}>
-        <button onClick={onClick} className={`relative w-full rounded-xl transition-all duration-300 overflow-hidden ${isActive?'ring-2 ring-blue-500 shadow-lg':'hover:ring-1 hover:ring-black/30 dark:hover:ring-white/30'} ${isIncluded?'':'grayscale opacity-60'}`}>
-          <div className="h-12 w-full bg-black" style={styles[mode] || { background: 'black' }}/>
-          <div className={`absolute inset-0 flex items-center justify-start gap-3 px-3 py-2 ${isActive?'bg-black/40':'bg-black/60'}`}>
+        <button onClick={onClick} className={`relative w-full rounded-xl transition-all duration-300 ${isActive?'ring-2 ring-blue-500 shadow-lg':'hover:ring-1 hover:ring-black/30 dark:hover:ring-white/30'} ${isIncluded?'':'grayscale opacity-60'}`}>
+          <div className="h-12 w-full bg-black rounded-xl overflow-hidden" style={styles[mode] || { background: 'black' }}/>
+          <div className={`absolute inset-0 flex items-center justify-start gap-3 px-3 py-2 ${isActive?'bg-black/40':'bg-black/60'} rounded-xl`}>
             {/* Toggle on the LEFT */}
             <div onClick={(e)=>{e.stopPropagation();onToggleInclude();}} className="w-6 h-6 flex items-center justify-center cursor-pointer shrink-0">
                 <div className={`w-4 h-4 rounded-full border transition-all ${isIncluded?'bg-green-500 border-green-500':'bg-black/40 border-white/30'}`}>{isIncluded && <svg className="w-2.5 h-2.5 mx-auto text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7"/></svg>}</div>

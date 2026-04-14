@@ -6,7 +6,6 @@ interface Star {
   z: number;
   size: number;
   speed: number;
-  color: string;
   brightness: number;
 }
 
@@ -48,7 +47,6 @@ export const renderStarfieldMode = ({ ctx, dataArray, width, height, colors, sen
       star.y = Math.random() * height;
       star.size = Math.random() * 3 + 1;
       star.speed = Math.random() * 2 + 0.5;
-      star.color = colors[Math.floor(Math.random() * colors.length)];
       star.brightness = Math.random() * 0.8 + 0.2;
     }
     
@@ -58,10 +56,14 @@ export const renderStarfieldMode = ({ ctx, dataArray, width, height, colors, sen
     const y = (star.y - height / 2) * scale + height / 2;
     const size = star.size * scale;
     
+    // 根据当前主题颜色动态更新星星颜色
+    const colorIndex = (index + Math.floor(Date.now() * 0.001)) % colors.length;
+    const starColor = colors[colorIndex];
+    
     // 绘制星星的光晕效果（增强）
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 8);
-    gradient.addColorStop(0, star.color);
-    gradient.addColorStop(0.3, star.color);
+    gradient.addColorStop(0, starColor);
+    gradient.addColorStop(0.3, starColor);
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = gradient;
     ctx.globalAlpha = brightness * 0.8;
@@ -73,7 +75,7 @@ export const renderStarfieldMode = ({ ctx, dataArray, width, height, colors, sen
     ctx.globalAlpha = brightness;
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
-    ctx.fillStyle = star.color;
+    ctx.fillStyle = starColor;
     ctx.fill();
     
     ctx.globalAlpha = 1;

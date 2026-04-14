@@ -31,6 +31,9 @@ export const messages = {
     configMissing: "API 密钥缺失或无效。请在系统设置中配置。",
     unsupportedTitle: '浏览器不支持',
     unsupportedText: 'Aura Flux 需要现代浏览器功能（如麦克风访问），但当前浏览器不支持。请更新到最新的 Chrome、Firefox 或 Safari。',
+    importFailed: "导入失败",
+    failed: "失败",
+    emptyResults: "结果为空",
   },
   config: {
     title: "数据管理",

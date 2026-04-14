@@ -1,4 +1,4 @@
-// File: src\hooks\useAudio.ts | Version: v2.2.18
+// File: src\hooks\useAudio.ts | Version: v2.2.21
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -28,6 +28,9 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
   
   const audioContextRef = useRef<AudioContext | null>(null);
   const sourceNodeRef = useRef<AudioNode | null>(null);
+  const audioElementRef = useRef<HTMLAudioElement | null>(null);
+  const audioAnalyserRef = useRef<AnalyserNode | null>(null);
+  const timeUpdateIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const getDevices = async () => {
@@ -43,6 +46,62 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
     };
     getDevices();
   }, []);
+
+  useEffect(() => {
+    if (sourceType === 'file' && playlist.length > 0 && currentIndex >= 0) {
+      const track = playlist[currentIndex];
+      if (track) {
+        if (!audioElementRef.current) {
+          audioElementRef.current = new Audio();
+          
+          audioElementRef.current.addEventListener('loadedmetadata', () => {
+            if (audioElementRef.current) {
+              setDuration(audioElementRef.current.duration || 0);
+            }
+          });
+          
+          audioElementRef.current.addEventListener('timeupdate', () => {
+            if (audioElementRef.current) {
+              setCurrentTime(audioElementRef.current.currentTime || 0);
+            }
+          });
+          
+          audioElementRef.current.addEventListener('ended', () => {
+            playNext();
+          });
+        }
+        
+        const objectURL = URL.createObjectURL(track.file);
+        audioElementRef.current.src = objectURL;
+        
+        if (isPlaying) {
+          audioElementRef.current.play().catch(err => {
+            console.warn('Error playing audio:', err);
+            setIsPlaying(false);
+          });
+        }
+        
+        return () => {
+          if (audioElementRef.current) {
+            URL.revokeObjectURL(audioElementRef.current.src);
+          }
+        };
+      }
+    }
+  }, [sourceType, playlist, currentIndex, isPlaying, playNext]);
+
+  useEffect(() => {
+    if (audioElementRef.current) {
+      if (isPlaying) {
+        audioElementRef.current.play().catch(err => {
+          console.warn('Error playing audio:', err);
+          setIsPlaying(false);
+        });
+      } else {
+        audioElementRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
 
   const toggleMicrophone = useCallback(async (deviceId: string) => {
     try {
@@ -90,13 +149,54 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
     showToast(`Imported ${newTracks.length} tracks`);
   }, [showToast]);
 
-  const togglePlayback = useCallback(() => setIsPlaying(prev => !prev), []);
-  const seekFile = useCallback((t: number) => setCurrentTime(t), []);
-  const playNext = useCallback(() => setCurrentIndex(prev => (prev + 1) % playlist.length), [playlist.length]);
-  const playPrev = useCallback(() => setCurrentIndex(prev => (prev - 1 + playlist.length) % playlist.length), [playlist.length]);
-  const playTrackByIndex = useCallback((i: number) => setCurrentIndex(i), []);
-  const removeFromPlaylist = useCallback((i: number) => setPlaylist(prev => prev.filter((_, idx) => idx !== i)), []);
-  const clearPlaylist = useCallback(() => setPlaylist([]), []);
+  const togglePlayback = useCallback(() => {
+    setIsPlaying(prev => !prev);
+  }, []);
+  
+  const seekFile = useCallback((t: number) => {
+    if (audioElementRef.current) {
+      audioElementRef.current.currentTime = t;
+      setCurrentTime(t);
+    }
+  }, []);
+  
+  const playNext = useCallback(() => {
+    if (playlist.length > 0) {
+      setCurrentIndex(prev => (prev + 1) % playlist.length);
+    }
+  }, [playlist.length]);
+  
+  const playPrev = useCallback(() => {
+    if (playlist.length > 0) {
+      setCurrentIndex(prev => (prev - 1 + playlist.length) % playlist.length);
+    }
+  }, [playlist.length]);
+  
+  const playTrackByIndex = useCallback((i: number) => {
+    setCurrentIndex(i);
+  }, []);
+  
+  const removeFromPlaylist = useCallback((i: number) => {
+    setPlaylist(prev => {
+      const newPlaylist = prev.filter((_, idx) => idx !== i);
+      if (i === currentIndex && currentIndex >= newPlaylist.length) {
+        setCurrentIndex(Math.max(0, newPlaylist.length - 1));
+      }
+      return newPlaylist;
+    });
+  }, [currentIndex]);
+  
+  const clearPlaylist = useCallback(() => {
+    setPlaylist([]);
+    setCurrentIndex(0);
+    setDuration(0);
+    setCurrentTime(0);
+    setIsPlaying(false);
+    if (audioElementRef.current) {
+      audioElementRef.current.pause();
+      audioElementRef.current.src = '';
+    }
+  }, []);
   
   const getAudioSlice = useCallback(async (s?: number) => {
       // Mock implementation for now

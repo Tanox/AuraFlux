@@ -10,6 +10,9 @@ All notable changes to the **Aura Flux** project will be documented in this file
 - **Waveform Mode**: Added new waveform visualization mode with gradient coloring and smooth rendering
 - **Waveform Mode**: Implemented audio-reactive waveform display with sensitivity control
 
+### 🎨 UI Improvements
+- **Visualizer Mode Selector**: Fixed the selected mode border display issue by removing overflow-hidden and ensuring complete border visibility
+
 ## [v2.2.18]
 ### ✨ Visualization Enhancements
 - **Bars Mode**: Updated bar count to 24 bars for cleaner visualization

@@ -44,7 +44,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
             z: Math.random() * 1000,
             size: Math.random() * 3 + 1,
             speed: Math.random() * 2 + 0.5,
-            color: colors[Math.floor(Math.random() * colors.length)]
+            brightness: Math.random() * 0.8 + 0.2
           });
         }
       }
@@ -55,9 +55,17 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const height = canvas.height;
     initStars(width, height);
 
+    let dataArrayR: Uint8Array | undefined;
+    if (analyserR) {
+      dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
+    }
+
     const draw = () => {
       animationId = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
+      if (analyserR && dataArrayR) {
+        analyserR.getByteFrequencyData(dataArrayR);
+      }
 
       const width = canvas.width;
       const height = canvas.height;
@@ -111,6 +119,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
           renderWaveformMode({
             ctx,
             dataArray,
+            dataArrayR,
             width,
             height,
             colors,

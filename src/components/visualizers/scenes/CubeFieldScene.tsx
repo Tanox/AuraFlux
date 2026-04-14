@@ -1,9 +1,9 @@
 'use client';
-// File: src\components\visualizers\scenes\CubeFieldScene.tsx | Version: v2.2.18
+// File: src\components\visualizers\scenes\CubeFieldScene.tsx | Version: v2.2.19
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, PointLight, Vector3, Euler, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, Fog } from 'three';
+import { InstancedMesh, PointLight, Vector3, Euler, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, Fog, Mesh, SphereGeometry, MeshBasicMaterial, AdditiveBlending } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/useAudioReactive';
 import { SceneBackground } from '../ui/SceneBackground';
@@ -15,9 +15,41 @@ interface SceneProps {
   settings: VisualizerSettings;
 }
 
+interface CubeState {
+  x: number;
+  y: number;
+  z: number;
+  scale: number;
+  currentScale: number;
+  isStructure: boolean;
+  speedOffset: number;
+  rotationAxis: Vector3;
+  initialRotation: Euler;
+  rotationSpeed: number;
+  speedMult: number;
+  torque: number;
+  phase: number;
+  driftX: number;
+  driftY: number;
+  spectralAffinity: number;
+  tumbleRate: number;
+  tumblePhase: number;
+  collisionTimer: number;
+  isColliding: boolean;
+  deformation: number;
+}
+
+interface CollisionEffect {
+  position: Vector3;
+  size: number;
+  alpha: number;
+  color: Vector3;
+}
+
 export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
   const coreLightRef = useRef<PointLight>(null);
+  const collisionEffectsRef = useRef<CollisionEffect[]>([]);
   
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const { bass, mids, treble, volume, isBeat } = features;
@@ -32,7 +64,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const localDataArray = useMemo(() => new Uint8Array(binCount), [binCount]);
 
   const particles = useMemo(() => {
-    const temp = [];
+    const temp: CubeState[] = [];
     for (let i = 0; i < count; i++) {
       const x = (Math.random() - 0.5) * 300;
       const y = (Math.random() - 0.5) * 200;
@@ -67,7 +99,10 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         driftY: (Math.random() - 0.5) * (isStructure ? 0.05 : 0.2),
         spectralAffinity: Math.pow(Math.random(), 1.5),
         tumbleRate: 0.5 + Math.random() * 2.0,
-        tumblePhase: Math.random() * Math.PI * 2
+        tumblePhase: Math.random() * Math.PI * 2,
+        collisionTimer: 0,
+        isColliding: false,
+        deformation: 0
       });
     }
     return temp;
@@ -79,6 +114,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (!meshRef.current || !analyser) return;
     
     const time = state.clock.getElapsedTime();
+    const delta = state.clock.getDelta();
     analyser.getByteFrequencyData(localDataArray);
     
     const globalSpeed = settings.speed * 4.5 * (1.0 + volume * 2.0 + (isBeat ? 2.5 : 0));
@@ -98,12 +134,73 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       mat.color.set(c0);
       mat.emissive.set(c1);
       mat.emissiveIntensity = 0.4 + treble * 4.0 + (isBeat ? 3.5 : 0);
+      // 添加发光效果
+      mat.emissiveIntensity *= 1.5;
     }
 
     const rotationBoost = 1.0 + mids * 2.0 + treble * 2.5;
     const binLimit = Math.floor(localDataArray.length * 0.6);
     
+    // 检测立方体碰撞
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const p1 = particles[i];
+        const p2 = particles[j];
+        const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
+        const minDistance = (p1.currentScale + p2.currentScale) * 0.8;
+        
+        if (distance < minDistance) {
+          // 发生碰撞
+          if (!p1.isColliding || !p2.isColliding) {
+            const collisionX = (p1.x + p2.x) / 2;
+            const collisionY = (p1.y + p2.y) / 2;
+            const collisionZ = (p1.z + p2.z) / 2;
+            
+            collisionEffectsRef.current.push({
+              position: new Vector3(collisionX, collisionY, collisionZ),
+              size: (p1.currentScale + p2.currentScale) / 2,
+              alpha: 1,
+              color: new Vector3().set(c1.r, c1.g, c1.b)
+            });
+            
+            // 碰撞响应
+            const normal = new Vector3(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z).normalize();
+            const pushForce = 0.5;
+            
+            p1.x -= normal.x * pushForce;
+            p1.y -= normal.y * pushForce;
+            p1.z -= normal.z * pushForce;
+            
+            p2.x += normal.x * pushForce;
+            p2.y += normal.y * pushForce;
+            p2.z += normal.z * pushForce;
+            
+            // 触发变形效果
+            p1.deformation = 0.2;
+            p2.deformation = 0.2;
+          }
+          
+          p1.isColliding = true;
+          p2.isColliding = true;
+          p1.collisionTimer = 0.5;
+          p2.collisionTimer = 0.5;
+        }
+      }
+    }
+    
     particles.forEach((p, i) => {
+      // 更新碰撞状态
+      if (p.collisionTimer > 0) {
+        p.collisionTimer -= delta;
+      } else {
+        p.isColliding = false;
+      }
+      
+      // 更新变形效果
+      if (p.deformation > 0) {
+        p.deformation -= delta * 2;
+      }
+      
       p.z += globalSpeed * p.speedOffset * 0.016;
       if (p.z > 60) {
         p.z -= 450;
@@ -150,9 +247,22 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       const targetS = p.scale * (1.0 + reaction * 1.8);
       p.currentScale += (targetS - p.currentScale) * (targetS > p.currentScale ? 0.3 : 0.1);
       
-      dummy.scale.set(p.currentScale, p.currentScale, p.currentScale);
+      // 应用变形效果
+      const deformation = p.deformation;
+      const scaleX = p.currentScale * (1 - deformation);
+      const scaleY = p.currentScale * (1 + deformation);
+      const scaleZ = p.currentScale * (1 - deformation);
+      
+      dummy.scale.set(scaleX, scaleY, scaleZ);
       dummy.updateMatrix();
       meshRef.current!.setMatrixAt(i, dummy.matrix);
+    });
+    
+    // 更新碰撞效果
+    collisionEffectsRef.current = collisionEffectsRef.current.filter(effect => {
+      effect.alpha -= delta * 3;
+      effect.size += delta * 2;
+      return effect.alpha > 0;
     });
     
     initialSetupRef.current = true;
@@ -171,6 +281,19 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial roughness={0.1} metalness={0.95} />
       </instancedMesh>
+      
+      {/* 碰撞效果 */}
+      {collisionEffectsRef.current.map((effect, index) => (
+        <mesh key={`collision-${index}`} position={effect.position}>
+          <sphereGeometry args={[effect.size, 16, 16]} />
+          <meshBasicMaterial 
+            color={[effect.color.x, effect.color.y, effect.color.z]} 
+            transparent 
+            opacity={effect.alpha} 
+            blending={AdditiveBlending}
+          />
+        </mesh>
+      ))}
     </>
   );
 };

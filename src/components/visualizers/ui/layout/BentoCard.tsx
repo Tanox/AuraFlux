@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\layout\BentoCard.tsx | Version: v2.2.18
+// File: src\components\visualizers\ui\layout\BentoCard.tsx | Version: v2.2.21
 import React from 'react';
 
 interface Props {
@@ -13,7 +13,7 @@ export const BentoCard: React.FC<Props> = ({ children, title, className = '', id
   return (
     <div 
       id={id}
-      className={`bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-3 ${className}`}
+      className={`bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow ${className}`}
     >
       {(title || action) && (
         <div className="flex justify-between items-center mb-1">

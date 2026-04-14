@@ -1,4 +1,4 @@
-// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.18
+// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.19
 
 interface ParticleState {
   x: number;
@@ -7,7 +7,18 @@ interface ParticleState {
   targetX: number;
   targetY: number;
   targetRadius: number;
-  colorIndex: number;
+  rotation: number;
+  rotationSpeed: number;
+  splitTimer: number;
+  isSplitting: boolean;
+}
+
+interface FusionEffect {
+  x: number;
+  y: number;
+  size: number;
+  alpha: number;
+  color: string;
 }
 
 interface PlasmaModeProps {
@@ -21,6 +32,8 @@ interface PlasmaModeProps {
 
 // 粒子状态缓存
 let particleStates: ParticleState[] = [];
+// 融合效果缓存
+let fusionEffects: FusionEffect[] = [];
 
 /**
  * 渲染PLASMA模式的可视化效果
@@ -68,13 +81,49 @@ export const renderPlasmaMode = ({
         targetX: centerX,
         targetY: centerY,
         targetRadius: 20,
-        colorIndex: i % colors.length
+        rotation: 0,
+        rotationSpeed: (Math.random() - 0.5) * 0.1,
+        splitTimer: 0,
+        isSplitting: false
       });
     }
   }
   
-  for (let i = 0; i < particleCount; i++) {
-    const dataIndex = Math.floor((i / particleCount) * dataArray.length);
+  // 检测粒子融合
+  for (let i = 0; i < particleStates.length; i++) {
+    for (let j = i + 1; j < particleStates.length; j++) {
+      const p1 = particleStates[i];
+      const p2 = particleStates[j];
+      const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+      
+      if (distance < p1.radius + p2.radius) {
+        // 粒子融合
+        const fusionX = (p1.x + p2.x) / 2;
+        const fusionY = (p1.y + p2.y) / 2;
+        const fusionSize = Math.sqrt(p1.radius * p1.radius + p2.radius * p2.radius);
+        
+        fusionEffects.push({
+          x: fusionX,
+          y: fusionY,
+          size: fusionSize,
+          alpha: 1,
+          color: colors[(i + j) % colors.length]
+        });
+        
+        // 融合后粒子分离
+        const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+        const separationDistance = (p1.radius + p2.radius) * 1.2;
+        
+        p1.targetX = fusionX - Math.cos(angle) * separationDistance;
+        p1.targetY = fusionY - Math.sin(angle) * separationDistance;
+        p2.targetX = fusionX + Math.cos(angle) * separationDistance;
+        p2.targetY = fusionY + Math.sin(angle) * separationDistance;
+      }
+    }
+  }
+  
+  for (let i = 0; i < particleStates.length; i++) {
+    const dataIndex = Math.floor((i / particleStates.length) * dataArray.length);
     const val = dataArray[dataIndex] / 255;
     const params = particleParams[i % particleParams.length];
     
@@ -103,10 +152,46 @@ export const renderPlasmaMode = ({
     particleStates[i].y += (particleStates[i].targetY - particleStates[i].y) * easing;
     particleStates[i].radius += (particleStates[i].targetRadius - particleStates[i].radius) * easing;
     
+    // 更新旋转
+    particleStates[i].rotation += particleStates[i].rotationSpeed;
+    
+    // 粒子分裂逻辑
+    particleStates[i].splitTimer += 0.01;
+    if (particleStates[i].splitTimer > 5 && particleStates[i].radius > 30) {
+      particleStates[i].isSplitting = true;
+      particleStates[i].splitTimer = 0;
+      
+      // 创建新粒子
+      const newParticle: ParticleState = {
+        x: particleStates[i].x,
+        y: particleStates[i].y,
+        radius: particleStates[i].radius / 2,
+        targetX: particleStates[i].x + (Math.random() - 0.5) * 100,
+        targetY: particleStates[i].y + (Math.random() - 0.5) * 100,
+        targetRadius: 20 + Math.random() * 30,
+        rotation: 0,
+        rotationSpeed: (Math.random() - 0.5) * 0.1,
+        splitTimer: 0,
+        isSplitting: false
+      };
+      
+      particleStates.push(newParticle);
+      particleStates[i].radius /= 2;
+    }
+    
     const x = particleStates[i].x;
     const y = particleStates[i].y;
     const radius = particleStates[i].radius;
-    const colorIndex = particleStates[i].colorIndex;
+    const rotation = particleStates[i].rotation;
+    const colorIndex = i % colors.length;
+    
+    // 保存当前画布状态
+    ctx.save();
+    
+    // 应用旋转
+    ctx.translate(x, y);
+    ctx.rotate(rotation);
+    ctx.translate(-x, -y);
     
     // 创建巨大的径向渐变，铺满整个画面的光晕效果，使用更平滑的颜色过渡
     const gradientSize = Math.max(width, height) * 2;
@@ -172,6 +257,30 @@ export const renderPlasmaMode = ({
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2);
     ctx.fill();
+    
+    // 恢复画布状态
+    ctx.restore();
+  }
+  
+  // 更新融合效果
+  fusionEffects = fusionEffects.filter(effect => {
+    effect.alpha -= 0.02;
+    effect.size += 0.5;
+    return effect.alpha > 0;
+  });
+  
+  // 绘制融合效果
+  fusionEffects.forEach(effect => {
+    ctx.globalAlpha = effect.alpha;
+    ctx.fillStyle = effect.color;
+    ctx.beginPath();
+    ctx.arc(effect.x, effect.y, effect.size, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  
+  // 限制粒子数量
+  if (particleStates.length > 10) {
+    particleStates = particleStates.slice(0, 10);
   }
   
   // 绘制全屏发光效果，使用更平滑的渐变
