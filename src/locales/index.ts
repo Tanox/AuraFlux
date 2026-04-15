@@ -1,4 +1,4 @@
-// File: src\locales\index.ts | Version: v2.2.23
+// File: src\locales\index.ts | Version: v2.2.25
 // 直接从子目录导入语言文件
 import { messages as en } from './en/messages';
 import { messages as zh } from './zh/messages';

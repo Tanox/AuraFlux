@@ -4,7 +4,7 @@
 
 ### 1.1 useAudio Hook
 - **文件**: `src/hooks/useAudio.ts`
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **功能**: 提供音频处理和分析功能
 
 **核心状态:**
@@ -45,7 +45,7 @@
 **代码示例:**
 ```tsx
 // useAudio.ts 核心结构
-// File: src/hooks/useAudio.ts | Version: v2.2.22
+// File: src/hooks/useAudio.ts | Version: v2.2.25
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -175,7 +175,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 
 ### 2.1 音频工具 (audioUtils.ts)
 - **文件**: `src/services/audioUtils.ts`
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **功能**: 提供音频处理工具函数
 
 **主要功能:**
@@ -192,7 +192,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 **代码示例:**
 ```tsx
 // audioUtils.ts 核心结构
-// File: src/services/audioUtils.ts | Version: v2.2.22
+// File: src/services/audioUtils.ts | Version: v2.2.25
 
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
   const startIndex = start || 0;
@@ -290,7 +290,7 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 
 ### 3.1 useAudioReactive Hook
 - **文件**: `src/hooks/useAudioReactive.ts`
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **功能**: 将音频数据转换为视觉响应
 
 **核心功能:**
@@ -302,7 +302,7 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 **代码示例:**
 ```tsx
 // useAudioReactive.ts 核心结构
-// File: src/hooks/useAudioReactive.ts | Version: v2.2.22
+// File: src/hooks/useAudioReactive.ts | Version: v2.2.25
 import { useState, useEffect, useRef } from 'react';
 
 export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: number = 1.0) => {
@@ -378,7 +378,7 @@ export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: num
 
 ### 3.2 useAudioPulse Hook
 - **文件**: `src/hooks/useAudioPulse.ts`
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **功能**: 检测音频脉冲和节拍
 
 **核心功能:**
@@ -389,7 +389,7 @@ export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: num
 **代码示例:**
 ```tsx
 // useAudioPulse.ts 核心结构
-// File: src/hooks/useAudioPulse.ts | Version: v2.2.22
+// File: src/hooks/useAudioPulse.ts | Version: v2.2.25
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 export const useAudioPulse = (analyser: AnalyserNode | null, threshold: number = 0.5) => {

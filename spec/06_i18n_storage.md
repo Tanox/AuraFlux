@@ -1,7 +1,7 @@
 # 国际化与存储系统规范
 
 ## 版本信息
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **更新日期**: 2026-04-08
 - **作者**: Sut
 
@@ -46,7 +46,7 @@
 **代码示例:**
 ```tsx
 // locales/index.ts 核心结构
-// File: src/locales/index.ts | Version: v2.2.22
+// File: src/locales/index.ts | Version: v2.2.25
 import en from './en';
 import zhCN from './zh-CN';
 import zhTW from './zh-TW';
@@ -141,7 +141,7 @@ export const availableRegions = [
 **代码示例:**
 ```tsx
 // useLocalStorage.ts 核心结构
-// File: src/hooks/useLocalStorage.ts | Version: v2.2.22
+// File: src/hooks/useLocalStorage.ts | Version: v2.2.25
 import { useState, useEffect } from 'react';
 
 export function useLocalStorage<T>(key: string, initialValue: T) {

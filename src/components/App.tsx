@@ -75,10 +75,11 @@ const MainContent: React.FC = () => {
   useEffect(() => {
     if (!settings?.cycleColors || !setColorTheme) return;
 
+    let currentTheme = colorTheme;
+
     const interval = setInterval(() => {
       if (setColorTheme) {
-        const currentTheme = colorTheme;
-        // More efficient comparison than JSON.stringify
+        // Find current theme index
         const currentIndex = COLOR_THEMES.findIndex(theme => {
           if (theme.colors.length !== currentTheme.length) return false;
           for (let i = 0; i < theme.colors.length; i++) {
@@ -87,12 +88,14 @@ const MainContent: React.FC = () => {
           return true;
         });
         const nextIndex = (currentIndex + 1) % COLOR_THEMES.length;
-        setColorTheme(COLOR_THEMES[nextIndex].colors);
+        const nextTheme = COLOR_THEMES[nextIndex].colors;
+        setColorTheme(nextTheme);
+        currentTheme = nextTheme;
       }
     }, (settings.colorInterval || 10) * 1000);
 
     return () => clearInterval(interval);
-  }, [settings?.cycleColors, settings?.colorInterval, colorTheme, setColorTheme]);
+  }, [settings?.cycleColors, settings?.colorInterval, setColorTheme]);
   
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

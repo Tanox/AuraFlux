@@ -1,7 +1,7 @@
 # 测试与验证系统规范
 
 ## 版本信息
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **更新日期**: 2026-04-08
 - **作者**: Sut
 
@@ -92,7 +92,7 @@
 **代码示例:**
 ```javascript
 // jest.config.js 核心结构
-// File: jest.config.js | Version: v2.2.22
+// File: jest.config.js | Version: v2.2.25
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',

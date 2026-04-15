@@ -4,7 +4,7 @@
 
 ### 1.1 VisualizerCanvas 组件
 - **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **功能**: 2D 音频可视化画布
 
 **核心特性:**
@@ -37,7 +37,7 @@
 **代码示例:**
 ```tsx
 // VisualizerCanvas.tsx 核心结构
-// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.2.22
+// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.2.25
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderBarsMode } from './modes/BarsMode';
@@ -206,7 +206,7 @@ export default VisualizerCanvas;
 
 ### 2.1 ThreeVisualizer 组件
 - **文件**: `src/components/visualizers/ThreeVisualizer.tsx`
-- **版本**: v2.2.22
+- **版本**: v2.2.25
 - **功能**: 3D 音频可视化场景
 
 **核心特性:**
@@ -238,7 +238,7 @@ export default VisualizerCanvas;
 **代码示例:**
 ```tsx
 // ThreeVisualizer.tsx 核心结构
-// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v2.2.22
+// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v2.2.25
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
@@ -317,7 +317,7 @@ export default ThreeVisualizer;
 **代码示例:**
 ```tsx
 // BarsMode.ts 核心结构
-// File: src/components/visualizers/modes/BarsMode.ts | Version: v2.2.22
+// File: src/components/visualizers/modes/BarsMode.ts | Version: v2.2.25
 interface BarsModeProps {
   ctx: CanvasRenderingContext2D;
   dataArray: Uint8Array;
@@ -367,7 +367,7 @@ export const renderBarsMode = ({ ctx, dataArray, peaks, width, height, colors, s
 **代码示例:**
 ```tsx
 // WaveformMode.ts 核心结构
-// File: src/components/visualizers/modes/WaveformMode.ts | Version: v2.2.22
+// File: src/components/visualizers/modes/WaveformMode.ts | Version: v2.2.25
 interface WaveformModeProps {
   ctx: CanvasRenderingContext2D;
   dataArray: Uint8Array;
@@ -434,7 +434,7 @@ export const renderWaveformMode = ({ ctx, dataArray, width, height, colors, anal
 **代码示例:**
 ```tsx
 // DigitalGridScene.tsx 核心结构
-// File: src/components/visualizers/scenes/DigitalGridScene.tsx | Version: v2.2.22
+// File: src/components/visualizers/scenes/DigitalGridScene.tsx | Version: v2.2.25
 import React, { useEffect, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { VisualizerSettings } from '@/types';

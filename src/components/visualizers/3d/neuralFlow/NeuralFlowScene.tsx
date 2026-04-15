@@ -2,7 +2,7 @@
 // File: src\components\visualizers\3d\neuralFlow\NeuralFlowScene.tsx | Version: v2.2.23
 
 import React, { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, group } from '@react-three/fiber';
 import { Color, AdditiveBlending, ShaderMaterial } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
