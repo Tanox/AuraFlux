@@ -1,4 +1,5 @@
-// File: src\hooks\useIdleTimer.ts | Version: v2.2.23
+'use client';
+// File: src\hooks\utils\useIdleTimer.ts | Version: v2.2.23
 import { useState, useEffect } from 'react';
 
 export const useIdleTimer = (isExpanded: boolean, autoHide: boolean = true) => {

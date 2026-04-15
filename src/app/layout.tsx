@@ -4,9 +4,6 @@ import Script from "next/script";
 import "./globals.css";
 import { WebVitals } from "@/components/performance/WebVitals";
 
-// Initialize i18n early
-import '@/i18n';
-
 
 
 // Reusable Google Analytics script component

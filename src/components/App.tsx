@@ -1,8 +1,12 @@
 'use client';
+
 // File: src\components\App.tsx | Version: v2.2.23
 import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
+
+// Initialize i18n
+import '@/i18n';
 import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';
 import { OnboardingOverlay } from '@/components/visualizers/ui/onboarding/OnboardingOverlay';
 import { HelpModal } from '@/components/visualizers/ui/HelpModal';

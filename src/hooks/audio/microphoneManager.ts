@@ -1,3 +1,4 @@
+'use client';
 // File: src/hooks/audio/microphoneManager.ts | Version: v2.2.23
 
 import { useState, useCallback, useEffect } from 'react';

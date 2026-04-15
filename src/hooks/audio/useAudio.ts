@@ -1,3 +1,4 @@
+'use client';
 // File: src/hooks/audio/useAudio.ts | Version: v2.2.23
 
 import { useCallback, useState, useEffect } from 'react';
