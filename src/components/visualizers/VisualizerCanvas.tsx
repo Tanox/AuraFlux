@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.2.23
+// File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.2.25
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderPlasmaMode } from './2d/plasma/PlasmaMode';
@@ -52,9 +52,9 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const height = canvas.height;
     initStars(width, height);
 
-    let dataArrayR: Uint8Array | undefined;
+    let dataArrayR: Uint8Array<ArrayBuffer> | undefined;
     if (analyserR) {
-      dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
+      dataArrayR = new Uint8Array(analyserR.frequencyBinCount) as Uint8Array<ArrayBuffer>;
     }
 
     const draw = () => {
