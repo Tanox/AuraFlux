@@ -2,6 +2,16 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.3.0]
+### ✨ Version Update
+- **Version Synchronization**: Updated all project files to version v2.3.0
+- **Documentation**: Updated all specification documents in the spec/ directory
+- **Metadata**: Updated metadata.json and package.json with the new version
+- **Layout**: Updated the HTML title in src/app/layout.tsx
+- **Constants**: Updated version constants in src/constants/
+- **Locales**: Updated all language files in src/locales/
+- **README**: Updated README.md and README_ZH.md with the new version
+
 ## [v2.2.25]
 ### ✨ Visualization Enhancements
 - **Plasma Mode**: Implemented advanced color system with dynamic color changes, audio-reactive intensity, and color mixing during particle fusion
