@@ -167,28 +167,14 @@ export default VisualizerCanvas;
 
 **核心特性:**
 - 使用 React Three Fiber (R3F) 构建
-- 支持多种 3D 场景
+- 支持激光效果 3D 场景
 - 响应式布局
 - 高性能渲染
 
 **支持的 3D 场景:**
-- `DigitalGridScene` - 数字网格
-- `OceanWaveScene` - 海洋波浪
-- `VortexScene` - 粒子引力扭曲
-- `SilkWaveScene` - 丝绸纤维
-- `KineticWallScene` - 动态几何墙体
-- `CubeFieldScene` - 立方体场
-- `NeuralFlowScene` - 神经网络粒子流
 - `LaserScene` - 激光效果
 
 **对应枚举值:**
-- `VisualizerMode.DIGITAL_GRID`
-- `VisualizerMode.OCEAN_WAVE`
-- `VisualizerMode.VORTEX`
-- `VisualizerMode.SILK_WAVE`
-- `VisualizerMode.KINETIC_WALL`
-- `VisualizerMode.CUBE_FIELD`
-- `VisualizerMode.NEURAL_FLOW`
 - `VisualizerMode.LASERS`
 
 **代码示例:**
@@ -199,14 +185,8 @@ import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { VisualizerMode, VisualizerSettings } from '@/types';
-import { DigitalGridScene } from './scenes/DigitalGridScene';
-import { OceanWaveScene } from './scenes/OceanWaveScene';
-import { VortexScene } from './scenes/VortexScene';
-import { SilkWaveScene } from './scenes/SilkWaveScene';
-import { KineticWallScene } from './scenes/KineticWallScene';
-import { CubeFieldScene } from './scenes/CubeFieldScene';
-import { NeuralFlowScene } from './scenes/NeuralFlowScene';
-import { LaserScene } from './scenes/LaserScene';
+import { LaserScene } from './3d/laser/LaserScene';
+import { APP_VERSION } from '@/constants/version';
 
 interface Props {
   analyser: AnalyserNode;
@@ -218,23 +198,8 @@ interface Props {
 
 const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
   const Scene = useMemo(() => {
-    // Handle deprecated modes that might be stored in user configs
-    const modeStr = mode as string;
-    if (modeStr === 'RESONANCE_ORB' || modeStr === 'LIQUID_SPHERE') {
-      return OceanWaveScene; // Fallback to OceanWaveScene for deprecated modes
-    }
-    
-    switch (mode) {
-      case VisualizerMode.DIGITAL_GRID: return DigitalGridScene;
-      case VisualizerMode.OCEAN_WAVE: return OceanWaveScene;
-      case VisualizerMode.VORTEX: return VortexScene;
-      case VisualizerMode.SILK_WAVE: return SilkWaveScene;
-      case VisualizerMode.KINETIC_WALL: return KineticWallScene;
-      case VisualizerMode.CUBE_FIELD: return CubeFieldScene;
-      case VisualizerMode.NEURAL_FLOW: return NeuralFlowScene;
-      case VisualizerMode.LASERS: return LaserScene;
-      default: return DigitalGridScene;
-    }
+    // Only LaserScene is available
+    return LaserScene;
   }, [mode]);
 
   return (
@@ -255,6 +220,11 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
 
         <OrbitControls enablePan={false} enableZoom={true} minDistance={5} maxDistance={50} />
       </Canvas>
+      
+      {/* 应用名称和版本号（单行显示） */}
+      <div className="absolute bottom-4 right-4 text-white text-opacity-60 font-sans" style={{ fontSize: '12px', fontFamily: 'Inter, sans-serif', padding: '16px' }}>
+        Aura Flux {APP_VERSION}
+      </div>
     </div>
   );
 };
