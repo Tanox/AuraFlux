@@ -9,7 +9,7 @@ import { PlaybackMode } from '../../types/index';
 interface PlaylistPopupProps {
   showPlaylist: boolean;
   setShowPlaylist: (show: boolean) => void;
-  playlistRef: React.RefObject<HTMLDivElement | null>;
+  playlistRef: React.RefObject<HTMLDivElement>;
 }
 
 export const PlaylistPopup: React.FC<PlaylistPopupProps> = ({ showPlaylist, setShowPlaylist, playlistRef }) => {

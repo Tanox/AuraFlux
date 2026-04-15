@@ -13,6 +13,7 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
+    "types": ["react", "react-dom", "three" ],
     "plugins": [
       {
         "name": "next"
@@ -23,8 +24,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "strict": true,
+    "jsx": "preserve",
+    "strict": false,
     "baseUrl": ".",
     "paths": {
       "@/*": [

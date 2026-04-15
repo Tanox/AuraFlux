@@ -18,7 +18,6 @@ import { useIdleTimer } from '@/hooks/utils/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
 
 import { COLOR_THEMES } from '@/constants';
-import type { ControlsProps } from '@/components/controls/Controls';
 
 const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
 const ThreeVisualizer = dynamic(() => import('@/components/visualizers/ThreeVisualizer'), { ssr: false });
@@ -62,7 +61,7 @@ const MainContent: React.FC = () => {
   if (!ui || !visuals || !audio || !ai) return null;
 
   const { 
-      hasStarted, language, setLanguage, manageWakeLock, 
+      hasStarted, language, setLanguage, 
       showHelpModal, setShowHelpModal, helpModalInitialTab, 
       isDragging, setIsDragging, t, 
       toggleFullscreen
