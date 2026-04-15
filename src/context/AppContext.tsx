@@ -2,7 +2,7 @@
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
-import { useAudio } from '@/hooks/useAudio';
+import { useAudio } from '@/hooks/audio/useAudio';
 import { useAppState } from '@/hooks/useAppState';
 import { useVisualsState } from '@/hooks/useVisualsState';
 import { useAiState } from '@/hooks/useAiState';
