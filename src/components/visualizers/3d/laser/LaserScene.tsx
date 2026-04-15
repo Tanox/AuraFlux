@@ -2,7 +2,7 @@
 // File: src/components/visualizers/3d/laser/LaserScene.tsx | Version: v2.2.23
 // Author: Sut
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry, MeshBasicMaterial, Vector3, Line, LineBasicMaterial, BufferGeometry } from 'three';
 import { VisualizerSettings } from '@/types';

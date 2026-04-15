@@ -5,15 +5,15 @@
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "npx next dev",
-    "build": "npx next build",
-    "start": "npx next start",
-    "lint": "npx next lint",
-    "test": "npx jest",
-    "test:watch": "npx jest --watch",
-    "test:coverage": "npx jest --coverage"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
-  "preferGlobal": true,
+
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
     "@google/genai": "^1.40.0",

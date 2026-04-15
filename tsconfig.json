@@ -13,7 +13,11 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "types": ["react", "react-dom", "three" ],
+    "types": [
+      "react",
+      "react-dom",
+      "three"
+    ],
     "plugins": [
       {
         "name": "next"
@@ -30,6 +34,16 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@react-three/fiber": [
+        "./node_modules/@react-three/fiber"
+      ],
+
+      "react": [
+        "./node_modules/@types/react"
+      ],
+      "react-dom": [
+        "./node_modules/@types/react-dom"
       ]
     },
     "allowJs": true,

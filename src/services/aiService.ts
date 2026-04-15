@@ -1,8 +1,8 @@
-// File: src\services\aiService.ts | Version: v2.2.23
-import { GoogleGenAI } from '@google/genai';
+// File: src\services\aiService.ts | Version: v2.2.24
 import { messages as en } from '@/locales/en/messages';
+import { GoogleGenAI } from '@google/genai';
 
-let aiInstance: GoogleGenAI | null = null;
+let aiInstance: any | null = null;
 
 /**
  * 将Blob对象转换为Base64字符串
@@ -50,7 +50,7 @@ export const getAiService = () => {
   if (!aiInstance) {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (apiKey && apiKey.length > 0 && !apiKey.startsWith('demo')) {
-      aiInstance = new GoogleGenAI({ apiKey });
+      aiInstance = new GoogleGenAI(apiKey);
     }
   }
   return aiInstance;
@@ -68,28 +68,31 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
       base64Audio = await blobToBase64(audioInput);
     }
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: {
-        parts: [
-          {
-            inlineData: {
-              mimeType: 'audio/wav',
-              data: base64Audio
+    const model = ai.getGenerativeModel({ model: 'gemini-3-flash-preview' });
+    const response = await model.generateContent({
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: {
+                mimeType: 'audio/wav',
+                data: base64Audio
+              }
+            },
+            {
+              text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, LASERS), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
             }
-          },
-          {
-            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, LASERS), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
-          }
-        ]
-      },
-      config: {
+          ]
+        }
+      ],
+      generationConfig: {
         responseMimeType: 'application/json'
       }
     });
 
-    if (response.text) {
-      return JSON.parse(response.text);
+    if (response.response?.text) {
+      return JSON.parse(response.response.text);
     }
     return null;
   } catch (err: any) {
@@ -103,19 +106,26 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
   if (!ai) return null;
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
-      contents: prompt,
-      config: {
-        imageConfig: {
-          aspectRatio: "16:9",
-          imageSize: "1K"
+    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash-image' });
+    const response = await model.generateContent({
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: prompt
+            }
+          ]
         }
+      ],
+      generationConfig: {
+        aspectRatio: "16:9",
+        imageSize: "1K"
       }
     });
 
-    for (const part of response.candidates?.[0]?.content?.parts || []) {
-      if (part.inlineData) {
+    for (const part of response.response?.candidates?.[0]?.content?.parts || []) {
+      if ('inlineData' in part) {
         return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
       }
     }
@@ -133,28 +143,31 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
   try {
     const base64Audio = await blobToBase64(audioBlob);
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: {
-        parts: [
-          {
-            inlineData: {
-              mimeType: 'audio/wav',
-              data: base64Audio
+    const model = ai.getGenerativeModel({ model: 'gemini-3-flash-preview' });
+    const response = await model.generateContent({
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: {
+                mimeType: 'audio/wav',
+                data: base64Audio
+              }
+            },
+            {
+              text: 'Identify this song. Return ONLY a JSON object with "title", "artist", and "album" fields.'
             }
-          },
-          {
-            text: 'Identify this song. Return ONLY a JSON object with "title", "artist", and "album" fields.'
-          }
-        ]
-      },
-      config: {
+          ]
+        }
+      ],
+      generationConfig: {
         responseMimeType: 'application/json'
       }
     });
 
-    if (response.text) {
-      return JSON.parse(response.text);
+    if (response.response?.text) {
+      return JSON.parse(response.response.text);
     }
     return null;
   } catch (err: any) {

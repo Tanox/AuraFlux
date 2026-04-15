@@ -1,0 +1,50 @@
+# 全局安装项目依赖
+$deps = @(
+    '@ducanh2912/next-pwa@^10.2.9',
+    '@google/genai@^1.40.0',
+    '@radix-ui/react-slot@^1.2.4',
+    '@react-three/drei@^9.96.1',
+    '@react-three/fiber@^8.16.1',
+    '@react-three/postprocessing@^2.16.2',
+    'caniuse-lite@^1.0.30001788',
+    'class-variance-authority@^0.7.1',
+    'clsx@^2.1.1',
+    'i18next@^26.0.4',
+    'jsmediatags@^3.9.7',
+    'lucide-react@^0.577.0',
+    'motion@^12.34.3',
+    'next@14.2.10',
+    'postprocessing@^6.38.3',
+    'react@18.2.0',
+    'react-dom@18.2.0',
+    'react-i18next@^17.0.2',
+    'tailwind-merge@^3.5.0',
+    'three@^0.182.0',
+    'tw-animate-css@^1.4.0',
+    'web-vitals@^5.2.0',
+    '@testing-library/jest-dom@^6.9.1',
+    '@testing-library/react@^16.3.2',
+    '@types/jest@^30.0.0',
+    '@types/node@20.19.37',
+    '@types/react@18.2.43',
+    '@types/react-dom@18.2.17',
+    '@types/three@^0.182.0',
+    'autoprefixer@^10.4.20',
+    'eslint@^8.57.0',
+    'eslint-config-next@14.2.10',
+    'jest@^30.3.0',
+    'jest-environment-jsdom@^30.3.0',
+    'postcss@^8.5.1',
+    'serve@^14.2.6',
+    'sharp@^0.34.5',
+    'tailwindcss@^3.4.17',
+    'ts-jest@^29.4.9',
+    'typescript@5.9.3'
+)
+
+foreach ($dep in $deps) {
+    Write-Host "Installing $dep globally..."
+    npm install -g $dep
+}
+
+Write-Host "All dependencies installed globally!"
