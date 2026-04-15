@@ -2,6 +2,19 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.2.25]
+### ✨ Visualization Enhancements
+- **Plasma Mode**: Implemented advanced color system with dynamic color changes, audio-reactive intensity, and color mixing during particle fusion
+- **Plasma Mode**: Added 3D visual effects with perspective projection, depth sorting, and near/far size effects
+- **Plasma Mode**: Optimized performance with object pooling for particles and fusion effects, reduced Canvas state switching, and optimized drawing loop
+- **Plasma Mode**: Updated version to v2.2.25
+
+## [v2.2.24]
+### ✨ Visualization Enhancements
+- **Plasma Mode**: Implemented audio-responsive particle count adjustment (3-5 particles for low energy, 6-8 for medium, 9-12 for high energy)
+- **Plasma Mode**: Extended particle parameter array to support up to 12 particles
+- **Plasma Mode**: Updated version to v2.2.24
+
 ## [v2.2.22]
 ### ✨ Version Update
 - **Version Synchronization**: Updated all project files to version v2.2.22
