@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { createPortal } from 'react-dom';
-import { SongInfo } from '../../../../types/index';
+import { SongInfo } from '../../../types/index';
 
 interface Props {
   recordedBlob: Blob | null;
