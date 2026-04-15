@@ -21,7 +21,7 @@ const filesToUpdate = [
 function updateVersionConstant(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
-    const updatedContent = content.replace(/export const APP_VERSION = 'v[\d.]+';/g, `export const APP_VERSION = '${targetVersion}';`);
+    const updatedContent = content.replace(/export const APP_VERSION = 'v[\d\.]+';/g, `export const APP_VERSION = '${targetVersion}';`);
     if (content !== updatedContent) {
       fs.writeFileSync(filePath, updatedContent, 'utf8');
       console.log(`Updated version constant in: ${filePath}`);
@@ -91,7 +91,7 @@ function updateFileVersionComments() {
       } else if (file.endsWith('.ts') || file.endsWith('.tsx')) {
         try {
           const content = fs.readFileSync(filePath, 'utf8');
-          const updatedContent = content.replace(/\/\/ File: .* \| Version: v[\d.]+/g, `// File: ${filePath} | Version: ${targetVersion}`);
+          const updatedContent = content.replace(/\/\/ File: .* \| Version: v[\d\.]+/g, `// File: ${filePath} | Version: ${targetVersion}`);
           if (content !== updatedContent) {
             fs.writeFileSync(filePath, updatedContent, 'utf8');
           }
