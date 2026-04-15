@@ -3,12 +3,6 @@ import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { VisualizerMode, VisualizerSettings } from '@/types';
-import { DigitalGridScene } from './3d/digitalGrid/DigitalGridScene';
-import { OceanWaveScene } from './3d/oceanWave/OceanWaveScene';
-import { SilkWaveScene } from './3d/silkWave/SilkWaveScene';
-import { KineticWallScene } from './3d/kineticWall/KineticWallScene';
-import { CubeFieldScene } from './3d/cubeField/CubeFieldScene';
-import { NeuralFlowScene } from './3d/neuralFlow/NeuralFlowScene';
 import { LaserScene } from './3d/laser/LaserScene';
 import { APP_VERSION } from '@/constants/version';
 
