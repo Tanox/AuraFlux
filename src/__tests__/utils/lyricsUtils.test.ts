@@ -3,7 +3,7 @@
  * Version: v1.9.76
  */
 
-import { parseLrc, LrcLine } from './lyricsUtils';
+import { parseLrc, LrcLine } from '../../utils/lyricsUtils';
 
 describe('lyricsUtils', () => {
   describe('parseLrc', () => {

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { SettingsToggle } from './SettingsToggle';
+import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
 
 describe('SettingsToggle', () => {
   it('should render with label and default state', () => {

@@ -16,22 +16,8 @@ interface Props {
 
 const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
   const Scene = useMemo(() => {
-    // Handle deprecated modes that might be stored in user configs
-    const modeStr = mode as string;
-    if (modeStr === 'RESONANCE_ORB' || modeStr === 'LIQUID_SPHERE') {
-      return OceanWaveScene; // Fallback to OceanWaveScene for deprecated modes
-    }
-    
-    switch (mode) {
-      case VisualizerMode.DIGITAL_GRID: return DigitalGridScene;
-      case VisualizerMode.OCEAN_WAVE: return OceanWaveScene;
-      case VisualizerMode.SILK_WAVE: return SilkWaveScene;
-      case VisualizerMode.KINETIC_WALL: return KineticWallScene;
-      case VisualizerMode.CUBE_FIELD: return CubeFieldScene;
-      case VisualizerMode.NEURAL_FLOW: return NeuralFlowScene;
-      case VisualizerMode.LASERS: return LaserScene;
-      default: return DigitalGridScene;
-    }
+    // Only LaserScene is available
+    return LaserScene;
   }, [mode]);
 
   return (

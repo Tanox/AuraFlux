@@ -9,24 +9,16 @@
 
 **核心特性:**
 - 使用 Canvas 2D API 渲染
-- 支持多种可视化模式
+- 支持等离子效果可视化模式
 - 响应式布局（ResizeObserver）
 - 高 DPI 支持
 - 实时音频数据处理
 
 **支持的可视化模式:**
-- `BARS` - 频谱柱状图
-- `WAVEFORM` - 波形图
 - `PLASMA` - 等离子效果
-- `TUNNEL` - 隧道效果
-- `STARFIELD` - 星场效果
 
 **对应枚举值:**
-- `VisualizerMode.BARS`
-- `VisualizerMode.WAVEFORM`
 - `VisualizerMode.PLASMA`
-- `VisualizerMode.TUNNEL`
-- `VisualizerMode.STARFIELD`
 
 **渲染流程:**
 1. 获取音频频谱数据
@@ -40,20 +32,8 @@
 // File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.2.25
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
-import { renderBarsMode } from './modes/BarsMode';
-import { renderWaveformMode } from './modes/WaveformMode';
-import { renderPlasmaMode } from './modes/PlasmaMode';
-import { renderTunnelMode } from './modes/TunnelMode';
-import { renderStarfieldMode } from './modes/StarfieldMode';
-
-interface Star {
-  x: number;
-  y: number;
-  z: number;
-  size: number;
-  speed: number;
-  color: string;
-}
+import { renderPlasmaMode } from './2d/plasma/PlasmaMode';
+import { APP_VERSION } from '@/constants/version';
 
 interface Props {
   analyser: AnalyserNode | null;
@@ -63,9 +43,9 @@ interface Props {
   mode: VisualizerMode;
 }
 
-const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode }) => {
+const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const starsRef = useRef<Star[]>([]);
+  const starsRef = useRef<any[]>([]);
 
   useEffect(() => {
     if (!canvasRef.current || !analyser) return;
@@ -79,7 +59,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
     const dataArray = new Uint8Array(bufferLength);
     const peaks = new Float32Array(bufferLength);
 
-    // 初始化星星数据
+    // 初始化星星数量
     const initStars = (width: number, height: number) => {
       if (mode === VisualizerMode.STARFIELD) {
         starsRef.current = [];
@@ -91,79 +71,55 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, colors, settings, mode })
             z: Math.random() * 1000,
             size: Math.random() * 3 + 1,
             speed: Math.random() * 2 + 0.5,
-            color: colors[Math.floor(Math.random() * colors.length)]
+            brightness: Math.random() * 0.8 + 0.2
           });
         }
       }
     };
 
-    // 初始初始化
+    // 初始化
     const width = canvas.width;
     const height = canvas.height;
     initStars(width, height);
 
+    let dataArrayR: Uint8Array | undefined;
+    if (analyserR) {
+      dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
+    }
+
     const draw = () => {
       animationId = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
+      if (analyserR && dataArrayR) {
+        analyserR.getByteFrequencyData(dataArrayR as Uint8Array<ArrayBuffer>);
+      }
 
       const width = canvas.width;
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
 
-      switch (mode) {
-        case VisualizerMode.BARS:
-          renderBarsMode({
-            ctx,
-            dataArray,
-            peaks,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity
-          });
-          break;
-        case VisualizerMode.WAVEFORM:
-          renderWaveformMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            analyser
-          });
-          break;
-        case VisualizerMode.PLASMA:
-          renderPlasmaMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity
-          });
-          break;
-        case VisualizerMode.TUNNEL:
-          renderTunnelMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity
-          });
-          break;
-        case VisualizerMode.STARFIELD:
-          renderStarfieldMode({
-            ctx,
-            dataArray,
-            width,
-            height,
-            colors,
-            sensitivity: settings.sensitivity,
-            stars: starsRef.current
-          });
-          break;
-      }
+      // Only PlasmaMode is available
+      renderPlasmaMode({
+        ctx,
+        dataArray,
+        width,
+        height,
+        colors,
+        sensitivity: settings.sensitivity
+      });
+
+      // 绘制应用名称和版本号（单行显示）
+      ctx.font = '12px Inter, sans-serif';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'bottom';
+      const appName = 'Aura Flux';
+      const versionText = APP_VERSION;
+      const padding = 16;
+      
+      // 单行显示应用名称和版本号
+      const text = `${appName} ${versionText}`;
+      ctx.fillText(text, width - padding, height - padding);
     };
 
     const parent = canvas.parentElement;

@@ -4,7 +4,7 @@
  */
 
 import { renderHook } from '@testing-library/react';
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from '../../../hooks/utils/useLocalStorage';
 
 describe('useLocalStorage', () => {
   beforeEach(() => {
