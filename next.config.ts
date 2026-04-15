@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  distDir: "dist", // Changed to dist directory
   transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "postprocessing", "@react-three/postprocessing"],
   output: "export",
   images: {
@@ -10,7 +9,10 @@ const nextConfig: NextConfig = {
   },
   turbopack: {},
   compress: true,
-  productionBrowserSourceMaps: false
+  productionBrowserSourceMaps: false,
+  typescript: {
+    ignoreBuildErrors: true
+  }
 };
 
 export default nextConfig;

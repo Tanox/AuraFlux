@@ -3,11 +3,10 @@
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, PointLight, Vector3, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, Fog, Mesh, SphereGeometry, MeshBasicMaterial, AdditiveBlending } from 'three';
-import { VisualizerSettings } from '@/types';
+import { InstancedMesh, PointLight, Object3D, MeshStandardMaterial, AdditiveBlending } from 'three';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
-import { SceneProps, CubeState, CollisionEffect } from './types';
+import { SceneProps, CollisionEffect } from './types';
 import { initializeCubeStates, updateCubeState } from './cubeState';
 import { detectCollisions, updateCollisionEffects } from './collisionEffects';
 
@@ -34,7 +33,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
 
   const initialSetupRef = useRef(false);
 
-  useFrame((state) => {
+  useFrame((state: any) => {
     if (!meshRef.current || !analyser) return;
     
     const time = state.clock.getElapsedTime();
