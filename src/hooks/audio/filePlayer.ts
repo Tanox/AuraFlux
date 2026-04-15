@@ -35,7 +35,7 @@ interface FilePlayerReturn {
 export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): FilePlayerReturn {
   const [playlist, setPlaylist] = useState<Track[]>([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
-  const [playbackMode, setPlaybackMode] = useState<PlaybackMode>('shuffle');
+  const [playbackMode, setPlaybackMode] = useState<PlaybackMode>(PlaybackMode.SHUFFLE);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -56,7 +56,9 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
         cancelAnimationFrame(animationFrameRef.current);
       }
       audioRef.current?.pause();
-      audioRef.current?.srcObject = null;
+      if (audioRef.current) {
+        audioRef.current.srcObject = null;
+      }
       sourceRef.current?.disconnect();
       analyser?.disconnect();
       analyserR?.disconnect();
@@ -134,8 +136,10 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
     for (const file of files) {
       const url = URL.createObjectURL(file);
       newTracks.push({
-        id: Date.now() + Math.random(),
+        id: (Date.now() + Math.random()).toString(),
+        file,
         title: file.name,
+        artist: 'Unknown Artist',
         url,
         duration: 0,
         isLocal: true,
@@ -149,8 +153,10 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
   const importFromUrl = useCallback(async (url: string): Promise<Track> => {
     try {
       const track: Track = {
-        id: Date.now() + Math.random(),
+        id: (Date.now() + Math.random()).toString(),
+        file: new File([], 'temp.mp3'),
         title: new URL(url).pathname.split('/').pop() || 'Unknown',
+        artist: 'Unknown Artist',
         url,
         duration: 0,
         isLocal: false,
@@ -200,7 +206,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
 
   const playNext = useCallback(() => {
     let nextIndex = currentIndex;
-    if (playbackMode === 'shuffle') {
+    if (playbackMode === PlaybackMode.SHUFFLE) {
       nextIndex = Math.floor(Math.random() * playlist.length);
       if (nextIndex === currentIndex && playlist.length > 1) {
         nextIndex = (nextIndex + 1) % playlist.length;
@@ -213,7 +219,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
 
   const playPrev = useCallback(() => {
     let prevIndex = currentIndex;
-    if (playbackMode === 'shuffle') {
+    if (playbackMode === PlaybackMode.SHUFFLE) {
       prevIndex = Math.floor(Math.random() * playlist.length);
       if (prevIndex === currentIndex && playlist.length > 1) {
         prevIndex = (prevIndex - 1 + playlist.length) % playlist.length;
@@ -228,7 +234,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
     if (i < 0 || i >= playlist.length) return;
     
     const track = playlist[i];
-    if (!audioRef.current) return;
+    if (!audioRef.current || !track.url) return;
     
     audioRef.current.src = track.url;
     audioRef.current.play().catch(e => {

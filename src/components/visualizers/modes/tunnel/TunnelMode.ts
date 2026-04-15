@@ -1,4 +1,4 @@
-// File: src\components\visualizers\modes\TunnelMode.ts | Version: v2.2.23
+// File: src\components\visualizers\modes\tunnel\TunnelMode.ts | Version: v2.2.23
 
 interface TunnelModeProps {
   ctx: CanvasRenderingContext2D;
@@ -41,4 +41,3 @@ export const renderTunnelMode = ({
   }
   ctx.globalAlpha = 1.0;
 };
-

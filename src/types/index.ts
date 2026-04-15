@@ -69,6 +69,9 @@ export interface Track {
   title: string;
   artist: string;
   albumArtUrl?: string;
+  duration?: number;
+  isLocal?: boolean;
+  coverArt?: string | null;
 }
 
 export enum PlaybackMode {

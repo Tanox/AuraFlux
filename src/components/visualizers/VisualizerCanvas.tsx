@@ -2,11 +2,11 @@
 // File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.2.23
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
-import { renderBarsMode } from './modes/BarsMode';
-import { renderPlasmaMode } from './modes/PlasmaMode';
-import { renderTunnelMode } from './modes/TunnelMode';
-import { renderStarfieldMode } from './modes/StarfieldMode';
-import { renderWaveformMode } from './modes/WaveformMode';
+import { renderBarsMode } from './modes/bars/BarsMode';
+import { renderPlasmaMode } from './modes/plasma/PlasmaMode';
+import { renderTunnelMode } from './modes/tunnel/TunnelMode';
+import { renderStarfieldMode } from './modes/starfield/StarfieldMode';
+import { renderWaveformMode } from './modes/waveform/WaveformMode';
 import { APP_VERSION } from '@/constants/version';
 
 interface Props {

@@ -1,16 +1,12 @@
 'use client';
-/**
- * File: src/components/visualizers/scenes/KineticWallScene.tsx
- * Version: v2.0.10
- * Author: Sut
- */
+// File: src\components\visualizers\scenes\kineticWall\KineticWallScene.tsx | Version: v2.2.23
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, PointLight } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/useAudioReactive';
-import { SceneBackground } from '../ui/SceneBackground';
+import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps {
   analyser: AnalyserNode;

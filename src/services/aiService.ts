@@ -1,6 +1,6 @@
 // File: src\services\aiService.ts | Version: v2.2.23
 import { GoogleGenAI } from '@google/genai';
-import { en } from '@/locales/en';
+import { messages as en } from '@/locales/en/messages';
 
 let aiInstance: GoogleGenAI | null = null;
 

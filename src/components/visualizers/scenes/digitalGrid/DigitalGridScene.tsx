@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\visualizers\scenes\DigitalGridScene.tsx | Version: v2.2.23
+// File: src\components\visualizers\scenes\digitalGrid\DigitalGridScene.tsx | Version: v2.2.23
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
@@ -7,9 +7,9 @@ import { InstancedMesh, Object3D, Color, DataTexture, RedFormat, UnsignedByteTyp
 import { MeshReflectorMaterial } from '@react-three/drei';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/useAudioReactive';
-import { useDigitalGrid } from './hooks/useDigitalGrid';
-import { injectDigitalGridShader } from './shaders/DigitalGridShaders';
-import { SceneBackground } from '../ui/SceneBackground';
+import { useDigitalGrid } from '../hooks/useDigitalGrid';
+import { injectDigitalGridShader } from '../shaders/DigitalGridShaders';
+import { SceneBackground } from '../../ui/SceneBackground';
 
 type Shader = {
   uniforms: { [key: string]: any };
