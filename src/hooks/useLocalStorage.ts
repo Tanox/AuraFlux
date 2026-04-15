@@ -1,4 +1,4 @@
-// File: /src/hooks/useLocalStorage.ts | Version: v2.2.22
+// File: src\hooks\useLocalStorage.ts | Version: v2.2.23
 import { useState, useEffect } from 'react';
 
 export const useLocalStorage = () => {

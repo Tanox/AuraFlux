@@ -1,4 +1,4 @@
-// File: /src/hooks/useAudio.ts | Version: v2.2.22
+// File: src\hooks\useAudio.ts | Version: v2.2.23
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -6,11 +6,10 @@ interface UseAudioProps {
   settings: VisualizerSettings;
   language: string;
   setCurrentSong: (s: SongInfo | null) => void;
-  t: any;
   showToast: (m: string, type?: any) => void;
 }
 
-export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: UseAudioProps) => {
+export const useAudio = ({ settings, language, setCurrentSong, showToast }: UseAudioProps) => {
   const [sourceType, setSourceType] = useState<'microphone' | 'file' | 'url'>('microphone');
   const [isListening, setIsListening] = useState(false);
   const [isPending, setIsPending] = useState(false);

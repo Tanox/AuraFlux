@@ -1,6 +1,6 @@
 'use client';
 
-// File: /src/components/controls/panels/SystemSettingsPanel.tsx | Version: v2.2.22
+// File: src\components\controls\panels\SystemSettingsPanel.tsx | Version: v2.2.23
 import React from 'react';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
 import { useVisuals, useUI } from '@/context/AppContext';

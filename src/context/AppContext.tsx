@@ -1,4 +1,4 @@
-// File: /src/context/AppContext.tsx | Version: v2.2.22
+// File: src\context\AppContext.tsx | Version: v2.2.23
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
@@ -90,7 +90,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const uiState = useAppState();
   const visualsState = useVisualsState(uiState.hasStarted, {});
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
-  const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
+  const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, showToast });
   
   const aiState = useAiState({
     language: uiState.language,

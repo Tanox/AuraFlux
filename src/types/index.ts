@@ -1,4 +1,4 @@
-// File: /src/types/index.ts | Version: v2.2.22
+// File: src\types\index.ts | Version: v2.2.23
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',

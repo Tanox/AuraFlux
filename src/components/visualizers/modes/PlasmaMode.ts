@@ -1,4 +1,4 @@
-// File: /src/components/visualizers/modes/PlasmaMode.ts | Version: v2.2.22
+// File: src\components\visualizers\modes\PlasmaMode.ts | Version: v2.2.23
 
 interface ParticleState {
   x: number;

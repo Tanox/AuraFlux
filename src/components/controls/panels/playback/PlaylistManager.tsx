@@ -1,5 +1,5 @@
 'use client';
-// File: /src/components/controls/panels/playback/PlaylistManager.tsx | Version: v2.2.22
+// File: src\components\controls\panels\playback\PlaylistManager.tsx | Version: v2.2.23
 
 import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';

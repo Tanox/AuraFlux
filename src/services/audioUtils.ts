@@ -1,4 +1,4 @@
-// File: /src/services/audioUtils.ts | Version: v2.2.22
+// File: src\services\audioUtils.ts | Version: v2.2.23
 
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
   const startIndex = start || 0;

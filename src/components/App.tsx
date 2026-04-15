@@ -1,5 +1,5 @@
 'use client';
-// File: /src/components/App.tsx | Version: v2.2.22
+// File: src\components\App.tsx | Version: v2.2.23
 import React, { useState, useEffect, Suspense } from 'react';
 
 // Import i18n configuration

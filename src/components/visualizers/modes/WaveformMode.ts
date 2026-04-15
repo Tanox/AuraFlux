@@ -1,4 +1,4 @@
-// File: /src/components/visualizers/modes/WaveformMode.ts | Version: v2.2.22
+// File: src\components\visualizers\modes\WaveformMode.ts | Version: v2.2.23
 
 interface WaveformModeProps {
   ctx: CanvasRenderingContext2D;

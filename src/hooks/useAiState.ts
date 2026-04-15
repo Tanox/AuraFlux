@@ -1,5 +1,5 @@
-// File: /src/hooks/useAiState.ts | Version: v2.2.22
-import { useState, useCallback, useMemo } from 'react';
+// File: src\hooks\useAiState.ts | Version: v2.2.23
+import { useState, useCallback, useMemo, useRef } from 'react';
 import { LyricsStyle, SongInfo } from '../types';
 
 interface UseAiStateProps {
@@ -23,23 +23,27 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
   const [showLyrics, setShowLyrics] = useState(false);
   const [enableAnalysis, setEnableAnalysis] = useState(true);
   const [isIdentifying, setIsIdentifying] = useState(false);
+  
+  // 使用 useRef 存储 t 的最新值
+  const tRef = useRef(t);
+  tRef.current = t;
 
   const performIdentification = useCallback(async (stream: MediaStream) => {
     if (isIdentifying) return;
     setIsIdentifying(true);
-    showToast(t?.ai?.identifying || 'Identifying song...');
+    showToast(tRef.current?.ai?.identifying || 'Identifying song...');
     
     try {
       // Mock identification for now
       setTimeout(() => {
         setIsIdentifying(false);
-        showToast(t?.ai?.identified || 'Song identified!');
+        showToast(tRef.current?.ai?.identified || 'Song identified!');
       }, 2000);
     } catch (err) {
       setIsIdentifying(false);
       showToast('Identification failed', 'error');
     }
-  }, [isIdentifying, showToast, t]);
+  }, [isIdentifying, showToast]);
 
   const resetAiSettings = useCallback(() => {
     setShowLyrics(false);
