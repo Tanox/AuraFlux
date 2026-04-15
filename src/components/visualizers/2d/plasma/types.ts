@@ -1,9 +1,9 @@
-// File: src/components/visualizers/modes/plasma/types.ts | Version: v2.2.23
+// File: src/components/visualizers/2d/plasma/types.ts | Version: v2.2.25
 
 export interface ParticleState {
   x: number;
   y: number;
-  z: number; // 用于3D效果的深度值
+  z: number;
   radius: number;
   targetX: number;
   targetY: number;
@@ -31,4 +31,10 @@ export interface PlasmaModeProps {
   height: number;
   colors: string[];
   sensitivity: number;
+}
+
+export interface ParticleParams {
+  speed: number;
+  noise: number;
+  offset: number;
 }

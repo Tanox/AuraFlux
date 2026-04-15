@@ -1,7 +1,7 @@
-// File: src/components/visualizers/modes/plasma/utils.ts | Version: v2.2.23
+// File: src/components/visualizers/2d/plasma/utils.ts | Version: v2.2.25
 
 /**
- * 颜色混合函数
+ * 混合两种颜色
  */
 export function mixColors(color1: string, color2: string, ratio: number): string {
   const parseColor = (color: string) => {
@@ -20,38 +20,33 @@ export function mixColors(color1: string, color2: string, ratio: number): string
   const g = Math.round(c1.g * (1 - ratio) + c2.g * ratio);
   const b = Math.round(c1.b * (1 - ratio) + c2.b * ratio);
 
-  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
 
 /**
- * HSL颜色转换函数
+ * 3D 透视投影
  */
-export function hslToHex(h: number, s: number, l: number): string {
-  let r, g, b;
+export function project3D(
+  x: number,
+  y: number,
+  z: number,
+  centerX: number,
+  centerY: number,
+  focalLength: number
+): { screenX: number; screenY: number; scale: number } {
+  const scale = focalLength / (focalLength + z);
+  const screenX = centerX + (x - centerX) * scale;
+  const screenY = centerY + (y - centerY) * scale;
+  return { screenX, screenY, scale };
+}
 
-  if (s === 0) {
-    r = g = b = l; // 灰色
-  } else {
-    const hue2rgb = (p: number, q: number, t: number) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1/6) return p + (q - p) * 6 * t;
-      if (t < 1/2) return q;
-      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-      return p;
-    };
-
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1/3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1/3);
+/**
+ * 计算音频数据的平均值
+ */
+export function calculateAverage(dataArray: Uint8Array, sensitivity: number): number {
+  let sum = 0;
+  for (let i = 0; i < dataArray.length; i++) {
+    sum += dataArray[i];
   }
-
-  const toHex = (x: number) => {
-    const hex = Math.round(x * 255).toString(16);
-    return hex.length === 1 ? '0' + hex : hex;
-  };
-
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  return (sum / dataArray.length / 255) * sensitivity;
 }
