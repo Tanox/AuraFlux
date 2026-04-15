@@ -4,7 +4,6 @@ const path = require('path');
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "postprocessing", "@react-three/postprocessing", "@google/genai"],
-  output: "export",
   images: {
     unoptimized: true
   },

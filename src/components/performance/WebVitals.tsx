@@ -18,9 +18,6 @@ export const WebVitals = ({ reportMetric }: WebVitalsProps) => {
         const { onLCP, onINP, onFCP, onCLS, onTTFB } = await import('web-vitals');
         
         const handleMetric = (metric: any) => {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('Web Vitals Metric:', metric);
-          }
           if (reportMetric) {
             reportMetric(metric);
           }
@@ -32,9 +29,7 @@ export const WebVitals = ({ reportMetric }: WebVitalsProps) => {
         onCLS(handleMetric);
         onTTFB(handleMetric);
       } catch (error) {
-        if (process.env.NODE_ENV !== 'production') {
-          console.error('Failed to load web-vitals:', error);
-        }
+        // Web Vitals loading error - handled silently
       }
     };
 
