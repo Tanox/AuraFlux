@@ -1,3 +1,4 @@
+// File: src\locales\zh\messages.ts | Version: v2.2.26
 export const messages = {
   welcomeSubtitle: "通感智能引擎",
   startExperience: "初始化系统",

@@ -16,7 +16,8 @@
     "types": [
       "react",
       "react-dom",
-      "three"
+      "three",
+      "node"
     ],
     "plugins": [
       {

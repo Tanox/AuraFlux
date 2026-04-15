@@ -1,6 +1,9 @@
 // File: src\services\aiService.ts | Version: v2.2.24
 import { messages as en } from '@/locales/en/messages';
-import { GoogleGenAI } from '@google/genai';
+// @ts-ignore - 暂时忽略模块类型错误
+import * as googleGenAI from '@google/genai';
+
+const GoogleGenerativeAI = googleGenAI.GoogleGenerativeAI;
 
 let aiInstance: any | null = null;
 
@@ -50,7 +53,7 @@ export const getAiService = () => {
   if (!aiInstance) {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
     if (apiKey && apiKey.length > 0 && !apiKey.startsWith('demo')) {
-      aiInstance = new GoogleGenAI(apiKey);
+      aiInstance = new GoogleGenerativeAI(apiKey);
     }
   }
   return aiInstance;

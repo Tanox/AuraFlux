@@ -1,3 +1,4 @@
+// File: src\locales\en\settings.ts | Version: v2.2.26
 import { VisualizerMode, LyricsStyle } from '../../types/index';
 import { COLOR_THEMES } from '../../constants/index';
 
@@ -86,12 +87,18 @@ export const settings = {
     [VisualizerMode.KINETIC_WALL]: "A dynamic wall of elements that push and pull in response to audio.",
     [VisualizerMode.STARFIELD]: "A mesmerizing field of stars that react to audio energy with depth and motion.",
   },
+  lyrics: {
+    [LyricsStyle.STANDARD]: "Standard",
+    [LyricsStyle.KARAOKE]: "Karaoke",
+    [LyricsStyle.MINIMAL]: "Minimal",
+  },
   lyricsStyles: {
     [LyricsStyle.STANDARD]: "Standard",
     [LyricsStyle.KARAOKE]: "Karaoke",
     [LyricsStyle.MINIMAL]: "Minimal",
   },
   themes: getThemeLabels(),
+  themeLabels: getThemeLabels(),
   aiProviders: {
     GEMINI: "Gemini 3.0 (Google)",
     OPENAI: "GPT-4o (OpenAI)",
@@ -153,4 +160,36 @@ export const settings = {
   },
   selectAll: "Select All",
   unselectAll: "Unselect All",
+  systemPanel: {
+    localization: "Aesthetics & Language",
+    uiMode: "UI Mode",
+    darkMode: "Dark",
+    lightMode: "Light",
+    interface: "System & Behavior",
+    uiSettings: "Interface",
+    interaction: "Interaction",
+    performance: "Performance",
+    factoryReset: "Factory Reset",
+  },
+  helpModal: {
+    title: "Project Resources",
+    tabs: {
+      guide: "Guide",
+      shortcuts: "Shortcuts",
+      about: "About",
+    },
+  },
+  config: {
+    title: "Data Management",
+  },
+  hints: {
+    confirmReset: "Are you sure you want to reset all settings?",
+    randomize: "Randomize Settings",
+  },
+  share: {
+    appTitle: "Aura Flux - AI Music Visualizer",
+    appMessage: "Check out Aura Flux - AI Music Visualizer! 🎵✨",
+    copied: "Link Copied!",
+    unsupported: "Error",
+  },
 };
