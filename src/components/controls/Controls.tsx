@@ -39,7 +39,7 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
       if (tab.id === 'studio' && settings.showStudioTab === false) return false;
       return true;
     });
-  }, [settings.showPlaybackTab, settings.showStudioTab, t]);
+  }, [settings.showPlaybackTab, settings.showStudioTab]);
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 

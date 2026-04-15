@@ -7,7 +7,7 @@ import { translations as zh } from './zh';
 export const TRANSLATIONS: Record<string, any> = {
   en,
   zh,
-  'zh-TW': en, // 暂时使用英语作为默认
+  'zh-TW': zh, // 使用简体中文作为默认
   es: en, // 暂时使用英语作为默认
   ar: en, // 暂时使用英语作为默认
   fr: en, // 暂时使用英语作为默认

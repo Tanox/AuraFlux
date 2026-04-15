@@ -26,8 +26,9 @@ const getInitialLanguage = (): Language => {
 };
 
 export const useAppState = () => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const [language, _setLanguage] = useState<Language>(getInitialLanguage);
+  const t = useMemo(() => i18n.t, [i18n]);
   
   const setLanguage = useCallback((lang: Language | ((prev: Language) => Language)) => {
     _setLanguage(prev => {

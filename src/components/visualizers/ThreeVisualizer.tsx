@@ -60,7 +60,7 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
       </Canvas>
       
       {/* 应用名称和版本号（单行显示） */}
-      <div className="absolute bottom-16 right-16 text-white text-opacity-60 font-sans" style={{ fontSize: '12px', fontFamily: 'Inter, sans-serif' }}>
+      <div className="absolute bottom-4 right-4 text-white text-opacity-60 font-sans" style={{ fontSize: '12px', fontFamily: 'Inter, sans-serif', padding: '16px' }}>
         Aura Flux {APP_VERSION}
       </div>
     </div>
