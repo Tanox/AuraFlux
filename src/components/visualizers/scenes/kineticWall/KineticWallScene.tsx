@@ -5,7 +5,7 @@ import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, PointLight } from 'three';
 import { VisualizerSettings } from '@/types';
-import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps {

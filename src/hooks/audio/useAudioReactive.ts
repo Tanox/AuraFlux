@@ -1,8 +1,8 @@
-// File: src\hooks\useAudioReactive.ts | Version: v2.2.23
+// File: src\hooks\audio\useAudioReactive.ts | Version: v2.2.23
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color } from 'three';
-import { VisualizerSettings } from '../types';
+import { VisualizerSettings } from '@/types';
 
 interface Props {
   analyser: AnalyserNode;

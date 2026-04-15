@@ -5,7 +5,7 @@ import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color, AdditiveBlending, ShaderMaterial, Group, BufferGeometry, BufferAttribute } from 'three';
 import { VisualizerSettings } from '@/types';
-import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from '../shaders/NeuralFlowShaders';
 import { SceneBackground } from '../../ui/SceneBackground';
 

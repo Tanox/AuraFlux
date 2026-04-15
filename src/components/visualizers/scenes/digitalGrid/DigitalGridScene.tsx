@@ -6,7 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide } from 'three';
 import { MeshReflectorMaterial } from '@react-three/drei';
 import { VisualizerSettings } from '@/types';
-import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { useDigitalGrid } from '../hooks/useDigitalGrid';
 import { injectDigitalGridShader } from '../shaders/DigitalGridShaders';
 import { SceneBackground } from '../../ui/SceneBackground';

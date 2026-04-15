@@ -5,7 +5,7 @@ import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, PointLight, Vector3, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, Fog, Mesh, SphereGeometry, MeshBasicMaterial, AdditiveBlending } from 'three';
 import { VisualizerSettings } from '@/types';
-import { useAudioReactive } from '@/hooks/useAudioReactive';
+import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
 import { SceneProps, CubeState, CollisionEffect } from './types';
 import { initializeCubeStates, updateCubeState } from './cubeState';
