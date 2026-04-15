@@ -1,4 +1,5 @@
-// File: src\hooks\useAppState.ts | Version: v2.2.23
+'use client';
+// File: src\hooks\state\useAppState.ts | Version: v2.2.23
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../../types';
 import { useTranslation } from 'react-i18next';

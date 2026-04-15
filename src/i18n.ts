@@ -28,7 +28,10 @@ i18n
     interpolation: {
       escapeValue: false // React 已经处理了转义
     },
-    compatibilityJSON: 'v4' // 兼容 JSON v4
+    compatibilityJSON: 'v4', // 兼容 JSON v4
+    react: {
+      useSuspense: false // 禁用 Suspense，避免加载问题
+    }
   });
 
 export default i18n;

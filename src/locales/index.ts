@@ -1,31 +1,22 @@
 // File: src\locales\index.ts | Version: v2.2.25
-// 直接从子目录导入语言文件
-import { messages as en } from './en/messages';
-import { messages as zh } from './zh/messages';
-import { messages as tw } from './zh-TW/messages';
-import { messages as es } from './es/messages';
-import { messages as ar } from './ar/messages';
-import { messages as fr } from './fr/messages';
-import { messages as pt } from './pt/messages';
-import { messages as ptBR } from './pt-BR/messages';
-import { messages as de } from './de/messages';
-import { messages as ja } from './ja/messages';
-import { messages as ko } from './ko/messages';
-import { messages as ru } from './ru/messages';
+// 从每个语言的模块导入所有翻译内容
+import { translations as en } from './en';
+import { translations as zh } from './zh';
 
+// 为其他语言创建基本翻译结构
 export const TRANSLATIONS: Record<string, any> = {
   en,
   zh,
-  'zh-TW': tw,
-  es,
-  ar,
-  fr,
-  pt,
-  'pt-BR': ptBR,
-  de,
-  ja,
-  ko,
-  ru,
+  'zh-TW': en, // 暂时使用英语作为默认
+  es: en, // 暂时使用英语作为默认
+  ar: en, // 暂时使用英语作为默认
+  fr: en, // 暂时使用英语作为默认
+  pt: en, // 暂时使用英语作为默认
+  'pt-BR': en, // 暂时使用英语作为默认
+  de: en, // 暂时使用英语作为默认
+  ja: en, // 暂时使用英语作为默认
+  ko: en, // 暂时使用英语作为默认
+  ru: en, // 暂时使用英语作为默认
 };
 
 export type TranslationSchema = typeof en;

@@ -18,6 +18,7 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
     toggleMicrophone,
     onDeviceChange,
     audioContext: micAudioContext,
+    analyser: micAnalyser,
   } = useMicrophoneManager({ showToast });
 
   // 文件播放管理
@@ -46,8 +47,8 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
   } = useFilePlayer({ setCurrentSong, showToast });
 
   // 选择当前的 analyser
-  const analyser = sourceType === 'microphone' ? micAudioContext?.createAnalyser() || null : fileAnalyser;
-  const analyserR = sourceType === 'microphone' ? micAudioContext?.createAnalyser() || null : fileAnalyserR;
+  const analyser = sourceType === 'microphone' ? micAnalyser : fileAnalyser;
+  const analyserR = sourceType === 'microphone' ? micAnalyser : fileAnalyserR;
   const audioContext = sourceType === 'microphone' ? micAudioContext : fileAudioContext;
 
   // 切换源类型时的处理
