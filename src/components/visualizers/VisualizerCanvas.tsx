@@ -60,7 +60,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       animationId = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
       if (analyserR && dataArrayR) {
-        analyserR.getByteFrequencyData(dataArrayR);
+        analyserR.getByteFrequencyData(dataArrayR as Uint8Array<ArrayBuffer>);
       }
 
       const width = canvas.width;
