@@ -1,4 +1,4 @@
-// File: src/components/visualizers/scenes/cubeField/collisionEffects.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/cubeField/collisionEffects.ts | Version: v2.2.23
 
 import { Vector3, Color } from 'three';
 import { CubeState, CollisionEffect } from './types';

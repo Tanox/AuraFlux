@@ -1,4 +1,4 @@
-// src/components/visualizers/scenes/shaders/SilkWaveShaders.ts v2.2.1
+// src/components/visualizers/3d/shaders/SilkWaveShaders.ts v2.2.23
 export const silkWaveVertexShader = `
   uniform float uTime, uSpeed, uBass, uEnergyL, uEnergyR, uShockwave, uDensity; 
   attribute float aChannel, aRandom, aLayerIndex; 

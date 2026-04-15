@@ -1,4 +1,4 @@
-// File: src/components/visualizers/scenes/laser/types.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/laser/types.ts | Version: v2.2.23
 
 import { Vector3, Color } from 'three';
 import { VisualizerSettings } from '@/types';

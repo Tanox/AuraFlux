@@ -56,9 +56,9 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const height = canvas.height;
     initStars(width, height);
 
-    let dataArrayR: Uint8Array<ArrayBuffer> | undefined;
+    let dataArrayR: Uint8Array | undefined;
     if (analyserR) {
-      dataArrayR = new Uint8Array(analyserR.frequencyBinCount) as Uint8Array<ArrayBuffer>;
+      dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
     }
 
     const draw = () => {

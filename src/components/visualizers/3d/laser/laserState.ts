@@ -1,4 +1,4 @@
-// File: src/components/visualizers/scenes/laser/laserState.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/laser/laserState.ts | Version: v2.2.23
 
 import { LaserState } from './types';
 
