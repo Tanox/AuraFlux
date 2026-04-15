@@ -2,7 +2,7 @@
 // 直接从子目录导入语言文件
 import { messages as en } from './en/messages';
 import { messages as zh } from './zh/messages';
-import { messages as tw } from './tw/messages';
+import { messages as tw } from './zh-TW/messages';
 import { messages as es } from './es/messages';
 import { messages as ar } from './ar/messages';
 import { messages as fr } from './fr/messages';

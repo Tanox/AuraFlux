@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
 import { VisualizerSettings } from '@/types';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useLocalStorage } from '@/hooks/utils/useLocalStorage';
 import { APP_VERSION } from '@/constants';
 
 interface SavedPreset { id: number; name: string; data: VisualizerSettings; timestamp: number; }

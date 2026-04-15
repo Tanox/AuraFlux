@@ -3,9 +3,9 @@
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
 import { useAudio } from '@/hooks/audio/useAudio';
-import { useAppState } from '@/hooks/useAppState';
-import { useVisualsState } from '@/hooks/useVisualsState';
-import { useAiState } from '@/hooks/useAiState';
+import { useAppState } from '@/hooks/state/useAppState';
+import { useVisualsState } from '@/hooks/state/useVisualsState';
+import { useAiState } from '@/hooks/state/useAiState';
 import { Toast } from '@/components/visualizers/ui/Toast';
 import { TRANSLATIONS } from '@/locales/index';
 import type { TFunction } from 'i18next';

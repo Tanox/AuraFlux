@@ -7,7 +7,7 @@
 
 import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { VisualizerSettings, SongInfo, LyricsStyle } from '../../../types/index';
-import { useAudioPulse } from '../../../hooks/useAudioPulse';
+import { useAudioPulse } from '@/hooks/audio/useAudioPulse';
 import { useAudioContext, useUI, useAI } from '@/context/AppContext';
 import { parseLrc, LrcLine } from '../../../utils/lyricsUtils';
 import { SyncedLyrics } from './lyrics/SyncedLyrics';

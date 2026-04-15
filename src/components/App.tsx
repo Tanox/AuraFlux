@@ -13,7 +13,7 @@ import SongOverlay from '@/components/visualizers/ui/SongOverlay';
 import LyricsOverlay from '@/components/visualizers/ui/LyricsOverlay';
 import CustomTextOverlay from '@/components/visualizers/ui/CustomTextOverlay';
 import { FPSCounter } from '@/components/visualizers/ui/FPSCounter';
-import { useIdleTimer } from '@/hooks/useIdleTimer';
+import { useIdleTimer } from '@/hooks/utils/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
 
 import { COLOR_THEMES } from '@/constants';
