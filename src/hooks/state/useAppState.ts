@@ -62,7 +62,7 @@ export const useAppState = () => {
     }
   }, []);
 
-  return useMemo(() => ({
+  return {
     language, setLanguage,
     region, setRegion,
     hasStarted, setHasStarted,
@@ -72,6 +72,6 @@ export const useAppState = () => {
     t,
     resetSettings,
     manageWakeLock
-  }), [language, setLanguage, region, setRegion, hasStarted, setHasStarted, showHelpModal, setShowHelpModal, helpModalInitialTab, setHelpModalInitialTab, isDragging, setIsDragging, resetSettings, manageWakeLock]);
+  };
 };
 

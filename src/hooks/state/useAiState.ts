@@ -50,12 +50,12 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
     setEnableAnalysis(true);
   }, []);
 
-  return useMemo(() => ({
+  return {
     lyricsStyle, showLyrics, setShowLyrics,
     enableAnalysis, setEnableAnalysis,
     isIdentifying,
     performIdentification,
     resetAiSettings
-  }), [lyricsStyle, showLyrics, setShowLyrics, enableAnalysis, setEnableAnalysis, isIdentifying, performIdentification, resetAiSettings]);
+  };
 };
 

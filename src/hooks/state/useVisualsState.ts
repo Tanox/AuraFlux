@@ -177,7 +177,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
     };
   }, [settings.autoRotate, settings.rotateInterval, settings.includedModes, mode, setModeWithStorage, hasStarted]);
 
-  return useMemo(() => ({
+  return {
     mode, setMode: setModeWithStorage,
     colorTheme, setColorTheme: setColorThemeWithStorage,
     settings, setSettings: setSettingsWithStorage,
@@ -187,6 +187,6 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
     resetTextSettings,
     resetAudioSettings,
     applyPreset
-  }), [mode, setModeWithStorage, colorTheme, setColorThemeWithStorage, settings, setSettingsWithStorage, activePreset, setActivePresetWithStorage, randomizeSettings, resetVisualSettings, resetTextSettings, resetAudioSettings, applyPreset]);
+  };
 };
 

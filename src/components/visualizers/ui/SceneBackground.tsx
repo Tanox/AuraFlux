@@ -98,19 +98,8 @@ export const SceneBackground: React.FC<SceneBackgroundProps> = ({
   }
 
   if (gradient?.colors && gradient.colors.length > 1) {
-    const stops = gradient.stops || gradient.colors.map((_, i) => i / (gradient.colors.length - 1));
-    return (
-      <group>
-        {gradient.colors.map((c, i) => (
-          <color 
-            key={i} 
-            attach="background" 
-            args={[c]}
-            opacity={stops[i] || 1.0}
-          />
-        ))}
-      </group>
-    );
+    // 使用第一个颜色作为背景
+    return <color attach="background" args={[gradient.colors[0]]} />;
   }
 
   return <color attach="background" args={[color]} />;
