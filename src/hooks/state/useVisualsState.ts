@@ -1,7 +1,7 @@
 // File: src\hooks\useVisualsState.ts | Version: v2.2.23
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
-import { COLOR_THEMES } from '../constants';
+import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
+import { COLOR_THEMES } from '../../constants';
 
 const DEFAULT_SETTINGS: VisualizerSettings = {
   sensitivity: 1.0,

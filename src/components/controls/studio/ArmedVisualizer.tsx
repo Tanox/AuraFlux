@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useRef } from 'react';
-import { getAverage } from '../../../../services/audioUtils';
+import { getAverage } from '../../../services/audioUtils';
 
 interface Props {
   analyser: AnalyserNode | null;

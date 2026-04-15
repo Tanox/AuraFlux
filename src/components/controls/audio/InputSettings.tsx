@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { TooltipArea } from '../../../visualizers/ui/controls/Tooltip';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
-import { Slider } from '../../../visualizers/ui/controls/Slider';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
+import { TooltipArea } from '../../visualizers/ui/controls/Tooltip';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
+import { Slider } from '../../visualizers/ui/controls/Slider';
 import { useVisuals, useAudioContext, useUI } from '@/context/AppContext';
 
 export const InputSettings: React.FC = () => {

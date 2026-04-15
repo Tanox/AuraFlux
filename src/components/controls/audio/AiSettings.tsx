@@ -2,12 +2,12 @@
 // File: src\components\controls\panels\audio\AiSettings.tsx | Version: v2.2.23
 
 import React, { useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { CustomSelect } from '../../../visualizers/ui/controls/CustomSelect';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
+import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
 import { useVisuals, useAudioContext, useUI, useAI } from '@/context/AppContext';
-import { generateVisualConfigFromAudio, checkAiServiceAvailability } from '../../../../services/aiService';
-import { VisualizerMode, Region } from '../../../../types/index';
+import { generateVisualConfigFromAudio, checkAiServiceAvailability } from '../../../services/aiService';
+import { VisualizerMode, Region } from '../../../types/index';
 
 export const AiSettings: React.FC = () => {
   const { settings, setSettings, setMode, setColorTheme } = useVisuals();

@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
 import { useAudioContext, useUI } from '@/context/AppContext';
 import { checkAiServiceAvailability } from '@/services/aiService';
 

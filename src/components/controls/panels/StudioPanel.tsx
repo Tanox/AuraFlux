@@ -9,9 +9,9 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useUI, useAudioContext } from '@/context/AppContext';
 import { useVideoRecorder } from '../../../hooks/useVideoRecorder';
 import { getAverage } from '../../../services/audioUtils';
-import { RecordingPreview } from './studio/RecordingPreview';
-import { StudioConfig } from './studio/StudioConfig';
-import { StudioRecorder } from './studio/StudioRecorder';
+import { RecordingPreview } from '../studio/RecordingPreview';
+import { StudioConfig } from '../studio/StudioConfig';
+import { StudioRecorder } from '../studio/StudioRecorder';
 
 export const StudioPanel: React.FC = () => {
   const { t, showToast } = useUI();

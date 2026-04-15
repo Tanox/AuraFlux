@@ -1,6 +1,6 @@
 // File: src\hooks\useAiState.ts | Version: v2.2.23
 import { useState, useCallback, useMemo, useRef } from 'react';
-import { LyricsStyle, SongInfo } from '../types';
+import { LyricsStyle, SongInfo } from '../../types';
 
 interface UseAiStateProps {
   language: string;

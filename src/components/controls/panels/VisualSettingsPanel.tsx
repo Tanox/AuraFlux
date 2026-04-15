@@ -1,8 +1,8 @@
 // File: src\components\controls\panels\VisualSettingsPanel.tsx | Version: v2.2.23
 import React from 'react';
-import { ModeSelector } from './visual/ModeSelector';
-import { CoreVisuals } from './visual/CoreVisuals';
-import { AiBackground } from './visual/AiBackground';
+import { ModeSelector } from '../visual/ModeSelector';
+import { CoreVisuals } from '../visual/CoreVisuals';
+import { AiBackground } from '../visual/AiBackground';
 
 export const VisualSettingsPanel: React.FC = () => {
   return (

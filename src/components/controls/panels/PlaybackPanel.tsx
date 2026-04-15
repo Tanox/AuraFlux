@@ -1,8 +1,8 @@
 // File: src\components\controls\panels\PlaybackPanel.tsx | Version: v2.2.23
 import React from 'react';
-import { NowPlaying } from './playback/NowPlaying';
-import { PlaylistManager } from './playback/PlaylistManager';
-import { DisplayConfig } from './playback/DisplayConfig';
+import { NowPlaying } from '../playback/NowPlaying';
+import { PlaylistManager } from '../playback/PlaylistManager';
+import { DisplayConfig } from '../playback/DisplayConfig';
 
 export const PlaybackPanel: React.FC = () => {
   return (

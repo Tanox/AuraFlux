@@ -7,11 +7,11 @@
  */
 
 import React, { useCallback } from 'react';
-import { VisualizerMode } from '../../../../types/index';
-import { BentoCard } from '../../../visualizers/ui/layout/BentoCard';
-import { SettingsToggle } from '../../../visualizers/ui/controls/SettingsToggle';
-import { Slider } from '../../../visualizers/ui/controls/Slider';
-import { VisualizerPreview } from '../../panels/VisualizerPreview';
+import { VisualizerMode } from '../../../types/index';
+import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
+import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
+import { Slider } from '../../visualizers/ui/controls/Slider';
+import { VisualizerPreview } from '../panels/VisualizerPreview';
 import { useVisuals, useUI } from '@/context/AppContext';
 
 export const ModeSelector: React.FC = () => {

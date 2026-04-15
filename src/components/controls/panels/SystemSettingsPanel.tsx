@@ -8,7 +8,7 @@ import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
 import { SegmentedControl } from '../../visualizers/ui/controls/SegmentedControl';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
 import { Language } from '../../../types/index';
-import { PresetManager } from './system/PresetManager';
+import { PresetManager } from '../system/PresetManager';
 
 const LANGUAGES: { value: Language; label: string }[] = [
   { value: 'en', label: 'English' }, { value: 'zh', label: '简体中文' }, { value: 'zh-TW', label: '繁體中文' },

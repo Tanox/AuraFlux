@@ -5,9 +5,9 @@
  */
 
 import React from 'react';
-import { TextLayerSetup } from './text/TextLayerSetup';
-import { TextChromaSettings } from './text/TextChromaSettings';
-import { TextStyleSettings } from './text/TextStyleSettings';
+import { TextLayerSetup } from '../text/TextLayerSetup';
+import { TextChromaSettings } from '../text/TextChromaSettings';
+import { TextStyleSettings } from '../text/TextStyleSettings';
 
 export const CustomTextSettingsPanel: React.FC = () => {
   return (
