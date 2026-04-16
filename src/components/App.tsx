@@ -58,6 +58,32 @@ const MainContent: React.FC = () => {
     }
   }, [visuals?.settings?.appTheme]);
 
+  // Style theme auto cycle functionality
+  useEffect(() => {
+    if (!visuals?.settings?.cycleColors || !visuals?.setColorTheme || !visuals?.colorTheme) return;
+
+    let currentTheme = visuals.colorTheme;
+
+    const interval = setInterval(() => {
+      if (visuals.setColorTheme) {
+        // Find current theme index
+        const currentIndex = COLOR_THEMES.findIndex(theme => {
+          if (theme.colors.length !== currentTheme.length) return false;
+          for (let i = 0; i < theme.colors.length; i++) {
+            if (theme.colors[i] !== currentTheme[i]) return false;
+          }
+          return true;
+        });
+        const nextIndex = (currentIndex + 1) % COLOR_THEMES.length;
+        const nextTheme = COLOR_THEMES[nextIndex].colors;
+        visuals.setColorTheme(nextTheme);
+        currentTheme = nextTheme;
+      }
+    }, (visuals.settings?.colorInterval || 10) * 1000);
+
+    return () => clearInterval(interval);
+  }, [visuals?.settings?.cycleColors, visuals?.settings?.colorInterval, visuals?.setColorTheme, visuals?.colorTheme]);
+
   if (!ui || !visuals || !audio || !ai) return null;
 
   const { 
@@ -70,32 +96,6 @@ const MainContent: React.FC = () => {
   const { mode, colorTheme, settings, setSettings, isThreeMode, setColorTheme } = visuals;
   const { analyser, analyserR, currentSong, importFiles } = audio;
   const { showLyrics, lyricsStyle, performIdentification } = ai;
-
-  // Style theme auto cycle functionality
-  useEffect(() => {
-    if (!settings?.cycleColors || !setColorTheme) return;
-
-    let currentTheme = colorTheme;
-
-    const interval = setInterval(() => {
-      if (setColorTheme) {
-        // Find current theme index
-        const currentIndex = COLOR_THEMES.findIndex(theme => {
-          if (theme.colors.length !== currentTheme.length) return false;
-          for (let i = 0; i < theme.colors.length; i++) {
-            if (theme.colors[i] !== currentTheme[i]) return false;
-          }
-          return true;
-        });
-        const nextIndex = (currentIndex + 1) % COLOR_THEMES.length;
-        const nextTheme = COLOR_THEMES[nextIndex].colors;
-        setColorTheme(nextTheme);
-        currentTheme = nextTheme;
-      }
-    }, (settings.colorInterval || 10) * 1000);
-
-    return () => clearInterval(interval);
-  }, [settings?.cycleColors, settings?.colorInterval, setColorTheme]);
   
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();

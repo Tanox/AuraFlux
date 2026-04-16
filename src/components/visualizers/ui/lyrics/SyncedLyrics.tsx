@@ -12,7 +12,7 @@ interface Props {
   activeIndex: number;
   lyricsStyle: LyricsStyle;
   settings: VisualizerSettings;
-  scrollContainerRef: React.RefObject<HTMLDivElement | null>;
+  scrollContainerRef: React.RefObject<HTMLDivElement>;
 }
 
 export const SyncedLyrics: React.FC<Props> = ({ 

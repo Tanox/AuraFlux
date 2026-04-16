@@ -4,18 +4,15 @@ import { GoogleGenAI } from '@google/genai';
 // 简单的内存限流（生产环境建议使用 Redis）
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
 
-// 定期清理过期条目
-setInterval(() => {
+function checkRateLimit(ip: string): boolean {
+  // 清理过期条目
   const now = Date.now();
-  for (const [ip, limit] of requestCounts.entries()) {
+  for (const [key, limit] of requestCounts.entries()) {
     if (now > limit.resetTime) {
-      requestCounts.delete(ip);
+      requestCounts.delete(key);
     }
   }
-}, 60000);
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
   const limit = requestCounts.get(ip);
   
   if (!limit || now > limit.resetTime) {

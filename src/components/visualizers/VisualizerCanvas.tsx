@@ -55,7 +55,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const height = canvas.height;
     initStars(width, height);
 
-    let dataArrayR: Uint8Array | undefined;
+    let dataArrayR: any;
     if (analyserR) {
       dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
     }
@@ -140,7 +140,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
         starsRef.current = [];
       }
     };
-  }, [analyser, colors, settings.sensitivity, mode]);
+  }, [analyser, analyserR, colors, settings.sensitivity, mode]);
 
   return (
     <canvas 

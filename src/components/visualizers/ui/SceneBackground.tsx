@@ -29,8 +29,6 @@ export const SceneBackground: React.FC<SceneBackgroundProps> = ({
   gradient,
   dynamic
 }) => {
-  if (!enabled) return null;
-
   const shaderMaterialRef = useRef<any>(null);
 
   useFrame((state) => {
@@ -38,6 +36,8 @@ export const SceneBackground: React.FC<SceneBackgroundProps> = ({
       shaderMaterialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
     }
   });
+
+  if (!enabled) return null;
 
   if (dynamic?.enabled && dynamic.colors.length > 0) {
     return (

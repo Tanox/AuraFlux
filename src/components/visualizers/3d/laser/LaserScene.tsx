@@ -32,11 +32,11 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
   const sphereGeometry = useMemo(() => new SphereGeometry(1, 16, 16), []);
   const centerSphereGeometry = useMemo(() => new SphereGeometry(2, 32, 32), []);
   const collisionMaterial = useMemo(() => new MeshBasicMaterial({
-    transparent,
+    transparent: true,
     blending: AdditiveBlending
   }), []);
   const centerMaterial = useMemo(() => new MeshBasicMaterial({
-    transparent,
+    transparent: true,
     blending: AdditiveBlending
   }), []);
 
