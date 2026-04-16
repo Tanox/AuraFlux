@@ -1,5 +1,5 @@
 'use client';
-// File: src\components\visualizers\scenes\digitalGrid\DigitalGridScene.tsx | Version: v2.2.23
+// File: src\components\visualizers\3d\digitalGrid\DigitalGridScene.tsx | Version: v2.2.23
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';

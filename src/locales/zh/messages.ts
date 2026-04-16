@@ -199,4 +199,32 @@ export const messages = {
   recordingSharingLinkClearing: "正在清空分享链接队列...",
   recordingSharingLinkClearingDone: "分享链接队列已清空",
   recordingSharingLinkClearingFailed: "清空分享链接队列失败",
+  modes: {
+    DIGITAL_GRID: "数字网格",
+    SILK_WAVE: "丝绸波浪",
+    OCEAN_WAVE: "海洋波浪",
+    NEURAL_FLOW: "神经流动",
+    CUBE_FIELD: "立方体场",
+    KINETIC_WALL: "动能墙",
+    TUNNEL: "隧道",
+    LASERS: "激光",
+    PLASMA: "等离子",
+    BARS: "音频条",
+    STARFIELD: "星场",
+    WAVEFORM: "波形"
+  },
+  modeDescriptions: {
+    DIGITAL_GRID: "具有音频反应的数字网格可视化",
+    SILK_WAVE: "平滑的丝绸般波浪图案",
+    OCEAN_WAVE: "海洋波浪模拟",
+    NEURAL_FLOW: "神经网络启发的流动图案",
+    CUBE_FIELD: "3D立方体场可视化",
+    KINETIC_WALL: "具有音频响应的动能墙效果",
+    TUNNEL: "隧道可视化效果",
+    LASERS: "激光束效果",
+    PLASMA: "等离子效果可视化",
+    BARS: "音频条可视化",
+    STARFIELD: "具有音频反应的星场效果",
+    WAVEFORM: "波形可视化"
+  }
 };

@@ -3,6 +3,10 @@
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderPlasmaMode } from './2d/plasma/PlasmaMode';
+import { renderBarsMode } from './2d/bars/BarsMode';
+import { renderStarfieldMode } from './2d/starfield/StarfieldMode';
+import { renderTunnelMode } from './2d/tunnel/TunnelMode';
+import { renderWaveformMode } from './2d/waveform/WaveformMode';
 import { APP_VERSION } from '@/constants/version';
 
 interface Props {
@@ -67,15 +71,39 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
 
-      // Only PlasmaMode is available
-      renderPlasmaMode({
-        ctx,
-        dataArray,
-        width,
-        height,
-        colors,
-        sensitivity: settings.sensitivity
-      });
+      // 根据模式选择相应的渲染函数
+      switch (mode) {
+        case VisualizerMode.BARS:
+          renderBarsMode({
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+          });
+          break;
+        case VisualizerMode.PLASMA:
+          renderPlasmaMode({
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+          });
+          break;
+        case VisualizerMode.STARFIELD:
+          renderStarfieldMode({
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity, stars: starsRef.current
+          });
+          break;
+        case VisualizerMode.TUNNEL:
+          renderTunnelMode({
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+          });
+          break;
+        case VisualizerMode.WAVEFORM:
+          renderWaveformMode({
+            ctx, dataArray, dataArrayR, width, height, colors, sensitivity: settings.sensitivity
+          });
+          break;
+        default:
+          renderPlasmaMode({
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+          });
+          break;
+      }
 
       // 绘制应用名称和版本号（单行显示）
       ctx.font = '12px Inter, sans-serif';

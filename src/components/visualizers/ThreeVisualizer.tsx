@@ -6,6 +6,12 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { LaserScene } from './3d/laser/LaserScene';
+import { CubeFieldScene } from './3d/cubeField/CubeFieldScene';
+import { DigitalGridScene } from './3d/digitalGrid/DigitalGridScene';
+import { KineticWallScene } from './3d/kineticWall/KineticWallScene';
+import { NeuralFlowScene } from './3d/neuralFlow/NeuralFlowScene';
+import { OceanWaveScene } from './3d/oceanWave/OceanWaveScene';
+import { SilkWaveScene } from './3d/silkWave/SilkWaveScene';
 import { APP_VERSION } from '@/constants/version';
 
 interface Props {
@@ -18,8 +24,24 @@ interface Props {
 
 const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
   const Scene = useMemo(() => {
-    // Only LaserScene is available
-    return LaserScene;
+    switch (mode) {
+      case VisualizerMode.DIGITAL_GRID:
+        return DigitalGridScene;
+      case VisualizerMode.SILK_WAVE:
+        return SilkWaveScene;
+      case VisualizerMode.OCEAN_WAVE:
+        return OceanWaveScene;
+      case VisualizerMode.NEURAL_FLOW:
+        return NeuralFlowScene;
+      case VisualizerMode.CUBE_FIELD:
+        return CubeFieldScene;
+      case VisualizerMode.KINETIC_WALL:
+        return KineticWallScene;
+      case VisualizerMode.LASERS:
+        return LaserScene;
+      default:
+        return LaserScene;
+    }
   }, [mode]);
 
   return (

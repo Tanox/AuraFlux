@@ -1,4 +1,4 @@
-// File: src\components\visualizers\modes\starfield\StarfieldMode.ts | Version: v2.2.23
+// File: src\components\visualizers\2d\starfield\StarfieldMode.ts | Version: v2.2.23
 
 interface Star {
   x: number;

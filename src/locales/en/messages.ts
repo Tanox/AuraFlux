@@ -199,4 +199,32 @@ export const messages = {
   recordingSharingLinkClearing: "Clearing Share Link Queue...",
   recordingSharingLinkClearingDone: "Share Link Queue Cleared",
   recordingSharingLinkClearingFailed: "Failed to Clear Share Link Queue",
+  modes: {
+    DIGITAL_GRID: "Digital Grid",
+    SILK_WAVE: "Silk Wave",
+    OCEAN_WAVE: "Ocean Wave",
+    NEURAL_FLOW: "Neural Flow",
+    CUBE_FIELD: "Cube Field",
+    KINETIC_WALL: "Kinetic Wall",
+    TUNNEL: "Tunnel",
+    LASERS: "Lasers",
+    PLASMA: "Plasma",
+    BARS: "Bars",
+    STARFIELD: "Starfield",
+    WAVEFORM: "Waveform"
+  },
+  modeDescriptions: {
+    DIGITAL_GRID: "Digital grid visualization with audio reactivity",
+    SILK_WAVE: "Smooth silk-like wave patterns",
+    OCEAN_WAVE: "Ocean wave simulation",
+    NEURAL_FLOW: "Neural network inspired flow patterns",
+    CUBE_FIELD: "3D cube field visualization",
+    KINETIC_WALL: "Kinetic wall effect with audio response",
+    TUNNEL: "Tunnel visualization effect",
+    LASERS: "Laser beam effects",
+    PLASMA: "Plasma effect visualization",
+    BARS: "Audio bars visualization",
+    STARFIELD: "Starfield effect with audio reactivity",
+    WAVEFORM: "Waveform visualization"
+  }
 };

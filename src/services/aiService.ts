@@ -1,5 +1,5 @@
 // File: src\services\aiService.ts | Version: v2.2.24
-import { messages as en } from '@/locales/en/messages';
+import i18n from '@/i18n';
 // @ts-ignore - 暂时忽略模块类型错误
 import { GoogleGenAI } from '@google/genai';
 
@@ -40,7 +40,7 @@ export const isAiServiceAvailable = (): boolean => {
  */
 export const checkAiServiceAvailability = (onError?: (message: string) => void, customMessage?: string): boolean => {
   if (!isAiServiceAvailable()) {
-    const errorMsg = customMessage || en.toasts.aiDirectorReq || 'Gemini API Key required for AI features.';
+    const errorMsg = customMessage || i18n.t('toasts.aiDirectorReq') || 'Gemini API Key required for AI features.';
     if (onError) {
       onError(errorMsg);
     }

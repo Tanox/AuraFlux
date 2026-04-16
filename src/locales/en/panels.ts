@@ -1,4 +1,4 @@
-import { VisualizerMode, LyricsStyle } from '../../types/index';
+
 
 export const panels = {
   visualPanel: {

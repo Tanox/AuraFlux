@@ -1,9 +1,8 @@
-// File: src\components\visualizers\modes\bars\BarsMode.ts | Version: v2.2.23
+// File: src\components\visualizers\2d\bars\BarsMode.ts | Version: v2.2.23
 
 interface BarsModeProps {
   ctx: CanvasRenderingContext2D;
   dataArray: Uint8Array;
-  peaks: Float32Array;
   width: number;
   height: number;
   colors: string[];
@@ -16,7 +15,6 @@ interface BarsModeProps {
 export const renderBarsMode = ({
   ctx,
   dataArray,
-  peaks,
   width,
   height,
   colors,
@@ -33,20 +31,11 @@ export const renderBarsMode = ({
   for (let i = 0; i < newBufferLength; i++) {
     const dataIndex = Math.floor((i / newBufferLength) * bufferLength);
     const barHeight = (dataArray[dataIndex] / 255) * height * sensitivity;
-    
-    // Peak caps
-    if (barHeight > peaks[dataIndex]) {
-      peaks[dataIndex] = barHeight;
-    } else {
-      peaks[dataIndex] -= 1.5; // Slow fall speed
-    }
-    if (peaks[dataIndex] < 0) peaks[dataIndex] = 0;
 
     // Color based on bar height, synchronized with theme colors
     const normalizedHeight = barHeight / (height * sensitivity);
     const colorIndex = Math.floor(normalizedHeight * (safeColors.length - 1));
     const clampedColorIndex = Math.max(0, Math.min(colorIndex, safeColors.length - 1));
-    ctx.fillStyle = safeColors[clampedColorIndex];
     
     // Create gradient effect from base to tip
     const gradient = ctx.createLinearGradient(x, height, x, height - barHeight);
@@ -55,10 +44,6 @@ export const renderBarsMode = ({
     ctx.fillStyle = gradient;
     
     ctx.fillRect(x, height - barHeight, barWidth, barHeight);
-    
-    // Draw peak cap
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(x, height - peaks[dataIndex] - 2, barWidth, 2);
 
     x += barWidth + 1;
   }
