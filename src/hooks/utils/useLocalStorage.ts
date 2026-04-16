@@ -1,5 +1,6 @@
-// File: src\hooks\useLocalStorage.ts | Version: v2.2.23
+// File: src\hooks\useLocalStorage.ts | Version: v2.3.1
 import { useState, useEffect } from 'react';
+import { logger } from '@/utils/logger';
 
 export const useLocalStorage = () => {
   const getStorage = <T>(key: string, initialValue: T): T => {
@@ -8,7 +9,7 @@ export const useLocalStorage = () => {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error: any) {
-      console.warn(`Error reading localStorage key "${key}":`, error?.message || error);
+      logger.warn(`Error reading localStorage key "${key}":`, error?.message || error);
       return initialValue;
     }
   };
@@ -18,7 +19,7 @@ export const useLocalStorage = () => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
     } catch (error: any) {
-      console.warn(`Error setting localStorage key "${key}":`, error?.message || error);
+      logger.warn(`Error setting localStorage key "${key}":`, error?.message || error);
     }
   };
 

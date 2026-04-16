@@ -1,5 +1,6 @@
 // File: src\services\aiService.ts | Version: v2.3.1
 import i18n from '@/i18n';
+import { logger } from '@/utils/logger';
 
 /**
  * 将Blob对象转换为Base64字符串
@@ -78,7 +79,7 @@ export const generateVisualConfigFromAudio = async (audioInput: Blob | string): 
     const result = await response.json();
     return result.data;
   } catch (err: any) {
-    console.warn('AI Visual Config error:', err?.message || err);
+    logger.warn('AI Visual Config error:', err?.message || err);
     return null;
   }
 };
@@ -102,7 +103,7 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
     const result = await response.json();
     return result.data;
   } catch (err: any) {
-    console.warn('AI Background Generation error:', err?.message || err);
+    logger.warn('AI Background Generation error:', err?.message || err);
     return null;
   }
 };
@@ -128,7 +129,7 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
     const result = await response.json();
     return result.data;
   } catch (err: any) {
-    console.warn('AI Identification error:', err?.message || err);
+    logger.warn('AI Identification error:', err?.message || err);
     return null;
   }
 };

@@ -1,8 +1,9 @@
 'use client';
-// File: src/hooks/audio/microphoneManager.ts | Version: v2.3.0
+// File: src/hooks/audio/microphoneManager.ts | Version: v2.3.1
 
 import { useState, useCallback, useEffect } from 'react';
 import { AudioDevice } from '@/types';
+import { logger } from '@/utils/logger';
 
 interface MicrophoneManagerProps {
   showToast: (m: string, type?: any) => void;
@@ -36,7 +37,7 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
           .map(d => ({ deviceId: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }));
         setAudioDevices(audioInputs);
       } catch (err: any) {
-        console.warn('Error getting devices:', err?.message || err);
+        logger.warn('Error getting devices:', err?.message || err);
       }
     };
     getDevices();
@@ -67,7 +68,7 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
       setSelectedDeviceId(deviceId);
       setAudioContext(ctx);
     } catch (err: any) {
-      console.warn('Microphone access skipped or denied:', err?.message || err);
+      logger.warn('Microphone access skipped or denied:', err?.message || err);
       showToast('Microphone access denied. Running in silent mode.', 'error');
     }
   }, [isListening, mediaStream, showToast]);

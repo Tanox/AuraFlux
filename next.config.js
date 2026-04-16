@@ -10,7 +10,7 @@ const nextConfig = {
   compress: true,
   productionBrowserSourceMaps: false,
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: false
   }
 };
 
