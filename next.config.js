@@ -11,6 +11,13 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   typescript: {
     ignoreBuildErrors: true
+  },
+  webpack: (config) => {
+    config.resolve.modules = [
+      path.resolve(process.env.USERPROFILE + '\\.npm-global\\node_modules'),
+      ...config.resolve.modules
+    ];
+    return config;
   }
 };
 
