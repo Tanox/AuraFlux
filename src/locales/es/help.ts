@@ -1,4 +1,4 @@
-export const helpModal = {
+export const help = {
   title: "Ayuda y Información",
   tabs: {
     guide: "Guía",
