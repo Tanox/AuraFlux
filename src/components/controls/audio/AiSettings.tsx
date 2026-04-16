@@ -22,7 +22,9 @@ export const AiSettings: React.FC = () => {
 
   const handleAiDirector = async () => {
       if (fileStatus !== 'ready') return;
-      if (!checkAiServiceAvailability((msg) => showToast(msg, 'error'))) return;
+      const available = await checkAiServiceAvailability((msg) => showToast(msg, 'error'));
+      if (!available) return;
+      
       setIsAnalyzing(true);
       try {
           const wavBlob = await getAudioSlice(15);
