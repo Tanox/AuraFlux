@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/3d/laser/LaserScene.tsx | Version: v2.2.23
+// File: src/components/visualizers/3d/laser/LaserScene.tsx | Version: v2.3.0
 // Author: Sut
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
@@ -22,10 +22,23 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
   const count = 64;
   const dummy = useMemo(() => new Object3D(), []);
   const color = useMemo(() => new Color(), []);
+  const directionVector = useMemo(() => new Vector3(), []);
 
   const laserData = useMemo(() => {
     return initializeLaserStates(count);
   }, [count]);
+
+  // 预创建几何体和材质以提高性能
+  const sphereGeometry = useMemo(() => new SphereGeometry(1, 16, 16), []);
+  const centerSphereGeometry = useMemo(() => new SphereGeometry(2, 32, 32), []);
+  const collisionMaterial = useMemo(() => new MeshBasicMaterial({
+    transparent,
+    blending: AdditiveBlending
+  }), []);
+  const centerMaterial = useMemo(() => new MeshBasicMaterial({
+    transparent,
+    blending: AdditiveBlending
+  }), []);
 
   // Initialize instance colors
   React.useLayoutEffect(() => {
@@ -70,18 +83,24 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
         meshRef.current!.setColorAt(i, color);
       }
       
-      // 检测碰撞
+      // 检测碰撞 - 重用方向向量
+      dummy.getWorldDirection(directionVector);
       const { collisionEffects, reflectionEffects } = detectLaserCollisions(
         data, 
         dummy.position,
-        dummy.getWorldDirection(new Vector3()),
+        directionVector,
         scaleY,
         time,
         color
       );
       
-      collisionEffectsRef.current.push(...collisionEffects);
-      reflectionEffectsRef.current.push(...reflectionEffects);
+      // 限制碰撞效果数量以提高性能
+      if (collisionEffectsRef.current.length < 100) {
+        collisionEffectsRef.current.push(...collisionEffects);
+      }
+      if (reflectionEffectsRef.current.length < 50) {
+        reflectionEffectsRef.current.push(...reflectionEffects);
+      }
     });
 
     // 更新碰撞效果
@@ -111,9 +130,9 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
         </instancedMesh>
         
         {/* 碰撞效果 */}
-        {collisionEffectsRef.current.map((effect, index) => (
+        {collisionEffectsRef.current.slice(0, 50).map((effect, index) => (
           <mesh key={`collision-${index}`} position={effect.position}>
-            <sphereGeometry args={[effect.size, 16, 16]} />
+            <primitive object={sphereGeometry} />
             <meshBasicMaterial 
               color={effect.color} 
               transparent 
@@ -125,7 +144,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
         
         {/* 中心光晕 */}
         <mesh>
-          <sphereGeometry args={[2, 32, 32]} />
+          <primitive object={centerSphereGeometry} />
           <meshBasicMaterial 
             color={smoothedColors[0] || '#ffffff'} 
             transparent 

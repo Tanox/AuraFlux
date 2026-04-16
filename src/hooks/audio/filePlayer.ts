@@ -1,5 +1,5 @@
 'use client';
-// File: src/hooks/audio/filePlayer.ts | Version: v2.2.23
+// File: src/hooks/audio/filePlayer.ts | Version: v2.3.0
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Track, SongInfo, PlaybackMode } from '@/types';
@@ -171,7 +171,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
     }
   }, [showToast]);
 
-  const importPlaylistFromUrl = useCallback(async (url: string): Promise<Track[]> => {
+  const importPlaylistFromUrl = useCallback(async (_url: string): Promise<Track[]> => {
     try {
       // Placeholder for playlist import logic
       showToast('Playlist import not implemented', 'warning');
@@ -287,7 +287,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
     }
   }, [setCurrentSong]);
 
-  const getAudioSlice = useCallback(async (s = 30): Promise<Blob | null> => {
+  const getAudioSlice = useCallback(async (_s = 30): Promise<Blob | null> => {
     if (!audioRef.current) return null;
     // Placeholder for audio slicing logic
     return null;

@@ -31,7 +31,13 @@
     "allowJs": true,
     "checkJs": false,
     "incremental": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": [
+      "react",
+      "react-dom",
+      "node",
+      "three"
+    ]
   },
   "include": [
     "**/*.js",
@@ -39,9 +45,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "dist/types/**/*.ts",
-    "dist/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

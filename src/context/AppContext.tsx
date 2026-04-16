@@ -1,13 +1,12 @@
-// File: src\context\AppContext.tsx | Version: v2.2.23
+// File: src\context\AppContext.tsx | Version: v2.3.0
 'use client';
-import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
 import { useAudio } from '@/hooks/audio/useAudio';
 import { useAppState } from '@/hooks/state/useAppState';
 import { useVisualsState } from '@/hooks/state/useVisualsState';
 import { useAiState } from '@/hooks/state/useAiState';
 import { Toast } from '@/components/visualizers/ui/Toast';
-import { TRANSLATIONS } from '@/locales/index';
 import type { TFunction } from 'i18next';
 
 type HelpTab = 'guide' | 'shortcuts' | 'about';
