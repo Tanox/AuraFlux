@@ -20,7 +20,7 @@
 
 ### 2.1 鉴权方式
 - **方式**: API Key
-- **配置**: 环境变量 `NEXT_PUBLIC_GEMINI_API_KEY`
+- **配置**: 环境变量 `GEMINI_API_KEY` (服务器端)
 
 ## 3. 内部服务接口
 

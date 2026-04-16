@@ -47,7 +47,7 @@ npm install
 
 # 3. Configure Environment Variables
 cp .env.example .env.local
-# Edit .env.local and add your NEXT_PUBLIC_GEMINI_API_KEY
+# Edit .env.local and add your GEMINI_API_KEY (server-side only, not exposed to client)
 
 # 4. Start Development Server
 npm run dev
@@ -64,15 +64,19 @@ npm run build
 npm start
 ```
 
+**Important:** Ensure `GEMINI_API_KEY` is set in your production environment variables.
+
 ### 4. Docker Deployment
 
 ```bash
 # Build Docker image
 docker build -t aura-flux .
 
-# Run container
-docker run -p 3000:3000 -e NEXT_PUBLIC_GEMINI_API_KEY=your_key aura-flux
+# Run container with GEMINI_API_KEY
+docker run -p 3000:3000 -e GEMINI_API_KEY=your_key aura-flux
 ```
+
+**Security Note:** The API key is now server-side only and never exposed to the client browser.
 
 ---
 

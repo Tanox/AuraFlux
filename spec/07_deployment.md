@@ -13,7 +13,7 @@
 - **压缩**: `esbuild`
 
 ### 1.2 环境变量
-- **必须变量**: `process.env.NEXT_PUBLIC_GEMINI_API_KEY`
+- **必须变量**: `process.env.GEMINI_API_KEY` (服务器端)
 - **可选变量**: 其他配置变量
 
 ### 1.3 构建配置
@@ -161,7 +161,7 @@ export default nextConfig;
 ## 7. 故障排查
 
 ### 7.1 常见部署问题
-- **API 密钥问题**: 确保 `NEXT_PUBLIC_GEMINI_API_KEY` 正确配置
+- **API 密钥问题**: 确保 `GEMINI_API_KEY` 正确配置（服务器端环境变量）
 - **构建失败**: 检查依赖和 TypeScript 类型
 - **运行时错误**: 检查浏览器控制台错误信息
 - **性能问题**: 优化资源加载和代码分割

@@ -62,7 +62,7 @@ pnpm install
 ### 2.2 配置迁移
 
 #### 2.2.1 环境变量
-- 确保设置了 `NEXT_PUBLIC_GEMINI_API_KEY` 环境变量
+- 确保设置了 `GEMINI_API_KEY` 环境变量（服务器端）
 
 #### 2.2.2 存储迁移
 - 旧版本的 localStorage 数据会自动迁移
@@ -82,7 +82,7 @@ pnpm install
 
 #### 3.1.3 API 密钥错误
 - **错误**: `AI service is not available`
-- **解决方案**: 确保设置了正确的 `NEXT_PUBLIC_GEMINI_API_KEY` 环境变量
+- **解决方案**: 确保设置了正确的 `GEMINI_API_KEY` 环境变量（服务器端）
 
 ### 3.2 性能问题
 

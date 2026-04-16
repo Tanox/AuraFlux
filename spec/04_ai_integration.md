@@ -26,7 +26,8 @@
 - `gemini-2.5-flash-image` - 用于生成艺术背景
 
 **API 密钥管理:**
-- 使用 `process.env.NEXT_PUBLIC_GEMINI_API_KEY`
+- 使用 `process.env.GEMINI_API_KEY` (服务器端)
+- 通过 API 路由代理所有请求
 - 严格的密钥验证和错误处理
 
 **代码示例:**
