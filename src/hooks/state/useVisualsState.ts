@@ -4,27 +4,6 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
 import { COLOR_THEMES } from '../../constants';
 
-const DEFAULT_SETTINGS: VisualizerSettings = {
-  sensitivity: 1.0,
-  autoHideUi: true,
-  showSongInfo: true,
-  showAlbumArtOverlay: true,
-  showFps: false,
-  appTheme: 'dark',
-  wakeLock: true,
-  doubleClickFullscreen: true,
-  recognitionProvider: 'GEMINI',
-  bloom: 0.5,
-  particleCount: 1000,
-  speed: 1.0,
-  cycleColors: true,
-  colorInterval: 5,
-  autoRotate: false,
-  rotateInterval: 30,
-  includedModes: Object.values(VisualizerMode),
-  showStudioTab: false
-};
-
 const DEFAULT_AUDIO_SETTINGS = {
   sensitivity: 1.0,
   smoothing: 0.8,
@@ -45,6 +24,27 @@ const DEFAULT_TEXT_SETTINGS = {
   customTextCycleInterval: 5,
   customText3D: false,
   textPulse: false
+};
+
+const DEFAULT_SETTINGS: VisualizerSettings = {
+  sensitivity: 1.0,
+  autoHideUi: true,
+  showSongInfo: true,
+  showAlbumArtOverlay: true,
+  showFps: false,
+  appTheme: 'dark',
+  wakeLock: true,
+  doubleClickFullscreen: true,
+  recognitionProvider: 'GEMINI',
+  bloom: 0.5,
+  particleCount: 1000,
+  speed: 1.0,
+  cycleColors: true,
+  colorInterval: 5,
+  autoRotate: false,
+  rotateInterval: 30,
+  includedModes: Object.values(VisualizerMode),
+  showStudioTab: false
 };
 
 const getInitialMode = (): VisualizerMode => {
