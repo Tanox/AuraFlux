@@ -188,7 +188,7 @@ export const settings = {
   },
   share: {
     appTitle: "Aura Flux - Visualizador de Música IA",
-    appMessage: "¡Echa un vistazo a Aura Flux - Visualizador de Música IA! 🎵�?,
+    appMessage: "",
     copied: "¡Enlace Copiado!",
     unsupported: "Error",
   },
