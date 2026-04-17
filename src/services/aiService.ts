@@ -3,8 +3,10 @@ import i18n from '@/i18n';
 import { logger } from '@/utils/logger';
 
 /**
- * 灏咮lob瀵硅薄杞崲涓築ase64瀛楃涓? * @param {Blob} blob - 瑕佽浆鎹㈢殑Blob瀵硅薄
- * @returns {Promise<string>} Base64瀛楃涓?*/
+ * Convert Blob object to Base64 string
+ * @param {Blob} blob - The Blob object to convert
+ * @returns {Promise<string>} Base64 string
+ */
 const blobToBase64 = async (blob: Blob): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -18,8 +20,8 @@ const blobToBase64 = async (blob: Blob): Promise<string> => {
 };
 
 /**
- * 妫€鏌I鏈嶅姟鏄惁鍙敤
- * @returns {Promise<boolean>} 濡傛灉API鏈嶅姟鍙敤鍒欒繑鍥瀟rue
+ * Check if AI service is available
+ * @returns {Promise<boolean>} Returns true if AI service is available
  */
 export const isAiServiceAvailable = async (): Promise<boolean> => {
   try {
@@ -33,9 +35,10 @@ export const isAiServiceAvailable = async (): Promise<boolean> => {
 };
 
 /**
- * 妫€鏌I鏈嶅姟鏄惁鍙敤锛屽鏋滀笉鍙敤鍒欒皟鐢ㄩ敊璇洖璋? * @param {Function} onError - 閿欒鍥炶皟鍑芥暟
- * @param {string} customMessage - 鑷畾涔夐敊璇秷鎭紙鍙€夛級
- * @returns {Promise<boolean>} 濡傛灉AI鏈嶅姟鍙敤鍒欒繑鍥瀟rue
+ * Check if AI service is available, if not call error callback
+ * @param {Function} onError - Error callback function
+ * @param {string} customMessage - Custom error message (optional)
+ * @returns {Promise<boolean>} Returns true if AI service is available
  */
 export const checkAiServiceAvailability = async (onError?: (message: string) => void, customMessage?: string): Promise<boolean> => {
   const available = await isAiServiceAvailable();

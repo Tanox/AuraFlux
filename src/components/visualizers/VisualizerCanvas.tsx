@@ -32,7 +32,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    // 鍒濆鍖栨槦鏄熸暟閲?    const initStars = (width: number, height: number) => {
+    // Initialize star count
+    const initStars = (width: number, height: number) => {
       if (mode === VisualizerMode.STARFIELD) {
         starsRef.current = [];
         const starCount = 200;
@@ -49,7 +50,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       }
     };
 
-    // 鍒濆鍖?    const width = canvas.width;
+    // Initialize
+    const width = canvas.width;
     const height = canvas.height;
     initStars(width, height);
 
@@ -69,7 +71,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
 
-      // 鏍规嵁妯″紡閫夋嫨鐩稿簲鐨勬覆鏌撳嚱鏁?      switch (mode) {
+      // Select corresponding rendering function based on mode
+      switch (mode) {
         case VisualizerMode.BARS:
           renderBarsMode({
             ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
@@ -102,7 +105,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
           break;
       }
 
-      // 缁樺埗搴旂敤鍚嶇О鍜岀増鏈彿锛堝崟琛屾樉绀猴級
+      // Draw application name and version (single-line display)
       ctx.font = '12px Inter, sans-serif';
       ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
       ctx.textAlign = 'right';
@@ -111,7 +114,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       const versionText = APP_VERSION;
       const padding = 16;
       
-      // 鍗曡鏄剧ず搴旂敤鍚嶇О鍜岀増鏈彿
+      // Single-line display app name and version
       const text = `${appName} ${versionText}`;
       ctx.fillText(text, width - padding, height - padding);
     };
@@ -122,7 +125,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const resizeObserver = new ResizeObserver(() => {
       canvas.width = parent.clientWidth * window.devicePixelRatio;
       canvas.height = parent.clientHeight * window.devicePixelRatio;
-      // 閲嶆柊鍒濆鍖栨槦鏄熸暟鎹互閫傚簲鏂扮殑鐢诲竷灏哄
+      // Reinitialize star data to adapt to new canvas size
       initStars(canvas.width, canvas.height);
     });
 
@@ -132,7 +135,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     return () => {
       cancelAnimationFrame(animationId);
       resizeObserver.disconnect();
-      // 娓呯悊鏄熸槦鏁版嵁
+      // Clear star data
       if (mode === VisualizerMode.STARFIELD) {
         starsRef.current = [];
       }

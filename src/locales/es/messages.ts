@@ -72,7 +72,7 @@ export const messages = {
   wrongSong: "Reintentar Análisis",
   share: {
     appTitle: "Aura Flux - Visualizador de Música IA",
-    appMessage: "¡Experimenta Aura Flux - Visualizador de Música IA! 馃幍�?",
+    appMessage: "¡Experimenta Aura Flux - Visualizador de Música IA!",
     shareApp: "Compartir Aplicación",
     title: "Creación de Aura Flux",
     message: "¡Echa un vistazo a este arte creado con Aura Flux! \n\n{song} de {artist}",
