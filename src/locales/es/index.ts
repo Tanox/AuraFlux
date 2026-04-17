@@ -28,7 +28,7 @@ function deepMerge(target: any, ...sources: any[]): any {
 }
 
 /**
- * 鍚堝苟鎵€鏈夌炕璇戣祫婧愬埌椤剁骇瀵硅薄
+ * 合并所有翻译资源到顶级对象
  */
 export const translations = deepMerge(
   {},

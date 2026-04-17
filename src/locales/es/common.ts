@@ -1,9 +1,9 @@
 export const common = {
   queue: "Cola",
-  empty: "Vac铆o",
+  empty: "Vacío",
   clearAll: "Limpiar Todo",
-  confirmClear: "驴Est谩s seguro de que quieres limpiar la lista de reproducci贸n?",
-  updateAvailable: "Nueva actualizaci贸n detectada",
+  confirmClear: "¿Estás seguro de que quieres limpiar la lista de reproducción?",
+  updateAvailable: "Nueva actualización detectada",
   updateAction: "Actualizar Ahora",
   dropFiles: "SOLTAR PARA IMPORTAR",
   unknownTrack: "Pista Desconocida",
@@ -30,7 +30,7 @@ export const common = {
     Montserrat: "Montserrat"
   },
   "404": {
-    title: "P谩gina no encontrada",
+    title: "Página no encontrada",
     back_home: "Volver a Inicio"
   }
 };
