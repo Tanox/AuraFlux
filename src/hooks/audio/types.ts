@@ -39,4 +39,5 @@ export interface UseAudioReturn {
   duration: number;
   currentTime: number;
   audioContext: AudioContext | null;
+  handleSourceTypeChange: (type: 'microphone' | 'file' | 'url') => void;
 }

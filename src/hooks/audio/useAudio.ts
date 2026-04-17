@@ -99,5 +99,6 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
     duration,
     currentTime,
     audioContext,
+    handleSourceTypeChange,
   };
 }
