@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/types.ts | Version: v2.2.25
+// File: src/components/visualizers/2d/plasma/types.ts | Version: v2.3.3
 
 export interface ParticleState {
   x: number;

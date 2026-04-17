@@ -1,11 +1,10 @@
-// File: src/components/visualizers/3d/cubeField/cubeState.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/cubeField/cubeState.ts | Version: v2.3.3
 
 import { Vector3, Euler } from 'three';
 import { CubeState } from './types';
 
 /**
- * 初始化立方体状态
- */
+ * 初始化立方体状�? */
 export function initializeCubeStates(count: number): CubeState[] {
   const temp: CubeState[] = [];
   for (let i = 0; i < count; i++) {
@@ -52,8 +51,7 @@ export function initializeCubeStates(count: number): CubeState[] {
 }
 
 /**
- * 更新立方体状态
- */
+ * 更新立方体状�? */
 export function updateCubeState(
   cube: CubeState,
   time: number,
@@ -66,8 +64,7 @@ export function updateCubeState(
   isBeat: boolean,
   settings: any
 ): void {
-  // 更新碰撞状态
-  if (cube.collisionTimer > 0) {
+  // 更新碰撞状�?  if (cube.collisionTimer > 0) {
     cube.collisionTimer -= delta;
   } else {
     cube.isColliding = false;

@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\help\AboutContent.tsx | Version: v2.2.23
+// File: src\components\visualizers\ui\help\AboutContent.tsx | Version: v2.3.3
 import React from 'react';
 
 interface Props {

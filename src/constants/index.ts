@@ -2,7 +2,7 @@
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';
-export const VERSION = '2.3.1';
+export const VERSION = '2.3.2';
 export const APP_VERSION = VERSION;
 
 export const FONTS = [

@@ -1,4 +1,4 @@
-// File: src\components\visualizers\2d\bars\BarsMode.ts | Version: v2.2.23
+// File: src\components\visualizers\2d\bars\BarsMode.ts | Version: v2.3.3
 
 interface BarsModeProps {
   ctx: CanvasRenderingContext2D;

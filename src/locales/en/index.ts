@@ -1,4 +1,4 @@
-// File: src\locales\en\index.ts | Version: v2.3.1 | Updated: 2026-04-16 16:55
+// File: src\locales\en\index.ts | Version: v2.3.3 | Updated: 2026-04-16 16:55
 import { messages } from './messages';
 import { common } from './common';
 import { onboarding } from './onboarding';

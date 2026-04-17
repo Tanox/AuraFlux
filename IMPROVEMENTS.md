@@ -247,5 +247,5 @@ docker run -p 3000:3000 -e GEMINI_API_KEY=your_key aura-flux
 ---
 
 **改进完成时间**: 2026-04-16  
-**版本**: v2.3.1  
+**版本**: v2.3.2  
 **改进者**: AI Assistant

@@ -1,10 +1,9 @@
-// File: src/components/visualizers/3d/laser/laserState.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/laser/laserState.ts | Version: v2.3.3
 
 import { LaserState } from './types';
 
 /**
- * 初始化激光状态
- */
+ * 初始化激光状�? */
 export function initializeLaserStates(count: number): LaserState[] {
   return Array.from({ length: count }, (_, i) => ({
     angle: (i / count) * Math.PI * 2,
@@ -19,8 +18,7 @@ export function initializeLaserStates(count: number): LaserState[] {
 }
 
 /**
- * 计算激光位置
- */
+ * 计算激光位�? */
 export function calculateLaserPosition(
   laser: LaserState,
   time: number,
@@ -28,8 +26,7 @@ export function calculateLaserPosition(
   bass: number,
   treble: number
 ): { x: number; y: number; z: number } {
-  // 动态旋转
-  const r = 15 + Math.sin(time * 0.5 + laser.offset) * 5;
+  // 动态旋�?  const r = 15 + Math.sin(time * 0.5 + laser.offset) * 5;
   const x = Math.cos(laser.angle + time * 0.1 * laser.speed) * r;
   const z = Math.sin(laser.angle + time * 0.1 * laser.speed) * r;
   const y = Math.sin(time * 0.2 + laser.phase) * 10;
@@ -38,8 +35,7 @@ export function calculateLaserPosition(
 }
 
 /**
- * 计算激光缩放
- */
+ * 计算激光缩�? */
 export function calculateLaserScale(
   volume: number,
   bass: number,
@@ -53,8 +49,7 @@ export function calculateLaserScale(
 }
 
 /**
- * 计算激光闪烁强度
- */
+ * 计算激光闪烁强�? */
 export function calculateLaserFlicker(
   laser: LaserState,
   time: number,

@@ -1,4 +1,4 @@
-// src/locales/en/messages.ts v2.3.1
+// src/locales/en/messages.ts v2.3.3
 export const messages = {
   welcomeSubtitle: "Synesthetic Intelligence Engine",
   startExperience: "INITIALIZE SYSTEM",
@@ -72,7 +72,7 @@ export const messages = {
   wrongSong: "Retry Analysis",
   share: {
     appTitle: "Aura Flux - AI Music Visualizer",
-    appMessage: "Experience Aura Flux - AI Music Visualizer! 馃幍鉁?",
+    appMessage: "Experience Aura Flux - AI Music Visualizer! 馃幍�?",
     shareApp: "Share App",
     title: "Aura Flux Creation",
     message: "Check out this art created with Aura Flux! \n\n{song} by {artist}",

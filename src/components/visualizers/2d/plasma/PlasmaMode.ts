@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/PlasmaMode.ts | Version: v2.2.25
+// File: src/components/visualizers/2d/plasma/PlasmaMode.ts | Version: v2.3.3
 
 import { PlasmaModeProps } from './types';
 import { ParticleManager } from './ParticleManager';
@@ -26,18 +26,15 @@ export const renderPlasmaMode = ({
   
   const average = calculateAverage(dataArray, sensitivity);
 
-  // 保存Canvas状态
-  ctx.save();
+  // 保存Canvas状�?  ctx.save();
   ctx.globalCompositeOperation = 'screen';
   
   // 调整粒子数量
   particleManager.adjustParticleCount(average, centerX, centerY);
   
-  // 检测粒子融合
-  particleManager.detectFusion(colors);
+  // 检测粒子融�?  particleManager.detectFusion(colors);
   
-  // 更新粒子状态
-  particleManager.updateParticles(dataArray, width, height, sensitivity, time);
+  // 更新粒子状�?  particleManager.updateParticles(dataArray, width, height, sensitivity, time);
   
   // 更新融合效果
   particleManager.updateFusionEffects();
@@ -57,6 +54,5 @@ export const renderPlasmaMode = ({
   // 绘制全屏发光效果
   renderer.drawFullScreenGlow(ctx, width, height, average);
   
-  // 恢复Canvas状态
-  ctx.restore();
+  // 恢复Canvas状�?  ctx.restore();
 };

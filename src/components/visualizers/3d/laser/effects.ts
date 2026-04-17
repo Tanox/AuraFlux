@@ -1,4 +1,4 @@
-// File: src/components/visualizers/3d/laser/effects.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/laser/effects.ts | Version: v2.3.3
 
 import { Vector3, Color } from 'three';
 import { CollisionEffect, ReflectionEffect, LaserState } from './types';

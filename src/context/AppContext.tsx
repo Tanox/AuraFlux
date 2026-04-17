@@ -1,4 +1,4 @@
-// File: src\context\AppContext.tsx | Version: v2.3.0
+// File: src\context\AppContext.tsx | Version: v2.3.3
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';

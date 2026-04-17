@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/FusionManager.ts | Version: v2.2.25
+// File: src/components/visualizers/2d/plasma/FusionManager.ts | Version: v2.3.3
 
 import { FusionEffect } from './types';
 import { ObjectPool } from './objectPool';
@@ -65,8 +65,7 @@ export class FusionManager {
   }
 
   /**
-   * 清除所有融合效果
-   */
+   * 清除所有融合效�?   */
   clear(): void {
     for (const effect of this.fusionEffects) {
       this.fusionEffectPool.release(effect);

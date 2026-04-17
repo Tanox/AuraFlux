@@ -31,16 +31,16 @@ export const WelcomeScreen: React.FC = () => {
           }}
           className="group relative inline-flex items-center justify-center px-8 py-4 font-black text-white transition-all duration-300 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
         >
-          <span className="mr-3 text-lg">â–¶</span>
+          <span className="mr-3 text-lg">â–?/span>
           <span className="text-xs tracking-[0.2em] uppercase">{t('startExperience') || "INITIALIZE SYSTEM"}</span>
           <div className="absolute inset-0 rounded-full ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-500 animate-pulse" />
         </button>
 
         <div className="flex justify-center gap-8 text-[10px] font-mono text-white/20 uppercase tracking-widest">
           <span>{t('appVersion') || "v2.2.15"}</span>
-          <span>â€¢</span>
+          <span>â€?/span>
           <span>{t('common.webAudioApi') || "WebAudio API"}</span>
-          <span>â€¢</span>
+          <span>â€?/span>
           <span>{t('common.gemini3') || "Gemini 3.0"}</span>
         </div>
       </div>

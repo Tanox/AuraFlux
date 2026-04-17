@@ -32,8 +32,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
-    // 初始化星星数量
-    const initStars = (width: number, height: number) => {
+    // 初始化星星数�?    const initStars = (width: number, height: number) => {
       if (mode === VisualizerMode.STARFIELD) {
         starsRef.current = [];
         const starCount = 200;
@@ -50,8 +49,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       }
     };
 
-    // 初始化
-    const width = canvas.width;
+    // 初始�?    const width = canvas.width;
     const height = canvas.height;
     initStars(width, height);
 
@@ -71,8 +69,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       const height = canvas.height;
       ctx.clearRect(0, 0, width, height);
 
-      // 根据模式选择相应的渲染函数
-      switch (mode) {
+      // 根据模式选择相应的渲染函�?      switch (mode) {
         case VisualizerMode.BARS:
           renderBarsMode({
             ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity

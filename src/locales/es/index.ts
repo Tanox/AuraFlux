@@ -1,15 +1,39 @@
-import { common } from './common';
-import { help } from './help';
+// File: src\locales\es\index.ts | Version: v2.3.3 | Updated: 2026-04-17 11:47
 import { messages } from './messages';
+import { common } from './common';
 import { onboarding } from './onboarding';
+import { helpModal } from './help';
 import { panels } from './panels';
 import { settings } from './settings';
 
-export const translations = {
-  common,
-  help,
+function isObject(item: any) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+function deepMerge(target: any, ...sources: any[]): any {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        deepMerge(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+  return deepMerge(target, ...sources);
+}
+
+/**
+ * 合并所有翻译资源到顶级对象
+ */
+export const translations = deepMerge(
+  {},
   messages,
-  onboarding,
   panels,
-  settings
-};
+  settings,
+  { common, onboarding, helpModal }
+);

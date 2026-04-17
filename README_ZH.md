@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI 驱动的 3D 音乐可视化与通感分析引擎 (v2.3.0)
+### AI 驱动的 3D 音乐可视化与通感分析引擎 (v2.3.3)
 
 [在线演示](https://aura.ewuse.com/) | [English](./README.md) | [文档](./openspec/)
 
@@ -23,5 +23,5 @@
 ## 📄 许可与署名
 
 由 **Sut** 倾力开发。  
-*当前版本: 2.3.0*  
+*当前版本: 2.3.3*  
 *个人主页:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

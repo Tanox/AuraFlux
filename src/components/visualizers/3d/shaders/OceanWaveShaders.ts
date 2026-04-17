@@ -1,4 +1,4 @@
-// File: src\components\visualizers\scenes\shaders\OceanWaveShaders.ts | Version: v2.2.23
+// File: src\components\visualizers\scenes\shaders\OceanWaveShaders.ts | Version: v2.3.3
 
 export const oceanWaveVertexShader = `
   attribute float aLineProgress;

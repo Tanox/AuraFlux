@@ -1,10 +1,9 @@
-// File: src/components/visualizers/3d/laser/types.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/laser/types.ts | Version: v2.3.3
 
 import { Vector3, Color } from 'three';
 import { VisualizerSettings } from '@/types';
 
-// 激光束状态接口
-export interface LaserState {
+// 激光束状态接�?export interface LaserState {
   angle: number;
   speed: number;
   offset: number;

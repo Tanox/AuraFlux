@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/ParticleManager.ts | Version: v2.2.25
+// File: src/components/visualizers/2d/plasma/ParticleManager.ts | Version: v2.3.3
 
 import { ParticleState, FusionEffect, ParticleParams } from './types';
 import { ObjectPool } from './objectPool';
@@ -93,8 +93,7 @@ export class ParticleManager {
   }
 
   /**
-   * 检测粒子融合
-   */
+   * 检测粒子融�?   */
   detectFusion(colors: string[]): void {
     for (let i = 0; i < this.particleStates.length; i++) {
       for (let j = i + 1; j < this.particleStates.length; j++) {
@@ -137,8 +136,7 @@ export class ParticleManager {
   }
 
   /**
-   * 更新粒子状态
-   */
+   * 更新粒子状�?   */
   updateParticles(dataArray: Uint8Array, width: number, height: number, sensitivity: number, time: number): void {
     for (let i = 0; i < this.particleStates.length; i++) {
       const dataIndex = Math.floor((i / this.particleStates.length) * dataArray.length);
@@ -240,8 +238,7 @@ export class ParticleManager {
   }
 
   /**
-   * 获取粒子状态
-   */
+   * 获取粒子状�?   */
   getParticles(): ParticleState[] {
     return this.particleStates;
   }

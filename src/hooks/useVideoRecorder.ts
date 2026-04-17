@@ -1,4 +1,4 @@
-// File: src\hooks\useVideoRecorder.ts | Version: v2.2.23
+// File: src\hooks\useVideoRecorder.ts | Version: v2.3.3
 import { useState, useCallback, useRef } from 'react';
 
 export const useVideoRecorder = (props: any = {}) => {

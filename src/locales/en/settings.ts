@@ -1,4 +1,4 @@
-// File: src\locales\en\settings.ts | Version: v2.2.26
+// File: src\locales\en\settings.ts | Version: v2.3.3
 import { VisualizerMode, LyricsStyle } from '../../types/index';
 import { COLOR_THEMES } from '../../constants/index';
 
@@ -188,7 +188,7 @@ export const settings = {
   },
   share: {
     appTitle: "Aura Flux - AI Music Visualizer",
-    appMessage: "Check out Aura Flux - AI Music Visualizer! 🎵✨",
+    appMessage: "Check out Aura Flux - AI Music Visualizer! 🎵�?,
     copied: "Link Copied!",
     unsupported: "Error",
   },

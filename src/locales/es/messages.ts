@@ -1,4 +1,4 @@
-// File: src\locales\es\messages.ts | Version: v2.3.0
+// File: src\locales\es\messages.ts | Version: v2.3.3
 export const messages = {
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
@@ -72,7 +72,7 @@ export const messages = {
   wrongSong: "Reintentar Análisis",
   share: {
     appTitle: "Aura Flux - Visualizador de Música IA",
-    appMessage: "¡Experimenta Aura Flux - Visualizador de Música IA! 馃幍鉁?",
+    appMessage: "¡Experimenta Aura Flux - Visualizador de Música IA! 馃幍�?",
     shareApp: "Compartir Aplicación",
     title: "Creación de Aura Flux",
     message: "¡Echa un vistazo a este arte creado con Aura Flux! \n\n{song} de {artist}",

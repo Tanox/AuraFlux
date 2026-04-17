@@ -10,8 +10,7 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
   const [sourceType, setSourceType] = useState<'microphone' | 'file' | 'url'>('microphone');
   const [isPending, setIsPending] = useState(false);
 
-  // 麦克风管理
-  const {
+  // 麦克风管�?  const {
     isListening,
     mediaStream,
     audioDevices,
@@ -47,24 +46,21 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
     getAudioSlice,
   } = useFilePlayer({ setCurrentSong, showToast });
 
-  // 选择当前的 analyser
+  // 选择当前�?analyser
   const analyser = sourceType === 'microphone' ? micAnalyser : fileAnalyser;
   const analyserR = sourceType === 'microphone' ? micAnalyser : fileAnalyserR;
   const audioContext = sourceType === 'microphone' ? micAudioContext : fileAudioContext;
 
-  // 切换源类型时的处理
-  const handleSourceTypeChange = useCallback((type: 'microphone' | 'file' | 'url') => {
+  // 切换源类型时的处�?  const handleSourceTypeChange = useCallback((type: 'microphone' | 'file' | 'url') => {
     setSourceType(type);
   }, []);
 
   // 清理函数
   useEffect(() => {
     return () => {
-      // 清理麦克风
-      mediaStream?.getTracks().forEach(t => t.stop());
+      // 清理麦克�?      mediaStream?.getTracks().forEach(t => t.stop());
       
-      // 清理音频上下文
-      micAudioContext?.close();
+      // 清理音频上下�?      micAudioContext?.close();
       fileAudioContext?.close();
     };
   }, [mediaStream, micAudioContext, fileAudioContext]);

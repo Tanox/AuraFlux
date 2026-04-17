@@ -1,4 +1,4 @@
-// File: src/components/visualizers/3d/cubeField/types.ts | Version: v2.2.23
+// File: src/components/visualizers/3d/cubeField/types.ts | Version: v2.3.3
 
 import { Vector3, Euler } from 'three';
 import { VisualizerSettings } from '@/types';
