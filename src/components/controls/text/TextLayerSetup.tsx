@@ -11,8 +11,13 @@ import { Position } from '@/types/index';
 
 export const TextLayerSetup: React.FC = () => {
     const { settings, setSettings, resetTextSettings } = useVisuals();
-    const { t } = useUI();
+    const { t, showToast } = useUI();
     const positionOptions = useMemo(() => getPositionOptions(t), [t]);
+
+    const handleResetTextSettings = () => {
+        resetTextSettings();
+        showToast(t?.('hints.textReset') || 'Text settings reset to default', 'success');
+    };
 
     return (
         <BentoCard 
@@ -20,7 +25,7 @@ export const TextLayerSetup: React.FC = () => {
             title={t?.('textPanel.overlay') || "Text Layer Setup"}
             action={
                 <TooltipArea text={t?.('hints.resetText')}>
-                    <button onClick={resetTextSettings} className="p-1.5 text-black/30 dark:text-white/30 hover:text-blue-500 transition-colors">
+                    <button onClick={handleResetTextSettings} className="p-1.5 text-black/30 dark:text-white/30 hover:text-blue-500 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                     </button>
                 </TooltipArea>

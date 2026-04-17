@@ -25,6 +25,28 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   showStudioTab: false
 };
 
+const DEFAULT_AUDIO_SETTINGS = {
+  sensitivity: 1.0,
+  smoothing: 0.8,
+  fftSize: 1024
+};
+
+const DEFAULT_TEXT_SETTINGS = {
+  showCustomText: false,
+  textSource: 'AUTO',
+  customText: '',
+  customTextPosition: 'center' as const,
+  customTextFont: 'Inter, sans-serif',
+  customTextSize: 12,
+  customTextOpacity: 0.5,
+  customTextRotation: 0,
+  customTextColor: '#ffffff',
+  customTextCycleColor: false,
+  customTextCycleInterval: 5,
+  customText3D: false,
+  textPulse: false
+};
+
 const getInitialMode = (): VisualizerMode => {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('av_v1_mode');
@@ -146,8 +168,12 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
   }, [setModeWithStorage, setColorThemeWithStorage, setSettingsWithStorage, setActivePresetWithStorage]);
 
   const resetVisualSettings = useCallback(() => setSettingsWithStorage(DEFAULT_SETTINGS), [setSettingsWithStorage]);
-  const resetTextSettings = useCallback(() => {}, []);
-  const resetAudioSettings = useCallback(() => {}, []);
+  const resetAudioSettings = useCallback(() => {
+    setSettingsWithStorage(prev => ({ ...prev, ...DEFAULT_AUDIO_SETTINGS }));
+  }, [setSettingsWithStorage]);
+  const resetTextSettings = useCallback(() => {
+    setSettingsWithStorage(prev => ({ ...prev, ...DEFAULT_TEXT_SETTINGS }));
+  }, [setSettingsWithStorage]);
 
   const applyPreset = useCallback((preset: SmartPreset) => {
     setModeWithStorage(preset.mode);

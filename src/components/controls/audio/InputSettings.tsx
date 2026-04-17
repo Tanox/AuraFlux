@@ -15,11 +15,11 @@ import { useVisuals, useAudioContext, useUI } from '@/context/AppContext';
 
 export const InputSettings: React.FC = () => {
   const { settings, setSettings, resetAudioSettings } = useVisuals();
-  const { 
+  const {
       audioDevices, selectedDeviceId, onDeviceChange, toggleMicrophone, isListening, isPending,
       sourceType, fileName
   } = useAudioContext();
-  const { t } = useUI();
+  const { t, showToast } = useUI();
 
   const isAdvanced = settings.uiMode === 'advanced';
 
@@ -32,13 +32,18 @@ export const InputSettings: React.FC = () => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 
+  const handleResetAudioSettings = () => {
+    resetAudioSettings();
+    showToast(t?.('hints.audioReset') || 'Audio settings reset to default', 'success');
+  };
+
   return (
     <BentoCard 
         id="panel-audio-input"
         title={t?.('audioPanel.audioInput') || "Signal Architecture"}
         action={
             <TooltipArea text={t?.('hints.resetAudio')}>
-                <button onClick={resetAudioSettings} className="p-1.5 text-black/30 dark:text-white/30 hover:text-blue-500 transition-colors">
+                <button onClick={handleResetAudioSettings} className="p-1.5 text-black/30 dark:text-white/30 hover:text-blue-500 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                 </button>
             </TooltipArea>
