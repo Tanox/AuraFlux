@@ -4,7 +4,7 @@ import { Vector3, Color } from 'three';
 import { CollisionEffect, ReflectionEffect, LaserState } from './types';
 
 /**
- * 检测激光碰撞并生成效果
+ * 妫€娴嬫縺鍏夌鎾炲苟鐢熸垚鏁堟灉
  */
 export function detectLaserCollisions(
   laser: LaserState,
@@ -22,7 +22,7 @@ export function detectLaserCollisions(
     const distanceToCenter = laserEnd.distanceTo(new Vector3(0, 0, 0));
     
     if (distanceToCenter < 10) {
-      // 发生碰撞
+      // 鍙戠敓纰版挒
       collisionEffects.push({
         position: laserEnd.clone(),
         size: 0.5 + Math.random() * 1.5,
@@ -30,7 +30,7 @@ export function detectLaserCollisions(
         color: color.clone()
       });
       
-      // 生成反射效果
+      // 鐢熸垚鍙嶅皠鏁堟灉
       const reflectionDirection = laserEnd.clone().reflect(new Vector3(0, 1, 0)).normalize();
       reflectionEffects.push({
         start: laserEnd.clone(),
@@ -48,7 +48,7 @@ export function detectLaserCollisions(
 }
 
 /**
- * 更新碰撞效果
+ * 鏇存柊纰版挒鏁堟灉
  */
 export function updateCollisionEffects(
   collisionEffects: CollisionEffect[],
@@ -62,7 +62,7 @@ export function updateCollisionEffects(
 }
 
 /**
- * 更新反射效果
+ * 鏇存柊鍙嶅皠鏁堟灉
  */
 export function updateReflectionEffects(
   reflectionEffects: ReflectionEffect[],

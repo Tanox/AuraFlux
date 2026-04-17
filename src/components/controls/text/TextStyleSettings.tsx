@@ -55,7 +55,7 @@ export const TextStyleSettings: React.FC = () => {
                 <div className="pt-3 border-t border-black/5 dark:border-white/5 grid gap-4">
                     <Slider label={t?.('textSize') || "Size"} value={settings.customTextSize ?? 12} min={2} max={60} step={1} onChange={(v) => setSettings({...settings, customTextSize: v})} />
                     <Slider label={t?.('visualPanel.opacity') || "Opacity"} value={settings.customTextOpacity ?? 0.5} min={0} max={1} step={0.05} onChange={(v) => setSettings({...settings, customTextOpacity: v})} />
-                    <Slider label={t?.('textRotation') || "Rotation"} value={settings.customTextRotation ?? 0} min={-180} max={180} step={5} onChange={(v) => setSettings({...settings, customTextRotation: v})} unit="°" />
+                    <Slider label={t?.('textRotation') || "Rotation"} value={settings.customTextRotation ?? 0} min={-180} max={180} step={5} onChange={(v) => setSettings({...settings, customTextRotation: v})} unit="掳" />
                 </div>
 
                 <div className="pt-3 border-t border-black/5 dark:border-white/5 grid grid-cols-2 gap-3">

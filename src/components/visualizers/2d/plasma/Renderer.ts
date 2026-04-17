@@ -7,7 +7,7 @@ export class Renderer {
   private focalLength = 300;
 
   /**
-   * 绘制粒子
+   * 缁樺埗绮掑瓙
    */
   drawParticles(
     ctx: CanvasRenderingContext2D,
@@ -66,7 +66,7 @@ export class Renderer {
   }
 
   /**
-   * 绘制粒子拖尾
+   * 缁樺埗绮掑瓙鎷栧熬
    */
   private drawParticleTail(
     ctx: CanvasRenderingContext2D,
@@ -104,7 +104,7 @@ export class Renderer {
   }
 
   /**
-   * 绘制粒子核心
+   * 缁樺埗绮掑瓙鏍稿績
    */
   private drawParticleCore(
     ctx: CanvasRenderingContext2D,
@@ -136,7 +136,7 @@ export class Renderer {
   }
 
   /**
-   * 绘制融合效果
+   * 缁樺埗铻嶅悎鏁堟灉
    */
   drawFusionEffects(
     ctx: CanvasRenderingContext2D,
@@ -160,7 +160,7 @@ export class Renderer {
   }
 
   /**
-   * 绘制全屏发光效果
+   * 缁樺埗鍏ㄥ睆鍙戝厜鏁堟灉
    */
   drawFullScreenGlow(
     ctx: CanvasRenderingContext2D,

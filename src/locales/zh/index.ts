@@ -28,8 +28,8 @@ function deepMerge(target: any, ...sources: any[]): any {
 }
 
 /**
- * 合并所有翻译资源到顶级对象
- * 使用 deepMerge 解决 messages、panels、settings 之间的同名键冲突（如 hints, config, share 等）
+ * 鍚堝苟鎵€鏈夌炕璇戣祫婧愬埌椤剁骇瀵硅薄
+ * 浣跨敤 deepMerge 瑙ｅ喅 messages銆乸anels銆乻ettings 涔嬮棿鐨勫悓鍚嶉敭鍐茬獊锛堝 hints, config, share 绛夛級
  */
 export const translations = deepMerge(
   {},

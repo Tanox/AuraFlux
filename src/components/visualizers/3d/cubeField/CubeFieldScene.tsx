@@ -57,14 +57,14 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       mat.color.set(c0);
       mat.emissive.set(c1);
       mat.emissiveIntensity = 0.4 + treble * 4.0 + (isBeat ? 3.5 : 0);
-      // 添加发光效果
+      // 娣诲姞鍙戝厜鏁堟灉
       mat.emissiveIntensity *= 1.5;
     }
 
     const rotationBoost = 1.0 + mids * 2.0 + treble * 2.5;
     const binLimit = Math.floor(localDataArray.length * 0.6);
     
-    // 检测立方体碰撞
+    // 妫€娴嬬珛鏂逛綋纰版挒
     collisionEffectsRef.current = detectCollisions(particles, collisionEffectsRef.current, c1);
     
     particles.forEach((p, i) => {
@@ -88,7 +88,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         (1.0 + reaction * 4.0) * 0.1
       );
       
-      // 应用变形效果
+      // 搴旂敤鍙樺舰鏁堟灉
       const deformation = p.deformation;
       const scaleX = p.currentScale * (1 - deformation);
       const scaleY = p.currentScale * (1 + deformation);
@@ -99,7 +99,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       meshRef.current!.setMatrixAt(i, dummy.matrix);
     });
     
-    // 更新碰撞效果
+    // 鏇存柊纰版挒鏁堟灉
     collisionEffectsRef.current = updateCollisionEffects(collisionEffectsRef.current, delta);
     
     initialSetupRef.current = true;
@@ -119,7 +119,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         <meshStandardMaterial roughness={0.1} metalness={0.95} />
       </instancedMesh>
       
-      {/* 碰撞效果 */}
+      {/* 纰版挒鏁堟灉 */}
       {collisionEffectsRef.current.map((effect, index) => (
         <mesh key={`collision-${index}`} position={effect.position}>
           <sphereGeometry args={[effect.size, 16, 16]} />

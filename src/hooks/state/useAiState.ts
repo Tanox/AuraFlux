@@ -25,7 +25,7 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
   const [enableAnalysis, setEnableAnalysis] = useState(true);
   const [isIdentifying, setIsIdentifying] = useState(false);
   
-  // 使用 useRef 存储 t 的最新�?  const tRef = useRef(t);
+  // 浣跨敤 useRef 瀛樺偍 t 鐨勬渶鏂板€?  const tRef = useRef(t);
   tRef.current = t;
 
   const performIdentification = useCallback(async (stream: MediaStream) => {

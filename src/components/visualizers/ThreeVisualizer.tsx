@@ -61,7 +61,7 @@ const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, setting
         <OrbitControls enablePan={false} enableZoom={true} minDistance={5} maxDistance={50} />
       </Canvas>
       
-      {/* 应用名称和版本号（单行显示） */}
+      {/* 搴旂敤鍚嶇О鍜岀増鏈彿锛堝崟琛屾樉绀猴級 */}
       <div className="absolute bottom-0 right-0 text-white text-opacity-60 font-sans" style={{ fontSize: '12px', fontFamily: 'Inter, sans-serif', padding: '16px' }}>
         Aura Flux {APP_VERSION}
       </div>

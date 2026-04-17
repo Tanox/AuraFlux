@@ -11,10 +11,10 @@ import { Language } from '../../../types/index';
 import { PresetManager } from '../system/PresetManager';
 
 const LANGUAGES: { value: Language; label: string }[] = [
-  { value: 'en', label: 'English' }, { value: 'zh', label: '简体中�? }, { value: 'zh-TW', label: '繁體中文' },
-  { value: 'ja', label: '日本�? }, { value: 'es', label: 'Español' }, { value: 'ko', label: '한국�? },
-  { value: 'de', label: 'Deutsch' }, { value: 'fr', label: 'Français' }, { value: 'ru', label: 'Русский' },
-  { value: 'ar', label: 'العربية' }, { value: 'pt', label: 'Português' }, { value: 'pt-BR', label: 'Português (Brasil)' }
+  { value: 'en', label: 'English' }, { value: 'zh', label: '绠€浣撲腑鏂? }, { value: 'zh-TW', label: '绻侀珨涓枃' },
+  { value: 'ja', label: '鏃ユ湰瑾? }, { value: 'es', label: 'Espa帽ol' }, { value: 'ko', label: '頃滉淡鞏? },
+  { value: 'de', label: 'Deutsch' }, { value: 'fr', label: 'Fran莽ais' }, { value: 'ru', label: '袪褍褋褋泻懈泄' },
+  { value: 'ar', label: '丕賱毓乇亘賷丞' }, { value: 'pt', label: 'Portugu锚s' }, { value: 'pt-BR', label: 'Portugu锚s (Brasil)' }
 ];
 
 export const SystemSettingsPanel: React.FC = () => {

@@ -19,7 +19,7 @@ export class FusionManager {
   }
 
   /**
-   * 创建融合效果
+   * 鍒涘缓铻嶅悎鏁堟灉
    */
   createFusionEffect(x: number, y: number, z: number, size: number, color: string): FusionEffect {
     const fusionEffect = this.fusionEffectPool.get();
@@ -34,7 +34,7 @@ export class FusionManager {
   }
 
   /**
-   * 更新融合效果
+   * 鏇存柊铻嶅悎鏁堟灉
    */
   updateFusionEffects(): void {
     const activeFusionEffects: FusionEffect[] = [];
@@ -51,21 +51,21 @@ export class FusionManager {
   }
 
   /**
-   * 获取融合效果
+   * 鑾峰彇铻嶅悎鏁堟灉
    */
   getFusionEffects(): FusionEffect[] {
     return this.fusionEffects;
   }
 
   /**
-   * 深度排序
+   * 娣卞害鎺掑簭
    */
   sortByDepth(): void {
     this.fusionEffects.sort((a, b) => b.z - a.z);
   }
 
   /**
-   * 清除所有融合效�?   */
+   * 娓呴櫎鎵€鏈夎瀺鍚堟晥鏋?   */
   clear(): void {
     for (const effect of this.fusionEffects) {
       this.fusionEffectPool.release(effect);

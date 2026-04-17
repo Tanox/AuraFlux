@@ -10,7 +10,7 @@ interface BarsModeProps {
 }
 
 /**
- * 渲染BARS模式的可视化效果
+ * 娓叉煋BARS妯″紡鐨勫彲瑙嗗寲鏁堟灉
  */
 export const renderBarsMode = ({
   ctx,

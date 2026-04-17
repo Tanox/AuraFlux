@@ -35,7 +35,7 @@ export const RecordingPreview: React.FC<Props> = ({
             <span className="text-xs font-black text-white uppercase tracking-widest">{studio.previewTitle}</span>
             <span className="text-[10px] text-blue-400 font-mono mt-0.5">{currentSong?.title || common?.unknownTrack || "Untitled Creation"}</span>
           </div>
-          <div className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black rounded-lg uppercase tracking-wider">{formatSize(recordedBlob.size)} â€?{formatDur(duration)}</div>
+          <div className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black rounded-lg uppercase tracking-wider">{formatSize(recordedBlob.size)} éˆ¥?{formatDur(duration)}</div>
         </div>
         <div className="relative aspect-video bg-black flex items-center justify-center overflow-hidden">
           <video src={previewUrl} autoPlay loop controls className="max-h-[60vh] w-full" />

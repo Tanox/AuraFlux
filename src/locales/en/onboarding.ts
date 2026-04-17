@@ -22,8 +22,8 @@ export const onboarding = {
   ],
   languages: {
     en: "EN",
-    zh: "中文",
-    "zh-TW": "繁中",
+    zh: "涓枃",
+    "zh-TW": "绻佷腑",
     es: "ES",
     ar: "AR",
     fr: "FR",

@@ -10,7 +10,7 @@ interface TunnelModeProps {
 }
 
 /**
- * 渲染TUNNEL模式的可视化效果
+ * 娓叉煋TUNNEL妯″紡鐨勫彲瑙嗗寲鏁堟灉
  */
 export const renderTunnelMode = ({
   ctx,

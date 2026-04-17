@@ -188,7 +188,7 @@ export const settings = {
   },
   share: {
     appTitle: "Aura Flux - AI Music Visualizer",
-    appMessage: "Check out Aura Flux - AI Music Visualizer! 🎵�?,
+    appMessage: "Check out Aura Flux - AI Music Visualizer! 馃幍鉁?,
     copied: "Link Copied!",
     unsupported: "Error",
   },
