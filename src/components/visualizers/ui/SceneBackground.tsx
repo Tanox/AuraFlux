@@ -98,7 +98,8 @@ export const SceneBackground: React.FC<SceneBackgroundProps> = ({
   }
 
   if (gradient?.colors && gradient.colors.length > 1) {
-    // 浣跨敤绗竴涓鑹蹭綔涓鸿儗鏅?    return <color attach="background" args={[gradient.colors[0]]} />;
+    // 使用第一个颜色作为背景
+    return <color attach="background" args={[gradient.colors[0]]} />;
   }
 
   return <color attach="background" args={[color]} />;

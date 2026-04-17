@@ -4,7 +4,8 @@ import { Vector3, Euler } from 'three';
 import { CubeState } from './types';
 
 /**
- * 鍒濆鍖栫珛鏂逛綋鐘舵€? */
+ * 初始化立方体状态
+ */
 export function initializeCubeStates(count: number): CubeState[] {
   const temp: CubeState[] = [];
   for (let i = 0; i < count; i++) {
@@ -51,7 +52,8 @@ export function initializeCubeStates(count: number): CubeState[] {
 }
 
 /**
- * 鏇存柊绔嬫柟浣撶姸鎬? */
+ * 更新立方体状态
+ */
 export function updateCubeState(
   cube: CubeState,
   time: number,
@@ -64,13 +66,14 @@ export function updateCubeState(
   isBeat: boolean,
   settings: any
 ): void {
-  // 鏇存柊纰版挒鐘舵€?  if (cube.collisionTimer > 0) {
+  // 更新碰撞状态
+  if (cube.collisionTimer > 0) {
     cube.collisionTimer -= delta;
   } else {
     cube.isColliding = false;
   }
   
-  // 鏇存柊鍙樺舰鏁堟灉
+  // 更新变形效果
   if (cube.deformation > 0) {
     cube.deformation -= delta * 2;
   }

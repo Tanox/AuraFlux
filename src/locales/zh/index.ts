@@ -28,8 +28,8 @@ function deepMerge(target: any, ...sources: any[]): any {
 }
 
 /**
- * 鍚堝苟鎵€鏈夌炕璇戣祫婧愬埌椤剁骇瀵硅薄
- * 浣跨敤 deepMerge 瑙ｅ喅 messages銆乸anels銆乻ettings 涔嬮棿鐨勫悓鍚嶉敭鍐茬獊锛堝 hints, config, share 绛夛級
+ * 閸氬牆鑻熼幍鈧張澶岀倳鐠囨垼绁┃鎰煂妞ゅ墎楠囩€电钖?
+ * 娴ｈ法鏁?deepMerge 鐟欙絽鍠?messages閵嗕垢anels閵嗕够ettings 娑斿妫块惃鍕倱閸氬秹鏁崘鑼崐閿涘牆顩?hints, config, share 缁涘绱?
  */
 export const translations = deepMerge(
   {},

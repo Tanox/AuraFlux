@@ -1,5 +1,5 @@
 'use client';
-// File: src/hooks/audio/useAudio.ts | Version: v2.3.0
+// File: src/hooks/audio/useAudio.ts | Version: v2.3.3
 
 import { useCallback, useState, useEffect } from 'react';
 import { UseAudioProps, UseAudioReturn } from './types';
@@ -10,7 +10,8 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
   const [sourceType, setSourceType] = useState<'microphone' | 'file' | 'url'>('microphone');
   const [isPending, setIsPending] = useState(false);
 
-  // 楹﹀厠椋庣鐞?  const {
+  // 麦克风管理
+  const {
     isListening,
     mediaStream,
     audioDevices,
@@ -21,7 +22,7 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
     analyser: micAnalyser,
   } = useMicrophoneManager({ showToast });
 
-  // 鏂囦欢鎾斁绠＄悊
+  // 文件播放管理
   const {
     playlist,
     currentIndex,
@@ -46,21 +47,24 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
     getAudioSlice,
   } = useFilePlayer({ setCurrentSong, showToast });
 
-  // 閫夋嫨褰撳墠鐨?analyser
+  // 选择当前的 analyser
   const analyser = sourceType === 'microphone' ? micAnalyser : fileAnalyser;
   const analyserR = sourceType === 'microphone' ? micAnalyser : fileAnalyserR;
   const audioContext = sourceType === 'microphone' ? micAudioContext : fileAudioContext;
 
-  // 鍒囨崲婧愮被鍨嬫椂鐨勫鐞?  const handleSourceTypeChange = useCallback((type: 'microphone' | 'file' | 'url') => {
+  // 切换源类型时的处理
+  const handleSourceTypeChange = useCallback((type: 'microphone' | 'file' | 'url') => {
     setSourceType(type);
   }, []);
 
-  // 娓呯悊鍑芥暟
+  // 清理函数
   useEffect(() => {
     return () => {
-      // 娓呯悊楹﹀厠椋?      mediaStream?.getTracks().forEach(t => t.stop());
+      // 清理麦克风
+      mediaStream?.getTracks().forEach(t => t.stop());
       
-      // 娓呯悊闊抽涓婁笅鏂?      micAudioContext?.close();
+      // 清理音频上下文
+      micAudioContext?.close();
       fileAudioContext?.close();
     };
   }, [mediaStream, micAudioContext, fileAudioContext]);
