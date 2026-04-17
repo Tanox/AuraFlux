@@ -1,4 +1,4 @@
-// File: src\locales\index.ts | Version: v2.3.0
+// src/locales/index.ts v2.3.1
 // 从每个语言的模块导入所有翻译内容
 import { translations as en } from './en';
 import { translations as zh } from './zh';
