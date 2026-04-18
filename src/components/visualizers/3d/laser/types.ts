@@ -3,7 +3,7 @@
 import { Vector3, Color } from 'three';
 import { VisualizerSettings } from '@/types';
 
-// 婵€鍏夋潫鐘舵€佹帴鍙?export interface LaserState {
+export interface LaserState {
   angle: number;
   speed: number;
   offset: number;
@@ -14,7 +14,6 @@ import { VisualizerSettings } from '@/types';
   lastCollision: number;
 }
 
-// 纰版挒鏁堟灉鎺ュ彛
 export interface CollisionEffect {
   position: Vector3;
   size: number;
@@ -22,7 +21,6 @@ export interface CollisionEffect {
   color: Color;
 }
 
-// 鍙嶅皠鏁堟灉鎺ュ彛
 export interface ReflectionEffect {
   start: Vector3;
   end: Vector3;
