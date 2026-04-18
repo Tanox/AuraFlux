@@ -24,17 +24,16 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
   const [showLyrics, setShowLyrics] = useState(false);
   const [enableAnalysis, setEnableAnalysis] = useState(true);
   const [isIdentifying, setIsIdentifying] = useState(false);
-  
-  // 浣跨敤 useRef 瀛樺偍 t 鐨勬渶鏂板€?  const tRef = useRef(t);
+
+  const tRef = useRef(t);
   tRef.current = t;
 
   const performIdentification = useCallback(async (stream: MediaStream) => {
     if (isIdentifying) return;
     setIsIdentifying(true);
     showToast(tRef.current?.ai?.identifying || 'Identifying song...');
-    
+
     try {
-      // Mock identification for now
       setTimeout(() => {
         setIsIdentifying(false);
         showToast(tRef.current?.ai?.identified || 'Song identified!');
@@ -58,4 +57,3 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
     resetAiSettings
   };
 };
-
