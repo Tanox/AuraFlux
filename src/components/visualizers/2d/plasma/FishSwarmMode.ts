@@ -22,8 +22,12 @@ class FishSwarmManager {
   private groupCount = 3;
   private maxParticles = 200;
   private leaders: FishParticle[] = [];
+  private width: number = 1000;
+  private height: number = 800;
 
-  constructor() {
+  constructor(width: number = 1000, height: number = 800) {
+    this.width = width;
+    this.height = height;
     this.initializeParticles();
   }
 
@@ -33,8 +37,8 @@ class FishSwarmManager {
       const isLeader = i < this.groupCount;
       
       const particle: FishParticle = {
-        x: Math.random() * 1000,
-        y: Math.random() * 800,
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
         z: (Math.random() - 0.5) * 200,
         vx: (Math.random() - 0.5) * 2,
         vy: (Math.random() - 0.5) * 2,
@@ -56,18 +60,17 @@ class FishSwarmManager {
 
   private getGroupColor(group: number): string {
     const colors = [
-      '#FF6B6B', // 红色
-      '#4ECDC4', // 青色
-      '#45B7D1', // 蓝色
-      '#96CEB4', // 绿色
-      '#FFEAA7', // 黄色
-      '#DDA0DD'  // 紫色
+      '#FF6B6B',
+      '#4ECDC4',
+      '#45B7D1',
+      '#96CEB4',
+      '#FFEAA7',
+      '#DDA0DD'
     ];
     return colors[group % colors.length];
   }
 
   private updateLeader(leader: FishParticle, time: number): void {
-    // 领导者随机移动
     const noiseX = Math.sin(time * 0.001 + leader.group) * 0.5;
     const noiseY = Math.cos(time * 0.0012 + leader.group) * 0.5;
     const noiseZ = Math.sin(time * 0.0008 + leader.group) * 0.3;
@@ -76,7 +79,6 @@ class FishSwarmManager {
     leader.vy += noiseY * 0.1;
     leader.vz += noiseZ * 0.05;
 
-    // 限制速度
     const maxSpeed = 3;
     const speed = Math.sqrt(leader.vx * leader.vx + leader.vy * leader.vy);
     if (speed > maxSpeed) {
@@ -84,28 +86,23 @@ class FishSwarmManager {
       leader.vy = (leader.vy / speed) * maxSpeed;
     }
 
-    // 更新位置
     leader.x += leader.vx;
     leader.y += leader.vy;
     leader.z += leader.vz;
 
-    // 边界反弹
-    if (leader.x < 0 || leader.x > 1000) leader.vx *= -0.8;
-    if (leader.y < 0 || leader.y > 800) leader.vy *= -0.8;
+    if (leader.x < 0 || leader.x > this.width) leader.vx *= -0.8;
+    if (leader.y < 0 || leader.y > this.height) leader.vy *= -0.8;
     if (leader.z < -100 || leader.z > 100) leader.vz *= -0.8;
 
-    // 旋转
     leader.rotation += leader.rotationSpeed;
   }
 
   private updateFollower(follower: FishParticle, leader: FishParticle, time: number): void {
-    // 跟随领导者
     const dx = leader.x - follower.x;
     const dy = leader.y - follower.y;
     const dz = leader.z - follower.z;
     const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-    // 凝聚力
     const cohesionStrength = 0.01;
     if (distance > 0) {
       follower.vx += (dx / distance) * cohesionStrength;
@@ -113,7 +110,6 @@ class FishSwarmManager {
       follower.vz += (dz / distance) * cohesionStrength * 0.5;
     }
 
-    // 分离力
     const separationDistance = 20;
     if (distance < separationDistance && distance > 0) {
       const separationStrength = 0.02;
@@ -122,19 +118,16 @@ class FishSwarmManager {
       follower.vz -= (dz / distance) * separationStrength * 0.5;
     }
 
-    // 速度匹配
     const alignmentStrength = 0.05;
     follower.vx += (leader.vx - follower.vx) * alignmentStrength;
     follower.vy += (leader.vy - follower.vy) * alignmentStrength;
     follower.vz += (leader.vz - follower.vz) * alignmentStrength * 0.5;
 
-    // 随机扰动
     const noiseStrength = 0.05;
     follower.vx += (Math.random() - 0.5) * noiseStrength;
     follower.vy += (Math.random() - 0.5) * noiseStrength;
     follower.vz += (Math.random() - 0.5) * noiseStrength * 0.5;
 
-    // 限制速度
     const maxSpeed = 2.5;
     const speed = Math.sqrt(follower.vx * follower.vx + follower.vy * follower.vy);
     if (speed > maxSpeed) {
@@ -142,24 +135,23 @@ class FishSwarmManager {
       follower.vy = (follower.vy / speed) * maxSpeed;
     }
 
-    // 更新位置
     follower.x += follower.vx;
     follower.y += follower.vy;
     follower.z += follower.vz;
 
-    // 旋转 - 朝向移动方向
     follower.rotation = Math.atan2(follower.vy, follower.vx);
     follower.rotationSpeed = (Math.random() - 0.5) * 0.03;
     follower.rotation += follower.rotationSpeed;
   }
 
   update(time: number, width: number, height: number): void {
-    // 更新领导者
+    this.width = width;
+    this.height = height;
+
     this.leaders.forEach(leader => {
       this.updateLeader(leader, time);
     });
 
-    // 更新跟随者
     this.particles.forEach(particle => {
       if (!particle.leader) {
         const leader = this.leaders[particle.group];
@@ -173,12 +165,8 @@ class FishSwarmManager {
   }
 }
 
-// 创建实例
-const fishSwarmManager = new FishSwarmManager();
+let fishSwarmManager: FishSwarmManager | null = null;
 
-/**
- * 渲染鱼群粒子模式
- */
 export const renderFishSwarmMode = ({
   ctx,
   dataArray,
@@ -189,15 +177,16 @@ export const renderFishSwarmMode = ({
 }: PlasmaModeProps) => {
   const time = Date.now();
   
-  // 更新鱼群
+  if (!fishSwarmManager) {
+    fishSwarmManager = new FishSwarmManager(width, height);
+  }
+  
   fishSwarmManager.update(time, width, height);
   const particles = fishSwarmManager.getParticles();
   
-  // 保存Canvas状态
   ctx.save();
   ctx.globalCompositeOperation = 'screen';
   
-  // 绘制粒子
   particles.forEach(particle => {
     const scale = 1 + (particle.z / 200);
     const alpha = 0.8 + (particle.z / 400);
@@ -208,7 +197,6 @@ export const renderFishSwarmMode = ({
     ctx.scale(scale, scale);
     ctx.globalAlpha = alpha;
     
-    // 绘制鱼形
     ctx.fillStyle = particle.color;
     ctx.beginPath();
     ctx.moveTo(particle.size * 2, 0);
@@ -218,7 +206,6 @@ export const renderFishSwarmMode = ({
     ctx.quadraticCurveTo(particle.size * 1.5, particle.size, particle.size * 2, 0);
     ctx.fill();
     
-    // 绘制眼睛
     ctx.fillStyle = '#000';
     ctx.beginPath();
     ctx.arc(particle.size, 0, particle.size * 0.2, 0, Math.PI * 2);
@@ -227,6 +214,5 @@ export const renderFishSwarmMode = ({
     ctx.restore();
   });
   
-  // 恢复Canvas状态
   ctx.restore();
 };
