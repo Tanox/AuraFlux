@@ -82,7 +82,7 @@ const MainContent: React.FC = () => {
     }, (visuals.settings?.colorInterval || 10) * 1000);
 
     return () => clearInterval(interval);
-  }, [visuals?.settings?.cycleColors, visuals?.settings?.colorInterval, visuals?.setColorTheme, visuals?.colorTheme]);
+  }, [visuals, visuals?.settings?.cycleColors, visuals?.settings?.colorInterval, visuals?.setColorTheme, visuals?.colorTheme]);
 
   if (!ui || !visuals || !audio || !ai) return null;
 

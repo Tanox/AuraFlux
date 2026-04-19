@@ -52,9 +52,10 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
 
   // Cleanup on unmount
   useEffect(() => {
+    const currentAnimationFrame = animationFrameRef.current;
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+      if (currentAnimationFrame) {
+        cancelAnimationFrame(currentAnimationFrame);
       }
       audioRef.current?.pause();
       if (audioRef.current) {
@@ -66,48 +67,6 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
       audioContext?.close();
     };
   }, [analyser, analyserR, audioContext]);
-
-  // Create audio element if not exists
-  useEffect(() => {
-    if (!audioRef.current) {
-      const audio = document.createElement('audio');
-      audio.crossOrigin = 'anonymous';
-      audioRef.current = audio;
-      
-      audio.addEventListener('ended', handleEnded);
-      audio.addEventListener('timeupdate', handleTimeUpdate);
-      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.addEventListener('error', handleError);
-    }
-  }, []);
-
-  const handleEnded = useCallback(() => {
-    if (isLoopingRef.current) {
-      audioRef.current?.play();
-    } else {
-      playNext();
-    }
-  }, []);
-
-  const handleTimeUpdate = useCallback(() => {
-    if (audioRef.current && !isSeekingRef.current) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  }, []);
-
-  const handleLoadedMetadata = useCallback(() => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  }, []);
-
-  const handleError = useCallback(() => {
-    if (audioRef.current?.error) {
-      console.error('Audio error:', audioRef.current.error);
-      showToast('Error loading audio file', 'error');
-      setIsPlaying(false);
-    }
-  }, [showToast]);
 
   const initializeAudioContext = useCallback(() => {
     if (!audioContext) {
@@ -131,6 +90,104 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
     setAnalyser(ana);
     setAnalyserR(anaR);
   }, []);
+
+  const playTrackByIndex = useCallback((i: number) => {
+    if (i < 0 || i >= playlist.length) return;
+    
+    const track = playlist[i];
+    if (!audioRef.current || !track.url) return;
+    
+    audioRef.current.src = track.url;
+    audioRef.current.play().catch(e => {
+      console.warn('Playback error:', e);
+      showToast('Playback failed', 'error');
+    });
+    
+    setCurrentIndex(i);
+    setIsPlaying(true);
+    
+    const ctx = initializeAudioContext();
+    if (ctx) {
+      if (sourceRef.current) sourceRef.current.disconnect();
+      sourceRef.current = ctx.createMediaElementSource(audioRef.current);
+      setupAnalysers(ctx, sourceRef.current);
+    }
+    
+    setCurrentSong({
+      title: track.title,
+      artist: 'Unknown',
+      album: 'Unknown',
+      coverArt: track.coverArt
+    });
+  }, [playlist, initializeAudioContext, setupAnalysers, setCurrentSong, showToast]);
+
+  const playNext = useCallback(() => {
+    let nextIndex = currentIndex;
+    if (playbackMode === PlaybackMode.SHUFFLE) {
+      nextIndex = Math.floor(Math.random() * playlist.length);
+      if (nextIndex === currentIndex && playlist.length > 1) {
+        nextIndex = (nextIndex + 1) % playlist.length;
+      }
+    } else {
+      nextIndex = (currentIndex + 1) % playlist.length;
+    }
+    playTrackByIndex(nextIndex);
+  }, [currentIndex, playlist.length, playbackMode, playTrackByIndex]);
+
+  const playPrev = useCallback(() => {
+    let prevIndex = currentIndex;
+    if (playbackMode === PlaybackMode.SHUFFLE) {
+      prevIndex = Math.floor(Math.random() * playlist.length);
+      if (prevIndex === currentIndex && playlist.length > 1) {
+        prevIndex = (prevIndex - 1 + playlist.length) % playlist.length;
+      }
+    } else {
+      prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    }
+    playTrackByIndex(prevIndex);
+  }, [currentIndex, playlist.length, playbackMode, playTrackByIndex]);
+
+  const handleEnded = useCallback(() => {
+    if (isLoopingRef.current) {
+      audioRef.current?.play();
+    } else {
+      playNext();
+    }
+  }, [playNext]);
+
+  const handleTimeUpdate = useCallback(() => {
+    if (audioRef.current && !isSeekingRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  }, []);
+
+  const handleLoadedMetadata = useCallback(() => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  }, []);
+
+  const handleError = useCallback(() => {
+    if (audioRef.current?.error) {
+      console.error('Audio error:', audioRef.current.error);
+      showToast('Error loading audio file', 'error');
+      setIsPlaying(false);
+    }
+  }, [showToast]);
+
+  // Create audio element if not exists
+  useEffect(() => {
+    if (!audioRef.current) {
+      const audio = document.createElement('audio');
+      audio.crossOrigin = 'anonymous';
+      audioRef.current = audio;
+      
+      audio.addEventListener('ended', handleEnded);
+      audio.addEventListener('timeupdate', handleTimeUpdate);
+      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.addEventListener('error', handleError);
+    }
+  }, [handleEnded, handleError, handleLoadedMetadata, handleTimeUpdate]);
 
   const importFiles = useCallback(async (files: FileList | File[]) => {
     const newTracks: Track[] = [];
@@ -204,62 +261,6 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
     setCurrentTime(t);
     isSeekingRef.current = false;
   }, []);
-
-  const playNext = useCallback(() => {
-    let nextIndex = currentIndex;
-    if (playbackMode === PlaybackMode.SHUFFLE) {
-      nextIndex = Math.floor(Math.random() * playlist.length);
-      if (nextIndex === currentIndex && playlist.length > 1) {
-        nextIndex = (nextIndex + 1) % playlist.length;
-      }
-    } else {
-      nextIndex = (currentIndex + 1) % playlist.length;
-    }
-    playTrackByIndex(nextIndex);
-  }, [currentIndex, playlist.length, playbackMode]);
-
-  const playPrev = useCallback(() => {
-    let prevIndex = currentIndex;
-    if (playbackMode === PlaybackMode.SHUFFLE) {
-      prevIndex = Math.floor(Math.random() * playlist.length);
-      if (prevIndex === currentIndex && playlist.length > 1) {
-        prevIndex = (prevIndex - 1 + playlist.length) % playlist.length;
-      }
-    } else {
-      prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-    }
-    playTrackByIndex(prevIndex);
-  }, [currentIndex, playlist.length, playbackMode]);
-
-  const playTrackByIndex = useCallback((i: number) => {
-    if (i < 0 || i >= playlist.length) return;
-    
-    const track = playlist[i];
-    if (!audioRef.current || !track.url) return;
-    
-    audioRef.current.src = track.url;
-    audioRef.current.play().catch(e => {
-      console.warn('Playback error:', e);
-      showToast('Playback failed', 'error');
-    });
-    
-    setCurrentIndex(i);
-    setIsPlaying(true);
-    
-    const ctx = initializeAudioContext();
-    if (ctx) {
-      if (sourceRef.current) sourceRef.current.disconnect();
-      sourceRef.current = ctx.createMediaElementSource(audioRef.current);
-      setupAnalysers(ctx, sourceRef.current);
-    }
-    
-    setCurrentSong({
-      title: track.title,
-      artist: 'Unknown',
-      album: 'Unknown',
-      coverArt: track.coverArt
-    });
-  }, [playlist, initializeAudioContext, setupAnalysers, setCurrentSong, showToast]);
 
   const removeFromPlaylist = useCallback((i: number) => {
     setPlaylist(prev => prev.filter((_, index) => index !== i));
