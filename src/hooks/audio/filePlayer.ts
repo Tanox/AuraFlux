@@ -49,17 +49,24 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
   const animationFrameRef = useRef<number | null>(null);
   const isLoopingRef = useRef(false);
   const isSeekingRef = useRef(false);
+  const handlersRef = useRef<Record<string, () => void>>({});
 
   // Cleanup on unmount
   useEffect(() => {
     const currentAnimationFrame = animationFrameRef.current;
+    const audio = audioRef.current;
+    const handlers = handlersRef.current;
     return () => {
       if (currentAnimationFrame) {
         cancelAnimationFrame(currentAnimationFrame);
       }
-      audioRef.current?.pause();
-      if (audioRef.current) {
-        audioRef.current.srcObject = null;
+      audio?.pause();
+      if (audio) {
+        audio.removeEventListener('ended', handlers.ended);
+        audio.removeEventListener('timeupdate', handlers.timeUpdate);
+        audio.removeEventListener('loadedmetadata', handlers.loadedMetadata);
+        audio.removeEventListener('error', handlers.error);
+        audio.srcObject = null;
       }
       sourceRef.current?.disconnect();
       analyser?.disconnect();
@@ -181,12 +188,18 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
       const audio = document.createElement('audio');
       audio.crossOrigin = 'anonymous';
       audioRef.current = audio;
-      
-      audio.addEventListener('ended', handleEnded);
-      audio.addEventListener('timeupdate', handleTimeUpdate);
-      audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.addEventListener('error', handleError);
     }
+    handlersRef.current = {
+      ended: handleEnded,
+      timeUpdate: handleTimeUpdate,
+      loadedMetadata: handleLoadedMetadata,
+      error: handleError
+    };
+    const audio = audioRef.current;
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('error', handleError);
   }, [handleEnded, handleError, handleLoadedMetadata, handleTimeUpdate]);
 
   const importFiles = useCallback(async (files: FileList | File[]) => {
