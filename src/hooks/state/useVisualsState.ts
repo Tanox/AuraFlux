@@ -44,7 +44,8 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   autoRotate: false,
   rotateInterval: 30,
   includedModes: Object.values(VisualizerMode),
-  showStudioTab: false
+  showStudioTab: false,
+  showPlaybackTab: true
 };
 
 const getInitialMode = (): VisualizerMode => {
