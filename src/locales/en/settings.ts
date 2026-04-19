@@ -72,6 +72,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Cube Field",
     [VisualizerMode.KINETIC_WALL]: "Kinetic Wall",
     [VisualizerMode.STARFIELD]: "Starfield",
+    [VisualizerMode.FISH_SWARM]: "Fish Swarm",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "Hypnotic, flowing energy fields with vibrant color blending.",
@@ -86,6 +87,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "A field of glowing cubes that animate and change size with the music.",
     [VisualizerMode.KINETIC_WALL]: "A dynamic wall of elements that push and pull in response to audio.",
     [VisualizerMode.STARFIELD]: "A mesmerizing field of stars that react to audio energy with depth and motion.",
+    [VisualizerMode.FISH_SWARM]: "A school of colorful fish particles that flow and swarm in synchronized patterns.",
   },
   lyrics: {
     [LyricsStyle.STANDARD]: "Standard",

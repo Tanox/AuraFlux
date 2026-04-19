@@ -72,6 +72,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "立方体场",
     [VisualizerMode.NEURAL_FLOW]: "神经流",
     [VisualizerMode.STARFIELD]: "星空",
+    [VisualizerMode.FISH_SWARM]: "鱼群",
   },
   modeDescriptions: {
     [VisualizerMode.PLASMA]: "催眠、流动的能量场，带有鲜艳的色彩混合。",
@@ -86,6 +87,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "发光立方体场，随音乐动画和改变大小。",
     [VisualizerMode.KINETIC_WALL]: "动态元素墙，响应音频推拉。",
     [VisualizerMode.STARFIELD]: "令人着迷的星空场，随音频能量反应，具有深度和动感。",
+    [VisualizerMode.FISH_SWARM]: "一群彩色的鱼粒子，以同步模式流动和群集。",
   },
   lyrics: {
     [LyricsStyle.STANDARD]: "标准",

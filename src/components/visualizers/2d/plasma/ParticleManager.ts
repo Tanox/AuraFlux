@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/ParticleManager.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/plasma/ParticleManager.ts | Version: v2.3.4
 
 import { ParticleState, FusionEffect, ParticleParams } from './types';
 import { ObjectPool } from './objectPool';
@@ -55,26 +55,30 @@ export class ParticleManager {
    */
   adjustParticleCount(average: number, centerX: number, centerY: number): void {
     let targetParticleCount: number;
-    if (average < 0.3) {
-      targetParticleCount = Math.floor(Math.random() * 3) + 3;
+    if (average < 0.2) {
+      targetParticleCount = 3;
+    } else if (average < 0.4) {
+      targetParticleCount = 4;
     } else if (average < 0.6) {
-      targetParticleCount = Math.floor(Math.random() * 3) + 6;
+      targetParticleCount = 6;
+    } else if (average < 0.8) {
+      targetParticleCount = 8;
     } else {
-      targetParticleCount = Math.floor(Math.random() * 4) + 9;
+      targetParticleCount = 12;
     }
 
     if (this.particleStates.length < targetParticleCount) {
       const particlesToAdd = targetParticleCount - this.particleStates.length;
       for (let i = 0; i < particlesToAdd; i++) {
         const newParticle = this.particlePool.get();
-        newParticle.x = centerX;
-        newParticle.y = centerY;
+        newParticle.x = centerX + (Math.random() - 0.5) * 50;
+        newParticle.y = centerY + (Math.random() - 0.5) * 50;
         newParticle.z = (Math.random() - 0.5) * 200;
-        newParticle.targetX = centerX + (Math.random() - 0.5) * 100;
-        newParticle.targetY = centerY + (Math.random() - 0.5) * 100;
+        newParticle.targetX = centerX + (Math.random() - 0.5) * 150;
+        newParticle.targetY = centerY + (Math.random() - 0.5) * 150;
         newParticle.targetZ = (Math.random() - 0.5) * 200;
-        newParticle.radius = 20;
-        newParticle.targetRadius = 20;
+        newParticle.radius = 15 + Math.random() * 10;
+        newParticle.targetRadius = 15 + Math.random() * 10;
         newParticle.rotation = 0;
         newParticle.rotationSpeed = (Math.random() - 0.5) * 0.1;
         newParticle.splitTimer = 0;
@@ -84,7 +88,7 @@ export class ParticleManager {
     } else if (this.particleStates.length > targetParticleCount) {
       const particlesToRemove = this.particleStates.length - targetParticleCount;
       for (let i = 0; i < particlesToRemove; i++) {
-        const removedParticle = this.particleStates.pop();
+        const removedParticle = this.particleStates.shift();
         if (removedParticle) {
           this.particlePool.release(removedParticle);
         }
@@ -138,42 +142,59 @@ export class ParticleManager {
   /**
    * 鏇存柊绮掑瓙鐘舵€?   */
   updateParticles(dataArray: Uint8Array, width: number, height: number, sensitivity: number, time: number): void {
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const average = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length / 255 * sensitivity;
+    
     for (let i = 0; i < this.particleStates.length; i++) {
       const dataIndex = Math.floor((i / this.particleStates.length) * dataArray.length);
       const val = dataArray[dataIndex] / 255;
       const params = this.particleParams[i % this.particleParams.length];
       
-      const noiseX = Math.sin(time * params.speed + params.offset) * Math.cos(time * 0.1 + params.offset);
-      const noiseY = Math.cos(time * params.speed + params.offset) * Math.sin(time * 0.15 + params.offset);
-      const noiseZ = Math.sin(time * params.speed * 0.8 + params.offset) * Math.cos(time * 0.2 + params.offset);
-      const baseX = (Math.sin(time * params.speed + params.offset) * 0.5 + 0.5) * width;
-      const baseY = (Math.cos(time * params.speed * 1.2 + params.offset) * 0.5 + 0.5) * height;
-      const baseZ = noiseZ * 100;
+      // 更复杂的噪声运动
+      const noiseX = Math.sin(time * params.speed + params.offset) * Math.cos(time * 0.1 + params.offset) + Math.sin(time * 0.05 + params.offset) * 0.5;
+      const noiseY = Math.cos(time * params.speed + params.offset) * Math.sin(time * 0.15 + params.offset) + Math.cos(time * 0.08 + params.offset) * 0.5;
+      const noiseZ = Math.sin(time * params.speed * 0.8 + params.offset) * Math.cos(time * 0.2 + params.offset) + Math.sin(time * 0.1 + params.offset) * 0.3;
       
-      const average = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length / 255 * sensitivity;
-      const audioOffsetX = (val * 2 - 1) * 120 * average;
-      const audioOffsetY = (val * 2 - 1) * 120 * average;
-      const audioOffsetZ = (val * 2 - 1) * 80 * average;
+      // 基于中心的运动
+      const angle = time * params.speed + i * 0.5;
+      const distance = (0.3 + val * 0.7) * Math.min(width, height) * 0.3;
+      const baseX = centerX + Math.cos(angle) * distance;
+      const baseY = centerY + Math.sin(angle) * distance;
+      const baseZ = noiseZ * 150;
       
-      const randomOffsetX = (Math.random() * 2 - 1) * 30 * val;
-      const randomOffsetY = (Math.random() * 2 - 1) * 30 * val;
-      const randomOffsetZ = (Math.random() * 2 - 1) * 20 * val;
+      // 音频响应偏移
+      const audioOffsetX = (val * 2 - 1) * 150 * average;
+      const audioOffsetY = (val * 2 - 1) * 150 * average;
+      const audioOffsetZ = (val * 2 - 1) * 100 * average;
       
-      this.particleStates[i].targetX = baseX + noiseX * 50 + audioOffsetX + randomOffsetX;
-      this.particleStates[i].targetY = baseY + noiseY * 50 + audioOffsetY + randomOffsetY;
-      this.particleStates[i].targetZ = baseZ + noiseZ * 30 + audioOffsetZ + randomOffsetZ;
-      this.particleStates[i].targetRadius = 20 + val * 100 * sensitivity;
+      // 随机偏移
+      const randomOffsetX = (Math.random() * 2 - 1) * 40 * val;
+      const randomOffsetY = (Math.random() * 2 - 1) * 40 * val;
+      const randomOffsetZ = (Math.random() * 2 - 1) * 30 * val;
       
-      const easing = 0.08;
+      // 目标位置
+      this.particleStates[i].targetX = baseX + noiseX * 70 + audioOffsetX + randomOffsetX;
+      this.particleStates[i].targetY = baseY + noiseY * 70 + audioOffsetY + randomOffsetY;
+      this.particleStates[i].targetZ = baseZ + noiseZ * 50 + audioOffsetZ + randomOffsetZ;
+      
+      // 基于音频能量的半径
+      this.particleStates[i].targetRadius = 15 + val * 120 * sensitivity;
+      
+      // 动态缓动
+      const easing = 0.08 + average * 0.05;
       this.particleStates[i].x += (this.particleStates[i].targetX - this.particleStates[i].x) * easing;
       this.particleStates[i].y += (this.particleStates[i].targetY - this.particleStates[i].y) * easing;
       this.particleStates[i].z += (this.particleStates[i].targetZ - this.particleStates[i].z) * easing;
       this.particleStates[i].radius += (this.particleStates[i].targetRadius - this.particleStates[i].radius) * easing;
       
+      // 旋转速度随音频变化
+      this.particleStates[i].rotationSpeed = (Math.random() - 0.5) * 0.1 * (1 + average);
       this.particleStates[i].rotation += this.particleStates[i].rotationSpeed;
       
-      this.particleStates[i].splitTimer += 0.01;
-      if (this.particleStates[i].splitTimer > 5 && this.particleStates[i].radius > 30) {
+      // 粒子分裂逻辑
+      this.particleStates[i].splitTimer += 0.01 * (1 + average);
+      if (this.particleStates[i].splitTimer > 4 && this.particleStates[i].radius > 35 && this.particleStates.length < 12) {
         this.particleStates[i].isSplitting = true;
         this.particleStates[i].splitTimer = 0;
         
@@ -182,10 +203,10 @@ export class ParticleManager {
         newParticle.y = this.particleStates[i].y;
         newParticle.z = this.particleStates[i].z;
         newParticle.radius = this.particleStates[i].radius / 2;
-        newParticle.targetX = this.particleStates[i].x + (Math.random() - 0.5) * 100;
-        newParticle.targetY = this.particleStates[i].y + (Math.random() - 0.5) * 100;
-        newParticle.targetZ = this.particleStates[i].z + (Math.random() - 0.5) * 80;
-        newParticle.targetRadius = 20 + Math.random() * 30;
+        newParticle.targetX = this.particleStates[i].x + (Math.random() - 0.5) * 120;
+        newParticle.targetY = this.particleStates[i].y + (Math.random() - 0.5) * 120;
+        newParticle.targetZ = this.particleStates[i].z + (Math.random() - 0.5) * 100;
+        newParticle.targetRadius = 15 + Math.random() * 35;
         newParticle.rotation = 0;
         newParticle.rotationSpeed = (Math.random() - 0.5) * 0.1;
         newParticle.splitTimer = 0;

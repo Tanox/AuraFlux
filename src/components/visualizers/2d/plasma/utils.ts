@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/utils.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/plasma/utils.ts | Version: v2.3.4
 
 /**
  * 娣峰悎涓ょ棰滆壊

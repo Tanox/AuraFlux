@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/Renderer.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/plasma/Renderer.ts | Version: v2.3.4
 
 import { ParticleState, FusionEffect } from './types';
 import { project3D } from './utils';
@@ -30,12 +30,14 @@ export class Renderer {
       const { screenX, screenY, scale } = project3D(p.x, p.y, p.z, centerX, centerY, this.focalLength);
       const screenRadius = p.radius * scale;
       
-      const colorIndex = (i + Math.floor(time * 2)) % colors.length;
+      // 动态颜色变化
+      const colorIndex = (i + Math.floor(time * 3)) % colors.length;
       const color1 = colors[colorIndex % colors.length];
       const color2 = colors[(colorIndex + 1) % colors.length];
       const color3 = colors[(colorIndex + 2) % colors.length];
       
-      const intensity = 0.5 + average * 0.5;
+      // 颜色强度随音频能量变化
+      const intensity = 0.3 + average * 0.7;
       
       ctx.save();
       
@@ -43,23 +45,34 @@ export class Renderer {
       ctx.rotate(p.rotation);
       ctx.translate(-screenX, -screenY);
       
-      const gradientSize = Math.max(width, height) * 2 * scale;
+      // 更大的渐变范围，增强视觉效果
+      const gradientSize = Math.max(width, height) * 2.5 * scale;
       const gradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, gradientSize);
+      
+      // 更丰富的颜色过渡
       gradient.addColorStop(0, color1);
-      gradient.addColorStop(0.15, color1);
+      gradient.addColorStop(0.1, color1);
       gradient.addColorStop(0.3, color2);
       gradient.addColorStop(0.5, color3);
       gradient.addColorStop(0.7, color2);
+      gradient.addColorStop(0.9, color1);
       gradient.addColorStop(1, 'transparent');
       
-      ctx.globalAlpha = 0.6 * average * intensity;
+      // 透明度随音频和粒子大小变化
+      ctx.globalAlpha = 0.5 * average * intensity * (1 + scale);
       ctx.fillStyle = gradient;
       ctx.beginPath();
       ctx.arc(screenX, screenY, gradientSize, 0, Math.PI * 2);
       ctx.fill();
       
+      // 绘制粒子尾迹
       this.drawParticleTail(ctx, p, screenX, screenY, screenRadius, scale, color1, color2, color3, average, intensity);
-      this.drawParticleCore(ctx, screenX, screenY, screenRadius, color1, color2, color3, intensity);
+      
+      // 绘制粒子核心
+      this.drawParticleCore(ctx, screenX, screenY, screenRadius, color1, color2, color3, intensity, val);
+      
+      // 绘制粒子光环效果
+      this.drawParticleAura(ctx, screenX, screenY, screenRadius, scale, color1, color2, average, intensity);
       
       ctx.restore();
     }
@@ -114,8 +127,10 @@ export class Renderer {
     color1: string,
     color2: string,
     color3: string,
-    intensity: number
+    intensity: number,
+    val: number
   ): void {
+    // 核心渐变
     ctx.globalAlpha = 1 * intensity;
     const particleGradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, screenRadius * 4);
     particleGradient.addColorStop(0, color1);
@@ -129,9 +144,48 @@ export class Renderer {
     ctx.arc(screenX, screenY, screenRadius * 4, 0, Math.PI * 2);
     ctx.fill();
     
+    // 核心圆点
     ctx.fillStyle = color1;
     ctx.beginPath();
     ctx.arc(screenX, screenY, screenRadius, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // 中心亮点
+    if (val > 0.5) {
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + (val * 0.8) + ')';
+      ctx.beginPath();
+      ctx.arc(screenX, screenY, screenRadius * 0.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  /**
+   * 缁樺埗绮掑瓙鍏冩暟鏁堟灉
+   */
+  private drawParticleAura(
+    ctx: CanvasRenderingContext2D,
+    screenX: number,
+    screenY: number,
+    screenRadius: number,
+    scale: number,
+    color1: string,
+    color2: string,
+    average: number,
+    intensity: number
+  ): void {
+    const auraSize = screenRadius * 8 * scale;
+    const auraGradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, auraSize);
+    
+    auraGradient.addColorStop(0, color1);
+    auraGradient.addColorStop(0.2, color2);
+    auraGradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.3)');
+    auraGradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.1)');
+    auraGradient.addColorStop(1, 'transparent');
+    
+    ctx.globalAlpha = 0.3 * average * intensity;
+    ctx.fillStyle = auraGradient;
+    ctx.beginPath();
+    ctx.arc(screenX, screenY, auraSize, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -151,10 +205,23 @@ export class Renderer {
       const { screenX, screenY, scale } = project3D(effect.x, effect.y, effect.z, centerX, centerY, this.focalLength);
       const screenSize = effect.size * scale;
       
-      ctx.globalAlpha = effect.alpha;
-      ctx.fillStyle = effect.color;
+      // 融合效果渐变
+      const fusionGradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, screenSize * 2);
+      fusionGradient.addColorStop(0, effect.color);
+      fusionGradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
+      fusionGradient.addColorStop(0.6, effect.color);
+      fusionGradient.addColorStop(1, 'transparent');
+      
+      ctx.globalAlpha = effect.alpha * 0.8;
+      ctx.fillStyle = fusionGradient;
       ctx.beginPath();
-      ctx.arc(screenX, screenY, screenSize, 0, Math.PI * 2);
+      ctx.arc(screenX, screenY, screenSize * 2, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // 中心亮点
+      ctx.fillStyle = 'rgba(255, 255, 255, ' + effect.alpha + ')';
+      ctx.beginPath();
+      ctx.arc(screenX, screenY, screenSize * 0.5, 0, Math.PI * 2);
       ctx.fill();
     }
   }
@@ -170,15 +237,36 @@ export class Renderer {
   ): void {
     const centerX = width / 2;
     const centerY = height / 2;
+    const time = Date.now() * 0.0005;
 
+    // 动态全屏渐变
     const fullScreenGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.max(width, height));
-    fullScreenGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
-    fullScreenGradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.2)');
-    fullScreenGradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.1)');
+    fullScreenGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+    fullScreenGradient.addColorStop(0.2, 'rgba(255, 200, 255, 0.3)');
+    fullScreenGradient.addColorStop(0.4, 'rgba(200, 200, 255, 0.2)');
+    fullScreenGradient.addColorStop(0.6, 'rgba(200, 255, 255, 0.1)');
     fullScreenGradient.addColorStop(1, 'transparent');
     
-    ctx.globalAlpha = 0.8 * average;
+    ctx.globalAlpha = 0.9 * average;
     ctx.fillStyle = fullScreenGradient;
     ctx.fillRect(0, 0, width, height);
+    
+    // 动态光斑效果
+    if (average > 0.5) {
+      for (let i = 0; i < 5; i++) {
+        const angle = time + i * Math.PI * 0.4;
+        const distance = Math.max(width, height) * 0.3 * (0.5 + Math.sin(time + i) * 0.5);
+        const glowX = centerX + Math.cos(angle) * distance;
+        const glowY = centerY + Math.sin(angle) * distance;
+        const glowSize = 100 + average * 200;
+        
+        const spotGradient = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowSize);
+        spotGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+        spotGradient.addColorStop(1, 'transparent');
+        
+        ctx.fillStyle = spotGradient;
+        ctx.fillRect(glowX - glowSize, glowY - glowSize, glowSize * 2, glowSize * 2);
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/PlasmaMode.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/plasma/PlasmaMode.ts | Version: v2.3.4
 
 import { PlasmaModeProps } from './types';
 import { ParticleManager } from './ParticleManager';

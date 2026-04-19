@@ -12,7 +12,8 @@ export enum VisualizerMode {
   PLASMA = 'PLASMA',
   BARS = 'BARS',
   STARFIELD = 'STARFIELD',
-  WAVEFORM = 'WAVEFORM'
+  WAVEFORM = 'WAVEFORM',
+  FISH_SWARM = 'FISH_SWARM'
 }
 
 export enum LyricsStyle {

@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderPlasmaMode } from './2d/plasma/PlasmaMode';
+import { renderFishSwarmMode } from './2d/plasma/FishSwarmMode';
 import { renderBarsMode } from './2d/bars/BarsMode';
 import { renderStarfieldMode } from './2d/starfield/StarfieldMode';
 import { renderTunnelMode } from './2d/tunnel/TunnelMode';
@@ -96,6 +97,11 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
         case VisualizerMode.WAVEFORM:
           renderWaveformMode({
             ctx, dataArray, dataArrayR, width, height, colors, sensitivity: settings.sensitivity
+          });
+          break;
+        case VisualizerMode.FISH_SWARM:
+          renderFishSwarmMode({
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
           });
           break;
         default:
