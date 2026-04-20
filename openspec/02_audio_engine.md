@@ -1,39 +1,50 @@
-# 闊抽寮曟搸瑙勮寖
+<!-- openspec/02_audio_engine.md v2.3.4 -->
+# 音频引擎规范
 
-## 1. 鏍稿績闊抽 Hook
+## 1. 核心音频 Hook
 
 ### 1.1 useAudio Hook
-- **鏂囦欢**: `src/hooks/useAudio.ts`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 鎻愪緵闊抽澶勭悊鍜屽垎鏋愬姛鑳?
-**鏍稿績鐘舵€?**
-- `sourceType` - 闊抽婧愮被鍨?(`'microphone' | 'file' | 'url'`)
-- `isListening` - 楹﹀厠椋庣洃鍚姸鎬?- `isPending` - 澶勭悊涓姸鎬?- `analyser` - 宸﹀０閬撳垎鏋愬櫒
-- `analyserR` - 鍙冲０閬撳垎鏋愬櫒
-- `mediaStream` - 濯掍綋娴?- `audioDevices` - 鍙敤闊抽璁惧鍒楄〃
-- `selectedDeviceId` - 褰撳墠閫夋嫨鐨勮澶?ID
-- `playlist` - 鎾斁鍒楄〃
-- `currentIndex` - 褰撳墠鎾斁绱㈠紩
-- `playbackMode` - 鎾斁妯″紡
-- `isPlaying` - 鎾斁鐘舵€?- `duration` - 闊抽鏃堕暱
-- `currentTime` - 褰撳墠鎾斁鏃堕棿
+- **文件**: `src/hooks/useAudio.ts`
+- **版本**: v2.3.4
+- **功能**: 提供音频处理和分析功能
+**核心状态**
+- `sourceType` - 音频源类型 (`'microphone' | 'file' | 'url'`)
+- `isListening` - 麦克风监听状态
+- `isPending` - 处理中状态
+- `analyser` - 左声道分析器
+- `analyserR` - 右声道分析器
+- `mediaStream` - 媒体流
+- `audioDevices` - 可用音频设备列表
+- `selectedDeviceId` - 当前选择的设备 ID
+- `playlist` - 播放列表
+- `currentIndex` - 当前播放索引
+- `playbackMode` - 播放模式
+- `isPlaying` - 播放状态
+- `duration` - 音频时长
+- `currentTime` - 当前播放时间
 
-**鏍稿績鏂规硶:**
-- `toggleMicrophone` - 鍒囨崲楹﹀厠椋庣姸鎬?- `importFiles` - 瀵煎叆闊抽鏂囦欢
-- `togglePlayback` - 鍒囨崲鎾斁鐘舵€?- `seekFile` - 璺宠浆鎾斁浣嶇疆
-- `playNext` - 鎾斁涓嬩竴棣?- `playPrev` - 鎾斁涓婁竴棣?- `playTrackByIndex` - 鎾斁鎸囧畾绱㈠紩鐨勬瓕鏇?- `removeFromPlaylist` - 浠庢挱鏀惧垪琛ㄧЩ闄ゆ瓕鏇?- `clearPlaylist` - 娓呯┖鎾斁鍒楄〃
-- `getAudioSlice` - 鑾峰彇闊抽鐗囨
-- `importFromUrl` - 浠嶶RL瀵煎叆闊抽
-- `importPlaylistFromUrl` - 浠嶶RL瀵煎叆鎾斁鍒楄〃
+**核心方法**:
+- `toggleMicrophone` - 切换麦克风状态
+- `importFiles` - 导入音频文件
+- `togglePlayback` - 切换播放状态
+- `seekFile` - 跳转播放位置
+- `playNext` - 播放下一曲
+- `playPrev` - 播放上一曲
+- `playTrackByIndex` - 播放指定索引的歌曲
+- `removeFromPlaylist` - 从播放列表中移除歌曲
+- `clearPlaylist` - 清空播放列表
+- `getAudioSlice` - 获取音频片段
+- `importFromUrl` - 从URL导入音频
+- `importPlaylistFromUrl` - 从URL导入播放列表
 
-**闊抽璁惧绠＄悊:**
-- 鑷姩鏋氫妇鍙敤闊抽杈撳叆璁惧
-- 鏀寔璁惧鍒囨崲
-- 澶勭悊楹﹀厠椋庢潈闄?
-**浠ｇ爜绀轰緥:**
+**音频设备管理**:
+- 自动检测可用音频输入设备
+- 支持设备切换
+- 处理麦克风权限
+**代码示例**:
 ```tsx
-// useAudio.ts 鏍稿績缁撴瀯
-// File: src/hooks/useAudio.ts | Version: v2.3.3
+// useAudio.ts 核心结构
+// File: src/hooks/useAudio.ts | Version: v2.3.4
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -48,394 +59,185 @@ interface UseAudioProps {
 export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: UseAudioProps) => {
   const [sourceType, setSourceType] = useState<'microphone' | 'file' | 'url'>('microphone');
   const [isListening, setIsListening] = useState(false);
-  const [isPending, setIsPending] = useState(false);
-  const [analyser, setAnalyser] = useState<AnalyserNode | null>(null);
-  const [analyserR, setAnalyserR] = useState<AnalyserNode | null>(null);
-  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
-  const [audioDevices, setAudioDevices] = useState<AudioDevice[]>([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState('');
-  const [playlist, setPlaylist] = useState<Track[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [playbackMode, setPlaybackMode] = useState<PlaybackMode>(PlaybackMode.SEQUENCE);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceNodeRef = useRef<AudioNode | null>(null);
-
-  useEffect(() => {
-    const getDevices = async () => {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const audioInputs = devices
-          .filter(d => d.kind === 'audioinput')
-          .map(d => ({ deviceId: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }));
-        setAudioDevices(audioInputs);
-      } catch (err: any) {
-        console.warn('Error getting devices:', err?.message || err);
-      }
-    };
-    getDevices();
-  }, []);
-
-  const toggleMicrophone = useCallback(async (deviceId: string) => {
-    try {
-      if (isListening) {
-        mediaStream?.getTracks().forEach(t => t.stop());
-        setIsListening(false);
-        setMediaStream(null);
-        return;
-      }
-
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: deviceId ? { deviceId: { exact: deviceId } } : true
-      });
-
-      if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      }
-
-      const ctx = audioContextRef.current;
-      const source = ctx.createMediaStreamSource(stream);
-      const ana = ctx.createAnalyser();
-      ana.fftSize = 2048;
-      source.connect(ana);
-
-      setAnalyser(ana);
-      setMediaStream(stream);
-      setIsListening(true);
-      setSourceType('microphone');
-      setSelectedDeviceId(deviceId);
-    } catch (err: any) {
-      console.warn('Microphone access skipped or denied:', err?.message || err);
-      showToast('Microphone access denied. Running in silent mode.', 'error');
-    }
-  }, [isListening, mediaStream, showToast]);
-
-  const importFiles = useCallback(async (files: FileList | File[]) => {
-    const newTracks: Track[] = Array.from(files).map(file => ({
-      id: Math.random().toString(36).slice(2),
-      file: file as File,
-      title: (file as File).name.replace(/\.[^/.]+$/, ""),
-      artist: 'Unknown Artist'
-    }));
-    setPlaylist(prev => [...prev, ...newTracks]);
-    setSourceType('file');
-    showToast(`Imported ${newTracks.length} tracks`);
-  }, [showToast]);
-
-  const togglePlayback = useCallback(() => setIsPlaying(prev => !prev), []);
-  const seekFile = useCallback((t: number) => setCurrentTime(t), []);
-  const playNext = useCallback(() => setCurrentIndex(prev => (prev + 1) % playlist.length), [playlist.length]);
-  const playPrev = useCallback(() => setCurrentIndex(prev => (prev - 1 + playlist.length) % playlist.length), [playlist.length]);
-  const playTrackByIndex = useCallback((i: number) => setCurrentIndex(i), []);
-  const removeFromPlaylist = useCallback((i: number) => setPlaylist(prev => prev.filter((_, idx) => idx !== i)), []);
-  const clearPlaylist = useCallback(() => setPlaylist([]), []);
-  
-  const getAudioSlice = useCallback(async (s?: number) => {
-      // Mock implementation for now
-      return null;
-  }, []);
-
-  return useMemo(() => ({
-    sourceType, isListening, isPending,
-    analyser, analyserR,
-    mediaStream, audioDevices,
-    selectedDeviceId, onDeviceChange: setSelectedDeviceId,
-    toggleMicrophone,
-    playlist, currentIndex, playbackMode,
-    setPlaybackMode,
-    importFiles,
-    importFromUrl: async () => ({} as any),
-    importPlaylistFromUrl: async () => [],
-    togglePlayback, seekFile,
-    playNext, playPrev,
-    playTrackByIndex, removeFromPlaylist,
-    clearPlaylist, getAudioSlice,
-    isPlaying, duration, currentTime,
-    audioContext: audioContextRef.current
-  }), [sourceType, isListening, isPending, analyser, analyserR, mediaStream, audioDevices, selectedDeviceId, setSelectedDeviceId, toggleMicrophone, playlist, currentIndex, playbackMode, setPlaybackMode, importFiles, togglePlayback, seekFile, playNext, playPrev, playTrackByIndex, removeFromPlaylist, clearPlaylist, getAudioSlice, isPlaying, duration, currentTime]);
+  // 其他状态和方法...
 };
 ```
 
-## 2. 闊抽宸ュ叿鏈嶅姟
+### 1.2 useAudioPulse Hook
+- **文件**: `src/hooks/audio/useAudioPulse.ts`
+- **版本**: v2.3.4
+- **功能**: 提供音频脉冲和节拍检测功能
+**核心功能**:
+- 音频脉冲检测
+- 节拍检测
+- 音频能量分析
+- 频率分析
 
-### 2.1 闊抽宸ュ叿 (audioUtils.ts)
-- **鏂囦欢**: `src/services/audioUtils.ts`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 鎻愪緵闊抽澶勭悊宸ュ叿鍑芥暟
+## 2. 音频工具服务
 
-**涓昏鍔熻兘:**
-- 闊抽鏍煎紡杞崲
-- 棰戣氨鍒嗘瀽宸ュ叿
-- 闊抽鏁版嵁澶勭悊
-- 鑺傛媿妫€娴?
-**鏍稿績鏂规硶:**
-- `getAverage` - 璁＄畻闊抽鏁版嵁骞冲潎鍊?- `getAudioSlice` - 鎻愬彇闊抽鍒囩墖
-- `audioBufferToWav` - 灏?AudioBuffer 杞崲涓?WAV 鏍煎紡
+### 2.1 audioUtils.ts
+- **文件**: `src/services/audioUtils.ts`
+- **版本**: v2.3.4
+- **功能**: 提供音频处理工具函数
+**核心功能**:
+- 音频格式转换
+- 音频分析工具
+- 音频可视化数据处理
+- 音频设备管理
 
-**浠ｇ爜绀轰緥:**
-```tsx
-// audioUtils.ts 鏍稿績缁撴瀯
-// File: src/services/audioUtils.ts | Version: v2.3.3
+### 2.2 麦克风管理
+- **文件**: `src/hooks/audio/microphoneManager.ts`
+- **版本**: v2.3.4
+- **功能**: 管理麦克风设备和权限
+**核心功能**:
+- 麦克风设备检测
+- 权限管理
+- 设备切换
+- 音频流处理
 
-export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
-  const startIndex = start || 0;
-  const endIndex = end || dataArray.length;
-  let sum = 0;
-  for (let i = startIndex; i < endIndex; i++) {
-    sum += dataArray[i];
-  }
-  return sum / (endIndex - startIndex);
-};
+## 3. 音频响应式系统
 
-export const getAudioSlice = async (file: File, duration: number = 10): Promise<Blob | null> => {
-  try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const arrayBuffer = await file.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+### 3.1 音频分析系统
+- **功能**: 实时分析音频数据
+- **核心组件**:
+  - `AnalyserNode` - 音频分析节点
+  - `MediaStreamAudioSourceNode` - 媒体流音频源节点
+  - `AudioContext` - 音频上下文
 
-    const offlineContext = new OfflineAudioContext(
-      audioBuffer.numberOfChannels,
-      audioContext.sampleRate * duration,
-      audioContext.sampleRate
-    );
+### 3.2 音频可视化数据
+- **功能**: 生成用于可视化的数据
+- **数据类型**:
+  - 时域数据 (波形)
+  - 频域数据 (频谱)
+  - 能量数据 (音量)
+  - 节拍数据 (节奏)
 
-    const source = offlineContext.createBufferSource();
-    source.buffer = audioBuffer;
-    source.connect(offlineContext.destination);
-    source.start(0);
+### 3.3 音频效果处理
+- **功能**: 应用音频效果
+- **支持的效果**:
+  - 均衡器
+  - 混响
+  - 延迟
+  - 压缩器
 
-    const renderedBuffer = await offlineContext.startRendering();
-    
-    // Convert AudioBuffer to WAV Blob
-    const wavBlob = audioBufferToWav(renderedBuffer);
-    return wavBlob;
-  } catch (err) {
-    console.warn('Failed to get audio slice:', err);
-    return null;
-  }
-};
+## 4. 错误处理与边界情况
 
-function audioBufferToWav(buffer: AudioBuffer): Blob {
-  const numChannels = buffer.numberOfChannels;
-  const sampleRate = buffer.sampleRate;
-  const format = 1; // PCM
-  const bitDepth = 16;
-  
-  let result: Float32Array;
-  if (numChannels === 2) {
-    const left = buffer.getChannelData(0);
-    const right = buffer.getChannelData(1);
-    result = new Float32Array(left.length * 2);
-    for (let i = 0; i < left.length; i++) {
-      result[i * 2] = left[i];
-      result[i * 2 + 1] = right[i];
-    }
-  } else {
-    result = buffer.getChannelData(0);
-  }
+### 4.1 音频设备错误
+- **错误类型**:
+  - 设备不可用
+  - 权限被拒绝
+  - 设备连接失败
+- **处理策略**:
+  - 友好的错误提示
+  - 备用设备选择
+  - 自动重试机制
 
-  const dataLength = result.length * (bitDepth / 8);
-  const bufferLength = 44 + dataLength;
-  const arrayBuffer = new ArrayBuffer(bufferLength);
-  const view = new DataView(arrayBuffer);
+### 4.2 音频文件错误
+- **错误类型**:
+  - 不支持的文件格式
+  - 文件读取失败
+  - 解码错误
+- **处理策略**:
+  - 文件类型验证
+  - 错误提示
+  - 跳过错误文件
 
-  const writeString = (view: DataView, offset: number, string: string) => {
-    for (let i = 0; i < string.length; i++) {
-      view.setUint8(offset + i, string.charCodeAt(i));
-    }
-  };
+### 4.3 网络音频错误
+- **错误类型**:
+  - 网络连接失败
+  - 资源不可用
+  - 超时
+- **处理策略**:
+  - 网络状态检查
+  - 重试机制
+  - 本地缓存
 
-  writeString(view, 0, 'RIFF');
-  view.setUint32(4, 36 + dataLength, true);
-  writeString(view, 8, 'WAVE');
-  writeString(view, 12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, format, true);
-  view.setUint16(22, numChannels, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * numChannels * (bitDepth / 8), true);
-  view.setUint16(32, numChannels * (bitDepth / 8), true);
-  view.setUint16(34, bitDepth, true);
-  writeString(view, 36, 'data');
-  view.setUint32(40, dataLength, true);
+## 5. 性能优化
 
-  const offset = 44;
-  for (let i = 0; i < result.length; i++) {
-    const s = Math.max(-1, Math.min(1, result[i]));
-    view.setInt16(offset + i * 2, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-  }
+### 5.1 音频处理优化
+- **策略**:
+  - 使用 Web Workers 处理密集计算
+  - 优化音频分析器参数
+  - 减少不必要的音频处理
 
-  return new Blob([view], { type: 'audio/wav' });
-}
-```
+### 5.2 内存管理
+- **策略**:
+  - 及时释放音频资源
+  - 避免内存泄漏
+  - 优化音频缓冲区大小
 
-## 3. 闊抽鍝嶅簲寮忕郴缁?
-### 3.1 useAudioReactive Hook
-- **鏂囦欢**: `src/hooks/useAudioReactive.ts`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 灏嗛煶棰戞暟鎹浆鎹负瑙嗚鍝嶅簲
+### 5.3 响应速度优化
+- **策略**:
+  - 减少音频处理延迟
+  - 优化设备切换速度
+  - 预加载音频资源
 
-**鏍稿績鍔熻兘:**
-- 澶勭悊闊抽棰戣氨鏁版嵁
-- 鐢熸垚瑙嗚鍝嶅簲鍊?- 鏀寔涓嶅悓棰戠巼鑼冨洿鐨勫垎鏋?- 鎻愪緵骞虫粦杩囨浮鏁堟灉
+## 6. 兼容性与跨平台
 
-**浠ｇ爜绀轰緥:**
-```tsx
-// useAudioReactive.ts 鏍稿績缁撴瀯
-// File: src/hooks/useAudioReactive.ts | Version: v2.3.3
-import { useState, useEffect, useRef } from 'react';
+### 6.1 浏览器兼容性
+- **支持的浏览器**:
+  - Chrome (最新版本)
+  - Firefox (最新版本)
+  - Safari (最新版本)
+  - Edge (最新版本)
+- **兼容性处理**:
+  - 特性检测
+  - 降级方案
+  -  polyfill
 
-export const useAudioReactive = (analyser: AnalyserNode | null, sensitivity: number = 1.0) => {
-  const [audioData, setAudioData] = useState<Uint8Array | null>(null);
-  const [smoothedData, setSmoothedData] = useState<number[]>([]);
-  const [bass, setBass] = useState(0);
-  const [mid, setMid] = useState(0);
-  const [treble, setTreble] = useState(0);
-  const animationFrameRef = useRef<number>();
+### 6.2 跨平台支持
+- **支持的平台**:
+  - 桌面端
+  - 移动端
+  - PWA
+- **平台特定处理**:
+  - 移动设备音频处理
+  - PWA 音频限制
+  - 平台特定 API 调用
 
-  useEffect(() => {
-    if (!analyser) return;
+## 7. 测试与验证
 
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    const smoothData = Array(bufferLength).fill(0);
+### 7.1 音频功能测试
+- **测试类型**:
+  - 单元测试
+  - 集成测试
+  - 端到端测试
+- **测试工具**:
+  - Jest
+  - Playwright
+  - 自定义音频测试工具
 
-    const update = () => {
-      analyser.getByteFrequencyData(dataArray);
-      
-      // Calculate frequency ranges
-      const bassRange = Math.floor(bufferLength * 0.1);
-      const midRange = Math.floor(bufferLength * 0.3);
-      
-      let bassSum = 0;
-      let midSum = 0;
-      let trebleSum = 0;
+### 7.2 性能测试
+- **测试指标**:
+  - 音频处理延迟
+  - CPU 使用率
+  - 内存使用
+  - 电池消耗
 
-      for (let i = 0; i < bassRange; i++) {
-        bassSum += dataArray[i];
-      }
-      
-      for (let i = bassRange; i < midRange; i++) {
-        midSum += dataArray[i];
-      }
-      
-      for (let i = midRange; i < bufferLength; i++) {
-        trebleSum += dataArray[i];
-      }
+### 7.3 兼容性测试
+- **测试场景**:
+  - 不同浏览器
+  - 不同设备
+  - 不同网络条件
 
-      // Smooth the data
-      for (let i = 0; i < bufferLength; i++) {
-        smoothData[i] = smoothData[i] * 0.8 + dataArray[i] * 0.2;
-      }
+## 8. 未来发展
 
-      setAudioData(dataArray);
-      setSmoothedData(smoothData);
-      setBass((bassSum / bassRange) / 255 * sensitivity);
-      setMid((midSum / (midRange - bassRange)) / 255 * sensitivity);
-      setTreble((trebleSum / (bufferLength - midRange)) / 255 * sensitivity);
+### 8.1 计划功能
+- **音频增强**:
+  - 高级音频效果
+  - 音频合成
+  - 语音识别
+- **交互增强**:
+  - 音频可视化自定义
+  - 音频控制手势
+  - 音频分享
 
-      animationFrameRef.current = requestAnimationFrame(update);
-    };
-
-    update();
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [analyser, sensitivity]);
-
-  return {
-    audioData,
-    smoothedData,
-    bass,
-    mid,
-    treble
-  };
-};
-```
-
-### 3.2 useAudioPulse Hook
-- **鏂囦欢**: `src/hooks/useAudioPulse.ts`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 妫€娴嬮煶棰戣剦鍐插拰鑺傛媿
-
-**鏍稿績鍔熻兘:**
-- 鍒嗘瀽闊抽鑳介噺鍙樺寲
-- 妫€娴嬭妭鎷嶅拰鑴夊啿
-- 鐢熸垚鑴夊啿瑙﹀彂浜嬩欢
-
-**浠ｇ爜绀轰緥:**
-```tsx
-// useAudioPulse.ts 鏍稿績缁撴瀯
-// File: src/hooks/useAudioPulse.ts | Version: v2.3.3
-import { useState, useEffect, useRef, useCallback } from 'react';
-
-export const useAudioPulse = (analyser: AnalyserNode | null, threshold: number = 0.5) => {
-  const [isPulse, setIsPulse] = useState(false);
-  const [pulseStrength, setPulseStrength] = useState(0);
-  const energyRef = useRef(0);
-  const lastPulseRef = useRef(0);
-  const pulseCooldownRef = useRef(0);
-  const animationFrameRef = useRef<number>();
-
-  const resetPulse = useCallback(() => {
-    setIsPulse(false);
-  }, []);
-
-  useEffect(() => {
-    if (!analyser) return;
-
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    const update = () => {
-      analyser.getByteFrequencyData(dataArray);
-
-      // Calculate total energy
-      let totalEnergy = 0;
-      for (let i = 0; i < bufferLength; i++) {
-        totalEnergy += dataArray[i];
-      }
-      const averageEnergy = totalEnergy / bufferLength / 255;
-
-      // Calculate energy change
-      const energyChange = averageEnergy - energyRef.current;
-      energyRef.current = averageEnergy * 0.8 + energyRef.current * 0.2;
-
-      // Check for pulse
-      const now = Date.now();
-      if (pulseCooldownRef.current < now) {
-        if (energyChange > threshold) {
-          setIsPulse(true);
-          setPulseStrength(energyChange);
-          lastPulseRef.current = now;
-          pulseCooldownRef.current = now + 200; // 200ms cooldown
-
-          // Reset pulse after 100ms
-          setTimeout(resetPulse, 100);
-        }
-      }
-
-      animationFrameRef.current = requestAnimationFrame(update);
-    };
-
-    update();
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [analyser, threshold, resetPulse]);
-
-  return {
-    isPulse,
-    pulseStrength
-  };
-};
-```
+### 8.2 技术改进
+- **性能优化**:
+  - 使用 WebAssembly 加速音频处理
+  - 优化音频分析算法
+  - 改进音频设备管理
+- **架构改进**:
+  - 模块化音频处理
+  - 可扩展的音频效果系统
+  - 更好的错误处理机制

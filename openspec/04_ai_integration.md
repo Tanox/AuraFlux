@@ -1,42 +1,50 @@
-# AI 闆嗘垚绯荤粺瑙勮寖
+<!-- openspec/04_ai_integration.md v2.3.4 -->
+# AI 集成系统规范
 
-## 1. AI 鏈嶅姟妯″潡
+## 1. AI 服务模块
 
 ### 1.1 aiService.ts
-- **鏂囦欢**: `src/services/aiService.ts`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 鎻愪緵 Google Gemini AI 鏈嶅姟闆嗘垚
+- **文件**: `src/services/aiService.ts`
+- **版本**: v2.3.4
+- **功能**: 提供 Google Gemini AI 服务集成
 
-**鏍稿績鍔熻兘:**
-- AI 鏈嶅姟鍙敤鎬ф鏌?- 闊抽鍒嗘瀽涓庤瑙夐厤缃敓鎴?- 鑹烘湳鑳屾櫙鐢熸垚
-- 姝屾洸璇嗗埆
+**核心功能**:
+- AI 服务可用性检查
+- 音频分析与视觉配置生成
+- 艺术背景生成
+- 歌曲识别
 
-**鏍稿績鏂规硶:**
-- `isAiServiceAvailable` - 妫€鏌?AI 鏈嶅姟鏄惁鍙敤
-- `checkAiServiceAvailability` - 妫€鏌?AI 鏈嶅姟鍙敤鎬у苟澶勭悊閿欒
-- `getAiService` - 鑾峰彇 AI 鏈嶅姟瀹炰緥
-- `generateVisualConfigFromAudio` - 浠庨煶棰戠敓鎴愯瑙夐厤缃?- `generateArtisticBackground` - 鐢熸垚鑹烘湳鑳屾櫙
-- `identifySong` - 璇嗗埆姝屾洸
+**核心方法**:
+- `isAiServiceAvailable` - 检查 AI 服务是否可用
+- `checkAiServiceAvailability` - 检查 AI 服务可用性并处理错误
+- `getAiService` - 获取 AI 服务实例
+- `generateVisualConfigFromAudio` - 从音频生成视觉配置
+- `generateArtisticBackground` - 生成艺术背景
+- `identifySong` - 识别歌曲
 
-**AI 妯″瀷浣跨敤:**
-- `gemini-3-flash-preview` - 鐢ㄤ簬闊抽鍒嗘瀽鍜屾瓕鏇茶瘑鍒?- `gemini-2.5-flash-image` - 鐢ㄤ簬鐢熸垚鑹烘湳鑳屾櫙
+**AI 模型使用**:
+- `gemini-3-flash-preview` - 用于音频分析和歌曲识别
+- `gemini-2.5-flash-image` - 用于生成艺术背景
 
-**API 瀵嗛挜绠＄悊:**
-- 浣跨敤 `process.env.GEMINI_API_KEY` (鏈嶅姟鍣ㄧ)
-- 閫氳繃 API 璺敱浠ｇ悊鎵€鏈夎姹?- 涓ユ牸鐨勫瘑閽ラ獙璇佸拰閿欒澶勭悊
+**API 密钥管理**:
+- 使用 `process.env.GEMINI_API_KEY` (服务端)
+- 通过 API 代理处理所有请求
+- 统一的密钥验证和错误处理
 
-**浠ｇ爜绀轰緥:**
+**代码示例**:
 ```tsx
-// aiService.ts 鏍稿績缁撴瀯
-// File: src/services/aiService.ts | Version: v2.3.3
+// aiService.ts 核心结构
+// File: src/services/aiService.ts | Version: v2.3.4
 import { GoogleGenAI } from '@google/genai';
 import { en } from '@/locales/en';
 
 let aiInstance: GoogleGenAI | null = null;
 
 /**
- * 灏咮lob瀵硅薄杞崲涓築ase64瀛楃涓? * @param {Blob} blob - 瑕佽浆鎹㈢殑Blob瀵硅薄
- * @returns {Promise<string>} Base64瀛楃涓? */
+ * 将Blob对象转换为base64字符串
+ * @param {Blob} blob - 要转换的Blob对象
+ * @returns {Promise<string>} Base64字符串
+ */
 const blobToBase64 = async (blob: Blob): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
@@ -50,468 +58,218 @@ const blobToBase64 = async (blob: Blob): Promise<string> => {
 };
 
 /**
- * 妫€鏌I鏈嶅姟鏄惁鍙敤
- * @returns {boolean} 濡傛灉API瀵嗛挜宸查厤缃笖鏈夋晥鍒欒繑鍥瀟rue
+ * 检查AI服务是否可用
+ * @returns {boolean} AI服务是否可用
  */
 export const isAiServiceAvailable = (): boolean => {
-  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-  return Boolean(apiKey && apiKey.length > 0 && !apiKey.startsWith('demo'));
+  return process.env.GEMINI_API_KEY !== undefined && process.env.GEMINI_API_KEY !== '';
 };
 
 /**
- * 妫€鏌I鏈嶅姟鏄惁鍙敤锛屽鏋滀笉鍙敤鍒欒皟鐢ㄩ敊璇洖璋? * @param {Function} onError - 閿欒鍥炶皟鍑芥暟
- * @param {string} customMessage - 鑷畾涔夐敊璇秷鎭紙鍙€夛級
- * @returns {boolean} 濡傛灉AI鏈嶅姟鍙敤鍒欒繑鍥瀟rue
+ * 检查AI服务可用性并处理错误
+ * @returns {Object} 包含可用性和错误信息的对象
  */
-export const checkAiServiceAvailability = (onError?: (message: string) => void, customMessage?: string): boolean => {
+export const checkAiServiceAvailability = (): { available: boolean; error?: string } => {
   if (!isAiServiceAvailable()) {
-    const errorMsg = customMessage || en.toasts.aiDirectorReq || 'Gemini API Key required for AI features.';
-    if (onError) {
-      onError(errorMsg);
-    }
-    return false;
+    return { available: false, error: en.ai.noApiKey };
   }
-  return true;
+  return { available: true };
 };
 
-export const getAiService = () => {
+/**
+ * 获取AI服务实例
+ * @returns {GoogleGenAI | null} AI服务实例
+ */
+export const getAiService = (): GoogleGenAI | null => {
+  if (!isAiServiceAvailable()) {
+    return null;
+  }
   if (!aiInstance) {
-    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-    if (apiKey && apiKey.length > 0 && !apiKey.startsWith('demo')) {
-      aiInstance = new GoogleGenAI({ apiKey });
-    }
+    aiInstance = new GoogleGenAI(process.env.GEMINI_API_KEY!);
   }
   return aiInstance;
 };
 
-export const generateVisualConfigFromAudio = async (audioInput: Blob | string): Promise<any> => {
-  const ai = getAiService();
-  if (!ai) return null;
-
-  try {
-    let base64Audio = '';
-    if (typeof audioInput === 'string') {
-      base64Audio = audioInput;
-    } else {
-      base64Audio = await blobToBase64(audioInput);
-    }
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: {
-        parts: [
-          {
-            inlineData: {
-              mimeType: 'audio/wav',
-              data: base64Audio
-            }
-          },
-          {
-            text: 'Analyze this audio and suggest a visualizer configuration. Return ONLY a JSON object with "mode" (one of DIGITAL_GRID, SILK_WAVE, OCEAN_WAVE, NEURAL_FLOW, CUBE_FIELD, KINETIC_WALL, LASERS), "colors" (array of 3 hex codes), and "sensitivity" (number between 0.5 and 2.0).'
-          }
-        ]
-      },
-      config: {
-        responseMimeType: 'application/json'
-      }
-    });
-
-    if (response.text) {
-      return JSON.parse(response.text);
-    }
-    return null;
-  } catch (err: any) {
-    console.warn('AI Visual Config error:', err?.message || err);
-    return null;
-  }
-};
-
-export const generateArtisticBackground = async (prompt: string): Promise<string | null> => {
-  const ai = getAiService();
-  if (!ai) return null;
-
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
-      contents: prompt,
-      config: {
-        imageConfig: {
-          aspectRatio: "16:9",
-          imageSize: "1K"
-        }
-      }
-    });
-
-    for (const part of response.candidates?.[0]?.content?.parts || []) {
-      if (part.inlineData) {
-        return `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-      }
-    }
-    return null;
-  } catch (err: any) {
-    console.warn('AI Background Generation error:', err?.message || err);
-    return null;
-  }
-};
-
-export const identifySong = async (audioBlob: Blob): Promise<any> => {
-  const ai = getAiService();
-  if (!ai) return null;
-
-  try {
-    const base64Audio = await blobToBase64(audioBlob);
-
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: {
-        parts: [
-          {
-            inlineData: {
-              mimeType: 'audio/wav',
-              data: base64Audio
-            }
-          },
-          {
-            text: 'Identify this song. Return ONLY a JSON object with "title", "artist", and "album" fields.'
-          }
-        ]
-      },
-      config: {
-        responseMimeType: 'application/json'
-      }
-    });
-
-    if (response.text) {
-      return JSON.parse(response.text);
-    }
-    return null;
-  } catch (err: any) {
-    console.warn('AI Identification error:', err?.message || err);
-    return null;
-  }
-};
+// 其他方法...
 ```
 
-## 2. AI 鐘舵€佺鐞?
+## 2. AI 状态管理
+
 ### 2.1 useAiState Hook
-- **鏂囦欢**: `src/hooks/useAiState.ts`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 绠＄悊 AI 鐩稿叧鐘舵€?
-**鏍稿績鐘舵€?**
-- `lyricsStyle` - 姝岃瘝鏍峰紡 (榛樿: `LyricsStyle.STANDARD`)
-- `showLyrics` - 姝岃瘝鏄剧ず鐘舵€?(榛樿: `false`)
-- `enableAnalysis` - 鍚敤鍒嗘瀽鐘舵€?(榛樿: `true`)
-- `isIdentifying` - 姝ｅ湪璇嗗埆鐘舵€?(榛樿: `false`)
+- **文件**: `src/hooks/state/useAiState.ts`
+- **版本**: v2.3.4
+- **功能**: 管理 AI 相关状态
+**核心状态**:
+- `showLyrics` - 是否显示歌词
+- `lyricsStyle` - 歌词样式
+- `aiBackground` - AI 背景状态
+- `aiServiceAvailable` - AI 服务可用性
+- `isProcessing` - 是否正在处理
 
-**鏍稿績鏂规硶:**
-- `performIdentification(stream: MediaStream)` - 鎵ц姝屾洸璇嗗埆
-- `resetAiSettings()` - 閲嶇疆 AI 璁剧疆
+**核心方法**:
+- `performIdentification` - 执行歌曲识别
+- `generateAiBackground` - 生成 AI 背景
+- `toggleLyrics` - 切换歌词显示
+- `updateLyricsStyle` - 更新歌词样式
 
-**鍙傛暟璇存槑:**
-- `language` - 褰撳墠璇█
-- `region` - 褰撳墠鍖哄煙
-- `provider` - AI 鏈嶅姟鎻愪緵鍟?(GEMINI 鎴?MOCK)
-- `isListening` - 鏄惁姝ｅ湪鐩戝惉
-- `isSimulating` - 鏄惁浣跨敤妯℃嫙妯″紡
-- `mediaStream` - 濯掍綋娴?- `initialSettings` - 鍒濆璁剧疆
-- `setSettings` - 璁剧疆鏇存柊鍑芥暟
-- `onSongIdentified` - 姝屾洸璇嗗埆瀹屾垚鍥炶皟
-- `currentSong` - 褰撳墠姝屾洸淇℃伅
-- `getAudioSlice` - 鑾峰彇闊抽鐗囨鐨勫嚱鏁?- `t` - 缈昏瘧鍑芥暟
-- `showToast` - 鏄剧ず鎻愮ず鐨勫嚱鏁?
-**浠ｇ爜绀轰緥:**
-```tsx
-// useAiState.ts 鏍稿績缁撴瀯
-// File: src/hooks/useAiState.ts | Version: v2.3.3
-import { useState, useCallback, useMemo } from 'react';
-import { LyricsStyle, SongInfo } from '../types';
+### 2.2 AppContext 中的 AI 状态
+- **文件**: `src/context/AppContext.tsx`
+- **版本**: v2.3.4
+- **功能**: 在全局状态中管理 AI 状态
+**核心功能**:
+- 提供 AI 状态和方法
+- 集成 AI 服务
+- 处理 AI 相关错误
 
-interface UseAiStateProps {
-  language: string;
-  region: string;
-  provider: string;
-  isListening: boolean;
-  isSimulating: boolean;
-  mediaStream: MediaStream | null;
-  initialSettings: any;
-  setSettings: any;
-  onSongIdentified: (s: SongInfo | null) => void;
-  currentSong: SongInfo | null;
-  getAudioSlice: (s?: number) => Promise<Blob | null>;
-  t: any;
-  showToast: (m: string, type?: any) => void;
-}
+## 3. AI 集成背景
 
-export const useAiState = ({ language, region, provider, isListening, isSimulating, mediaStream, initialSettings, setSettings, onSongIdentified, currentSong, getAudioSlice, t, showToast }: UseAiStateProps) => {
-  const [lyricsStyle, setLyricsStyle] = useState<LyricsStyle>(LyricsStyle.STANDARD);
-  const [showLyrics, setShowLyrics] = useState(false);
-  const [enableAnalysis, setEnableAnalysis] = useState(true);
-  const [isIdentifying, setIsIdentifying] = useState(false);
+### 3.1 AI 背景生成
+- **功能**: 基于音频生成艺术背景
+- **技术实现**:
+  - 使用 Gemini 2.5 Flash 模型
+  - 分析音频特征
+  - 生成与音频匹配的视觉效果
+  - 动态更新背景
 
-  const performIdentification = useCallback(async (stream: MediaStream) => {
-    if (isIdentifying) return;
-    setIsIdentifying(true);
-    showToast(t?.ai?.identifying || 'Identifying song...');
-    
-    try {
-      // Mock identification for now
-      setTimeout(() => {
-        setIsIdentifying(false);
-        showToast(t?.ai?.identified || 'Song identified!');
-      }, 2000);
-    } catch (err) {
-      setIsIdentifying(false);
-      showToast('Identification failed', 'error');
-    }
-  }, [isIdentifying, showToast, t]);
+### 3.2 歌曲识别
+- **功能**: 识别正在播放的歌曲
+- **技术实现**:
+  - 录制音频片段
+  - 发送到 Gemini API
+  - 解析识别结果
+  - 显示歌曲信息和歌词
 
-  const resetAiSettings = useCallback(() => {
-    setShowLyrics(false);
-    setEnableAnalysis(true);
-  }, []);
+### 3.3 音频到视觉的转换
+- **功能**: 将音频特征转换为视觉配置
+- **技术实现**:
+  - 分析音频频谱
+  - 提取音频特征
+  - 生成匹配的视觉参数
+  - 应用到可视化系统
 
-  return useMemo(() => ({
-    lyricsStyle, showLyrics, setShowLyrics,
-    enableAnalysis, setEnableAnalysis,
-    isIdentifying,
-    performIdentification,
-    resetAiSettings
-  }), [lyricsStyle, showLyrics, setShowLyrics, enableAnalysis, setEnableAnalysis, isIdentifying, performIdentification, resetAiSettings]);
-};
-```
+## 4. 错误处理与边界情况
 
-## 3. AI 闆嗘垚鍦烘櫙
+### 4.1 API 错误
+- **错误类型**:
+  - API 密钥无效
+  - API 调用失败
+  - 速率限制
+  - 网络错误
+- **处理策略**:
+  - 友好的错误提示
+  - 自动重试机制
+  - 降级方案
 
-### 3.1 AI 鑳屾櫙鐢熸垚
-- **缁勪欢**: `AiBackground.tsx`
-- **鏂囦欢**: `src/components/visualizers/AiBackground.tsx`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 鍩轰簬闊充箰鎯呯华鐢熸垚鑹烘湳鑳屾櫙
+### 4.2 处理延迟
+- **边界情况**:
+  - AI 处理时间长
+  - 网络延迟
+  - 复杂音频分析
+- **处理策略**:
+  - 加载状态
+  - 进度指示
+  - 超时处理
 
-**宸ヤ綔娴佺▼:**
-1. 鍒嗘瀽闊抽鏁版嵁
-2. 鐢熸垚鎻忚堪闊充箰鎯呯华鐨勬彁绀鸿瘝
-3. 璋冪敤 Gemini 2.5 Flash Image 鐢熸垚鑳屾櫙
-4. 搴旂敤鐢熸垚鐨勮儗鏅埌鍙鍖栧満鏅?
-**浠ｇ爜绀轰緥:**
-```tsx
-// AiBackground.tsx 鏍稿績缁撴瀯
-// File: src/components/visualizers/AiBackground.tsx | Version: v2.3.3
-import React, { useState, useEffect, useCallback } from 'react';
-import { generateArtisticBackground } from '@/services/aiService';
-import { useAudioContext } from '@/context/AppContext';
+### 4.3 资源限制
+- **边界情况**:
+  - 音频文件过大
+  - 处理频率过高
+  - 模型限制
+- **处理策略**:
+  - 文件大小限制
+  - 请求节流
+  - 资源管理
 
-interface AiBackgroundProps {
-  analyser: AnalyserNode | null;
-  isVisible: boolean;
-}
+## 5. 性能优化
 
-export const AiBackground: React.FC<AiBackgroundProps> = ({ analyser, isVisible }) => {
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const { isListening } = useAudioContext();
+### 5.1  API 调用优化
+- **策略**:
+  - 批量请求
+  - 缓存结果
+  - 优化请求参数
+  - 减少不必要的调用
 
-  const generateBackground = useCallback(async () => {
-    if (!isVisible || !isListening || isGenerating) return;
-    
-    setIsGenerating(true);
-    
-    try {
-      // Analyze audio to generate prompt
-      const prompt = 'Create a beautiful abstract background that matches the mood of electronic music with dynamic beats and energetic rhythms. Use vibrant colors and flowing patterns.';
-      
-      const image = await generateArtisticBackground(prompt);
-      if (image) {
-        setBackgroundImage(image);
-      }
-    } catch (error) {
-      console.warn('Failed to generate background:', error);
-    } finally {
-      setIsGenerating(false);
-    }
-  }, [isVisible, isListening, isGenerating]);
+### 5.2 处理优化
+- **策略**:
+  - 后台处理
+  - 优先级队列
+  - 并行处理
+  - 资源池
 
-  useEffect(() => {
-    if (isVisible && isListening) {
-      const timer = setTimeout(generateBackground, 3000); // Generate after 3 seconds of listening
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible, isListening, generateBackground]);
+### 5.3 缓存策略
+- **策略**:
+  - 本地缓存
+  - 会话缓存
+  - 结果缓存
+  - 预加载
 
-  if (!isVisible) return null;
+## 6. 兼容性与跨平台
 
-  return (
-    <div 
-      id="ai-background" 
-      className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${isGenerating ? 'opacity-50' : 'opacity-100'}`}
-      style={{
-        backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        zIndex: -1
-      }}
-    />
-  );
-};
-```
+### 6.1 浏览器兼容性
+- **支持的浏览器**:
+  - Chrome (最新版本)
+  - Firefox (最新版本)
+  - Safari (最新版本)
+  - Edge (最新版本)
+- **兼容性处理**:
+  - 特性检测
+  - 降级方案
+  - polyfill
 
-### 3.2 AI 瑙嗚瀵兼紨
-- **缁勪欢**: `AiVisualDirector.tsx`
-- **鏂囦欢**: `src/components/visualizers/AiVisualDirector.tsx`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 鍩轰簬闊抽鍒嗘瀽鑷姩閰嶇疆瑙嗚鏁堟灉
+### 6.2 跨平台支持
+- **支持的平台**:
+  - 桌面端
+  - 移动端
+  - PWA
+- **平台特定处理**:
+  - 移动设备限制
+  - PWA 限制
+  - 平台特定 API 调用
 
-**宸ヤ綔娴佺▼:**
-1. 鍒嗘瀽闊抽棰戣氨鍜屾儏缁?2. 鐢熸垚閫傚悎鐨勮瑙夋ā寮忛厤缃?3. 鑷姩搴旂敤鍒板彲瑙嗗寲绯荤粺
-4. 瀹炴椂璋冩暣瑙嗚鍙傛暟
+## 7. 测试与验证
 
-**浠ｇ爜绀轰緥:**
-```tsx
-// AiVisualDirector.tsx 鏍稿績缁撴瀯
-// File: src/components/visualizers/AiVisualDirector.tsx | Version: v2.3.3
-import React, { useEffect, useCallback } from 'react';
-import { generateVisualConfigFromAudio } from '@/services/aiService';
-import { useVisuals } from '@/context/AppContext';
-import { VisualizerMode } from '@/types';
+### 7.1 AI 功能测试
+- **测试类型**:
+  - 单元测试
+  - 集成测试
+  - 端到端测试
+- **测试工具**:
+  - Jest
+  - Playwright
+  - 自定义 AI 测试工具
 
-interface AiVisualDirectorProps {
-  analyser: AnalyserNode | null;
-  isEnabled: boolean;
-  getAudioSlice: () => Promise<Blob | null>;
-}
+### 7.2 性能测试
+- **测试指标**:
+  - API 响应时间
+  - 处理时间
+  - 内存使用
+  - 电池消耗
 
-export const AiVisualDirector: React.FC<AiVisualDirectorProps> = ({ analyser, isEnabled, getAudioSlice }) => {
-  const { setMode, setColorTheme, setSettings } = useVisuals();
+### 7.3 兼容性测试
+- **测试场景**:
+  - 不同浏览器
+  - 不同设备
+  - 不同网络条件
 
-  const analyzeAndConfigure = useCallback(async () => {
-    if (!isEnabled || !analyser) return;
+## 8. 未来发展
 
-    try {
-      const audioSlice = await getAudioSlice();
-      if (!audioSlice) return;
+### 8.1 计划功能
+- **AI 增强**:
+  - 更高级的音频分析
+  - 个性化推荐
+  - 实时风格转换
+  - 情感分析
+- **交互增强**:
+  - AI 辅助创作
+  - 语音控制
+  - 智能场景生成
 
-      const config = await generateVisualConfigFromAudio(audioSlice);
-      if (config) {
-        // Apply the generated configuration
-        if (config.mode && Object.values(VisualizerMode).includes(config.mode as VisualizerMode)) {
-          setMode(config.mode as VisualizerMode);
-        }
-        if (config.colors && Array.isArray(config.colors) && config.colors.length === 3) {
-          setColorTheme(config.colors);
-        }
-        if (config.sensitivity) {
-          setSettings(prev => ({ ...prev, sensitivity: config.sensitivity }));
-        }
-      }
-    } catch (error) {
-      console.warn('AI Visual Director error:', error);
-    }
-  }, [isEnabled, analyser, getAudioSlice, setMode, setColorTheme, setSettings]);
-
-  useEffect(() => {
-    if (isEnabled && analyser) {
-      // Initial analysis
-      analyzeAndConfigure();
-      
-      // Schedule periodic analysis every 30 seconds
-      const interval = setInterval(analyzeAndConfigure, 30000);
-      return () => clearInterval(interval);
-    }
-  }, [isEnabled, analyser, analyzeAndConfigure]);
-
-  return null; // This component doesn't render anything
-};
-```
-
-### 3.3 姝屾洸璇嗗埆
-- **缁勪欢**: `SongIdentification.tsx`
-- **鏂囦欢**: `src/components/visualizers/SongIdentification.tsx`
-- **鐗堟湰**: v2.3.2
-- **鍔熻兘**: 璇嗗埆姝ｅ湪鎾斁鐨勬瓕鏇?
-**宸ヤ綔娴佺▼:**
-1. 鎹曡幏闊抽鐗囨
-2. 鍙戦€佸埌 Gemini 3.0 Flash 杩涜鍒嗘瀽
-3. 瑙ｆ瀽璇嗗埆缁撴灉
-4. 鏄剧ず姝屾洸淇℃伅鍜屼笓杈戝皝闈?
-**浠ｇ爜绀轰緥:**
-```tsx
-// SongIdentification.tsx 鏍稿績缁撴瀯
-// File: src/components/visualizers/SongIdentification.tsx | Version: v2.3.3
-import React, { useState, useCallback } from 'react';
-import { identifySong } from '@/services/aiService';
-import { useAI, useAudioContext } from '@/context/AppContext';
-
-interface SongIdentificationProps {
-  isVisible: boolean;
-  onClose: () => void;
-}
-
-export const SongIdentification: React.FC<SongIdentificationProps> = ({ isVisible, onClose }) => {
-  const { isIdentifying, performIdentification } = useAI();
-  const { mediaStream } = useAudioContext();
-  const [songInfo, setSongInfo] = useState<any>(null);
-
-  const handleIdentify = useCallback(async () => {
-    if (mediaStream) {
-      await performIdentification(mediaStream);
-    }
-  }, [mediaStream, performIdentification]);
-
-  // Mock implementation for demo purposes
-  const mockIdentify = useCallback(async () => {
-    setSongInfo({
-      title: 'Blinding Lights',
-      artist: 'The Weeknd',
-      album: 'After Hours',
-      artwork: 'https://example.com/artwork.jpg'
-    });
-  }, []);
-
-  if (!isVisible) return null;
-
-  return (
-    <div 
-      id="song-identification" 
-      className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
-    >
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 max-w-md w-full text-white">
-        <h2 className="text-2xl font-bold mb-4 text-center">Song Identification</h2>
-        
-        {songInfo ? (
-          <div className="text-center">
-            {songInfo.artwork && (
-              <img 
-                src={songInfo.artwork} 
-                alt={`${songInfo.title} album art`} 
-                className="w-40 h-40 rounded-lg mx-auto mb-4"
-              />
-            )}
-            <h3 className="text-xl font-bold">{songInfo.title}</h3>
-            <p className="text-gray-300">{songInfo.artist}</p>
-            {songInfo.album && (
-              <p className="text-gray-400 text-sm">{songInfo.album}</p>
-            )}
-            <button 
-              onClick={onClose} 
-              className="mt-6 px-6 py-2 bg-blue-500 rounded-full hover:bg-blue-600 transition-colors"
-            >
-              Close
-            </button>
-          </div>
-        ) : (
-          <div className="text-center">
-            <p className="mb-6">Click the button below to identify the currently playing song.</p>
-            <button 
-              onClick={mockIdentify} 
-              disabled={isIdentifying}
-              className="px-8 py-3 bg-blue-500 rounded-full hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isIdentifying ? 'Identifying...' : 'Identify Song'}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-```
+### 8.2 技术改进
+- **性能优化**:
+  - 模型优化
+  - 边缘计算
+  - 本地处理
+- **架构改进**:
+  - 模块化 AI 系统
+  - 可扩展的 AI 服务
+  - 更好的错误处理机制

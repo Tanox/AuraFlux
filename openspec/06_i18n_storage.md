@@ -1,9 +1,9 @@
-<!-- openspec/06_i18n_storage.md v2.3.2 -->
+<!-- openspec/06_i18n_storage.md v2.3.4 -->
 # 国际化与存储系统规范
 
 ## 版本信息
-- **版本**: v2.3.2
-- **更新日期**: 2026-04-08
+- **版本**: v2.3.4
+- **更新日期**: 2026-04-20
 - **作者**: Sut
 
 ## 1. 国际化(i18n) 系统
@@ -47,7 +47,7 @@
 **代码示例:**
 ```tsx
 // locales/index.ts 核心结构
-// File: src/locales/index.ts | Version: v2.3.3
+// File: src/locales/index.ts | Version: v2.3.4
 import en from './en';
 import zhCN from './zh-CN';
 import zhTW from './zh-TW';
@@ -142,7 +142,7 @@ export const availableRegions = [
 **代码示例:**
 ```tsx
 // useLocalStorage.ts 核心结构
-// File: src/hooks/useLocalStorage.ts | Version: v2.3.3
+// File: src/hooks/useLocalStorage.ts | Version: v2.3.4
 import { useState, useEffect } from 'react';
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
