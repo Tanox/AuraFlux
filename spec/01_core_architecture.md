@@ -1,37 +1,46 @@
 <!-- openspec/01_core_architecture.md v2.3.4 -->
-# 鏍稿績鏋舵瀯瑙勮寖
+# 核心架构规范
 
-## 1. 搴旂敤鍏ュ彛缁撴瀯
+## 1. 应用入口结构
 
-### 1.1 涓诲簲鐢ㄧ粍浠?(App.tsx)
-- **鏂囦欢**: `src/components/App.tsx`
-- **鐗堟湰**: v2.3.4
-- **鍔熻兘**: 搴旂敤鐨勯《灞傚叆鍙ｇ粍浠?
-**鏍稿績鐗规€?**
-- 鏀寔瀹㈡埛绔覆鏌?(`'use client'`)
-- 浣跨敤 `AppProvider` 鎻愪緵鍏ㄥ眬鐘舵€佺鐞?- 瀹炵幇鎳掑姞杞藉拰 `Suspense` 浼樺寲
-- 鍖呭惈娆㈣繋灞忓箷鍜屽紩瀵艰鐩栧眰
-- 鏀寔鏂囦欢鎷栨斁瀵煎叆
-- 鍝嶅簲寮忎富棰樺垏鎹?- 鐗堟湰妫€鏌ュ拰鏇存柊鎻愮ず
-- 鍞ら啋閿佺鐞?
-**涓昏缁勪欢:**
-- `WelcomeScreen` - 鍒濆娆㈣繋鐣岄潰
-- `OnboardingOverlay` - 棣栨浣跨敤寮曞
-- `HelpModal` - 甯姪妯℃€佹
-- `SongOverlay` - 姝屾洸淇℃伅瑕嗙洊灞?- `LyricsOverlay` - 姝岃瘝鏄剧ず瑕嗙洊灞?- `CustomTextOverlay` - 鑷畾涔夋枃鏈鐩栧眰
-- `FPSCounter` - 甯х巼璁℃暟鍣?- `VisualizerCanvas` - 2D 鍙鍖栫敾甯?- `ThreeVisualizer` - 3D 鍙鍖栧満鏅?- `Controls` - 鎺у埗鐣岄潰
+### 1.1 主应用组件(App.tsx)
+- **文件**: `src/components/App.tsx`
+- **版本**: v2.3.4
+- **功能**: 应用的顶层入口组件
+**核心特性**
+- 支持客户端渲染 (`'use client'`)
+- 使用 `AppProvider` 提供全局状态管理
+- 实现懒加载和 `Suspense` 优化
+- 包含欢迎页面和引导覆盖层
+- 支持文件拖放导入
+- 响应式布局适配
+- 版本检测和更新提示
+- 错误边界处理
+**主要组件:**
+- `WelcomeScreen` - 初始欢迎页面
+- `OnboardingOverlay` - 首次使用引导
+- `HelpModal` - 帮助模态框
+- `SongOverlay` - 歌曲信息覆盖层
+- `LyricsOverlay` - 歌词显示覆盖层
+- `CustomTextOverlay` - 自定义文本覆盖层
+- `FPSCounter` - 帧率计数器
+- `VisualizerCanvas` - 2D 可视化画布
+- `ThreeVisualizer` - 3D 可视化场景
+- `Controls` - 控制面板
 
-**鐘舵€佺鐞?**
-- `isExpanded` - 鎺у埗鐣岄潰灞曞紑鐘舵€?- `onboarded` - 寮曞瀹屾垚鐘舵€侊紙鎸佷箙鍖栧埌 localStorage锛?- `isIdle` - 绌洪棽鐘舵€侊紙鐢ㄤ簬鑷姩闅愯棌 UI锛?
-**浜嬩欢澶勭悊:**
-- 鎷栨斁鏂囦欢瀵煎叆
-- 鍙屽嚮鍏ㄥ睆
-- 鐗堟湰鏇存柊鎻愮ず
-- 鎵嬪娍鏀寔
+**状态管理**
+- `isExpanded` - 控制面板展开状态
+- `onboarded` - 引导完成状态（持久化到 localStorage）
+- `isIdle` - 空闲状态（用于自动隐藏 UI）
+**事件处理:**
+- 拖放文件导入
+- 双击全屏
+- 版本更新提示
+- 手势支持
 
-**浠ｇ爜绀轰緥:**
+**代码示例:**
 ```tsx
-// App.tsx 鏍稿績缁撴瀯
+// App.tsx 核心结构
 'use client';
 // File: src/components/App.tsx | Version: v2.3.4
 import React, { useState, useEffect, Suspense } from 'react';

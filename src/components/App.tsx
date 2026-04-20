@@ -84,6 +84,21 @@ const MainContent: React.FC = () => {
     return () => clearInterval(interval);
   }, [visuals, visuals?.settings?.cycleColors, visuals?.settings?.colorInterval, visuals?.setColorTheme, visuals?.colorTheme]);
 
+  // Service Worker registration
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('Service Worker registered:', registration.scope);
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+          });
+      });
+    }
+  }, []);
+
   if (!ui || !visuals || !audio || !ai) return null;
 
   const { 

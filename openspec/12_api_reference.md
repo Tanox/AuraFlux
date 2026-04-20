@@ -1,204 +1,224 @@
-# Aura Flux - API 鎺ュ彛鏂囨。
+<!-- openspec/12_api_reference.md v2.3.4 -->
+# Aura Flux - API 接口文档
 
-## 1. 鎺ュ彛姒傝堪
+## 1. 接口说明
 
-鏈」鐩噰鐢?**Serverless / Client-side Architecture**锛屼富瑕佷緷璧栧墠绔洿鎺ヨ皟鐢?Google Gemini API銆傛湰椤圭洰**涓嶆彁渚?*浼犵粺鐨勫悗绔?RESTful API 鏈嶅姟銆?
-鏈枃妗ｄ富瑕佹弿杩帮細
-1.  **澶栭儴渚濊禆鎺ュ彛**: Google Gemini API 鐨勯泦鎴愭柟寮忋€?2.  **鍐呴儴鏈嶅姟鎺ュ彛**: 鍓嶇鏈嶅姟灞傜殑鏂规硶瀹氫箟锛屼緵 UI 缁勪欢璋冪敤銆?
-## 2. 澶栭儴渚濊禆鎺ュ彛 (Google Gemini API)
+本项目采用 **Serverless / Client-side Architecture**，主要依靠前端直接调用 Google Gemini API。本项目**不提供**传统的后端 RESTful API 服务。
+本文档主要涵盖：
+1.  **外部依赖接口**: Google Gemini API 的集成方式。
+2.  **内部服务接口**: 前端服务层的方法定义，供 UI 组件调用。
 
-鏈」鐩娇鐢?`@google/genai` SDK 涓?Gemini 妯″瀷杩涜浜や簰銆?
-| 鎺ュ彛鍚嶇О | 妯″瀷鐗堟湰 | 鐢ㄩ€?|
+## 2. 外部依赖接口 (Google Gemini API)
+
+本项目使用 `@google/genai` SDK 与 Gemini 模型进行交互。
+| 接口名称 | 模型版本 | 用途 |
 | :--- | :--- | :--- |
-| **Generate Content** | `gemini-3-flash-preview` | 鏂囨湰鐢熸垚銆佹瓕璇嶈幏鍙栥€佹儏鎰熷垎鏋?|
-| **Multimodal Input** | `gemini-3-flash-preview` | 闊抽鐗囨璇嗗埆銆佹瓕鏇蹭俊鎭彁鍙?|
-| **Image Generation** | `gemini-2.5-flash-image` | 鐢熸垚鑹烘湳鑳屾櫙鍥惧儚 |
+| **Generate Content** | `gemini-3-flash-preview` | 文本生成、歌词获取、情感分析 |
+| **Multimodal Input** | `gemini-3-flash-preview` | 音频片段识别、歌曲信息提取 |
+| **Image Generation** | `gemini-2.5-flash-image` | 生成艺术背景图片 |
 
-### 2.1 閴存潈鏂瑰紡
-- **鏂瑰紡**: API Key
-- **閰嶇疆**: 鐜鍙橀噺 `GEMINI_API_KEY` (鏈嶅姟鍣ㄧ)
+### 2.1 授权方式
+- **方式**: API Key
+- **配置**: 环境变量 `GEMINI_API_KEY` (服务端)
 
-## 3. 鍐呴儴鏈嶅姟鎺ュ彛
+## 3. 内部服务接口
 
-### 3.1 AI 鏈嶅姟鎺ュ彛 (aiService.ts)
+### 3.1 AI 服务接口 (aiService.ts)
 
-浠ヤ笅鏂规硶瀹氫箟鍦?`src/services/aiService.ts` 涓紝浣滀负鍗曚緥鏈嶅姟渚涘簲鐢ㄨ皟鐢ㄣ€?
-#### 3.1.1 妫€鏌?AI 鏈嶅姟鍙敤鎬?(isAiServiceAvailable)
+以下方法定义在 `src/services/aiService.ts` 中，作为单例服务提供调用。
 
-妫€鏌?AI 鏈嶅姟鏄惁鍙敤銆?
-- **鏂规硶绛惧悕**:
+#### 3.1.1 检查 AI 服务可用性 (isAiServiceAvailable)
+
+检查 AI 服务是否可用。
+- **方法签名**:
   ```typescript
   isAiServiceAvailable(): boolean
   ```
 
-- **杩斿洖鍊?*: `boolean` - AI 鏈嶅姟鏄惁鍙敤
+- **返回值**: `boolean` - AI 服务是否可用
 
-#### 3.1.2 妫€鏌?AI 鏈嶅姟鍙敤鎬?(checkAiServiceAvailability)
+#### 3.1.2 检查 AI 服务可用性 (checkAiServiceAvailability)
 
-妫€鏌?AI 鏈嶅姟鍙敤鎬у苟澶勭悊閿欒銆?
-- **鏂规硶绛惧悕**:
+检查 AI 服务可用性并处理错误。
+- **方法签名**:
   ```typescript
   checkAiServiceAvailability(): { available: boolean; error?: string }
   ```
 
-- **杩斿洖鍊?*:
+- **返回值**:
   ```typescript
   {
-    available: boolean; // AI 鏈嶅姟鏄惁鍙敤
-    error?: string;     // 閿欒淇℃伅锛堝鏋滀笉鍙敤锛?  }
+    available: boolean; // AI 服务是否可用
+    error?: string;     // 错误信息（如果不可用）
+  }
   ```
 
-#### 3.1.3 鑾峰彇 AI 鏈嶅姟瀹炰緥 (getAiService)
+#### 3.1.3 获取 AI 服务实例 (getAiService)
 
-鑾峰彇 AI 鏈嶅姟瀹炰緥銆?
-- **鏂规硶绛惧悕**:
+获取 AI 服务实例。
+- **方法签名**:
   ```typescript
   getAiService(): GenerativeModel
   ```
 
-- **杩斿洖鍊?*: `GenerativeModel` - Google Gemini 鐢熸垚妯″瀷瀹炰緥
+- **返回值**: `GenerativeModel` - Google Gemini 生成模型实例
 
-#### 3.1.4 浠庨煶棰戠敓鎴愯瑙夐厤缃?(generateVisualConfigFromAudio)
+#### 3.1.4 从音频生成视觉配置 (generateVisualConfigFromAudio)
 
-浠庨煶棰戠敓鎴愯瑙夐厤缃€?
-- **鏂规硶绛惧悕**:
+从音频生成视觉配置。
+- **方法签名**:
   ```typescript
   async generateVisualConfigFromAudio(audioBlob: Blob): Promise<VisualConfig>
   ```
 
-- **鍙傛暟璇存槑**:
-  | 鍙傛暟鍚?| 绫诲瀷 | 蹇呭～ | 璇存槑 |
+- **参数说明**:
+  | 参数名 | 类型 | 必需 | 说明 |
   | :--- | :--- | :--- | :--- |
-  | `audioBlob` | `Blob` | 鏄?| 闊抽鐗囨 |
+  | `audioBlob` | `Blob` | 是 | 音频片段 |
 
-- **杩斿洖鏍煎紡 (VisualConfig)**:
+- **返回格式 (VisualConfig)**:
   ```typescript
   interface VisualConfig {
-    mode: string;        // 鎺ㄨ崘鐨勮瑙夋ā寮?    colorPalette: string[]; // 鎺ㄨ崘鐨勯鑹?palette
-    sensitivity: number; // 鎺ㄨ崘鐨勭伒鏁忓害璁剧疆
-    speed: number;       // 鎺ㄨ崘鐨勯€熷害璁剧疆
+    mode: string;        // 推荐的视觉模式
+    colorPalette: string[]; // 推荐的色彩 palette
+    sensitivity: number; // 推荐的灵敏度设置
+    speed: number;       // 推荐的速度设置
   }
   ```
 
-#### 3.1.5 鐢熸垚鑹烘湳鑳屾櫙 (generateArtisticBackground)
+#### 3.1.5 生成艺术背景 (generateArtisticBackground)
 
-鐢熸垚鑹烘湳鑳屾櫙銆?
-- **鏂规硶绛惧悕**:
+生成艺术背景。
+- **方法签名**:
   ```typescript
   async generateArtisticBackground(prompt: string): Promise<string>
   ```
 
-- **鍙傛暟璇存槑**:
-  | 鍙傛暟鍚?| 绫诲瀷 | 蹇呭～ | 璇存槑 |
+- **参数说明**:
+  | 参数名 | 类型 | 必需 | 说明 |
   | :--- | :--- | :--- | :--- |
-  | `prompt` | `string` | 鏄?| 鐢熸垚鑳屾櫙鐨勬彁绀鸿瘝 |
+  | `prompt` | `string` | 是 | 生成背景的提示词 |
 
-- **杩斿洖鍊?*: `string` - 鐢熸垚鐨勮儗鏅浘鍍?URL
+- **返回值**: `string` - 生成的背景图片 URL
 
-#### 3.1.6 璇嗗埆姝屾洸 (identifySong)
+#### 3.1.6 识别歌曲 (identifySong)
 
-涓婁紶闊抽鐗囨锛岃瘑鍒瓕鏇蹭俊鎭€?
-- **鏂规硶绛惧悕**:
+上传音频片段，识别歌曲信息。
+- **方法签名**:
   ```typescript
   async identifySong(audioBlob: Blob): Promise<SongInfo>
   ```
 
-- **鍙傛暟璇存槑**:
-  | 鍙傛暟鍚?| 绫诲瀷 | 蹇呭～ | 璇存槑 |
+- **参数说明**:
+  | 参数名 | 类型 | 必需 | 说明 |
   | :--- | :--- | :--- | :--- |
-  | `audioBlob` | `Blob` | 鏄?| 褰曞埗鐨勯煶棰戠墖娈?(寤鸿 5-10绉? WebM/WAV 鏍煎紡) |
+  | `audioBlob` | `Blob` | 是 | 录制的音频片段（建议 5-10秒 WebM/WAV 格式） |
 
-- **杩斿洖鏍煎紡 (SongInfo)**:
+- **返回格式 (SongInfo)**:
   ```typescript
   interface SongInfo {
-    title: string;       // 姝屾洸鏍囬
-    artist: string;      // 鑹烘湳瀹?    album?: string;      // 涓撹緫鍚嶇О (鍙€?
-    artwork?: string;    // 灏侀潰鍥?URL (鍙€?
-    lyrics?: string;     // 姝岃瘝鍐呭 (鍙€?
+    title: string;       // 歌曲标题
+    artist: string;      // 艺术家
+    album?: string;      // 专辑名称（可选）
+    artwork?: string;    // 封面图片 URL（可选）
+    lyrics?: string;     // 歌词内容（可选）
   }
   ```
 
-- **閿欒鐮?*:
-  - `AUDIO_PROCESS_ERROR`: 闊抽澶勭悊澶辫触 (FileReader 閿欒)銆?  - `API_ERROR`: Gemini API 璋冪敤澶辫触銆?  - `NO_MATCH`: 鏈壘鍒板尮閰嶆瓕鏇层€?
-### 3.2 闊抽宸ュ叿鎺ュ彛 (audioUtils.ts)
+- **错误码**:
+  - `AUDIO_PROCESS_ERROR`: 音频处理失败（FileReader 错误）
+  - `API_ERROR`: Gemini API 调用失败
+  - `NO_MATCH`: 未找到匹配歌曲
 
-浠ヤ笅鏂规硶瀹氫箟鍦?`src/services/audioUtils.ts` 涓紝鎻愪緵闊抽澶勭悊宸ュ叿鍑芥暟銆?
-#### 3.2.1 瑙ｇ爜闊抽鏁版嵁 (decodeAudioData)
+### 3.2 音频工具接口 (audioUtils.ts)
 
-瑙ｇ爜闊抽鏁版嵁銆?
-- **鏂规硶绛惧悕**:
+以下方法定义在 `src/services/audioUtils.ts` 中，提供音频处理工具函数。
+
+#### 3.2.1 解码音频数据 (decodeAudioData)
+
+解码音频数据。
+- **方法签名**:
   ```typescript
   decodeAudioData(audioContext: AudioContext, arrayBuffer: ArrayBuffer): Promise<AudioBuffer>
   ```
 
-- **鍙傛暟璇存槑**:
-  | 鍙傛暟鍚?| 绫诲瀷 | 蹇呭～ | 璇存槑 |
+- **参数说明**:
+  | 参数名 | 类型 | 必需 | 说明 |
   | :--- | :--- | :--- | :--- |
-  | `audioContext` | `AudioContext` | 鏄?| 闊抽涓婁笅鏂?|
-  | `arrayBuffer` | `ArrayBuffer` | 鏄?| 闊抽鏁版嵁缂撳啿鍖?|
+  | `audioContext` | `AudioContext` | 是 | 音频上下文 |
+  | `arrayBuffer` | `ArrayBuffer` | 是 | 音频数据缓冲区 |
 
-- **杩斿洖鍊?*: `Promise<AudioBuffer>` - 瑙ｇ爜鍚庣殑闊抽缂撳啿鍖?
-#### 3.2.2 鎻愬彇闊抽鐗瑰緛 (extractAudioFeatures)
+- **返回值**: `Promise<AudioBuffer>` - 解码后的音频缓冲区
 
-鎻愬彇闊抽鐗瑰緛銆?
-- **鏂规硶绛惧悕**:
+#### 3.2.2 提取音频特征 (extractAudioFeatures)
+
+提取音频特征。
+- **方法签名**:
   ```typescript
   extractAudioFeatures(audioBuffer: AudioBuffer): AudioFeatures
   ```
 
-- **鍙傛暟璇存槑**:
-  | 鍙傛暟鍚?| 绫诲瀷 | 蹇呭～ | 璇存槑 |
+- **参数说明**:
+  | 参数名 | 类型 | 必需 | 说明 |
   | :--- | :--- | :--- | :--- |
-  | `audioBuffer` | `AudioBuffer` | 鏄?| 闊抽缂撳啿鍖?|
+  | `audioBuffer` | `AudioBuffer` | 是 | 音频缓冲区 |
 
-- **杩斿洖鏍煎紡 (AudioFeatures)**:
+- **返回格式 (AudioFeatures)**:
   ```typescript
   interface AudioFeatures {
-    duration: number;     // 闊抽鏃堕暱锛堢锛?    sampleRate: number;   // 閲囨牱鐜?    channels: number;     // 澹伴亾鏁?    energy: number;       // 鑳介噺鍊?    spectralCentroid: number; // 棰戣氨涓績
+    duration: number;     // 音频时长（秒）
+    sampleRate: number;   // 采样率
+    channels: number;     // 声道数
+    energy: number;       // 能量值
+    spectralCentroid: number; // 频谱中心
   }
   ```
 
-### 3.3 瑙嗚鏈嶅姟鎺ュ彛 (visualService.ts)
+### 3.3 视觉服务接口 (visualService.ts)
 
-浠ヤ笅鏂规硶瀹氫箟鍦?`src/services/visualService.ts` 涓紝鎻愪緵瑙嗚娓叉煋鐩稿叧鍔熻兘銆?
-#### 3.3.1 鑾峰彇瑙嗚妯″紡鍒楄〃 (getVisualModes)
+以下方法定义在 `src/services/visualService.ts` 中，提供视觉渲染相关功能。
 
-鑾峰彇鍙敤鐨勮瑙夋ā寮忓垪琛ㄣ€?
-- **鏂规硶绛惧悕**:
+#### 3.3.1 获取视觉模式列表 (getVisualModes)
+
+获取可用的视觉模式列表。
+- **方法签名**:
   ```typescript
   getVisualModes(): VisualMode[]
   ```
 
-- **杩斿洖鏍煎紡 (VisualMode)**:
+- **返回格式 (VisualMode)**:
   ```typescript
   interface VisualMode {
-    id: string;          // 妯″紡 ID
-    name: string;        // 妯″紡鍚嶇О
-    description: string; // 妯″紡鎻忚堪
-    type: '2d' | '3d';   // 妯″紡绫诲瀷
+    id: string;          // 模式 ID
+    name: string;        // 模式名称
+    description: string; // 模式描述
+    type: '2d' | '3d';   // 模式类型
   }
   ```
 
-#### 3.3.2 鐢熸垚棰滆壊 palette (generateColorPalette)
+#### 3.3.2 生成色彩 palette (generateColorPalette)
 
-鐢熸垚棰滆壊 palette銆?
-- **鏂规硶绛惧悕**:
+生成色彩 palette。
+- **方法签名**:
   ```typescript
   generateColorPalette(mood: string): string[]
   ```
 
-- **鍙傛暟璇存槑**:
-  | 鍙傛暟鍚?| 绫诲瀷 | 蹇呭～ | 璇存槑 |
+- **参数说明**:
+  | 参数名 | 类型 | 必需 | 说明 |
   | :--- | :--- | :--- | :--- |
-  | `mood` | `string` | 鏄?| 鎯呮劅鍏抽敭璇?|
+  | `mood` | `string` | 是 | 情感关键词 |
 
-- **杩斿洖鍊?*: `string[]` - 棰滆壊 palette锛圚ex 浠ｇ爜鏁扮粍锛?
-## 4. 鐘舵€佺鐞嗘帴鍙?
-### 4.1 UI 鐘舵€佹帴鍙?(useUI)
+- **返回值**: `string[]` - 色彩 palette（Hex 代码数组）
 
-- **鏂囦欢**: `src/context/AppContext.tsx`
-- **鍔熻兘**: 绠＄悊 UI 鐩稿叧鐘舵€?
-**杩斿洖鍊?*:
+## 4. 状态管理接口
+
+### 4.1 UI 状态接口 (useUI)
+
+- **文件**: `src/context/AppContext.tsx`
+- **功能**: 管理 UI 相关状态
+
+**返回值**:
 ```typescript
 interface UIContextType {
   language: Language; setLanguage: React.Dispatch<React.SetStateAction<Language>>;
@@ -217,11 +237,12 @@ interface UIContextType {
 }
 ```
 
-### 4.2 瑙嗚鐘舵€佹帴鍙?(useVisuals)
+### 4.2 视觉状态接口 (useVisuals)
 
-- **鏂囦欢**: `src/context/AppContext.tsx`
-- **鍔熻兘**: 绠＄悊瑙嗚鐩稿叧鐘舵€?
-**杩斿洖鍊?*:
+- **文件**: `src/context/AppContext.tsx`
+- **功能**: 管理视觉相关状态
+
+**返回值**:
 ```typescript
 interface VisualsContextType {
   mode: VisualizerMode; setMode: React.Dispatch<React.SetStateAction<VisualizerMode>>;
@@ -235,11 +256,12 @@ interface VisualsContextType {
 }
 ```
 
-### 4.3 闊抽鐘舵€佹帴鍙?(useAudioContext)
+### 4.3 音频状态接口 (useAudioContext)
 
-- **鏂囦欢**: `src/context/AppContext.tsx`
-- **鍔熻兘**: 绠＄悊闊抽鐩稿叧鐘舵€?
-**杩斿洖鍊?*:
+- **文件**: `src/context/AppContext.tsx`
+- **功能**: 管理音频相关状态
+
+**返回值**:
 ```typescript
 interface AudioContextType {
   sourceType: AudioSourceType; isListening: boolean; isPending: boolean;
@@ -264,11 +286,12 @@ interface AudioContextType {
 }
 ```
 
-### 4.4 AI 鐘舵€佹帴鍙?(useAI)
+### 4.4 AI 状态接口 (useAI)
 
-- **鏂囦欢**: `src/context/AppContext.tsx`
-- **鍔熻兘**: 绠＄悊 AI 鐩稿叧鐘舵€?
-**杩斿洖鍊?*:
+- **文件**: `src/context/AppContext.tsx`
+- **功能**: 管理 AI 相关状态
+
+**返回值**:
 ```typescript
 interface AIContextType {
   lyricsStyle: LyricsStyle; showLyrics: boolean; setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
@@ -279,32 +302,34 @@ interface AIContextType {
 }
 ```
 
-## 5. 璋冪敤绀轰緥
+## 5. 调用示例
 
-### 5.1 AI 鏈嶅姟璋冪敤绀轰緥
+### 5.1 AI 服务调用示例
 
 ```typescript
 import { aiService } from '@/services/aiService';
 
-// 绀轰緥锛氳瘑鍒瓕鏇插苟鑾峰彇鍒嗘瀽缁撴灉
+// 示例：识别歌曲并获取分析结果
 async function handleIdentify(audioBlob: Blob) {
   try {
-    // 1. 妫€鏌?AI 鏈嶅姟鍙敤鎬?    if (!aiService.isAiServiceAvailable()) {
+    // 1. 检查 AI 服务可用性
+    if (!aiService.isAiServiceAvailable()) {
       throw new Error('AI service is not available');
     }
 
-    // 2. 璇嗗埆姝屾洸
+    // 2. 识别歌曲
     const songInfo = await aiService.identifySong(audioBlob);
     console.log('Identified:', songInfo);
 
-    // 3. 鐢熸垚鑹烘湳鑳屾櫙
+    // 3. 生成艺术背景
     const background = await aiService.generateArtisticBackground(
       `Create a beautiful abstract background that matches the mood of the song "${songInfo.title}" by ${songInfo.artist}`
     );
     
-    // 4. 浠庨煶棰戠敓鎴愯瑙夐厤缃?    const visualConfig = await aiService.generateVisualConfigFromAudio(audioBlob);
+    // 4. 从音频生成视觉配置
+    const visualConfig = await aiService.generateVisualConfigFromAudio(audioBlob);
     
-    // 5. 搴旂敤瑙嗚璁剧疆
+    // 5. 应用视觉设置
     applyVisualSettings(visualConfig);
     
   } catch (error) {
@@ -313,22 +338,24 @@ async function handleIdentify(audioBlob: Blob) {
 } 
 ```
 
-### 5.2 闊抽鏈嶅姟璋冪敤绀轰緥
+### 5.2 音频服务调用示例
 
 ```typescript
 import { decodeAudioData, extractAudioFeatures } from '@/services/audioUtils';
 
-// 绀轰緥锛氬鐞嗛煶棰戞枃浠?async function processAudioFile(file: File) {
+// 示例：处理音频文件
+async function processAudioFile(file: File) {
   try {
-    // 1. 鍒涘缓闊抽涓婁笅鏂?    const audioContext = new AudioContext();
+    // 1. 创建音频上下文
+    const audioContext = new AudioContext();
     
-    // 2. 璇诲彇鏂囦欢
+    // 2. 读取文件
     const arrayBuffer = await file.arrayBuffer();
     
-    // 3. 瑙ｇ爜闊抽鏁版嵁
+    // 3. 解码音频数据
     const audioBuffer = await decodeAudioData(audioContext, arrayBuffer);
     
-    // 4. 鎻愬彇闊抽鐗瑰緛
+    // 4. 提取音频特征
     const features = extractAudioFeatures(audioBuffer);
     console.log('Audio features:', features);
     
@@ -340,26 +367,31 @@ import { decodeAudioData, extractAudioFeatures } from '@/services/audioUtils';
 }
 ```
 
-### 5.3 鐘舵€佺鐞嗕娇鐢ㄧず渚?
+### 5.3 状态管理使用示例
+
 ```typescript
 import { useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
 
 function ControlsPanel() {
-  // 浣跨敤 UI 鐘舵€?  const ui = useUI();
+  // 使用 UI 状态
+  const ui = useUI();
   const { isDragging, setIsDragging, showToast, toggleFullscreen } = ui;
   
-  // 浣跨敤瑙嗚鐘舵€?  const visuals = useVisuals();
+  // 使用视觉状态
+  const visuals = useVisuals();
   const { mode, setMode, colorTheme, setColorTheme, settings, setSettings, isThreeMode } = visuals;
   
-  // 浣跨敤闊抽鐘舵€?  const audio = useAudioContext();
+  // 使用音频状态
+  const audio = useAudioContext();
   const { sourceType, isListening, currentSong, playlist, togglePlayback, playNext, playPrev } = audio;
   
-  // 浣跨敤 AI 鐘舵€?  const ai = useAI();
+  // 使用 AI 状态
+  const ai = useAI();
   const { showLyrics, setShowLyrics, isIdentifying, performIdentification } = ai;
   
   return (
     <div className="controls-panel">
-      {/* 鎺у埗鐣岄潰浠ｇ爜 */}
+      {/* 控制面板代码 */}
     </div>
   );
 }

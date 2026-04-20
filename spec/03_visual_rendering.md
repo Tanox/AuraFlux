@@ -1,30 +1,31 @@
 <!-- openspec/03_visual_rendering.md v2.3.4 -->
-# 瑙嗚娓叉煋绯荤粺瑙勮寖
+# 视觉渲染系统规范
 
-## 1. 2D 鍙鍖栫郴缁?
-### 1.1 VisualizerCanvas 缁勪欢
-- **鏂囦欢**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **鐗堟湰**: v2.3.4
-- **鍔熻兘**: 2D 闊抽鍙鍖栫敾甯?
-**鏍稿績鐗规€?**
-- 浣跨敤 Canvas 2D API 娓叉煋
-- 鏀寔绛夌瀛愭晥鏋滃彲瑙嗗寲妯″紡
-- 鍝嶅簲寮忓竷灞€锛圧esizeObserver锛?- 楂?DPI 鏀寔
-- 瀹炴椂闊抽鏁版嵁澶勭悊
+## 1. 2D 可视化系统
+### 1.1 VisualizerCanvas 组件
+- **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
+- **版本**: v2.3.4
+- **功能**: 2D 音频可视化画布
+**核心特性**
+- 使用 Canvas 2D API 渲染
+- 支持等离子效果可视化模式
+- 响应式调整 (ResizeObserver)
+- 高 DPI 支持
+- 实时音频数据处理
 
-**鏀寔鐨勫彲瑙嗗寲妯″紡:**
-- `PLASMA` - 绛夌瀛愭晥鏋?
-**瀵瑰簲鏋氫妇鍊?**
+**支持的可视化模式**:
+- `PLASMA` - 等离子效果
+**对应枚举值**
 - `VisualizerMode.PLASMA`
 
-**娓叉煋娴佺▼:**
-1. 鑾峰彇闊抽棰戣氨鏁版嵁
-2. 鏍规嵁閫夋嫨鐨勬ā寮忚皟鐢ㄧ浉搴旂殑娓叉煋鍑芥暟
-3. 澶勭悊鐢诲竷澶у皬璋冩暣
-4. 娓呯悊鍔ㄧ敾甯?
-**浠ｇ爜绀轰緥:**
+**渲染流程**:
+1. 获取音频频率数据
+2. 根据选择的模式调用相应的渲染函数
+3. 处理音频能量大小调整
+4. 清理画布并重绘
+**代码示例**:
 ```tsx
-// VisualizerCanvas.tsx 鏍稿績缁撴瀯
+// VisualizerCanvas.tsx 核心结构
 // File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.3.4
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
@@ -49,207 +50,272 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    // 渲染逻辑...
+  }, [analyser, analyserR, colors, settings, mode]);
 
-    let animationId: number;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-    const peaks = new Float32Array(bufferLength);
-
-    // 鍒濆鍖栨槦鏄熸暟閲?    const initStars = (width: number, height: number) => {
-      if (mode === VisualizerMode.STARFIELD) {
-        starsRef.current = [];
-        const starCount = 200;
-        for (let i = 0; i < starCount; i++) {
-          starsRef.current.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            z: Math.random() * 1000,
-            size: Math.random() * 3 + 1,
-            speed: Math.random() * 2 + 0.5,
-            brightness: Math.random() * 0.8 + 0.2
-          });
-        }
-      }
-    };
-
-    // 鍒濆鍖?    const width = canvas.width;
-    const height = canvas.height;
-    initStars(width, height);
-
-    let dataArrayR: Uint8Array | undefined;
-    if (analyserR) {
-      dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
-    }
-
-    const draw = () => {
-      animationId = requestAnimationFrame(draw);
-      analyser.getByteFrequencyData(dataArray);
-      if (analyserR && dataArrayR) {
-        analyserR.getByteFrequencyData(dataArrayR as Uint8Array<ArrayBuffer>);
-      }
-
-      const width = canvas.width;
-      const height = canvas.height;
-      ctx.clearRect(0, 0, width, height);
-
-      // Only PlasmaMode is available
-      renderPlasmaMode({
-        ctx,
-        dataArray,
-        width,
-        height,
-        colors,
-        sensitivity: settings.sensitivity
-      });
-
-      // 缁樺埗搴旂敤鍚嶇О鍜岀増鏈彿锛堝崟琛屾樉绀猴級
-      ctx.font = '12px Inter, sans-serif';
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-      ctx.textAlign = 'right';
-      ctx.textBaseline = 'bottom';
-      const appName = 'Aura Flux';
-      const versionText = APP_VERSION;
-      const padding = 16;
-      
-      // 鍗曡鏄剧ず搴旂敤鍚嶇О鍜岀増鏈彿
-      const text = `${appName} ${versionText}`;
-      ctx.fillText(text, width - padding, height - padding);
-    };
-
-    const parent = canvas.parentElement;
-    if (!parent) return;
-
-    const resizeObserver = new ResizeObserver(() => {
-      canvas.width = parent.clientWidth * window.devicePixelRatio;
-      canvas.height = parent.clientHeight * window.devicePixelRatio;
-      // 閲嶆柊鍒濆鍖栨槦鏄熸暟鎹互閫傚簲鏂扮殑鐢诲竷灏哄
-      initStars(canvas.width, canvas.height);
-    });
-
-    resizeObserver.observe(parent);
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animationId);
-      resizeObserver.disconnect();
-      // 娓呯悊鏄熸槦鏁版嵁
-      if (mode === VisualizerMode.STARFIELD) {
-        starsRef.current = [];
-      }
-    };
-  }, [analyser, colors, settings.sensitivity, mode]);
-
-  return (
-    <canvas 
-      ref={canvasRef} 
-      id="visualizer-canvas-2d"
-      className="absolute inset-0 w-full h-full block"
-      style={{ width: '100%', height: '100%' }}
-    />
-  );
+  return <canvas ref={canvasRef} className="w-full h-full" />;
 };
 
 export default VisualizerCanvas;
 ```
 
-## 2. 3D 鍙鍖栫郴缁?
-### 2.1 ThreeVisualizer 缁勪欢
-- **鏂囦欢**: `src/components/visualizers/ThreeVisualizer.tsx`
-- **鐗堟湰**: v2.3.4
-- **鍔熻兘**: 3D 闊抽鍙鍖栧満鏅?
-**鏍稿績鐗规€?**
-- 浣跨敤 React Three Fiber (R3F) 鏋勫缓
-- 鏀寔婵€鍏夋晥鏋?3D 鍦烘櫙
-- 鍝嶅簲寮忓竷灞€
-- 楂樻€ц兘娓叉煋
+### 1.2 2D 可视化模式
 
-**鏀寔鐨?3D 鍦烘櫙:**
-- `LaserScene` - 婵€鍏夋晥鏋?
-**瀵瑰簲鏋氫妇鍊?**
-- `VisualizerMode.LASERS`
+#### 1.2.1 Plasma 模式
+- **文件**: `src/components/visualizers/2d/plasma/PlasmaMode.ts`
+- **版本**: v2.3.4
+- **功能**: 等离子效果可视化
+**核心特性**:
+- 动态粒子效果
+- 音频响应式颜色变化
+- 粒子融合效果
+- 3D 视觉效果
 
-**浠ｇ爜绀轰緥:**
-```tsx
-// ThreeVisualizer.tsx 鏍稿績缁撴瀯
-// File: src/components/visualizers/ThreeVisualizer.tsx | Version: v2.3.3
-import React, { Suspense, useMemo } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { VisualizerMode, VisualizerSettings } from '@/types';
-import { LaserScene } from './3d/laser/LaserScene';
-import { APP_VERSION } from '@/constants/version';
+**技术实现**:
+- 使用 Canvas 2D API 绘制
+- 粒子系统与对象池
+- 音频能量驱动的粒子行为
+- 颜色混合与渐变
 
-interface Props {
-  analyser: AnalyserNode;
-  analyserR: AnalyserNode | null;
-  colors: string[];
-  settings: VisualizerSettings;
-  mode: VisualizerMode;
-}
+#### 1.2.2 其他 2D 模式
+- **文件**: `src/components/visualizers/2d/`
+- **支持的模式**:
+  - `WAVEFORM` - 波形模式
+  - `BARS` - 频谱柱状图
+  - `STARFIELD` - 星空模式
+  - `TUNNEL` - 隧道模式
 
-const ThreeVisualizer: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
-  const Scene = useMemo(() => {
-    // Only LaserScene is available
-    return LaserScene;
-  }, [mode]);
+## 2. 3D 可视化系统
 
-  return (
-    <div id="three-visualizer-container" className="absolute inset-0 w-full h-full bg-black">
-      <Canvas
-        camera={{ position: [0, 0, 10], fov: 75 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: false }}
-        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
-      >
-        <color attach="background" args={['#000000']} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        
-        <Suspense fallback={null}>
-          <Scene analyser={analyser} analyserR={analyserR} colors={colors} settings={settings} />
-        </Suspense>
+### 2.1 ThreeVisualizer 组件
+- **文件**: `src/components/visualizers/ThreeVisualizer.tsx`
+- **版本**: v2.3.4
+- **功能**: 3D 音频可视化场景
+**核心特性**:
+- 使用 Three.js 渲染
+- 支持多种 3D 可视化模式
+- 音频响应式动画
+- 高性能渲染
 
-        <OrbitControls enablePan={false} enableZoom={true} minDistance={5} maxDistance={50} />
-      </Canvas>
-      
-      {/* 搴旂敤鍚嶇О鍜岀増鏈彿锛堝崟琛屾樉绀猴級 */}
-      <div className="absolute bottom-4 right-4 text-white text-opacity-60 font-sans" style={{ fontSize: '12px', fontFamily: 'Inter, sans-serif', padding: '16px' }}>
-        Aura Flux {APP_VERSION}
-      </div>
-    </div>
-  );
-};
+**支持的 3D 模式**:
+- `SILK_WAVE` - 丝绸波浪
+- `NEON_CITY` - 霓虹城市
+- `COSMIC_VOID` - 宇宙虚空
+- `OCEAN_WAVE` - 海洋波浪
+- `DIGITAL_GRID` - 数字网格
+- `NEURAL_FLOW` - 神经流
+- `KINETIC_WALL` - 动态墙
+- `LASER` - 激光效果
+- `CUBE_FIELD` - 立方体场
 
-export default ThreeVisualizer;
-```
+### 2.2 3D 场景实现
 
-## 3. 鍙鍖栨ā寮忓疄鐜?
-### 3.1 2D 妯″紡瀹炵幇
+#### 2.2.1 Silk Wave 场景
+- **文件**: `src/components/visualizers/3d/silkWave/SilkWaveScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 丝绸波浪效果
+**核心特性**:
+- 平滑的波浪动画
+- 音频响应式振幅
+- 渐变颜色效果
 
-#### 3.1.1 PlasmaMode
-- **鏂囦欢**: `src/components/visualizers/2d/plasma/PlasmaMode.ts`
-- **鍔熻兘**: 绛夌瀛愭晥鏋?
-### 3.2 3D 鍦烘櫙瀹炵幇
+#### 2.2.2 Neon City 场景
+- **文件**: `src/components/visualizers/3d/neonCity/NeonCityScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 霓虹城市效果
+**核心特性**:
+- 城市轮廓动画
+- 灯光效果
+- 音频响应式建筑高度
 
-#### 3.2.1 LaserScene
-- **鏂囦欢**: `src/components/visualizers/3d/laser/LaserScene.tsx`
-- **鍔熻兘**: 婵€鍏夋晥鏋滃満鏅?
-## 4. 鐫€鑹插櫒绯荤粺
+#### 2.2.3 Cosmic Void 场景
+- **文件**: `src/components/visualizers/3d/cosmicVoid/CosmicVoidScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 宇宙虚空效果
+**核心特性**:
+- 粒子系统
+- 星空背景
+- 音频响应式粒子密度
 
-### 4.1 鐫€鑹插櫒瀹炵幇
+#### 2.2.4 Ocean Wave 场景
+- **文件**: `src/components/visualizers/3d/oceanWave/OceanWaveScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 海洋波浪效果
+**核心特性**:
+- 波浪动画
+- 水面材质
+- 音频响应式波浪高度
 
-#### 4.1.1 DigitalGridShaders
-- **鏂囦欢**: `src/components/visualizers/3d/shaders/DigitalGridShaders.ts`
-- **鍔熻兘**: 鏁板瓧缃戞牸鐫€鑹插櫒
+#### 2.2.5 Digital Grid 场景
+- **文件**: `src/components/visualizers/3d/digitalGrid/DigitalGridScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 数字网格效果
+**核心特性**:
+- 网格动画
+- 发光效果
+- 音频响应式网格变形
 
-#### 4.1.2 NeuralFlowShaders
-- **鏂囦欢**: `src/components/visualizers/3d/shaders/NeuralFlowShaders.ts`
-- **鍔熻兘**: 绁炵粡缃戠粶娴佺潃鑹插櫒
+#### 2.2.6 Neural Flow 场景
+- **文件**: `src/components/visualizers/3d/neuralFlow/NeuralFlowScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 神经流效果
+**核心特性**:
+- 神经网络动画
+- 节点连接效果
+- 音频响应式网络密度
 
-#### 4.1.3 OceanWaveShaders
-- **鏂囦欢**: `src/components/visualizers/3d/shaders/OceanWaveShaders.ts`
-- **鍔熻兘**: 娴锋磱娉㈡氮鐫€鑹插櫒
+#### 2.2.7 Kinetic Wall 场景
+- **文件**: `src/components/visualizers/3d/kineticWall/KineticWallScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 动态墙效果
+**核心特性**:
+- 墙块动画
+- 碰撞效果
+- 音频响应式墙块高度
 
-#### 4.1.4 SilkWaveShaders
-- **鏂囦欢**: `src/components/visualizers/3d/shaders/SilkWaveShaders.ts`
-- **鍔熻兘**: 涓濈桓娉㈡氮鐫€鑹插櫒
+#### 2.2.8 Laser 场景
+- **文件**: `src/components/visualizers/3d/laser/LaserScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 激光效果
+**核心特性**:
+- 激光束动画
+- 光影效果
+- 音频响应式激光强度
+
+#### 2.2.9 Cube Field 场景
+- **文件**: `src/components/visualizers/3d/cubeField/CubeFieldScene.tsx`
+- **版本**: v2.3.4
+- **功能**: 立方体场效果
+**核心特性**:
+- 立方体阵列
+- 旋转动画
+- 音频响应式立方体大小
+
+## 3. 着色器系统
+
+### 3.1 着色器文件结构
+- **目录**: `src/components/visualizers/3d/shaders/`
+- **功能**: 提供 3D 场景的着色器
+
+**着色器文件**:
+- `DigitalGridShaders.ts` - 数字网格着色器
+- `NeuralFlowShaders.ts` - 神经流着色器
+- `OceanWaveShaders.ts` - 海洋波浪着色器
+- `SilkWaveShaders.ts` - 丝绸波浪着色器
+
+### 3.2 着色器技术
+- **技术**: WebGL Shaders
+- **语言**: GLSL
+- **功能**:
+  - 自定义材质效果
+  - 光线计算
+  - 动画效果
+  - 音频响应式着色
+
+## 4. 性能优化
+
+### 4.1 渲染优化
+- **策略**:
+  - 使用 requestAnimationFrame
+  - 优化 Canvas 绘制
+  - 减少 DOM 操作
+  - 使用 WebGL 加速
+
+### 4.2 资源管理
+- **策略**:
+  - 对象池
+  - 资源预加载
+  - 内存管理
+  - 资源释放
+
+### 4.3 计算优化
+- **策略**:
+  - 使用 Web Workers 处理密集计算
+  - 优化数学计算
+  - 减少不必要的计算
+  - 缓存计算结果
+
+## 5. 响应式设计
+
+### 5.1 画布调整
+- **技术**:
+  - ResizeObserver
+  - 响应式布局
+  - 高 DPI 支持
+  - 设备像素比处理
+
+### 5.2 性能适配
+- **策略**:
+  - 基于设备性能调整渲染质量
+  - 动态调整粒子数量
+  - 自适应帧率
+  - 低性能设备降级方案
+
+## 6. 错误处理与边界情况
+
+### 6.1 渲染错误
+- **错误类型**:
+  - Canvas 不支持
+  - WebGL 不支持
+  - 内存不足
+- **处理策略**:
+  - 优雅降级
+  - 错误提示
+  - 备用渲染方案
+
+### 6.2 性能边界
+- **边界情况**:
+  - 高音频频率
+  - 复杂可视化模式
+  - 低性能设备
+- **处理策略**:
+  - 动态调整复杂度
+  - 性能监控
+  - 用户可配置的质量设置
+
+## 7. 测试与验证
+
+### 7.1 渲染测试
+- **测试类型**:
+  - 单元测试
+  - 集成测试
+  - 性能测试
+- **测试工具**:
+  - Jest
+  - Playwright
+  - 自定义性能测试工具
+
+### 7.2 兼容性测试
+- **测试场景**:
+  - 不同浏览器
+  - 不同设备
+  - 不同屏幕尺寸
+
+### 7.3 性能测试
+- **测试指标**:
+  - FPS
+  - 内存使用
+  - CPU 使用率
+  - 渲染时间
+
+## 8. 未来发展
+
+### 8.1 计划功能
+- **新可视化模式**:
+  - 更多 2D 模式
+  - 更多 3D 模式
+  - 混合模式
+- **交互增强**:
+  - 用户自定义可视化
+  - 交互式调整
+  - 分享功能
+
+### 8.2 技术改进
+- **性能优化**:
+  - WebAssembly 加速
+  - 更高效的渲染算法
+  - 更好的资源管理
+- **架构改进**:
+  - 模块化可视化系统
+  - 可扩展的着色器系统
+  - 更好的错误处理机制
