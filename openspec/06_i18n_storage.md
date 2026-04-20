@@ -1,48 +1,52 @@
 <!-- openspec/06_i18n_storage.md v2.3.2 -->
-# 鍥介檯鍖栦笌瀛樺偍绯荤粺瑙勮寖
+# 国际化与存储系统规范
 
-## 鐗堟湰淇℃伅
-- **鐗堟湰**: v2.3.2
-- **鏇存柊鏃ユ湡**: 2026-04-08
-- **浣滆€?*: Sut
+## 版本信息
+- **版本**: v2.3.2
+- **更新日期**: 2026-04-08
+- **作者**: Sut
 
-## 1. 鍥介檯鍖?(i18n) 绯荤粺
+## 1. 国际化(i18n) 系统
 
-### 1.1 璇█鏂囦欢缁撴瀯
-- **鐩綍**: `src/locales/`
-- **鍔熻兘**: 鎻愪緵澶氳瑷€鏀寔
+### 1.1 语言文件结构
+- **目录**: `src/locales/`
+- **功能**: 提供多语言支持
 
-**鏀寔鐨勮瑷€:**
-- `en` - 鑻辫
-- `zh` - 绠€浣撲腑鏂?- `tw` - 绻佷綋涓枃
-- `es` - 瑗跨彮鐗欒
-- `ar` - 闃挎媺浼
-- `fr` - 娉曡
-- `pt` - 钁¤悇鐗欒
-- `pt-BR` - 宸磋タ钁¤悇鐗欒
-- `de` - 寰疯
-- `ja` - 鏃ヨ
-- `ko` - 闊╄
-- `ru` - 淇勮
+**支持的语言:**
+- `en` - 英语
+- `zh` - 简体中文
+- `zh-TW` - 繁体中文
+- `es` - 西班牙语
+- `ar` - 阿拉伯语
+- `fr` - 法语
+- `pt` - 葡萄牙语
+- `pt-BR` - 巴西葡萄牙语
+- `de` - 德语
+- `ja` - 日语
+- `ko` - 韩语
+- `ru` - 俄语
 
-**璇█鏂囦欢缁撴瀯:**
-- `common.ts` - 閫氱敤鏂囨湰
-- `help.ts` - 甯姪鏂囨湰
-- `messages.ts` - 娑堟伅鏂囨湰
-- `onboarding.ts` - 寮曞鏂囨湰
-- `panels.ts` - 闈㈡澘鏂囨湰
-- `settings.ts` - 璁剧疆鏂囨湰
+**语言文件结构:**
+- `common.ts` - 通用文本
+- `help.ts` - 帮助文本
+- `messages.ts` - 消息文本
+- `onboarding.ts` - 引导文本
+- `panels.ts` - 面板文本
+- `settings.ts` - 设置文本
 
-### 1.2 鍥介檯鍖栧伐鍏?- **鏂囦欢**: `src/locales/index.ts`
-- **鍔熻兘**: 鍥介檯鍖栧伐鍏峰嚱鏁?
-**鏍稿績鍔熻兘:**
-- 璇█鍒囨崲
-- 鏂囨湰缈昏瘧
-- RTL 鏀寔
-- 璇█妫€娴?
-**浠ｇ爜绀轰緥:**
+### 1.2 国际化工具
+- **文件**: `src/locales/index.ts`
+- **功能**: 国际化工具函数
+
+**核心功能:**
+- 语言切换
+- 文本翻译
+- RTL 支持
+- 语言检测
+
+**代码示例:**
 ```tsx
-// locales/index.ts 鏍稿績缁撴瀯
+// locales/index.ts 核心结构
 // File: src/locales/index.ts | Version: v2.3.3
 import en from './en';
 import zhCN from './zh-CN';
@@ -78,16 +82,16 @@ export const getTranslations = (lang: string): LocaleType => {
 
 export const availableLanguages = [
   { value: 'en', label: 'English' },
-  { value: 'zh-CN', label: '涓枃 (绠€浣?' },
-  { value: 'zh-TW', label: '涓枃 (绻侀珨)' },
-  { value: 'es', label: 'Espa帽ol' },
-  { value: 'ar', label: '丕賱毓乇亘賷丞' },
-  { value: 'fr', label: 'Fran莽ais' },
-  { value: 'pt-BR', label: 'Portugu锚s (Brasil)' },
+  { value: 'zh-CN', label: '中文 (简体)' },
+  { value: 'zh-TW', label: '中文 (繁體)' },
+  { value: 'es', label: 'Español' },
+  { value: 'ar', label: 'العربية' },
+  { value: 'fr', label: 'Français' },
+  { value: 'pt-BR', label: 'Português (Brasil)' },
   { value: 'de', label: 'Deutsch' },
-  { value: 'ja', label: '鏃ユ湰瑾? },
-  { value: 'ko', label: '頃滉淡鞏? },
-  { value: 'ru', label: '袪褍褋褋泻懈泄' }
+  { value: 'ja', label: '日本語' },
+  { value: 'ko', label: '한국어' },
+  { value: 'ru', label: 'Русский' }
 ];
 
 export const availableRegions = [
@@ -105,35 +109,39 @@ export const availableRegions = [
 ];
 ```
 
-### 1.3 RTL 鏀寔
-- **鍔熻兘**: 闃挎媺浼绛?RTL 璇█鐨勬敮鎸?
-**鐗规€?**
-- 鑷姩妫€娴?RTL 璇█
-- 鐣岄潰甯冨眬鑷姩璋冩暣
-- 鏂囨湰鏂瑰悜澶勭悊
+### 1.3 RTL 支持
+- **功能**: 阿拉伯语等 RTL 语言的支持
 
-## 2. 瀛樺偍绯荤粺
+**特性:**
+- 自动检测 RTL 语言
+- 页面布局自动调整
+- 文本方向处理
 
-### 2.1 LocalStorage 瀛樺偍
-- **鏂囦欢**: `src/hooks/useLocalStorage.ts`
-- **鍔熻兘**: 鏈湴瀛樺偍绠＄悊
+## 2. 存储系统
 
-**鏍稿績鍔熻兘:**
-- 鏁版嵁鎸佷箙鍖?- 鍝嶅簲寮忓瓨鍌?- 绫诲瀷瀹夊叏
-- 閿欒澶勭悊
+### 2.1 LocalStorage 存储
+- **文件**: `src/hooks/useLocalStorage.ts`
+- **功能**: 本地存储管理
 
-**瀛樺偍閿墠缂€:**
+**核心功能:**
+- 数据持久化
+- 响应式存储
+- 类型安全
+- 错误处理
+
+**存储前缀:**
 - `av_v1_`
 
-**瀛樺偍鐨勬暟鎹?**
-- `settings` - 搴旂敤璁剧疆
-- `mode` - 瑙嗚妯″紡
-- `theme` - 涓婚璁剧疆
-- `language` - 璇█璁剧疆
-- `onboarded` - 寮曞瀹屾垚鐘舵€?
-**浠ｇ爜绀轰緥:**
+**存储的数据:**
+- `settings` - 应用设置
+- `mode` - 视觉模式
+- `theme` - 主题设置
+- `language` - 语言设置
+- `onboarded` - 引导完成状态
+
+**代码示例:**
 ```tsx
-// useLocalStorage.ts 鏍稿績缁撴瀯
+// useLocalStorage.ts 核心结构
 // File: src/hooks/useLocalStorage.ts | Version: v2.3.3
 import { useState, useEffect } from 'react';
 
@@ -196,33 +204,39 @@ export const clearLocalStorage = (): void => {
 };
 ```
 
-### 2.2 IndexedDB 瀛樺偍
-- **鍔熻兘**: 瀛樺偍澶у瀷鏁版嵁
+### 2.2 IndexedDB 存储
+- **功能**: 存储大型数据
 
-**鏍稿績鍔熻兘:**
-- 瀛樺偍瀹屾暣鐨?`Track` 瀵硅薄
-- 瀛樺偍 File Blob 鍜屼笓杈戝皝闈?- 鏀寔绂荤嚎鎭㈠
+**核心功能:**
+- 存储完整的 `Track` 对象
+- 存储 File Blob 和专属标识符
+- 支持离线恢复
 
-**鏁版嵁搴撲俊鎭?**
-- 鏁版嵁搴撳悕: `AuraFluxDB`
-- 瀛樺偍鍐呭: 闊抽鏂囦欢鍜岀浉鍏冲厓鏁版嵁
+**数据库信息:**
+- 数据库名: `AuraFluxDB`
+- 存储内容: 音频文件和相关元数据
 
-### 2.3 鎸佷箙鍖栫瓥鐣?
-**璁剧疆鎸佷箙鍖?**
-- 姣忔 `setSettings` 鎿嶄綔鑷姩鍚屾鍒版湰鍦板瓨鍌?- 搴旂敤鍚姩鏃朵粠鏈湴瀛樺偍鍔犺浇璁剧疆
+### 2.3 持久化策略
+**设置持久化:**
+- 每次 `setSettings` 操作自动同步到本地存储
+- 应用启动时从本地存储加载设置
 
-**鏁版嵁鎸佷箙鍖?**
-- 鎾斁鍒楄〃鑷姩鎸佷箙鍖?- 姝屾洸淇℃伅缂撳瓨
-- 鐘舵€佹仮澶?
-## 3. 绫诲瀷瀹氫箟
+**数据持久化:**
+- 播放列表自动持久化
+- 歌曲信息缓存
+- 状态恢复
 
-### 3.1 鏍稿績绫诲瀷
-- **鏂囦欢**: `src/types/index.ts`
-- **鍔熻兘**: 瀹氫箟搴旂敤涓娇鐢ㄧ殑绫诲瀷
+## 3. 类型定义
 
-**涓昏绫诲瀷:**
-- `VisualizerMode` - 鍙鍖栨ā寮?- `VisualizerSettings` - 鍙鍖栬缃?- `AudioDevice` - 闊抽璁惧
-- `Track` - 闊抽杞ㄩ亾
-- `PlaybackMode` - 鎾斁妯″紡
-- `SongInfo` - 姝屾洸淇℃伅
-- `LyricsStyle` - 姝岃瘝鏍峰紡
+### 3.1 核心类型
+- **文件**: `src/types/index.ts`
+- **功能**: 定义应用中使用的类型
+
+**主要类型:**
+- `VisualizerMode` - 可视化模式
+- `VisualizerSettings` - 可视化设置
+- `AudioDevice` - 音频设备
+- `Track` - 音频轨道
+- `PlaybackMode` - 播放模式
+- `SongInfo` - 歌曲信息
+- `LyricsStyle` - 歌词样式

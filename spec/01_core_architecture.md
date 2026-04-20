@@ -1,39 +1,39 @@
-<!-- openspec/01_core_architecture.md v2.3.2 -->
-# 核心架构规范
+<!-- openspec/01_core_architecture.md v2.3.4 -->
+# 鏍稿績鏋舵瀯瑙勮寖
 
-## 1. 应用入口结构
+## 1. 搴旂敤鍏ュ彛缁撴瀯
 
-### 1.1 主应用组件(App.tsx)
-- **文件**: `src/components/App.tsx`
-- **版本**: v2.3.2
-- **功能**: 应用的顶层入口组件
-**核心特性**
-- 支持客户端渲染(`'use client'`)
-- 使用 `AppProvider` 提供全局状态管理- 实现懒加载和 `Suspense` 优化
-- 包含欢迎页面和引导覆盖层
-- 支持文件拖放导入
-- 响应式布局适配- 版本检查和更新提示
-- 唤醒锁管理
-**主要组件:**
-- `WelcomeScreen` - 初始欢迎页面
-- `OnboardingOverlay` - 首次使用引导
-- `HelpModal` - 帮助模态框
-- `SongOverlay` - 歌曲信息覆盖层- `LyricsOverlay` - 歌词显示覆盖层- `CustomTextOverlay` - 自定义文本覆盖组件
-- `FPSCounter` - 帧率计数器- `VisualizerCanvas` - 2D 可视化画布- `ThreeVisualizer` - 3D 可视化场景- `Controls` - 控制面板
+### 1.1 涓诲簲鐢ㄧ粍浠?(App.tsx)
+- **鏂囦欢**: `src/components/App.tsx`
+- **鐗堟湰**: v2.3.4
+- **鍔熻兘**: 搴旂敤鐨勯《灞傚叆鍙ｇ粍浠?
+**鏍稿績鐗规€?**
+- 鏀寔瀹㈡埛绔覆鏌?(`'use client'`)
+- 浣跨敤 `AppProvider` 鎻愪緵鍏ㄥ眬鐘舵€佺鐞?- 瀹炵幇鎳掑姞杞藉拰 `Suspense` 浼樺寲
+- 鍖呭惈娆㈣繋灞忓箷鍜屽紩瀵艰鐩栧眰
+- 鏀寔鏂囦欢鎷栨斁瀵煎叆
+- 鍝嶅簲寮忎富棰樺垏鎹?- 鐗堟湰妫€鏌ュ拰鏇存柊鎻愮ず
+- 鍞ら啋閿佺鐞?
+**涓昏缁勪欢:**
+- `WelcomeScreen` - 鍒濆娆㈣繋鐣岄潰
+- `OnboardingOverlay` - 棣栨浣跨敤寮曞
+- `HelpModal` - 甯姪妯℃€佹
+- `SongOverlay` - 姝屾洸淇℃伅瑕嗙洊灞?- `LyricsOverlay` - 姝岃瘝鏄剧ず瑕嗙洊灞?- `CustomTextOverlay` - 鑷畾涔夋枃鏈鐩栧眰
+- `FPSCounter` - 甯х巼璁℃暟鍣?- `VisualizerCanvas` - 2D 鍙鍖栫敾甯?- `ThreeVisualizer` - 3D 鍙鍖栧満鏅?- `Controls` - 鎺у埗鐣岄潰
 
-**状态管理**
-- `isExpanded` - 控制面板展开状态- `onboarded` - 引导完成状态(持久化到本地存储)- `isIdle` - 空闲状态(用于自动隐藏 UI)
-**事件处理:**
-- 拖放文件导入
-- 双击全屏
-- 版本更新提示
-- 手势支持
+**鐘舵€佺鐞?**
+- `isExpanded` - 鎺у埗鐣岄潰灞曞紑鐘舵€?- `onboarded` - 寮曞瀹屾垚鐘舵€侊紙鎸佷箙鍖栧埌 localStorage锛?- `isIdle` - 绌洪棽鐘舵€侊紙鐢ㄤ簬鑷姩闅愯棌 UI锛?
+**浜嬩欢澶勭悊:**
+- 鎷栨斁鏂囦欢瀵煎叆
+- 鍙屽嚮鍏ㄥ睆
+- 鐗堟湰鏇存柊鎻愮ず
+- 鎵嬪娍鏀寔
 
-**代码示例:**
+**浠ｇ爜绀轰緥:**
 ```tsx
-// App.tsx 核心结构
+// App.tsx 鏍稿績缁撴瀯
 'use client';
-// File: src/components/App.tsx | Version: v2.3.3
+// File: src/components/App.tsx | Version: v2.3.4
 import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
@@ -193,17 +193,17 @@ export const App: React.FC = () => (
 );
 ```
 
-### 1.2 404 页面组件 (_not-found.tsx)
-- **文件**: `src/app/_not-found.tsx`
-- **版本**: v2.3.2
-- **功能**: 处理未找到页面的情况
+### 1.2 404 椤甸潰缁勪欢 (_not-found.tsx)
+- **鏂囦欢**: `src/app/_not-found.tsx`
+- **鐗堟湰**: v2.3.4
+- **鍔熻兘**: 澶勭悊鏈壘鍒伴〉闈㈢殑鎯呭喌
 
-**核心特性**
-- 使用 `AppProvider` 提供全局状态管理- 支持多语言文本
-- 响应式设计- 提供返回首页的链接
-**代码示例:**
+**鏍稿績鐗规€?**
+- 浣跨敤 `AppProvider` 鎻愪緵鍏ㄥ眬鐘舵€佺鐞?- 鏀寔澶氳瑷€鏂囨湰
+- 鍝嶅簲寮忚璁?- 鎻愪緵杩斿洖棣栭〉鐨勯摼鎺?
+**浠ｇ爜绀轰緥:**
 ```tsx
-// _not-found.tsx 核心结构
+// _not-found.tsx 鏍稿績缁撴瀯
 import { AppProvider, useUI } from '@/context/AppContext';
 import React from 'react';
 
@@ -234,26 +234,24 @@ export default function NotFound() {
 }
 ```
 
-## 2. 状态管理系统
-### 2.1 应用上下文(AppContext.tsx)
-- **文件**: `src/context/AppContext.tsx`
-- **版本**: v2.3.2
-- **功能**: 提供全局状态管理和共享功能
+## 2. 鐘舵€佺鐞嗙郴缁?
+### 2.1 搴旂敤涓婁笅鏂?(AppContext.tsx)
+- **鏂囦欢**: `src/context/AppContext.tsx`
+- **鐗堟湰**: v2.3.4
+- **鍔熻兘**: 鎻愪緵鍏ㄥ眬鐘舵€佺鐞嗗拰鍏变韩鍔熻兘
 
-**核心功能:**
-- 提供 UI 状态管理(`useUI`)
-- 提供视觉状态管理(`useVisuals`)
-- 提供音频状态管理(`useAudioContext`)
-- 提供 AI 状态管理(`useAI`)
-- 管理全局设置和依赖
-**状态结构**
-- `uiState`: 管理界面状态(展开/收起、引导状态等)
-- `visualState`: 管理可视化设置(模式、颜色、敏感度等)
-- `audioState`: 管理音频状态(输入源、设置、播放状态等)
-- `aiState`: 管理 AI 状态(处理状态、歌词显示等)
-**代码示例:**
+**鏍稿績鍔熻兘:**
+- 鎻愪緵 UI 鐘舵€佺鐞?(`useUI`)
+- 鎻愪緵瑙嗚鐘舵€佺鐞?(`useVisuals`)
+- 鎻愪緵闊抽鐘舵€佺鐞?(`useAudioContext`)
+- 鎻愪緵 AI 鐘舵€佺鐞?(`useAI`)
+- 绠＄悊鍏ㄥ眬璁剧疆鍜岄厤缃?
+**鐘舵€佺粨鏋?**
+- `uiState`: 绠＄悊鐣岄潰鐘舵€侊紙灞曞紑/鏀惰捣銆佸紩瀵肩姸鎬佺瓑锛?- `visualState`: 绠＄悊鍙鍖栬缃紙妯″紡銆侀鑹层€佺伒鏁忓害绛夛級
+- `audioState`: 绠＄悊闊抽鐘舵€侊紙杈撳叆婧愩€佽澶囥€佹挱鏀剧姸鎬佺瓑锛?- `aiState`: 绠＄悊 AI 鐘舵€侊紙澶勭悊鐘舵€併€佹瓕璇嶆樉绀虹瓑锛?
+**浠ｇ爜绀轰緥:**
 ```tsx
-// AppContext.tsx 核心结构
+// AppContext.tsx 鏍稿績缁撴瀯
 'use client';
 // File: src/context/AppContext.tsx | Version: v2.3.3
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
@@ -417,22 +415,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 };
 ```
 
-### 2.2 应用状态 Hook (useAppState.ts)
-- **文件**: `src/hooks/useAppState.ts`
-- **版本**: v2.3.2
-- **功能**: 管理应用的 UI 状态
-**核心功能:**
-- 语言管理(支持多语言)
-- 区域设置
-- 应用启动状态
-- 帮助模态框状态
-- 拖放状态
-- 唤醒锁管理
-- 设置重置
+### 2.2 搴旂敤鐘舵€?Hook (useAppState.ts)
+- **鏂囦欢**: `src/hooks/useAppState.ts`
+- **鐗堟湰**: v2.3.4
+- **鍔熻兘**: 绠＄悊搴旂敤鐨?UI 鐘舵€?
+**鏍稿績鍔熻兘:**
+- 璇█绠＄悊锛堟敮鎸佸璇█锛?- 鍖哄煙璁剧疆
+- 搴旂敤鍚姩鐘舵€?- 甯姪妯℃€佹鐘舵€?- 鎷栨斁鐘舵€?- 鍞ら啋閿佺鐞?- 璁剧疆閲嶇疆
 
-**代码示例:**
+**浠ｇ爜绀轰緥:**
 ```tsx
-// useAppState.ts 核心结构
+// useAppState.ts 鏍稿績缁撴瀯
 // File: src/hooks/useAppState.ts | Version: v2.3.3
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
@@ -511,21 +504,18 @@ export const useAppState = () => {
 };
 ```
 
-### 2.3 视觉状态 Hook (useVisualsState.ts)
-- **文件**: `src/hooks/useVisualsState.ts`
-- **版本**: v2.3.2
-- **功能**: 管理与可视化相关的状态
-**核心功能:**
-- 可视化模式管理
-- 颜色主题管理
-- 可视化设置管理
-- 预设管理
-- 设置随机化
-- 设置重置
+### 2.3 瑙嗚鐘舵€?Hook (useVisualsState.ts)
+- **鏂囦欢**: `src/hooks/useVisualsState.ts`
+- **鐗堟湰**: v2.3.4
+- **鍔熻兘**: 绠＄悊鍙鍖栫浉鍏崇殑鐘舵€?
+**鏍稿績鍔熻兘:**
+- 鍙鍖栨ā寮忕鐞?- 棰滆壊涓婚绠＄悊
+- 鍙鍖栬缃鐞?- 棰勮绠＄悊
+- 璁剧疆闅忔満鍖?- 璁剧疆閲嶇疆
 
-**代码示例:**
+**浠ｇ爜绀轰緥:**
 ```tsx
-// useVisualsState.ts 核心结构
+// useVisualsState.ts 鏍稿績缁撴瀯
 // File: src/hooks/useVisualsState.ts | Version: v2.3.3
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
@@ -600,30 +590,27 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 };
 ```
 
-## 3. 类型定义
+## 3. 绫诲瀷瀹氫箟
 
-### 3.1 核心类型 (types/index.ts)
-- **文件**: `src/types/index.ts`
-- **版本**: v2.3.2
-- **功能**: 定义应用中使用的类型
+### 3.1 鏍稿績绫诲瀷 (types/index.ts)
+- **鏂囦欢**: `src/types/index.ts`
+- **鐗堟湰**: v2.3.4
+- **鍔熻兘**: 瀹氫箟搴旂敤涓娇鐢ㄧ殑绫诲瀷
 
-**主要类型:**
-- `VisualizerMode` - 可视化模式枚举
-- `LyricsStyle` - 歌词样式枚举
-- `Language` - 语言类型
-- `Region` - 区域类型
-- `VisualizerSettings` - 可视化设置接口
-- `AudioDevice` - 音频设备接口
-- `SongInfo` - 歌曲信息接口
-- `SmartPreset` - 智能预设接口
-- `AudioSourceType` - 音频源类型
-- `Track` - 音频轨道接口
-- `PlaybackMode` - 播放模式枚举
-- `Position` - 位置类型
+**涓昏绫诲瀷:**
+- `VisualizerMode` - 鍙鍖栨ā寮忔灇涓?- `LyricsStyle` - 姝岃瘝椋庢牸鏋氫妇
+- `Language` - 璇█绫诲瀷
+- `Region` - 鍖哄煙绫诲瀷
+- `VisualizerSettings` - 鍙鍖栬缃帴鍙?- `AudioDevice` - 闊抽璁惧鎺ュ彛
+- `SongInfo` - 姝屾洸淇℃伅鎺ュ彛
+- `SmartPreset` - 鏅鸿兘棰勮鎺ュ彛
+- `AudioSourceType` - 闊抽婧愮被鍨?- `Track` - 闊抽杞ㄩ亾鎺ュ彛
+- `PlaybackMode` - 鎾斁妯″紡鏋氫妇
+- `Position` - 浣嶇疆绫诲瀷
 
-**代码示例:**
+**浠ｇ爜绀轰緥:**
 ```tsx
-// types/index.ts 核心结构
+// types/index.ts 鏍稿績缁撴瀯
 // File: src/types/index.ts | Version: v2.3.3
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
