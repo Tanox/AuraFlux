@@ -2,6 +2,15 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.3.5]
+### ✨ Version Update & Documentation Synchronization
+- **Version Synchronization**: Updated all project files to version v2.3.5
+- **Documentation**: Updated all specification documents in the spec/ directory
+- **Metadata**: Updated metadata.json and package.json with the new version
+- **Constants**: Updated version constants in src/constants/
+- **Locales**: Updated all language files in src/locales/
+- **README**: Updated README.md and README_ZH.md with the new version
+
 ## [v2.3.2]
 ### 鉁?Version Update & Validation
 - 鏇存柊澶氬浗璇█鏀寔缁撴瀯锛岃В鍐崇炕璇戠己澶遍棶棰樸€?- 娴嬭瘯鍜屼紭鍖栫ǔ瀹氭€с€?- 鍚屾寮€婧愭枃妗?openspec)銆?- 閫掑骞惰鑼冩墍鏈夋ā鍧楃増鏈彿鑷?v2.3.2銆?

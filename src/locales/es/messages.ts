@@ -1,8 +1,8 @@
-// File: src\locales\es\messages.ts | Version: v2.3.3
+// File: src\locales\es\messages.ts | Version: v2.3.5
 export const messages = {
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",
-  appVersion: "v2.3.0",
+  appVersion: "v2.3.5",
   hints: {
     randomize: "Aleatorizar Visuales y Colores",
     resetVisual: "Restablecer Configuración Visual",
