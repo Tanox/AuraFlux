@@ -1,4 +1,4 @@
-<!-- openspec/03_visual_rendering.md v2.3.4 -->
+<!-- openspec/03_visual_rendering.md v2.3.5 -->
 # 视觉渲染系统规范
 
 ## 1. 2D 可视化系统
@@ -89,7 +89,7 @@ export default VisualizerCanvas;
 
 ### 2.1 ThreeVisualizer 组件
 - **文件**: `src/components/visualizers/ThreeVisualizer.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 3D 音频可视化场景
 **核心特性**:
 - 使用 Three.js 渲染
@@ -98,93 +98,73 @@ export default VisualizerCanvas;
 - 高性能渲染
 
 **支持的 3D 模式**:
-- `SILK_WAVE` - 丝绸波浪
-- `NEON_CITY` - 霓虹城市
-- `COSMIC_VOID` - 宇宙虚空
-- `OCEAN_WAVE` - 海洋波浪
 - `DIGITAL_GRID` - 数字网格
+- `SILK_WAVE` - 丝绸波浪
+- `OCEAN_WAVE` - 海洋波浪
 - `NEURAL_FLOW` - 神经流
-- `KINETIC_WALL` - 动态墙
-- `LASER` - 激光效果
 - `CUBE_FIELD` - 立方体场
+- `KINETIC_WALL` - 动态墙
+- `LASERS` - 激光效果
 
 ### 2.2 3D 场景实现
 
 #### 2.2.1 Silk Wave 场景
 - **文件**: `src/components/visualizers/3d/silkWave/SilkWaveScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 丝绸波浪效果
 **核心特性**:
 - 平滑的波浪动画
 - 音频响应式振幅
 - 渐变颜色效果
 
-#### 2.2.2 Neon City 场景
-- **文件**: `src/components/visualizers/3d/neonCity/NeonCityScene.tsx`
-- **版本**: v2.3.4
-- **功能**: 霓虹城市效果
-**核心特性**:
-- 城市轮廓动画
-- 灯光效果
-- 音频响应式建筑高度
-
-#### 2.2.3 Cosmic Void 场景
-- **文件**: `src/components/visualizers/3d/cosmicVoid/CosmicVoidScene.tsx`
-- **版本**: v2.3.4
-- **功能**: 宇宙虚空效果
-**核心特性**:
-- 粒子系统
-- 星空背景
-- 音频响应式粒子密度
-
-#### 2.2.4 Ocean Wave 场景
+#### 2.2.2 Ocean Wave 场景
 - **文件**: `src/components/visualizers/3d/oceanWave/OceanWaveScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 海洋波浪效果
 **核心特性**:
 - 波浪动画
 - 水面材质
 - 音频响应式波浪高度
 
-#### 2.2.5 Digital Grid 场景
+#### 2.2.3 Digital Grid 场景
 - **文件**: `src/components/visualizers/3d/digitalGrid/DigitalGridScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 数字网格效果
 **核心特性**:
 - 网格动画
 - 发光效果
 - 音频响应式网格变形
 
-#### 2.2.6 Neural Flow 场景
+#### 2.2.4 Neural Flow 场景
 - **文件**: `src/components/visualizers/3d/neuralFlow/NeuralFlowScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 神经流效果
 **核心特性**:
 - 神经网络动画
 - 节点连接效果
 - 音频响应式网络密度
 
-#### 2.2.7 Kinetic Wall 场景
+#### 2.2.5 Kinetic Wall 场景
 - **文件**: `src/components/visualizers/3d/kineticWall/KineticWallScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 动态墙效果
 **核心特性**:
 - 墙块动画
 - 碰撞效果
 - 音频响应式墙块高度
 
-#### 2.2.8 Laser 场景
+#### 2.2.6 Laser 场景
 - **文件**: `src/components/visualizers/3d/laser/LaserScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 激光效果
 **核心特性**:
 - 激光束动画
 - 光影效果
 - 音频响应式激光强度
 
-#### 2.2.9 Cube Field 场景
+#### 2.2.7 Cube Field 场景
 - **文件**: `src/components/visualizers/3d/cubeField/CubeFieldScene.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 立方体场效果
 **核心特性**:
 - 立方体阵列

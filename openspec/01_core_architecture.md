@@ -255,16 +255,15 @@ export default function NotFound() {
 ```tsx
 // AppContext.tsx 核心结构
 'use client';
-// File: src/context/AppContext.tsx | Version: v2.3.3
-import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
+// File: src/context/AppContext.tsx | Version: v2.3.5
+import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
-import { useAudio } from '@/hooks/useAudio';
-import { useAppState } from '@/hooks/useAppState';
-import { useVisualsState } from '@/hooks/useVisualsState';
-import { useAiState } from '@/hooks/useAiState';
+import { useAudio } from '@/hooks/audio/useAudio';
+import { useAppState } from '@/hooks/state/useAppState';
+import { useVisualsState } from '@/hooks/state/useVisualsState';
+import { useAiState } from '@/hooks/state/useAiState';
 import { Toast } from '@/components/visualizers/ui/Toast';
-import { TRANSLATIONS } from '@/locales/index';
-import { TranslationSchema } from '@/locales/index';
+import type { TFunction } from 'i18next';
 
 type HelpTab = 'guide' | 'shortcuts' | 'about';
 
@@ -274,7 +273,7 @@ interface UIContextType {
   hasStarted: boolean; setHasStarted: React.Dispatch<React.SetStateAction<boolean>>;
   resetSettings: () => void;
   manageWakeLock: (enabled: boolean) => Promise<void>;
-  toggleFullscreen: () => void; t: TranslationSchema;
+  toggleFullscreen: () => void; t: TFunction<'translation', undefined>;
   showToast: (message: string, type?: 'success' | 'info' | 'error', duration?: number, position?: 'top' | 'bottom') => void;
   showHelpModal: boolean;
   setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -319,6 +318,7 @@ interface AudioContextType {
   fileStatus?: 'ready' | 'loading' | 'none';
   fileName?: string;
   audioContext: AudioContext | null;
+  handleSourceTypeChange: (type: 'microphone' | 'file' | 'url') => void;
 }
 const AudioContext = createContext<AudioContextType | null>(null);
 export const useAudioContext = () => useContext(AudioContext)!;
@@ -344,9 +344,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
   
   const uiState = useAppState();
-  const visualsState = useVisualsState(uiState.hasStarted, {} as any);
+  const visualsState = useVisualsState(uiState.hasStarted, {});
   const [currentSong, setCurrentSong] = useState<SongInfo | null>(null);
-  const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, t: uiState.t, showToast });
+  const audioState = useAudio({ settings: visualsState.settings, language: uiState.language, setCurrentSong, showToast });
   
   const aiState = useAiState({
     language: uiState.language,
@@ -382,7 +382,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       VisualizerMode.DIGITAL_GRID, VisualizerMode.SILK_WAVE,
       VisualizerMode.OCEAN_WAVE, VisualizerMode.NEURAL_FLOW,
       VisualizerMode.CUBE_FIELD, VisualizerMode.KINETIC_WALL,
-      VisualizerMode.VORTEX, VisualizerMode.LASERS
+      VisualizerMode.LASERS
     ].includes(visualsState.mode);
   }, [visualsState.mode]);
 
@@ -624,7 +624,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 **代码示例:**
 ```tsx
 // types/index.ts 核心结构
-// File: src/types/index.ts | Version: v2.3.3
+// File: src/types/index.ts | Version: v2.3.5
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
   SILK_WAVE = 'SILK_WAVE',
@@ -632,7 +632,6 @@ export enum VisualizerMode {
   NEURAL_FLOW = 'NEURAL_FLOW',
   CUBE_FIELD = 'CUBE_FIELD',
   KINETIC_WALL = 'KINETIC_WALL',
-  VORTEX = 'VORTEX',
   WAVEFORM = 'WAVEFORM',
   TUNNEL = 'TUNNEL',
   LASERS = 'LASERS',

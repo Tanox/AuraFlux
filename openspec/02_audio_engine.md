@@ -1,11 +1,11 @@
-<!-- openspec/02_audio_engine.md v2.3.4 -->
+<!-- openspec/02_audio_engine.md v2.3.5 -->
 # 音频引擎规范
 
 ## 1. 核心音频 Hook
 
 ### 1.1 useAudio Hook
-- **文件**: `src/hooks/useAudio.ts`
-- **版本**: v2.3.4
+- **文件**: `src/hooks/audio/useAudio.ts`
+- **版本**: v2.3.5
 - **功能**: 提供音频处理和分析功能
 **核心状态**
 - `sourceType` - 音频源类型 (`'microphone' | 'file' | 'url'`)
@@ -22,10 +22,14 @@
 - `isPlaying` - 播放状态
 - `duration` - 音频时长
 - `currentTime` - 当前播放时间
+- `audioContext` - 音频上下文
 
 **核心方法**:
 - `toggleMicrophone` - 切换麦克风状态
+- `onDeviceChange` - 设备变更处理
 - `importFiles` - 导入音频文件
+- `importFromUrl` - 从URL导入音频
+- `importPlaylistFromUrl` - 从URL导入播放列表
 - `togglePlayback` - 切换播放状态
 - `seekFile` - 跳转播放位置
 - `playNext` - 播放下一曲
@@ -34,8 +38,8 @@
 - `removeFromPlaylist` - 从播放列表中移除歌曲
 - `clearPlaylist` - 清空播放列表
 - `getAudioSlice` - 获取音频片段
-- `importFromUrl` - 从URL导入音频
-- `importPlaylistFromUrl` - 从URL导入播放列表
+- `setPlaybackMode` - 设置播放模式
+- `handleSourceTypeChange` - 切换音频源类型
 
 **音频设备管理**:
 - 自动检测可用音频输入设备
@@ -44,23 +48,109 @@
 **代码示例**:
 ```tsx
 // useAudio.ts 核心结构
-// File: src/hooks/useAudio.ts | Version: v2.3.4
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
-import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
+// File: src/hooks/audio/useAudio.ts | Version: v2.3.5
+'use client';
+import { useCallback, useState, useEffect } from 'react';
+import { UseAudioProps, UseAudioReturn } from './types';
+import { useMicrophoneManager } from './microphoneManager';
+import { useFilePlayer } from './filePlayer';
 
-interface UseAudioProps {
-  settings: VisualizerSettings;
-  language: string;
-  setCurrentSong: (s: SongInfo | null) => void;
-  t: any;
-  showToast: (m: string, type?: any) => void;
-}
-
-export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: UseAudioProps) => {
+export function useAudio({ settings, language, setCurrentSong, showToast }: UseAudioProps): UseAudioReturn {
   const [sourceType, setSourceType] = useState<'microphone' | 'file' | 'url'>('microphone');
-  const [isListening, setIsListening] = useState(false);
-  // 其他状态和方法...
-};
+  const [isPending, setIsPending] = useState(false);
+
+  // 麦克风管理
+  const {
+    isListening,
+    mediaStream,
+    audioDevices,
+    selectedDeviceId,
+    toggleMicrophone,
+    onDeviceChange,
+    audioContext: micAudioContext,
+    analyser: micAnalyser,
+  } = useMicrophoneManager({ showToast });
+
+  // 文件播放管理
+  const {
+    playlist,
+    currentIndex,
+    playbackMode,
+    setPlaybackMode,
+    isPlaying,
+    duration,
+    currentTime,
+    analyser: fileAnalyser,
+    analyserR: fileAnalyserR,
+    audioContext: fileAudioContext,
+    importFiles,
+    importFromUrl,
+    importPlaylistFromUrl,
+    togglePlayback,
+    seekFile,
+    playNext,
+    playPrev,
+    playTrackByIndex,
+    removeFromPlaylist,
+    clearPlaylist,
+    getAudioSlice,
+  } = useFilePlayer({ setCurrentSong, showToast });
+
+  // 选择当前的 analyser
+  const analyser = sourceType === 'microphone' ? micAnalyser : fileAnalyser;
+  const analyserR = sourceType === 'microphone' ? micAnalyser : fileAnalyserR;
+  const audioContext = sourceType === 'microphone' ? micAudioContext : fileAudioContext;
+
+  // 切换源类型时的处理
+  const handleSourceTypeChange = useCallback((type: 'microphone' | 'file' | 'url') => {
+    setSourceType(type);
+  }, []);
+
+  // 清理函数
+  useEffect(() => {
+    return () => {
+      // 清理麦克风
+      mediaStream?.getTracks().forEach(t => t.stop());
+      
+      // 清理音频上下文
+      micAudioContext?.close();
+      fileAudioContext?.close();
+    };
+  }, [mediaStream, micAudioContext, fileAudioContext]);
+
+  return {
+    sourceType,
+    isListening,
+    isPending,
+    analyser,
+    analyserR,
+    mediaStream,
+    audioDevices,
+    selectedDeviceId,
+    onDeviceChange,
+    toggleMicrophone,
+    playlist,
+    currentIndex,
+    playbackMode,
+    setPlaybackMode,
+    importFiles,
+    importFromUrl,
+    importPlaylistFromUrl,
+    togglePlayback,
+    seekFile,
+    playNext,
+    playPrev,
+    playTrackByIndex,
+    removeFromPlaylist,
+    clearPlaylist,
+    getAudioSlice,
+    isPlaying,
+    duration,
+    currentTime,
+    audioContext,
+    handleSourceTypeChange,
+  };
+}
 ```
 
 ### 1.2 useAudioPulse Hook

@@ -1,11 +1,11 @@
-<!-- openspec/05_ui_interaction.md v2.3.4 -->
+<!-- openspec/05_ui_interaction.md v2.3.5 -->
 # UI 与交互系统规范
 
 ## 1. 控制面板系统
 
 ### 1.1 Controls 组件
 - **文件**: `src/components/controls/Controls.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 主控制面板组件
 **核心特性**
 - 多标签页面板 (Bento Grid 风格)
@@ -100,7 +100,7 @@ export default Controls;
 
 ### 2.1 视觉设置面板
 - **文件**: `src/components/controls/panels/VisualSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 视觉效果设置
 **核心功能**:
 - 可视化模式选择
@@ -111,7 +111,7 @@ export default Controls;
 
 ### 2.2 音频输入设置面板
 - **文件**: `src/components/controls/panels/AudioSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 音频输入设置
 **核心功能**:
 - 音频源选择
@@ -121,7 +121,7 @@ export default Controls;
 
 ### 2.3 播放控制面板
 - **文件**: `src/components/controls/panels/PlaybackPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 播放控制
 **核心功能**:
 - 播放/暂停控制
@@ -131,7 +131,7 @@ export default Controls;
 
 ### 2.4 文本设置面板
 - **文件**: `src/components/controls/panels/CustomTextSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 自定义文本设置
 **核心功能**:
 - 文本内容输入
@@ -141,7 +141,7 @@ export default Controls;
 
 ### 2.5 工作室设置面板
 - **文件**: `src/components/controls/panels/StudioPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 工作室功能设置
 **核心功能**:
 - 录制设置
@@ -151,7 +151,7 @@ export default Controls;
 
 ### 2.6 系统设置面板
 - **文件**: `src/components/controls/panels/SystemSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.5
 - **功能**: 系统设置
 **核心功能**:
 - 语言选择

@@ -46,13 +46,14 @@ describe('aiService', () => {
   test('blobToBase64 should convert blob to base64 string', async () => {
     // Mock FileReader for this test
     class MockFileReader {
-      result: string | ArrayBuffer | null = 'data:audio/wav;base64,test-base64-data';
+      result: string | ArrayBuffer | null = null;
       onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
       onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
 
       readAsDataURL(blob: Blob) {
         // Simulate successful read
         setTimeout(() => {
+          this.result = 'data:audio/wav;base64,test-base64-data';
           if (this.onloadend) {
             this.onloadend({} as ProgressEvent<FileReader>);
           }
@@ -203,12 +204,13 @@ describe('aiService', () => {
 
     // Mock FileReader for blobToBase64
     class MockFileReader {
-      result: string | ArrayBuffer | null = 'data:audio/wav;base64,test-base64-data';
+      result: string | ArrayBuffer | null = null;
       onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
       onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
 
       readAsDataURL(blob: Blob) {
         setTimeout(() => {
+          this.result = 'data:audio/wav;base64,test-base64-data';
           if (this.onloadend) {
             this.onloadend({} as ProgressEvent<FileReader>);
           }
