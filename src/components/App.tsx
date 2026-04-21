@@ -1,7 +1,7 @@
 'use client';
 
 // File: src\components\App.tsx | Version: v2.3.5
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
 
@@ -40,27 +40,35 @@ const MainContent: React.FC = () => {
   const { isIdle } = useIdleTimer(isExpanded, visuals?.settings?.autoHideUi);
   const gestures = useMobileGestures();
 
-
-
+  // Manage wake lock
   useEffect(() => {
-    if (visuals?.settings?.wakeLock && ui) ui.manageWakeLock(true);
-    return () => { if (ui) ui.manageWakeLock(false); };
+    if (visuals?.settings?.wakeLock && ui) {
+      ui.manageWakeLock(true);
+    }
+    return () => {
+      if (ui) {
+        ui.manageWakeLock(false);
+      }
+    };
   }, [visuals?.settings?.wakeLock, ui]);
 
+  // Handle theme changes
   useEffect(() => {
     if (typeof document !== 'undefined') {
       const root = document.documentElement;
       if (visuals?.settings?.appTheme === 'light') {
-          root.classList.remove('dark');
+        root.classList.remove('dark');
       } else {
-          root.classList.add('dark');
+        root.classList.add('dark');
       }
     }
   }, [visuals?.settings?.appTheme]);
 
   // Style theme auto cycle functionality
   useEffect(() => {
-    if (!visuals?.settings?.cycleColors || !visuals?.setColorTheme || !visuals?.colorTheme) return;
+    if (!visuals?.settings?.cycleColors || !visuals?.setColorTheme || !visuals?.colorTheme) {
+      return;
+    }
 
     let currentTheme = visuals.colorTheme;
 
@@ -68,9 +76,13 @@ const MainContent: React.FC = () => {
       if (visuals.setColorTheme) {
         // Find current theme index
         const currentIndex = COLOR_THEMES.findIndex(theme => {
-          if (theme.colors.length !== currentTheme.length) return false;
+          if (theme.colors.length !== currentTheme.length) {
+            return false;
+          }
           for (let i = 0; i < theme.colors.length; i++) {
-            if (theme.colors[i] !== currentTheme[i]) return false;
+            if (theme.colors[i] !== currentTheme[i]) {
+              return false;
+            }
           }
           return true;
         });
@@ -99,47 +111,95 @@ const MainContent: React.FC = () => {
     }
   }, []);
 
-  if (!ui || !visuals || !audio || !ai) return null;
+  if (!ui || !visuals || !audio || !ai) {
+    return null;
+  }
 
   const { 
-      hasStarted, language, setLanguage, 
-      showHelpModal, setShowHelpModal, helpModalInitialTab, 
-      isDragging, setIsDragging, t, 
-      toggleFullscreen
+    hasStarted, 
+    language, 
+    setLanguage, 
+    showHelpModal, 
+    setShowHelpModal, 
+    helpModalInitialTab, 
+    isDragging, 
+    setIsDragging, 
+    t, 
+    toggleFullscreen
   } = ui;
   
-  const { mode, colorTheme, settings, setSettings, isThreeMode, setColorTheme } = visuals;
-  const { analyser, analyserR, currentSong, importFiles } = audio;
-  const { showLyrics, lyricsStyle, performIdentification } = ai;
+  const { 
+    mode, 
+    colorTheme, 
+    settings, 
+    setSettings, 
+    isThreeMode 
+  } = visuals;
   
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const { 
+    analyser, 
+    analyserR, 
+    currentSong, 
+    importFiles, 
+    mediaStream 
+  } = audio;
+  
+  const { 
+    showLyrics, 
+    lyricsStyle, 
+    performIdentification 
+  } = ai;
+  
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    if (e.dataTransfer.types.includes('Files')) setIsDragging(true);
-  };
+    if (e.dataTransfer.types.includes('Files')) {
+      setIsDragging(true);
+    }
+  }, [setIsDragging]);
   
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-  };
+  }, [setIsDragging]);
   
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const audioFiles = Array.from(e.dataTransfer.files as FileList).filter((file: File) => file.type.startsWith('audio/'));
-      if (audioFiles.length > 0) importFiles(audioFiles);
-    }
-  };
-
-  const handleRetryIdentification = () => {
-      const stream = audio.mediaStream;
-      if (performIdentification && stream) {
-          performIdentification(stream);
+      const audioFiles = Array.from(e.dataTransfer.files as FileList)
+        .filter((file: File) => file.type.startsWith('audio/'));
+      if (audioFiles.length > 0) {
+        importFiles(audioFiles);
       }
-  };
+    }
+  }, [importFiles, setIsDragging]);
 
-  if (!hasStarted) return <WelcomeScreen />;
-  if (!onboarded) return <OnboardingOverlay language={language} setLanguage={setLanguage} onComplete={() => { setOnboarded(true); localStorage.setItem('av_v1_onboarded', 'true'); }} />;
+  const handleRetryIdentification = useCallback(() => {
+    if (performIdentification && mediaStream) {
+      performIdentification(mediaStream);
+    }
+  }, [performIdentification, mediaStream]);
+
+  const handleCloseSongInfo = useCallback(() => {
+    setSettings((s: any) => ({ ...s, showSongInfo: false }));
+  }, [setSettings]);
+
+  if (!hasStarted) {
+    return <WelcomeScreen />;
+  }
+  
+  if (!onboarded) {
+    return (
+      <OnboardingOverlay 
+        language={language} 
+        setLanguage={setLanguage} 
+        onComplete={() => {
+          setOnboarded(true);
+          localStorage.setItem('av_v1_onboarded', 'true');
+        }} 
+      />
+    );
+  }
 
   return (
     <div 
@@ -151,10 +211,11 @@ const MainContent: React.FC = () => {
       {...gestures}
     >
       {isDragging && (
-          <div id="drag-overlay" className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none z-50">
-            <p className="text-white font-bold text-2xl drop-shadow-lg">{t('common.dropFiles')}</p>
-          </div>
+        <div id="drag-overlay" className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none z-50">
+          <p className="text-white font-bold text-2xl drop-shadow-lg">{t('common.dropFiles')}</p>
+        </div>
       )}
+      
       <div
         id="visualizer-container"
         className="visualizer-container w-full h-full relative"
@@ -163,32 +224,78 @@ const MainContent: React.FC = () => {
         <Suspense fallback={null}>
           {isThreeMode ? (
             analyser && settings ? (
-              <ThreeVisualizer analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
+              <ThreeVisualizer 
+                analyser={analyser} 
+                analyserR={analyserR} 
+                colors={colorTheme} 
+                settings={settings} 
+                mode={mode} 
+              />
             ) : (
               <div className="w-full h-full bg-black" />
             )
           ) : (
-            <VisualizerCanvas analyser={analyser} analyserR={analyserR} colors={colorTheme} settings={settings} mode={mode} />
+            <VisualizerCanvas 
+              analyser={analyser} 
+              analyserR={analyserR} 
+              colors={colorTheme} 
+              settings={settings} 
+              mode={mode} 
+            />
           )}
         </Suspense>
       </div>
-      {showHelpModal && <HelpModal onClose={() => setShowHelpModal(false)} initialTab={helpModalInitialTab} />}
-      <SongOverlay song={currentSong} isVisible={settings.showSongInfo} language={language} onRetry={handleRetryIdentification} onClose={() => setSettings((s: any) => ({...s, showSongInfo: false}))} analyser={analyser} sensitivity={settings.sensitivity} showAlbumArt={settings.showAlbumArtOverlay} />
-      <LyricsOverlay settings={settings} song={currentSong} showLyrics={showLyrics} lyricsStyle={lyricsStyle} analyser={analyser} />
-      <CustomTextOverlay settings={settings} analyser={analyser} song={currentSong} />
+      
+      {showHelpModal && (
+        <HelpModal 
+          onClose={() => setShowHelpModal(false)} 
+          initialTab={helpModalInitialTab} 
+        />
+      )}
+      
+      <SongOverlay 
+        song={currentSong} 
+        isVisible={settings.showSongInfo} 
+        language={language} 
+        onRetry={handleRetryIdentification} 
+        onClose={handleCloseSongInfo} 
+        analyser={analyser} 
+        sensitivity={settings.sensitivity} 
+        showAlbumArt={settings.showAlbumArtOverlay} 
+      />
+      
+      <LyricsOverlay 
+        settings={settings} 
+        song={currentSong} 
+        showLyrics={showLyrics} 
+        lyricsStyle={lyricsStyle} 
+        analyser={analyser} 
+      />
+      
+      <CustomTextOverlay 
+        settings={settings} 
+        analyser={analyser} 
+        song={currentSong} 
+      />
+      
       {settings.showFps && <FPSCounter />}
 
       <Suspense fallback={null}>
-        <Controls isExpanded={isExpanded} setIsExpanded={setIsExpanded} isIdle={isIdle} toggleFullscreen={toggleFullscreen} />
+        <Controls 
+          isExpanded={isExpanded} 
+          setIsExpanded={setIsExpanded} 
+          isIdle={isIdle} 
+          toggleFullscreen={toggleFullscreen} 
+        />
       </Suspense>
     </div>
   );
 };
 
 export const App: React.FC = () => (
-    <AppProvider>
-        <Suspense fallback={<div id="app-fallback-loader" className="w-screen h-screen bg-black" />}>
-            <MainContent />
-        </Suspense>
-    </AppProvider>
+  <AppProvider>
+    <Suspense fallback={<div id="app-fallback-loader" className="w-screen h-screen bg-black" />}>
+      <MainContent />
+    </Suspense>
+  </AppProvider>
 );
