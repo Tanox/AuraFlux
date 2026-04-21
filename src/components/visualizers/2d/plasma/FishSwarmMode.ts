@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/FishSwarmMode.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/plasma/FishSwarmMode.ts | Version: v2.3.5
 
 import { PlasmaModeProps } from './types';
 
@@ -37,8 +37,8 @@ class FishSwarmManager {
       const isLeader = i < this.groupCount;
       
       const particle: FishParticle = {
-        x: Math.random() * this.width,
-        y: Math.random() * this.height,
+        x: this.width / 2 + (Math.random() - 0.5) * 100,
+        y: this.height / 2 + (Math.random() - 0.5) * 100,
         z: (Math.random() - 0.5) * 200,
         vx: (Math.random() - 0.5) * 2,
         vy: (Math.random() - 0.5) * 2,
@@ -70,16 +70,49 @@ class FishSwarmManager {
     return colors[group % colors.length];
   }
 
-  private updateLeader(leader: FishParticle, time: number): void {
+  private calculateGroupCenter(group: number): { x: number, y: number, z: number } {
+    const groupParticles = this.particles.filter(p => p.group === group);
+    if (groupParticles.length === 0) {
+      return { x: this.width / 2, y: this.height / 2, z: 0 };
+    }
+
+    const center = groupParticles.reduce(
+      (acc, p) => {
+        acc.x += p.x;
+        acc.y += p.y;
+        acc.z += p.z;
+        return acc;
+      },
+      { x: 0, y: 0, z: 0 }
+    );
+
+    return {
+      x: center.x / groupParticles.length,
+      y: center.y / groupParticles.length,
+      z: center.z / groupParticles.length
+    };
+  }
+
+  private updateLeader(leader: FishParticle, time: number, averageEnergy: number = 0.5): void {
+    const groupCenter = this.calculateGroupCenter(leader.group);
+    const centerX = groupCenter.x;
+    const centerY = groupCenter.y;
+    const centerZ = groupCenter.z;
+
     const noiseX = Math.sin(time * 0.001 + leader.group) * 0.5;
     const noiseY = Math.cos(time * 0.0012 + leader.group) * 0.5;
     const noiseZ = Math.sin(time * 0.0008 + leader.group) * 0.3;
+
+    const centerAttractionStrength = 0.005;
+    leader.vx += (centerX - leader.x) * centerAttractionStrength;
+    leader.vy += (centerY - leader.y) * centerAttractionStrength;
+    leader.vz += (centerZ - leader.z) * centerAttractionStrength * 0.5;
 
     leader.vx += noiseX * 0.1;
     leader.vy += noiseY * 0.1;
     leader.vz += noiseZ * 0.05;
 
-    const maxSpeed = 3;
+    const maxSpeed = 3 + averageEnergy * 2;
     const speed = Math.sqrt(leader.vx * leader.vx + leader.vy * leader.vy);
     if (speed > maxSpeed) {
       leader.vx = (leader.vx / speed) * maxSpeed;
@@ -90,45 +123,118 @@ class FishSwarmManager {
     leader.y += leader.vy;
     leader.z += leader.vz;
 
-    if (leader.x < 0 || leader.x > this.width) leader.vx *= -0.8;
-    if (leader.y < 0 || leader.y > this.height) leader.vy *= -0.8;
-    if (leader.z < -100 || leader.z > 100) leader.vz *= -0.8;
+    const boundaryMargin = 100;
+    if (leader.x < boundaryMargin) {
+      leader.vx += 0.1;
+    } else if (leader.x > this.width - boundaryMargin) {
+      leader.vx -= 0.1;
+    }
+    if (leader.y < boundaryMargin) {
+      leader.vy += 0.1;
+    } else if (leader.y > this.height - boundaryMargin) {
+      leader.vy -= 0.1;
+    }
+    if (leader.z < -100) {
+      leader.vz += 0.05;
+    } else if (leader.z > 100) {
+      leader.vz -= 0.05;
+    }
 
-    leader.rotation += leader.rotationSpeed;
+    leader.rotation = Math.atan2(leader.vy, leader.vx);
   }
 
-  private updateFollower(follower: FishParticle, leader: FishParticle, time: number): void {
+  private updateFollower(follower: FishParticle, leader: FishParticle, time: number, averageEnergy: number = 0.5): void {
     const dx = leader.x - follower.x;
     const dy = leader.y - follower.y;
     const dz = leader.z - follower.z;
     const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-    const cohesionStrength = 0.01;
+    const groupParticles = this.particles.filter(p => p.group === follower.group && !p.leader);
+    let nearNeighbors = 0;
+    let neighborX = 0;
+    let neighborY = 0;
+    let neighborZ = 0;
+
+    groupParticles.forEach(neighbor => {
+      if (neighbor !== follower) {
+        const ndx = neighbor.x - follower.x;
+        const ndy = neighbor.y - follower.y;
+        const ndz = neighbor.z - follower.z;
+        const ndistance = Math.sqrt(ndx * ndx + ndy * ndy + ndz * ndz);
+        
+        if (ndistance < 50) {
+          nearNeighbors++;
+          neighborX += neighbor.x;
+          neighborY += neighbor.y;
+          neighborZ += neighbor.z;
+        }
+      }
+    });
+
+    const cohesionStrength = 0.02 + averageEnergy * 0.01;
     if (distance > 0) {
       follower.vx += (dx / distance) * cohesionStrength;
       follower.vy += (dy / distance) * cohesionStrength;
       follower.vz += (dz / distance) * cohesionStrength * 0.5;
     }
 
-    const separationDistance = 20;
+    if (nearNeighbors > 0) {
+      const neighborCenterX = neighborX / nearNeighbors;
+      const neighborCenterY = neighborY / nearNeighbors;
+      const neighborCenterZ = neighborZ / nearNeighbors;
+      
+      const neighborCohesionStrength = 0.01;
+      follower.vx += (neighborCenterX - follower.x) * neighborCohesionStrength;
+      follower.vy += (neighborCenterY - follower.y) * neighborCohesionStrength;
+      follower.vz += (neighborCenterZ - follower.z) * neighborCohesionStrength * 0.5;
+    }
+
+    const separationDistance = 15 - averageEnergy * 5;
     if (distance < separationDistance && distance > 0) {
-      const separationStrength = 0.02;
+      const separationStrength = 0.03;
       follower.vx -= (dx / distance) * separationStrength;
       follower.vy -= (dy / distance) * separationStrength;
       follower.vz -= (dz / distance) * separationStrength * 0.5;
     }
 
-    const alignmentStrength = 0.05;
+    groupParticles.forEach(neighbor => {
+      if (neighbor !== follower) {
+        const ndx = neighbor.x - follower.x;
+        const ndy = neighbor.y - follower.y;
+        const ndz = neighbor.z - follower.z;
+        const ndistance = Math.sqrt(ndx * ndx + ndy * ndy + ndz * ndz);
+        
+        if (ndistance < separationDistance && ndistance > 0) {
+          const neighborSeparationStrength = 0.02;
+          follower.vx -= (ndx / ndistance) * neighborSeparationStrength;
+          follower.vy -= (ndy / ndistance) * neighborSeparationStrength;
+          follower.vz -= (ndz / ndistance) * neighborSeparationStrength * 0.5;
+        }
+      }
+    });
+
+    const alignmentStrength = 0.08;
     follower.vx += (leader.vx - follower.vx) * alignmentStrength;
     follower.vy += (leader.vy - follower.vy) * alignmentStrength;
     follower.vz += (leader.vz - follower.vz) * alignmentStrength * 0.5;
 
-    const noiseStrength = 0.05;
+    if (nearNeighbors > 0) {
+      const neighborAvgVx = groupParticles.reduce((sum, p) => sum + p.vx, 0) / groupParticles.length;
+      const neighborAvgVy = groupParticles.reduce((sum, p) => sum + p.vy, 0) / groupParticles.length;
+      const neighborAvgVz = groupParticles.reduce((sum, p) => sum + p.vz, 0) / groupParticles.length;
+      
+      const neighborAlignmentStrength = 0.04;
+      follower.vx += (neighborAvgVx - follower.vx) * neighborAlignmentStrength;
+      follower.vy += (neighborAvgVy - follower.vy) * neighborAlignmentStrength;
+      follower.vz += (neighborAvgVz - follower.vz) * neighborAlignmentStrength * 0.5;
+    }
+
+    const noiseStrength = 0.03;
     follower.vx += (Math.random() - 0.5) * noiseStrength;
     follower.vy += (Math.random() - 0.5) * noiseStrength;
     follower.vz += (Math.random() - 0.5) * noiseStrength * 0.5;
 
-    const maxSpeed = 2.5;
+    const maxSpeed = 2.5 + averageEnergy * 1.5;
     const speed = Math.sqrt(follower.vx * follower.vx + follower.vy * follower.vy);
     if (speed > maxSpeed) {
       follower.vx = (follower.vx / speed) * maxSpeed;
@@ -140,22 +246,20 @@ class FishSwarmManager {
     follower.z += follower.vz;
 
     follower.rotation = Math.atan2(follower.vy, follower.vx);
-    follower.rotationSpeed = (Math.random() - 0.5) * 0.03;
-    follower.rotation += follower.rotationSpeed;
   }
 
-  update(time: number, width: number, height: number): void {
+  update(time: number, width: number, height: number, averageEnergy: number = 0.5): void {
     this.width = width;
     this.height = height;
 
     this.leaders.forEach(leader => {
-      this.updateLeader(leader, time);
+      this.updateLeader(leader, time, averageEnergy);
     });
 
     this.particles.forEach(particle => {
       if (!particle.leader) {
         const leader = this.leaders[particle.group];
-        this.updateFollower(particle, leader, time);
+        this.updateFollower(particle, leader, time, averageEnergy);
       }
     });
   }
@@ -181,7 +285,8 @@ export const renderFishSwarmMode = ({
     fishSwarmManager = new FishSwarmManager(width, height);
   }
   
-  fishSwarmManager.update(time, width, height);
+  const averageEnergy = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length / 255 * sensitivity;
+  fishSwarmManager.update(time, width, height, averageEnergy);
   const particles = fishSwarmManager.getParticles();
   
   ctx.save();
