@@ -111,10 +111,6 @@ const MainContent: React.FC = () => {
     }
   }, []);
 
-  if (!ui || !visuals || !audio || !ai) {
-    return null;
-  }
-
   const { 
     hasStarted, 
     language, 
@@ -126,7 +122,7 @@ const MainContent: React.FC = () => {
     setIsDragging, 
     t, 
     toggleFullscreen
-  } = ui;
+  } = ui || {};
   
   const { 
     mode, 
@@ -134,7 +130,7 @@ const MainContent: React.FC = () => {
     settings, 
     setSettings, 
     isThreeMode 
-  } = visuals;
+  } = visuals || {};
   
   const { 
     analyser, 
@@ -142,30 +138,34 @@ const MainContent: React.FC = () => {
     currentSong, 
     importFiles, 
     mediaStream 
-  } = audio;
+  } = audio || {};
   
   const { 
     showLyrics, 
     lyricsStyle, 
     performIdentification 
-  } = ai;
+  } = ai || {};
   
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    if (e.dataTransfer.types.includes('Files')) {
+    if (e.dataTransfer.types.includes('Files') && setIsDragging) {
       setIsDragging(true);
     }
   }, [setIsDragging]);
   
   const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setIsDragging(false);
+    if (setIsDragging) {
+      setIsDragging(false);
+    }
   }, [setIsDragging]);
   
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    setIsDragging(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+    if (setIsDragging) {
+      setIsDragging(false);
+    }
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0 && importFiles) {
       const audioFiles = Array.from(e.dataTransfer.files as FileList)
         .filter((file: File) => file.type.startsWith('audio/'));
       if (audioFiles.length > 0) {
@@ -181,8 +181,14 @@ const MainContent: React.FC = () => {
   }, [performIdentification, mediaStream]);
 
   const handleCloseSongInfo = useCallback(() => {
-    setSettings((s: any) => ({ ...s, showSongInfo: false }));
+    if (setSettings) {
+      setSettings((s: any) => ({ ...s, showSongInfo: false }));
+    }
   }, [setSettings]);
+
+  if (!ui || !visuals || !audio || !ai) {
+    return null;
+  }
 
   if (!hasStarted) {
     return <WelcomeScreen />;
