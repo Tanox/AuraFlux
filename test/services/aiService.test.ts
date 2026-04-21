@@ -30,34 +30,38 @@ jest.mock('@/utils/logger', () => ({
   },
 }));
 
-// Mock FileReader
-class MockFileReader {
-  result: string | ArrayBuffer | null = null;
-  onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
-  onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
-
-  readAsDataURL(blob: Blob) {
-    // Simulate successful read
-    setTimeout(() => {
-      this.result = 'data:audio/wav;base64,test-base64-data';
-      if (this.onloadend) {
-        this.onloadend({} as ProgressEvent<FileReader>);
-      }
-    }, 0);
-  }
-}
-
-Object.defineProperty(window, 'FileReader', {
-  value: MockFileReader,
-  writable: true,
-});
+// Store original FileReader
+const originalFileReader = window.FileReader;
 
 describe('aiService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
+  afterEach(() => {
+    // Restore original FileReader after each test
+    window.FileReader = originalFileReader;
+  });
+
   test('blobToBase64 should convert blob to base64 string', async () => {
+    // Mock FileReader for this test
+    class MockFileReader {
+      result: string | ArrayBuffer | null = 'data:audio/wav;base64,test-base64-data';
+      onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+      onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+
+      readAsDataURL(blob: Blob) {
+        // Simulate successful read
+        setTimeout(() => {
+          if (this.onloadend) {
+            this.onloadend({} as ProgressEvent<FileReader>);
+          }
+        }, 0);
+      }
+    }
+
+    window.FileReader = MockFileReader as any;
+
     const mockBlob = new Blob(['test audio data'], { type: 'audio/wav' });
     const result = await blobToBase64(mockBlob);
     expect(result).toBe('test-base64-data');
@@ -66,10 +70,11 @@ describe('aiService', () => {
   test('blobToBase64 should handle errors', async () => {
     // Mock FileReader to throw error
     class MockFileReaderError {
-      onloadend: any = null;
-      onerror: any = null;
+      result: string | ArrayBuffer | null = null;
+      onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+      onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
 
-      readAsDataURL() {
+      readAsDataURL(blob: Blob) {
         setTimeout(() => {
           if (this.onerror) {
             this.onerror({} as ProgressEvent<FileReader>);
@@ -78,10 +83,7 @@ describe('aiService', () => {
       }
     }
 
-    Object.defineProperty(window, 'FileReader', {
-      value: MockFileReaderError,
-      writable: true,
-    });
+    window.FileReader = MockFileReaderError as any;
 
     const mockBlob = new Blob(['test audio data'], { type: 'audio/wav' });
     await expect(blobToBase64(mockBlob)).rejects.toThrow('Failed to read audio data');
@@ -200,27 +202,25 @@ describe('aiService', () => {
     mockFetch.mockResolvedValueOnce(mockResponse as Response);
 
     // Mock FileReader for blobToBase64
-    const originalFileReader = window.FileReader;
-    window.FileReader = class MockFileReader {
+    class MockFileReader {
       result: string | ArrayBuffer | null = 'data:audio/wav;base64,test-base64-data';
       onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
       onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
 
-      readAsDataURL() {
+      readAsDataURL(blob: Blob) {
         setTimeout(() => {
           if (this.onloadend) {
             this.onloadend({} as ProgressEvent<FileReader>);
           }
         }, 0);
       }
-    };
+    }
+
+    window.FileReader = MockFileReader as any;
 
     const mockBlob = new Blob(['test audio data'], { type: 'audio/wav' });
     const result = await identifySong(mockBlob);
     expect(result).toEqual({ songName: 'Test Song', artist: 'Test Artist' });
-
-    // Restore original FileReader
-    window.FileReader = originalFileReader;
   });
 
   test('identifySong should return null when failed', async () => {
