@@ -3,11 +3,15 @@
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {
   const startIndex = start || 0;
   const endIndex = end || dataArray.length;
+  const length = endIndex - startIndex;
+  if (length <= 0) {
+    return 0;
+  }
   let sum = 0;
   for (let i = startIndex; i < endIndex; i++) {
     sum += dataArray[i];
   }
-  return sum / (endIndex - startIndex);
+  return sum / length;
 };
 
 export const getAudioSlice = async (file: File, duration: number = 10): Promise<Blob | null> => {

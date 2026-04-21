@@ -7,6 +7,7 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry, MeshBasicMaterial, Vector3, Line, LineBasicMaterial, BufferGeometry } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
+import { usePerformance } from '@/hooks/performance/usePerformance';
 import { SceneBackground } from '../../ui/SceneBackground';
 import { SceneProps, LaserState, CollisionEffect, ReflectionEffect } from './types';
 import { initializeLaserStates, calculateLaserPosition, calculateLaserScale, calculateLaserFlicker } from './laserState';
@@ -18,8 +19,13 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
   const reflectionEffectsRef = useRef<ReflectionEffect[]>([]);
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const { volume, bass, treble, isBeat } = features;
+  const { performanceLevel, adjustmentFactor } = usePerformance();
   
-  const count = 64;
+  // 根据性能等级和质量设置调整实例数量
+  const quality = settings.quality || 'med';
+  const baseCount = quality === 'high' ? 64 : quality === 'med' ? 48 : 32;
+  const count = Math.max(16, Math.floor(baseCount * adjustmentFactor));
+  
   const dummy = useMemo(() => new Object3D(), []);
   const color = useMemo(() => new Color(), []);
   const directionVector = useMemo(() => new Vector3(), []);
@@ -93,10 +99,12 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
       );
       
       // 闄愬埗纰版挒鏁堟灉鏁伴噺浠ユ彁楂樻€ц兘
-      if (collisionEffectsRef.current.length < 100) {
+      const maxCollisions = quality === 'high' ? 50 : quality === 'med' ? 30 : 15;
+      const maxReflections = quality === 'high' ? 30 : quality === 'med' ? 20 : 10;
+      if (collisionEffectsRef.current.length < maxCollisions) {
         collisionEffectsRef.current.push(...collisionEffects);
       }
-      if (reflectionEffectsRef.current.length < 50) {
+      if (reflectionEffectsRef.current.length < maxReflections) {
         reflectionEffectsRef.current.push(...reflectionEffects);
       }
     });
@@ -128,7 +136,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
         </instancedMesh>
         
         {/* 纰版挒鏁堟灉 */}
-        {collisionEffectsRef.current.slice(0, 50).map((effect, index) => (
+        {collisionEffectsRef.current.slice(0, quality === 'high' ? 30 : quality === 'med' ? 20 : 10).map((effect, index) => (
           <mesh key={`collision-${index}`} position={effect.position}>
             <primitive object={sphereGeometry} />
             <meshBasicMaterial 

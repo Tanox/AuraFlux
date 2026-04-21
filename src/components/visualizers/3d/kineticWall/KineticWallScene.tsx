@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, MeshStandardMaterial, BoxGeometry, AmbientLight, DirectionalLight, PointLight } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
+import { usePerformance } from '@/hooks/performance/usePerformance';
 import { SceneBackground } from '../../ui/SceneBackground';
 
 interface SceneProps {
@@ -20,9 +21,14 @@ export const KineticWallScene: React.FC<SceneProps> = ({ analyser, analyserR, co
   
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1, c2] = smoothedColors;
+  const { performanceLevel, adjustmentFactor } = usePerformance();
   
-  const COLS = Math.floor(128 * Math.sqrt(0.3)); // Reduce total count to ~30%
-  const ROWS = Math.floor(64 * Math.sqrt(0.3)); // Reduce total count to ~30%
+  // 根据性能等级和质量设置调整立方体数量
+  const quality = settings.quality || 'med';
+  const baseCols = quality === 'high' ? 128 : quality === 'med' ? 96 : 64;
+  const baseRows = quality === 'high' ? 64 : quality === 'med' ? 48 : 32;
+  const COLS = Math.max(32, Math.floor(baseCols * Math.sqrt(0.3) * adjustmentFactor));
+  const ROWS = Math.max(16, Math.floor(baseRows * Math.sqrt(0.3) * adjustmentFactor));
   const COUNT = COLS * ROWS;
   const SPACING = 1.5 * 3; // Increase spacing to create larger gaps between cubes
   

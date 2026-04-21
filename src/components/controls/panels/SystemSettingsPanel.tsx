@@ -78,6 +78,31 @@ export const SystemSettingsPanel: React.FC = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-1 gap-x-6">
                   <SettingsToggle label={t?.('showFps') || "Show FPS"} value={settings.showFps} onChange={() => setSettings({...settings, showFps: !settings.showFps})} variant="clean" />
                 </div>
+                <div className="space-y-3 mt-4">
+                  <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.('quality') || "Quality"}</label>
+                  <SegmentedControl 
+                    value={settings.quality || 'med'} 
+                    options={[
+                      { id: 'low', label: t?.('qualities.low') || 'Low' },
+                      { id: 'med', label: t?.('qualities.med') || 'Medium' },
+                      { id: 'high', label: t?.('qualities.high') || 'High' }
+                    ]} 
+                    onChange={(v) => setSettings({...settings, quality: v})} 
+                  />
+                </div>
+                <div className="space-y-3 mt-4">
+                  <label className="text-xs font-bold text-black/50 dark:text-white/50 uppercase tracking-wider">{t?.('fps') || "FPS Limit"}</label>
+                  <SegmentedControl 
+                    value={settings.fpsLimit || '60'} 
+                    options={[
+                      { id: '30', label: '30 FPS' },
+                      { id: '45', label: '45 FPS' },
+                      { id: '60', label: '60 FPS' },
+                      { id: 'unlimited', label: 'Unlimited' }
+                    ]} 
+                    onChange={(v) => setSettings({...settings, fpsLimit: v})} 
+                  />
+                </div>
               </div>
             </div>
         </BentoCard>

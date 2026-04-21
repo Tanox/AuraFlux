@@ -7,7 +7,7 @@ import { logger } from '@/utils/logger';
  * @param {Blob} blob - The Blob object to convert
  * @returns {Promise<string>} Base64 string
  */
-const blobToBase64 = async (blob: Blob): Promise<string> => {
+export const blobToBase64 = async (blob: Blob): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {

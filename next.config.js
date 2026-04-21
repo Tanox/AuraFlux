@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
 const withPWA = require('@ducanh2912/next-pwa').default;
 
-const nextConfig = withPWA({
+const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["three", "@react-three/fiber", "@react-three/drei", "postprocessing", "@react-three/postprocessing", "@google/genai"],
   images: {
@@ -12,7 +11,11 @@ const nextConfig = withPWA({
   productionBrowserSourceMaps: false,
   typescript: {
     ignoreBuildErrors: false
-  },
+  }
+};
+
+module.exports = withPWA({
+  ...nextConfig,
   pwa: {
     dest: 'public',
     register: false,
@@ -21,5 +24,3 @@ const nextConfig = withPWA({
     disable: process.env.NODE_ENV === 'development'
   }
 });
-
-module.exports = nextConfig;

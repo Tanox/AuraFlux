@@ -6,6 +6,7 @@ import { useFrame } from '@react-three/fiber';
 import { Color, AdditiveBlending, ShaderMaterial } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
+import { usePerformance } from '@/hooks/performance/usePerformance';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from '../shaders/NeuralFlowShaders';
 import { SceneBackground } from '../../ui/SceneBackground';
 
@@ -20,8 +21,13 @@ export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, analyserR, col
   const pointsRef = useRef<any>(null);
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1] = smoothedColors;
+  const { performanceLevel, adjustmentFactor } = usePerformance();
   
-  const count = settings.quality === 'high' ? 12000 : settings.quality === 'med' ? 8000 : 4000;
+  // 根据性能等级和质量设置调整粒子数量
+  const quality = settings.quality || 'med';
+  const baseCount = quality === 'high' ? 12000 : quality === 'med' ? 8000 : 4000;
+  const count = Math.max(2000, Math.floor(baseCount * adjustmentFactor));
+  
   const [positions, randomness] = useMemo(() => {
     const pos = new Float32Array(count * 3), rnd = new Float32Array(count);
     for (let i = 0; i < count; i++) {
