@@ -1,9 +1,9 @@
-<!-- openspec/10_contribution_guidelines.md v2.3.4 -->
+<!-- openspec/10_contribution_guidelines.md v2.3.5 -->
 # 贡献者行为规范
 
 ## 版本信息
-- **版本**: v2.3.4
-- **更新日期**: 2026-04-20
+- **版本**: v2.3.5
+- **更新日期**: 2026-04-21
 - **作者**: Sut
 
 ## 1. 开发工作流

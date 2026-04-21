@@ -1,9 +1,9 @@
-<!-- openspec/08_testing_validation.md v2.3.4 -->
+<!-- openspec/08_testing_validation.md v2.3.5 -->
 # 测试与验证系统规范
 
 ## 版本信息
-- **版本**: v2.3.4
-- **更新日期**: 2026-04-20
+- **版本**: v2.3.5
+- **更新日期**: 2026-04-21
 - **作者**: Sut
 
 ## 1. 测试框架
@@ -14,7 +14,7 @@
 - **UI 测试**: Playwright
 
 ### 1.2 测试目录结构
-- **目录**: `src/__tests__/`
+- **目录**: `test/`
 - **功能**: 存放测试文件
 
 **测试文件命名规范:**
@@ -48,7 +48,7 @@
 **代码示例:**
 ```tsx
 // useAudio.test.ts 核心结构
-// File: src/__tests__/hooks/useAudio.test.ts | Version: v2.3.4
+// File: test/hooks/audio/useAudio.test.ts | Version: v2.3.5
 import { renderHook, act } from '@testing-library/react';
 import { useAudio } from '../../hooks/useAudio';
 import { VisualizerSettings } from '../../types';

@@ -1,4 +1,4 @@
-<!-- openspec/12_api_reference.md v2.3.4 -->
+<!-- openspec/12_api_reference.md v2.3.5 -->
 # Aura Flux - API 接口文档
 
 ## 1. 接口说明

@@ -1,9 +1,9 @@
-<!-- openspec/07_deployment.md v2.3.4 -->
+<!-- openspec/07_deployment.md v2.3.5 -->
 # 部署与环境系统规范
 
 ## 版本信息
-- **版本**: v2.3.4
-- **更新日期**: 2026-04-20
+- **版本**: v2.3.5
+- **更新日期**: 2026-04-21
 - **作者**: Sut
 
 ## 1. 构建环境
@@ -29,7 +29,7 @@
 **代码示例:**
 ```tsx
 // next.config.ts 核心结构
-// File: next.config.ts | Version: v2.3.4
+// File: next.config.ts | Version: v2.3.5
 import type { NextConfig } from 'next';
 import path from 'path';
 

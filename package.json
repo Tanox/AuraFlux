@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
+    "@asamuzakjp/css-color": "^5.1.11",
     "@google/genai": "^1.40.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "^9.96.1",
@@ -40,6 +41,9 @@
     "web-vitals": "^5.2.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-react": "^7.28.5",
+    "@babel/preset-typescript": "^7.28.5",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/jest": "^30.0.0",
@@ -53,6 +57,7 @@
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "postcss": "^8.5.1",
+    "resolve-cwd": "^3.0.0",
     "serve": "^14.2.6",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",
