@@ -199,9 +199,28 @@ describe('aiService', () => {
     };
     mockFetch.mockResolvedValueOnce(mockResponse as Response);
 
+    // Mock FileReader for blobToBase64
+    const originalFileReader = window.FileReader;
+    window.FileReader = class MockFileReader {
+      result: string | ArrayBuffer | null = 'data:audio/wav;base64,test-base64-data';
+      onloadend: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+      onerror: ((this: FileReader, ev: ProgressEvent<FileReader>) => any) | null = null;
+
+      readAsDataURL() {
+        setTimeout(() => {
+          if (this.onloadend) {
+            this.onloadend({} as ProgressEvent<FileReader>);
+          }
+        }, 0);
+      }
+    };
+
     const mockBlob = new Blob(['test audio data'], { type: 'audio/wav' });
     const result = await identifySong(mockBlob);
     expect(result).toEqual({ songName: 'Test Song', artist: 'Test Artist' });
+
+    // Restore original FileReader
+    window.FileReader = originalFileReader;
   });
 
   test('identifySong should return null when failed', async () => {

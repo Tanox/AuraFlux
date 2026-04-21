@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
-const withPWA = require('@ducanh2912/next-pwa').default;
+const withPWA = require('next-pwa')({ 
+  dest: 'public',
+  register: false,
+  skipWaiting: false,
+  buildExcludes: [/middleware-manifest\.json$/],
+  disable: process.env.NODE_ENV === 'development'
+});
 
 const nextConfig = {
   reactStrictMode: true,
@@ -14,13 +20,4 @@ const nextConfig = {
   }
 };
 
-module.exports = withPWA({
-  ...nextConfig,
-  pwa: {
-    dest: 'public',
-    register: false,
-    skipWaiting: false,
-    buildExcludes: [/middleware-manifest\.json$/],
-    disable: process.env.NODE_ENV === 'development'
-  }
-});
+module.exports = withPWA(nextConfig);
