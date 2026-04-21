@@ -111,10 +111,6 @@ const MainContent: React.FC = () => {
     }
   }, []);
 
-  if (!ui || !visuals || !audio || !ai) {
-    return null;
-  }
-
   const { 
     hasStarted, 
     language, 
@@ -126,7 +122,7 @@ const MainContent: React.FC = () => {
     setIsDragging, 
     t, 
     toggleFullscreen
-  } = ui;
+  } = ui || {};
   
   const { 
     mode, 
@@ -134,7 +130,7 @@ const MainContent: React.FC = () => {
     settings, 
     setSettings, 
     isThreeMode 
-  } = visuals;
+  } = visuals || {};
   
   const { 
     analyser, 
@@ -142,13 +138,13 @@ const MainContent: React.FC = () => {
     currentSong, 
     importFiles, 
     mediaStream 
-  } = audio;
+  } = audio || {};
   
   const { 
     showLyrics, 
     lyricsStyle, 
     performIdentification 
-  } = ai;
+  } = ai || {};
   
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -189,6 +185,10 @@ const MainContent: React.FC = () => {
       setSettings((s: any) => ({ ...s, showSongInfo: false }));
     }
   }, [setSettings]);
+
+  if (!ui || !visuals || !audio || !ai) {
+    return null;
+  }
 
   if (!hasStarted) {
     return <WelcomeScreen />;
