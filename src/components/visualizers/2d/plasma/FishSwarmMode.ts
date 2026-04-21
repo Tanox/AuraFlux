@@ -20,7 +20,7 @@ interface FishParticle {
 class FishSwarmManager {
   private particles: FishParticle[] = [];
   private groupCount = 3;
-  private maxParticles = 200;
+  private maxParticles = 500;
   private leaders: FishParticle[] = [];
   private width: number = 1000;
   private height: number = 800;
@@ -295,25 +295,15 @@ export const renderFishSwarmMode = ({
   particles.forEach(particle => {
     const scale = 1 + (particle.z / 200);
     const alpha = 0.8 + (particle.z / 400);
+    const finalSize = particle.size * scale;
     
     ctx.save();
     ctx.translate(particle.x, particle.y);
-    ctx.rotate(particle.rotation);
-    ctx.scale(scale, scale);
     ctx.globalAlpha = alpha;
     
     ctx.fillStyle = particle.color;
     ctx.beginPath();
-    ctx.moveTo(particle.size * 2, 0);
-    ctx.quadraticCurveTo(particle.size * 1.5, -particle.size, 0, -particle.size * 0.5);
-    ctx.quadraticCurveTo(-particle.size, -particle.size * 0.3, -particle.size, 0);
-    ctx.quadraticCurveTo(-particle.size, particle.size * 0.3, 0, particle.size * 0.5);
-    ctx.quadraticCurveTo(particle.size * 1.5, particle.size, particle.size * 2, 0);
-    ctx.fill();
-    
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.arc(particle.size, 0, particle.size * 0.2, 0, Math.PI * 2);
+    ctx.arc(0, 0, finalSize, 0, Math.PI * 2);
     ctx.fill();
     
     ctx.restore();

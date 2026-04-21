@@ -33,10 +33,14 @@ export const usePerformance = (): UsePerformanceReturn => {
   const [targetFPS, setTargetFPS] = useState<number>(60);
   const [isAchievingTargetFPS, setIsAchievingTargetFPS] = useState<boolean>(true);
   const [adjustmentFactor, setAdjustmentFactor] = useState<number>(1.0);
-  const [recommendedComplexity, setRecommendedComplexity] = useState({
+  const [recommendedComplexity, setRecommendedComplexity] = useState<{
+    particleCount: number;
+    meshCount: number;
+    shaderQuality: 'low' | 'medium' | 'high';
+  }>({
     particleCount: 6000,
     meshCount: 5000,
-    shaderQuality: 'medium' as const
+    shaderQuality: 'medium'
   });
 
   const devicePerformance = DevicePerformance.getInstance();
@@ -74,7 +78,7 @@ export const usePerformance = (): UsePerformanceReturn => {
       clearInterval(intervalId);
       fpsMonitor.stopMonitoring();
     };
-  }, []);
+  }, [devicePerformance, fpsMonitor]);
 
   // 刷新性能数据
   const refreshPerformance = useCallback(async () => {
@@ -85,13 +89,13 @@ export const usePerformance = (): UsePerformanceReturn => {
     setTargetFPS(fpsMonitor.getTargetFPS());
 
     setRecommendedComplexity(fpsMonitor.getRecommendedComplexity());
-  }, []);
+  }, [devicePerformance, fpsMonitor]);
 
   // 设置目标FPS
   const handleSetTargetFPS = useCallback((fps: number) => {
     fpsMonitor.setTargetFPS(fps);
     setTargetFPS(fps);
-  }, []);
+  }, [fpsMonitor]);
 
   return {
     performanceLevel,

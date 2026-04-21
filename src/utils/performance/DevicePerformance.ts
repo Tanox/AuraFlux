@@ -244,7 +244,7 @@ export class DevicePerformance {
     }
     
     // 基于设备类型的估计
-    return navigator.deviceMemory || 4;
+    return (navigator as any).deviceMemory || 4;
   }
 
   /**
