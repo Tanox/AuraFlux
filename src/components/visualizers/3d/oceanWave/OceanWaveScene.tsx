@@ -33,11 +33,16 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  // LOD system - adjust particle count based on camera distance
-  const [particleCount, setParticleCount] = React.useState<number>(adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512));
+  // State variables
+  const [particleCount, setParticleCount] = React.useState<number>(getInitialParticleCount());
   const [mousePosition, setMousePosition] = React.useState<Vector3>(new Vector3(0, 0, 0));
   
-  // Calculate particle count based on camera distance
+  // Get initial particle count based on quality setting
+  const getInitialParticleCount = (): number => {
+    return adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512);
+  };
+  
+  // LOD system - adjust particle count based on camera distance
   const updateParticleCount = (cameraDistance: number) => {
     let newCount;
     if (cameraDistance < 50) {
@@ -50,14 +55,14 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     setParticleCount(newCount);
   };
   
-  // Handle mouse movement
+  // Handle mouse movement and convert to 3D coordinates
   const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
     // Convert mouse coordinates to normalized device coordinates
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
     
-    // Update mouse position
+    // Update mouse position in 3D space
     setMousePosition(new Vector3(x * 90, 0, y * 50));
   };
   const bins = 256;
@@ -132,73 +137,97 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     updateInterval: 1000
   });
 
+  // Update audio texture with frequency data
+  const updateAudioTexture = () => {
+    try {
+      analyser.getByteFrequencyData(tempL);
+      if (analyserR) analyserR.getByteFrequencyData(tempR);
+      else tempR.set(tempL);
+    } catch (e) {
+      logger.error('Error getting audio frequency data:', e);
+      return false;
+    }
+
+    const limit = Math.floor(bins * 0.7); 
+    for (let x = 0; x < bins; x++) {
+      const nx = (x / bins) * 2 - 1; 
+      const bin = Math.floor(Math.abs(nx) * limit);
+      historyData[x] = (nx < 0) ? tempL[bin] : tempR[bin];
+    }
+    audioTexture.needsUpdate = true;
+    return true;
+  };
+
+  // Update shader uniforms
+  const updateShaderUniforms = (state: any) => {
+    if (!meshRef.current) return;
+    
+    const mat = meshRef.current.material as ShaderMaterial;
+    const time = state.clock.getElapsedTime();
+    
+    // Update time and sensitivity
+    mat.uniforms.uTime.value = time;
+    mat.uniforms.uSensitivity.value = adaptiveSettings.sensitivity * 1.5;
+    
+    // Update beat reaction
+    mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
+    
+    // Update color
+    if (c2) mat.uniforms.uColor.value.copy(c2); 
+    else if (c0) mat.uniforms.uColor.value.copy(c0);
+    
+    // Update performance mode
+    mat.uniforms.uPerformanceMode = mat.uniforms.uPerformanceMode || { value: 0 };
+    mat.uniforms.uPerformanceMode.value = performanceData.isLowPerformance ? 1 : 0;
+    
+    // Update light position (dynamic)
+    const lightX = Math.sin(time * 0.2) * 100;
+    const lightZ = Math.cos(time * 0.2) * 100;
+    mat.uniforms.uLightPosition.value.set(lightX, 50, lightZ);
+    
+    // Update mouse position
+    mat.uniforms.uMousePosition.value.copy(mousePosition);
+  };
+
+  // Update performance data
+  const updatePerformanceData = () => {
+    const currentTime = performance.now();
+    const deltaTime = currentTime - performanceRef.current.lastFrameTime;
+    performanceRef.current.lastFrameTime = currentTime;
+    performanceRef.current.frameCount++;
+
+    if (currentTime - performanceRef.current.lastUpdateTime > performanceRef.current.updateInterval) {
+      performanceRef.current.fps = Math.round((performanceRef.current.frameCount * 1000) / (currentTime - performanceRef.current.lastUpdateTime));
+      performanceRef.current.frameCount = 0;
+      performanceRef.current.lastUpdateTime = currentTime;
+    }
+  };
+
   useFrame((state) => {
     try {
       if (!historyData || historyData.length < bins) return;
 
-      // 计算相机距离，用于 LOD
+      // Calculate camera distance for LOD
       const cameraDistance = state.camera.position.length();
       updateParticleCount(cameraDistance);
 
-      // 性能检测
-      const currentTime = performance.now();
-      const deltaTime = currentTime - performanceRef.current.lastFrameTime;
-      performanceRef.current.lastFrameTime = currentTime;
-      performanceRef.current.frameCount++;
+      // Update performance data
+      updatePerformanceData();
 
-      if (currentTime - performanceRef.current.lastUpdateTime > performanceRef.current.updateInterval) {
-        performanceRef.current.fps = Math.round((performanceRef.current.frameCount * 1000) / (currentTime - performanceRef.current.lastUpdateTime));
-        performanceRef.current.frameCount = 0;
-        performanceRef.current.lastUpdateTime = currentTime;
-      }
+      // Adjust update interval based on performance
+      const isLowPerformance = performanceData.isLowPerformance;
+      const updateInterval = isLowPerformance ? 4 : 2;
 
-      // 根据性能调整更新频率
-    const isLowPerformance = performanceData.isLowPerformance;
-    const updateInterval = isLowPerformance ? 4 : 2;
-
+      // Update audio texture at specified interval
       frameCounterRef.current++;
       if (frameCounterRef.current >= updateInterval) {
-          frameCounterRef.current = 0;
-          historyData.copyWithin(bins, 0, historyData.length - bins);
-
-          try {
-              analyser.getByteFrequencyData(tempL);
-              if (analyserR) analyserR.getByteFrequencyData(tempR);
-              else tempR.set(tempL);
-          } catch (e) {
-            logger.error('Error getting audio frequency data:', e);
-            return;
-          }
-
-          const limit = Math.floor(bins * 0.7); 
-          for (let x = 0; x < bins; x++) {
-              const nx = (x / bins) * 2 - 1; 
-              const bin = Math.floor(Math.abs(nx) * limit);
-              historyData[x] = (nx < 0) ? tempL[bin] : tempR[bin];
-          }
-          audioTexture.needsUpdate = true;
+        frameCounterRef.current = 0;
+        historyData.copyWithin(bins, 0, historyData.length - bins);
+        updateAudioTexture();
       }
 
-      if (meshRef.current) {
-        const mat = meshRef.current.material as ShaderMaterial;
-        const time = state.clock.getElapsedTime();
-        mat.uniforms.uTime.value = time;
-        mat.uniforms.uSensitivity.value = adaptiveSettings.sensitivity * 1.5;
-        mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
-        if (c2) mat.uniforms.uColor.value.copy(c2); 
-        else if (c0) mat.uniforms.uColor.value.copy(c0);
-        // 添加性能模式 uniforms
-        mat.uniforms.uPerformanceMode = mat.uniforms.uPerformanceMode || { value: 0 };
-        mat.uniforms.uPerformanceMode.value = performanceData.isLowPerformance ? 1 : 0;
-        
-        // Update light position to create dynamic lighting effect
-        const lightX = Math.sin(time * 0.2) * 100;
-        const lightZ = Math.cos(time * 0.2) * 100;
-        mat.uniforms.uLightPosition.value.set(lightX, 50, lightZ);
-        
-        // Update mouse position
-        mat.uniforms.uMousePosition.value.copy(mousePosition);
-    }
+      // Update shader uniforms
+      updateShaderUniforms(state);
       
       // Camera controlled by OrbitControls
     } catch (error) {
@@ -211,7 +240,11 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   return (
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <instancedMesh ref={meshRef} args={[undefined, undefined, particleCount]}>
+      <instancedMesh 
+        ref={meshRef} 
+        args={[undefined, undefined, particleCount]}
+        onPointerMove={handleMouseMove}
+      >
         <sphereGeometry args={[1, 8, 8]} />
         <shaderMaterial
           uniforms={uniforms}

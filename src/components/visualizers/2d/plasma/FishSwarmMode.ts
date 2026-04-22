@@ -11,6 +11,7 @@ interface FishParticle {
   vz: number;
   size: number;
   color: string;
+  baseColor: string;
   rotation: number;
   rotationSpeed: number;
   group: number;
@@ -49,6 +50,7 @@ class FishSwarmManager {
       const x = halfWidth / 2 + (Math.random() - 0.5) * halfWidth; // 左侧一半区域
       const y = this.height / 2 + (Math.random() - 0.5) * this.height;
       
+      const baseColor = this.getGroupColor(group);
       const particle: FishParticle = {
         x: x,
         y: y,
@@ -57,7 +59,8 @@ class FishSwarmManager {
         vy: (Math.random() - 0.5) * 2,
         vz: (Math.random() - 0.5) * 1,
         size: isLeader ? 2 + Math.random() * 1 : 1 + Math.random() * 0.5,
-        color: this.getGroupColor(group),
+        color: baseColor,
+        baseColor: baseColor,
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.05,
         group,
@@ -319,6 +322,8 @@ class FishSwarmManager {
       this.updateLeader(leader, time, averageEnergy);
       // 更新领导者尾迹
       this.updateParticleTrail(leader, averageEnergy);
+      // 更新领导者颜色
+      this.updateParticleColor(leader, averageEnergy);
     });
 
     particlesToUpdate.forEach(particle => {
@@ -327,6 +332,8 @@ class FishSwarmManager {
         this.updateFollower(particle, leader, time, averageEnergy);
         // 更新跟随者尾迹
         this.updateParticleTrail(particle, averageEnergy);
+        // 更新跟随者颜色
+        this.updateParticleColor(particle, averageEnergy);
       }
     });
 
@@ -359,6 +366,52 @@ class FishSwarmManager {
   getParticles(): FishParticle[] {
     return this.particles.slice(0, this.currentParticles);
   }
+
+  private updateParticleTrail(particle: FishParticle, averageEnergy: number): void {
+    // 根据速度和音频能量计算尾迹长度
+    const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
+    const trailLength = Math.floor(5 + speed * 2 + averageEnergy * 3);
+    
+    // 添加当前位置到尾迹
+    particle.trail.push({ x: particle.x, y: particle.y, z: particle.z });
+    
+    // 限制尾迹长度
+    if (particle.trail.length > trailLength) {
+      particle.trail.shift();
+    }
+  }
+
+  private updateParticleColor(particle: FishParticle, averageEnergy: number): void {
+    // 根据音频能量和频率数据调整颜色
+    // 低频（bass）影响颜色的红色分量
+    // 中频（mid）影响颜色的绿色分量
+    // 高频（treble）影响颜色的蓝色分量
+    
+    // 将基础颜色转换为RGB
+    const baseRgb = this.hexToRgb(particle.baseColor);
+    if (!baseRgb) return;
+    
+    // 根据频率能量调整RGB分量
+    const r = Math.min(255, Math.floor(baseRgb.r + this.bassEnergy * 100));
+    const g = Math.min(255, Math.floor(baseRgb.g + this.midEnergy * 100));
+    const b = Math.min(255, Math.floor(baseRgb.b + this.trebleEnergy * 100));
+    
+    // 转换回十六进制颜色
+    particle.color = this.rgbToHex(r, g, b);
+  }
+
+  private hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
+  private rgbToHex(r: number, g: number, b: number): string {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
 }
 
 let fishSwarmManager: FishSwarmManager | null = null;
@@ -372,6 +425,8 @@ export const renderFishSwarmMode = ({
   settings
 }: PlasmaModeProps) => {
   const sensitivity = settings?.sensitivity || 1;
+  const glow = settings?.glow ?? true;
+  const trails = settings?.trails ?? true;
   const time = Date.now();
   
   if (!fishSwarmManager) {
@@ -418,6 +473,31 @@ export const renderFishSwarmMode = ({
     const alpha = 0.8 + (particle.z / 400);
     const finalSize = particle.size * scale;
     
+    // 渲染尾迹（如果启用）
+    if (trails && particle.trail.length > 1) {
+      ctx.save();
+      ctx.globalAlpha = alpha * 0.5;
+      ctx.strokeStyle = particle.color;
+      ctx.lineWidth = finalSize * 0.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      
+      ctx.beginPath();
+      ctx.moveTo(particle.trail[0].x, particle.trail[0].y);
+      
+      for (let i = 1; i < particle.trail.length; i++) {
+        const progress = i / (particle.trail.length - 1);
+        const trailAlpha = 0.1 + (1 - progress) * 0.4;
+        ctx.globalAlpha = alpha * trailAlpha;
+        
+        ctx.lineTo(particle.trail[i].x, particle.trail[i].y);
+      }
+      
+      ctx.stroke();
+      ctx.restore();
+    }
+    
+    // 渲染鱼形粒子
     ctx.save();
     ctx.translate(particle.x, particle.y);
     ctx.rotate(particle.rotation); // 旋转粒子朝向运动方向
@@ -432,6 +512,20 @@ export const renderFishSwarmMode = ({
     ctx.quadraticCurveTo(-finalSize * 0.2, -finalSize * 0.1, -finalSize * 0.3, 0);
     ctx.quadraticCurveTo(-finalSize * 0.2, finalSize * 0.1, finalSize * 0.5, 0);
     ctx.fill();
+    
+    // 绘制发光效果（如果启用）
+    if (glow) {
+      ctx.globalAlpha = 0.6 * alpha * averageEnergy;
+      const glowGradient = ctx.createRadialGradient(0, 0, 0, 0, 0, finalSize * 2);
+      glowGradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+      glowGradient.addColorStop(0.3, particle.color);
+      glowGradient.addColorStop(1, 'transparent');
+      
+      ctx.fillStyle = glowGradient;
+      ctx.beginPath();
+      ctx.arc(0, 0, finalSize * 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
     
     ctx.restore();
   });

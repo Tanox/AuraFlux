@@ -12,6 +12,7 @@ export const oceanWaveVertexShader = `
   uniform float uBeat;
   uniform float uPerformanceMode;
   uniform vec3 uLightPosition;
+  uniform vec3 uMousePosition;
   
   // Calculate normal for water surface
   vec3 calculateNormal(vec3 pos, float xNorm, float zNorm) {
@@ -63,7 +64,13 @@ export const oceanWaveVertexShader = `
     waveMotion += sin(pos.x * 0.1 + pos.z * 0.12 + uTime * 5.0) * 0.5 * distanceFade * complexityFactor;
     
     float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.5 * distanceFade * complexityFactor;
-    float totalDisp = elevation + waveMotion + beatReaction;
+    
+    // Mouse interaction effect
+    float mouseDistance = length(pos.xz - uMousePosition.xz);
+    float mouseInfluence = 1.0 - smoothstep(0.0, 30.0, mouseDistance);
+    float mouseEffect = mouseInfluence * 2.0 * sin(uTime * 3.0) * distanceFade * complexityFactor;
+    
+    float totalDisp = elevation + waveMotion + beatReaction + mouseEffect;
     
     pos.y = totalDisp;
     vElevation = totalDisp;

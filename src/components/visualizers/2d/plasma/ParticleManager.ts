@@ -100,41 +100,73 @@ export class ParticleManager {
    * 检测粒子融合
    */
   detectFusion(colors: string[]): void {
+    // 使用空间分区优化碰撞检测
+    const gridSize = 100; // 网格大小
+    const grid: Map<string, number[]> = new Map();
+    
+    // 将粒子分配到网格
     for (let i = 0; i < this.particleStates.length; i++) {
-      for (let j = i + 1; j < this.particleStates.length; j++) {
-        const p1 = this.particleStates[i];
-        const p2 = this.particleStates[j];
-        const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
-        
-        if (distance < p1.radius + p2.radius) {
-          const fusionX = (p1.x + p2.x) / 2;
-          const fusionY = (p1.y + p2.y) / 2;
-          const fusionZ = (p1.z + p2.z) / 2;
-          const fusionSize = Math.sqrt(p1.radius * p1.radius + p2.radius * p2.radius);
-          
-          const color1 = colors[i % colors.length];
-          const color2 = colors[j % colors.length];
-          const mixedColor = mixColors(color1, color2, 0.5);
-          
-          const fusionEffect = this.fusionEffectPool.get();
-          fusionEffect.x = fusionX;
-          fusionEffect.y = fusionY;
-          fusionEffect.z = fusionZ;
-          fusionEffect.size = fusionSize;
-          fusionEffect.alpha = 1;
-          fusionEffect.color = mixedColor;
-          this.fusionEffects.push(fusionEffect);
-          
-          const angleX = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-          const angleY = Math.atan2(p2.z - p1.z, Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)));
-          const separationDistance = (p1.radius + p2.radius) * 1.2;
-          
-          p1.targetX = fusionX - Math.cos(angleX) * Math.cos(angleY) * separationDistance;
-          p1.targetY = fusionY - Math.sin(angleX) * Math.cos(angleY) * separationDistance;
-          p1.targetZ = fusionZ - Math.sin(angleY) * separationDistance;
-          p2.targetX = fusionX + Math.cos(angleX) * Math.cos(angleY) * separationDistance;
-          p2.targetY = fusionY + Math.sin(angleX) * Math.cos(angleY) * separationDistance;
-          p2.targetZ = fusionZ + Math.sin(angleY) * separationDistance;
+      const p = this.particleStates[i];
+      const key = `${Math.floor(p.x / gridSize)}-${Math.floor(p.y / gridSize)}-${Math.floor(p.z / gridSize)}`;
+      if (!grid.has(key)) {
+        grid.set(key, []);
+      }
+      grid.get(key)!.push(i);
+    }
+    
+    // 检查每个网格及其相邻网格
+    for (let i = 0; i < this.particleStates.length; i++) {
+      const p1 = this.particleStates[i];
+      const gridX = Math.floor(p1.x / gridSize);
+      const gridY = Math.floor(p1.y / gridSize);
+      const gridZ = Math.floor(p1.z / gridSize);
+      
+      // 检查当前网格和相邻网格
+      for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dz = -1; dz <= 1; dz++) {
+            const key = `${gridX + dx}-${gridY + dy}-${gridZ + dz}`;
+            const particlesInGrid = grid.get(key);
+            if (particlesInGrid) {
+              for (const j of particlesInGrid) {
+                if (j > i) { // 避免重复检查
+                  const p2 = this.particleStates[j];
+                  const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
+                  
+                  if (distance < p1.radius + p2.radius) {
+                    const fusionX = (p1.x + p2.x) / 2;
+                    const fusionY = (p1.y + p2.y) / 2;
+                    const fusionZ = (p1.z + p2.z) / 2;
+                    const fusionSize = Math.sqrt(p1.radius * p1.radius + p2.radius * p2.radius);
+                    
+                    const color1 = colors[i % colors.length];
+                    const color2 = colors[j % colors.length];
+                    const mixedColor = mixColors(color1, color2, 0.5);
+                    
+                    const fusionEffect = this.fusionEffectPool.get();
+                    fusionEffect.x = fusionX;
+                    fusionEffect.y = fusionY;
+                    fusionEffect.z = fusionZ;
+                    fusionEffect.size = fusionSize;
+                    fusionEffect.alpha = 1;
+                    fusionEffect.color = mixedColor;
+                    this.fusionEffects.push(fusionEffect);
+                    
+                    const angleX = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+                    const angleY = Math.atan2(p2.z - p1.z, Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)));
+                    const separationDistance = (p1.radius + p2.radius) * 1.2;
+                    
+                    p1.targetX = fusionX - Math.cos(angleX) * Math.cos(angleY) * separationDistance;
+                    p1.targetY = fusionY - Math.sin(angleX) * Math.cos(angleY) * separationDistance;
+                    p1.targetZ = fusionZ - Math.sin(angleY) * separationDistance;
+                    p2.targetX = fusionX + Math.cos(angleX) * Math.cos(angleY) * separationDistance;
+                    p2.targetY = fusionY + Math.sin(angleX) * Math.cos(angleY) * separationDistance;
+                    p2.targetZ = fusionZ + Math.sin(angleY) * separationDistance;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
