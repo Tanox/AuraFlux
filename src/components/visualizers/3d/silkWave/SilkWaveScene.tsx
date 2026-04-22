@@ -21,7 +21,7 @@ export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, color
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1, c2] = smoothedColors;
 
-  const SEGMENTS_X = settings.quality === 'high' ? 512 : (settings.quality === 'med' ? 320 : 160);
+  const SEGMENTS_X = settings.quality === 'high' ? 512 : (settings.quality === 'medium' ? 320 : 160);
   const MAX_LINES = 50; 
   const RIBBON_WIDTH = 780; // Increased 3x from 260
 

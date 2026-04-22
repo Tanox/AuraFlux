@@ -33,7 +33,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const [c0, , c2] = smoothedColors;
 
   const PARTICLE_COUNT = adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512);
-  const bins = (adaptiveSettings.fftSize || 512) / 2;
+  const bins = 256;
   const historyData = useMemo(() => {
     if (!bins || bins <= 0) return new Uint8Array(0);
     return new Uint8Array(bins * 16);
