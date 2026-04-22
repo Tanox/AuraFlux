@@ -21,7 +21,7 @@ export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, analyserR, col
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const [c0, c1] = smoothedColors;
   
-  const count = settings.quality === 'high' ? 12000 : settings.quality === 'med' ? 8000 : 4000;
+  const count = settings.quality === 'high' ? 12000 : settings.quality === 'medium' ? 8000 : 4000;
   const [positions, randomness] = useMemo(() => {
     const pos = new Float32Array(count * 3), rnd = new Float32Array(count);
     for (let i = 0; i < count; i++) {

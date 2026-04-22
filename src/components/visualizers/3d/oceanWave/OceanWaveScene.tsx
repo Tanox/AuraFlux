@@ -28,7 +28,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     baseSettings: settings
   });
   
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, adaptiveSettings });
+  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings: adaptiveSettings });
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
