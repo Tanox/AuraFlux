@@ -2,14 +2,23 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v2.3.5]
+## [v2.3.5] - 2026-04-22
 ### ✨ Version Update & Documentation Synchronization
 - **Version Synchronization**: Updated all project files to version v2.3.5
-- **Documentation**: Updated all specification documents in the spec/ directory
-- **Metadata**: Updated metadata.json and package.json with the new version
-- **Constants**: Updated version constants in src/constants/
-- **Locales**: Updated all language files in src/locales/
-- **README**: Updated README.md and README_ZH.md with the new version
+- **Audio System Refactoring**: Separated microphone management and file playback functionality
+- **Audio Source Switching**: Added audio source type switching (microphone/file/URL)
+- **Documentation**: Updated all specification documents in the openspec/ directory
+- **Directory Consolidation**: Established openspec as the primary specification directory
+- **Git Commit Standards**: Enhanced git-commit-message.md with comprehensive guidelines
+- **Code-Doc Sync**: All specification documents synchronized with code implementation
+
+## [v2.3.4] - 2026-04-21
+### 📚 Documentation Synchronization
+- **Code-Doc Sync**: Synchronized code functionality details to openspec documentation
+- **Version Update**: All specification documents updated to v2.3.4
+- **Visualizer Mode**: Removed deprecated VORTEX visualization mode
+- **3D Scenes**: Updated supported 3D scene list
+- **AI State**: Adjusted AI state management system
 
 ## [v2.3.2]
 ### 鉁?Version Update & Validation

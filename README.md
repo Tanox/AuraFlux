@@ -4,13 +4,13 @@
 
 [Live Demo](https://aura.ewuse.com/) | [简体中文](./README_ZH.md) | [Documentation](./openspec/)
 
-**Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 18**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
+**Aura Flux** is a professional-grade web application that transmutes audio frequencies into high-fidelity generative art. Powered by **React 19**, **Three.js (WebGL)**, and **Google Gemini 3 AI**, it delivers a seamless blend of edge-computing performance and cloud intelligence.
 
 ---
 
 ## 📚 Documentation Table of Contents
 
-- [**Project Architecture & Modules**](./openspec/13_architecture_overview.md) - 架构设计与核心模块说明
+- [**Project Architecture & Modules**](./openspec/01_core_architecture.md) - 架构设计与核心模块说明
 - [**User Guide**](./openspec/14_user_guide.md) - 用户操作指南与流程图
 - [**API Documentation**](./openspec/12_api_reference.md) - 接口定义与 Gemini 集成说明
 - [**FAQ & Troubleshooting**](./openspec/15_faq.md) - 常见问题与故障排除
