@@ -1,6 +1,6 @@
 // File: src/components/visualizers/2d/plasma/FishSwarmMode.ts | Version: v2.3.7
 
-import { PlasmaModeProps } from './types';
+import { PlasmaModeProps } from '@/types';
 
 interface FishParticle {
   x: number;
