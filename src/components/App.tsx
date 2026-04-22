@@ -1,6 +1,6 @@
 'use client';
 
-// File: src\components\App.tsx | Version: v2.3.5
+// File: src\components\App.tsx | Version: v2.3.8
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';

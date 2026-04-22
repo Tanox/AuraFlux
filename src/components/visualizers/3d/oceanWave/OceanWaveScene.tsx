@@ -33,14 +33,14 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  // State variables
-  const [particleCount, setParticleCount] = React.useState<number>(getInitialParticleCount());
-  const [mousePosition, setMousePosition] = React.useState<Vector3>(new Vector3(0, 0, 0));
-  
   // Get initial particle count based on quality setting
   const getInitialParticleCount = (): number => {
     return adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512);
   };
+
+  // State variables
+  const [particleCount, setParticleCount] = React.useState<number>(getInitialParticleCount());
+  const [mousePosition, setMousePosition] = React.useState<Vector3>(new Vector3(0, 0, 0));
   
   // LOD system - adjust particle count based on camera distance
   const updateParticleCount = (cameraDistance: number) => {
@@ -56,14 +56,13 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   };
   
   // Handle mouse movement and convert to 3D coordinates
-  const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = (event: any) => {
     // Convert mouse coordinates to normalized device coordinates
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    const x = ((event.clientX / window.innerWidth) * 2 - 1) * 90;
+    const z = -((event.clientY / window.innerHeight) * 2 - 1) * 50;
     
     // Update mouse position in 3D space
-    setMousePosition(new Vector3(x * 90, 0, y * 50));
+    setMousePosition(new Vector3(x, 0, z));
   };
   const bins = 256;
   const historyData = useMemo(() => {
