@@ -26,6 +26,8 @@ export type Language = 'en' | 'zh' | 'zh-TW' | 'es' | 'ar' | 'fr' | 'pt' | 'pt-B
 
 export type Region = 'US' | 'CN' | 'EU' | 'OTHER';
 
+export type PerformanceMode = 'low' | 'medium' | 'high';
+
 export interface VisualizerSettings {
   sensitivity: number;
   autoHideUi: boolean;
@@ -36,7 +38,75 @@ export interface VisualizerSettings {
   wakeLock: boolean;
   doubleClickFullscreen: boolean;
   recognitionProvider: 'GEMINI' | 'MOCK';
+  performanceMode: PerformanceMode;
+  quality: 'low' | 'medium' | 'high';
+  trails: boolean;
+  glow: boolean;
+  speed: number;
   [key: string]: any;
+}
+
+export interface BarsModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface WaveformModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  dataArrayR?: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface TunnelModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface PlasmaModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface StarfieldModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  settings: VisualizerSettings;
+  stars: any[];
+}
+
+export interface FishSwarmModeProps {
+  ctx: CanvasRenderingContext2D;
+  dataArray: Uint8Array;
+  width: number;
+  height: number;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface SceneProps {
+  analyser: AnalyserNode;
+  analyserR?: AnalyserNode | null;
+  colors: string[];
+  settings: VisualizerSettings;
 }
 
 export interface AudioDevice {

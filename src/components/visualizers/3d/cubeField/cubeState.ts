@@ -66,14 +66,14 @@ export function updateCubeState(
   isBeat: boolean,
   settings: any
 ): void {
-  // 更新碰撞状态
+  // Update collision state
   if (cube.collisionTimer > 0) {
     cube.collisionTimer -= delta;
   } else {
     cube.isColliding = false;
   }
   
-  // 更新变形效果
+  // Update deformation effect
   if (cube.deformation > 0) {
     cube.deformation -= delta * 2;
   }

@@ -4,7 +4,8 @@ import { Vector3, Color } from 'three';
 import { CubeState, CollisionEffect } from './types';
 
 /**
- * 妫€娴嬬珛鏂逛綋纰版挒骞剁敓鎴愮鎾炴晥鏋? */
+ * Detect cube collisions and generate collision effects
+ */
 export function detectCollisions(
   cubes: CubeState[],
   collisionEffects: CollisionEffect[],
@@ -20,7 +21,7 @@ export function detectCollisions(
       const minDistance = (p1.currentScale + p2.currentScale) * 0.8;
       
       if (distance < minDistance) {
-        // 鍙戠敓纰版挒
+        // Generate collision
         if (!p1.isColliding || !p2.isColliding) {
           const collisionX = (p1.x + p2.x) / 2;
           const collisionY = (p1.y + p2.y) / 2;
@@ -33,7 +34,7 @@ export function detectCollisions(
             color: new Vector3(color.r, color.g, color.b)
           });
           
-          // 纰版挒鍝嶅簲
+          // Collision response
           const normal = new Vector3(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z).normalize();
           const pushForce = 0.5;
           
@@ -45,7 +46,7 @@ export function detectCollisions(
           p2.y += normal.y * pushForce;
           p2.z += normal.z * pushForce;
           
-          // 瑙﹀彂鍙樺舰鏁堟灉
+          // Trigger deformation effect
           p1.deformation = 0.2;
           p2.deformation = 0.2;
         }
@@ -62,7 +63,7 @@ export function detectCollisions(
 }
 
 /**
- * 鏇存柊纰版挒鏁堟灉
+ * Update collision effects
  */
 export function updateCollisionEffects(
   collisionEffects: CollisionEffect[],

@@ -8,7 +8,31 @@ import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry,
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
-import { SceneProps, LaserState, CollisionEffect, ReflectionEffect } from './types';
+import { SceneProps } from '@/types';
+
+interface LaserState {
+  id: number;
+  angle: number;
+  distance: number;
+  speed: number;
+  intensity: number;
+  color: number;
+}
+
+interface CollisionEffect {
+  position: { x: number; y: number; z: number };
+  size: number;
+  alpha: number;
+  color: number;
+}
+
+interface ReflectionEffect {
+  position: { x: number; y: number; z: number };
+  direction: { x: number; y: number; z: number };
+  length: number;
+  alpha: number;
+  color: number;
+}
 import { initializeLaserStates, calculateLaserPosition, calculateLaserScale, calculateLaserFlicker } from './laserState';
 import { detectLaserCollisions, updateCollisionEffects, updateReflectionEffects } from './effects';
 
@@ -28,7 +52,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
     return initializeLaserStates(count);
   }, [count]);
 
-  // 棰勫垱寤哄嚑浣曚綋鍜屾潗璐ㄤ互鎻愰珮鎬ц兘
+  // Create geometries and materials to improve performance
   const sphereGeometry = useMemo(() => new SphereGeometry(1, 16, 16), []);
   const centerSphereGeometry = useMemo(() => new SphereGeometry(2, 32, 32), []);
   const collisionMaterial = useMemo(() => new MeshBasicMaterial({
@@ -58,7 +82,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
     const time = state.clock.getElapsedTime();
     const delta = state.clock.getDelta();
     
-    // 鏇存柊婵€鍏夋潫
+    // Update laser endpoints
     laserData.forEach((data, i) => {
       const position = calculateLaserPosition(data, time, volume, bass, treble);
       const { scaleXZ, scaleY } = calculateLaserScale(volume, bass, treble);
@@ -66,22 +90,24 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
       
       dummy.position.set(position.x, position.y, position.z);
       
-      // 鎸囧悜涓績鎴栫◢寰亸绉?      dummy.lookAt(0, Math.sin(time) * 5, 0);
+      // Look towards center or with slight offset
+      dummy.lookAt(0, Math.sin(time) * 5, 0);
       
       dummy.scale.set(scaleXZ, scaleXZ, scaleY);
       
       dummy.updateMatrix();
       meshRef.current!.setMatrixAt(i, dummy.matrix);
       
-      // 鏇存柊棰滆壊
+      // Update color
       const colorIndex = i % smoothedColors.length;
       if (smoothedColors[colorIndex]) {
         color.copy(smoothedColors[colorIndex]);
-        // 鍩轰簬闊抽噺鍜岄棯鐑佹晥鏋滆皟鏁翠寒搴?        color.multiplyScalar(flickerIntensity);
+        // Adjust brightness based on volume and flicker effect
+        color.multiplyScalar(flickerIntensity);
         meshRef.current!.setColorAt(i, color);
       }
       
-      // 妫€娴嬬鎾?- 閲嶇敤鏂瑰悜鍚戦噺
+      // Check for collisions - reuse direction vector
       dummy.getWorldDirection(directionVector);
       const { collisionEffects, reflectionEffects } = detectLaserCollisions(
         data, 
@@ -92,19 +118,19 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
         color
       );
       
-      // 闄愬埗纰版挒鏁堟灉鏁伴噺浠ユ彁楂樻€ц兘
-      if (collisionEffectsRef.current.length < 100) {
+      // Limit collision effects count to improve performance
+      if (collisionEffectsRef.current.length < 50) {
         collisionEffectsRef.current.push(...collisionEffects);
       }
-      if (reflectionEffectsRef.current.length < 50) {
+      if (reflectionEffectsRef.current.length < 30) {
         reflectionEffectsRef.current.push(...reflectionEffects);
       }
     });
 
-    // 鏇存柊纰版挒鏁堟灉
+    // Update collision effects
     collisionEffectsRef.current = updateCollisionEffects(collisionEffectsRef.current, delta);
     
-    // 鏇存柊鍙嶅皠鏁堟灉
+    // Update reflection effects
     reflectionEffectsRef.current = updateReflectionEffects(reflectionEffectsRef.current, delta);
 
     meshRef.current.instanceMatrix.needsUpdate = true;

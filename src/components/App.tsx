@@ -260,7 +260,7 @@ const MainContent: React.FC = () => {
         />
       )}
       
-      <SongOverlay 
+      {settings && <SongOverlay 
         song={currentSong} 
         isVisible={settings.showSongInfo} 
         language={language} 
@@ -269,23 +269,23 @@ const MainContent: React.FC = () => {
         analyser={analyser} 
         sensitivity={settings.sensitivity} 
         showAlbumArt={settings.showAlbumArtOverlay} 
-      />
+      />}
       
-      <LyricsOverlay 
+      {settings && <LyricsOverlay 
         settings={settings} 
         song={currentSong} 
         showLyrics={showLyrics} 
         lyricsStyle={lyricsStyle} 
         analyser={analyser} 
-      />
+      />}
       
-      <CustomTextOverlay 
+      {settings && <CustomTextOverlay 
         settings={settings} 
         analyser={analyser} 
         song={currentSong} 
-      />
+      />}
       
-      {settings.showFps && <FPSCounter />}
+      {settings && settings.showFps && <FPSCounter />}
 
       <Suspense fallback={null}>
         <Controls 

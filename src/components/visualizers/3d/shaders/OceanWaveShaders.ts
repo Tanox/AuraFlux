@@ -8,6 +8,7 @@ export const oceanWaveVertexShader = `
   uniform float uSensitivity;
   uniform float uTime;
   uniform float uBeat;
+  uniform float uPerformanceMode;
   
   void main() {
     vec3 pos = aParticlePosition;
@@ -24,23 +25,28 @@ export const oceanWaveVertexShader = `
     float distanceFade = 1.0 - smoothstep(0.0, 100.0, distanceFromCenter);
     vDistance = distanceFade;
     
-    // 增强上下跳动效果，模拟海浪起伏
+    // Adjust calculation complexity based on performance mode
+    float complexityFactor = 1.0 - uPerformanceMode * 0.5;
+    
+    // Enhance vertical jumping effect to simulate ocean waves
     float elevation = audioVal * 0.5 * uSensitivity * distanceFade;
-    float waveMotion = sin(pos.x * 0.02 + pos.z * 0.03 + uTime * 2.0) * 2.0 * distanceFade;
-    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.5 * distanceFade;
+    float waveMotion = sin(pos.x * 0.02 + pos.z * 0.03 + uTime * 2.0) * 2.0 * distanceFade * complexityFactor;
+    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.5 * distanceFade * complexityFactor;
     float totalDisp = elevation + waveMotion + beatReaction;
     
     pos.y = totalDisp;
     vElevation = totalDisp;
     
-    // 增强水平波浪运动
-    pos.x += sin(pos.z * 0.03 + uTime * 0.7) * 3.0 * distanceFade;
-    pos.z += cos(pos.x * 0.03 + uTime * 0.5) * 1.5 * distanceFade;
+    // Enhance horizontal wave motion
+    pos.x += sin(pos.z * 0.03 + uTime * 0.7) * 3.0 * distanceFade * complexityFactor;
+    pos.z += cos(pos.x * 0.03 + uTime * 0.5) * 1.5 * distanceFade * complexityFactor;
     
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     
     // Adjust particle size based on elevation and distance
     float size = 0.4 + (elevation * 0.08) + (distanceFade * 0.3);
+    // Reduce particle size in low performance mode to improve performance
+    size *= (1.0 - uPerformanceMode * 0.3);
     gl_PointSize = size;
   }
 `;

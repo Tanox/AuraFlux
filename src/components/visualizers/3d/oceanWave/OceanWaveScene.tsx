@@ -7,6 +7,8 @@ import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearF
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
+import { logger } from '@/utils/logger';
+import { useAdaptiveComplexity } from '@/hooks/performance/useAdaptiveComplexity';
 
 import { oceanWaveVertexShader, oceanWaveFragmentShader } from '../shaders/OceanWaveShaders';
 
@@ -21,12 +23,17 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const meshRef = useRef<InstancedMesh>(null);
   const frameCounterRef = useRef(0);
   
-  const { features, smoothedColors } = useAudioReactive({ analyser, colors, settings });
+  // 使用自适应复杂度钩子
+  const { adaptiveSettings, performanceData } = useAdaptiveComplexity({
+    baseSettings: settings
+  });
+  
+  const { features, smoothedColors } = useAudioReactive({ analyser, colors, adaptiveSettings });
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  const PARTICLE_COUNT = settings.quality === 'high' ? 2048 : (settings.quality === 'med' ? 1024 : 512);
-  const bins = (settings.fftSize || 512) / 2;
+  const PARTICLE_COUNT = adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512);
+  const bins = (adaptiveSettings.fftSize || 512) / 2;
   const historyData = useMemo(() => {
     if (!bins || bins <= 0) return new Uint8Array(0);
     return new Uint8Array(bins * 16);
@@ -61,6 +68,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   }, [PARTICLE_COUNT]);
 
   useLayoutEffect(() => {
+    try {
       if (meshRef.current) {
           for (let i = 0; i < PARTICLE_COUNT; i++) {
               dummy.position.set(0, 0, 0);
@@ -70,6 +78,9 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
           meshRef.current.instanceMatrix.needsUpdate = true;
           meshRef.current.geometry.setAttribute('aParticlePosition', particlePositionAttr);
       }
+    } catch (error) {
+      logger.error('Error in OceanWaveScene useLayoutEffect:', error);
+    }
   }, [PARTICLE_COUNT, dummy, particlePositionAttr]);
 
   const uniforms = useMemo(() => ({
@@ -83,39 +94,74 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const tempL = useMemo(() => new Uint8Array(bins), [bins]);
   const tempR = useMemo(() => new Uint8Array(bins), [bins]);
 
+  // 添加性能检测
+  const performanceRef = useRef({
+    lastFrameTime: 0,
+    frameCount: 0,
+    fps: 60,
+    lastUpdateTime: 0,
+    updateInterval: 1000
+  });
+
   useFrame((state) => {
-    if (!historyData || historyData.length < bins) return;
+    try {
+      if (!historyData || historyData.length < bins) return;
 
-    frameCounterRef.current++;
-    if (frameCounterRef.current >= 2) {
-        frameCounterRef.current = 0;
-        historyData.copyWithin(bins, 0, historyData.length - bins);
+      // 性能检测
+      const currentTime = performance.now();
+      const deltaTime = currentTime - performanceRef.current.lastFrameTime;
+      performanceRef.current.lastFrameTime = currentTime;
+      performanceRef.current.frameCount++;
 
-        try {
-            analyser.getByteFrequencyData(tempL);
-            if (analyserR) analyserR.getByteFrequencyData(tempR);
-            else tempR.set(tempL);
-        } catch (e) { return; }
+      if (currentTime - performanceRef.current.lastUpdateTime > performanceRef.current.updateInterval) {
+        performanceRef.current.fps = Math.round((performanceRef.current.frameCount * 1000) / (currentTime - performanceRef.current.lastUpdateTime));
+        performanceRef.current.frameCount = 0;
+        performanceRef.current.lastUpdateTime = currentTime;
+      }
 
-        const limit = Math.floor(bins * 0.7); 
-        for (let x = 0; x < bins; x++) {
-            const nx = (x / bins) * 2 - 1; 
-            const bin = Math.floor(Math.abs(nx) * limit);
-            historyData[x] = (nx < 0) ? tempL[bin] : tempR[bin];
-        }
-        audioTexture.needsUpdate = true;
-    }
+      // 根据性能调整更新频率
+    const isLowPerformance = performanceData.isLowPerformance;
+    const updateInterval = isLowPerformance ? 4 : 2;
 
-    if (meshRef.current) {
+      frameCounterRef.current++;
+      if (frameCounterRef.current >= updateInterval) {
+          frameCounterRef.current = 0;
+          historyData.copyWithin(bins, 0, historyData.length - bins);
+
+          try {
+              analyser.getByteFrequencyData(tempL);
+              if (analyserR) analyserR.getByteFrequencyData(tempR);
+              else tempR.set(tempL);
+          } catch (e) {
+            logger.error('Error getting audio frequency data:', e);
+            return;
+          }
+
+          const limit = Math.floor(bins * 0.7); 
+          for (let x = 0; x < bins; x++) {
+              const nx = (x / bins) * 2 - 1; 
+              const bin = Math.floor(Math.abs(nx) * limit);
+              historyData[x] = (nx < 0) ? tempL[bin] : tempR[bin];
+          }
+          audioTexture.needsUpdate = true;
+      }
+
+      if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity * 1.5;
+        mat.uniforms.uSensitivity.value = adaptiveSettings.sensitivity * 1.5;
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColor.value.copy(c2); 
         else if (c0) mat.uniforms.uColor.value.copy(c0);
+        // 添加性能模式 uniforms
+        mat.uniforms.uPerformanceMode = mat.uniforms.uPerformanceMode || { value: 0 };
+        mat.uniforms.uPerformanceMode.value = performanceData.isLowPerformance ? 1 : 0;
     }
-    
-    // Camera controlled by OrbitControls
+      
+      // Camera controlled by OrbitControls
+    } catch (error) {
+      logger.error('Error in OceanWaveScene useFrame:', error);
+    }
   });
 
   if (!historyData || historyData.length === 0) return <group />;

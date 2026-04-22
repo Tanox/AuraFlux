@@ -29,6 +29,8 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: Prop
   }, [colors]);
 
   useFrame(() => {
+    if (!analyser || !settings) return;
+    
     analyser.getByteFrequencyData(dataRef.current);
     const data = dataRef.current;
     const len = data.length;
@@ -55,15 +57,16 @@ export const useAudioReactive = ({ analyser, analyserR, colors, settings }: Prop
 
     const volume = vol / len;
     const volumeR = volR / len;
+    const sensitivity = settings.sensitivity ?? 1;
     
     const f = featuresRef.current;
-    f.bass = (bass / (len * 0.1)) * settings.sensitivity;
-    f.mids = (mids / (len * 0.4)) * settings.sensitivity;
-    f.treble = (treble / (len * 0.5)) * settings.sensitivity;
-    f.volume = volume * settings.sensitivity;
-    f.isBeat = volume * settings.sensitivity > 0.5;
-    f.energyL = volume * settings.sensitivity;
-    f.energyR = volumeR * settings.sensitivity;
+    f.bass = (bass / (len * 0.1)) * sensitivity;
+    f.mids = (mids / (len * 0.4)) * sensitivity;
+    f.treble = (treble / (len * 0.5)) * sensitivity;
+    f.volume = volume * sensitivity;
+    f.isBeat = volume * sensitivity > 0.5;
+    f.energyL = volume * sensitivity;
+    f.energyR = volumeR * sensitivity;
   });
 
   return {

@@ -6,7 +6,14 @@ import { useFrame } from '@react-three/fiber';
 import { InstancedMesh, PointLight, Object3D, MeshStandardMaterial, AdditiveBlending } from 'three';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
-import { SceneProps, CollisionEffect } from './types';
+import { SceneProps } from '@/types';
+
+interface CollisionEffect {
+  position: { x: number; y: number; z: number };
+  size: number;
+  alpha: number;
+  color: { x: number; y: number; z: number };
+}
 import { initializeCubeStates, updateCubeState } from './cubeState';
 import { detectCollisions, updateCollisionEffects } from './collisionEffects';
 
@@ -57,14 +64,14 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       mat.color.set(c0);
       mat.emissive.set(c1);
       mat.emissiveIntensity = 0.4 + treble * 4.0 + (isBeat ? 3.5 : 0);
-      // 娣诲姞鍙戝厜鏁堟灉
+      // Add glow effect
       mat.emissiveIntensity *= 1.5;
     }
 
     const rotationBoost = 1.0 + mids * 2.0 + treble * 2.5;
     const binLimit = Math.floor(localDataArray.length * 0.6);
     
-    // 妫€娴嬬珛鏂逛綋纰版挒
+    // Check for cube collisions
     collisionEffectsRef.current = detectCollisions(particles, collisionEffectsRef.current, c1);
     
     particles.forEach((p, i) => {
@@ -88,7 +95,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         (1.0 + reaction * 4.0) * 0.1
       );
       
-      // 搴旂敤鍙樺舰鏁堟灉
+      // Apply deformation effect
       const deformation = p.deformation;
       const scaleX = p.currentScale * (1 - deformation);
       const scaleY = p.currentScale * (1 + deformation);
@@ -99,7 +106,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       meshRef.current!.setMatrixAt(i, dummy.matrix);
     });
     
-    // 鏇存柊纰版挒鏁堟灉
+    // Update collision effects
     collisionEffectsRef.current = updateCollisionEffects(collisionEffectsRef.current, delta);
     
     initialSetupRef.current = true;

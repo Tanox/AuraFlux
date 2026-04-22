@@ -19,8 +19,8 @@ interface FishParticle {
 
 class FishSwarmManager {
   private particles: FishParticle[] = [];
-  private groupCount = 3;
-  private maxParticles = 1500;
+  private groupCount = 1; // 改为1个群组，使所有粒子组成一个鱼群
+  private maxParticles = 2000; // 增加粒子数量以充满画面
   private leaders: FishParticle[] = [];
   private width: number = 1000;
   private height: number = 800;
@@ -34,12 +34,17 @@ class FishSwarmManager {
 
   private initializeParticles(): void {
     for (let i = 0; i < this.maxParticles; i++) {
-      const group = i % this.groupCount;
-      const isLeader = i < this.groupCount;
+      const group = 0; // 所有粒子属于同一个群组
+      const isLeader = i === 0; // 只有一个领导者
+      
+      // 初始化位置充满画面的一半（左侧或右侧）
+      const halfWidth = this.width / 2;
+      const x = halfWidth / 2 + (Math.random() - 0.5) * halfWidth; // 左侧一半区域
+      const y = this.height / 2 + (Math.random() - 0.5) * this.height;
       
       const particle: FishParticle = {
-        x: this.width / 2 + (Math.random() - 0.5) * 200,
-        y: this.height / 2 + (Math.random() - 0.5) * 200,
+        x: x,
+        y: y,
         z: (Math.random() - 0.5) * 200,
         vx: (Math.random() - 0.5) * 2,
         vy: (Math.random() - 0.5) * 2,
@@ -124,10 +129,12 @@ class FishSwarmManager {
     leader.y += leader.vy;
     leader.z += leader.vz;
 
-    const boundaryMargin = 100;
+    // 确保领导者保持在画面的一半区域内
+    const halfWidth = this.width / 2;
+    const boundaryMargin = 50;
     if (leader.x < boundaryMargin) {
       leader.vx += 0.1;
-    } else if (leader.x > this.width - boundaryMargin) {
+    } else if (leader.x > halfWidth - boundaryMargin) {
       leader.vx -= 0.1;
     }
     if (leader.y < boundaryMargin) {
@@ -172,8 +179,12 @@ class FishSwarmManager {
       }
     });
 
-    const aggregationFactor = Math.sin(this.aggregationPhase) * 0.5 + 0.5;
-    const cohesionStrength = (0.02 + averageEnergy * 0.01) * (1 + aggregationFactor);
+    // 根据声音强度调整聚集/扩散行为
+    // 低能量时聚拢，高能量时扩散
+    const aggregationFactor = 1 - averageEnergy; // 声音越大，聚集因子越小
+    
+    // 凝聚力：声音越小，凝聚力越强
+    const cohesionStrength = (0.03 + (1 - averageEnergy) * 0.02) * (1 + aggregationFactor);
     if (distance > 0) {
       follower.vx += (dx / distance) * cohesionStrength;
       follower.vy += (dy / distance) * cohesionStrength;
@@ -185,15 +196,16 @@ class FishSwarmManager {
       const neighborCenterY = neighborY / nearNeighbors;
       const neighborCenterZ = neighborZ / nearNeighbors;
       
-      const neighborCohesionStrength = 0.01 * (1 + aggregationFactor);
+      const neighborCohesionStrength = 0.015 * (1 + aggregationFactor);
       follower.vx += (neighborCenterX - follower.x) * neighborCohesionStrength;
       follower.vy += (neighborCenterY - follower.y) * neighborCohesionStrength;
       follower.vz += (neighborCenterZ - follower.z) * neighborCohesionStrength * 0.5;
     }
 
-    const separationDistance = 10 - averageEnergy * 3;
+    // 分离距离：声音越大，分离距离越大
+    const separationDistance = 8 + averageEnergy * 12;
     if (distance < separationDistance && distance > 0) {
-      const separationStrength = 0.03 * (2 - aggregationFactor);
+      const separationStrength = 0.03 * (1 + averageEnergy);
       follower.vx -= (dx / distance) * separationStrength;
       follower.vy -= (dy / distance) * separationStrength;
       follower.vz -= (dz / distance) * separationStrength * 0.5;
@@ -207,7 +219,7 @@ class FishSwarmManager {
         const ndistance = Math.sqrt(ndx * ndx + ndy * ndy + ndz * ndz);
         
         if (ndistance < separationDistance && ndistance > 0) {
-          const neighborSeparationStrength = 0.02 * (2 - aggregationFactor);
+          const neighborSeparationStrength = 0.02 * (1 + averageEnergy);
           follower.vx -= (ndx / ndistance) * neighborSeparationStrength;
           follower.vy -= (ndy / ndistance) * neighborSeparationStrength;
           follower.vz -= (ndz / ndistance) * neighborSeparationStrength * 0.5;
@@ -231,12 +243,12 @@ class FishSwarmManager {
       follower.vz += (neighborAvgVz - follower.vz) * neighborAlignmentStrength * 0.5;
     }
 
-    const noiseStrength = 0.03;
+    const noiseStrength = 0.03 + averageEnergy * 0.02; // 声音越大，随机运动越强
     follower.vx += (Math.random() - 0.5) * noiseStrength;
     follower.vy += (Math.random() - 0.5) * noiseStrength;
     follower.vz += (Math.random() - 0.5) * noiseStrength * 0.5;
 
-    const maxSpeed = 2.5 + averageEnergy * 1.5;
+    const maxSpeed = 2.5 + averageEnergy * 2; // 声音越大，速度越快
     const speed = Math.sqrt(follower.vx * follower.vx + follower.vy * follower.vy);
     if (speed > maxSpeed) {
       follower.vx = (follower.vx / speed) * maxSpeed;
@@ -246,6 +258,23 @@ class FishSwarmManager {
     follower.x += follower.vx;
     follower.y += follower.vy;
     follower.z += follower.vz;
+
+    // 确保粒子保持在画面的一半区域内
+    const halfWidth = this.width / 2;
+    if (follower.x < 0) {
+      follower.x = 0;
+      follower.vx *= -0.5;
+    } else if (follower.x > halfWidth) {
+      follower.x = halfWidth;
+      follower.vx *= -0.5;
+    }
+    if (follower.y < 0) {
+      follower.y = 0;
+      follower.vy *= -0.5;
+    } else if (follower.y > this.height) {
+      follower.y = this.height;
+      follower.vy *= -0.5;
+    }
 
     follower.rotation = Math.atan2(follower.vy, follower.vx);
   }
