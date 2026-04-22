@@ -89,14 +89,14 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
             ctx, dataArray, width, height, colors, settings, stars: starsRef.current
           });
           break;
-        case VisualizerMode.BARS:
-          renderBarsMode({
+        case VisualizerMode.TUNNEL:
+          renderTunnelMode({
             ctx, dataArray, width, height, colors, settings
           });
           break;
         case VisualizerMode.WAVEFORM:
           renderWaveformMode({
-            ctx, dataArray, dataArrayR, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, dataArrayR, width, height, colors, settings
           });
           break;
         case VisualizerMode.FISH_SWARM:
