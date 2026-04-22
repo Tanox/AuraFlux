@@ -41,7 +41,7 @@ export const ModeSpecificSettings: React.FC = () => {
             <SettingsToggle 
               label="Gradient Bars" 
               value={settings.gradientBars !== false} 
-              onChange={(v) => handleSettingChange('gradientBars', v)} 
+              onChange={() => handleSettingChange('gradientBars', !(settings.gradientBars !== false))} 
             />
           </div>
         );
@@ -68,12 +68,12 @@ export const ModeSpecificSettings: React.FC = () => {
             <SettingsToggle 
               label="Trails" 
               value={settings.trails !== false} 
-              onChange={(v) => handleSettingChange('trails', v)} 
+              onChange={() => handleSettingChange('trails', !(settings.trails !== false))} 
             />
             <SettingsToggle 
               label="Glow" 
               value={settings.glow !== false} 
-              onChange={(v) => handleSettingChange('glow', v)} 
+              onChange={() => handleSettingChange('glow', !(settings.glow !== false))} 
             />
           </div>
         );
@@ -100,7 +100,7 @@ export const ModeSpecificSettings: React.FC = () => {
             <SettingsToggle 
               label="Glow" 
               value={settings.glow !== false} 
-              onChange={(v) => handleSettingChange('glow', v)} 
+              onChange={() => handleSettingChange('glow', !(settings.glow !== false))} 
             />
           </div>
         );
@@ -127,12 +127,12 @@ export const ModeSpecificSettings: React.FC = () => {
             <SettingsToggle 
               label="Fusion Effects" 
               value={settings.fusionEffects !== false} 
-              onChange={(v) => handleSettingChange('fusionEffects', v)} 
+              onChange={() => handleSettingChange('fusionEffects', !(settings.fusionEffects !== false))} 
             />
             <SettingsToggle 
               label="Fullscreen Glow" 
               value={settings.fullscreenGlow !== false} 
-              onChange={(v) => handleSettingChange('fullscreenGlow', v)} 
+              onChange={() => handleSettingChange('fullscreenGlow', !(settings.fullscreenGlow !== false))} 
             />
           </div>
         );
