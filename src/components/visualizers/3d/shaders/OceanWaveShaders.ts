@@ -1,4 +1,4 @@
-// File: src\components\visualizers\3d\shaders\OceanWaveShaders.ts | Version: v2.3.6
+// File: src\components\visualizers\3d\shaders\OceanWaveShaders.ts | Version: v2.3.8
 
 export const oceanWaveVertexShader = `
   attribute vec3 aParticlePosition;
@@ -49,26 +49,26 @@ export const oceanWaveVertexShader = `
     float complexityFactor = 1.0 - uPerformanceMode * 0.5;
     
     // Enhance vertical jumping effect to simulate ocean waves
-    float elevation = audioVal * 0.5 * uSensitivity * distanceFade;
+    float elevation = audioVal * 1.0 * uSensitivity * distanceFade;
     
     // Multi-layer wave effects
     float waveMotion = 0.0;
     
     // Primary waves (low frequency, large amplitude)
-    waveMotion += sin(pos.x * 0.02 + pos.z * 0.03 + uTime * 2.0) * 2.0 * distanceFade * complexityFactor;
+    waveMotion += sin(pos.x * 0.02 + pos.z * 0.03 + uTime * 2.0) * 4.0 * distanceFade * complexityFactor;
     
     // Secondary waves (medium frequency)
-    waveMotion += sin(pos.x * 0.05 + pos.z * 0.07 + uTime * 3.5) * 1.0 * distanceFade * complexityFactor;
+    waveMotion += sin(pos.x * 0.05 + pos.z * 0.07 + uTime * 3.5) * 2.0 * distanceFade * complexityFactor;
     
     // Tertiary waves (high frequency, small amplitude)
-    waveMotion += sin(pos.x * 0.1 + pos.z * 0.12 + uTime * 5.0) * 0.5 * distanceFade * complexityFactor;
+    waveMotion += sin(pos.x * 0.1 + pos.z * 0.12 + uTime * 5.0) * 1.0 * distanceFade * complexityFactor;
     
-    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.5 * distanceFade * complexityFactor;
+    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 3.0 * distanceFade * complexityFactor;
     
     // Mouse interaction effect
     float mouseDistance = length(pos.xz - uMousePosition.xz);
     float mouseInfluence = 1.0 - smoothstep(0.0, 30.0, mouseDistance);
-    float mouseEffect = mouseInfluence * 2.0 * sin(uTime * 3.0) * distanceFade * complexityFactor;
+    float mouseEffect = mouseInfluence * 4.0 * sin(uTime * 3.0) * distanceFade * complexityFactor;
     
     float totalDisp = elevation + waveMotion + beatReaction + mouseEffect;
     
@@ -86,7 +86,7 @@ export const oceanWaveVertexShader = `
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     
     // Adjust particle size based on elevation and distance
-    float size = 0.4 + (elevation * 0.08) + (distanceFade * 0.3);
+    float size = 0.8 + (elevation * 0.15) + (distanceFade * 0.5);
     // Reduce particle size in low performance mode to improve performance
     size *= (1.0 - uPerformanceMode * 0.3);
     gl_PointSize = size;

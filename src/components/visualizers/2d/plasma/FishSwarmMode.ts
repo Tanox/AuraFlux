@@ -157,6 +157,12 @@ class FishSwarmManager {
       leader.vy = (leader.vy / speed) * maxSpeed;
     }
 
+    // 增加领导者的突然转向行为，模拟鱼群的自然行为
+    if (Math.random() < 0.01 * this.trebleEnergy) {
+      leader.vx = (Math.random() - 0.5) * maxSpeed;
+      leader.vy = (Math.random() - 0.5) * maxSpeed;
+    }
+
     leader.x += leader.vx;
     leader.y += leader.vy;
     leader.z += leader.vz;
@@ -527,12 +533,21 @@ export const renderFishSwarmMode = ({
     
     ctx.fillStyle = particle.color;
     ctx.beginPath();
-    // 绘制鱼形
+    // 绘制更美观的鱼形
+    // 鱼身
     ctx.moveTo(finalSize * 0.5, 0);
-    ctx.quadraticCurveTo(finalSize, -finalSize * 0.3, finalSize * 1.2, 0);
-    ctx.quadraticCurveTo(finalSize, finalSize * 0.3, finalSize * 0.5, 0);
-    ctx.quadraticCurveTo(-finalSize * 0.2, -finalSize * 0.1, -finalSize * 0.3, 0);
-    ctx.quadraticCurveTo(-finalSize * 0.2, finalSize * 0.1, finalSize * 0.5, 0);
+    ctx.quadraticCurveTo(finalSize * 0.8, -finalSize * 0.2, finalSize * 1.2, -finalSize * 0.1);
+    ctx.quadraticCurveTo(finalSize * 1.4, 0, finalSize * 1.2, finalSize * 0.1);
+    ctx.quadraticCurveTo(finalSize * 0.8, finalSize * 0.2, finalSize * 0.5, 0);
+    // 鱼鳍
+    ctx.moveTo(finalSize * 0.3, -finalSize * 0.15);
+    ctx.quadraticCurveTo(finalSize * 0.4, -finalSize * 0.3, finalSize * 0.5, -finalSize * 0.2);
+    ctx.moveTo(finalSize * 0.3, finalSize * 0.15);
+    ctx.quadraticCurveTo(finalSize * 0.4, finalSize * 0.3, finalSize * 0.5, finalSize * 0.2);
+    // 鱼尾
+    ctx.moveTo(-finalSize * 0.1, 0);
+    ctx.quadraticCurveTo(-finalSize * 0.2, -finalSize * 0.2, -finalSize * 0.4, 0);
+    ctx.quadraticCurveTo(-finalSize * 0.2, finalSize * 0.2, -finalSize * 0.1, 0);
     ctx.fill();
     
     // 绘制发光效果（如果启用）
