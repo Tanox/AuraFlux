@@ -76,37 +76,37 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       switch (mode) {
         case VisualizerMode.BARS:
           renderBarsMode({
-            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, width, height, colors, settings
           });
           break;
         case VisualizerMode.PLASMA:
           renderPlasmaMode({
-            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, width, height, colors, settings
           });
           break;
         case VisualizerMode.STARFIELD:
           renderStarfieldMode({
-            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity, stars: starsRef.current
+            ctx, dataArray, width, height, colors, settings, stars: starsRef.current
           });
           break;
         case VisualizerMode.TUNNEL:
           renderTunnelMode({
-            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, width, height, colors, settings
           });
           break;
         case VisualizerMode.WAVEFORM:
           renderWaveformMode({
-            ctx, dataArray, dataArrayR, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, dataArrayR, width, height, colors, settings
           });
           break;
         case VisualizerMode.FISH_SWARM:
           renderFishSwarmMode({
-            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, width, height, colors, settings
           });
           break;
         default:
           renderPlasmaMode({
-            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
+            ctx, dataArray, width, height, colors, settings
           });
           break;
       }

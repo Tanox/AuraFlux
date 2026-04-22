@@ -1,4 +1,4 @@
-// File: src/components/visualizers/3d/laser/laserState.ts | Version: v2.3.3
+// File: src/components/visualizers/3d/laser/laserState.ts | Version: v2.3.5
 
 import { LaserState } from './types';
 
@@ -36,7 +36,9 @@ export function calculateLaserScale(
   treble: number
 ): { scaleXZ: number; scaleY: number } {
   const scaleY = 50 + volume * 100 + bass * 50;
-  const scaleXZ = 0.05 + treble * 0.1;
+  const baseThickness = 0.05;
+  const thicknessVariation = (volume * 0.2) + (bass * 0.15) + (treble * 0.1);
+  const scaleXZ = Math.max(baseThickness, baseThickness + thicknessVariation);
 
   return { scaleXZ, scaleY };
 }

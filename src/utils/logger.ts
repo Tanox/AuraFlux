@@ -1,6 +1,6 @@
 /**
- * 绠€鍗曠殑鏃ュ織宸ュ叿
- * 鍦ㄧ敓浜х幆澧冧腑绂佺敤 debug 鍜?info 绾у埆鐨勬棩蹇?
+ * 简单的日志工具
+ * 在生产环境中禁用 debug 和 info 级别的日志
  */
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
@@ -46,7 +46,7 @@ class Logger {
     }
   }
 
-  // 鍒嗙粍鏃ュ織
+  // 分组日志
   group(label: string): void {
     if (LOG_LEVELS.debug >= this.minLevel) {
       console.group(label);

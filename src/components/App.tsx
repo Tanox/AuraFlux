@@ -18,6 +18,7 @@ import { useIdleTimer } from '@/hooks/utils/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
 
 import { COLOR_THEMES } from '@/constants';
+import { logger } from '@/utils/logger';
 
 const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
 const ThreeVisualizer = dynamic(() => import('@/components/visualizers/ThreeVisualizer'), { ssr: false });
@@ -102,10 +103,10 @@ const MainContent: React.FC = () => {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
           .then(registration => {
-            console.log('Service Worker registered:', registration.scope);
+            logger.info('Service Worker registered:', registration.scope);
           })
           .catch(error => {
-            console.error('Service Worker registration failed:', error);
+            logger.error('Service Worker registration failed:', error);
           });
       });
     }

@@ -1,5 +1,5 @@
 'use client';
-// File: src/components/visualizers/3d/laser/LaserScene.tsx | Version: v2.3.0
+// File: src/components/visualizers/3d/laser/LaserScene.tsx | Version: v2.3.5
 // Author: Sut
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';

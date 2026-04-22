@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
 import { COLOR_THEMES } from '../../constants';
+import { logger } from '../../utils/logger';
 
 const DEFAULT_AUDIO_SETTINGS = {
   sensitivity: 1.0,
@@ -45,7 +46,9 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   rotateInterval: 30,
   includedModes: Object.values(VisualizerMode),
   showStudioTab: false,
-  showPlaybackTab: true
+  showPlaybackTab: true,
+  glow: true,
+  trails: true
 };
 
 const getInitialMode = (): VisualizerMode => {
@@ -68,7 +71,7 @@ const getInitialColorTheme = (): string[] => {
           return parsed;
         }
       } catch (error) {
-        console.warn('Error parsing colorTheme from localStorage:', error);
+        logger.warn('Error parsing colorTheme from localStorage:', error);
       }
     }
   }
@@ -83,7 +86,7 @@ const getInitialSettings = (): VisualizerSettings => {
         const parsed = JSON.parse(saved);
         return { ...DEFAULT_SETTINGS, ...parsed };
       } catch (error) {
-        console.warn('Error parsing settings from localStorage:', error);
+        logger.warn('Error parsing settings from localStorage:', error);
       }
     }
   }
