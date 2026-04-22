@@ -1,7 +1,7 @@
 {
   "name": "aura-flux",
   "private": true,
-  "version": "2.3.6",
+  "version": "2.3.7",
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
   "scripts": {
@@ -19,8 +19,8 @@
     "@ducanh2912/next-pwa": "^10.2.9",
     "@google/genai": "^1.40.0",
     "@radix-ui/react-slot": "^1.2.4",
-    "@react-three/drei": "^9.96.1",
-    "@react-three/fiber": "^8.16.1",
+    "@react-three/drei": "9.96.1",
+    "@react-three/fiber": "8.16.1",
     "@react-three/postprocessing": "^2.16.2",
     "caniuse-lite": "^1.0.30001788",
     "class-variance-authority": "^0.7.1",

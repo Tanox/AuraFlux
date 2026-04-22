@@ -47,8 +47,12 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const particlePositionAttr = useMemo(() => {
     const arr = new Float32Array(PARTICLE_COUNT * 3);
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const x = (Math.random() * 2 - 1) * 90;
-      const z = (Math.random() * 2 - 1) * 50;
+      // 更有规律的网格分布，模拟海浪
+      const gridSize = Math.sqrt(PARTICLE_COUNT);
+      const gridX = (i % gridSize) / gridSize * 2 - 1;
+      const gridZ = Math.floor(i / gridSize) / gridSize * 2 - 1;
+      const x = gridX * 90 + (Math.random() - 0.5) * 5;
+      const z = gridZ * 50 + (Math.random() - 0.5) * 3;
       arr[i * 3] = x;
       arr[i * 3 + 1] = 0;
       arr[i * 3 + 2] = z;

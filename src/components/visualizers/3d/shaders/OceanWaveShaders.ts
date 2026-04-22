@@ -1,4 +1,4 @@
-// File: src\components\visualizers\scenes\shaders\OceanWaveShaders.ts | Version: v2.3.6
+// File: src\components\visualizers\3d\shaders\OceanWaveShaders.ts | Version: v2.3.6
 
 export const oceanWaveVertexShader = `
   attribute vec3 aParticlePosition;
@@ -24,21 +24,23 @@ export const oceanWaveVertexShader = `
     float distanceFade = 1.0 - smoothstep(0.0, 100.0, distanceFromCenter);
     vDistance = distanceFade;
     
-    float elevation = audioVal * 0.3 * uSensitivity * distanceFade;
-    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.0 * distanceFade;
-    float totalDisp = elevation + beatReaction;
+    // 增强上下跳动效果，模拟海浪起伏
+    float elevation = audioVal * 0.5 * uSensitivity * distanceFade;
+    float waveMotion = sin(pos.x * 0.02 + pos.z * 0.03 + uTime * 2.0) * 2.0 * distanceFade;
+    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.5 * distanceFade;
+    float totalDisp = elevation + waveMotion + beatReaction;
     
     pos.y = totalDisp;
     vElevation = totalDisp;
     
-    // Add some subtle horizontal movement for wave effect
-    pos.x += sin(pos.z * 0.05 + uTime * 0.5) * 2.0 * distanceFade;
-    pos.z += cos(pos.x * 0.05 + uTime * 0.3) * 1.0 * distanceFade;
+    // 增强水平波浪运动
+    pos.x += sin(pos.z * 0.03 + uTime * 0.7) * 3.0 * distanceFade;
+    pos.z += cos(pos.x * 0.03 + uTime * 0.5) * 1.5 * distanceFade;
     
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     
     // Adjust particle size based on elevation and distance
-    float size = 0.3 + (elevation * 0.05) + (distanceFade * 0.2);
+    float size = 0.4 + (elevation * 0.08) + (distanceFade * 0.3);
     gl_PointSize = size;
   }
 `;

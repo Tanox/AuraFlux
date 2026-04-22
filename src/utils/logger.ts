@@ -12,7 +12,7 @@ const LOG_LEVELS: Record<LogLevel, number> = {
   error: 3,
 };
 
-// 鏍规嵁鐜璁剧疆鏈€浣庢棩蹇楃骇鍒?
+// 根据环境设置最低日志级别
 const MIN_LOG_LEVEL: LogLevel = process.env.NODE_ENV === 'production' ? 'warn' : 'debug';
 
 class Logger {

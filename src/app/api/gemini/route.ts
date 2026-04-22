@@ -17,11 +17,11 @@ function checkRateLimit(ip: string): boolean {
   const limit = requestCounts.get(ip);
   
   if (!limit || now > limit.resetTime) {
-    requestCounts.set(ip, { count: 1, resetTime: now + 60000 }); // 1鍒嗛挓
+    requestCounts.set(ip, { count: 1, resetTime: now + 60000 }); // 1分钟
     return true;
   }
   
-  if (limit.count >= 10) { // 姣忓垎閽熸渶澶?0娆?
+  if (limit.count >= 10) { // 每分钟最多10次
     return false;
   }
   
@@ -120,7 +120,7 @@ async function handleSongIdentification(ai: any, data: { audio: string }) {
 
 export async function POST(request: NextRequest) {
   try {
-    // 闄愭祦妫€鏌?
+    // 限流检查
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
