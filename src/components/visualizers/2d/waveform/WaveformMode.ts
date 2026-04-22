@@ -1,4 +1,4 @@
-// File: src\components\visualizers\2d\waveform\WaveformMode.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/waveform/WaveformMode.ts | Version: v2.3.3
 
 interface WaveformModeProps {
   ctx: CanvasRenderingContext2D;
@@ -7,14 +7,14 @@ interface WaveformModeProps {
   width: number;
   height: number;
   colors: string[];
-  sensitivity: number;
+  settings: any;
 }
 
 /**
- * 娓叉煋WAVEFORM妯″紡鐨勫彲瑙嗗寲鏁堟灉
+ * 渲染WAVEFORM模式的可视化效果
  */
 export const renderWaveformMode = (() => {
-  // 绮掑瓙鐘舵€佺紦瀛?- 浣跨敤闂寘閬垮厤鍏ㄥ眬鐘舵€佹薄鏌?
+  // 粒子状态缓存 - 使用闭包避免全局状态污染
   let particles: { x: number; y: number; size: number; speed: number; alpha: number; color: string }[] = [];
   
   return ({
@@ -24,15 +24,21 @@ export const renderWaveformMode = (() => {
     width,
     height,
     colors,
-    sensitivity
+    settings
   }: WaveformModeProps) => {
+  const sensitivity = settings?.sensitivity || 1;
   const bufferLength = dataArray.length;
   const sliceWidth = (width * 1.0) / bufferLength;
   let x = 0;
   const centerY = height / 2;
   const time = Date.now() * 0.001;
   
-  // 缁樺埗宸﹀０閬撴尝褰紙涓婂崐閮ㄥ垎锛?
+  // 清空画布（轨迹效果）
+  const fadeAmount = settings?.trails === false ? 1 : 0.08;
+  ctx.fillStyle = `rgba(0, 0, 0, ${fadeAmount})`;
+  ctx.fillRect(0, 0, width, height);
+  
+  // 绘制左声道波形（上半部分）
   ctx.beginPath();
   ctx.moveTo(0, centerY * 0.75);
   
@@ -40,7 +46,7 @@ export const renderWaveformMode = (() => {
     const v = (dataArray[i] / 128.0) * sensitivity;
     const y = centerY * 0.75 - v * (centerY * 0.6);
     
-    // 娣诲姞娉㈠舰鍔ㄧ敾鏁堟灉
+    // 添加波形动画效果
     const animationOffset = Math.sin(time + i * 0.01) * 5;
     const animatedY = y + animationOffset;
     
@@ -50,24 +56,24 @@ export const renderWaveformMode = (() => {
       ctx.lineTo(x, animatedY);
     }
     
-    // 鍔ㄦ€佹尝褰㈠搴?
+    // 动态波形宽度
     const lineWidth = 1 + (dataArray[i] / 255) * 3;
     
-    // 棰戠巼鍝嶅簲棰滆壊
+    // 频率响应颜色
     const frequencyRatio = i / bufferLength;
     let frequencyColor;
     if (frequencyRatio < 0.2) {
-      // 浣庨 - 鏆栬壊璋?
+      // 低频 - 暖色调
       frequencyColor = '#ff6b6b';
     } else if (frequencyRatio < 0.6) {
-      // 涓 - 涓€ц壊璋?
+      // 中频 - 中性色调
       frequencyColor = '#4ecdc4';
     } else {
-      // 楂橀 - 鍐疯壊璋?
+      // 高频 - 冷色调
       frequencyColor = '#45b7d1';
     }
     
-    // 鍦ㄦ尝褰㈠嘲鍊煎娣诲姞绮掑瓙鏁堟灉
+    // 在波形峰值处添加粒子效果
     if (dataArray[i] > 200) {
       particles.push({
         x: x,
@@ -84,23 +90,31 @@ export const renderWaveformMode = (() => {
   
   ctx.lineTo(width, centerY * 0.75);
   
-  // 鍒涘缓娓愬彉鏁堟灉
+  // 创建渐变效果
   const gradientTop = ctx.createLinearGradient(0, 0, 0, centerY);
   gradientTop.addColorStop(0, colors[0]);
   gradientTop.addColorStop(0.5, colors[Math.floor(colors.length / 2)]);
   gradientTop.addColorStop(1, colors[colors.length - 1]);
   
+  // 添加发光效果
+  if (settings?.glow !== false) {
+    ctx.shadowBlur = 15;
+    ctx.shadowColor = colors[0];
+  } else {
+    ctx.shadowBlur = 0;
+  }
+  
   ctx.strokeStyle = gradientTop;
   ctx.lineWidth = 2;
   ctx.stroke();
   
-  // 缁樺埗濉厖鍖哄煙
+  // 绘制填充区域
   ctx.fillStyle = gradientTop;
   ctx.globalAlpha = 0.3;
   ctx.fill();
   ctx.globalAlpha = 1.0;
   
-  // 缁樺埗鍙冲０閬撴尝褰紙涓嬪崐閮ㄥ垎锛?
+  // 绘制右声道波形（下半部分）
   if (dataArrayR) {
     x = 0;
     ctx.beginPath();
@@ -110,7 +124,7 @@ export const renderWaveformMode = (() => {
       const v = (dataArrayR[i] / 128.0) * sensitivity;
       const y = centerY * 1.25 + v * (centerY * 0.6);
       
-      // 娣诲姞娉㈠舰鍔ㄧ敾鏁堟灉
+      // 添加波形动画效果
       const animationOffset = Math.sin(time + i * 0.01 + Math.PI) * 5;
       const animatedY = y + animationOffset;
       
@@ -120,7 +134,7 @@ export const renderWaveformMode = (() => {
         ctx.lineTo(x, animatedY);
       }
       
-      // 鍦ㄦ尝褰㈠嘲鍊煎娣诲姞绮掑瓙鏁堟灉
+      // 在波形峰值处添加粒子效果
       if (dataArrayR[i] > 200) {
         particles.push({
           x: x,
@@ -137,7 +151,7 @@ export const renderWaveformMode = (() => {
     
     ctx.lineTo(width, centerY * 1.25);
     
-    // 鍒涘缓娓愬彉鏁堟灉
+    // 创建渐变效果
     const gradientBottom = ctx.createLinearGradient(0, centerY, 0, height);
     gradientBottom.addColorStop(0, colors[colors.length - 1]);
     gradientBottom.addColorStop(0.5, colors[Math.floor(colors.length / 2)]);
@@ -147,27 +161,38 @@ export const renderWaveformMode = (() => {
     ctx.lineWidth = 2;
     ctx.stroke();
     
-    // 缁樺埗濉厖鍖哄煙
+    // 绘制填充区域
     ctx.fillStyle = gradientBottom;
     ctx.globalAlpha = 0.3;
     ctx.fill();
     ctx.globalAlpha = 1.0;
   }
   
-  // 鏇存柊鍜岀粯鍒剁矑瀛愭晥鏋?
+  // 重置阴影
+  ctx.shadowBlur = 0;
+  
+  // 更新和绘制粒子效果
   particles = particles.filter(particle => {
-    // 鏇存柊绮掑瓙浣嶇疆鍜岄€忔槑搴?
+    // 更新粒子位置和透明度
     particle.y += particle.speed;
     particle.alpha -= 0.02;
     
-    // 缁樺埗绮掑瓙
+    // 绘制粒子（如果需要发光效果）
+    if (settings?.glow !== false) {
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = particle.color;
+    }
+    
     ctx.globalAlpha = particle.alpha;
     ctx.fillStyle = particle.color;
     ctx.beginPath();
     ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
     ctx.fill();
     
-    // 淇濈暀閫忔槑搴﹀ぇ浜?鐨勭矑瀛?
+    // 重置阴影
+    ctx.shadowBlur = 0;
+    
+    // 保留透明度大于0的粒子
     return particle.alpha > 0;
   });
   

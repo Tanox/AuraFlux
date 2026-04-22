@@ -1,4 +1,4 @@
-// File: src\components\visualizers\2d\bars\BarsMode.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/bars/BarsMode.ts | Version: v2.3.3
 
 interface BarsModeProps {
   ctx: CanvasRenderingContext2D;
@@ -6,11 +6,11 @@ interface BarsModeProps {
   width: number;
   height: number;
   colors: string[];
-  sensitivity: number;
+  settings: any;
 }
 
 /**
- * 娓叉煋BARS妯″紡鐨勫彲瑙嗗寲鏁堟灉
+ * 渲染BARS模式的可视化效果
  */
 export const renderBarsMode = ({
   ctx,
@@ -18,8 +18,9 @@ export const renderBarsMode = ({
   width,
   height,
   colors,
-  sensitivity
+  settings
 }: BarsModeProps) => {
+  const sensitivity = settings?.sensitivity || 1;
   const bufferLength = dataArray.length;
   const newBufferLength = 24; // Reduce to 24 bars
   const barWidth = (width / newBufferLength) * 3.0; // Increase width to 300%

@@ -1,4 +1,4 @@
-// File: src\components\visualizers\2d\tunnel\TunnelMode.ts | Version: v2.3.3
+// File: src/components/visualizers/2d/tunnel/TunnelMode.ts | Version: v2.3.3
 
 interface TunnelModeProps {
   ctx: CanvasRenderingContext2D;
@@ -6,11 +6,11 @@ interface TunnelModeProps {
   width: number;
   height: number;
   colors: string[];
-  sensitivity: number;
+  settings: any;
 }
 
 /**
- * 娓叉煋TUNNEL妯″紡鐨勫彲瑙嗗寲鏁堟灉
+ * 渲染TUNNEL模式的可视化效果
  */
 export const renderTunnelMode = ({
   ctx,
@@ -18,12 +18,18 @@ export const renderTunnelMode = ({
   width,
   height,
   colors,
-  sensitivity
+  settings
 }: TunnelModeProps) => {
+  const sensitivity = settings?.sensitivity || 1;
   const time = Date.now() * 0.002;
   const centerX = width / 2;
   const centerY = height / 2;
   const maxRadius = Math.max(width, height);
+  
+  // 清空画布（轨迹效果）
+  const fadeAmount = settings?.trails === false ? 1 : 0.08;
+  ctx.fillStyle = `rgba(0, 0, 0, ${fadeAmount})`;
+  ctx.fillRect(0, 0, width, height);
   
   for (let i = 0; i < 20; i++) {
     const dataIndex = Math.floor((i / 20) * dataArray.length);
@@ -37,7 +43,17 @@ export const renderTunnelMode = ({
     ctx.lineWidth = 2 + val * 30 * sensitivity;
     ctx.strokeStyle = colors[i % colors.length];
     ctx.globalAlpha = alpha * (0.5 + val * 0.5 * sensitivity);
+    
+    // 添加发光效果
+    if (settings?.glow !== false) {
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = colors[i % colors.length];
+    } else {
+      ctx.shadowBlur = 0;
+    }
+    
     ctx.stroke();
   }
   ctx.globalAlpha = 1.0;
+  ctx.shadowBlur = 0;
 };
