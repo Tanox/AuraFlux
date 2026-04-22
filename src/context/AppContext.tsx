@@ -1,4 +1,4 @@
-// File: src\context\AppContext.tsx | Version: v2.3.5
+// File: src\context\AppContext.tsx | Version: v2.3.8
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
 import { 
