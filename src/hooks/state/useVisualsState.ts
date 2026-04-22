@@ -48,7 +48,9 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   showStudioTab: false,
   showPlaybackTab: true,
   glow: true,
-  trails: true
+  trails: true,
+  performanceMode: 'medium',
+  quality: 'medium'
 };
 
 const getInitialMode = (): VisualizerMode => {

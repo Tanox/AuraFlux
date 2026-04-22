@@ -186,7 +186,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
         starsRef.current = [];
       }
     };
-  }, [analyser, analyserR, colors, settings, mode]);
+  }, [analyser, analyserR, colors, settings, mode, adaptiveSettings, performanceData.isLowPerformance]);
 
   return (
     <canvas 

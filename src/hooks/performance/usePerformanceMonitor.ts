@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 
 interface PerformanceMonitorOptions {
   updateInterval?: number;
@@ -37,7 +37,7 @@ export const usePerformanceMonitor = (options: PerformanceMonitorOptions = {}) =
     maxHistoryLength: 10
   });
 
-  const updatePerformance = () => {
+  const updatePerformance = useCallback(() => {
     const currentTime = performance.now();
     const deltaTime = currentTime - performanceRef.current.lastFrameTime;
     performanceRef.current.lastFrameTime = currentTime;
@@ -69,7 +69,7 @@ export const usePerformanceMonitor = (options: PerformanceMonitorOptions = {}) =
       performanceRef.current.frameCount = 0;
       performanceRef.current.lastUpdateTime = currentTime;
     }
-  };
+  }, [updateInterval, lowPerformanceThreshold, highPerformanceThreshold]);
 
   useEffect(() => {
     const animationId = requestAnimationFrame(function animate() {
@@ -80,7 +80,7 @@ export const usePerformanceMonitor = (options: PerformanceMonitorOptions = {}) =
     return () => {
       cancelAnimationFrame(animationId);
     };
-  }, [updateInterval, lowPerformanceThreshold, highPerformanceThreshold]);
+  }, [updateInterval, lowPerformanceThreshold, highPerformanceThreshold, updatePerformance]);
 
   return performanceData;
 };

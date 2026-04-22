@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { logger } from '@/utils/logger';
 
 interface AnimationLoopOptions {
@@ -27,7 +27,7 @@ export const useAnimationLoop = (options: AnimationLoopOptions): AnimationLoopRe
   const frameCountRef = useRef<number>(0);
   const lastFpsUpdateRef = useRef<number>(0);
 
-  const start = () => {
+  const start = useCallback(() => {
     if (isRunning) return;
     setIsRunning(true);
     lastFrameTimeRef.current = performance.now();
@@ -74,7 +74,7 @@ export const useAnimationLoop = (options: AnimationLoopOptions): AnimationLoopRe
     };
 
     animationIdRef.current = requestAnimationFrame(loop);
-  };
+  }, [isRunning, onFrame, onPerformanceUpdate, fpsTarget]);
 
   const stop = () => {
     setIsRunning(false);
@@ -94,7 +94,7 @@ export const useAnimationLoop = (options: AnimationLoopOptions): AnimationLoopRe
     return () => {
       stop();
     };
-  }, [enabled]);
+  }, [enabled, isRunning, start]);
 
   return {
     isRunning,
