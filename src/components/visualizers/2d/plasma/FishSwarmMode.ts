@@ -33,10 +33,27 @@ class FishSwarmManager {
   private bassEnergy = 0; // 低频能量
   private midEnergy = 0; // 中频能量
   private trebleEnergy = 0; // 高频能量
+  private cohesionStrength = 0.03; // 凝聚力
+  private separationDistance = 8; // 分离距离
+  private alignmentStrength = 0.08; // 对齐力
+  private trailLength = 10; // 尾迹长度
+  private colorResponse = 1.0; // 颜色响应强度
 
-  constructor(width: number = 1000, height: number = 800) {
+  constructor(width: number = 1000, height: number = 800, settings?: any) {
     this.width = width;
     this.height = height;
+    
+    // 应用配置
+    if (settings) {
+      this.maxParticles = settings.fishSwarmMaxParticles || 2000;
+      this.currentParticles = this.maxParticles;
+      this.cohesionStrength = settings.fishSwarmCohesion || 0.03;
+      this.separationDistance = settings.fishSwarmSeparation || 8;
+      this.alignmentStrength = settings.fishSwarmAlignment || 0.08;
+      this.trailLength = settings.fishSwarmTrailLength || 10;
+      this.colorResponse = settings.fishSwarmColorResponse || 1.0;
+    }
+    
     this.initializeParticles();
   }
 
@@ -199,7 +216,7 @@ class FishSwarmManager {
     const aggregationFactor = 1 - averageEnergy; // 声音越大，聚集因子越小
     
     // 凝聚力：声音越小，凝聚力越强，中频影响凝聚力
-    const cohesionStrength = (0.03 + (1 - averageEnergy) * 0.02 + this.midEnergy * 0.01) * (1 + aggregationFactor);
+    const cohesionStrength = (this.cohesionStrength + (1 - averageEnergy) * 0.02 + this.midEnergy * 0.01) * (1 + aggregationFactor);
     if (distance > 0) {
       follower.vx += (dx / distance) * cohesionStrength;
       follower.vy += (dy / distance) * cohesionStrength;
@@ -370,7 +387,7 @@ class FishSwarmManager {
   private updateParticleTrail(particle: FishParticle, averageEnergy: number): void {
     // 根据速度和音频能量计算尾迹长度
     const speed = Math.sqrt(particle.vx * particle.vx + particle.vy * particle.vy);
-    const trailLength = Math.floor(5 + speed * 2 + averageEnergy * 3);
+    const trailLength = Math.floor(this.trailLength + speed * 2 + averageEnergy * 3);
     
     // 添加当前位置到尾迹
     particle.trail.push({ x: particle.x, y: particle.y, z: particle.z });
@@ -392,9 +409,10 @@ class FishSwarmManager {
     if (!baseRgb) return;
     
     // 根据频率能量调整RGB分量
-    const r = Math.min(255, Math.floor(baseRgb.r + this.bassEnergy * 100));
-    const g = Math.min(255, Math.floor(baseRgb.g + this.midEnergy * 100));
-    const b = Math.min(255, Math.floor(baseRgb.b + this.trebleEnergy * 100));
+    const response = this.colorResponse;
+    const r = Math.min(255, Math.floor(baseRgb.r + this.bassEnergy * 100 * response));
+    const g = Math.min(255, Math.floor(baseRgb.g + this.midEnergy * 100 * response));
+    const b = Math.min(255, Math.floor(baseRgb.b + this.trebleEnergy * 100 * response));
     
     // 转换回十六进制颜色
     particle.color = this.rgbToHex(r, g, b);
@@ -430,7 +448,7 @@ export const renderFishSwarmMode = ({
   const time = Date.now();
   
   if (!fishSwarmManager) {
-    fishSwarmManager = new FishSwarmManager(width, height);
+    fishSwarmManager = new FishSwarmManager(width, height, settings);
   }
   
   // 计算平均能量

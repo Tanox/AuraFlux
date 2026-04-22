@@ -24,7 +24,11 @@ export class ParticleManager {
     { speed: 0.28, noise: 0.06, offset: 11 }
   ];
 
-  constructor() {
+  private performanceMode: 'low' | 'medium' | 'high' = 'medium';
+
+  constructor(performanceMode: 'low' | 'medium' | 'high' = 'medium') {
+    this.performanceMode = performanceMode;
+    
     this.particlePool = new ObjectPool<ParticleState>(() => ({
       x: 0,
       y: 0,
@@ -51,20 +55,33 @@ export class ParticleManager {
   }
 
   /**
+   * 设置性能模式
+   */
+  setPerformanceMode(mode: 'low' | 'medium' | 'high'): void {
+    this.performanceMode = mode;
+  }
+
+  /**
    * 调整粒子数量
    */
   adjustParticleCount(average: number, centerX: number, centerY: number): void {
+    const maxParticles = {
+      low: 30,
+      medium: 60,
+      high: 80
+    }[this.performanceMode];
+    
     let targetParticleCount: number;
     if (average < 0.1) {
-      targetParticleCount = 20;
+      targetParticleCount = Math.max(5, Math.floor(maxParticles * 0.25));
     } else if (average < 0.3) {
-      targetParticleCount = 30;
+      targetParticleCount = Math.floor(maxParticles * 0.4);
     } else if (average < 0.5) {
-      targetParticleCount = 40;
+      targetParticleCount = Math.floor(maxParticles * 0.6);
     } else if (average < 0.7) {
-      targetParticleCount = 60;
+      targetParticleCount = Math.floor(maxParticles * 0.8);
     } else {
-      targetParticleCount = 80;
+      targetParticleCount = maxParticles;
     }
 
     if (this.particleStates.length < targetParticleCount) {
@@ -227,8 +244,14 @@ export class ParticleManager {
       this.particleStates[i].rotation += this.particleStates[i].rotationSpeed;
       
       // 粒子分裂逻辑
+      const maxParticles = {
+        low: 30,
+        medium: 60,
+        high: 80
+      }[this.performanceMode];
+      
       this.particleStates[i].splitTimer += 0.01 * (1 + average);
-      if (this.particleStates[i].splitTimer > 4 && this.particleStates[i].radius > 35 && this.particleStates.length < 80) {
+      if (this.particleStates[i].splitTimer > 4 && this.particleStates[i].radius > 35 && this.particleStates.length < maxParticles) {
         this.particleStates[i].isSplitting = true;
         this.particleStates[i].splitTimer = 0;
         
@@ -273,8 +296,14 @@ export class ParticleManager {
    * 限制粒子数量
    */
   limitParticleCount(): void {
-    if (this.particleStates.length > 80) {
-      const excessParticles = this.particleStates.length - 80;
+    const maxParticles = {
+      low: 30,
+      medium: 60,
+      high: 80
+    }[this.performanceMode];
+    
+    if (this.particleStates.length > maxParticles) {
+      const excessParticles = this.particleStates.length - maxParticles;
       for (let i = 0; i < excessParticles; i++) {
         const removedParticle = this.particleStates.pop();
         if (removedParticle) {

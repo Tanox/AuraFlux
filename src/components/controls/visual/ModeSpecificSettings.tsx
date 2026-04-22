@@ -287,6 +287,60 @@ export const ModeSpecificSettings: React.FC = () => {
           </div>
         );
       
+      case VisualizerMode.FISH_SWARM:
+        return (
+          <div className="space-y-4">
+            <Slider 
+              label="Max Particle Count" 
+              value={settings.fishSwarmMaxParticles || 2000} 
+              min={500} 
+              max={3000} 
+              step={100} 
+              onChange={(v) => handleSettingChange('fishSwarmMaxParticles', v)} 
+            />
+            <Slider 
+              label="Cohesion Strength" 
+              value={settings.fishSwarmCohesion || 0.03} 
+              min={0.01} 
+              max={0.05} 
+              step={0.001} 
+              onChange={(v) => handleSettingChange('fishSwarmCohesion', v)} 
+            />
+            <Slider 
+              label="Separation Distance" 
+              value={settings.fishSwarmSeparation || 8} 
+              min={4} 
+              max={16} 
+              step={0.5} 
+              onChange={(v) => handleSettingChange('fishSwarmSeparation', v)} 
+            />
+            <Slider 
+              label="Alignment Strength" 
+              value={settings.fishSwarmAlignment || 0.08} 
+              min={0.04} 
+              max={0.12} 
+              step={0.001} 
+              onChange={(v) => handleSettingChange('fishSwarmAlignment', v)} 
+            />
+            <Slider 
+              label="Trail Length" 
+              value={settings.fishSwarmTrailLength || 10} 
+              min={5} 
+              max={20} 
+              step={1} 
+              onChange={(v) => handleSettingChange('fishSwarmTrailLength', v)} 
+            />
+            <Slider 
+              label="Color Response" 
+              value={settings.fishSwarmColorResponse || 1.0} 
+              min={0.5} 
+              max={2.0} 
+              step={0.1} 
+              onChange={(v) => handleSettingChange('fishSwarmColorResponse', v)} 
+            />
+          </div>
+        );
+      
       default:
         return (
           <div className="text-center text-gray-500">

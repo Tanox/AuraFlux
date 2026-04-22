@@ -7,7 +7,7 @@ import { calculateAverage } from './utils';
 import { logger } from '@/utils/logger';
 
 // 创建实例
-const particleManager = new ParticleManager();
+const particleManager = new ParticleManager('medium');
 const renderer = new Renderer();
 
 /**
