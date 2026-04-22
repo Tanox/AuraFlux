@@ -3,6 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../../types';
 import { useTranslation } from 'react-i18next';
+import { logger } from '../../utils/logger';
 
 const getInitialLanguage = (): Language => {
   if (typeof window !== 'undefined') {
@@ -58,7 +59,7 @@ export const useAppState = () => {
         }
       } catch (err: any) {
         if (err.name !== 'NotAllowedError') {
-          console.warn('Wake Lock error:', err?.message || err);
+          logger.warn('Wake Lock error:', err?.message || err);
         }
       }
     }

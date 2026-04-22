@@ -5,12 +5,12 @@ import { ParticleManager } from './ParticleManager';
 import { Renderer } from './Renderer';
 import { calculateAverage } from './utils';
 
-// 鍒涘缓瀹炰緥
+// 创建实例
 const particleManager = new ParticleManager();
 const renderer = new Renderer();
 
 /**
- * 娓叉煋PLASMA妯″紡鐨勫彲瑙嗗寲鏁堟灉
+ * 渲染PLASMA模式的可视化效果
  */
 export const renderPlasmaMode = ({
   ctx,
@@ -18,41 +18,47 @@ export const renderPlasmaMode = ({
   width,
   height,
   colors,
-  sensitivity
+  settings
 }: PlasmaModeProps) => {
   const time = Date.now() * 0.001;
   const centerX = width / 2;
   const centerY = height / 2;
   
-  const average = calculateAverage(dataArray, sensitivity);
+  const average = calculateAverage(dataArray, settings.sensitivity);
 
-  // 淇濆瓨Canvas鐘舵€?  ctx.save();
+  // 保存Canvas状态
+  ctx.save();
   ctx.globalCompositeOperation = 'screen';
   
-  // 璋冩暣绮掑瓙鏁伴噺
+  // 调整粒子数量
   particleManager.adjustParticleCount(average, centerX, centerY);
   
-  // 妫€娴嬬矑瀛愯瀺鍚?  particleManager.detectFusion(colors);
+  // 检测粒子融合
+  particleManager.detectFusion(colors);
   
-  // 鏇存柊绮掑瓙鐘舵€?  particleManager.updateParticles(dataArray, width, height, sensitivity, time);
+  // 更新粒子状态
+  particleManager.updateParticles(dataArray, width, height, settings.sensitivity, time);
   
-  // 鏇存柊铻嶅悎鏁堟灉
+  // 更新融合效果
   particleManager.updateFusionEffects();
   
-  // 娣卞害鎺掑簭
+  // 深度排序
   particleManager.sortByDepth();
   
-  // 缁樺埗绮掑瓙
-  renderer.drawParticles(ctx, particleManager.getParticles(), dataArray, width, height, colors, average);
+  // 绘制粒子
+  renderer.drawParticles(ctx, particleManager.getParticles(), dataArray, width, height, colors, average, settings);
   
-  // 缁樺埗铻嶅悎鏁堟灉
+  // 绘制融合效果
   renderer.drawFusionEffects(ctx, particleManager.getFusionEffects(), width, height);
   
-  // 闄愬埗绮掑瓙鏁伴噺
+  // 限制粒子数量
   particleManager.limitParticleCount();
   
-  // 缁樺埗鍏ㄥ睆鍙戝厜鏁堟灉
-  renderer.drawFullScreenGlow(ctx, width, height, average);
+  // 绘制全屏发光效果
+  if (settings.glow) {
+    renderer.drawFullScreenGlow(ctx, width, height, average);
+  }
   
-  // 鎭㈠Canvas鐘舵€?  ctx.restore();
+  // 恢复Canvas状态
+  ctx.restore();
 };

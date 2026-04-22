@@ -1,9 +1,9 @@
 'use client';
-// File: src\components\visualizers\3d\oceanWave\OceanWaveScene.tsx | Version: v2.2.23
+// File: src\components\visualizers\3d\oceanWave\OceanWaveScene.tsx | Version: v2.3.6
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, DoubleSide, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute } from 'three';
+import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute, SphereGeometry } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
@@ -25,54 +25,53 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  const NUM_LINES = settings.quality === 'high' ? 64 : (settings.quality === 'med' ? 48 : 32);
-  const SEGMENTS_X = settings.quality === 'high' ? 384 : (settings.quality === 'med' ? 192 : 128);
-  
-  const LINE_WIDTH = 180;
-  const LINE_HEIGHT = 25; 
-  const Z_SPACING = 3.2;
-  
+  const PARTICLE_COUNT = settings.quality === 'high' ? 2048 : (settings.quality === 'med' ? 1024 : 512);
   const bins = (settings.fftSize || 512) / 2;
   const historyData = useMemo(() => {
-    if (!bins || !NUM_LINES || bins <= 0 || NUM_LINES <= 0) return new Uint8Array(0);
-    return new Uint8Array(bins * NUM_LINES);
-  }, [bins, NUM_LINES]);
+    if (!bins || bins <= 0) return new Uint8Array(0);
+    return new Uint8Array(bins * 16);
+  }, [bins]);
   
   const audioTexture = useMemo(() => {
-    if (!historyData || historyData.length === 0 || bins <= 0 || NUM_LINES <= 0) {
+    if (!historyData || historyData.length === 0 || bins <= 0) {
         return new DataTexture(new Uint8Array(1), 1, 1, RedFormat, UnsignedByteType);
     }
-    const tex = new DataTexture(historyData, bins, NUM_LINES, RedFormat, UnsignedByteType);
+    const tex = new DataTexture(historyData, bins, 16, RedFormat, UnsignedByteType);
     tex.magFilter = LinearFilter;
     tex.minFilter = NearestFilter;
     return tex;
-  }, [historyData, bins, NUM_LINES]);
+  }, [historyData, bins]);
 
   const dummy = useMemo(() => new Object3D(), []);
   
-  const lineProgressAttr = useMemo(() => {
-    const arr = new Float32Array(NUM_LINES);
-    for (let i = 0; i < NUM_LINES; i++) arr[i] = i / Math.max(1, NUM_LINES - 1);
-    return new InstancedBufferAttribute(arr, 1);
-  }, [NUM_LINES]);
+  const particlePositionAttr = useMemo(() => {
+    const arr = new Float32Array(PARTICLE_COUNT * 3);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const x = (Math.random() * 2 - 1) * 90;
+      const z = (Math.random() * 2 - 1) * 50;
+      arr[i * 3] = x;
+      arr[i * 3 + 1] = 0;
+      arr[i * 3 + 2] = z;
+    }
+    return new InstancedBufferAttribute(arr, 3);
+  }, [PARTICLE_COUNT]);
 
   useLayoutEffect(() => {
       if (meshRef.current) {
-          for (let i = 0; i < NUM_LINES; i++) {
-              dummy.position.set(0, i * 0.75 - 20, -i * Z_SPACING);
+          for (let i = 0; i < PARTICLE_COUNT; i++) {
+              dummy.position.set(0, 0, 0);
               dummy.updateMatrix();
               meshRef.current.setMatrixAt(i, dummy.matrix);
           }
           meshRef.current.instanceMatrix.needsUpdate = true;
-          meshRef.current.geometry.setAttribute('aLineProgress', lineProgressAttr);
+          meshRef.current.geometry.setAttribute('aParticlePosition', particlePositionAttr);
       }
-  }, [NUM_LINES, Z_SPACING, dummy, lineProgressAttr]);
+  }, [PARTICLE_COUNT, dummy, particlePositionAttr]);
 
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
     uAudioHistory: { value: audioTexture },
-    uColorRidge: { value: new Color(0xffffff) },
-    uColorBody: { value: new Color(0x000000) },
+    uColor: { value: new Color(0xffffff) },
     uSensitivity: { value: 1.0 },
     uBeat: { value: 0.0 },
   }), [audioTexture]);
@@ -106,10 +105,10 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
         mat.uniforms.uTime.value = state.clock.getElapsedTime();
-        mat.uniforms.uSensitivity.value = settings.sensitivity * 1.5; // Gain doubled to 150%
+        mat.uniforms.uSensitivity.value = settings.sensitivity * 1.5;
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
-        if (c2) mat.uniforms.uColorRidge.value.copy(c2); 
-        else if (c0) mat.uniforms.uColorRidge.value.copy(c0);
+        if (c2) mat.uniforms.uColor.value.copy(c2); 
+        else if (c0) mat.uniforms.uColor.value.copy(c0);
     }
     
     // Camera controlled by OrbitControls
@@ -120,10 +119,9 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   return (
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <instancedMesh ref={meshRef} args={[undefined, undefined, NUM_LINES]}>
-        <planeGeometry args={[LINE_WIDTH, LINE_HEIGHT, SEGMENTS_X, 1]} />
+      <instancedMesh ref={meshRef} args={[undefined, undefined, PARTICLE_COUNT]}>
+        <sphereGeometry args={[1, 8, 8]} />
         <shaderMaterial
-          side={DoubleSide}
           uniforms={uniforms}
           transparent={true}
           vertexShader={oceanWaveVertexShader}

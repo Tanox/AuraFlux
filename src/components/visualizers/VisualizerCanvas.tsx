@@ -76,7 +76,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       switch (mode) {
         case VisualizerMode.BARS:
           renderBarsMode({
-            ctx, dataArray, width, height, colors, settings
+            ctx, dataArray, width, height, colors, sensitivity: settings.sensitivity
           });
           break;
         case VisualizerMode.PLASMA:
@@ -146,7 +146,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
         starsRef.current = [];
       }
     };
-  }, [analyser, analyserR, colors, settings.sensitivity, mode]);
+  }, [analyser, analyserR, colors, settings, mode]);
 
   return (
     <canvas 

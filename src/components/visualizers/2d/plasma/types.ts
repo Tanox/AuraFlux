@@ -30,7 +30,7 @@ export interface PlasmaModeProps {
   width: number;
   height: number;
   colors: string[];
-  sensitivity: number;
+  settings: any;
 }
 
 export interface ParticleParams {

@@ -1,67 +1,71 @@
-// File: src\components\visualizers\scenes\shaders\OceanWaveShaders.ts | Version: v2.3.3
+// File: src\components\visualizers\scenes\shaders\OceanWaveShaders.ts | Version: v2.3.6
 
 export const oceanWaveVertexShader = `
-  attribute float aLineProgress;
-  varying vec2 vUv;
+  attribute vec3 aParticlePosition;
   varying float vElevation;
-  varying float vLineProgress;
-  varying float vSideFade;
+  varying float vDistance;
   uniform sampler2D uAudioHistory;
   uniform float uSensitivity;
   uniform float uTime;
   uniform float uBeat;
   
   void main() {
-    vUv = uv; 
-    vLineProgress = aLineProgress;
+    vec3 pos = aParticlePosition;
     
-    float xDist = abs(uv.x - 0.5) * 2.0;
-    float xFade = 1.0 - pow(xDist, 2.5);
-    vSideFade = smoothstep(1.0, 0.75, xDist);
+    // Calculate normalized position for audio sampling
+    float xNorm = (pos.x + 90.0) / 180.0;
+    float zNorm = (pos.z + 50.0) / 100.0;
     
-    vec3 pos = position;
-    float audioVal = texture2D(uAudioHistory, vec2(uv.x, aLineProgress)).r;
+    // Sample audio data based on particle position
+    float audioVal = texture2D(uAudioHistory, vec2(xNorm, zNorm)).r;
     
-    float elevation = audioVal * 3.78 * uSensitivity * xFade; // Further reduced to 10% of original 37.8
-    float beatReaction = uBeat * sin(uv.x * 4.0 + uTime * 4.0) * 1.5 * (1.0 - aLineProgress) * xFade;
+    // Calculate elevation based on audio and distance from center
+    float distanceFromCenter = length(vec2(pos.x, pos.z));
+    float distanceFade = 1.0 - smoothstep(0.0, 100.0, distanceFromCenter);
+    vDistance = distanceFade;
+    
+    float elevation = audioVal * 0.3 * uSensitivity * distanceFade;
+    float beatReaction = uBeat * sin(pos.x * 0.1 + pos.z * 0.1 + uTime * 4.0) * 1.0 * distanceFade;
     float totalDisp = elevation + beatReaction;
     
-    // Move bottom edge to canvas bottom, only top edge rises with audio
-    if (uv.y > 0.5) {
-        pos.y += totalDisp;
-    } else {
-        pos.y = -12.5; // Keep bottom edge fixed at canvas bottom
-    }
+    pos.y = totalDisp;
     vElevation = totalDisp;
     
-    gl_Position = projectionMatrix * modelViewMatrix * instanceMatrix * vec4(pos, 1.0);
+    // Add some subtle horizontal movement for wave effect
+    pos.x += sin(pos.z * 0.05 + uTime * 0.5) * 2.0 * distanceFade;
+    pos.z += cos(pos.x * 0.05 + uTime * 0.3) * 1.0 * distanceFade;
+    
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+    
+    // Adjust particle size based on elevation and distance
+    float size = 0.3 + (elevation * 0.05) + (distanceFade * 0.2);
+    gl_PointSize = size;
   }
 `;
 
 export const oceanWaveFragmentShader = `
-  uniform vec3 uColorRidge;
-  uniform vec3 uColorBody;
-  varying vec2 vUv;
+  uniform vec3 uColor;
   varying float vElevation;
-  varying float vLineProgress;
-  varying float vSideFade;
+  varying float vDistance;
   
   void main() {
-    float thickness = mix(0.012, 0.003, vLineProgress);
+    // Create circular particle shape
+    vec2 coord = gl_PointCoord - vec2(0.5);
+    float dist = length(coord);
+    if (dist > 0.5) discard;
     
-    float isLine = smoothstep(1.0 - thickness, 1.0 - thickness + 0.005, vUv.y);
+    // Calculate alpha based on distance from center
+    float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
     
-    vec3 ridgeCol = uColorRidge + vec3(0.4) * smoothstep(2.0, 15.0, vElevation);
-    ridgeCol *= (0.25 + pow(1.0 - vLineProgress, 1.3) * 0.75);
+    // Add glow effect based on elevation
+    float glow = smoothstep(0.0, 5.0, vElevation);
+    vec3 color = uColor + vec3(0.3) * glow;
     
-    vec3 finalRgb = mix(uColorBody, ridgeCol, isLine);
-    float finalAlpha = mix(1.0, vSideFade, isLine);
+    // Fade particles based on distance from center
+    color *= vDistance;
+    alpha *= vDistance;
     
-    if (isLine < 0.1) {
-        gl_FragColor = vec4(uColorBody, 1.0);
-    } else {
-        gl_FragColor = vec4(finalRgb, finalAlpha);
-    }
+    gl_FragColor = vec4(color, alpha);
   }
 `;
 

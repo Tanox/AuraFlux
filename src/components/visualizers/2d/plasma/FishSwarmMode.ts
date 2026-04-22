@@ -284,8 +284,9 @@ export const renderFishSwarmMode = ({
   width,
   height,
   colors,
-  sensitivity
+  settings
 }: PlasmaModeProps) => {
+  const sensitivity = settings?.sensitivity || 1;
   const time = Date.now();
   
   if (!fishSwarmManager) {

@@ -34,7 +34,7 @@ export const getAudioSlice = async (file: File, duration: number = 10): Promise<
     const wavBlob = audioBufferToWav(renderedBuffer);
     return wavBlob;
   } catch (err) {
-    console.warn('Failed to get audio slice:', err);
+    logger.warn('Failed to get audio slice:', err);
     return null;
   }
 };

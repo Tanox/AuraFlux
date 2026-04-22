@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
+import { logger } from '@/utils/logger';
 
-// 绠€鍗曠殑鍐呭瓨闄愭祦锛堢敓浜х幆澧冨缓璁娇鐢?Redis锛?
+// 简单的内存限流（生产环境建议使用 Redis）
 const requestCounts = new Map<string, { count: number; resetTime: number }>();
 
 function checkRateLimit(ip: string): boolean {
-  // 娓呯悊杩囨湡鏉＄洰
+  // 清理过期条目
   const now = Date.now();
   for (const [key, limit] of requestCounts.entries()) {
     if (now > limit.resetTime) {
@@ -155,7 +156,7 @@ export async function POST(request: NextRequest) {
         );
     }
   } catch (error: any) {
-    console.error('API Route Error:', error);
+    logger.error('API Route Error:', error);
     return NextResponse.json(
       { error: error.message || 'Internal server error' },
       { status: 500 }
