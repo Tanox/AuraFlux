@@ -5,7 +5,7 @@
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3007",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
