@@ -1,4 +1,4 @@
-// File: src/components/visualizers/2d/plasma/FishSwarmMode.ts | Version: v2.3.7
+// File: src/components/visualizers/2d/plasma/FishSwarmMode.ts | Version: v2.3.8
 
 import { PlasmaModeProps } from '@/types';
 
@@ -235,7 +235,7 @@ class FishSwarmManager {
     }
 
     // 分离距离：声音越大，分离距离越大，低频影响分离距离
-    const separationDistance = 8 + averageEnergy * 12 + this.bassEnergy * 5;
+    const separationDistance = this.separationDistance + averageEnergy * 12 + this.bassEnergy * 5;
     if (distance < separationDistance && distance > 0) {
       const separationStrength = 0.03 * (1 + averageEnergy);
       follower.vx -= (dx / distance) * separationStrength;
@@ -260,7 +260,7 @@ class FishSwarmManager {
     });
 
     // 中频影响对齐力
-    const alignmentStrength = 0.08 + this.midEnergy * 0.04;
+    const alignmentStrength = this.alignmentStrength + this.midEnergy * 0.04;
     follower.vx += (leader.vx - follower.vx) * alignmentStrength;
     follower.vy += (leader.vy - follower.vy) * alignmentStrength;
     follower.vz += (leader.vz - follower.vz) * alignmentStrength * 0.5;
@@ -433,6 +433,7 @@ class FishSwarmManager {
 }
 
 let fishSwarmManager: FishSwarmManager | null = null;
+let lastSettings: any = null;
 
 export const renderFishSwarmMode = ({
   ctx,
@@ -447,8 +448,11 @@ export const renderFishSwarmMode = ({
   const trails = settings?.trails ?? true;
   const time = Date.now();
   
-  if (!fishSwarmManager) {
+  // 检查配置是否变化
+  const settingsChanged = JSON.stringify(settings) !== JSON.stringify(lastSettings);
+  if (!fishSwarmManager || settingsChanged) {
     fishSwarmManager = new FishSwarmManager(width, height, settings);
+    lastSettings = settings;
   }
   
   // 计算平均能量

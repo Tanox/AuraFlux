@@ -26,6 +26,10 @@ export const renderPlasmaMode = ({
     const centerX = width / 2;
     const centerY = height / 2;
     
+    // 设置性能模式
+    const performanceMode = settings?.performanceMode || 'medium';
+    particleManager.setPerformanceMode(performanceMode as 'low' | 'medium' | 'high');
+    
     const average = calculateAverage(dataArray, settings.sensitivity);
 
     // 保存Canvas状态

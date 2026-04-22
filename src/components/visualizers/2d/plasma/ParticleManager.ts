@@ -1,6 +1,6 @@
 // File: src/components/visualizers/2d/plasma/ParticleManager.ts | Version: v2.3.4
 
-import { ParticleState, FusionEffect, ParticleParams } from './types';
+import { ParticleState, FusionEffect, ParticleParams } from './types.ts';
 import { ObjectPool } from './objectPool';
 import { mixColors } from './utils';
 
