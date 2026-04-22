@@ -1,4 +1,4 @@
-<!-- openspec/03_visual_rendering.md v2.3.4 -->
+<!-- openspec/03_visual_rendering.md v2.3.5 -->
 # 视觉渲染系统规范
 
 ## 1. 2D 可视化系统

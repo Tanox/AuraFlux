@@ -1,4 +1,4 @@
-<!-- openspec/02_audio_engine.md v2.3.4 -->
+<!-- openspec/02_audio_engine.md v2.3.5 -->
 # 音频引擎规范
 
 ## 1. 核心音频 Hook

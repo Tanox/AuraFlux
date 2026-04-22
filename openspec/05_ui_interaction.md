@@ -1,4 +1,4 @@
-<!-- openspec/05_ui_interaction.md v2.3.4 -->
+<!-- openspec/05_ui_interaction.md v2.3.5 -->
 # UI 与交互系统规范
 
 ## 1. 控制面板系统
