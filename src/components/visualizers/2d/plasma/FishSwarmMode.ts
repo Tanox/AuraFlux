@@ -15,16 +15,23 @@ interface FishParticle {
   rotationSpeed: number;
   group: number;
   leader: boolean;
+  trail: { x: number; y: number; z: number }[];
 }
 
 class FishSwarmManager {
   private particles: FishParticle[] = [];
   private groupCount = 1; // 改为1个群组，使所有粒子组成一个鱼群
   private maxParticles = 2000; // 增加粒子数量以充满画面
+  private currentParticles = 2000; // 当前粒子数量
   private leaders: FishParticle[] = [];
   private width: number = 1000;
   private height: number = 800;
   private aggregationPhase: number = 0;
+  private performanceHistory: number[] = [];
+  private lastAdjustmentTime = 0;
+  private bassEnergy = 0; // 低频能量
+  private midEnergy = 0; // 中频能量
+  private trebleEnergy = 0; // 高频能量
 
   constructor(width: number = 1000, height: number = 800) {
     this.width = width;
@@ -54,7 +61,8 @@ class FishSwarmManager {
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 0.05,
         group,
-        leader: isLeader
+        leader: isLeader,
+        trail: []
       };
 
       this.particles.push(particle);
@@ -105,20 +113,24 @@ class FishSwarmManager {
     const centerY = groupCenter.y;
     const centerZ = groupCenter.z;
 
-    const noiseX = Math.sin(time * 0.001 + leader.group) * 0.5;
-    const noiseY = Math.cos(time * 0.0012 + leader.group) * 0.5;
-    const noiseZ = Math.sin(time * 0.0008 + leader.group) * 0.3;
+    // 基于频率的噪声调整
+    const noiseX = Math.sin(time * 0.001 + leader.group) * 0.5 + this.trebleEnergy * 0.5;
+    const noiseY = Math.cos(time * 0.0012 + leader.group) * 0.5 + this.trebleEnergy * 0.5;
+    const noiseZ = Math.sin(time * 0.0008 + leader.group) * 0.3 + this.trebleEnergy * 0.2;
 
-    const centerAttractionStrength = 0.005;
+    // 低频影响中心吸引力
+    const centerAttractionStrength = 0.005 - this.bassEnergy * 0.003;
     leader.vx += (centerX - leader.x) * centerAttractionStrength;
     leader.vy += (centerY - leader.y) * centerAttractionStrength;
     leader.vz += (centerZ - leader.z) * centerAttractionStrength * 0.5;
 
-    leader.vx += noiseX * 0.1;
-    leader.vy += noiseY * 0.1;
-    leader.vz += noiseZ * 0.05;
+    // 高频增加随机运动
+    leader.vx += noiseX * (0.1 + this.trebleEnergy * 0.2);
+    leader.vy += noiseY * (0.1 + this.trebleEnergy * 0.2);
+    leader.vz += noiseZ * (0.05 + this.trebleEnergy * 0.1);
 
-    const maxSpeed = 3 + averageEnergy * 2;
+    // 低频增加最大速度
+    const maxSpeed = 3 + averageEnergy * 2 + this.bassEnergy * 3;
     const speed = Math.sqrt(leader.vx * leader.vx + leader.vy * leader.vy);
     if (speed > maxSpeed) {
       leader.vx = (leader.vx / speed) * maxSpeed;
@@ -183,8 +195,8 @@ class FishSwarmManager {
     // 低能量时聚拢，高能量时扩散
     const aggregationFactor = 1 - averageEnergy; // 声音越大，聚集因子越小
     
-    // 凝聚力：声音越小，凝聚力越强
-    const cohesionStrength = (0.03 + (1 - averageEnergy) * 0.02) * (1 + aggregationFactor);
+    // 凝聚力：声音越小，凝聚力越强，中频影响凝聚力
+    const cohesionStrength = (0.03 + (1 - averageEnergy) * 0.02 + this.midEnergy * 0.01) * (1 + aggregationFactor);
     if (distance > 0) {
       follower.vx += (dx / distance) * cohesionStrength;
       follower.vy += (dy / distance) * cohesionStrength;
@@ -202,8 +214,8 @@ class FishSwarmManager {
       follower.vz += (neighborCenterZ - follower.z) * neighborCohesionStrength * 0.5;
     }
 
-    // 分离距离：声音越大，分离距离越大
-    const separationDistance = 8 + averageEnergy * 12;
+    // 分离距离：声音越大，分离距离越大，低频影响分离距离
+    const separationDistance = 8 + averageEnergy * 12 + this.bassEnergy * 5;
     if (distance < separationDistance && distance > 0) {
       const separationStrength = 0.03 * (1 + averageEnergy);
       follower.vx -= (dx / distance) * separationStrength;
@@ -227,7 +239,8 @@ class FishSwarmManager {
       }
     });
 
-    const alignmentStrength = 0.08;
+    // 中频影响对齐力
+    const alignmentStrength = 0.08 + this.midEnergy * 0.04;
     follower.vx += (leader.vx - follower.vx) * alignmentStrength;
     follower.vy += (leader.vy - follower.vy) * alignmentStrength;
     follower.vz += (leader.vz - follower.vz) * alignmentStrength * 0.5;
@@ -243,12 +256,14 @@ class FishSwarmManager {
       follower.vz += (neighborAvgVz - follower.vz) * neighborAlignmentStrength * 0.5;
     }
 
-    const noiseStrength = 0.03 + averageEnergy * 0.02; // 声音越大，随机运动越强
+    // 高频增加随机运动
+    const noiseStrength = 0.03 + averageEnergy * 0.02 + this.trebleEnergy * 0.03; // 声音越大，随机运动越强
     follower.vx += (Math.random() - 0.5) * noiseStrength;
     follower.vy += (Math.random() - 0.5) * noiseStrength;
     follower.vz += (Math.random() - 0.5) * noiseStrength * 0.5;
 
-    const maxSpeed = 2.5 + averageEnergy * 2; // 声音越大，速度越快
+    // 低频增加最大速度
+    const maxSpeed = 2.5 + averageEnergy * 2 + this.bassEnergy * 2; // 声音越大，速度越快
     const speed = Math.sqrt(follower.vx * follower.vx + follower.vy * follower.vy);
     if (speed > maxSpeed) {
       follower.vx = (follower.vx / speed) * maxSpeed;
@@ -279,29 +294,70 @@ class FishSwarmManager {
     follower.rotation = Math.atan2(follower.vy, follower.vx);
   }
 
-  update(time: number, width: number, height: number, averageEnergy: number = 0.5): void {
+  update(time: number, width: number, height: number, averageEnergy: number = 0.5, frequencyData?: { bass: number, mid: number, treble: number }): void {
+    const startTime = performance.now();
+    
     this.width = width;
     this.height = height;
+
+    // 更新频率能量数据
+    if (frequencyData) {
+      this.bassEnergy = frequencyData.bass;
+      this.midEnergy = frequencyData.mid;
+      this.trebleEnergy = frequencyData.treble;
+    }
 
     this.aggregationPhase += 0.005;
     if (this.aggregationPhase > Math.PI * 2) {
       this.aggregationPhase = 0;
     }
 
+    // 只更新当前数量的粒子
+    const particlesToUpdate = this.particles.slice(0, this.currentParticles);
+    
     this.leaders.forEach(leader => {
       this.updateLeader(leader, time, averageEnergy);
+      // 更新领导者尾迹
+      this.updateParticleTrail(leader, averageEnergy);
     });
 
-    this.particles.forEach(particle => {
+    particlesToUpdate.forEach(particle => {
       if (!particle.leader) {
         const leader = this.leaders[particle.group];
         this.updateFollower(particle, leader, time, averageEnergy);
+        // 更新跟随者尾迹
+        this.updateParticleTrail(particle, averageEnergy);
       }
     });
+
+    // 性能检测和粒子数量调整
+    const executionTime = performance.now() - startTime;
+    this.performanceHistory.push(executionTime);
+    
+    // 只保留最近的10个性能数据
+    if (this.performanceHistory.length > 10) {
+      this.performanceHistory.shift();
+    }
+    
+    // 每2秒调整一次粒子数量
+    if (time - this.lastAdjustmentTime > 2000) {
+      const avgExecutionTime = this.performanceHistory.reduce((sum, val) => sum + val, 0) / this.performanceHistory.length;
+      
+      // 根据执行时间调整粒子数量
+      if (avgExecutionTime > 16) { // 超过60fps的阈值
+        // 性能不好，减少粒子数量
+        this.currentParticles = Math.max(500, this.currentParticles - 200);
+      } else if (avgExecutionTime < 8) { // 性能很好，增加粒子数量
+        // 性能好，增加粒子数量
+        this.currentParticles = Math.min(this.maxParticles, this.currentParticles + 200);
+      }
+      
+      this.lastAdjustmentTime = time;
+    }
   }
 
   getParticles(): FishParticle[] {
-    return this.particles;
+    return this.particles.slice(0, this.currentParticles);
   }
 }
 
@@ -322,8 +378,36 @@ export const renderFishSwarmMode = ({
     fishSwarmManager = new FishSwarmManager(width, height);
   }
   
+  // 计算平均能量
   const averageEnergy = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length / 255 * sensitivity;
-  fishSwarmManager.update(time, width, height, averageEnergy);
+  
+  // 提取频率能量
+  const frequencyData = {
+    bass: 0,
+    mid: 0,
+    treble: 0
+  };
+  
+  // 假设dataArray是频率数据，前1/4是低频，中间1/2是中频，后1/4是高频
+  const bassEnd = Math.floor(dataArray.length * 0.25);
+  const midEnd = Math.floor(dataArray.length * 0.75);
+  
+  for (let i = 0; i < dataArray.length; i++) {
+    if (i < bassEnd) {
+      frequencyData.bass += dataArray[i];
+    } else if (i < midEnd) {
+      frequencyData.mid += dataArray[i];
+    } else {
+      frequencyData.treble += dataArray[i];
+    }
+  }
+  
+  // 归一化频率能量
+  frequencyData.bass = (frequencyData.bass / (bassEnd * 255)) * sensitivity;
+  frequencyData.mid = (frequencyData.mid / ((midEnd - bassEnd) * 255)) * sensitivity;
+  frequencyData.treble = (frequencyData.treble / ((dataArray.length - midEnd) * 255)) * sensitivity;
+  
+  fishSwarmManager.update(time, width, height, averageEnergy, frequencyData);
   const particles = fishSwarmManager.getParticles();
   
   ctx.save();
@@ -336,11 +420,17 @@ export const renderFishSwarmMode = ({
     
     ctx.save();
     ctx.translate(particle.x, particle.y);
+    ctx.rotate(particle.rotation); // 旋转粒子朝向运动方向
     ctx.globalAlpha = alpha;
     
     ctx.fillStyle = particle.color;
     ctx.beginPath();
-    ctx.arc(0, 0, finalSize, 0, Math.PI * 2);
+    // 绘制鱼形
+    ctx.moveTo(finalSize * 0.5, 0);
+    ctx.quadraticCurveTo(finalSize, -finalSize * 0.3, finalSize * 1.2, 0);
+    ctx.quadraticCurveTo(finalSize, finalSize * 0.3, finalSize * 0.5, 0);
+    ctx.quadraticCurveTo(-finalSize * 0.2, -finalSize * 0.1, -finalSize * 0.3, 0);
+    ctx.quadraticCurveTo(-finalSize * 0.2, finalSize * 0.1, finalSize * 0.5, 0);
     ctx.fill();
     
     ctx.restore();

@@ -3,7 +3,8 @@
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute, SphereGeometry } from 'three';
+import * as THREE from 'three';
+import { InstancedMesh, Color, DataTexture, RedFormat, UnsignedByteType, LinearFilter, Object3D, ShaderMaterial, NearestFilter, InstancedBufferAttribute, SphereGeometry, Vector3 } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
@@ -32,7 +33,33 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const { isBeat } = features;
   const [c0, , c2] = smoothedColors;
 
-  const PARTICLE_COUNT = adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512);
+  // LOD system - adjust particle count based on camera distance
+  const [particleCount, setParticleCount] = React.useState<number>(adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512));
+  const [mousePosition, setMousePosition] = React.useState<Vector3>(new Vector3(0, 0, 0));
+  
+  // Calculate particle count based on camera distance
+  const updateParticleCount = (cameraDistance: number) => {
+    let newCount;
+    if (cameraDistance < 50) {
+      newCount = adaptiveSettings.quality === 'high' ? 2048 : (adaptiveSettings.quality === 'medium' ? 1024 : 512);
+    } else if (cameraDistance < 100) {
+      newCount = adaptiveSettings.quality === 'high' ? 1024 : (adaptiveSettings.quality === 'medium' ? 512 : 256);
+    } else {
+      newCount = adaptiveSettings.quality === 'high' ? 512 : (adaptiveSettings.quality === 'medium' ? 256 : 128);
+    }
+    setParticleCount(newCount);
+  };
+  
+  // Handle mouse movement
+  const handleMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+    // Convert mouse coordinates to normalized device coordinates
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    
+    // Update mouse position
+    setMousePosition(new Vector3(x * 90, 0, y * 50));
+  };
   const bins = 256;
   const historyData = useMemo(() => {
     if (!bins || bins <= 0) return new Uint8Array(0);
@@ -52,10 +79,10 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const dummy = useMemo(() => new Object3D(), []);
   
   const particlePositionAttr = useMemo(() => {
-    const arr = new Float32Array(PARTICLE_COUNT * 3);
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const arr = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
       // 更有规律的网格分布，模拟海浪
-      const gridSize = Math.sqrt(PARTICLE_COUNT);
+      const gridSize = Math.sqrt(particleCount);
       const gridX = (i % gridSize) / gridSize * 2 - 1;
       const gridZ = Math.floor(i / gridSize) / gridSize * 2 - 1;
       const x = gridX * 90 + (Math.random() - 0.5) * 5;
@@ -65,12 +92,12 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
       arr[i * 3 + 2] = z;
     }
     return new InstancedBufferAttribute(arr, 3);
-  }, [PARTICLE_COUNT]);
+  }, [particleCount]);
 
   useLayoutEffect(() => {
     try {
       if (meshRef.current) {
-          for (let i = 0; i < PARTICLE_COUNT; i++) {
+          for (let i = 0; i < particleCount; i++) {
               dummy.position.set(0, 0, 0);
               dummy.updateMatrix();
               meshRef.current.setMatrixAt(i, dummy.matrix);
@@ -81,7 +108,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     } catch (error) {
       logger.error('Error in OceanWaveScene useLayoutEffect:', error);
     }
-  }, [PARTICLE_COUNT, dummy, particlePositionAttr]);
+  }, [particleCount, dummy, particlePositionAttr]);
 
   const uniforms = useMemo(() => ({
     uTime: { value: 0 },
@@ -89,6 +116,8 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
     uColor: { value: new Color(0xffffff) },
     uSensitivity: { value: 1.0 },
     uBeat: { value: 0.0 },
+    uLightPosition: { value: new Vector3(100, 50, 100) },
+    uMousePosition: { value: new Vector3(0, 0, 0) },
   }), [audioTexture]);
 
   const tempL = useMemo(() => new Uint8Array(bins), [bins]);
@@ -106,6 +135,10 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   useFrame((state) => {
     try {
       if (!historyData || historyData.length < bins) return;
+
+      // 计算相机距离，用于 LOD
+      const cameraDistance = state.camera.position.length();
+      updateParticleCount(cameraDistance);
 
       // 性能检测
       const currentTime = performance.now();
@@ -148,7 +181,8 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
 
       if (meshRef.current) {
         const mat = meshRef.current.material as ShaderMaterial;
-        mat.uniforms.uTime.value = state.clock.getElapsedTime();
+        const time = state.clock.getElapsedTime();
+        mat.uniforms.uTime.value = time;
         mat.uniforms.uSensitivity.value = adaptiveSettings.sensitivity * 1.5;
         mat.uniforms.uBeat.value += ((isBeat ? 1.0 : 0.0) - mat.uniforms.uBeat.value) * 0.15;
         if (c2) mat.uniforms.uColor.value.copy(c2); 
@@ -156,6 +190,14 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         // 添加性能模式 uniforms
         mat.uniforms.uPerformanceMode = mat.uniforms.uPerformanceMode || { value: 0 };
         mat.uniforms.uPerformanceMode.value = performanceData.isLowPerformance ? 1 : 0;
+        
+        // Update light position to create dynamic lighting effect
+        const lightX = Math.sin(time * 0.2) * 100;
+        const lightZ = Math.cos(time * 0.2) * 100;
+        mat.uniforms.uLightPosition.value.set(lightX, 50, lightZ);
+        
+        // Update mouse position
+        mat.uniforms.uMousePosition.value.copy(mousePosition);
     }
       
       // Camera controlled by OrbitControls
@@ -169,7 +211,7 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   return (
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <instancedMesh ref={meshRef} args={[undefined, undefined, PARTICLE_COUNT]}>
+      <instancedMesh ref={meshRef} args={[undefined, undefined, particleCount]}>
         <sphereGeometry args={[1, 8, 8]} />
         <shaderMaterial
           uniforms={uniforms}

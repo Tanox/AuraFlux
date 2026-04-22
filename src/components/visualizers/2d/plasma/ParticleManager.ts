@@ -51,20 +51,20 @@ export class ParticleManager {
   }
 
   /**
-   * 璋冩暣绮掑瓙鏁伴噺
+   * 调整粒子数量
    */
   adjustParticleCount(average: number, centerX: number, centerY: number): void {
     let targetParticleCount: number;
-    if (average < 0.2) {
-      targetParticleCount = 3;
-    } else if (average < 0.4) {
-      targetParticleCount = 4;
-    } else if (average < 0.6) {
-      targetParticleCount = 6;
-    } else if (average < 0.8) {
-      targetParticleCount = 8;
+    if (average < 0.1) {
+      targetParticleCount = 20;
+    } else if (average < 0.3) {
+      targetParticleCount = 30;
+    } else if (average < 0.5) {
+      targetParticleCount = 40;
+    } else if (average < 0.7) {
+      targetParticleCount = 60;
     } else {
-      targetParticleCount = 12;
+      targetParticleCount = 80;
     }
 
     if (this.particleStates.length < targetParticleCount) {
@@ -97,7 +97,8 @@ export class ParticleManager {
   }
 
   /**
-   * 妫€娴嬬矑瀛愯瀺鍚?   */
+   * 检测粒子融合
+   */
   detectFusion(colors: string[]): void {
     for (let i = 0; i < this.particleStates.length; i++) {
       for (let j = i + 1; j < this.particleStates.length; j++) {
@@ -140,7 +141,8 @@ export class ParticleManager {
   }
 
   /**
-   * 鏇存柊绮掑瓙鐘舵€?   */
+   * 更新粒子状态
+   */
   updateParticles(dataArray: Uint8Array, width: number, height: number, sensitivity: number, time: number): void {
     const centerX = width / 2;
     const centerY = height / 2;
@@ -194,7 +196,7 @@ export class ParticleManager {
       
       // 粒子分裂逻辑
       this.particleStates[i].splitTimer += 0.01 * (1 + average);
-      if (this.particleStates[i].splitTimer > 4 && this.particleStates[i].radius > 35 && this.particleStates.length < 12) {
+      if (this.particleStates[i].splitTimer > 4 && this.particleStates[i].radius > 35 && this.particleStates.length < 80) {
         this.particleStates[i].isSplitting = true;
         this.particleStates[i].splitTimer = 0;
         
@@ -219,7 +221,7 @@ export class ParticleManager {
   }
 
   /**
-   * 鏇存柊铻嶅悎鏁堟灉
+   * 更新融合效果
    */
   updateFusionEffects(): void {
     const activeFusionEffects: FusionEffect[] = [];
@@ -236,11 +238,11 @@ export class ParticleManager {
   }
 
   /**
-   * 闄愬埗绮掑瓙鏁伴噺
+   * 限制粒子数量
    */
   limitParticleCount(): void {
-    if (this.particleStates.length > 12) {
-      const excessParticles = this.particleStates.length - 12;
+    if (this.particleStates.length > 80) {
+      const excessParticles = this.particleStates.length - 80;
       for (let i = 0; i < excessParticles; i++) {
         const removedParticle = this.particleStates.pop();
         if (removedParticle) {
@@ -251,7 +253,7 @@ export class ParticleManager {
   }
 
   /**
-   * 娣卞害鎺掑簭
+   * 深度排序
    */
   sortByDepth(): void {
     this.particleStates.sort((a, b) => b.z - a.z);
@@ -259,13 +261,14 @@ export class ParticleManager {
   }
 
   /**
-   * 鑾峰彇绮掑瓙鐘舵€?   */
+   * 获取粒子状态
+   */
   getParticles(): ParticleState[] {
     return this.particleStates;
   }
 
   /**
-   * 鑾峰彇铻嶅悎鏁堟灉
+   * 获取融合效果
    */
   getFusionEffects(): FusionEffect[] {
     return this.fusionEffects;

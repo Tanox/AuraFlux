@@ -5,6 +5,17 @@ import { project3D } from './utils';
 
 export class Renderer {
   private focalLength = 300;
+  private gradientCache: Map<string, CanvasGradient> = new Map();
+
+  /**
+   * 获取缓存的渐变
+   */
+  private getCachedGradient(ctx: CanvasRenderingContext2D, key: string, creator: () => CanvasGradient): CanvasGradient {
+    if (!this.gradientCache.has(key)) {
+      this.gradientCache.set(key, creator());
+    }
+    return this.gradientCache.get(key)!;
+  }
 
   /**
    * 绘制粒子
@@ -48,16 +59,19 @@ export class Renderer {
 
       // 更大的渐变范围，增强视觉效果
       const gradientSize = Math.max(width, height) * 2.5 * scale;
-      const gradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, gradientSize);
-      
-      // 更丰富的颜色过渡
-      gradient.addColorStop(0, color1);
-      gradient.addColorStop(0.1, color1);
-      gradient.addColorStop(0.3, color2);
-      gradient.addColorStop(0.5, color3);
-      gradient.addColorStop(0.7, color2);
-      gradient.addColorStop(0.9, color1);
-      gradient.addColorStop(1, 'transparent');
+      const gradientKey = `${color1}-${color2}-${color3}`;
+      const gradient = this.getCachedGradient(ctx, gradientKey, () => {
+        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, gradientSize);
+        // 更丰富的颜色过渡
+        grad.addColorStop(0, color1);
+        grad.addColorStop(0.1, color1);
+        grad.addColorStop(0.3, color2);
+        grad.addColorStop(0.5, color3);
+        grad.addColorStop(0.7, color2);
+        grad.addColorStop(0.9, color1);
+        grad.addColorStop(1, 'transparent');
+        return grad;
+      });
 
       // 透明度随音频和粒子大小变化
       ctx.globalAlpha = 0.5 * average * intensity * (1 + scale);
@@ -99,19 +113,23 @@ export class Renderer {
     average: number,
     intensity: number
   ): void {
-    const tailLength = 8;
+    const tailLength = 5; // 减少尾迹长度以提高性能
+    const tailGradientKey = `${color1}-${color2}-${color3}-tail`;
+    const tailGradient = this.getCachedGradient(ctx, tailGradientKey, () => {
+      const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 100); // 固定大小用于缓存
+      grad.addColorStop(0, color1);
+      grad.addColorStop(0.2, color2);
+      grad.addColorStop(0.4, color3);
+      grad.addColorStop(1, 'transparent');
+      return grad;
+    });
+    
     for (let t = 0; t < tailLength; t++) {
       const tailProgress = t / tailLength;
       const tailEasing = 1 - Math.pow(1 - tailProgress, 3);
       const tailX = screenX - (p.targetX - p.x) * tailEasing * 0.8 * scale;     
       const tailY = screenY - (p.targetY - p.y) * tailEasing * 0.8 * scale;     
       const tailRadius = screenRadius * (1 - tailEasing * 0.6);
-
-      const tailGradient = ctx.createRadialGradient(tailX, tailY, 0, tailX, tailY, tailRadius * 6);
-      tailGradient.addColorStop(0, color1);
-      tailGradient.addColorStop(0.2, color2);
-      tailGradient.addColorStop(0.4, color3);
-      tailGradient.addColorStop(1, 'transparent');
 
       ctx.fillStyle = tailGradient;
       ctx.globalAlpha = 0.3 * (1 - tailEasing) * average * intensity;
@@ -137,12 +155,16 @@ export class Renderer {
   ): void {
     // 核心渐变
     ctx.globalAlpha = 1 * intensity;
-    const particleGradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, screenRadius * 4);
-    particleGradient.addColorStop(0, color1);
-    particleGradient.addColorStop(0.2, color1);
-    particleGradient.addColorStop(0.4, color2);
-    particleGradient.addColorStop(0.6, color3);
-    particleGradient.addColorStop(1, 'transparent');
+    const coreGradientKey = `${color1}-${color2}-${color3}-core`;
+    const particleGradient = this.getCachedGradient(ctx, coreGradientKey, () => {
+      const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 100); // 固定大小用于缓存
+      grad.addColorStop(0, color1);
+      grad.addColorStop(0.2, color1);
+      grad.addColorStop(0.4, color2);
+      grad.addColorStop(0.6, color3);
+      grad.addColorStop(1, 'transparent');
+      return grad;
+    });
 
     ctx.fillStyle = particleGradient;
     ctx.beginPath();
@@ -179,13 +201,16 @@ export class Renderer {
     intensity: number
   ): void {
     const auraSize = screenRadius * 8 * scale;
-    const auraGradient = ctx.createRadialGradient(screenX, screenY, 0, screenX, screenY, auraSize);
-
-    auraGradient.addColorStop(0, color1);
-    auraGradient.addColorStop(0.2, color2);
-    auraGradient.addColorStop(0.4, 'rgba(255, 255, 255, 0.3)');
-    auraGradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.1)');
-    auraGradient.addColorStop(1, 'transparent');
+    const auraGradientKey = `${color1}-${color2}-aura`;
+    const auraGradient = this.getCachedGradient(ctx, auraGradientKey, () => {
+      const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 200); // 固定大小用于缓存
+      grad.addColorStop(0, color1);
+      grad.addColorStop(0.2, color2);
+      grad.addColorStop(0.4, 'rgba(255, 255, 255, 0.3)');
+      grad.addColorStop(0.6, 'rgba(255, 255, 255, 0.1)');
+      grad.addColorStop(1, 'transparent');
+      return grad;
+    });
 
     ctx.globalAlpha = 0.3 * average * intensity;
     ctx.fillStyle = auraGradient;
