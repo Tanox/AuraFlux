@@ -1,9 +1,9 @@
-<!-- openspec/17_documentation_guidelines.md v2.3.4 -->
+<!-- openspec/17_documentation_guidelines.md v2.3.5 -->
 # 文档规范和维护流程
 
 ## 版本信息
-- **版本**: v2.3.4
-- **更新日期**: 2026-04-20
+- **版本**: v2.3.5
+- **更新日期**: 2026-04-22
 - **作者**: Sut
 
 ## 1. 文档审核流程
