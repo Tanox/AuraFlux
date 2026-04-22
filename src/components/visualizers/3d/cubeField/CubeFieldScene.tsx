@@ -8,14 +8,9 @@ import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
 import { SceneProps } from '@/types';
 
-interface CollisionEffect {
-  position: { x: number; y: number; z: number };
-  size: number;
-  alpha: number;
-  color: { x: number; y: number; z: number };
-}
 import { initializeCubeStates, updateCubeState } from './cubeState';
 import { detectCollisions, updateCollisionEffects } from './collisionEffects';
+import { CollisionEffect } from './types';
 
 export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
@@ -27,7 +22,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   
   const [c0, c1, c2] = smoothedColors;
   
-  const count = settings.quality === 'high' ? 1200 : settings.quality === 'med' ? 800 : 400;
+  const count = settings.quality === 'high' ? 1200 : settings.quality === 'medium' ? 800 : 400;
   const dummy = useMemo(() => new Object3D(), []);
   
   // Use a local data array for spectral mapping if needed, but ensure it's safe
@@ -126,14 +121,14 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         <meshStandardMaterial roughness={0.1} metalness={0.95} />
       </instancedMesh>
       
-      {/* 纰版挒鏁堟灉 */}
+      {/* 纰板挒鏁堟灉 */}
       {collisionEffectsRef.current.map((effect, index) => (
         <mesh key={`collision-${index}`} position={effect.position}>
           <sphereGeometry args={[effect.size, 16, 16]} />
-          <meshBasicMaterial 
-            color={[effect.color.x, effect.color.y, effect.color.z]} 
-            transparent 
-            opacity={effect.alpha} 
+          <meshBasicMaterial
+            color={[effect.color.x, effect.color.y, effect.color.z]}
+            transparent
+            opacity={effect.alpha}
             blending={AdditiveBlending}
           />
         </mesh>

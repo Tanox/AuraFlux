@@ -4,37 +4,15 @@
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry, MeshBasicMaterial, Vector3, Line, LineBasicMaterial, BufferGeometry } from 'three';
+import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry, MeshBasicMaterial, Vector3, Line, LineBasicMaterial, BufferGeometry, BufferAttribute } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';
 import { SceneProps } from '@/types';
 
-interface LaserState {
-  id: number;
-  angle: number;
-  distance: number;
-  speed: number;
-  intensity: number;
-  color: number;
-}
-
-interface CollisionEffect {
-  position: { x: number; y: number; z: number };
-  size: number;
-  alpha: number;
-  color: number;
-}
-
-interface ReflectionEffect {
-  position: { x: number; y: number; z: number };
-  direction: { x: number; y: number; z: number };
-  length: number;
-  alpha: number;
-  color: number;
-}
 import { initializeLaserStates, calculateLaserPosition, calculateLaserScale, calculateLaserFlicker } from './laserState';
 import { detectLaserCollisions, updateCollisionEffects, updateReflectionEffects } from './effects';
+import { LaserState, CollisionEffect, ReflectionEffect } from './types';
 
 export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
@@ -176,6 +154,29 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
             blending={AdditiveBlending}
           />
         </mesh>
+        
+        {/* 鍙嶅皠鏁堟灉 */}
+        {reflectionEffectsRef.current.slice(0, 30).map((effect, index) => (
+          <line key={`reflection-${index}`}>
+            <bufferGeometry>
+              <bufferAttribute
+                attach="attributes-position"
+                count={2}
+                array={new Float32Array([
+                  effect.start.x, effect.start.y, effect.start.z,
+                  effect.end.x, effect.end.y, effect.end.z
+                ])}
+                itemSize={3}
+              />
+            </bufferGeometry>
+            <lineBasicMaterial
+              color={effect.color}
+              transparent
+              opacity={effect.alpha}
+              blending={AdditiveBlending}
+            />
+          </line>
+        ))}
       </group>
     </>
   );

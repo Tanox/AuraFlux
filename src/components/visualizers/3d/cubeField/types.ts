@@ -1,6 +1,6 @@
 // File: src/components/visualizers/3d/cubeField/types.ts | Version: v1.0.0
 
-import { Vector3, Euler, Color } from 'three';
+import { Vector3, Euler } from 'three';
 
 export interface CubeState {
   x: number;
@@ -27,8 +27,8 @@ export interface CubeState {
 }
 
 export interface CollisionEffect {
-  position: { x: number; y: number; z: number };
+  position: Vector3;
   size: number;
   alpha: number;
-  color: { x: number; y: number; z: number };
+  color: Vector3;
 }
