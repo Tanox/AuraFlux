@@ -1,4 +1,4 @@
-// File: src/components/visualizers/3d/cubeField/types.ts | Version: v1.0.0
+// File: src/components/visualizers/3d/cubeField/types.ts | Version: v1.0.1
 
 import { Vector3, Euler } from 'three';
 
@@ -24,6 +24,9 @@ export interface CubeState {
   collisionTimer: number;
   isColliding: boolean;
   deformation: number;
+  randomTumbleX: number;
+  randomTumbleY: number;
+  randomTumbleZ: number;
 }
 
 export interface CollisionEffect {

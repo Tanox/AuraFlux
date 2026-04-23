@@ -89,6 +89,9 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         (1.0 + 0.5 * Math.sin(time * p.tumbleRate + p.tumblePhase)) *
         (1.0 + reaction * 4.0) * 0.1
       );
+      dummy.rotateX(p.randomTumbleX * 0.15);
+      dummy.rotateY(p.randomTumbleY * 0.15);
+      dummy.rotateZ(p.randomTumbleZ * 0.15);
       
       // Apply deformation effect
       const deformation = p.deformation;

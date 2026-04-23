@@ -4,7 +4,7 @@
 
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry, MeshBasicMaterial, Vector3, Line, LineBasicMaterial, BufferGeometry, BufferAttribute } from 'three';
+import { InstancedMesh, Object3D, Color, AdditiveBlending, Mesh, SphereGeometry, BoxGeometry, MeshBasicMaterial, Vector3, Line, LineBasicMaterial, BufferGeometry, BufferAttribute } from 'three';
 import { VisualizerSettings } from '@/types';
 import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { SceneBackground } from '../../ui/SceneBackground';

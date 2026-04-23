@@ -1,6 +1,6 @@
 // File: src/components/visualizers/2d/plasma/FishSwarmMode.ts | Version: v2.3.8
 
-import { PlasmaModeProps } from '@/types';
+import { FishSwarmModeProps } from '@/types';
 
 interface FishParticle {
   x: number;
@@ -448,7 +448,7 @@ export const renderFishSwarmMode = ({
   height,
   colors,
   settings
-}: PlasmaModeProps) => {
+}: FishSwarmModeProps) => {
   const sensitivity = settings?.sensitivity || 1;
   const glow = settings?.glow ?? true;
   const trails = settings?.trails ?? true;

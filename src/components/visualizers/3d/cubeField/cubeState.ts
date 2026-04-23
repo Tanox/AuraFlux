@@ -1,4 +1,4 @@
-// File: src/components/visualizers/3d/cubeField/cubeState.ts | Version: v2.3.3
+// File: src/components/visualizers/3d/cubeField/cubeState.ts | Version: v2.3.4
 
 import { Vector3, Euler } from 'three';
 import { CubeState } from './types';
@@ -20,9 +20,9 @@ export function initializeCubeStates(count: number): CubeState[] {
       Math.random() - 0.5
     ).normalize();
     const initialRotation = new Euler(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-      Math.random() * Math.PI
+      Math.random() * Math.PI * 2,
+      Math.random() * Math.PI * 2,
+      Math.random() * Math.PI * 2
     );
     temp.push({
       x,
@@ -34,18 +34,21 @@ export function initializeCubeStates(count: number): CubeState[] {
       speedOffset: isStructure ? 0.3 + Math.random() * 0.9 : 1.5 + Math.random() * 2.5,
       rotationAxis: rotAxis,
       initialRotation,
-      rotationSpeed: (Math.random() - 0.5) * (isStructure ? 0.0005 : 0.004),
+      rotationSpeed: (Math.random() - 0.5) * (isStructure ? 0.0005 : 0.01),
       speedMult: isStructure ? 0.2 + Math.random() * 1.8 : 0.66 + Math.random() * 0.67,
       torque: 0,
       phase: Math.random() * Math.PI * 2,
       driftX: (Math.random() - 0.5) * (isStructure ? 0.05 : 0.2),
       driftY: (Math.random() - 0.5) * (isStructure ? 0.05 : 0.2),
       spectralAffinity: Math.pow(Math.random(), 1.5),
-      tumbleRate: 0.5 + Math.random() * 2.0,
+      tumbleRate: 0.5 + Math.random() * 3.0,
       tumblePhase: Math.random() * Math.PI * 2,
       collisionTimer: 0,
       isColliding: false,
-      deformation: 0
+      deformation: 0,
+      randomTumbleX: 0,
+      randomTumbleY: 0,
+      randomTumbleZ: 0
     });
   }
   return temp;
@@ -102,7 +105,11 @@ export function updateCubeState(
   cube.rotationAxis.x += Math.sin(time * 0.3 + cube.tumblePhase) * 0.01;
   cube.rotationAxis.y += Math.cos(time * 0.2 + cube.tumblePhase) * 0.01;
   cube.rotationAxis.normalize();
-  
+
+  cube.randomTumbleX = Math.sin(time * cube.tumbleRate * 0.7 + cube.tumblePhase) * (0.02 + Math.random() * 0.08);
+  cube.randomTumbleY = Math.cos(time * cube.tumbleRate * 0.5 + cube.tumblePhase * 1.3) * (0.02 + Math.random() * 0.08);
+  cube.randomTumbleZ = Math.sin(time * cube.tumbleRate * 0.9 + cube.tumblePhase * 0.7) * (0.02 + Math.random() * 0.08);
+
   const targetS = cube.scale * (1.0 + reaction * 1.8);
   cube.currentScale += (targetS - cube.currentScale) * (targetS > cube.currentScale ? 0.3 : 0.1);
 }
