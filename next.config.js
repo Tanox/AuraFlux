@@ -12,37 +12,7 @@ const nextConfig = withPWA({
     register: false,
     skipWaiting: false,
     buildExcludes: [/middleware-manifest\.json$/],
-    disable: process.env.NODE_ENV === 'development',
-    runtimeCaching: [
-      {
-        urlPattern: /^\/$/,
-        handler: 'NetworkFirst',
-        options: {
-          cacheName: 'start-url',
-          plugins: [
-            {
-              cacheWillUpdate: async ({ response }) => {
-                if (response && response.type === 'opaqueredirect') {
-                  return new Response(response.body, {
-                    status: 200,
-                    statusText: 'OK',
-                    headers: response.headers
-                  });
-                }
-                return response;
-              }
-            }
-          ]
-        }
-      },
-      {
-        urlPattern: /^https:\/\/.+\/.+/,
-        handler: 'NetworkFirst',
-        options: {
-          cacheName: 'static-resources'
-        }
-      }
-    ]
+    disable: process.env.NODE_ENV === 'development'
   }
 });
 
