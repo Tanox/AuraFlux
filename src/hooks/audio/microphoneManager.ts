@@ -1,9 +1,10 @@
 'use client';
-// File: src/hooks/audio/microphoneManager.ts | Version: v2.3.1
+// File: src/hooks/audio/microphoneManager.ts | Version: v2.3.8
 
 import { useState, useCallback, useEffect } from 'react';
 import { AudioDevice } from '@/types';
 import { logger } from '@/utils/logger';
+import { DeviceService } from '@/services/deviceService';
 
 interface MicrophoneManagerProps {
   showToast: (m: string, type?: any) => void;
@@ -29,18 +30,21 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
   useEffect(() => {
-    const getDevices = async () => {
+    const loadDevices = async () => {
       try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const audioInputs = devices
-          .filter(d => d.kind === 'audioinput')
-          .map(d => ({ deviceId: d.deviceId, label: d.label || `Microphone ${d.deviceId.slice(0, 5)}` }));
-        setAudioDevices(audioInputs);
+        const devices = await DeviceService.enumerateDevices();
+        setAudioDevices(devices);
       } catch (err: any) {
         logger.warn('Error getting devices:', err?.message || err);
       }
     };
-    getDevices();
+    loadDevices();
+
+    const unsubscribe = DeviceService.addListener((devices) => {
+      setAudioDevices(devices);
+    });
+
+    return unsubscribe;
   }, []);
 
   const toggleMicrophone = useCallback(async (deviceId: string) => {
@@ -52,9 +56,11 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
         return;
       }
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: deviceId ? { deviceId: { exact: deviceId } } : true
-      });
+      const stream = await DeviceService.requestMicrophoneAccess(deviceId || undefined);
+      if (!stream) {
+        showToast('Microphone access denied. Running in silent mode.', 'error');
+        return;
+      }
 
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const source = ctx.createMediaStreamSource(stream);
@@ -74,6 +80,7 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
   }, [isListening, mediaStream, showToast]);
 
   const onDeviceChange = useCallback((id: string) => {
+    DeviceService.selectDevice(id);
     setSelectedDeviceId(id);
   }, []);
 

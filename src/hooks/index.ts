@@ -1,4 +1,4 @@
-// File: src\hooks\index.ts | Version: v2.3.3
+// File: src\hooks\index.ts | Version: v2.3.8
 
 // Audio hooks
 export * from './audio/useAudio';
@@ -6,6 +6,9 @@ export * from './audio/useAudioPulse';
 export * from './audio/useAudioReactive';
 export * from './audio/microphoneManager';
 export * from './audio/filePlayer';
+
+// Device manager hook
+export * from './useDeviceManager';
 
 // State hooks
 export * from './state/useAiState';
