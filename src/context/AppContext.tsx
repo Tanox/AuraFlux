@@ -1,4 +1,4 @@
-// File: src\context\AppContext.tsx | Version: v2.3.8
+// File: src\context\AppContext.tsx | Version: v2.3.9
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
 import { 
@@ -150,7 +150,10 @@ interface ToastState {
   position: 'top' | 'bottom';
 }
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// 优化：使用React.memo包装Toast组件，减少不必要的重渲染
+const MemoizedToast = React.memo(Toast);
+
+export const AppProvider: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => {
   const [toast, setToast] = useState<ToastState>({
     message: null,
     type: 'info',
@@ -257,7 +260,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         <AudioContext.Provider value={audioContextValue}>
           <AIContext.Provider value={aiContextValue}>
             {children}
-            <Toast 
+            <MemoizedToast 
               message={toast.message} 
               type={toast.type} 
               duration={toast.duration}
@@ -269,4 +272,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       </VisualsContext.Provider>
     </UIContext.Provider>
   );
-};
+});
+
+AppProvider.displayName = 'AppProvider';

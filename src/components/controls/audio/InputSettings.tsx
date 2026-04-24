@@ -2,18 +2,18 @@
 
 /**
  * File: app/components/controls/panels/audio/InputSettings.tsx
- * Version: v1.9.73
+ * Version: v1.9.74
  * Author: Sut
  */
 
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
 import { TooltipArea } from '../../visualizers/ui/controls/Tooltip';
 import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
 import { Slider } from '../../visualizers/ui/controls/Slider';
 import { useVisuals, useAudioContext, useUI } from '@/context/AppContext';
 
-export const InputSettings: React.FC = () => {
+export const InputSettings: React.FC = React.memo(() => {
   const { settings, setSettings, resetAudioSettings } = useVisuals();
   const {
       audioDevices, selectedDeviceId, onDeviceChange, toggleMicrophone, isListening, isPending,
@@ -23,19 +23,23 @@ export const InputSettings: React.FC = () => {
 
   const isAdvanced = settings.uiMode === 'advanced';
 
-  const deviceOptions = [
+  const deviceOptions = useMemo(() => [
     { value: '', label: t?.('audioPanel.defaultMic') || "Default Microphone" },
     ...audioDevices.map(d => ({ value: d.deviceId, label: d.label || `Microphone ${d.deviceId.substring(0, 8)}` }))
-  ];
+  ], [audioDevices, t]);
 
-  const handleAudioSettingChange = (key: keyof typeof settings, value: any) => {
+  const handleAudioSettingChange = useCallback((key: keyof typeof settings, value: any) => {
     setSettings(prev => ({ ...prev, [key]: value }));
-  };
+  }, [setSettings]);
 
-  const handleResetAudioSettings = () => {
+  const handleResetAudioSettings = useCallback(() => {
     resetAudioSettings();
     showToast(t?.('hints.audioReset') || 'Audio settings reset to default', 'success');
-  };
+  }, [resetAudioSettings, showToast, t]);
+
+  const handleToggleMicrophone = useCallback(() => {
+    toggleMicrophone(selectedDeviceId);
+  }, [toggleMicrophone, selectedDeviceId]);
 
   return (
     <BentoCard 
@@ -64,7 +68,7 @@ export const InputSettings: React.FC = () => {
                 )}
 
                 <button 
-                    onClick={() => toggleMicrophone(selectedDeviceId)} 
+                    onClick={handleToggleMicrophone} 
                     disabled={isPending}
                     className={`group relative w-full py-4 rounded-2xl font-black text-xs uppercase tracking-[0.25em] transition-all overflow-hidden shadow-xl ${
                         isListening 
@@ -87,15 +91,40 @@ export const InputSettings: React.FC = () => {
             </div>
 
             <div className="pt-4 border-t border-black/5 dark:border-white/5 grid gap-5">
-                <Slider label={t?.('sensitivity') || "Gain"} value={settings.sensitivity} min={0.5} max={4.0} step={0.1} onChange={(v)=>handleAudioSettingChange('sensitivity', v)} />
+                <Slider 
+                    label={t?.('sensitivity') || "Gain"} 
+                    value={settings.sensitivity} 
+                    min={0.5} 
+                    max={4.0} 
+                    step={0.1} 
+                    onChange={(v) => handleAudioSettingChange('sensitivity', v)} 
+                />
                 {isAdvanced && (
                     <div className="grid grid-cols-2 gap-4 animate-fade-in-up">
-                        <Slider label={t?.('smoothing') || "Inertia"} value={settings.smoothing} min={0} max={0.95} step={0.01} onChange={(v)=>handleAudioSettingChange('smoothing', v)} />
-                        <CustomSelect label={t?.('fftSize') || "FFT Size"} value={settings.fftSize} options={[{value:512,label:'512 (Fast)'},{value:1024,label:'1024 (Balanced)'},{value:2048,label:'2048 (Pro)'}]} onChange={(v)=>handleAudioSettingChange('fftSize', v)} />
+                        <Slider 
+                            label={t?.('smoothing') || "Inertia"} 
+                            value={settings.smoothing} 
+                            min={0} 
+                            max={0.95} 
+                            step={0.01} 
+                            onChange={(v) => handleAudioSettingChange('smoothing', v)} 
+                        />
+                        <CustomSelect 
+                            label={t?.('fftSize') || "FFT Size"} 
+                            value={settings.fftSize} 
+                            options={[
+                                {value: 512, label: '512 (Fast)'},
+                                {value: 1024, label: '1024 (Balanced)'},
+                                {value: 2048, label: '2048 (Pro)'}
+                            ]} 
+                            onChange={(v) => handleAudioSettingChange('fftSize', v)} 
+                        />
                     </div>
                 )}
             </div>
         </div>
     </BentoCard>
   );
-};
+});
+
+InputSettings.displayName = 'InputSettings';

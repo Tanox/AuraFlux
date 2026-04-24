@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
 import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
 import { TooltipArea } from '@/components/visualizers/ui/controls/Tooltip';
@@ -9,15 +9,38 @@ import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect'
 import { getPositionOptions } from '@/constants/index';
 import { Position } from '@/types/index';
 
-export const TextLayerSetup: React.FC = () => {
+export const TextLayerSetup: React.FC = React.memo(() => {
     const { settings, setSettings, resetTextSettings } = useVisuals();
     const { t, showToast } = useUI();
     const positionOptions = useMemo(() => getPositionOptions(t), [t]);
 
-    const handleResetTextSettings = () => {
+    const handleResetTextSettings = useCallback(() => {
         resetTextSettings();
         showToast(t?.('hints.textReset') || 'Text settings reset to default', 'success');
-    };
+    }, [resetTextSettings, showToast, t]);
+
+    const handleToggleCustomText = useCallback(() => {
+        setSettings(prev => ({ ...prev, showCustomText: !prev.showCustomText }));
+    }, [setSettings]);
+
+    const handleTextSourceChange = useCallback((value: string) => {
+        setSettings(prev => ({ ...prev, textSource: value }));
+    }, [setSettings]);
+
+    const handleCustomTextChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setSettings(prev => ({ ...prev, customText: e.target.value.toUpperCase() }));
+    }, [setSettings]);
+
+    const handlePositionChange = useCallback((position: string) => {
+        setSettings(prev => ({ ...prev, customTextPosition: position as Position }));
+    }, [setSettings]);
+
+    const textSourceOptions = useMemo(() => [
+        { value: 'AUTO', label: t?.('textSources.auto') || 'AUTO' },
+        { value: 'CUSTOM', label: t?.('textSources.custom') || 'MANUAL' },
+        { value: 'SONG', label: t?.('textSources.song') || 'SONG' },
+        { value: 'CLOCK', label: t?.('textSources.clock') || 'CLOCK' }
+    ], [t]);
 
     return (
         <BentoCard 
@@ -36,15 +59,26 @@ export const TextLayerSetup: React.FC = () => {
                     {/* Source Logic & Input Group */}
                     <div className="flex-1 space-y-4 flex flex-col">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <SettingsToggle label={t?.('customText') || "Layer Master"} value={settings.showCustomText} onChange={() => setSettings({...settings, showCustomText: !settings.showCustomText})} activeColor="blue" variant="clean" />
-                            <CustomSelect label={t?.('textSource')} value={settings.textSource || 'AUTO'} options={[{ value: 'AUTO', label: t?.('textSources.auto') || 'AUTO' }, { value: 'CUSTOM', label: t?.('textSources.custom') || 'MANUAL' }, { value: 'SONG', label: t?.('textSources.song') || 'SONG' }, { value: 'CLOCK', label: t?.('textSources.clock') || 'CLOCK' }]} onChange={(v) => setSettings({...settings, textSource: v})} />
+                            <SettingsToggle 
+                                label={t?.('customText') || "Layer Master"} 
+                                value={settings.showCustomText} 
+                                onChange={handleToggleCustomText} 
+                                activeColor="blue" 
+                                variant="clean" 
+                            />
+                            <CustomSelect 
+                                label={t?.('textSource')} 
+                                value={settings.textSource || 'AUTO'} 
+                                options={textSourceOptions} 
+                                onChange={handleTextSourceChange} 
+                            />
                         </div>
                         
                         {/* Compact Text Input Area - Directly follows source logic */}
                         <div className="relative group flex-1">
                             <textarea 
                                 value={settings.customText || ''} 
-                                onChange={(e) => setSettings({...settings, customText: e.target.value.toUpperCase()})} 
+                                onChange={handleCustomTextChange} 
                                 placeholder={t?.('customTextPlaceholder') || "ENTER TEXT"} 
                                 className="w-full h-full min-h-[80px] bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xl px-4 py-3 text-xs font-black text-black dark:text-white tracking-[0.1em] uppercase focus:border-blue-500/50 outline-none resize-none transition-all placeholder-black/10 dark:placeholder-white/10" 
                             />
@@ -59,7 +93,7 @@ export const TextLayerSetup: React.FC = () => {
                             {positionOptions.map(pos => (
                                 <button 
                                     key={pos.value} 
-                                    onClick={() => setSettings({...settings, customTextPosition: pos.value as Position})}
+                                    onClick={() => handlePositionChange(pos.value)}
                                     className={`aspect-square rounded-lg transition-all flex items-center justify-center ${settings.customTextPosition === pos.value ? 'bg-blue-600 text-white shadow-md scale-105' : 'bg-black/5 dark:bg-white/5 text-black/20 dark:text-white/20 hover:text-black/40 dark:hover:text-white/40'}`}
                                 >
                                     <div className={`w-1 h-1 rounded-full ${settings.customTextPosition === pos.value ? 'bg-white' : 'bg-current'}`} />
@@ -71,4 +105,6 @@ export const TextLayerSetup: React.FC = () => {
             </div>
         </BentoCard>
     );
-};
+});
+
+TextLayerSetup.displayName = 'TextLayerSetup';

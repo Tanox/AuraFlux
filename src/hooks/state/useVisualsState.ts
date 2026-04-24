@@ -1,6 +1,6 @@
 'use client';
-// File: src\hooks\state\useVisualsState.ts | Version: v2.2.23
-import { useState, useCallback, useMemo, useEffect } from 'react';
+// File: src\hooks\state\useVisualsState.ts | Version: v2.2.24
+import { useReducer, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
 import { COLOR_THEMES } from '../../constants';
 import { logger } from '../../utils/logger';
@@ -105,102 +105,173 @@ const getInitialActivePreset = (): string => {
   return 'Default';
 };
 
+type VisualsState = {
+  mode: VisualizerMode;
+  colorTheme: string[];
+  settings: VisualizerSettings;
+  activePreset: string;
+};
+
+type VisualsAction =
+  | { type: 'SET_MODE'; payload: VisualizerMode }
+  | { type: 'SET_COLOR_THEME'; payload: string[] }
+  | { type: 'SET_SETTINGS'; payload: Partial<VisualizerSettings> }
+  | { type: 'SET_ACTIVE_PRESET'; payload: string }
+  | { type: 'RESET_VISUAL_SETTINGS' }
+  | { type: 'RESET_AUDIO_SETTINGS' }
+  | { type: 'RESET_TEXT_SETTINGS' }
+  | { type: 'RANDOMIZE_SETTINGS' }
+  | { type: 'APPLY_PRESET'; payload: SmartPreset };
+
+const visualsReducer = (state: VisualsState, action: VisualsAction): VisualsState => {
+  switch (action.type) {
+    case 'SET_MODE':
+      return { ...state, mode: action.payload };
+    case 'SET_COLOR_THEME':
+      return { ...state, colorTheme: action.payload };
+    case 'SET_SETTINGS':
+      return { ...state, settings: { ...state.settings, ...action.payload } };
+    case 'SET_ACTIVE_PRESET':
+      return { ...state, activePreset: action.payload };
+    case 'RESET_VISUAL_SETTINGS':
+      return { ...state, settings: DEFAULT_SETTINGS };
+    case 'RESET_AUDIO_SETTINGS':
+      return { ...state, settings: { ...state.settings, ...DEFAULT_AUDIO_SETTINGS } };
+    case 'RESET_TEXT_SETTINGS':
+      return { ...state, settings: { ...state.settings, ...DEFAULT_TEXT_SETTINGS } };
+    case 'RANDOMIZE_SETTINGS': {
+      const modes = Object.values(VisualizerMode);
+      const randomMode = modes[Math.floor(Math.random() * modes.length)];
+      const randomTheme = COLOR_THEMES[Math.floor(Math.random() * COLOR_THEMES.length)];
+      
+      return {
+        ...state,
+        mode: randomMode,
+        colorTheme: randomTheme.colors,
+        settings: {
+          ...state.settings,
+          sensitivity: 0.8 + Math.random() * 1.2,
+          speed: 0.5 + Math.random() * 1.5,
+          glow: Math.random() > 0.5,
+          trails: Math.random() > 0.5
+        },
+        activePreset: 'Randomized'
+      };
+    }
+    case 'APPLY_PRESET':
+      return {
+        ...state,
+        mode: action.payload.mode,
+        settings: { ...state.settings, ...action.payload.settings },
+        colorTheme: action.payload.colors,
+        activePreset: action.payload.name
+      };
+    default:
+      return state;
+  }
+};
+
 export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
-  const [mode, setMode] = useState<VisualizerMode>(getInitialMode);
-  const [colorTheme, setColorTheme] = useState<string[]>(getInitialColorTheme);
-  const [settings, setSettings] = useState<VisualizerSettings>(getInitialSettings);
-  const [activePreset, setActivePreset] = useState<string>(getInitialActivePreset);
+  const initialState: VisualsState = {
+    mode: getInitialMode(),
+    colorTheme: getInitialColorTheme(),
+    settings: getInitialSettings(),
+    activePreset: getInitialActivePreset()
+  };
 
-  const setModeWithStorage = useCallback((newMode: VisualizerMode | ((prev: VisualizerMode) => VisualizerMode)) => {
-    setMode(prev => {
-      const nextMode = typeof newMode === 'function' ? newMode(prev) : newMode;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('av_v1_mode', nextMode);
-      }
-      return nextMode;
-    });
-  }, []);
+  const [state, dispatch] = useReducer(visualsReducer, initialState);
 
-  const setColorThemeWithStorage = useCallback((newTheme: string[] | ((prev: string[]) => string[])) => {
-    setColorTheme(prev => {
-      const nextTheme = typeof newTheme === 'function' ? newTheme(prev) : newTheme;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('av_v1_colorTheme', JSON.stringify(nextTheme));
-      }
-      return nextTheme;
-    });
-  }, []);
+  const setMode = useCallback((newMode: VisualizerMode | ((prev: VisualizerMode) => VisualizerMode)) => {
+    const modeValue = typeof newMode === 'function' ? newMode(state.mode) : newMode;
+    dispatch({ type: 'SET_MODE', payload: modeValue });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_mode', modeValue);
+    }
+  }, [state.mode]);
 
-  const setSettingsWithStorage = useCallback((newSettings: VisualizerSettings | ((prev: VisualizerSettings) => VisualizerSettings)) => {
-    setSettings(prev => {
-      const nextSettings = typeof newSettings === 'function' ? newSettings(prev) : newSettings;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('av_v1_settings', JSON.stringify(nextSettings));
-      }
-      return nextSettings;
-    });
-  }, []);
+  const setColorTheme = useCallback((newTheme: string[] | ((prev: string[]) => string[])) => {
+    const themeValue = typeof newTheme === 'function' ? newTheme(state.colorTheme) : newTheme;
+    dispatch({ type: 'SET_COLOR_THEME', payload: themeValue });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_colorTheme', JSON.stringify(themeValue));
+    }
+  }, [state.colorTheme]);
 
-  const setActivePresetWithStorage = useCallback((newPreset: string | ((prev: string) => string)) => {
-    setActivePreset(prev => {
-      const nextPreset = typeof newPreset === 'function' ? newPreset(prev) : newPreset;
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('av_v1_activePreset', nextPreset);
-      }
-      return nextPreset;
-    });
-  }, []);
+  const setSettings = useCallback((newSettings: VisualizerSettings | ((prev: VisualizerSettings) => VisualizerSettings)) => {
+    const settingsValue = typeof newSettings === 'function' ? newSettings(state.settings) : newSettings;
+    dispatch({ type: 'SET_SETTINGS', payload: settingsValue });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_settings', JSON.stringify(settingsValue));
+    }
+  }, [state.settings]);
+
+  const setActivePreset = useCallback((newPreset: string | ((prev: string) => string)) => {
+    const presetValue = typeof newPreset === 'function' ? newPreset(state.activePreset) : newPreset;
+    dispatch({ type: 'SET_ACTIVE_PRESET', payload: presetValue });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_activePreset', presetValue);
+    }
+  }, [state.activePreset]);
 
   const randomizeSettings = useCallback(() => {
-    // Randomize Mode
-    const modes = Object.values(VisualizerMode);
-    const randomMode = modes[Math.floor(Math.random() * modes.length)];
-    setModeWithStorage(randomMode);
+    dispatch({ type: 'RANDOMIZE_SETTINGS' });
+    // 持久化随机化后的状态
+    if (typeof window !== 'undefined') {
+      // 由于reducer已经处理了状态更新，这里需要从state中获取最新值
+      // 注意：这里可能会有轻微的延迟，因为dispatch是异步的
+      setTimeout(() => {
+        localStorage.setItem('av_v1_mode', state.mode);
+        localStorage.setItem('av_v1_colorTheme', JSON.stringify(state.colorTheme));
+        localStorage.setItem('av_v1_settings', JSON.stringify(state.settings));
+        localStorage.setItem('av_v1_activePreset', state.activePreset);
+      }, 0);
+    }
+  }, [state]);
 
-    // Randomize Colors
-    const randomTheme = COLOR_THEMES[Math.floor(Math.random() * COLOR_THEMES.length)];
-    setColorThemeWithStorage(randomTheme.colors);
+  const resetVisualSettings = useCallback(() => {
+    dispatch({ type: 'RESET_VISUAL_SETTINGS' });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_settings', JSON.stringify(DEFAULT_SETTINGS));
+    }
+  }, []);
 
-    // Randomize Settings
-    setSettingsWithStorage(prev => ({
-      ...prev,
-      sensitivity: 0.8 + Math.random() * 1.2,
-      speed: 0.5 + Math.random() * 1.5,
-      glow: Math.random() > 0.5,
-      trails: Math.random() > 0.5
-    }));
-
-    setActivePresetWithStorage('Randomized');
-  }, [setModeWithStorage, setColorThemeWithStorage, setSettingsWithStorage, setActivePresetWithStorage]);
-
-  const resetVisualSettings = useCallback(() => setSettingsWithStorage(DEFAULT_SETTINGS), [setSettingsWithStorage]);
   const resetAudioSettings = useCallback(() => {
-    setSettingsWithStorage(prev => ({ ...prev, ...DEFAULT_AUDIO_SETTINGS }));
-  }, [setSettingsWithStorage]);
+    dispatch({ type: 'RESET_AUDIO_SETTINGS' });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_settings', JSON.stringify({ ...state.settings, ...DEFAULT_AUDIO_SETTINGS }));
+    }
+  }, [state.settings]);
+
   const resetTextSettings = useCallback(() => {
-    setSettingsWithStorage(prev => ({ ...prev, ...DEFAULT_TEXT_SETTINGS }));
-  }, [setSettingsWithStorage]);
+    dispatch({ type: 'RESET_TEXT_SETTINGS' });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_settings', JSON.stringify({ ...state.settings, ...DEFAULT_TEXT_SETTINGS }));
+    }
+  }, [state.settings]);
 
   const applyPreset = useCallback((preset: SmartPreset) => {
-    setModeWithStorage(preset.mode);
-    setSettingsWithStorage(prev => ({ ...prev, ...preset.settings }));
-    setColorThemeWithStorage(preset.colors);
-    setActivePresetWithStorage(preset.name);
-  }, [setModeWithStorage, setSettingsWithStorage, setColorThemeWithStorage, setActivePresetWithStorage]);
+    dispatch({ type: 'APPLY_PRESET', payload: preset });
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_mode', preset.mode);
+      localStorage.setItem('av_v1_colorTheme', JSON.stringify(preset.colors));
+      localStorage.setItem('av_v1_settings', JSON.stringify({ ...state.settings, ...preset.settings }));
+      localStorage.setItem('av_v1_activePreset', preset.name);
+    }
+  }, [state.settings]);
 
   // Auto rotate visualizer modes
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null;
 
-    if (settings.autoRotate && hasStarted) {
+    if (state.settings.autoRotate && hasStarted) {
       intervalId = setInterval(() => {
-        const included = settings.includedModes || Object.values(VisualizerMode);
+        const included = state.settings.includedModes || Object.values(VisualizerMode);
         if (included.length > 1) {
-          const currentIndex = included.indexOf(mode);
+          const currentIndex = included.indexOf(state.mode);
           const nextIndex = (currentIndex + 1) % included.length;
-          setModeWithStorage(included[nextIndex]);
+          setMode(included[nextIndex]);
         }
-      }, (settings.rotateInterval || 30) * 1000);
+      }, (state.settings.rotateInterval || 30) * 1000);
     }
 
     return () => {
@@ -208,13 +279,14 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
         clearInterval(intervalId);
       }
     };
-  }, [settings.autoRotate, settings.rotateInterval, settings.includedModes, mode, setModeWithStorage, hasStarted]);
+  }, [state.settings.autoRotate, state.settings.rotateInterval, state.settings.includedModes, state.mode, setMode, hasStarted]);
 
   return {
-    mode, setMode: setModeWithStorage,
-    colorTheme, setColorTheme: setColorThemeWithStorage,
-    settings, setSettings: setSettingsWithStorage,
-    activePreset, setActivePreset: setActivePresetWithStorage,
+    ...state,
+    setMode,
+    setColorTheme,
+    setSettings,
+    setActivePreset,
     randomizeSettings,
     resetVisualSettings,
     resetTextSettings,
