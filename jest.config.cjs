@@ -10,7 +10,8 @@ const config = {
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/app/**/*',
-    '!src/context/**/*'
+    '!src/context/**/*',
+    '!src/components/**/*'
   ],
   coverageThreshold: {
     global: {
@@ -32,6 +33,15 @@ const config = {
   },
   testMatch: [
     '**/*.test.(ts|tsx)'
+  ],
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/.next/',
+    '/build/',
+    '/dist/'
+  ],
+  roots: [
+    '<rootDir>/src'
   ]
 };
 

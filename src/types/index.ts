@@ -16,6 +16,35 @@ export enum VisualizerMode {
   FISH_SWARM = 'FISH_SWARM'
 }
 
+export enum VisualizerCategory {
+  MODE_2D = '2D',
+  MODE_3D = '3D'
+}
+
+export interface BaseVisualizerProps {
+  analyser: AnalyserNode;
+  analyserR?: AnalyserNode | null;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface VisualizerDefinition {
+  mode: VisualizerMode;
+  category: VisualizerCategory;
+  name: string;
+  nameKey: string;
+  description: string;
+  is3D: boolean;
+  component?: React.ComponentType<any>;
+  render2D?: (props: Base2DVisualizerProps) => void;
+}
+
+export interface Base2DVisualizerProps extends BaseVisualizerProps {
+  ctx: CanvasRenderingContext2D;
+  width: number;
+  height: number;
+}
+
 export enum LyricsStyle {
   STANDARD = 'STANDARD',
   KARAOKE = 'KARAOKE',

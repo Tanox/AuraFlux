@@ -91,6 +91,40 @@ docker run -p 3000:3000 -e GEMINI_API_KEY=your_key aura-flux
 
 ---
 
+## 🧪 Testing
+
+```bash
+# Run all tests
+pnpm test
+
+# Run specific test files
+pnpm test -- --testPathPatterns="logger.test|visualization.test"
+
+# Run tests with coverage
+pnpm test -- --coverage
+```
+
+**Coverage Requirements:**
+- Branches: ≥80%
+- Functions: ≥80%
+- Lines: ≥80%
+- Statements: ≥80%
+
+---
+
+## 📝 Code Standards
+
+This project follows strict naming conventions and coding standards:
+
+- **File Naming**: PascalCase for components, camelCase for hooks/utils
+- **Directory Structure**: kebab-case for directories
+- **Type Definitions**: All types defined in `src/types/index.ts`
+- **Visualizer Registry**: All visualizers registered in `src/components/visualizers/index.ts`
+
+See [Naming Conventions](./openspec/18_naming_conventions.md) for detailed guidelines.
+
+---
+
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.
