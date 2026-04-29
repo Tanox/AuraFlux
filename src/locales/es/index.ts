@@ -1,5 +1,4 @@
 // src/locales/es/index.ts v2.3.8
- | Updated: 2026-04-17 11:47
 import { messages } from './messages';
 import { common } from './common';
 import { onboarding } from './onboarding';

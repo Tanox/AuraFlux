@@ -159,11 +159,11 @@ describe('Visualization Utilities', () => {
 
   describe('calculateBoundingBox', () => {
     it('should calculate bounding box for multiple points', () => {
-      const points = [
+      const points: any[] = [
         { x: 10, y: 20 },
         { x: 50, y: 30 },
         { x: 30, y: 60 }
-      ] as any[];
+      ];
 
       const bbox = calculateBoundingBox(points);
 
