@@ -2,7 +2,7 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
-## [v2.3.5] - 2026-04-22
+## [v2.3.5]
 ### ✨ Version Update & Documentation Synchronization
 - **Version Synchronization**: Updated all project files to version v2.3.5
 - **Audio System Refactoring**: Separated microphone management and file playback functionality
@@ -12,7 +12,7 @@ All notable changes to the **Aura Flux** project will be documented in this file
 - **Git Commit Standards**: Enhanced git-commit-message.md with comprehensive guidelines
 - **Code-Doc Sync**: All specification documents synchronized with code implementation
 
-## [v2.3.4] - 2026-04-21
+## [v2.3.4]
 ### 📚 Documentation Synchronization
 - **Code-Doc Sync**: Synchronized code functionality details to openspec documentation
 - **Version Update**: All specification documents updated to v2.3.4
