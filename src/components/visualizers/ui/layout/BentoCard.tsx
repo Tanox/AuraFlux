@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\layout\BentoCard.tsx | Version: v2.3.3
+// File: src\components\visualizers\ui\layout\BentoCard.tsx | Version: v2.3.4
 import React from 'react';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   action?: React.ReactNode;
 }
 
-export const BentoCard: React.FC<Props> = ({ children, title, className = '', id, action }) => {
+export const BentoCard: React.FC<Props> = React.memo(({ children, title, className = '', id, action }) => {
   return (
     <div 
       id={id}
@@ -30,5 +30,7 @@ export const BentoCard: React.FC<Props> = ({ children, title, className = '', id
       </div>
     </div>
   );
-};
+});
+
+BentoCard.displayName = 'BentoCard';
 

@@ -1,7 +1,7 @@
 'use client';
-// File: src\components\controls\panels\audio\AiSettings.tsx | Version: v2.2.23
+// File: src\components\controls\panels\audio\AiSettings.tsx | Version: v2.2.24
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '../../visualizers/ui/controls/SettingsToggle';
 import { CustomSelect } from '../../visualizers/ui/controls/CustomSelect';
@@ -9,7 +9,7 @@ import { useVisuals, useAudioContext, useUI, useAI } from '@/context/AppContext'
 import { generateVisualConfigFromAudio, checkAiServiceAvailability } from '../../../services/aiService';
 import { VisualizerMode, Region } from '../../../types/index';
 
-export const AiSettings: React.FC = () => {
+export const AiSettings: React.FC = React.memo(() => {
   const { settings, setSettings, setMode, setColorTheme } = useVisuals();
   const { sourceType, fileStatus, getAudioSlice } = useAudioContext();
   const { enableAnalysis, setEnableAnalysis, showLyrics, setShowLyrics } = useAI();
@@ -17,12 +17,22 @@ export const AiSettings: React.FC = () => {
   
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const isAdvanced = settings.uiMode === 'advanced';
-  const currentProvider = settings.recognitionProvider || 'GEMINI';
+  const isAdvanced = useMemo(() => settings.uiMode === 'advanced', [settings.uiMode]);
+  const currentProvider = useMemo(() => settings.recognitionProvider || 'GEMINI', [settings.recognitionProvider]);
 
-  const handleAiDirector = async () => {
+  const regionOptions = useMemo(() => 
+    Object.keys(t?.('regions') || {}).map(r => ({ value: r, label: t?.(`regions.${r}`) || r })),
+    [t]
+  );
+
+  const aiProviderOptions = useMemo(() => 
+    Object.keys(t?.('aiProviders') || {}).map(p => ({ value: p, label: t?.(`aiProviders.${p}`) })),
+    [t]
+  );
+
+  const handleAiDirector = useCallback(async () => {
       if (fileStatus !== 'ready') return;
-      const available = await checkAiServiceAvailability((msg) => showToast(msg, 'error'));
+      const available = await checkAiServiceAvailability((msg: string) => showToast(msg, 'error'));
       if (!available) return;
       
       setIsAnalyzing(true);
@@ -35,42 +45,84 @@ export const AiSettings: React.FC = () => {
               const base64Audio = (reader.result as string).split(',')[1];
               const config = await generateVisualConfigFromAudio(base64Audio);
               if (config) {
-                  if (config.mode && Object.values(VisualizerMode).includes(config.mode as VisualizerMode)) setMode(config.mode as VisualizerMode);
-                  if (config.colors && config.colors.length === 3) setColorTheme(config.colors);
-                  setSettings(p => ({ ...p, speed: config.speed || p.speed, sensitivity: config.sensitivity || p.sensitivity, glow: config.glow ?? p.glow }));
+                  if (config.mode && Object.values(VisualizerMode).includes(config.mode as VisualizerMode)) {
+                      setMode(config.mode as VisualizerMode);
+                  }
+                  if (config.colors && config.colors.length === 3) {
+                      setColorTheme(config.colors);
+                  }
+                  setSettings(p => ({ 
+                      ...p, 
+                      speed: config.speed || p.speed, 
+                      sensitivity: config.sensitivity || p.sensitivity, 
+                      glow: config.glow ?? p.glow 
+                  }));
                   showToast(`AI: ${config.explanation}`, 'success');
               }
               setIsAnalyzing(false);
           };
-      } catch (e) { setIsAnalyzing(false); }
-  };
+      } catch (e) { 
+          setIsAnalyzing(false); 
+      }
+  }, [fileStatus, showToast, getAudioSlice, setMode, setColorTheme, setSettings]);
+
+  const handleRegionChange = useCallback((v: string) => {
+      setSettings(prev => ({ ...prev, region: v as Region }));
+  }, [setSettings]);
+
+  const handleProviderChange = useCallback((v: string) => {
+      setSettings(prev => ({ ...prev, recognitionProvider: v as any }));
+  }, [setSettings]);
+
+  const handleToggleShowLyrics = useCallback(() => {
+      setShowLyrics(prev => !prev);
+  }, [setShowLyrics]);
+
+  const handleToggleEnableAnalysis = useCallback(() => {
+      setEnableAnalysis(prev => !prev);
+  }, [setEnableAnalysis]);
 
   return (
     <div className="flex flex-col gap-3">
         <BentoCard id="panel-audio-ai-engine" title={t?.('audioPanel.analysisAi') || "Neural Engine"}>
             <div className="space-y-6">
-                {/* AI Master Toggle & Region */}
                 <div className="bg-black/[0.04] dark:bg-white/[0.04] p-4 rounded-2xl border border-black/5 dark:border-white/5 flex flex-col gap-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <SettingsToggle label={t?.('showLyrics') || "Lyrics Display"} value={showLyrics} onChange={()=>setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
-                        <SettingsToggle label={t?.('audioPanel.enableAi') || "Live Analysis"} value={enableAnalysis} onChange={()=>setEnableAnalysis(!enableAnalysis)} activeColor="blue" variant="clean" />
+                        <SettingsToggle 
+                            label={t?.('showLyrics') || "Lyrics Display"} 
+                            value={showLyrics} 
+                            onChange={handleToggleShowLyrics} 
+                            activeColor="green" 
+                            variant="clean" 
+                        />
+                        <SettingsToggle 
+                            label={t?.('audioPanel.enableAi') || "Live Analysis"} 
+                            value={enableAnalysis} 
+                            onChange={handleToggleEnableAnalysis} 
+                            activeColor="blue" 
+                            variant="clean" 
+                        />
                     </div>
                     {enableAnalysis && isAdvanced && (
                         <div className="w-full pt-2 border-t border-black/5 dark:border-white/5 animate-fade-in-up">
-                            <CustomSelect label={t?.('region')} value={settings.region || 'global'} options={Object.keys(t?.('regions') || {}).map(r=>({value:r,label:t?.(`regions.${r}`)||r}))} onChange={(v)=>setSettings({...settings,region:v as Region})} />
+                            <CustomSelect 
+                                label={t?.('region')} 
+                                value={settings.region || 'global'} 
+                                options={regionOptions} 
+                                onChange={handleRegionChange} 
+                            />
                         </div>
                     )}
                 </div>
                 
-                {/* AI Provider Section */}
                 {enableAnalysis && (
                   <div className="space-y-5 animate-fade-in-up">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <CustomSelect 
                               label={t?.('recognitionSource') || "AI Protocol"} 
                               value={currentProvider} 
-                              options={Object.keys(t?.('aiProviders') || {}).map(p => ({ value: p, label: t?.(`aiProviders.${p}`) }))} 
-                              onChange={(v) => setSettings(prev => ({ ...prev, recognitionProvider: v as any }))}
+                              options={aiProviderOptions} 
+                              onChange={handleProviderChange}
                           />
                       </div>
 
@@ -95,7 +147,6 @@ export const AiSettings: React.FC = () => {
             </div>
         </BentoCard>
 
-        {/* Informational Hint Card */}
         <div id="panel-audio-ai-guide" className="bg-black/5 dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-2xl p-4 flex gap-4 items-center group transition-colors hover:bg-black/[0.07] dark:hover:bg-white/[0.04]">
             <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 shrink-0">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -109,4 +160,6 @@ export const AiSettings: React.FC = () => {
         </div>
     </div>
   );
-};
+});
+
+AiSettings.displayName = 'AiSettings';

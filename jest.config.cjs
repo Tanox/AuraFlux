@@ -10,8 +10,7 @@ const config = {
     'src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/app/**/*',
-    '!src/context/**/*',
-    '!src/components/**/*'
+    '!src/context/**/*'
   ],
   coverageThreshold: {
     global: {
