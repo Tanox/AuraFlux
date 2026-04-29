@@ -1,6 +1,4 @@
 // src/locales/index.ts v2.3.8
-ts v2.3.3
-// 浠庢瘡涓瑷€鐨勬ā鍧楀鍏ユ墍鏈夌炕璇戝唴瀹?
 import { translations as en } from './en';
 import { translations as zh } from './zh';
 import { translations as es } from './es';

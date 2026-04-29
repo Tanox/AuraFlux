@@ -1,5 +1,4 @@
 // src/app/layout.tsx v2.3.8
-tsx v2.3.8
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";

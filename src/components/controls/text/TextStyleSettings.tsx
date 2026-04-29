@@ -4,7 +4,7 @@
 
 import React, { useMemo, useCallback } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
-import { BentoCard } from '@components/visualizers/ui/layout/BentoCard';
+import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
 import { SettingsToggle } from '@/components/visualizers/ui/controls/SettingsToggle';
 import { Slider } from '@/components/visualizers/ui/controls/Slider';
 import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect';
