@@ -1,9 +1,7 @@
 'use client';
-/**
- * File: app/components/controls/panels/StudioPanel.tsx
- * Version: v2.1.1
- * Author: Sut
- */
+
+// src/components/controls/panels/StudioPanel.tsx v2.3.8
+
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useUI, useAudioContext } from '@/context/AppContext';

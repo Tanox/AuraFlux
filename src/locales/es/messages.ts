@@ -1,4 +1,5 @@
-// File: src\locales\es\messages.ts | Version: v2.3.8
+// src/locales/es/messages.ts v2.3.8
+
 export const messages = {
   welcomeSubtitle: "Motor de Inteligencia Sinestésica",
   startExperience: "INICIALIZAR SISTEMA",

@@ -1,4 +1,5 @@
-// File: src\services\audioUtils.ts | Version: v2.3.3
+// src/services/audioUtils.ts v2.3.8
+
 import { logger } from '@/utils/logger';
 
 export const getAverage = (dataArray: Uint8Array, start?: number, end?: number): number => {

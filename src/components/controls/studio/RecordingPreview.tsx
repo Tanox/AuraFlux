@@ -1,7 +1,5 @@
-/**
- * File: src/components/controls/panels/studio/RecordingPreview.tsx
- * Version: v1.9.80
- */
+// src/components/controls/studio/RecordingPreview.tsx v2.3.8
+
 
 import React from 'react';
 import { createPortal } from 'react-dom';

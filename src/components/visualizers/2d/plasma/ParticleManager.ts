@@ -1,4 +1,5 @@
-// File: src/components/visualizers/2d/plasma/ParticleManager.ts | Version: v2.3.4
+// src/components/visualizers/2d/plasma/ParticleManager.ts v2.3.8
+
 
 import { ParticleState, FusionEffect, ParticleParams } from './types.ts';
 import { ObjectPool } from './objectPool';
@@ -54,9 +55,7 @@ export class ParticleManager {
     }));
   }
 
-  /**
-   * 设置性能模式
-   */
+  
   setPerformanceMode(mode: 'low' | 'medium' | 'high'): void {
     this.performanceMode = mode;
   }

@@ -1,5 +1,7 @@
 'use client';
-// File: src\components\visualizers\VisualizerCanvas.tsx | Version: v2.3.0
+
+// src/components/visualizers/VisualizerCanvas.tsx v2.3.8
+
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderPlasmaMode } from './2d/plasma/PlasmaMode';

@@ -1,6 +1,8 @@
 'use client';
 
-// File: src\components\controls\panels\VisualizerPreview.tsx | Version: v2.2.23
+// src/components/controls/panels/VisualizerPreview.tsx v2.3.8
+
+
 
 import React, { memo, useMemo } from 'react';
 import { VisualizerMode } from '../../../types/index';

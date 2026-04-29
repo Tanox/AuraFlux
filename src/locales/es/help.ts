@@ -1,3 +1,4 @@
+// src/locales/es/help.ts v2.3.8
 export const helpModal = {
   title: "Ayuda y Información",
   tabs: {

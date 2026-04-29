@@ -1,5 +1,4 @@
-// File: src/components/visualizers/2d/plasma/Renderer.ts | Version: v2.3.4
-
+// src/components/visualizers/2d/plasma/Renderer.ts v2.3.8
 import { ParticleState, FusionEffect } from './types.ts';
 import { project3D } from './utils';
 
@@ -7,10 +6,7 @@ export class Renderer {
   private focalLength = 300;
   private gradientCache: Map<string, CanvasGradient> = new Map();
 
-  /**
-   * 获取缓存的渐变
-   */
-  private getCachedGradient(_ctx: CanvasRenderingContext2D, key: string, creator: () => CanvasGradient): CanvasGradient {
+    private getCachedGradient(_ctx: CanvasRenderingContext2D, key: string, creator: () => CanvasGradient): CanvasGradient {
     if (!this.gradientCache.has(key)) {
       this.gradientCache.set(key, creator());
     }

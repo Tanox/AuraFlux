@@ -1,11 +1,10 @@
-// File: src/components/visualizers/3d/cubeField/collisionEffects.ts | Version: v2.3.3
+// src/components/visualizers/3d/cubeField/collisionEffects.ts v2.3.8
+
 
 import { Vector3, Color } from 'three';
 import { CubeState, CollisionEffect } from './types';
 
-/**
- * Detect cube collisions and generate collision effects
- */
+
 export function detectCollisions(
   cubes: CubeState[],
   collisionEffects: CollisionEffect[],

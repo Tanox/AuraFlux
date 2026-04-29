@@ -1,3 +1,4 @@
+// src/components/visualizers/3d/hooks/useDigitalGrid.ts v2.3.8
 import { useMemo } from 'react';
 import { useThree } from '@react-three/fiber';
 import { InstancedBufferAttribute } from 'three';

@@ -1,8 +1,5 @@
-/**
- * 简单的日志工具
- * 在生产环境中禁用 debug 和 info 级别的日志
- * 限制日志数量为5条
- */
+// src/utils/logger.ts v2.3.8
+
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 

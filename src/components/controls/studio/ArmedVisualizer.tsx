@@ -1,8 +1,7 @@
 'use client';
-/**
- * File: src/components/controls/panels/studio/ArmedVisualizer.tsx
- * Version: v1.9.80
- */
+
+// src/components/controls/studio/ArmedVisualizer.tsx v2.3.8
+
 
 import React, { useEffect, useRef } from 'react';
 import { getAverage } from '../../../services/audioUtils';

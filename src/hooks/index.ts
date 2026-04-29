@@ -1,4 +1,5 @@
-// File: src\hooks\index.ts | Version: v2.3.8
+// src/hooks/index.ts v2.3.8
+
 
 // Audio hooks
 export * from './audio/useAudio';

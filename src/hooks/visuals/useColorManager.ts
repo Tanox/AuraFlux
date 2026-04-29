@@ -1,3 +1,4 @@
+// src/hooks/visuals/useColorManager.ts v2.3.8
 import { useMemo } from 'react';
 import { Color } from 'three';
 

@@ -1,9 +1,7 @@
 'use client';
-/**
- * File: app/components/visualizers/ui/LyricsOverlay.tsx
- * Version: v1.9.73
- * Author: Sut
- */
+
+// src/components/visualizers/ui/LyricsOverlay.tsx v2.3.8
+
 
 import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { VisualizerSettings, SongInfo, LyricsStyle } from '../../../types/index';

@@ -1,5 +1,7 @@
 'use client';
-// File: src\components\controls\BottomBar.tsx | Version: v2.2.23
+
+// src/components/controls/BottomBar.tsx v2.3.8
+
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 import { useAudioContext, useUI, useVisuals } from '@/context/AppContext';

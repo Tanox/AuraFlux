@@ -1,10 +1,7 @@
 'use client';
-/**
- * File: app/components/visualizers/ui/controls/Tooltip.tsx
- * Version: v1.9.56
- * Author: Sut
- * Updated: 2025-07-29 14:00
- */
+
+// src/components/visualizers/ui/controls/Tooltip.tsx v2.3.8
+
 
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';

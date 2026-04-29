@@ -1,5 +1,7 @@
 'use client';
-// File: src\hooks\state\useVisualsState.ts | Version: v2.2.24
+
+// src/hooks/state/useVisualsState.ts v2.3.8
+
 import { useReducer, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
 import { COLOR_THEMES } from '../../constants';

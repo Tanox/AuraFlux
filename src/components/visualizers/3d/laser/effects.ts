@@ -1,11 +1,10 @@
-// File: src/components/visualizers/3d/laser/effects.ts | Version: v2.3.3
+// src/components/visualizers/3d/laser/effects.ts v2.3.8
+
 
 import { Vector3, Color } from 'three';
 import { CollisionEffect, ReflectionEffect, LaserState } from './types';
 
-/**
- * 妫€娴嬫縺鍏夌鎾炲苟鐢熸垚鏁堟灉
- */
+
 export function detectLaserCollisions(
   laser: LaserState,
   position: Vector3,

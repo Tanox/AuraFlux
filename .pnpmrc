@@ -1,0 +1,18 @@
+# pnpm 配置 - 使用全局包和避免本地 node_modules
+registry=https://registry.npmmirror.com
+
+# 存储配置 - 使用全局存储
+store-dir=~/.pnpm-store
+shamefully-hoist=true
+
+# 虚拟存储配置 - 使用系统范围的位置
+virtual-store-dir=~/.pnpm-virtual-store
+
+# 禁用严格对等依赖检查
+strict-peer-dependencies=false
+
+# 不创建 node_modules 链接
+link-workspace-packages=false
+
+# 缓存配置
+cache-dir=~/.pnpm/cache

@@ -1,4 +1,4 @@
-// File: src\utils\tests\logger.test.ts | Version: v2.3.8
+// src/utils/tests/logger.test.ts v2.3.8
 import { logger } from '../logger';
 
 describe('Logger', () => {

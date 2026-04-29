@@ -1,4 +1,5 @@
-// File: src/components/visualizers/2d/plasma/objectPool.ts | Version: v2.3.4
+// src/components/visualizers/2d/plasma/objectPool.ts v2.3.8
+
 
 export class ObjectPool<T> {
   private pool: T[] = [];

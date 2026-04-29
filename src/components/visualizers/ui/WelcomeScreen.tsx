@@ -1,5 +1,6 @@
 'use client';
-// File: src\components\visualizers\ui\WelcomeScreen.tsx | Version: v2.3.3
+
+// src/components/visualizers/ui/WelcomeScreen.tsx v2.3.8
 import React from 'react';
 import { useUI, useAudioContext } from '@/context/AppContext';
 

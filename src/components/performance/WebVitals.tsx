@@ -1,7 +1,5 @@
-/**
- * File: src/components/performance/WebVitals.tsx
- * Version: v1.0.0
- */
+// src/components/performance/WebVitals.tsx v2.3.8
+
 
 'use client';
 

@@ -1,4 +1,5 @@
-// File: src\locales\es\settings.ts | Version: v2.3.3
+// src/locales/es/settings.ts v2.3.8
+
 import { VisualizerMode, LyricsStyle } from '../../types/index';
 import { COLOR_THEMES } from '../../constants/index';
 

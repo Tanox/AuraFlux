@@ -1,5 +1,4 @@
-// File: src/components/visualizers/3d/laser/types.ts | Version: v1.0.0
-
+// src/components/visualizers/3d/laser/types.ts v2.3.8
 import { Vector3, Color } from 'three';
 
 export interface LaserState {

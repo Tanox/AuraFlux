@@ -1,4 +1,5 @@
-// File: src\types\index.ts | Version: v2.3.8
+// src/types/index.ts v2.3.8
+
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',

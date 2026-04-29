@@ -1,12 +1,7 @@
-// File: src\services\aiService.ts | Version: v2.3.3
+// src/services/aiService.ts v2.3.8
 import i18n from '@/i18n';
 import { logger } from '@/utils/logger';
 
-/**
- * Convert Blob object to Base64 string
- * @param {Blob} blob - The Blob object to convert
- * @returns {Promise<string>} Base64 string
- */
 const blobToBase64 = async (blob: Blob): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();

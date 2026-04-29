@@ -1,11 +1,7 @@
-// File: src/components/visualizers/3d/cubeField/cubeState.ts | Version: v2.3.4
-
+// src/components/visualizers/3d/cubeField/cubeState.ts v2.3.8
 import { Vector3, Euler } from 'three';
 import { CubeState } from './types';
 
-/**
- * 初始化立方体状态
- */
 export function initializeCubeStates(count: number): CubeState[] {
   const temp: CubeState[] = [];
   for (let i = 0; i < count; i++) {

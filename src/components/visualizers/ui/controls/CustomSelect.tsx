@@ -1,8 +1,5 @@
-/**
- * File: app/components/visualizers/ui/controls/CustomSelect.tsx
- * Version: v1.9.36
- * Author: Sut
- */
+// src/components/visualizers/ui/controls/CustomSelect.tsx v2.3.8
+
 
 import React, { memo } from 'react';
 import { TooltipArea } from './Tooltip';

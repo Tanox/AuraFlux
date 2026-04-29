@@ -1,4 +1,6 @@
 'use client';
+
+// src/i18n.ts v2.3.8
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { TRANSLATIONS } from './locales';

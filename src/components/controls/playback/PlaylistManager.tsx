@@ -1,5 +1,7 @@
 'use client';
-// File: src\components\controls\panels\playback\PlaylistManager.tsx | Version: v2.2.23
+
+// src/components/controls/playback/PlaylistManager.tsx v2.3.8
+
 
 import Image from 'next/image';
 import React, { useRef, useEffect, useState } from 'react';

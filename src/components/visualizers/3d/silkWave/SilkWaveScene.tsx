@@ -1,5 +1,7 @@
 'use client';
-// File: src\components\visualizers\3d\silkWave\SilkWaveScene.tsx | Version: v2.2.23
+
+// src/components/visualizers/3d/silkWave/SilkWaveScene.tsx v2.3.8
+
 
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';

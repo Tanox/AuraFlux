@@ -1,3 +1,4 @@
+// src/hooks/animation/useAnimationLoop.ts v2.3.8
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { logger } from '@/utils/logger';
 

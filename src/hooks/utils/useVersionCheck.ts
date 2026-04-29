@@ -1,4 +1,5 @@
-// File: src\hooks\useVersionCheck.ts | Version: v2.3.3
+// src/hooks/utils/useVersionCheck.ts v2.3.8
+
 import { useEffect } from 'react';
 
 const normalizeVersion = (v: string) => v.replace(/^v/, '');

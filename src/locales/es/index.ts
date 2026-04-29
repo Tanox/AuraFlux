@@ -1,4 +1,5 @@
-// File: src\locales\es\index.ts | Version: v2.3.3 | Updated: 2026-04-17 11:47
+// src/locales/es/index.ts v2.3.8
+ | Updated: 2026-04-17 11:47
 import { messages } from './messages';
 import { common } from './common';
 import { onboarding } from './onboarding';
@@ -27,9 +28,7 @@ function deepMerge(target: any, ...sources: any[]): any {
   return deepMerge(target, ...sources);
 }
 
-/**
- * 合并所有翻译资源到顶级对象
- */
+
 export const translations = deepMerge(
   {},
   messages,

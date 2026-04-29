@@ -1,10 +1,8 @@
 'use client';
 
-/**
- * File: app/components/controls/panels/audio/InputSettings.tsx
- * Version: v1.9.74
- * Author: Sut
- */
+// src/components/controls/audio/InputSettings.tsx v2.3.8
+
+
 
 import React, { useMemo, useCallback } from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';

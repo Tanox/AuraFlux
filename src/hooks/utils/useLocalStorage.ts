@@ -1,4 +1,5 @@
-// File: src\hooks\useLocalStorage.ts | Version: v2.3.3
+// src/hooks/utils/useLocalStorage.ts v2.3.8
+
 import { useState, useEffect } from 'react';
 import { logger } from '@/utils/logger';
 

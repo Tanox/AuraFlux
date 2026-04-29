@@ -1,4 +1,5 @@
-// File: src\components\visualizers\ui\help\ShortcutsContent.tsx | Version: v2.3.3
+// src/components/visualizers/ui/help/ShortcutsContent.tsx v2.3.8
+
 import React from 'react';
 
 interface Props {

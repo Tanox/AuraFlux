@@ -1,9 +1,5 @@
-/**
- * File: app/components/visualizers/ui/controls/SettingsToggle.tsx
- * Version: v1.9.36
- * Author: Sut
- * Updated: 2025-07-21 15:30
- */
+// src/components/visualizers/ui/controls/SettingsToggle.tsx v2.3.8
+
 
 import React, { memo } from 'react';
 import { TooltipArea } from './Tooltip';

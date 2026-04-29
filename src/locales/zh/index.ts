@@ -1,4 +1,5 @@
-// File: src\locales\zh\index.ts | Version: v2.3.3 | Updated: 2026-04-16 16:55
+// src/locales/zh/index.ts v2.3.8
+ | Updated: 2026-04-16 16:55
 import { messages } from './messages';
 import { common } from './common';
 import { onboarding } from './onboarding';
@@ -27,10 +28,7 @@ function deepMerge(target: any, ...sources: any[]): any {
   return deepMerge(target, ...sources);
 }
 
-/**
- * 合并所有翻译资源到顶级对象
- * 使用 deepMerge 解决 messages、panels、settings 之间的同名键冲突（如 hints, config, share 等）
- */
+
 export const translations = deepMerge(
   {},
   messages,

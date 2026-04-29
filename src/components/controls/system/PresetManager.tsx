@@ -1,4 +1,6 @@
 'use client';
+
+// src/components/controls/system/PresetManager.tsx v2.3.8
 import React, { useState, useRef, useEffect } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
 import { VisualizerSettings } from '@/types';

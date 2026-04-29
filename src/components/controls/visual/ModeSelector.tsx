@@ -1,10 +1,8 @@
 'use client';
 
-/**
- * File: app/components/controls/panels/visual/ModeSelector.tsx
- * Version: v1.9.73
- * Author: Sut
- */
+// src/components/controls/visual/ModeSelector.tsx v2.3.8
+
+
 
 import React, { useCallback } from 'react';
 import { VisualizerMode } from '../../../types/index';

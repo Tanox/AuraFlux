@@ -1,3 +1,4 @@
+// src/components/controls/studio/StudioConfig.tsx v2.3.8
 import React from 'react';
 import { CustomSelect } from '@/components/visualizers/ui/controls/CustomSelect';
 import { Slider } from '@/components/visualizers/ui/controls/Slider';

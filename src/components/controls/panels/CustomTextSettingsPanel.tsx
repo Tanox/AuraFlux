@@ -1,8 +1,5 @@
-/**
- * File: app/components/controls/panels/CustomTextSettingsPanel.tsx
- * Version: v1.9.85
- * Author: Sut
- */
+// src/components/controls/panels/CustomTextSettingsPanel.tsx v2.3.8
+
 
 import React from 'react';
 import { TextLayerSetup } from '../text/TextLayerSetup';

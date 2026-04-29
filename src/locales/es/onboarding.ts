@@ -1,3 +1,4 @@
+// src/locales/es/onboarding.ts v2.3.8
 export const onboarding = {
   welcome: "Bienvenido",
   subtitle: "Configuremos tu experiencia Aura Flux",

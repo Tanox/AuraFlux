@@ -1,3 +1,4 @@
+// src/locales/es/common.ts v2.3.8
 export const common = {
   queue: "Cola",
   empty: "Vacío",

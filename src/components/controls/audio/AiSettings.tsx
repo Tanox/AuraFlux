@@ -1,5 +1,7 @@
 'use client';
-// File: src\components\controls\panels\audio\AiSettings.tsx | Version: v2.2.24
+
+// src/components/controls/audio/AiSettings.tsx v2.3.8
+
 
 import React, { useState, useCallback, useMemo } from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';

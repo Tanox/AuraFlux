@@ -1,9 +1,7 @@
 'use client';
-/**
- * File: app/components/visualizers/ui/HelpModal.tsx
- * Version: v1.9.73
- * Author: Sut
- */
+
+// src/components/visualizers/ui/HelpModal.tsx v2.3.8
+
 
 import React, { useState } from 'react';
 import { useUI } from '@/context/AppContext';

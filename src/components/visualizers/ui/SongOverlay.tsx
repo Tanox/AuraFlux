@@ -1,4 +1,4 @@
-// File: src\components\visualizers\ui\SongOverlay.tsx | Version: v2.3.3
+// src/components/visualizers/ui/SongOverlay.tsx v2.3.8
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { SongInfo } from '@/types';

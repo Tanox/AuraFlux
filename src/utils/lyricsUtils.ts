@@ -1,7 +1,5 @@
-/**
- * File: src/utils/lyricsUtils.ts
- * Version: v1.9.76
- */
+// src/utils/lyricsUtils.ts v2.3.8
+
 
 export interface LrcLine {
     time: number;

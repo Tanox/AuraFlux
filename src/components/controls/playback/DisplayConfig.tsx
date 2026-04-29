@@ -1,10 +1,8 @@
 'use client';
 
-/**
- * File: app/components/controls/panels/playback/DisplayConfig.tsx
- * Version: v1.9.73
- * Author: Sut
- */
+// src/components/controls/playback/DisplayConfig.tsx v2.3.8
+
+
 
 import React, { useMemo } from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';

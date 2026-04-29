@@ -1,11 +1,7 @@
-// File: src/components/visualizers/2d/tunnel/TunnelMode.ts | Version: v2.3.3
-
+// src/components/visualizers/2d/tunnel/TunnelMode.ts v2.3.8
 import { TunnelModeProps } from '@/types';
 import { logger } from '@/utils/logger';
 
-/**
- * 渲染TUNNEL模式的可视化效果
- */
 export const renderTunnelMode = (() => {
   // 颜色缓存，避免重复计算
   const colorCache = new Map<number, string>();

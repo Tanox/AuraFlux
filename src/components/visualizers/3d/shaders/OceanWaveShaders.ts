@@ -1,4 +1,5 @@
-// File: src\components\visualizers\3d\shaders\OceanWaveShaders.ts | Version: v2.3.8
+// src/components/visualizers/3d/shaders/OceanWaveShaders.ts v2.3.8
+
 
 export const oceanWaveVertexShader = `
   attribute vec3 aParticlePosition;

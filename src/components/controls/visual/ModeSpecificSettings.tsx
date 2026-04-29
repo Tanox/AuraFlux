@@ -1,5 +1,6 @@
 'use client';
 
+// src/components/controls/visual/ModeSpecificSettings.tsx v2.3.8
 import React from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';
 import { Slider } from '../../visualizers/ui/controls/Slider';

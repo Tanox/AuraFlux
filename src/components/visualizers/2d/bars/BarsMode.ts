@@ -1,11 +1,7 @@
-// File: src/components/visualizers/2d/bars/BarsMode.ts | Version: v2.3.3
-
+// src/components/visualizers/2d/bars/BarsMode.ts v2.3.8
 import { BarsModeProps } from '@/types';
 import { logger } from '@/utils/logger';
 
-/**
- * 渲染BARS模式的可视化效果
- */
 export const renderBarsMode = (() => {
   // 渐变对象缓存
   const gradientCache = new Map<string, CanvasGradient>();

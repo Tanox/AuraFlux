@@ -1,9 +1,7 @@
 'use client';
-/**
- * File: app/components/controls/panels/visual/AiBackground.tsx
- * Version: v1.10.3
- * Author: Sut
- */
+
+// src/components/controls/visual/AiBackground.tsx v2.3.8
+
 
 import React, { useState } from 'react';
 import { BentoCard } from '../../visualizers/ui/layout/BentoCard';

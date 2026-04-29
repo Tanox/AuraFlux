@@ -1,7 +1,5 @@
-/**
- * File: src/components/visualizers/ui/lyrics/SyncedLyrics.tsx
- * Version: v1.9.76
- */
+// src/components/visualizers/ui/lyrics/SyncedLyrics.tsx v2.3.8
+
 
 import React from 'react';
 import { LyricsStyle, VisualizerSettings } from '../../../../types';

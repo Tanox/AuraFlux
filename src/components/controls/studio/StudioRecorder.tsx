@@ -1,3 +1,4 @@
+// src/components/controls/studio/StudioRecorder.tsx v2.3.8
 import React from 'react';
 import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';
 import { ArmedVisualizer } from './ArmedVisualizer';

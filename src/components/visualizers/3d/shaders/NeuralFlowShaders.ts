@@ -1,3 +1,4 @@
+// src/components/visualizers/3d/shaders/NeuralFlowShaders.ts v2.3.8
 export const neuralFlowVertexShader = `
   uniform float uTime; 
   uniform float uBass; 

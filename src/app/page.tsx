@@ -1,5 +1,7 @@
 'use client';
 
+// src/app/page.tsx v2.3.8
+
 import dynamic from 'next/dynamic';
 import { ErrorBoundary } from '@/components/visualizers/ui/ErrorBoundary';
 

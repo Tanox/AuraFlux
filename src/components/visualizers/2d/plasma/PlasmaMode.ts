@@ -1,5 +1,4 @@
-// File: src/components/visualizers/2d/plasma/PlasmaMode.ts | Version: v2.3.4
-
+// src/components/visualizers/2d/plasma/PlasmaMode.ts v2.3.8
 import { PlasmaModeProps } from '@/types';
 import { ParticleManager } from './ParticleManager';
 import { Renderer } from './Renderer';
@@ -10,9 +9,6 @@ import { logger } from '@/utils/logger';
 const particleManager = new ParticleManager('medium');
 const renderer = new Renderer();
 
-/**
- * 渲染PLASMA模式的可视化效果
- */
 export const renderPlasmaMode = ({
   ctx,
   dataArray,

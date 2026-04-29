@@ -1,8 +1,7 @@
-// File: src/components/visualizers/2d/plasma/utils.ts | Version: v2.3.4
+// src/components/visualizers/2d/plasma/utils.ts v2.3.8
 
-/**
- * 娣峰悎涓ょ棰滆壊
- */
+
+
 export function mixColors(color1: string, color2: string, ratio: number): string {
   const parseColor = (color: string) => {
     const hex = color.replace('#', '');

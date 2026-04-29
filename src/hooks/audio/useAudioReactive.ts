@@ -1,4 +1,5 @@
-// File: src\hooks\audio\useAudioReactive.ts | Version: v2.3.3
+// src/hooks/audio/useAudioReactive.ts v2.3.8
+
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color } from 'three';

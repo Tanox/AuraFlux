@@ -1,5 +1,7 @@
 'use client';
-// File: src\components\visualizers\ui\onboarding\OnboardingOverlay.tsx | Version: v2.2.23
+
+// src/components/visualizers/ui/onboarding/OnboardingOverlay.tsx v2.3.8
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Language } from '@/types';

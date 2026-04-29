@@ -1,4 +1,5 @@
-// File: src\app\_not-found.tsx | Version: v2.3.3
+// src/app/_not-found.tsx v2.3.8
+
 
 import React from 'react';
 

@@ -1,11 +1,7 @@
-// File: src/components/visualizers/2d/waveform/WaveformMode.ts | Version: v2.3.3
-
+// src/components/visualizers/2d/waveform/WaveformMode.ts v2.3.8
 import { WaveformModeProps } from '@/types';
 import { logger } from '@/utils/logger';
 
-/**
- * 渲染WAVEFORM模式的可视化效果
- */
 export const renderWaveformMode = (() => {
   // 粒子状态缓存 - 使用闭包避免全局状态污染
   let particles: { x: number; y: number; size: number; speed: number; alpha: number; color: string }[] = [];

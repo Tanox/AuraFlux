@@ -5,14 +5,19 @@
   "homepage": "https://aura.ewuse.com/",
   "license": "Apache-2.0",
   "scripts": {
-    "dev": "next dev --port 3007",
-    "build": "next build",
-    "start": "next start",
+    "dev": "cross-env NEXT_TELEMETRY_DISABLED=1 NEXT_CACHE_DIR=~/.next/cache next dev --port 3007",
+    "build": "cross-env NEXT_TELEMETRY_DISABLED=1 NEXT_CACHE_DIR=~/.next/cache next build",
+    "start": "cross-env NEXT_TELEMETRY_DISABLED=1 next start",
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "generate-icons": "node scripts/generate-icons.js"
+    "generate-icons": "node scripts/generate-icons.js",
+    "clean": "npm run clean:all",
+    "clean:node_modules": "if exist node_modules rmdir /s /q node_modules",
+    "clean:next": "if exist .next rmdir /s /q .next",
+    "clean:cache": "echo Clearing global caches...",
+    "clean:all": "npm run clean:node_modules && npm run clean:next && npm run clean:cache"
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
@@ -48,6 +53,7 @@
     "@types/react-dom": "18.2.17",
     "@types/three": "^0.182.0",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.10",
     "jest": "^30.3.0",

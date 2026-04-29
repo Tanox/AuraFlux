@@ -1,5 +1,7 @@
 'use client';
 
+// src/components/controls/text/TextChromaSettings.tsx v2.3.8
+
 import React, { useMemo, useCallback } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';
 import { BentoCard } from '@/components/visualizers/ui/layout/BentoCard';

@@ -1,3 +1,4 @@
+// src/app/api/gemini/route.ts v2.3.8
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import { logger } from '@/utils/logger';

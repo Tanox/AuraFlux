@@ -1,4 +1,5 @@
-// File: src/hooks/audio/types.ts | Version: v2.3.3
+// src/hooks/audio/types.ts v2.3.8
+
 
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '@/types';
 

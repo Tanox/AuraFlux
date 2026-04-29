@@ -1,8 +1,6 @@
+// src/utils/visualization.ts v2.3.8
 import { Vector2, Vector3 } from 'three';
 
-/**
- * 线性插值
- */
 export const lerp = (start: number, end: number, t: number): number => {
   return start + (end - start) * t;
 };

@@ -1,5 +1,7 @@
 'use client';
-// File: src/hooks/audio/filePlayer.ts | Version: v2.3.0
+
+// src/hooks/audio/filePlayer.ts v2.3.8
+
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Track, SongInfo, PlaybackMode } from '@/types';

@@ -1,10 +1,8 @@
 'use client';
 
-/**
- * File: app/components/controls/panels/visual/CoreVisuals.tsx
- * Version: v1.10.3
- * Author: Sut
- */
+// src/components/controls/visual/CoreVisuals.tsx v2.3.8
+
+
 
 import React from 'react';
 import { COLOR_THEMES } from '../../../constants';

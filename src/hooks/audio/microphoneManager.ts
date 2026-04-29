@@ -1,5 +1,7 @@
 'use client';
-// File: src/hooks/audio/microphoneManager.ts | Version: v2.3.8
+
+// src/hooks/audio/microphoneManager.ts v2.3.8
+
 
 import { useState, useCallback, useEffect } from 'react';
 import { AudioDevice } from '@/types';

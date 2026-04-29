@@ -1,3 +1,4 @@
+// src/locales/zh/common.ts v2.3.8
 export const common = {
   queue: "队列",
   empty: "空",
