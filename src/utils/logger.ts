@@ -1,5 +1,10 @@
-// src/utils/logger.ts v2.3.8
+// src/utils/logger.ts v2.3.9
 
+interface LogEntry {
+  level: LogLevel;
+  timestamp: Date;
+  args: any[];
+}
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -10,44 +15,60 @@ const LOG_LEVELS: Record<LogLevel, number> = {
   error: 3,
 };
 
-// 根据环境设置最低日志级别
-const MIN_LOG_LEVEL: LogLevel = process.env.NODE_ENV === 'production' ? 'warn' : 'debug';
-
-// 最大日志数量限制
-const MAX_LOGS = 5;
+const ENV = process.env.NODE_ENV || 'development';
+const MIN_LOG_LEVEL: LogLevel = ENV === 'production' ? 'warn' : 'debug';
+const MAX_LOG_ENTRIES = ENV === 'production' ? 100 : 500;
+const LOG_TO_CONSOLE = ENV !== 'production' || process.env.ENABLE_LOGGING === 'true';
 
 class Logger {
   private minLevel: number;
+  private logEntries: LogEntry[] = [];
   private logCount: number = 0;
+  private maxEntries: number;
+  private logToConsole: boolean;
 
   constructor() {
     this.minLevel = LOG_LEVELS[MIN_LOG_LEVEL];
+    this.maxEntries = MAX_LOG_ENTRIES;
+    this.logToConsole = LOG_TO_CONSOLE;
+  }
+
+  private getTimestamp(): string {
+    const now = new Date();
+    return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`;
   }
 
   private log(level: LogLevel, ...args: any[]): void {
-    if (this.logCount >= MAX_LOGS) {
-      if (this.logCount === MAX_LOGS) {
-        console.warn('[WARN] 日志数量已达到上限，将停止记录');
-        this.logCount++;
-      }
-      return;
-    }
+    const entry: LogEntry = {
+      level,
+      timestamp: new Date(),
+      args,
+    };
 
+    this.logEntries.push(entry);
+    if (this.logEntries.length > this.maxEntries) {
+      this.logEntries.shift();
+    }
     this.logCount++;
-    
-    switch (level) {
-      case 'debug':
-        console.log('[DEBUG]', ...args);
-        break;
-      case 'info':
-        console.log('[INFO]', ...args);
-        break;
-      case 'warn':
-        console.warn('[WARN]', ...args);
-        break;
-      case 'error':
-        console.error('[ERROR]', ...args);
-        break;
+
+    if (this.logToConsole) {
+      const timestamp = this.getTimestamp();
+      const prefix = `[${timestamp}] [${level.toUpperCase()}]`;
+      
+      switch (level) {
+        case 'debug':
+          console.log(prefix, ...args);
+          break;
+        case 'info':
+          console.info(prefix, ...args);
+          break;
+        case 'warn':
+          console.warn(prefix, ...args);
+          break;
+        case 'error':
+          console.error(prefix, ...args);
+          break;
+      }
     }
   }
 
@@ -75,27 +96,33 @@ class Logger {
     }
   }
 
-  // 分组日志
   group(label: string): void {
-    if (LOG_LEVELS.debug >= this.minLevel) {
+    if (this.logToConsole && LOG_LEVELS.debug >= this.minLevel) {
       console.group(label);
     }
   }
 
   groupEnd(): void {
-    if (LOG_LEVELS.debug >= this.minLevel) {
+    if (this.logToConsole && LOG_LEVELS.debug >= this.minLevel) {
       console.groupEnd();
     }
   }
 
-  // 重置日志计数
   resetLogCount(): void {
     this.logCount = 0;
+    this.logEntries = [];
   }
 
-  // 获取当前日志计数
   getLogCount(): number {
     return this.logCount;
+  }
+
+  getLogEntries(): LogEntry[] {
+    return [...this.logEntries];
+  }
+
+  getLogEntriesByLevel(level: LogLevel): LogEntry[] {
+    return this.logEntries.filter(entry => entry.level === level);
   }
 }
 

@@ -1,4 +1,4 @@
-// src/app/layout.tsx v2.3.8
+// src/app/layout.tsx v2.3.9
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";
@@ -44,7 +44,7 @@ const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aura.ewuse.com/"),
-  title: "Aura Flux v2.3.8",
+  title: "Aura Flux v2.3.9",
   description: "Experience Aura Flux: A next-gen 3D music visualizer powered by Google Gemini AI. Transform microphone input into real-time, audio-reactive WebGL art.",
   keywords: ["music visualizer", "audio visualizer", "AI music recognition", "Google Gemini", "WebGL", "Three.js", "React 19", "generative art", "synesthesia"],
   authors: [{ name: "Sut" }],
