@@ -1,15 +1,17 @@
 'use client';
 
-// src/hooks/audio/microphoneManager.ts v2.3.8
-
+// src/hooks/audio/microphoneManager.ts v2.3.9
 
 import { useState, useCallback, useEffect } from 'react';
 import { AudioDevice } from '@/types';
 import { logger } from '@/utils/logger';
 import { DeviceService } from '@/services/deviceService';
 
+type ToastType = 'success' | 'info' | 'error' | 'warning';
+const FFT_SIZE = 2048;
+
 interface MicrophoneManagerProps {
-  showToast: (m: string, type?: any) => void;
+  showToast: (m: string, type?: ToastType) => void;
 }
 
 interface MicrophoneManagerReturn {
@@ -36,8 +38,9 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
       try {
         const devices = await DeviceService.enumerateDevices();
         setAudioDevices(devices);
-      } catch (err: any) {
-        logger.warn('Error getting devices:', err?.message || err);
+      } catch (err) {
+        const error = err as Error;
+        logger.warn('Error getting devices:', error?.message || err);
       }
     };
     loadDevices();
@@ -49,12 +52,40 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
     return unsubscribe;
   }, []);
 
+  const createAudioContext = (): AudioContext => {
+    const AudioContextCtor = window.AudioContext || (window as { webkitAudioContext?: new () => AudioContext }).webkitAudioContext;
+    if (!AudioContextCtor) {
+      throw new Error('Web Audio API not supported');
+    }
+    return new AudioContextCtor();
+  };
+
   const toggleMicrophone = useCallback(async (deviceId: string) => {
     try {
       if (isListening) {
-        mediaStream?.getTracks().forEach(t => t.stop());
+        if (mediaStream) {
+          mediaStream.getTracks().forEach(t => {
+            try {
+              t.stop();
+            } catch (e) {
+              logger.warn('Error stopping track:', e);
+            }
+          });
+        }
+        
+        if (audioContext) {
+          try {
+            if (analyser) analyser.disconnect();
+            await audioContext.close();
+          } catch (e) {
+            logger.warn('Error closing audio context:', e);
+          }
+        }
+        
         setIsListening(false);
         setMediaStream(null);
+        setAnalyser(null);
+        setAudioContext(null);
         return;
       }
 
@@ -64,10 +95,10 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
         return;
       }
 
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const ctx = createAudioContext();
       const source = ctx.createMediaStreamSource(stream);
       const ana = ctx.createAnalyser();
-      ana.fftSize = 2048;
+      ana.fftSize = FFT_SIZE;
       source.connect(ana);
 
       setAnalyser(ana);
@@ -75,11 +106,12 @@ export function useMicrophoneManager({ showToast }: MicrophoneManagerProps): Mic
       setIsListening(true);
       setSelectedDeviceId(deviceId);
       setAudioContext(ctx);
-    } catch (err: any) {
-      logger.warn('Microphone access skipped or denied:', err?.message || err);
+    } catch (err) {
+      const error = err as Error;
+      logger.warn('Microphone access skipped or denied:', error?.message || err);
       showToast('Microphone access denied. Running in silent mode.', 'error');
     }
-  }, [isListening, mediaStream, showToast]);
+  }, [isListening, mediaStream, showToast, audioContext, analyser]);
 
   const onDeviceChange = useCallback((id: string) => {
     DeviceService.selectDevice(id);

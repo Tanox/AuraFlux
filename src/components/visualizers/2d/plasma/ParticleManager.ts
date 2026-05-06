@@ -1,30 +1,37 @@
-// src/components/visualizers/2d/plasma/ParticleManager.ts v2.3.8
-
+// src/components/visualizers/2d/plasma/ParticleManager.ts v2.3.9
 
 import { ParticleState, FusionEffect, ParticleParams } from './types.ts';
 import { ObjectPool } from './objectPool';
 import { mixColors } from './utils';
+
+const PARTICLE_PARAMS: ParticleParams[] = [
+  { speed: 0.3, noise: 0.05, offset: 0 },
+  { speed: 0.25, noise: 0.07, offset: 1 },
+  { speed: 0.35, noise: 0.04, offset: 2 },
+  { speed: 0.28, noise: 0.06, offset: 3 },
+  { speed: 0.32, noise: 0.05, offset: 4 },
+  { speed: 0.27, noise: 0.06, offset: 5 },
+  { speed: 0.31, noise: 0.04, offset: 6 },
+  { speed: 0.29, noise: 0.05, offset: 7 },
+  { speed: 0.33, noise: 0.04, offset: 8 },
+  { speed: 0.26, noise: 0.07, offset: 9 },
+  { speed: 0.34, noise: 0.03, offset: 10 },
+  { speed: 0.28, noise: 0.06, offset: 11 }
+];
+
+const MAX_PARTICLES = {
+  low: 30,
+  medium: 60,
+  high: 80
+};
+
+const GRID_SIZE = 100;
 
 export class ParticleManager {
   private particleStates: ParticleState[] = [];
   private fusionEffects: FusionEffect[] = [];
   private particlePool: ObjectPool<ParticleState>;
   private fusionEffectPool: ObjectPool<FusionEffect>;
-  private particleParams: ParticleParams[] = [
-    { speed: 0.3, noise: 0.05, offset: 0 },
-    { speed: 0.25, noise: 0.07, offset: 1 },
-    { speed: 0.35, noise: 0.04, offset: 2 },
-    { speed: 0.28, noise: 0.06, offset: 3 },
-    { speed: 0.32, noise: 0.05, offset: 4 },
-    { speed: 0.27, noise: 0.06, offset: 5 },
-    { speed: 0.31, noise: 0.04, offset: 6 },
-    { speed: 0.29, noise: 0.05, offset: 7 },
-    { speed: 0.33, noise: 0.04, offset: 8 },
-    { speed: 0.26, noise: 0.07, offset: 9 },
-    { speed: 0.34, noise: 0.03, offset: 10 },
-    { speed: 0.28, noise: 0.06, offset: 11 }
-  ];
-
   private performanceMode: 'low' | 'medium' | 'high' = 'medium';
 
   constructor(performanceMode: 'low' | 'medium' | 'high' = 'medium') {
@@ -55,20 +62,21 @@ export class ParticleManager {
     }));
   }
 
-  
   setPerformanceMode(mode: 'low' | 'medium' | 'high'): void {
     this.performanceMode = mode;
   }
 
-  /**
-   * 调整粒子数量
-   */
+  private calculateAverage(dataArray: Uint8Array, sensitivity: number): number {
+    let sum = 0;
+    const length = dataArray.length;
+    for (let i = 0; i < length; i++) {
+      sum += dataArray[i];
+    }
+    return (sum / length / 255) * sensitivity;
+  }
+
   adjustParticleCount(average: number, centerX: number, centerY: number): void {
-    const maxParticles = {
-      low: 30,
-      medium: 60,
-      high: 80
-    }[this.performanceMode];
+    const maxParticles = MAX_PARTICLES[this.performanceMode];
     
     let targetParticleCount: number;
     if (average < 0.1) {
@@ -83,10 +91,15 @@ export class ParticleManager {
       targetParticleCount = maxParticles;
     }
 
-    if (this.particleStates.length < targetParticleCount) {
-      const particlesToAdd = targetParticleCount - this.particleStates.length;
+    const currentCount = this.particleStates.length;
+    
+    if (currentCount < targetParticleCount) {
+      const particlesToAdd = targetParticleCount - currentCount;
+      const states = this.particleStates;
+      const pool = this.particlePool;
+      
       for (let i = 0; i < particlesToAdd; i++) {
-        const newParticle = this.particlePool.get();
+        const newParticle = pool.get();
         newParticle.x = centerX + (Math.random() - 0.5) * 50;
         newParticle.y = centerY + (Math.random() - 0.5) * 50;
         newParticle.z = (Math.random() - 0.5) * 200;
@@ -99,45 +112,46 @@ export class ParticleManager {
         newParticle.rotationSpeed = (Math.random() - 0.5) * 0.1;
         newParticle.splitTimer = 0;
         newParticle.isSplitting = false;
-        this.particleStates.push(newParticle);
+        states.push(newParticle);
       }
-    } else if (this.particleStates.length > targetParticleCount) {
-      const particlesToRemove = this.particleStates.length - targetParticleCount;
+    } else if (currentCount > targetParticleCount) {
+      const particlesToRemove = currentCount - targetParticleCount;
+      const states = this.particleStates;
+      const pool = this.particlePool;
+      
       for (let i = 0; i < particlesToRemove; i++) {
-        const removedParticle = this.particleStates.shift();
+        const removedParticle = states.shift();
         if (removedParticle) {
-          this.particlePool.release(removedParticle);
+          pool.release(removedParticle);
         }
       }
     }
   }
 
-  /**
-   * 检测粒子融合
-   */
   detectFusion(colors: string[]): void {
-    // 使用空间分区优化碰撞检测
-    const gridSize = 100; // 网格大小
     const grid: Map<string, number[]> = new Map();
+    const states = this.particleStates;
+    const fusionEffects = this.fusionEffects;
+    const fusionPool = this.fusionEffectPool;
+    const colorCount = colors.length;
     
-    // 将粒子分配到网格
-    for (let i = 0; i < this.particleStates.length; i++) {
-      const p = this.particleStates[i];
-      const key = `${Math.floor(p.x / gridSize)}-${Math.floor(p.y / gridSize)}-${Math.floor(p.z / gridSize)}`;
-      if (!grid.has(key)) {
-        grid.set(key, []);
+    for (let i = 0; i < states.length; i++) {
+      const p = states[i];
+      const key = `${Math.floor(p.x / GRID_SIZE)}-${Math.floor(p.y / GRID_SIZE)}-${Math.floor(p.z / GRID_SIZE)}`;
+      const existing = grid.get(key);
+      if (existing) {
+        existing.push(i);
+      } else {
+        grid.set(key, [i]);
       }
-      grid.get(key)!.push(i);
     }
     
-    // 检查每个网格及其相邻网格
-    for (let i = 0; i < this.particleStates.length; i++) {
-      const p1 = this.particleStates[i];
-      const gridX = Math.floor(p1.x / gridSize);
-      const gridY = Math.floor(p1.y / gridSize);
-      const gridZ = Math.floor(p1.z / gridSize);
+    for (let i = 0; i < states.length; i++) {
+      const p1 = states[i];
+      const gridX = Math.floor(p1.x / GRID_SIZE);
+      const gridY = Math.floor(p1.y / GRID_SIZE);
+      const gridZ = Math.floor(p1.z / GRID_SIZE);
       
-      // 检查当前网格和相邻网格
       for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
           for (let dz = -1; dz <= 1; dz++) {
@@ -145,40 +159,47 @@ export class ParticleManager {
             const particlesInGrid = grid.get(key);
             if (particlesInGrid) {
               for (const j of particlesInGrid) {
-                if (j > i) { // 避免重复检查
-                  const p2 = this.particleStates[j];
-                  const distance = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2) + Math.pow(p1.z - p2.z, 2));
+                if (j <= i) continue;
+                
+                const p2 = states[j];
+                const dx_ = p1.x - p2.x;
+                const dy_ = p1.y - p2.y;
+                const dz_ = p1.z - p2.z;
+                const distance = Math.sqrt(dx_ * dx_ + dy_ * dy_ + dz_ * dz_);
+                
+                if (distance < p1.radius + p2.radius) {
+                  const fusionX = (p1.x + p2.x) * 0.5;
+                  const fusionY = (p1.y + p2.y) * 0.5;
+                  const fusionZ = (p1.z + p2.z) * 0.5;
+                  const fusionSize = Math.sqrt(p1.radius * p1.radius + p2.radius * p2.radius);
                   
-                  if (distance < p1.radius + p2.radius) {
-                    const fusionX = (p1.x + p2.x) / 2;
-                    const fusionY = (p1.y + p2.y) / 2;
-                    const fusionZ = (p1.z + p2.z) / 2;
-                    const fusionSize = Math.sqrt(p1.radius * p1.radius + p2.radius * p2.radius);
-                    
-                    const color1 = colors[i % colors.length];
-                    const color2 = colors[j % colors.length];
-                    const mixedColor = mixColors(color1, color2, 0.5);
-                    
-                    const fusionEffect = this.fusionEffectPool.get();
-                    fusionEffect.x = fusionX;
-                    fusionEffect.y = fusionY;
-                    fusionEffect.z = fusionZ;
-                    fusionEffect.size = fusionSize;
-                    fusionEffect.alpha = 1;
-                    fusionEffect.color = mixedColor;
-                    this.fusionEffects.push(fusionEffect);
-                    
-                    const angleX = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-                    const angleY = Math.atan2(p2.z - p1.z, Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)));
-                    const separationDistance = (p1.radius + p2.radius) * 1.2;
-                    
-                    p1.targetX = fusionX - Math.cos(angleX) * Math.cos(angleY) * separationDistance;
-                    p1.targetY = fusionY - Math.sin(angleX) * Math.cos(angleY) * separationDistance;
-                    p1.targetZ = fusionZ - Math.sin(angleY) * separationDistance;
-                    p2.targetX = fusionX + Math.cos(angleX) * Math.cos(angleY) * separationDistance;
-                    p2.targetY = fusionY + Math.sin(angleX) * Math.cos(angleY) * separationDistance;
-                    p2.targetZ = fusionZ + Math.sin(angleY) * separationDistance;
-                  }
+                  const mixedColor = mixColors(colors[i % colorCount], colors[j % colorCount], 0.5);
+                  
+                  const fusionEffect = fusionPool.get();
+                  fusionEffect.x = fusionX;
+                  fusionEffect.y = fusionY;
+                  fusionEffect.z = fusionZ;
+                  fusionEffect.size = fusionSize;
+                  fusionEffect.alpha = 1;
+                  fusionEffect.color = mixedColor;
+                  fusionEffects.push(fusionEffect);
+                  
+                  const angleX = Math.atan2(p2.y - p1.y, p2.x - p1.x);
+                  const dist = Math.sqrt(dx_ * dx_ + dy_ * dy_);
+                  const angleY = dist > 0 ? Math.atan2(p2.z - p1.z, dist) : 0;
+                  const separationDistance = (p1.radius + p2.radius) * 1.2;
+                  
+                  const cosAngleX = Math.cos(angleX);
+                  const sinAngleX = Math.sin(angleX);
+                  const cosAngleY = Math.cos(angleY);
+                  const sinAngleY = Math.sin(angleY);
+                  
+                  p1.targetX = fusionX - cosAngleX * cosAngleY * separationDistance;
+                  p1.targetY = fusionY - sinAngleX * cosAngleY * separationDistance;
+                  p1.targetZ = fusionZ - sinAngleY * separationDistance;
+                  p2.targetX = fusionX + cosAngleX * cosAngleY * separationDistance;
+                  p2.targetY = fusionY + sinAngleX * cosAngleY * separationDistance;
+                  p2.targetZ = fusionZ + sinAngleY * separationDistance;
                 }
               }
             }
@@ -188,148 +209,127 @@ export class ParticleManager {
     }
   }
 
-  /**
-   * 更新粒子状态
-   */
   updateParticles(dataArray: Uint8Array, width: number, height: number, sensitivity: number, time: number): void {
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const average = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length / 255 * sensitivity;
+    const centerX = width * 0.5;
+    const centerY = height * 0.5;
+    const average = this.calculateAverage(dataArray, sensitivity);
     
-    for (let i = 0; i < this.particleStates.length; i++) {
-      const dataIndex = Math.floor((i / this.particleStates.length) * dataArray.length);
+    const states = this.particleStates;
+    const params = PARTICLE_PARAMS;
+    const paramsLength = params.length;
+    const dataLength = dataArray.length;
+    const maxParticles = MAX_PARTICLES[this.performanceMode];
+    const pool = this.particlePool;
+    const minDimension = Math.min(width, height) * 0.3;
+    
+    for (let i = 0; i < states.length; i++) {
+      const dataIndex = Math.floor((i / states.length) * dataLength);
       const val = dataArray[dataIndex] / 255;
-      const params = this.particleParams[i % this.particleParams.length];
+      const param = params[i % paramsLength];
+      const particle = states[i];
       
-      // 更复杂的噪声运动
-      const noiseX = Math.sin(time * params.speed + params.offset) * Math.cos(time * 0.1 + params.offset) + Math.sin(time * 0.05 + params.offset) * 0.5;
-      const noiseY = Math.cos(time * params.speed + params.offset) * Math.sin(time * 0.15 + params.offset) + Math.cos(time * 0.08 + params.offset) * 0.5;
-      const noiseZ = Math.sin(time * params.speed * 0.8 + params.offset) * Math.cos(time * 0.2 + params.offset) + Math.sin(time * 0.1 + params.offset) * 0.3;
+      const noiseX = Math.sin(time * param.speed + param.offset) * Math.cos(time * 0.1 + param.offset) + Math.sin(time * 0.05 + param.offset) * 0.5;
+      const noiseY = Math.cos(time * param.speed + param.offset) * Math.sin(time * 0.15 + param.offset) + Math.cos(time * 0.08 + param.offset) * 0.5;
+      const noiseZ = Math.sin(time * param.speed * 0.8 + param.offset) * Math.cos(time * 0.2 + param.offset) + Math.sin(time * 0.1 + param.offset) * 0.3;
       
-      // 基于中心的运动
-      const angle = time * params.speed + i * 0.5;
-      const distance = (0.3 + val * 0.7) * Math.min(width, height) * 0.3;
+      const angle = time * param.speed + i * 0.5;
+      const distance = (0.3 + val * 0.7) * minDimension;
       const baseX = centerX + Math.cos(angle) * distance;
       const baseY = centerY + Math.sin(angle) * distance;
       const baseZ = noiseZ * 150;
       
-      // 音频响应偏移
-      const audioOffsetX = (val * 2 - 1) * 150 * average;
-      const audioOffsetY = (val * 2 - 1) * 150 * average;
-      const audioOffsetZ = (val * 2 - 1) * 100 * average;
+      const audioFactor = (val * 2 - 1) * average;
+      const audioOffsetX = audioFactor * 150;
+      const audioOffsetY = audioFactor * 150;
+      const audioOffsetZ = audioFactor * 100;
       
-      // 随机偏移
-      const randomOffsetX = (Math.random() * 2 - 1) * 40 * val;
-      const randomOffsetY = (Math.random() * 2 - 1) * 40 * val;
+      const randomFactor = val * 40;
+      const randomOffsetX = (Math.random() * 2 - 1) * randomFactor;
+      const randomOffsetY = (Math.random() * 2 - 1) * randomFactor;
       const randomOffsetZ = (Math.random() * 2 - 1) * 30 * val;
       
-      // 目标位置
-      this.particleStates[i].targetX = baseX + noiseX * 70 + audioOffsetX + randomOffsetX;
-      this.particleStates[i].targetY = baseY + noiseY * 70 + audioOffsetY + randomOffsetY;
-      this.particleStates[i].targetZ = baseZ + noiseZ * 50 + audioOffsetZ + randomOffsetZ;
+      particle.targetX = baseX + noiseX * 70 + audioOffsetX + randomOffsetX;
+      particle.targetY = baseY + noiseY * 70 + audioOffsetY + randomOffsetY;
+      particle.targetZ = baseZ + noiseZ * 50 + audioOffsetZ + randomOffsetZ;
+      particle.targetRadius = 15 + val * 120 * sensitivity;
       
-      // 基于音频能量的半径
-      this.particleStates[i].targetRadius = 15 + val * 120 * sensitivity;
-      
-      // 动态缓动
       const easing = 0.08 + average * 0.05;
-      this.particleStates[i].x += (this.particleStates[i].targetX - this.particleStates[i].x) * easing;
-      this.particleStates[i].y += (this.particleStates[i].targetY - this.particleStates[i].y) * easing;
-      this.particleStates[i].z += (this.particleStates[i].targetZ - this.particleStates[i].z) * easing;
-      this.particleStates[i].radius += (this.particleStates[i].targetRadius - this.particleStates[i].radius) * easing;
+      particle.x += (particle.targetX - particle.x) * easing;
+      particle.y += (particle.targetY - particle.y) * easing;
+      particle.z += (particle.targetZ - particle.z) * easing;
+      particle.radius += (particle.targetRadius - particle.radius) * easing;
       
-      // 旋转速度随音频变化
-      this.particleStates[i].rotationSpeed = (Math.random() - 0.5) * 0.1 * (1 + average);
-      this.particleStates[i].rotation += this.particleStates[i].rotationSpeed;
+      particle.rotationSpeed = (Math.random() - 0.5) * 0.1 * (1 + average);
+      particle.rotation += particle.rotationSpeed;
       
-      // 粒子分裂逻辑
-      const maxParticles = {
-        low: 30,
-        medium: 60,
-        high: 80
-      }[this.performanceMode];
-      
-      this.particleStates[i].splitTimer += 0.01 * (1 + average);
-      if (this.particleStates[i].splitTimer > 4 && this.particleStates[i].radius > 35 && this.particleStates.length < maxParticles) {
-        this.particleStates[i].isSplitting = true;
-        this.particleStates[i].splitTimer = 0;
+      particle.splitTimer += 0.01 * (1 + average);
+      if (particle.splitTimer > 4 && particle.radius > 35 && states.length < maxParticles) {
+        particle.isSplitting = true;
+        particle.splitTimer = 0;
         
-        const newParticle = this.particlePool.get();
-        newParticle.x = this.particleStates[i].x;
-        newParticle.y = this.particleStates[i].y;
-        newParticle.z = this.particleStates[i].z;
-        newParticle.radius = this.particleStates[i].radius / 2;
-        newParticle.targetX = this.particleStates[i].x + (Math.random() - 0.5) * 120;
-        newParticle.targetY = this.particleStates[i].y + (Math.random() - 0.5) * 120;
-        newParticle.targetZ = this.particleStates[i].z + (Math.random() - 0.5) * 100;
+        const newParticle = pool.get();
+        newParticle.x = particle.x;
+        newParticle.y = particle.y;
+        newParticle.z = particle.z;
+        newParticle.radius = particle.radius * 0.5;
+        newParticle.targetX = particle.x + (Math.random() - 0.5) * 120;
+        newParticle.targetY = particle.y + (Math.random() - 0.5) * 120;
+        newParticle.targetZ = particle.z + (Math.random() - 0.5) * 100;
         newParticle.targetRadius = 15 + Math.random() * 35;
         newParticle.rotation = 0;
         newParticle.rotationSpeed = (Math.random() - 0.5) * 0.1;
         newParticle.splitTimer = 0;
         newParticle.isSplitting = false;
         
-        this.particleStates.push(newParticle);
-        this.particleStates[i].radius /= 2;
+        states.push(newParticle);
+        particle.radius *= 0.5;
       }
     }
   }
 
-  /**
-   * 更新融合效果
-   */
   updateFusionEffects(): void {
-    const activeFusionEffects: FusionEffect[] = [];
-    for (const effect of this.fusionEffects) {
+    const activeEffects: FusionEffect[] = [];
+    const effects = this.fusionEffects;
+    const pool = this.fusionEffectPool;
+    
+    for (let i = 0; i < effects.length; i++) {
+      const effect = effects[i];
       effect.alpha -= 0.02;
       effect.size += 0.5;
       if (effect.alpha > 0) {
-        activeFusionEffects.push(effect);
+        activeEffects.push(effect);
       } else {
-        this.fusionEffectPool.release(effect);
+        pool.release(effect);
       }
     }
-    this.fusionEffects = activeFusionEffects;
+    this.fusionEffects = activeEffects;
   }
 
-  /**
-   * 限制粒子数量
-   */
   limitParticleCount(): void {
-    const maxParticles = {
-      low: 30,
-      medium: 60,
-      high: 80
-    }[this.performanceMode];
+    const maxParticles = MAX_PARTICLES[this.performanceMode];
+    const states = this.particleStates;
+    const pool = this.particlePool;
     
-    if (this.particleStates.length > maxParticles) {
-      const excessParticles = this.particleStates.length - maxParticles;
-      for (let i = 0; i < excessParticles; i++) {
-        const removedParticle = this.particleStates.pop();
-        if (removedParticle) {
-          this.particlePool.release(removedParticle);
+    if (states.length > maxParticles) {
+      const excess = states.length - maxParticles;
+      for (let i = 0; i < excess; i++) {
+        const removed = states.pop();
+        if (removed) {
+          pool.release(removed);
         }
       }
     }
   }
 
-  /**
-   * 深度排序
-   */
   sortByDepth(): void {
     this.particleStates.sort((a, b) => b.z - a.z);
     this.fusionEffects.sort((a, b) => b.z - a.z);
   }
 
-  /**
-   * 获取粒子状态
-   */
   getParticles(): ParticleState[] {
     return this.particleStates;
   }
 
-  /**
-   * 获取融合效果
-   */
   getFusionEffects(): FusionEffect[] {
     return this.fusionEffects;
   }

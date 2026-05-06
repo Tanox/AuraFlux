@@ -2,6 +2,14 @@
 
 All notable changes to the **Aura Flux** project will be documented in this file.
 
+## [v2.3.9]
+### ✨ Performance Improvements & Bug Fixes
+- **Logger Enhancement**: Fixed the restrictive MAX_LOGS limit (5 → 100/500), added timestamp prefixes, and implemented configurable console output
+- **Audio Analyzer Optimization**: Replaced reduce operations with for loops, added frame skipping support, and implemented adaptive beat detection
+- **Performance Monitor Enhancement**: Added frame time tracking, min/max FPS statistics, and performance warning callback support
+- **Plasma Particle System Optimization**: Improved collision detection efficiency and reduced property lookups
+- **Version Synchronization**: Updated all project files to version v2.3.9
+
 ## [v2.3.5]
 ### ✨ Version Update & Documentation Synchronization
 - **Version Synchronization**: Updated all project files to version v2.3.5

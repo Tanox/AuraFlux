@@ -1,5 +1,4 @@
-// src/types/index.ts v2.3.8
-
+// src/types/index.ts v2.3.9
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
@@ -36,7 +35,7 @@ export interface VisualizerDefinition {
   nameKey: string;
   description: string;
   is3D: boolean;
-  component?: React.ComponentType<any>;
+  component?: React.ComponentType<SceneProps>;
   render2D?: (props: Base2DVisualizerProps) => void;
 }
 
@@ -58,22 +57,32 @@ export type Region = 'US' | 'CN' | 'EU' | 'OTHER';
 
 export type PerformanceMode = 'low' | 'medium' | 'high';
 
+export type AppTheme = 'light' | 'dark';
+export type RecognitionProvider = 'GEMINI' | 'MOCK';
+export type QualityLevel = 'low' | 'medium' | 'high';
+
 export interface VisualizerSettings {
   sensitivity: number;
   autoHideUi: boolean;
   showSongInfo: boolean;
   showAlbumArtOverlay: boolean;
   showFps: boolean;
-  appTheme: 'light' | 'dark';
+  appTheme: AppTheme;
   wakeLock: boolean;
   doubleClickFullscreen: boolean;
-  recognitionProvider: 'GEMINI' | 'MOCK';
+  recognitionProvider: RecognitionProvider;
   performanceMode: PerformanceMode;
-  quality: 'low' | 'medium' | 'high';
+  quality: QualityLevel;
   trails: boolean;
   glow: boolean;
   speed: number;
-  [key: string]: any;
+  cycleColors?: boolean;
+  colorInterval?: number;
+  textOverlay?: string;
+  textColor?: string;
+  textSize?: number;
+  textPosition?: Position;
+  [key: string]: unknown;
 }
 
 export interface BarsModeProps {
@@ -113,6 +122,14 @@ export interface PlasmaModeProps {
   settings: VisualizerSettings;
 }
 
+export interface Star {
+  x: number;
+  y: number;
+  z: number;
+  speed: number;
+  size: number;
+}
+
 export interface StarfieldModeProps {
   ctx: CanvasRenderingContext2D;
   dataArray: Uint8Array;
@@ -120,7 +137,7 @@ export interface StarfieldModeProps {
   height: number;
   colors: string[];
   settings: VisualizerSettings;
-  stars: any[];
+  stars: Star[];
 }
 
 export interface FishSwarmModeProps {
@@ -150,7 +167,7 @@ export interface SongInfo {
   album?: string;
   artwork?: string;
   lyrics?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface SmartPreset {
@@ -182,4 +199,16 @@ export enum PlaybackMode {
 }
 
 export type Position = 'top' | 'center' | 'bottom';
+
+export interface VisualConfig {
+  mode: VisualizerMode;
+  colors: string[];
+  sensitivity: number;
+}
+
+export interface SongIdentification {
+  title: string;
+  artist: string;
+  album?: string;
+}
 
