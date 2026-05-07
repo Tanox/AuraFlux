@@ -1,4 +1,4 @@
-// src/utils/lyricsUtils.ts v2.3.8
+// src/utils/lyricsUtils.ts v2.3.10
 
 
 export interface LrcLine {

@@ -1,4 +1,4 @@
-// src/utils/tests/visualization.test.ts v2.3.8
+// src/utils/tests/visualization.test.ts v2.3.10
 import {
   lerp,
   normalize,

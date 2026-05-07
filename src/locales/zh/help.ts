@@ -1,4 +1,4 @@
-// src/locales/zh/help.ts v2.3.8
+// src/locales/zh/help.ts v2.3.10
 export const helpModal = {
   title: "帮助中心",
   tabs: {

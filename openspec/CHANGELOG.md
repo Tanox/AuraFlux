@@ -1,6 +1,17 @@
-# Changelog
+# Changelog v2.3.10
 
 All notable changes to the **Aura Flux** project will be documented in this file.
+
+## [v2.3.10]
+### 🐛 TypeScript Type Fixes & API Updates
+- **Type Safety**: Fixed all TypeScript 'unknown' and '{}' type issues across UI components
+- **Gemini API**: Updated @google/genai to v1.40.0 API (models.generateContent)
+- **Google GenAI**: Fixed getGenerativeModel property not found errors
+- **VisualizerSettings**: Added lyricsFont, lyricsStyle, lyricsFontSize properties
+- **Audio Pulse**: Fixed Uint8Array type compatibility issues
+- **File Player**: Fixed prevIndex variable usage before assignment
+- **OpenSpec Sync**: Updated all documentation to v2.3.10
+- **ESLint**: Migrated to flat config (eslint.config.js) for ESLint v9.0
 
 ## [v2.3.9]
 ### ✨ Performance Improvements & Bug Fixes

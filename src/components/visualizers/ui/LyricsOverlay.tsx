@@ -33,7 +33,7 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
   const rawText = hasFullLyrics ? song?.lyrics : song?.lyricsSnippet;
 
   const lrcLines = useMemo(() => {
-      if (hasFullLyrics && rawText && rawText.includes('[')) return parseLrc(rawText);
+      if (hasFullLyrics && rawText && (rawText as string).includes('[')) return parseLrc(rawText as string);
       return [];
   }, [hasFullLyrics, rawText]);
 
@@ -91,7 +91,7 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
   } else {
       content = (
           <StaticLyrics 
-            rawText={rawText || ""}
+            rawText={(rawText as string) || ""}
             hasFullLyrics={hasFullLyrics}
             lyricsStyle={lyricsStyle}
             settings={settings}
@@ -102,7 +102,7 @@ const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyric
 
   const containerClass = isSynced 
       ? `fixed inset-0 z-[15] flex flex-col items-center justify-center pointer-events-none`
-      : `pointer-events-none fixed inset-0 z-[15] flex flex-col px-6 pt-24 pb-48 md:pb-32 pb-safe ${getPositionClasses(settings.lyricsPosition)}`;
+      : `pointer-events-none fixed inset-0 z-[15] flex flex-col px-6 pt-24 pb-48 md:pb-32 pb-safe ${getPositionClasses(settings.lyricsPosition as string)}`;
 
   return (
     <div id="lyrics-overlay-container" className={containerClass}>

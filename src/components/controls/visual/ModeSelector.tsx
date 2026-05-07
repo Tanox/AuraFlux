@@ -21,7 +21,7 @@ export const ModeSelector: React.FC = () => {
   };
 
   const toggleIncludeMode = (m: VisualizerMode) => {
-      const current = settings.includedModes || Object.values(VisualizerMode);
+      const current = (settings.includedModes as VisualizerMode[]) || Object.values(VisualizerMode);
       if (current.includes(m)) {
           if (current.length > 1) {
               handleVisualSettingChange('includedModes', current.filter((x: VisualizerMode) => x !== m));
@@ -33,7 +33,7 @@ export const ModeSelector: React.FC = () => {
 
   const toggleAllModes = useCallback(() => {
       const all = Object.values(VisualizerMode);
-      const current = settings.includedModes || [];
+      const current = (settings.includedModes as VisualizerMode[]) || [];
       if (current.length === all.length) {
           setSettings(prev => ({ ...prev, includedModes: [currentMode] }));
       } else {
@@ -49,14 +49,14 @@ export const ModeSelector: React.FC = () => {
         action={
             <div className="flex items-center gap-3">
                 <button onClick={toggleAllModes} className="text-[9px] font-black uppercase text-blue-500 hover:text-blue-400 tracking-widest px-2 transition-colors">
-                    {(settings.includedModes || []).length === Object.keys(VisualizerMode).length ? t?.('unselectAll') || 'Unselect All' : t?.('selectAll') || 'Select All'}
+                    {(settings.includedModes as VisualizerMode[] || []).length === Object.keys(VisualizerMode).length ? t?.('unselectAll') || 'Unselect All' : t?.('selectAll') || 'Select All'}
                 </button>
-                {settings.autoRotate && (
+                {!!settings.autoRotate && (
                     <div className="animate-fade-in-up w-16">
-                        <Slider label="" value={settings.rotateInterval || 30} min={5} max={120} step={5} onChange={(v) => handleVisualSettingChange('rotateInterval', v)} unit="s" />
+                        <Slider label="" value={(settings.rotateInterval as number) || 30} min={5} max={120} step={5} onChange={(v) => handleVisualSettingChange('rotateInterval', v)} unit="s" />
                     </div>
                 )}
-                <SettingsToggle label="" value={settings.autoRotate} onChange={() => handleVisualSettingChange('autoRotate', !settings.autoRotate)} variant="clean" hintText={t?.('hints.autoRotate')} />
+                <SettingsToggle label="" value={!!settings.autoRotate} onChange={() => handleVisualSettingChange('autoRotate', !settings.autoRotate)} variant="clean" hintText={t?.('hints.autoRotate') as string} />
             </div>
         }
     >
@@ -67,7 +67,7 @@ export const ModeSelector: React.FC = () => {
                     mode={mode} 
                     name={t?.(`modes.${mode}`) || mode} 
                     isActive={currentMode === mode}
-                    isIncluded={settings.includedModes ? settings.includedModes.includes(mode) : true}
+                    isIncluded={settings.includedModes ? (settings.includedModes as VisualizerMode[]).includes(mode) : true}
                     onClick={() => setMode(mode)}
                     onToggleInclude={() => toggleIncludeMode(mode)}
                 />

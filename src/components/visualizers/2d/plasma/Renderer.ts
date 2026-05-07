@@ -1,5 +1,5 @@
 // src/components/visualizers/2d/plasma/Renderer.ts v2.3.8
-import { ParticleState, FusionEffect } from './types.ts';
+import { ParticleState, FusionEffect, RendererSettings } from './types.ts';
 import { project3D } from './utils';
 
 export class Renderer {

@@ -101,7 +101,7 @@ export const InputSettings: React.FC = React.memo(() => {
                     <div className="grid grid-cols-2 gap-4 animate-fade-in-up">
                         <Slider 
                             label={t?.('smoothing') || "Inertia"} 
-                            value={settings.smoothing} 
+                            value={settings.smoothing as number} 
                             min={0} 
                             max={0.95} 
                             step={0.01} 
@@ -109,7 +109,7 @@ export const InputSettings: React.FC = React.memo(() => {
                         />
                         <CustomSelect 
                             label={t?.('fftSize') || "FFT Size"} 
-                            value={settings.fftSize} 
+                            value={settings.fftSize as number} 
                             options={[
                                 {value: 512, label: '512 (Fast)'},
                                 {value: 1024, label: '1024 (Balanced)'},

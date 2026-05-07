@@ -14,7 +14,7 @@ import { Position } from '@/types/index';
 export const TextLayerSetup: React.FC = React.memo(() => {
     const { settings, setSettings, resetTextSettings } = useVisuals();
     const { t, showToast } = useUI();
-    const positionOptions = useMemo(() => getPositionOptions(t), [t]);
+    const positionOptions = useMemo(() => getPositionOptions(t as unknown as Record<string, unknown>), [t]);
 
     const handleResetTextSettings = useCallback(() => {
         resetTextSettings();
@@ -63,14 +63,14 @@ export const TextLayerSetup: React.FC = React.memo(() => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <SettingsToggle 
                                 label={t?.('customText') || "Layer Master"} 
-                                value={settings.showCustomText} 
+                                value={!!settings.showCustomText} 
                                 onChange={handleToggleCustomText} 
                                 activeColor="blue" 
                                 variant="clean" 
                             />
                             <CustomSelect 
                                 label={t?.('textSource')} 
-                                value={settings.textSource || 'AUTO'} 
+                                value={(settings.textSource as string) || 'AUTO'} 
                                 options={textSourceOptions} 
                                 onChange={handleTextSourceChange} 
                             />
@@ -79,12 +79,12 @@ export const TextLayerSetup: React.FC = React.memo(() => {
                         {/* Compact Text Input Area - Directly follows source logic */}
                         <div className="relative group flex-1">
                             <textarea 
-                                value={settings.customText || ''} 
+                                value={(settings.customText as string) || ''} 
                                 onChange={handleCustomTextChange} 
                                 placeholder={t?.('customTextPlaceholder') || "ENTER TEXT"} 
                                 className="w-full h-full min-h-[80px] bg-black/[0.04] dark:bg-white/[0.04] border border-black/5 dark:border-white/5 rounded-xl px-4 py-3 text-xs font-black text-black dark:text-white tracking-[0.1em] uppercase focus:border-blue-500/50 outline-none resize-none transition-all placeholder-black/10 dark:placeholder-white/10" 
                             />
-                            <div className="absolute bottom-2 right-3 opacity-20 pointer-events-none text-[7px] font-mono uppercase tracking-widest">{(settings.customText || '').length}</div>
+                            <div className="absolute bottom-2 right-3 opacity-20 pointer-events-none text-[7px] font-mono uppercase tracking-widest">{((settings.customText as string) || '').length}</div>
                         </div>
                     </div>
 

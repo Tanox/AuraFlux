@@ -5,7 +5,7 @@
 
 ### 1.1 Controls 组件
 - **文件**: `src/components/controls/Controls.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 主控制面板组件
 **核心特性**
 - 多标签页面板 (Bento Grid 风格)

@@ -28,3 +28,10 @@ export interface ParticleParams {
   noise: number;
   offset: number;
 }
+
+export interface RendererSettings {
+  trails?: boolean;
+  glow?: boolean;
+  particleSize?: number;
+  intensity?: number;
+}

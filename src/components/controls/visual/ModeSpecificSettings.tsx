@@ -25,7 +25,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Bar Count" 
-              value={settings.barCount || 24} 
+              value={(settings.barCount as number) || 24} 
               min={8} 
               max={48} 
               step={1} 
@@ -33,7 +33,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Bar Width" 
-              value={settings.barWidth || 3.0} 
+              value={(settings.barWidth as number) || 3.0} 
               min={1.0} 
               max={5.0} 
               step={0.1} 
@@ -52,7 +52,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Particle Count" 
-              value={settings.particleCount || 500} 
+              value={(settings.particleCount as number) || 500} 
               min={100} 
               max={1000} 
               step={50} 
@@ -60,7 +60,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Particle Size" 
-              value={settings.particleSize || 3} 
+              value={(settings.particleSize as number) || 3} 
               min={1} 
               max={5} 
               step={0.1} 
@@ -84,7 +84,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Ring Count" 
-              value={settings.ringCount || 20} 
+              value={(settings.ringCount as number) || 20} 
               min={10} 
               max={40} 
               step={1} 
@@ -92,7 +92,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Tunnel Speed" 
-              value={settings.tunnelSpeed || 2.0} 
+              value={(settings.tunnelSpeed as number) || 2.0} 
               min={0.5} 
               max={5.0} 
               step={0.1} 
@@ -111,7 +111,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Particle Count" 
-              value={settings.plasmaParticleCount || 12} 
+              value={(settings.plasmaParticleCount as number) || 12} 
               min={3} 
               max={20} 
               step={1} 
@@ -119,7 +119,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Particle Size" 
-              value={settings.plasmaParticleSize || 20} 
+              value={(settings.plasmaParticleSize as number) || 20} 
               min={10} 
               max={50} 
               step={1} 
@@ -143,7 +143,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Particle Count" 
-              value={settings.oceanParticleCount || 1024} 
+              value={(settings.oceanParticleCount as number) || 1024} 
               min={256} 
               max={4096} 
               step={256} 
@@ -151,7 +151,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Wave Intensity" 
-              value={settings.waveIntensity || 1.5} 
+              value={(settings.waveIntensity as number) || 1.5} 
               min={0.5} 
               max={3.0} 
               step={0.1} 
@@ -159,7 +159,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Horizontal Motion" 
-              value={settings.horizontalMotion || 3.0} 
+              value={(settings.horizontalMotion as number) || 3.0} 
               min={0.0} 
               max={5.0} 
               step={0.1} 
@@ -173,7 +173,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Laser Count" 
-              value={settings.laserCount || 64} 
+              value={(settings.laserCount as number) || 64} 
               min={16} 
               max={128} 
               step={8} 
@@ -181,7 +181,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Laser Length" 
-              value={settings.laserLength || 1.0} 
+              value={(settings.laserLength as number) || 1.0} 
               min={0.5} 
               max={2.0} 
               step={0.1} 
@@ -189,7 +189,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Flicker Intensity" 
-              value={settings.flickerIntensity || 1.0} 
+              value={(settings.flickerIntensity as number) || 1.0} 
               min={0.0} 
               max={2.0} 
               step={0.1} 
@@ -203,7 +203,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Cube Count" 
-              value={settings.cubeCount || 256} 
+              value={(settings.cubeCount as number) || 256} 
               min={64} 
               max={512} 
               step={32} 
@@ -211,7 +211,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Cube Size" 
-              value={settings.cubeSize || 3.0} 
+              value={(settings.cubeSize as number) || 3.0} 
               min={1.0} 
               max={5.0} 
               step={0.1} 
@@ -219,7 +219,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Spacing" 
-              value={settings.cubeSpacing || 4.5} 
+              value={(settings.cubeSpacing as number) || 4.5} 
               min={2.0} 
               max={8.0} 
               step={0.1} 
@@ -233,7 +233,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Particle Count" 
-              value={settings.neuralParticleCount || 8000} 
+              value={(settings.neuralParticleCount as number) || 8000} 
               min={2000} 
               max={20000} 
               step={2000} 
@@ -241,7 +241,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Flow Speed" 
-              value={settings.flowSpeed || 1.0} 
+              value={(settings.flowSpeed as number) || 1.0} 
               min={0.1} 
               max={3.0} 
               step={0.1} 
@@ -249,7 +249,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Particle Size" 
-              value={settings.neuralParticleSize || 1.0} 
+              value={(settings.neuralParticleSize as number) || 1.0} 
               min={0.5} 
               max={2.0} 
               step={0.1} 
@@ -263,7 +263,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Cube Count" 
-              value={settings.cubeFieldCount || 800} 
+              value={(settings.cubeFieldCount as number) || 800} 
               min={200} 
               max={2000} 
               step={100} 
@@ -271,7 +271,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Cube Size" 
-              value={settings.cubeFieldSize || 1.0} 
+              value={(settings.cubeFieldSize as number) || 1.0} 
               min={0.5} 
               max={2.0} 
               step={0.1} 
@@ -279,7 +279,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Speed" 
-              value={settings.cubeFieldSpeed || 4.5} 
+              value={(settings.cubeFieldSpeed as number) || 4.5} 
               min={1.0} 
               max={10.0} 
               step={0.1} 
@@ -293,7 +293,7 @@ export const ModeSpecificSettings: React.FC = () => {
           <div className="space-y-4">
             <Slider 
               label="Max Particle Count" 
-              value={settings.fishSwarmMaxParticles || 2000} 
+              value={(settings.fishSwarmMaxParticles as number) || 2000} 
               min={500} 
               max={3000} 
               step={100} 
@@ -301,7 +301,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Cohesion Strength" 
-              value={settings.fishSwarmCohesion || 0.03} 
+              value={(settings.fishSwarmCohesion as number) || 0.03} 
               min={0.01} 
               max={0.05} 
               step={0.001} 
@@ -309,7 +309,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Separation Distance" 
-              value={settings.fishSwarmSeparation || 8} 
+              value={(settings.fishSwarmSeparation as number) || 8} 
               min={4} 
               max={16} 
               step={0.5} 
@@ -317,7 +317,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Alignment Strength" 
-              value={settings.fishSwarmAlignment || 0.08} 
+              value={(settings.fishSwarmAlignment as number) || 0.08} 
               min={0.04} 
               max={0.12} 
               step={0.001} 
@@ -325,7 +325,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Trail Length" 
-              value={settings.fishSwarmTrailLength || 10} 
+              value={(settings.fishSwarmTrailLength as number) || 10} 
               min={5} 
               max={20} 
               step={1} 
@@ -333,7 +333,7 @@ export const ModeSpecificSettings: React.FC = () => {
             />
             <Slider 
               label="Color Response" 
-              value={settings.fishSwarmColorResponse || 1.0} 
+              value={(settings.fishSwarmColorResponse as number) || 1.0} 
               min={0.5} 
               max={2.0} 
               step={0.1} 

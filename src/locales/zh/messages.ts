@@ -1,8 +1,8 @@
-// src/locales/zh/messages.ts v2.3.8
+// src/locales/zh/messages.ts v2.3.10
 export const messages = {
   welcomeSubtitle: "通感智能引擎",
   startExperience: "初始化系统",
-  appVersion: "v2.3.8",
+  appVersion: "v2.3.10",
   hints: {
     randomize: "随机视觉效果与颜色",
     resetVisual: "重置视觉设置",

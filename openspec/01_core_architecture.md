@@ -1,4 +1,4 @@
-<!-- openspec/01_core_architecture.md v2.3.8 -->
+<!-- openspec/01_core_architecture.md v2.3.10 -->
 # 核心架构规范
 
 ## 1. 应用入口结构

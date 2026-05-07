@@ -18,7 +18,7 @@ export const TextChromaSettings: React.FC = React.memo(() => {
     );
 
     const handleToggleCycle = useCallback(() => {
-        setSettings(prev => ({...prev, customTextCycleColor: !prev.customTextCycleColor}));
+        setSettings(prev => ({...prev, customTextCycleColor: !(prev.customTextCycleColor as boolean)}));
     }, [setSettings]);
 
     const handleColorSelect = useCallback((c: string) => {
@@ -35,7 +35,7 @@ export const TextChromaSettings: React.FC = React.memo(() => {
                 <div className="w-full sm:w-auto shrink-0">
                     <SettingsToggle 
                         label={t?.('cycleColors') || "Auto Cycle"} 
-                        value={settings.customTextCycleColor} 
+                        value={!!settings.customTextCycleColor} 
                         onChange={handleToggleCycle} 
                         variant="clean" 
                     />
@@ -48,7 +48,7 @@ export const TextChromaSettings: React.FC = React.memo(() => {
                                     key={c} 
                                     onClick={() => handleColorSelect(c)} 
                                     className={`aspect-square rounded-lg border border-black/5 dark:border-white/10 transition-all ${
-                                        settings.customTextColor === c 
+                                        (settings.customTextColor as string) === c 
                                         ? 'ring-2 ring-blue-500 scale-110 shadow-lg z-10' 
                                         : 'opacity-40 hover:opacity-100 hover:scale-105'
                                     }`} 
@@ -60,7 +60,7 @@ export const TextChromaSettings: React.FC = React.memo(() => {
                         <div className="animate-fade-in-up">
                             <Slider 
                                 label={t?.('speed') || "Tempo"} 
-                                value={settings.customTextCycleInterval || 5} 
+                                value={(settings.customTextCycleInterval as number) || 5} 
                                 min={1} 
                                 max={30} 
                                 step={1} 

@@ -4,7 +4,7 @@
 ## 1. 2D 可视化系统
 ### 1.1 VisualizerCanvas 组件
 - **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 2D 音频可视化画布
 **核心特性**
 - 使用 Canvas 2D API 渲染

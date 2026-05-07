@@ -16,6 +16,8 @@ export const NowPlaying: React.FC = () => {
   const { settings, setSettings } = useVisuals();
   const { t } = useUI();
 
+  const albumArtUrl = (currentSong as { albumArtUrl?: string } | null)?.albumArtUrl;
+
   const fmt = (s: number) => isNaN(s) || s === Infinity ? '--:--' : `${Math.floor(s/60)}:${Math.floor(s%60).toString().padStart(2,'0')}`;
   const progressPercent = (currentTime / (duration || 1)) * 100;
 
@@ -24,10 +26,10 @@ export const NowPlaying: React.FC = () => {
         <div className="space-y-6">
             {playlist.length > 0 ? (
                 <div className="group/player relative flex flex-col gap-5 p-5 bg-black/[0.04] dark:bg-white/[0.04] rounded-2xl border border-black/5 dark:border-white/5 overflow-hidden transition-all hover:border-black/10 dark:hover:border-white/10 shadow-xl">
-                    {currentSong?.albumArtUrl && (
+                    {albumArtUrl && (
                         <div className="absolute inset-0 pointer-events-none opacity-20 blur-3xl scale-125 transition-opacity duration-1000">
                             <Image 
-                              src={currentSong.albumArtUrl} 
+                              src={albumArtUrl} 
                               fill 
                               className="object-cover" 
                               alt="" 
@@ -38,9 +40,9 @@ export const NowPlaying: React.FC = () => {
                     
                     <div className="flex items-center gap-4 relative z-10">
                         <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 bg-black/40 shadow-lg transform transition-all group-hover/player:scale-105 duration-500 relative">
-                            {currentSong?.albumArtUrl ? (
+                            {albumArtUrl ? (
                                 <Image 
-                                  src={currentSong.albumArtUrl} 
+                                  src={albumArtUrl} 
                                   fill 
                                   className="object-cover" 
                                   alt="Album Art" 
@@ -98,7 +100,7 @@ export const NowPlaying: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-3">
                 <SettingsToggle label={t?.('showLyrics') || "Lyrics"} value={showLyrics} onChange={() => setShowLyrics(!showLyrics)} activeColor="green" variant="clean" />
-                <SettingsToggle label={t?.('player.info') || "Song Info"} value={settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
+                <SettingsToggle label={t?.('player.info') || "Song Info"} value={!!settings.showSongInfo} onChange={() => setSettings(p => ({ ...p, showSongInfo: !p.showSongInfo }))} activeColor="blue" variant="clean" />
             </div>
         </div>
     </BentoCard>

@@ -17,13 +17,13 @@ const CustomTextOverlay: React.FC<Props> = ({ settings }) => {
       id="custom-text-overlay"
       className="fixed inset-0 pointer-events-none flex items-center justify-center z-10"
       style={{
-        color: settings.customTextColor || '#ffffff',
-        fontSize: `${settings.customTextSize || 2}rem`,
-        opacity: settings.customTextOpacity || 0.5,
-        fontFamily: settings.customTextFont || 'sans-serif'
+        color: (settings.customTextColor as string) || '#ffffff',
+        fontSize: `${(settings.customTextSize as number) || 2}rem`,
+        opacity: (settings.customTextOpacity as number) || 0.5,
+        fontFamily: (settings.customTextFont as string) || 'sans-serif'
       }}
     >
-      <p className="font-bold uppercase tracking-widest">{settings.customText}</p>
+      <p className="font-bold uppercase tracking-widest">{String(settings.customText || '')}</p>
     </div>
   );
 };

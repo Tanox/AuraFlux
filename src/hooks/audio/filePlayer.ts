@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/audio/filePlayer.ts v2.3.9
+// src/hooks/audio/filePlayer.ts v2.3.10
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Track, SongInfo, PlaybackMode } from '@/types';
@@ -228,7 +228,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
         prevIndex = (prevIndex - 1 + playlist.length) % playlist.length;
       }
     } else {
-      prevIndex = (prevIndex - 1 + playlist.length) % playlist.length;
+      prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
     }
     playTrackByIndex(prevIndex);
   }, [currentIndex, playlist.length, playbackMode, playTrackByIndex]);

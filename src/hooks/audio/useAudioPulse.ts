@@ -1,4 +1,4 @@
-// src/hooks/audio/useAudioPulse.ts v2.3.8
+// src/hooks/audio/useAudioPulse.ts v2.3.10
 
 import { useEffect, useRef } from 'react';
 
@@ -34,13 +34,13 @@ export const useAudioPulse = ({
     }
 
     if (!dataArrayRef.current) {
-      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
+      dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount as number);
     }
 
     const animate = () => {
       if (!analyser || !elementRef.current || !dataArrayRef.current) return;
 
-      analyser.getByteFrequencyData(dataArrayRef.current);
+      (analyser as AnalyserNode).getByteFrequencyData(dataArrayRef.current as Uint8Array<ArrayBuffer>);
       
       // Calculate bass volume (low frequencies)
       let sum = 0;

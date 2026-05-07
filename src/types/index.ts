@@ -1,4 +1,4 @@
-// src/types/index.ts v2.3.9
+// src/types/index.ts v2.3.10
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
@@ -82,6 +82,9 @@ export interface VisualizerSettings {
   textColor?: string;
   textSize?: number;
   textPosition?: Position;
+  lyricsFont?: string;
+  lyricsStyle?: LyricsStyle;
+  lyricsFontSize?: number;
   [key: string]: unknown;
 }
 
