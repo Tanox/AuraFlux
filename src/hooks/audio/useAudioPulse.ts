@@ -40,7 +40,7 @@ export const useAudioPulse = ({
     const animate = () => {
       if (!analyser || !elementRef.current || !dataArrayRef.current) return;
 
-      analyser.getByteFrequencyData(dataArrayRef.current as any);
+      analyser.getByteFrequencyData(dataArrayRef.current);
       
       // Calculate bass volume (low frequencies)
       let sum = 0;
