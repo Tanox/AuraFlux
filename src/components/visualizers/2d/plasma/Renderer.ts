@@ -24,7 +24,7 @@ export class Renderer {
     height: number,
     colors: string[],
     average: number,
-    settings?: any
+    settings?: RendererSettings
   ): void {
     const centerX = width / 2;
     const centerY = height / 2;

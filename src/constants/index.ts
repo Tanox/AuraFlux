@@ -18,10 +18,10 @@ export const THEMES = {
   LIGHT: 'light'
 };
 
-export const getPositionOptions = (t: any) => [
-  { value: 'top', label: t?.positions?.top || 'Top' },
-  { value: 'center', label: t?.positions?.center || 'Center' },
-  { value: 'bottom', label: t?.positions?.bottom || 'Bottom' }
+export const getPositionOptions = (t: Record<string, unknown>) => [
+  { value: 'top', label: (t?.positions as Record<string, string>)?.top || 'Top' },
+  { value: 'center', label: (t?.positions as Record<string, string>)?.center || 'Center' },
+  { value: 'bottom', label: (t?.positions as Record<string, string>)?.bottom || 'Bottom' }
 ];
 
 export const COLOR_THEMES = [

@@ -1,6 +1,7 @@
-// src/services/aiService.ts v2.3.8
+// src/services/aiService.ts v2.3.9
 import i18n from '@/i18n';
 import { logger } from '@/utils/logger';
+import { VisualConfig, SongIdentification } from '@/types';
 
 const blobToBase64 = async (blob: Blob): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
@@ -98,13 +99,14 @@ export const generateArtisticBackground = async (prompt: string): Promise<string
 
     const result = await response.json();
     return result.data;
-  } catch (err: any) {
-    logger.warn('AI Background Generation error:', err?.message || err);
+  } catch (err) {
+    const error = err instanceof Error ? err : new Error(String(err));
+    logger.warn('AI Background Generation error:', error.message);
     return null;
   }
 };
 
-export const identifySong = async (audioBlob: Blob): Promise<any> => {
+export const identifySong = async (audioBlob: Blob): Promise<SongIdentification | null> => {
   try {
     const base64Audio = await blobToBase64(audioBlob);
 
@@ -123,9 +125,10 @@ export const identifySong = async (audioBlob: Blob): Promise<any> => {
     }
 
     const result = await response.json();
-    return result.data;
-  } catch (err: any) {
-    logger.warn('AI Identification error:', err?.message || err);
+    return result.data as SongIdentification;
+  } catch (err) {
+    const error = err instanceof Error ? err : new Error(String(err));
+    logger.warn('AI Identification error:', error.message);
     return null;
   }
 };
