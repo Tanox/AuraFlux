@@ -1,4 +1,4 @@
-<!-- openspec/17_documentation_guidelines.md v2.3.5 -->
+<!-- openspec/17_documentation_guidelines.md v2.3.10 -->
 # 文档规范和维护流程
 
 ## 版本信息

@@ -1,4 +1,4 @@
-<!-- openspec/15_faq.md v2.3.5 -->
+<!-- openspec/15_faq.md v2.3.10 -->
 # Aura Flux - 常见问题解答 (FAQ) & 故障排除
 
 ## 版本信息

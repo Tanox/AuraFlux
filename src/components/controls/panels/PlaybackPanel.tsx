@@ -1,4 +1,4 @@
-// src/components/controls/panels/PlaybackPanel.tsx v2.3.8
+// src/components/controls/panels/PlaybackPanel.tsx v2.3.10
 
 import React from 'react';
 import { NowPlaying } from '../playback/NowPlaying';

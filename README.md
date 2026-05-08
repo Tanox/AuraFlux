@@ -128,5 +128,5 @@ See [Naming Conventions](./openspec/18_naming_conventions.md) for detailed guide
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.
-*Version: 2.3.8*
+*Version: 2.3.10*
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

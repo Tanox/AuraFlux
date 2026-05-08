@@ -1,4 +1,4 @@
-<!-- openspec/09_marketing.md v2.3.5 -->
+<!-- openspec/09_marketing.md v2.3.10 -->
 # 营销与推广系统规范
 
 ## 版本信息

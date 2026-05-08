@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/3d/cubeField/CubeFieldScene.tsx v2.3.8
+// src/components/visualizers/3d/cubeField/CubeFieldScene.tsx v2.3.10
 
 
 import React, { useRef, useMemo } from 'react';

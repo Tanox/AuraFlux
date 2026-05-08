@@ -1,4 +1,4 @@
-// src/components/visualizers/3d/shaders/DigitalGridShaders.ts v2.3.8
+// src/components/visualizers/3d/shaders/DigitalGridShaders.ts v2.3.10
 export const injectDigitalGridShader = (s: any, uniforms: any) => {
     Object.assign(s.uniforms, uniforms);
     s.vertexShader = `

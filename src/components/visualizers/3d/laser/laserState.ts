@@ -1,4 +1,4 @@
-// src/components/visualizers/3d/laser/laserState.ts v2.3.8
+// src/components/visualizers/3d/laser/laserState.ts v2.3.10
 import { LaserState } from './types';
 
 export function initializeLaserStates(count: number): LaserState[] {

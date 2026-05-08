@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/ui/SceneBackground.tsx v2.3.8
+// src/components/visualizers/ui/SceneBackground.tsx v2.3.10
 import React, { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Color } from 'three';

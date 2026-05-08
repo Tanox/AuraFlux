@@ -1,4 +1,4 @@
-// src/services/audioUtils.ts v2.3.8
+// src/services/audioUtils.ts v2.3.10
 
 import { logger } from '@/utils/logger';
 

@@ -1,4 +1,4 @@
-<!-- openspec/10_contribution_guidelines.md v2.3.5 -->
+<!-- openspec/10_contribution_guidelines.md v2.3.10 -->
 # 贡献者行为规范
 
 ## 版本信息

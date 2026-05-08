@@ -1,4 +1,4 @@
-// src/utils/logger.ts v2.3.9
+// src/utils/logger.ts v2.3.10
 
 interface LogEntry {
   level: LogLevel;

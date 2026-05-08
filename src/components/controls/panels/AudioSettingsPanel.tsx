@@ -1,4 +1,4 @@
-// src/components/controls/panels/AudioSettingsPanel.tsx v2.3.8
+// src/components/controls/panels/AudioSettingsPanel.tsx v2.3.10
 
 import React from 'react';
 import { InputSettings } from '../audio/InputSettings';
