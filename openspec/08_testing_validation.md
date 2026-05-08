@@ -2,7 +2,7 @@
 # 测试与验证系统规范
 
 ## 版本信息
-- **版本**: v2.3.5
+- **版本**: v2.3.10
 - **更新日期**: 2026-04-22
 - **作者**: Sut
 
@@ -48,7 +48,7 @@
 **代码示例:**
 ```tsx
 // useAudio.test.ts 核心结构
-// File: src/__tests__/hooks/useAudio.test.ts | Version: v2.3.4
+// File: src/__tests__/hooks/useAudio.test.ts | Version: v2.3.10
 import { renderHook, act } from '@testing-library/react';
 import { useAudio } from '../../hooks/useAudio';
 import { VisualizerSettings } from '../../types';

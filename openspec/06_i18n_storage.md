@@ -47,7 +47,7 @@
 **代码示例:**
 ```tsx
 // locales/index.ts 核心结构
-// File: src/locales/index.ts | Version: v2.3.4
+// File: src/locales/index.ts | Version: v2.3.10
 import en from './en';
 import zhCN from './zh-CN';
 import zhTW from './zh-TW';
@@ -142,7 +142,7 @@ export const availableRegions = [
 **代码示例:**
 ```tsx
 // useLocalStorage.ts 核心结构
-// File: src/hooks/useLocalStorage.ts | Version: v2.3.4
+// File: src/hooks/useLocalStorage.ts | Version: v2.3.10
 import { useState, useEffect } from 'react';
 
 export function useLocalStorage<T>(key: string, initialValue: T) {

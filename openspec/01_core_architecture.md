@@ -5,7 +5,7 @@
 
 ### 1.1 主应用组件(App.tsx)
 - **文件**: `src/components/App.tsx`
-- **版本**: v2.3.8
+- **版本**: v2.3.10
 - **功能**: 应用的顶层入口组件
 **核心特性**
 - 支持客户端渲染(`'use client'`)
@@ -33,7 +33,7 @@
 ```tsx
 // App.tsx 核心结构
 'use client';
-// File: src/components/App.tsx | Version: v2.3.3
+// File: src/components/App.tsx | Version: v2.3.10
 import React, { useState, useEffect, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
@@ -195,7 +195,7 @@ export const App: React.FC = () => (
 
 ### 1.2 404 页面组件 (_not-found.tsx)
 - **文件**: `src/app/_not-found.tsx`
-- **版本**: v2.3.8
+- **版本**: v2.3.10
 - **功能**: 处理未找到页面的情况
 
 **核心特性**
@@ -237,7 +237,7 @@ export default function NotFound() {
 ## 2. 状态管理系统
 ### 2.1 应用上下文(AppContext.tsx)
 - **文件**: `src/context/AppContext.tsx`
-- **版本**: v2.3.8
+- **版本**: v2.3.10
 - **功能**: 提供全局状态管理和共享功能
 
 **核心功能:**
@@ -255,7 +255,7 @@ export default function NotFound() {
 ```tsx
 // AppContext.tsx 核心结构
 'use client';
-// File: src/context/AppContext.tsx | Version: v2.3.3
+// File: src/context/AppContext.tsx | Version: v2.3.10
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
 import { useAudio } from '@/hooks/useAudio';
@@ -419,7 +419,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 ### 2.2 应用状态 Hook (useAppState.ts)
 - **文件**: `src/hooks/useAppState.ts`
-- **版本**: v2.3.8
+- **版本**: v2.3.10
 - **功能**: 管理应用的 UI 状态
 **核心功能:**
 - 语言管理(支持多语言)
@@ -433,7 +433,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 **代码示例:**
 ```tsx
 // useAppState.ts 核心结构
-// File: src/hooks/useAppState.ts | Version: v2.3.3
+// File: src/hooks/useAppState.ts | Version: v2.3.10
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
 import { TRANSLATIONS } from '../locales';
@@ -513,7 +513,7 @@ export const useAppState = () => {
 
 ### 2.3 视觉状态 Hook (useVisualsState.ts)
 - **文件**: `src/hooks/useVisualsState.ts`
-- **版本**: v2.3.8
+- **版本**: v2.3.10
 - **功能**: 管理与可视化相关的状态
 **核心功能:**
 - 可视化模式管理
@@ -526,7 +526,7 @@ export const useAppState = () => {
 **代码示例:**
 ```tsx
 // useVisualsState.ts 核心结构
-// File: src/hooks/useVisualsState.ts | Version: v2.3.3
+// File: src/hooks/useVisualsState.ts | Version: v2.3.10
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
@@ -604,7 +604,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 
 ### 3.1 核心类型 (types/index.ts)
 - **文件**: `src/types/index.ts`
-- **版本**: v2.3.8
+- **版本**: v2.3.10
 - **功能**: 定义应用中使用的类型
 
 **主要类型:**
@@ -624,7 +624,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 **代码示例:**
 ```tsx
 // types/index.ts 核心结构
-// File: src/types/index.ts | Version: v2.3.3
+// File: src/types/index.ts | Version: v2.3.10
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
   SILK_WAVE = 'SILK_WAVE',
@@ -713,7 +713,7 @@ export type Position = 'top' | 'center' | 'bottom';
 - **鍔熻兘**: 瀹氫箟搴旂敤鐗堟湰鍙?
 **鍐呭:**
 ```typescript
-export const APP_VERSION = 'v2.3.8';
+export const APP_VERSION = 'v2.3.10';
 ```
 
 ### 4.2 閫氱敤甯搁噺 (index.ts)
@@ -728,7 +728,7 @@ export const APP_VERSION = 'v2.3.8';
 
 **浠ｇ爜绀轰緥:**
 ```typescript
-// File: src/constants/index.ts | Version: v2.3.3
+// File: src/constants/index.ts | Version: v2.3.10
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';

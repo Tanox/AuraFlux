@@ -44,7 +44,7 @@
 **代码示例**:
 ```tsx
 // useAudio.ts 核心结构
-// File: src/hooks/useAudio.ts | Version: v2.3.4
+// File: src/hooks/useAudio.ts | Version: v2.3.10
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { VisualizerSettings, AudioDevice, Track, PlaybackMode, SongInfo } from '../types';
 
@@ -65,7 +65,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 
 ### 1.2 useAudioPulse Hook
 - **文件**: `src/hooks/audio/useAudioPulse.ts`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 提供音频脉冲和节拍检测功能
 **核心功能**:
 - 音频脉冲检测
@@ -77,7 +77,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 
 ### 2.1 audioUtils.ts
 - **文件**: `src/services/audioUtils.ts`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 提供音频处理工具函数
 **核心功能**:
 - 音频格式转换
@@ -87,7 +87,7 @@ export const useAudio = ({ settings, language, setCurrentSong, t, showToast }: U
 
 ### 2.2 麦克风管理
 - **文件**: `src/hooks/audio/microphoneManager.ts`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 管理麦克风设备和权限
 **核心功能**:
 - 麦克风设备检测
