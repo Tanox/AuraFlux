@@ -2,7 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const VERSION = 'v2.3.8';
+const VERSION = 'v2.3.10';
 const SRC_DIR = path.join(__dirname, '..', 'src');
 
 const patterns = [

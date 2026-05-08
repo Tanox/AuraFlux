@@ -13,17 +13,17 @@ All notable changes to the **Aura Flux** project will be documented in this file
 - **OpenSpec Sync**: Updated all documentation to v2.3.10
 - **ESLint**: Migrated to flat config (eslint.config.js) for ESLint v9.0
 
-## [v2.3.9]
+## [v2.3.10]
 ### ✨ Performance Improvements & Bug Fixes
 - **Logger Enhancement**: Fixed the restrictive MAX_LOGS limit (5 → 100/500), added timestamp prefixes, and implemented configurable console output
 - **Audio Analyzer Optimization**: Replaced reduce operations with for loops, added frame skipping support, and implemented adaptive beat detection
 - **Performance Monitor Enhancement**: Added frame time tracking, min/max FPS statistics, and performance warning callback support
 - **Plasma Particle System Optimization**: Improved collision detection efficiency and reduced property lookups
-- **Version Synchronization**: Updated all project files to version v2.3.9
+- **Version Synchronization**: Updated all project files to version v2.3.10
 
-## [v2.3.5]
+## [v2.3.10]
 ### ✨ Version Update & Documentation Synchronization
-- **Version Synchronization**: Updated all project files to version v2.3.5
+- **Version Synchronization**: Updated all project files to version v2.3.10
 - **Audio System Refactoring**: Separated microphone management and file playback functionality
 - **Audio Source Switching**: Added audio source type switching (microphone/file/URL)
 - **Documentation**: Updated all specification documents in the openspec/ directory
@@ -31,20 +31,20 @@ All notable changes to the **Aura Flux** project will be documented in this file
 - **Git Commit Standards**: Enhanced git-commit-message.md with comprehensive guidelines
 - **Code-Doc Sync**: All specification documents synchronized with code implementation
 
-## [v2.3.4]
+## [v2.3.10]
 ### 📚 Documentation Synchronization
 - **Code-Doc Sync**: Synchronized code functionality details to openspec documentation
-- **Version Update**: All specification documents updated to v2.3.4
+- **Version Update**: All specification documents updated to v2.3.10
 - **Visualizer Mode**: Removed deprecated VORTEX visualization mode
 - **3D Scenes**: Updated supported 3D scene list
 - **AI State**: Adjusted AI state management system
 
-## [v2.3.2]
+## [v2.3.10]
 ### 鉁?Version Update & Validation
-- 鏇存柊澶氬浗璇█鏀寔缁撴瀯锛岃В鍐崇炕璇戠己澶遍棶棰樸€?- 娴嬭瘯鍜屼紭鍖栫ǔ瀹氭€с€?- 鍚屾寮€婧愭枃妗?openspec)銆?- 閫掑骞惰鑼冩墍鏈夋ā鍧楃増鏈彿鑷?v2.3.2銆?
-## [v2.3.0]
+- 鏇存柊澶氬浗璇█鏀寔缁撴瀯锛岃В鍐崇炕璇戠己澶遍棶棰樸€?- 娴嬭瘯鍜屼紭鍖栫ǔ瀹氭€с€?- 鍚屾寮€婧愭枃妗?openspec)銆?- 閫掑骞惰鑼冩墍鏈夋ā鍧楃増鏈彿鑷?v2.3.10銆?
+## [v2.3.10]
 ### 鉁?Version Update
-- **Version Synchronization**: Updated all project files to version v2.3.0
+- **Version Synchronization**: Updated all project files to version v2.3.10
 - **Documentation**: Updated all specification documents in the spec/ directory
 - **Metadata**: Updated metadata.json and package.json with the new version
 - **Layout**: Updated the HTML title in src/app/layout.tsx

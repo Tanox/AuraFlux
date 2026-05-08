@@ -28,7 +28,7 @@
 **代码示例**:
 ```tsx
 // Controls.tsx 核心结构
-// File: src/components/controls/Controls.tsx | Version: v2.3.4
+// File: src/components/controls/Controls.tsx | Version: v2.3.10
 import React, { useState, useMemo } from 'react';
 import { VisualizerMode, ColorTheme } from '@/types';
 
@@ -100,7 +100,7 @@ export default Controls;
 
 ### 2.1 视觉设置面板
 - **文件**: `src/components/controls/panels/VisualSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 视觉效果设置
 **核心功能**:
 - 可视化模式选择
@@ -111,7 +111,7 @@ export default Controls;
 
 ### 2.2 音频输入设置面板
 - **文件**: `src/components/controls/panels/AudioSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 音频输入设置
 **核心功能**:
 - 音频源选择
@@ -121,7 +121,7 @@ export default Controls;
 
 ### 2.3 播放控制面板
 - **文件**: `src/components/controls/panels/PlaybackPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 播放控制
 **核心功能**:
 - 播放/暂停控制
@@ -131,7 +131,7 @@ export default Controls;
 
 ### 2.4 文本设置面板
 - **文件**: `src/components/controls/panels/CustomTextSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 自定义文本设置
 **核心功能**:
 - 文本内容输入
@@ -141,7 +141,7 @@ export default Controls;
 
 ### 2.5 工作室设置面板
 - **文件**: `src/components/controls/panels/StudioPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 工作室功能设置
 **核心功能**:
 - 录制设置
@@ -151,7 +151,7 @@ export default Controls;
 
 ### 2.6 系统设置面板
 - **文件**: `src/components/controls/panels/SystemSettingsPanel.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 系统设置
 **核心功能**:
 - 语言选择
@@ -163,7 +163,7 @@ export default Controls;
 
 ### 3.1 欢迎屏幕
 - **文件**: `src/components/visualizers/ui/WelcomeScreen.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 初始欢迎页面
 **核心功能**:
 - 应用介绍
@@ -172,7 +172,7 @@ export default Controls;
 
 ### 3.2 引导覆盖层
 - **文件**: `src/components/visualizers/ui/onboarding/OnboardingOverlay.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 首次使用引导
 **核心功能**:
 - 步骤式引导
@@ -181,7 +181,7 @@ export default Controls;
 
 ### 3.3 帮助模态框
 - **文件**: `src/components/visualizers/ui/HelpModal.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 帮助信息
 **核心功能**:
 - 快捷键指南
@@ -190,7 +190,7 @@ export default Controls;
 
 ### 3.4 歌曲信息覆盖层
 - **文件**: `src/components/visualizers/ui/SongOverlay.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 歌曲信息显示
 **核心功能**:
 - 歌曲标题和艺术家
@@ -200,7 +200,7 @@ export default Controls;
 
 ### 3.5 歌词覆盖层
 - **文件**: `src/components/visualizers/ui/LyricsOverlay.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 歌词显示
 **核心功能**:
 - 同步歌词
@@ -209,7 +209,7 @@ export default Controls;
 
 ### 3.6 自定义文本覆盖层
 - **文件**: `src/components/visualizers/ui/CustomTextOverlay.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 自定义文本显示
 **核心功能**:
 - 文本内容显示
@@ -218,7 +218,7 @@ export default Controls;
 
 ### 3.7 FPS 计数器
 - **文件**: `src/components/visualizers/ui/FPSCounter.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 帧率显示
 **核心功能**:
 - 实时帧率显示
@@ -242,7 +242,7 @@ export default Controls;
 
 ### 4.3 触摸交互
 - **文件**: `src/hooks/useMobileGestures.ts`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 移动端手势支持
 **核心功能**:
   - 触摸滑动
@@ -260,27 +260,27 @@ export default Controls;
 
 ### 5.1 自定义选择器
 - **文件**: `src/components/visualizers/ui/controls/CustomSelect.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 自定义选择器组件
 
 ### 5.2 分段控制
 - **文件**: `src/components/visualizers/ui/controls/SegmentedControl.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 分段控制组件
 
 ### 5.3 设置切换
 - **文件**: `src/components/visualizers/ui/controls/SettingsToggle.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 设置切换组件
 
 ### 5.4 滑块
 - **文件**: `src/components/visualizers/ui/controls/Slider.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 滑块组件
 
 ### 5.5 工具提示
 - **文件**: `src/components/visualizers/ui/controls/Tooltip.tsx`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 工具提示组件
 
 ## 6. 响应式设计
