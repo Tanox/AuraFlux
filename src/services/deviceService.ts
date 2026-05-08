@@ -1,4 +1,4 @@
-// src/services/deviceService.ts v2.3.8
+// src/services/deviceService.ts v2.3.10
 import { AudioDevice } from '@/types';
 import { logger } from '@/utils/logger';
 

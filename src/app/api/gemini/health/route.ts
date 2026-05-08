@@ -1,4 +1,4 @@
-// src/app/api/gemini/health/route.ts v2.3.8
+// src/app/api/gemini/health/route.ts v2.3.10
 import { NextResponse } from 'next/server';
 
 export async function GET() {

@@ -1,4 +1,4 @@
-// src/components/visualizers/ui/controls/SettingsToggle.tsx v2.3.8
+// src/components/visualizers/ui/controls/SettingsToggle.tsx v2.3.10
 
 
 import React, { memo } from 'react';

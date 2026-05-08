@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/ui/FPSCounter.tsx v2.3.8
+// src/components/visualizers/ui/FPSCounter.tsx v2.3.10
 
 import React, { useState, useEffect } from 'react';
 

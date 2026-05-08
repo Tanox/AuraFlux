@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/playback/DisplayConfig.tsx v2.3.8
+// src/components/controls/playback/DisplayConfig.tsx v2.3.10
 
 
 

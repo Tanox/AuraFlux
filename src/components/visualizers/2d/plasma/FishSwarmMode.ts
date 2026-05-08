@@ -1,4 +1,4 @@
-// src/components/visualizers/2d/plasma/FishSwarmMode.ts v2.3.8
+// src/components/visualizers/2d/plasma/FishSwarmMode.ts v2.3.10
 import { FishSwarmModeProps } from '@/types';
 
 interface FishParticle {

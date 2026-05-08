@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/BottomBar.tsx v2.3.8
+// src/components/controls/BottomBar.tsx v2.3.10
 
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';

@@ -1,4 +1,4 @@
-// src/components/visualizers/ui/help/ShortcutsContent.tsx v2.3.8
+// src/components/visualizers/ui/help/ShortcutsContent.tsx v2.3.10
 
 import React from 'react';
 

@@ -1,4 +1,4 @@
-// src/components/visualizers/2d/plasma/ParticleManager.ts v2.3.9
+// src/components/visualizers/2d/plasma/ParticleManager.ts v2.3.10
 
 import { ParticleState, FusionEffect, ParticleParams } from './types.ts';
 import { ObjectPool } from './objectPool';

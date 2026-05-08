@@ -1,4 +1,4 @@
-<!-- openspec/04_ai_integration.md v2.3.5 -->
+<!-- openspec/04_ai_integration.md v2.3.10 -->
 # AI 集成系统规范
 
 ## 1. AI 服务模块

@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/audio/AiSettings.tsx v2.3.8
+// src/components/controls/audio/AiSettings.tsx v2.3.10
 
 
 import React, { useState, useCallback, useMemo } from 'react';

@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/App.tsx v2.3.8
+// src/components/App.tsx v2.3.10
 
 
 import React, { useState, useEffect, Suspense, useCallback } from 'react';

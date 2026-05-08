@@ -1,4 +1,4 @@
-// src/components/visualizers/3d/cubeField/cubeState.ts v2.3.8
+// src/components/visualizers/3d/cubeField/cubeState.ts v2.3.10
 import { Vector3, Euler } from 'three';
 import { CubeState } from './types';
 

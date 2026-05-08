@@ -1,4 +1,4 @@
-// src/utils/visualization.ts v2.3.8
+// src/utils/visualization.ts v2.3.10
 import { Vector2, Vector3 } from 'three';
 
 export const lerp = (start: number, end: number, t: number): number => {

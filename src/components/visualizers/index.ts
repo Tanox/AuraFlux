@@ -1,4 +1,4 @@
-// src/components/visualizers/index.ts v2.3.8
+// src/components/visualizers/index.ts v2.3.10
 import { VisualizerMode, VisualizerCategory, VisualizerDefinition } from '@/types';
 
 export const VISUALIZER_2D_MODES: VisualizerMode[] = [

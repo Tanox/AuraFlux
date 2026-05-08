@@ -1,4 +1,4 @@
-// src/components/visualizers/2d/tunnel/TunnelMode.ts v2.3.8
+// src/components/visualizers/2d/tunnel/TunnelMode.ts v2.3.10
 import { TunnelModeProps } from '@/types';
 import { logger } from '@/utils/logger';
 

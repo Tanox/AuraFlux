@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/ui/Toast.tsx v2.3.8
+// src/components/visualizers/ui/Toast.tsx v2.3.10
 
 import React, { useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
