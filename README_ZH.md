@@ -23,5 +23,5 @@
 ## 📄 许可与署名
 
 由 **Sut** 倾力开发。  
-*当前版本: 2.3.8*  
+*当前版本: 2.3.10*  
 *个人主页:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

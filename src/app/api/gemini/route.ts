@@ -1,4 +1,4 @@
-// src/app/api/gemini/route.ts v2.3.9
+// src/app/api/gemini/route.ts v2.4.0
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import { logger } from '@/utils/logger';
@@ -14,8 +14,8 @@ interface ApiRequest {
   };
 }
 
-interface ApiResponse<T = unknown> {
-  data?: T;
+interface ApiResponse {
+  data?: unknown;
   error?: string;
 }
 
@@ -76,14 +76,14 @@ function validateSongIdentification(identification: unknown): identification is 
   return true;
 }
 
-async function handleVisualConfig(ai: GoogleGenAI, data: { audio: string }): Promise<NextResponse<ApiResponse<VisualConfig>>> {
+async function handleVisualConfig(ai: GoogleGenAI, data: { audio: string }): Promise<NextResponse<ApiResponse>> {
   try {
     if (!data.audio || typeof data.audio !== 'string') {
       return NextResponse.json({ error: 'Invalid audio data' }, { status: 400 });
     }
 
-    const model = ai.getGenerativeModel({ model: 'gemini-3-flash-preview' });
-    const response = await model.generateContent({
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
       contents: [
         {
           role: 'user',
@@ -100,14 +100,14 @@ async function handleVisualConfig(ai: GoogleGenAI, data: { audio: string }): Pro
           ]
         }
       ],
-      generationConfig: {
+      config: {
         responseMimeType: 'application/json'
       }
     });
 
-    if (response.response?.text) {
+    if (response.text) {
       try {
-        const parsed = JSON.parse(response.response.text);
+        const parsed = JSON.parse(response.text);
         if (validateVisualConfig(parsed)) {
           return NextResponse.json({ data: parsed });
         }
@@ -123,14 +123,14 @@ async function handleVisualConfig(ai: GoogleGenAI, data: { audio: string }): Pro
   }
 }
 
-async function handleBackgroundGeneration(ai: GoogleGenAI, data: { prompt: string }): Promise<NextResponse<ApiResponse<string>>> {
+async function handleBackgroundGeneration(ai: GoogleGenAI, data: { prompt: string }): Promise<NextResponse<ApiResponse>> {
   try {
     if (!data.prompt || typeof data.prompt !== 'string' || data.prompt.trim().length === 0) {
       return NextResponse.json({ error: 'Invalid prompt' }, { status: 400 });
     }
 
-    const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash-image' });
-    const response = await model.generateContent({
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash-preview',
       contents: [
         {
           role: 'user',
@@ -141,17 +141,18 @@ async function handleBackgroundGeneration(ai: GoogleGenAI, data: { prompt: strin
           ]
         }
       ],
-      generationConfig: {
-        aspectRatio: "16:9",
-        imageSize: "1K"
+      config: {
+        responseModalities: ['image']
       }
     });
 
-    for (const part of response.response?.candidates?.[0]?.content?.parts || []) {
-      if ('inlineData' in part && part.inlineData) {
-        return NextResponse.json({
-          data: `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`
-        });
+    for (const candidate of response.candidates || []) {
+      for (const part of candidate.content?.parts || []) {
+        if ('inlineData' in part && part.inlineData) {
+          return NextResponse.json({
+            data: `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`
+          });
+        }
       }
     }
     return NextResponse.json({ data: null });
@@ -161,14 +162,14 @@ async function handleBackgroundGeneration(ai: GoogleGenAI, data: { prompt: strin
   }
 }
 
-async function handleSongIdentification(ai: GoogleGenAI, data: { audio: string }): Promise<NextResponse<ApiResponse<SongIdentification>>> {
+async function handleSongIdentification(ai: GoogleGenAI, data: { audio: string }): Promise<NextResponse<ApiResponse>> {
   try {
     if (!data.audio || typeof data.audio !== 'string') {
       return NextResponse.json({ error: 'Invalid audio data' }, { status: 400 });
     }
 
-    const model = ai.getGenerativeModel({ model: 'gemini-3-flash-preview' });
-    const response = await model.generateContent({
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
       contents: [
         {
           role: 'user',
@@ -185,14 +186,14 @@ async function handleSongIdentification(ai: GoogleGenAI, data: { audio: string }
           ]
         }
       ],
-      generationConfig: {
+      config: {
         responseMimeType: 'application/json'
       }
     });
 
-    if (response.response?.text) {
+    if (response.text) {
       try {
-        const parsed = JSON.parse(response.response.text);
+        const parsed = JSON.parse(response.text);
         if (validateSongIdentification(parsed)) {
           return NextResponse.json({ data: parsed });
         }

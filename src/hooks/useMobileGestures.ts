@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/useMobileGestures.ts v2.3.8
+// src/hooks/useMobileGestures.ts v2.3.10
 
 
 import React, { useRef, useCallback } from 'react';

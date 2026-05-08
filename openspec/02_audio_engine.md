@@ -1,11 +1,11 @@
-<!-- openspec/02_audio_engine.md v2.3.5 -->
+<!-- openspec/02_audio_engine.md v2.3.10 -->
 # 音频引擎规范
 
 ## 1. 核心音频 Hook
 
 ### 1.1 useAudio Hook
 - **文件**: `src/hooks/useAudio.ts`
-- **版本**: v2.3.4
+- **版本**: v2.3.10
 - **功能**: 提供音频处理和分析功能
 **核心状态**
 - `sourceType` - 音频源类型 (`'microphone' | 'file' | 'url'`)

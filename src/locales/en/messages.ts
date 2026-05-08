@@ -1,8 +1,8 @@
-// src/locales/en/messages.ts v2.3.8
+// src/locales/en/messages.ts v2.3.10
 export const messages = {
   welcomeSubtitle: "Synesthetic Intelligence Engine",
   startExperience: "INITIALIZE SYSTEM",
-  appVersion: "v2.3.8",
+  appVersion: "v2.3.10",
   hints: {
     randomize: "Randomize Visuals & Colors",
     resetVisual: "Reset Visual Settings",

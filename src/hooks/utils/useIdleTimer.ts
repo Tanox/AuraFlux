@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/utils/useIdleTimer.ts v2.3.8
+// src/hooks/utils/useIdleTimer.ts v2.3.10
 
 import { useState, useEffect } from 'react';
 

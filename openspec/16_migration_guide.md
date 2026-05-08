@@ -1,4 +1,4 @@
-<!-- openspec/16_migration_guide.md v2.3.5 -->
+<!-- openspec/16_migration_guide.md v2.3.10 -->
 # 迁移指南
 
 ## 版本信息

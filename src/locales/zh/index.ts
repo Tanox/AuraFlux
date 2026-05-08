@@ -1,4 +1,4 @@
-// src/locales/zh/index.ts v2.3.8
+// src/locales/zh/index.ts v2.3.10
 import { messages } from './messages';
 import { common } from './common';
 import { onboarding } from './onboarding';

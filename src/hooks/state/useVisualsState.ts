@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/state/useVisualsState.ts v2.3.8
+// src/hooks/state/useVisualsState.ts v2.3.10
 
 import { useReducer, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
@@ -267,13 +267,13 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 
     if (state.settings.autoRotate && hasStarted) {
       intervalId = setInterval(() => {
-        const included = state.settings.includedModes || Object.values(VisualizerMode);
+        const included = (state.settings.includedModes as VisualizerMode[] | undefined) || Object.values(VisualizerMode);
         if (included.length > 1) {
-          const currentIndex = included.indexOf(state.mode);
+          const currentIndex = included.indexOf(state.mode as VisualizerMode);
           const nextIndex = (currentIndex + 1) % included.length;
           setMode(included[nextIndex]);
         }
-      }, (state.settings.rotateInterval || 30) * 1000);
+      }, (state.settings.rotateInterval as number || 30) * 1000);
     }
 
     return () => {

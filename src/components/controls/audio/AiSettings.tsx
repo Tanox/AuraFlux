@@ -109,7 +109,7 @@ export const AiSettings: React.FC = React.memo(() => {
                         <div className="w-full pt-2 border-t border-black/5 dark:border-white/5 animate-fade-in-up">
                             <CustomSelect 
                                 label={t?.('region')} 
-                                value={settings.region || 'global'} 
+                                value={(settings.region as string) || 'global'} 
                                 options={regionOptions} 
                                 onChange={handleRegionChange} 
                             />

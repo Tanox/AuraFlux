@@ -1,4 +1,4 @@
-// src/context/AppContext.tsx v2.3.8
+// src/context/AppContext.tsx v2.3.10
 
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
@@ -129,7 +129,7 @@ export interface AIContextType {
   showLyrics: boolean;
   setShowLyrics: (b: boolean | ((prev: boolean) => boolean)) => void;
   enableAnalysis: boolean;
-  setEnableAnalysis: (b: boolean) => void;
+  setEnableAnalysis: (b: boolean | ((prev: boolean) => boolean)) => void;
   isIdentifying: boolean;
   performIdentification: (s: MediaStream) => Promise<void>;
   resetAiSettings: () => void;

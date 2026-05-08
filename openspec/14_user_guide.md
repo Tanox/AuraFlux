@@ -1,4 +1,4 @@
-<!-- openspec/14_user_guide.md v2.3.5 -->
+<!-- openspec/14_user_guide.md v2.3.10 -->
 # Aura Flux - 用户操作指南
 
 ## 版本信息

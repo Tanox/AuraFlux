@@ -1,4 +1,4 @@
-// src/hooks/audio/useAudioAnalyzer.ts v2.3.9
+// src/hooks/audio/useAudioAnalyzer.ts v2.3.10
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { logger } from '@/utils/logger';
 

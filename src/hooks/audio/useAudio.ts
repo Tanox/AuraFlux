@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/audio/useAudio.ts v2.3.8
+// src/hooks/audio/useAudio.ts v2.3.10
 import { useCallback, useState, useEffect } from 'react';
 import { UseAudioProps, UseAudioReturn } from './types';
 import { useMicrophoneManager } from './microphoneManager';

@@ -1,4 +1,4 @@
-// src/hooks/useVideoRecorder.ts v2.3.8
+// src/hooks/useVideoRecorder.ts v2.3.10
 
 import { useState, useCallback, useRef } from 'react';
 

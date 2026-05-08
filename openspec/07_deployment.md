@@ -1,4 +1,4 @@
-<!-- openspec/07_deployment.md v2.3.5 -->
+<!-- openspec/07_deployment.md v2.3.10 -->
 # 部署与环境系统规范
 
 ## 版本信息

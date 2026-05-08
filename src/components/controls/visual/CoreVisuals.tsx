@@ -51,7 +51,7 @@ export const CoreVisuals: React.FC = () => {
                 
                 {isAdvanced && (
                     <>
-                        <Slider label={t?.('smoothing')} value={settings.smoothing} min={0} max={0.95} step={0.01} onChange={(v)=>handleVisualSettingChange('smoothing', v)} />
+                        <Slider label={t?.('smoothing')} value={(settings.smoothing as number) ?? 0.5} min={0} max={0.95} step={0.01} onChange={(v)=>handleVisualSettingChange('smoothing', v)} />
                         <div className="space-y-2">
                             <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.('visualPanel.display')}</span>
                             <SegmentedControl 
@@ -68,7 +68,7 @@ export const CoreVisuals: React.FC = () => {
                 <div className="flex justify-between items-center mb-3">
                     {/* @fix: Use correct localization key `styleTheme` */}
                     <span className="text-[10px] font-black text-black/30 dark:text-white/30 uppercase tracking-widest">{t?.('styleTheme')}</span>
-                    <SettingsToggle label={t?.('cycleColors')} value={settings.cycleColors} onChange={() => handleVisualSettingChange('cycleColors', !settings.cycleColors)} variant="clean" />
+                    <SettingsToggle label={t?.('cycleColors')} value={!!settings.cycleColors} onChange={() => handleVisualSettingChange('cycleColors', !settings.cycleColors)} variant="clean" />
                 </div>
                 {!settings.cycleColors ? (
                     <div className="grid grid-cols-6 sm:grid-cols-9 gap-2 animate-fade-in-up">

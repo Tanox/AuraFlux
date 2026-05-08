@@ -1,4 +1,4 @@
-// src/locales/zh/onboarding.ts v2.3.8
+// src/locales/zh/onboarding.ts v2.3.10
 export const onboarding = {
   welcome: "欢迎",
   subtitle: "让我们开始您的 Aura Flux 体验",

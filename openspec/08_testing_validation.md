@@ -1,4 +1,4 @@
-<!-- openspec/08_testing_validation.md v2.3.5 -->
+<!-- openspec/08_testing_validation.md v2.3.10 -->
 # 测试与验证系统规范
 
 ## 版本信息

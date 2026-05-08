@@ -1,4 +1,4 @@
-// src/locales/zh/settings.ts v2.3.8
+// src/locales/zh/settings.ts v2.3.10
 import { VisualizerMode, LyricsStyle } from '../../types/index';
 import { COLOR_THEMES } from '../../constants/index';
 
