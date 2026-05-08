@@ -1,0 +1,13 @@
+name: improve-project-quality
+description: 提升项目整体质量 - 统一版本号、增加测试覆盖、优化代码结构
+status: draft
+created: 2026-05-08
+owner: Sut
+
+artifacts:
+  - id: proposal
+    status: done
+  - id: design
+    status: done
+  - id: tasks
+    status: done
