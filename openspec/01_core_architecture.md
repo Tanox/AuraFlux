@@ -40,14 +40,14 @@ import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/contex
 import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';
 import { OnboardingOverlay } from '@/components/visualizers/ui/onboarding/OnboardingOverlay';
 import { HelpModal } from '@/components/visualizers/ui/HelpModal';
-import SongOverlay from '@/components/visualizers/ui/SongOverlay';
-import LyricsOverlay from '@/components/visualizers/ui/LyricsOverlay';
-import CustomTextOverlay from '@/components/visualizers/ui/CustomTextOverlay';
+import { SongOverlay } from '@/components/visualizers/ui/SongOverlay';
+import { LyricsOverlay } from '@/components/visualizers/ui/LyricsOverlay';
+import { CustomTextOverlay } from '@/components/visualizers/ui/CustomTextOverlay';
 import { FPSCounter } from '@/components/visualizers/ui/FPSCounter';
-import { useIdleTimer } from '@/hooks/useIdleTimer';
+import { useIdleTimer } from '@/hooks/utils/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
-import { useVersionCheck } from '@/hooks/useVersionCheck';
-import { APP_VERSION } from '@/constants/version';
+import { useVersionCheck } from '@/hooks/utils/useVersionCheck';
+import { APP_VERSION } from '@/constants';
 
 const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
 const ThreeVisualizer = dynamic(() => import('@/components/visualizers/ThreeVisualizer'), { ssr: false });
@@ -73,7 +73,7 @@ const MainContent: React.FC = () => {
   // Version check logic
   useVersionCheck(APP_VERSION, (newVersion) => {
     if (ui) {
-      ui.showToast(`${ui.t?.common?.updateAvailable || 'New version available'} (${newVersion}). Please refresh.`, 'info', 5000, 'top');
+      ui.showToast(`${ui.t('common.updateAvailable')} (${newVersion}). Please refresh.`, 'info', 5000, 'top');
     }
   });
 
@@ -146,7 +146,7 @@ const MainContent: React.FC = () => {
     >
       {isDragging && (
           <div id="drag-overlay" className="absolute inset-0 bg-blue-500/20 backdrop-blur-sm flex items-center justify-center pointer-events-none z-50">
-            <p className="text-white font-bold text-2xl drop-shadow-lg">{t.common.dropFiles}</p>
+            <p className="text-white font-bold text-2xl drop-shadow-lg">{t('common.dropFiles')}</p>
           </div>
       )}
       <div

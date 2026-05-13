@@ -12,14 +12,15 @@ import '@/i18n';
 import { WelcomeScreen } from '@/components/visualizers/ui/WelcomeScreen';
 import { OnboardingOverlay } from '@/components/visualizers/ui/onboarding/OnboardingOverlay';
 import { HelpModal } from '@/components/visualizers/ui/HelpModal';
-import SongOverlay from '@/components/visualizers/ui/SongOverlay';
-import LyricsOverlay from '@/components/visualizers/ui/LyricsOverlay';
-import CustomTextOverlay from '@/components/visualizers/ui/CustomTextOverlay';
+import { SongOverlay } from '@/components/visualizers/ui/SongOverlay';
+import { LyricsOverlay } from '@/components/visualizers/ui/LyricsOverlay';
+import { CustomTextOverlay } from '@/components/visualizers/ui/CustomTextOverlay';
 import { FPSCounter } from '@/components/visualizers/ui/FPSCounter';
 import { useIdleTimer } from '@/hooks/utils/useIdleTimer';
 import { useMobileGestures } from '@/hooks/useMobileGestures';
+import { useVersionCheck } from '@/hooks/utils/useVersionCheck';
 
-import { COLOR_THEMES } from '@/constants';
+import { COLOR_THEMES, APP_VERSION } from '@/constants';
 import { logger } from '@/utils/logger';
 
 const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
@@ -42,6 +43,13 @@ const MainContent: React.FC = () => {
 
   const { isIdle } = useIdleTimer(isExpanded, visuals?.settings?.autoHideUi);
   const gestures = useMobileGestures();
+
+  // Version check
+  useVersionCheck(APP_VERSION, (newVersion) => {
+    if (ui) {
+      ui.showToast(`${ui.t('common.updateAvailable')} (${newVersion}). Please refresh.`, 'info', 5000, 'top');
+    }
+  });
 
   // Manage wake lock
   useEffect(() => {

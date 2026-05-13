@@ -19,7 +19,7 @@ interface LyricsOverlayProps {
   analyser: AnalyserNode | null;
 }
 
-const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyrics, lyricsStyle, analyser }) => {
+export const LyricsOverlay: React.FC<LyricsOverlayProps> = ({ settings, song, showLyrics, lyricsStyle, analyser }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { currentTime } = useAudioContext();
@@ -135,5 +135,3 @@ const getPositionClasses = (pos: string = 'mc') => {
     };
     return map[pos] || map.mc;
 };
-
-export default LyricsOverlay;
