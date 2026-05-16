@@ -2,6 +2,8 @@
 import { VisualizerMode } from '../types';
 import { APP_NAME, APP_VERSION } from './version';
 
+export { APP_NAME, APP_VERSION };
+
 export const FONTS = [
   'Inter',
   'JetBrains Mono',

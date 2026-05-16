@@ -3,6 +3,14 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.3.10]
+### 📚 Documentation Updates & Code Quality Assurance
+- **README Language**: Made Chinese the default language for README.md, renamed English version to README_EN.md, removed old README_ZH.md
+- **Code Quality Check**: Ran TypeScript type check - 0 errors, 0 warnings
+- **Testing**: All 54 Jest tests passed successfully
+- **OpenSpec Sync**: Updated openspec documentation dates and ensured consistency with current codebase
+- **Documentation Consistency**: Verified all documentation version numbers are synchronized at v2.3.10
+
+## [v2.3.10]
 ### 🐛 TypeScript Type Fixes & API Updates
 - **Type Safety**: Fixed all TypeScript 'unknown' and '{}' type issues across UI components
 - **Gemini API**: Updated @google/genai to v1.40.0 API (models.generateContent)

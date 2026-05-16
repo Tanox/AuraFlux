@@ -9,7 +9,7 @@ interface Props {
   song: SongInfo | null;
 }
 
-const CustomTextOverlay: React.FC<Props> = ({ settings }) => {
+export const CustomTextOverlay: React.FC<Props> = ({ settings }) => {
   if (!settings.showCustomText || !settings.customText) return null;
 
   return (
@@ -27,6 +27,4 @@ const CustomTextOverlay: React.FC<Props> = ({ settings }) => {
     </div>
   );
 };
-
-export default CustomTextOverlay;
 

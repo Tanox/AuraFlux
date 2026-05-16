@@ -14,7 +14,7 @@ interface Props {
   showAlbumArt: boolean;
 }
 
-const SongOverlay: React.FC<Props> = ({ song, isVisible, onClose }) => {
+export const SongOverlay: React.FC<Props> = ({ song, isVisible, onClose }) => {
   if (!song || !isVisible) return null;
 
   return (
@@ -47,5 +47,3 @@ const SongOverlay: React.FC<Props> = ({ song, isVisible, onClose }) => {
     </AnimatePresence>
   );
 };
-
-export default SongOverlay;
