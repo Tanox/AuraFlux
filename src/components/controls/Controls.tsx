@@ -1,8 +1,8 @@
 'use client';
 
-// src/components/controls/Controls.tsx v2.3.10
+// src/components/controls/Controls.tsx v2.3.11
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { VisualSettingsPanel } from './panels/VisualSettingsPanel';
 import { SystemSettingsPanel } from './panels/SystemSettingsPanel';
 import { CustomTextSettingsPanel } from './panels/CustomTextSettingsPanel';
@@ -45,51 +45,57 @@ const Controls: React.FC<ControlsProps> = ({ isExpanded, setIsExpanded, isIdle, 
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component;
 
+  const handleKeyDown = useCallback((e: globalThis.KeyboardEvent) => {
+    const target = e.target as HTMLElement;
+    if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
+
+    if (e.key.toLowerCase() === 'r') {
+      e.preventDefault();
+      randomizeSettings();
+      return;
+    }
+
+    const numKey = parseInt(e.key, 10);
+    if (!isNaN(numKey) && numKey >= 1 && numKey <= TABS.length) {
+      e.preventDefault();
+      setActiveTab(TABS[numKey - 1].id);
+    }
+  }, [TABS, randomizeSettings]);
+
   useEffect(() => {
-    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('Key pressed:', e.key);
-      }
-      const target = e.target as HTMLElement;
-      if (['INPUT', 'TEXTAREA'].includes(target.tagName)) return;
-
-      if (e.key.toLowerCase() === 'r') {
-        e.preventDefault();
-        randomizeSettings();
-        return;
-      }
-
-      const numKey = parseInt(e.key, 10);
-      if (!isNaN(numKey) && numKey >= 1 && numKey <= TABS.length) {
-        e.preventDefault();
-        setActiveTab(TABS[numKey - 1].id);
-      }
-    };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [TABS, randomizeSettings]);
+  }, [handleKeyDown]);
 
   return (
     <>
       <div
         id="controls-expanded-panel"
-        className={`fixed inset-x-0 bottom-24 z-[110] transition-transform duration-500 ease-in-out ${isExpanded ? 'translate-y-0' : 'translate-y-full'}`}
+        className={`fixed inset-x-0 bottom-24 z-[110] transition-all duration-500 ease-in-out ${isExpanded ? 'translate-y-0' : 'translate-y-full'}`}
         style={{ pointerEvents: isExpanded ? 'auto' : 'none', display: isExpanded ? 'block' : 'none' }}
       >
-        <div id="controls-panel-content" className="max-w-6xl mx-auto p-4 pt-6">
-          <div className="bg-white/90 dark:bg-[#0a0a0c]/90 backdrop-blur-2xl border border-black/10 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden animate-fade-in-down">
-            <div id="controls-tab-container" className="flex justify-center p-2 bg-black/[0.02] dark:bg-white/[0.02] border-b border-black/5 dark:border-white/5 overflow-x-auto no-scrollbar">
+        <div id="controls-panel-content" className="panel-container">
+          <div className="panel-content">
+            <div id="controls-tab-container" className="panel-tabs">
               {TABS.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 sm:px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-colors whitespace-nowrap ${activeTab === tab.id ? 'bg-white dark:bg-black/40 text-black dark:text-white' : 'text-black/40 dark:text-white/40 hover:text-black/80 dark:hover:text-white/80'}`}
+                  role="tab"
+                  aria-selected={activeTab === tab.id}
+                  aria-controls={`panel-${tab.id}`}
+                  className={`px-4 sm:px-6 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-white dark:bg-black/40 text-black dark:text-white shadow-md' : 'text-black/40 dark:text-white/40 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'}`}
                 >
                   {t(`tabs.${tab.label}`)}
                 </button>
               ))}
             </div>
-            <div id="controls-panel-wrapper" className="p-4 overflow-y-auto custom-scrollbar max-h-[calc(100vh-200px)]">
+            <div 
+              id="controls-panel-wrapper" 
+              className="panel-body"
+              role="tabpanel"
+              aria-labelledby={`tab-${activeTab}`}
+            >
               {ActiveComponent}
             </div>
           </div>

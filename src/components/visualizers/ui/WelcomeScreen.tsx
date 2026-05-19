@@ -1,7 +1,7 @@
 'use client';
 
-// src/components/visualizers/ui/WelcomeScreen.tsx v2.3.10
-import React from 'react';
+// src/components/visualizers/ui/WelcomeScreen.tsx v2.3.11
+import React, { useCallback } from 'react';
 import { useUI, useAudioContext } from '@/context/AppContext';
 
 export const WelcomeScreen: React.FC = () => {
@@ -12,9 +12,15 @@ export const WelcomeScreen: React.FC = () => {
 
   const { t, setHasStarted } = ui;
 
+  const handleStart = useCallback(() => {
+    toggleMicrophone(selectedDeviceId);
+    setHasStarted(true);
+  }, [toggleMicrophone, selectedDeviceId, setHasStarted]);
+
   return (
     <div id="welcome-screen" className="fixed inset-0 z-[100] bg-black flex items-center justify-center p-6 text-center overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-black to-black opacity-80" />
+      
       <div className="relative z-10 max-w-lg w-full space-y-10 animate-fade-in-up">
         <div className="space-y-4">
           <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-blue-100 to-blue-400 tracking-tighter drop-shadow-2xl">
@@ -26,19 +32,17 @@ export const WelcomeScreen: React.FC = () => {
         </div>
 
         <button 
-          onClick={() => {
-            toggleMicrophone(selectedDeviceId);
-            setHasStarted(true);
-          }}
+          onClick={handleStart}
           className="group relative inline-flex items-center justify-center px-8 py-4 font-black text-white transition-all duration-300 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
+          aria-label="Start experience"
         >
           <span className="mr-3 text-lg">▶</span>
           <span className="text-xs tracking-[0.2em] uppercase">{t('startExperience') || "INITIALIZE SYSTEM"}</span>
-          <div className="absolute inset-0 rounded-full ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-500 animate-pulse" />
+          <div className="absolute inset-0 rounded-full ring-1 ring-white/20 group-hover:ring-white/40 transition-all duration-500 animate-pulse-slow" />
         </button>
 
         <div className="flex justify-center gap-8 text-[10px] font-mono text-white/20 uppercase tracking-widest">
-          <span>{t('appVersion') || "v2.3.10"}</span>
+          <span>{t('appVersion') || "v2.3.11"}</span>
           <span>•</span>
           <span>{t('common.webAudioApi') || "WebAudio API"}</span>
           <span>•</span>
