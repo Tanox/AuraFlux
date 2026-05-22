@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/tests/useVisualsState.test.ts v2.3.10
+// src/hooks/tests/useVisualsState.test.ts v2.3.11
 import { renderHook, act } from '@testing-library/react';
 import { useVisualsState } from '../state/useVisualsState';
 import { VisualizerMode } from '../../types';

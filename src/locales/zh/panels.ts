@@ -1,4 +1,4 @@
-// src/locales/zh/panels.ts v2.3.10
+// src/locales/zh/panels.ts v2.3.11
 export const panels = {
   visualPanel: {
     display: "显示质量",

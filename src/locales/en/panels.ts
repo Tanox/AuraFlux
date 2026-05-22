@@ -1,4 +1,4 @@
-// src/locales/en/panels.ts v2.3.10
+// src/locales/en/panels.ts v2.3.11
 
 
 export const panels = {

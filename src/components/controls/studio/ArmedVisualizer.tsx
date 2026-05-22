@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/studio/ArmedVisualizer.tsx v2.3.10
+// src/components/controls/studio/ArmedVisualizer.tsx v2.3.11
 
 
 import React, { useEffect, useRef } from 'react';

@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/audio/useAudio.ts v2.3.10
+// src/hooks/audio/useAudio.ts v2.3.11
 import { useCallback, useState, useEffect } from 'react';
 import { UseAudioProps, UseAudioReturn } from './types';
 import { useMicrophoneManager } from './microphoneManager';
@@ -49,7 +49,7 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
 
   // 选择当前的 analyser
   const analyser = sourceType === 'microphone' ? micAnalyser : fileAnalyser;
-  const analyserR = sourceType === 'microphone' ? micAnalyser : fileAnalyserR;
+  const analyserR = sourceType === 'microphone' ? null : fileAnalyserR;
   const audioContext = sourceType === 'microphone' ? micAudioContext : fileAudioContext;
 
   // 切换源类型时的处理

@@ -1,4 +1,4 @@
-// src/components/controls/studio/RecordingPreview.tsx v2.3.10
+// src/components/controls/studio/RecordingPreview.tsx v2.3.11
 
 
 import React from 'react';

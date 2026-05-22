@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/utils/useIdleTimer.ts v2.3.10
+// src/hooks/utils/useIdleTimer.ts v2.3.11
 
 import { useState, useEffect } from 'react';
 
@@ -37,7 +37,7 @@ export const useIdleTimer = (isExpanded: boolean, autoHide: boolean = true) => {
       window.removeEventListener('touchstart', resetTimer);
       clearTimeout(timer);
     };
-  }, [autoHide]);
+  }, [autoHide, isExpanded]);
 
   return { isIdle };
 };

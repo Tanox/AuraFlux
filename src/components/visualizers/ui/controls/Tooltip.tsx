@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/ui/controls/Tooltip.tsx v2.3.10
+// src/components/visualizers/ui/controls/Tooltip.tsx v2.3.11
 
 
 import React, { useState, useEffect, useRef, memo } from 'react';

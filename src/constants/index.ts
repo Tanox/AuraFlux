@@ -1,4 +1,4 @@
-// src/constants/index.ts v2.3.10
+// src/constants/index.ts v2.3.11
 import { VisualizerMode } from '../types';
 import { APP_NAME, APP_VERSION } from './version';
 

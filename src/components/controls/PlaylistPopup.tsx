@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/PlaylistPopup.tsx v2.3.10
+// src/components/controls/PlaylistPopup.tsx v2.3.11
 
 import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';

@@ -1,4 +1,4 @@
-// src/components/visualizers/3d/shaders/OceanWaveShaders.ts v2.3.10
+// src/components/visualizers/3d/shaders/OceanWaveShaders.ts v2.3.11
 
 
 export const oceanWaveVertexShader = `

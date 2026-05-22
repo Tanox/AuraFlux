@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/state/useVisualsState.ts v2.3.10
+// src/hooks/state/useVisualsState.ts v2.3.11
 
 import { useReducer, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';
@@ -186,80 +186,42 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
   const setMode = useCallback((newMode: VisualizerMode | ((prev: VisualizerMode) => VisualizerMode)) => {
     const modeValue = typeof newMode === 'function' ? newMode(state.mode) : newMode;
     dispatch({ type: 'SET_MODE', payload: modeValue });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_mode', modeValue);
-    }
   }, [state.mode]);
 
   const setColorTheme = useCallback((newTheme: string[] | ((prev: string[]) => string[])) => {
     const themeValue = typeof newTheme === 'function' ? newTheme(state.colorTheme) : newTheme;
     dispatch({ type: 'SET_COLOR_THEME', payload: themeValue });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_colorTheme', JSON.stringify(themeValue));
-    }
   }, [state.colorTheme]);
 
   const setSettings = useCallback((newSettings: VisualizerSettings | ((prev: VisualizerSettings) => VisualizerSettings)) => {
     const settingsValue = typeof newSettings === 'function' ? newSettings(state.settings) : newSettings;
     dispatch({ type: 'SET_SETTINGS', payload: settingsValue });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_settings', JSON.stringify(settingsValue));
-    }
   }, [state.settings]);
 
   const setActivePreset = useCallback((newPreset: string | ((prev: string) => string)) => {
     const presetValue = typeof newPreset === 'function' ? newPreset(state.activePreset) : newPreset;
     dispatch({ type: 'SET_ACTIVE_PRESET', payload: presetValue });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_activePreset', presetValue);
-    }
   }, [state.activePreset]);
 
   const randomizeSettings = useCallback(() => {
     dispatch({ type: 'RANDOMIZE_SETTINGS' });
-    // 持久化随机化后的状态
-    if (typeof window !== 'undefined') {
-      // 由于reducer已经处理了状态更新，这里需要从state中获取最新值
-      // 注意：这里可能会有轻微的延迟，因为dispatch是异步的
-      setTimeout(() => {
-        localStorage.setItem('av_v1_mode', state.mode);
-        localStorage.setItem('av_v1_colorTheme', JSON.stringify(state.colorTheme));
-        localStorage.setItem('av_v1_settings', JSON.stringify(state.settings));
-        localStorage.setItem('av_v1_activePreset', state.activePreset);
-      }, 0);
-    }
-  }, [state]);
+  }, []);
 
   const resetVisualSettings = useCallback(() => {
     dispatch({ type: 'RESET_VISUAL_SETTINGS' });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_settings', JSON.stringify(DEFAULT_SETTINGS));
-    }
   }, []);
 
   const resetAudioSettings = useCallback(() => {
     dispatch({ type: 'RESET_AUDIO_SETTINGS' });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_settings', JSON.stringify({ ...state.settings, ...DEFAULT_AUDIO_SETTINGS }));
-    }
-  }, [state.settings]);
+  }, []);
 
   const resetTextSettings = useCallback(() => {
     dispatch({ type: 'RESET_TEXT_SETTINGS' });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_settings', JSON.stringify({ ...state.settings, ...DEFAULT_TEXT_SETTINGS }));
-    }
-  }, [state.settings]);
+  }, []);
 
   const applyPreset = useCallback((preset: SmartPreset) => {
     dispatch({ type: 'APPLY_PRESET', payload: preset });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('av_v1_mode', preset.mode);
-      localStorage.setItem('av_v1_colorTheme', JSON.stringify(preset.colors));
-      localStorage.setItem('av_v1_settings', JSON.stringify({ ...state.settings, ...preset.settings }));
-      localStorage.setItem('av_v1_activePreset', preset.name);
-    }
-  }, [state.settings]);
+  }, []);
 
   // Auto rotate visualizer modes
   useEffect(() => {
@@ -282,6 +244,16 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
       }
     };
   }, [state.settings.autoRotate, state.settings.rotateInterval, state.settings.includedModes, state.mode, setMode, hasStarted]);
+
+  // Auto persist state to localStorage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('av_v1_mode', state.mode);
+      localStorage.setItem('av_v1_colorTheme', JSON.stringify(state.colorTheme));
+      localStorage.setItem('av_v1_settings', JSON.stringify(state.settings));
+      localStorage.setItem('av_v1_activePreset', state.activePreset);
+    }
+  }, [state]);
 
   return {
     ...state,

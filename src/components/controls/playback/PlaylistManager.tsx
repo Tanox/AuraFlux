@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/playback/PlaylistManager.tsx v2.3.10
+// src/components/controls/playback/PlaylistManager.tsx v2.3.11
 
 
 import Image from 'next/image';

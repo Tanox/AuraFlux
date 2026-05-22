@@ -1,4 +1,4 @@
-// src/hooks/utils/useVersionCheck.ts v2.3.10
+// src/hooks/utils/useVersionCheck.ts v2.3.11
 
 import { useEffect } from 'react';
 

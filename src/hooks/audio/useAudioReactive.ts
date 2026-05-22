@@ -1,4 +1,4 @@
-// src/hooks/audio/useAudioReactive.ts v2.3.10
+// src/hooks/audio/useAudioReactive.ts v2.3.11
 
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
