@@ -1,8 +1,8 @@
-<!-- openspec/08_testing_validation.md v2.4.0 -->
+<!-- openspec/08_testing_validation.md v2.3.11 -->
 # 测试与验证系统规范
 
 ## 版本信息
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **更新日期**: 2026-05-21
 - **作者**: Sut
 

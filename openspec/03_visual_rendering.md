@@ -1,10 +1,10 @@
-<!-- openspec/03_visual_rendering.md v2.4.0 -->
+<!-- openspec/03_visual_rendering.md v2.3.11 -->
 # 视觉渲染系统规范
 
 ## 1. 2D 可视化系统
 ### 1.1 VisualizerCanvas 组件
 - **文件**: `src/components/visualizers/VisualizerCanvas.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 2D 音频可视化画布
 **核心特性**
 - 使用 Canvas 2D API 渲染
@@ -26,7 +26,7 @@
 **代码示例**:
 ```tsx
 // VisualizerCanvas.tsx 核心结构
-// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.4.0
+// File: src/components/visualizers/VisualizerCanvas.tsx | Version: v2.3.11
 import React, { useRef, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings } from '@/types';
 import { renderPlasmaMode } from './2d/plasma/PlasmaMode';
@@ -63,7 +63,7 @@ export default VisualizerCanvas;
 
 #### 1.2.1 Plasma 模式
 - **文件**: `src/components/visualizers/2d/plasma/PlasmaMode.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 等离子效果可视化
 **核心特性**:
 - 动态粒子效果
@@ -79,7 +79,7 @@ export default VisualizerCanvas;
 
 #### 1.2.2 Waveform 模式
 - **文件**: `src/components/visualizers/2d/waveform/WaveformMode.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 波形可视化模式
 **核心特性**:
 - 实时音频波形显示
@@ -89,7 +89,7 @@ export default VisualizerCanvas;
 
 #### 1.2.3 Bars 模式
 - **文件**: `src/components/visualizers/2d/bars/BarsMode.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 频谱柱状图可视化
 **核心特性**:
 - 频率范围柱状图
@@ -99,7 +99,7 @@ export default VisualizerCanvas;
 
 #### 1.2.4 Starfield 模式
 - **文件**: `src/components/visualizers/2d/starfield/StarfieldMode.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 星空效果可视化
 **核心特性**:
 - 3D 透视效果
@@ -109,7 +109,7 @@ export default VisualizerCanvas;
 
 #### 1.2.5 Tunnel 模式
 - **文件**: `src/components/visualizers/2d/tunnel/TunnelMode.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 隧道效果可视化
 **核心特性**:
 - 3D 隧道视觉效果
@@ -121,7 +121,7 @@ export default VisualizerCanvas;
 
 ### 2.1 ThreeVisualizer 组件
 - **文件**: `src/components/visualizers/ThreeVisualizer.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 3D 音频可视化场景
 **核心特性**:
 - 使用 Three.js 渲染

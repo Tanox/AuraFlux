@@ -1,8 +1,8 @@
-<!-- openspec/01_core_architecture.md v2.4.0 -->
+<!-- openspec/01_core_architecture.md v2.3.11 -->
 # 核心架构规范
 
 ## 版本信息
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **更新日期**: 2026-05-21
 - **作者**: Sut
 
@@ -10,7 +10,7 @@
 
 ### 1.1 主应用组件(App.tsx)
 - **文件**: `src/components/App.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 应用的顶层入口组件
 **核心特性**
 - 支持客户端渲染(`'use client'`)
@@ -47,7 +47,7 @@
 ```tsx
 // App.tsx 核心结构
 'use client';
-// File: src/components/App.tsx | Version: v2.4.0
+// File: src/components/App.tsx | Version: v2.3.11
 import React, { useState, useEffect, Suspense, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useUI, useVisuals, useAudioContext, useAI } from '@/context/AppContext';
@@ -208,7 +208,7 @@ export const App: React.FC = () => (
 ```
 ### 1.2 主页面组件 (page.tsx)
 - **文件**: `src/app/page.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 应用的主页面入口组件
 
 **核心特性**
@@ -221,7 +221,7 @@ export const App: React.FC = () => (
 // page.tsx 核心结构
 'use client';
 
-// File: src/app/page.tsx | Version: v2.4.0
+// File: src/app/page.tsx | Version: v2.3.11
 import dynamic from 'next/dynamic';
 import { ErrorBoundary } from '@/components/visualizers/ui/ErrorBoundary';
 
@@ -238,7 +238,7 @@ export default function Home() {
 
 ### 1.3 根布局组件 (layout.tsx)
 - **文件**: `src/app/layout.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 应用的根布局组件
 
 **核心特性**
@@ -252,7 +252,7 @@ export default function Home() {
 **代码示例:**
 ```tsx
 // layout.tsx 核心结构
-// File: src/app/layout.tsx | Version: v2.4.0
+// File: src/app/layout.tsx | Version: v2.3.11
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";
@@ -265,7 +265,7 @@ const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aura.ewuse.com/"),
-  title: "Aura Flux v2.4.0",
+  title: "Aura Flux v2.3.11",
   description: "Experience Aura Flux: A next-gen 3D music visualizer powered by Google Gemini AI. Transform microphone input into real-time, audio-reactive WebGL art.",
   keywords: ["music visualizer", "audio visualizer", "AI music recognition", "Google Gemini", "WebGL", "Three.js", "React 19", "generative art", "synesthesia"],
   authors: [{ name: "Sut" }],
@@ -305,7 +305,7 @@ export default function RootLayout({
 
 ### 1.4 404 页面组件 (_not-found.tsx)
 - **文件**: `src/app/_not-found.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 处理未找到页面的情况
 
 **核心特性**
@@ -349,7 +349,7 @@ export default function NotFound() {
 ## 2. 状态管理系统
 ### 2.1 应用上下文(AppContext.tsx)
 - **文件**: `src/context/AppContext.tsx`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 提供全局状态管理和共享功能
 
 **核心功能:**
@@ -367,7 +367,7 @@ export default function NotFound() {
 ```tsx
 // AppContext.tsx 核心结构
 'use client';
-// File: src/context/AppContext.tsx | Version: v2.4.0
+// File: src/context/AppContext.tsx | Version: v2.3.11
 import React, { useState, createContext, useContext, useMemo, useCallback, useEffect } from 'react';
 import { VisualizerMode, LyricsStyle, Language, VisualizerSettings, Region, AudioDevice, SongInfo, SmartPreset, AudioSourceType, Track, PlaybackMode } from '@/types/index';
 import { useAudio } from '@/hooks/useAudio';
@@ -531,7 +531,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
 ### 2.2 应用状态 Hook (useAppState.ts)
 - **文件**: `src/hooks/useAppState.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 管理应用的 UI 状态
 **核心功能:**
 - 语言管理(支持多语言)
@@ -545,7 +545,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 **代码示例:**
 ```tsx
 // useAppState.ts 核心结构
-// File: src/hooks/useAppState.ts | Version: v2.4.0
+// File: src/hooks/useAppState.ts | Version: v2.3.11
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../types';
 import { TRANSLATIONS } from '../locales';
@@ -625,7 +625,7 @@ export const useAppState = () => {
 
 ### 2.3 视觉状态 Hook (useVisualsState.ts)
 - **文件**: `src/hooks/useVisualsState.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 管理与可视化相关的状态
 **核心功能:**
 - 可视化模式管理
@@ -638,7 +638,7 @@ export const useAppState = () => {
 **代码示例:**
 ```tsx
 // useVisualsState.ts 核心结构
-// File: src/hooks/useVisualsState.ts | Version: v2.4.0
+// File: src/hooks/useVisualsState.ts | Version: v2.3.11
 import { useState, useCallback, useMemo } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../types';
 import { COLOR_THEMES } from '../constants';
@@ -716,7 +716,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 
 ### 3.1 核心类型 (types/index.ts)
 - **文件**: `src/types/index.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 定义应用中使用的类型
 
 **主要类型:**
@@ -736,7 +736,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 **代码示例:**
 ```tsx
 // types/index.ts 核心结构
-// File: src/types/index.ts | Version: v2.4.0
+// File: src/types/index.ts | Version: v2.3.11
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
   SILK_WAVE = 'SILK_WAVE',
@@ -822,16 +822,16 @@ export type Position = 'top' | 'center' | 'bottom';
 
 ### 4.1 版本常量 (version.ts)
 - **文件**: `src/constants/version.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 定义应用版本号
 **内容:**
 ```typescript
-export const APP_VERSION = 'v2.4.0';
+export const APP_VERSION = 'v2.3.11';
 ```
 
 ### 4.2 通用常量 (index.ts)
 - **文件**: `src/constants/index.ts`
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **功能**: 定义应用中使用的常量
 
 **主要常量:**
@@ -842,7 +842,7 @@ export const APP_VERSION = 'v2.4.0';
 
 **代码示例:**
 ```typescript
-// File: src/constants/index.ts | Version: v2.4.0
+// File: src/constants/index.ts | Version: v2.3.11
 import { VisualizerMode } from '../types';
 
 export const APP_NAME = 'Aura Flux';

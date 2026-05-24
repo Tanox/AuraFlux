@@ -3,6 +3,17 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.3.11]
+### 🔧 Project Issues Fix & Configuration Cleanup
+- **.npmrc Configuration**: Fixed conflicting npmrc configuration that caused issues with nvm and npm commands
+- **PWA Cleanup**: Removed unused PWA dependencies and leftover service worker files
+- **State Management Fix**: Fixed race condition in randomizeSettings function by adding automatic state persistence via useEffect
+- **Audio Context Cleanup**: Fixed premature audio context closing by using useRef to track resources and only cleaning up on unmount
+- **Storage Utility**: Added safeStorage utility with comprehensive error handling for localStorage operations
+- **Code Quality**: Refactored and simplified state management functions by removing redundant localStorage calls
+- **Testing**: All 54 tests pass successfully
+- **TypeScript**: No errors or warnings
+
+## [v2.3.11]
 ### 📚 Documentation Updates & Code Quality Assurance
 - **README Language**: Made Chinese the default language for README.md, renamed English version to README_EN.md, removed old README_ZH.md
 - **Code Quality Check**: Ran TypeScript type check - 0 errors, 0 warnings

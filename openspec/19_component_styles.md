@@ -1,8 +1,8 @@
-<!-- openspec/19_component_styles.md v2.4.0 -->
+<!-- openspec/19_component_styles.md v2.3.11 -->
 # 组件样式系统规范
 
 ## 版本信息
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **更新日期**: 2026-05-21
 - **作者**: Sut
 

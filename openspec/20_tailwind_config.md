@@ -1,8 +1,8 @@
-<!-- openspec/20_tailwind_config.md v2.4.0 -->
+<!-- openspec/20_tailwind_config.md v2.3.11 -->
 # Tailwind CSS 配置规范
 
 ## 版本信息
-- **版本**: v2.4.0
+- **版本**: v2.3.11
 - **更新日期**: 2026-05-21
 - **作者**: Sut
 

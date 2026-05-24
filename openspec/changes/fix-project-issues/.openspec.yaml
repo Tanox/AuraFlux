@@ -1,0 +1,24 @@
+id: fix-project-issues
+name: fix-project-issues
+description: Fix project issues found in code review
+status: proposed
+createdAt: '2026-05-24'
+schemaVersion: '1.0'
+apply:
+  requires:
+    - tasks
+artifacts:
+  proposal:
+    path: proposal.md
+    status: ready
+    dependencies: []
+  design:
+    path: design.md
+    status: ready
+    dependencies:
+      - proposal
+  tasks:
+    path: tasks.md
+    status: ready
+    dependencies:
+      - design

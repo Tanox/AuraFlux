@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@alloc/quick-lru": "^5.2.0",
-    "@ducanh2912/next-pwa": "^10.2.9",
+
     "@google/genai": "^1.40.0",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "9.96.1",
