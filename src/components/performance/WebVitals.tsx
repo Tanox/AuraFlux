@@ -1,4 +1,4 @@
-// src/components/performance/WebVitals.tsx v2.3.10
+// src/components/performance/WebVitals.tsx v2.3.11
 
 
 'use client';

@@ -1,8 +1,8 @@
-<!-- openspec/10_contribution_guidelines.md v2.3.10 -->
+<!-- openspec/10_contribution_guidelines.md v2.3.11 -->
 # 贡献者行为规范
 
 ## 版本信息
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **更新日期**: 2026-04-22
 - **作者**: Sut
 

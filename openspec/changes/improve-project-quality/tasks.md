@@ -14,22 +14,22 @@
 ### 任务 1.1: 检查版本不一致
 ```bash
 # 列出所有版本不一致的文件
-grep -rn "v2\.3\.[0-9]" src/ openspec/ --include="*.ts" --include="*.tsx" --include="*.md" | grep -v "v2.3.10"
+grep -rn "v2\.3\.[0-9]" src/ openspec/ --include="*.ts" --include="*.tsx" --include="*.md" | grep -v "v2.3.11"
 ```
-**验证**: 无输出表示所有版本已统一
+**验证**: ✅ 已完成 - 所有文件已统一为 v2.3.11
 
 ### 任务 1.2: 运行版本更新脚本 (如需要)
 ```bash
 node scripts/update-version.ts 2.3.10
 ```
-**验证**: `grep -rn "v2.3.10" openspec/` 输出应为所有 openspec 文档
+**验证**: ✅ 已完成 - 创建并执行 scripts/update-versions.sh，所有源码文件已更新为 v2.3.11
 
 ### 任务 1.3: 更新文件头注释
 检查并更新以下文件的版本注释：
-- `openspec/01_core_architecture.md` → v2.3.10
+- `openspec/01_core_architecture.md` → v2.3.11
 - 其他过时文档
 
-**验证**: `grep -r "Version:" openspec/*.md | grep -v "v2.3.10"`
+**验证**: ✅ 已完成
 
 ---
 
@@ -118,13 +118,15 @@ npx tsc --noEmit
 
 ### 必须完成 (P0-P1)
 - [x] 安装依赖
-- [x] 验证版本一致性 (统一为 v2.3.10)
+- [x] 验证版本一致性 (统一为 v2.3.11)
 - [x] 创建至少 4 个测试文件 (5个已创建)
 - [x] TypeScript 编译检查通过
+- [x] 修复 CHANGELOG.md 编码问题 (所有乱码字符已替换为正确的 emoji)
 
 ### 可选完成 (P2)
 - [ ] 代码重构
 - [ ] ESLint 检查通过 (项目原有配置问题)
+- [ ] 测试覆盖率提升至 ≥80% (当前 17.41%)
 
 ---
 

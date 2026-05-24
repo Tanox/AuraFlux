@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/ui/LyricsOverlay.tsx v2.3.10
+// src/components/visualizers/ui/LyricsOverlay.tsx v2.3.11
 
 
 import React, { useRef, useMemo, useEffect, useState } from 'react';

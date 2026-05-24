@@ -1,8 +1,8 @@
-<!-- openspec/17_documentation_guidelines.md v2.3.10 -->
+<!-- openspec/17_documentation_guidelines.md v2.3.11 -->
 # 文档规范和维护流程
 
 ## 版本信息
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **更新日期**: 2026-04-22
 - **作者**: Sut
 

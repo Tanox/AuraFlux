@@ -1,4 +1,4 @@
-// src/utils/tests/lyricsUtils.test.ts v2.3.10
+// src/utils/tests/lyricsUtils.test.ts v2.3.11
 import { parseLrc } from '../../utils/lyricsUtils';
 
 describe('lyricsUtils', () => {

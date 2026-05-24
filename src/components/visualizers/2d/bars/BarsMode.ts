@@ -1,4 +1,4 @@
-// src/components/visualizers/2d/bars/BarsMode.ts v2.3.10
+// src/components/visualizers/2d/bars/BarsMode.ts v2.3.11
 import { BarsModeProps } from '@/types';
 import { logger } from '@/utils/logger';
 

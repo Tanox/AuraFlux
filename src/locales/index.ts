@@ -1,4 +1,4 @@
-// src/locales/index.ts v2.3.10
+// src/locales/index.ts v2.3.11
 import { translations as en } from './en';
 import { translations as zh } from './zh';
 import { translations as es } from './es';

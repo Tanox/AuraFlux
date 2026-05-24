@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/state/useVisualsState.ts v2.3.10
+// src/hooks/state/useVisualsState.ts v2.3.11
 
 import { useReducer, useCallback, useMemo, useEffect } from 'react';
 import { VisualizerMode, VisualizerSettings, SmartPreset } from '../../types';

@@ -1,6 +1,6 @@
 'use client';
 
-// src/hooks/state/useAppState.ts v2.3.10
+// src/hooks/state/useAppState.ts v2.3.11
 
 import { useState, useCallback, useMemo } from 'react';
 import { Language, Region } from '../../types';

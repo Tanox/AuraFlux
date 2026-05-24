@@ -50,7 +50,7 @@
 **代码示例:**
 ```tsx
 // useAudio.test.ts 核心结构
-// File: src/__tests__/hooks/useAudio.test.ts | Version: v2.3.10
+// File: src/__tests__/hooks/useAudio.test.ts | Version: v2.3.11
 import { renderHook, act } from '@testing-library/react';
 import { useAudio } from '../../hooks/useAudio';
 import { VisualizerSettings } from '../../types';

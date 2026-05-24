@@ -1,4 +1,4 @@
-// src/hooks/performance/useAdaptiveComplexity.ts v2.3.10
+// src/hooks/performance/useAdaptiveComplexity.ts v2.3.11
 import { useMemo } from 'react';
 import { usePerformanceMonitor } from './usePerformanceMonitor';
 import { VisualizerSettings } from '@/types';

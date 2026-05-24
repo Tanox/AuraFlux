@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/visual/CoreVisuals.tsx v2.3.10
+// src/components/controls/visual/CoreVisuals.tsx v2.3.11
 
 
 

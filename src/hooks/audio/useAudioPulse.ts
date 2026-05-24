@@ -1,4 +1,4 @@
-// src/hooks/audio/useAudioPulse.ts v2.3.10
+// src/hooks/audio/useAudioPulse.ts v2.3.11
 
 import { useEffect, useRef } from 'react';
 

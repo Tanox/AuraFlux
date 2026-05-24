@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/panels/VisualizerPreview.tsx v2.3.10
+// src/components/controls/panels/VisualizerPreview.tsx v2.3.11
 
 
 

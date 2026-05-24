@@ -1,4 +1,4 @@
-// src/components/visualizers/ThreeVisualizer.tsx v2.3.10
+// src/components/visualizers/ThreeVisualizer.tsx v2.3.11
 
 import React, { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';

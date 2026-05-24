@@ -1,11 +1,11 @@
-<!-- openspec/04_ai_integration.md v2.3.10 -->
+<!-- openspec/04_ai_integration.md v2.3.11 -->
 # AI 集成系统规范
 
 ## 1. AI 服务模块
 
 ### 1.1 aiService.ts
 - **文件**: `src/services/aiService.ts`
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **功能**: 提供 Google Gemini AI 服务集成
 
 **核心功能**:
@@ -34,7 +34,7 @@
 **代码示例**:
 ```tsx
 // aiService.ts 核心结构
-// File: src/services/aiService.ts | Version: v2.3.10
+// File: src/services/aiService.ts | Version: v2.3.11
 import { GoogleGenAI } from '@google/genai';
 import { en } from '@/locales/en';
 
@@ -97,7 +97,7 @@ export const getAiService = (): GoogleGenAI | null => {
 
 ### 2.1 useAiState Hook
 - **文件**: `src/hooks/state/useAiState.ts`
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **功能**: 管理 AI 相关状态
 **核心状态**:
 - `showLyrics` - 是否显示歌词
@@ -114,7 +114,7 @@ export const getAiService = (): GoogleGenAI | null => {
 
 ### 2.2 AppContext 中的 AI 状态
 - **文件**: `src/context/AppContext.tsx`
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **功能**: 在全局状态中管理 AI 状态
 **核心功能**:
 - 提供 AI 状态和方法

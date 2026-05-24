@@ -1,4 +1,4 @@
-// src/components/visualizers/ui/ErrorBoundary.tsx v2.3.10
+// src/components/visualizers/ui/ErrorBoundary.tsx v2.3.11
 
 'use client';
 

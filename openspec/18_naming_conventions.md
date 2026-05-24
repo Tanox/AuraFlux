@@ -1,7 +1,7 @@
 # Aura Flux 命名规范
 
 ## 版本信息
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **更新日期**: 2026-04-23
 - **作者**: Sut
 
@@ -126,7 +126,7 @@ export const WelcomeScreen: React.FC = () => {
 
 ```tsx
 // 1. 头部注释 (文件路径和版本)
-// File: src/components/xxx.tsx | Version: v2.3.10
+// File: src/components/xxx.tsx | Version: v2.3.11
 
 // 2. 导入语句
 import React from 'react';
@@ -383,4 +383,4 @@ const handleClick = () => { };
 
 | 版本 | 日期 | 修改内容 | 作者 |
 |-----|------|---------|------|
-| v2.3.10 | 2026-04-23 | 初始版本 | Sut |
+| v2.3.11 | 2026-04-23 | 初始版本 | Sut |

@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/3d/oceanWave/OceanWaveScene.tsx v2.3.10
+// src/components/visualizers/3d/oceanWave/OceanWaveScene.tsx v2.3.11
 import React, { useRef, useMemo, useLayoutEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';

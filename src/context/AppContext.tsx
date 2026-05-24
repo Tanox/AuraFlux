@@ -1,4 +1,4 @@
-// src/context/AppContext.tsx v2.3.10
+// src/context/AppContext.tsx v2.3.11
 
 'use client';
 import React, { useState, createContext, useContext, useMemo, useCallback } from 'react';
