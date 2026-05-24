@@ -30,7 +30,8 @@ const THREE_MODES = [
   VisualizerMode.OCEAN_WAVE,
   VisualizerMode.NEURAL_FLOW,
   VisualizerMode.CUBE_FIELD,
-  VisualizerMode.KINETIC_WALL
+  VisualizerMode.KINETIC_WALL,
+  VisualizerMode.LASERS
 ];
 
 export const VisualizerPreview: React.FC<VisualizerPreviewProps> = memo(({ mode, name, isActive, isIncluded, onClick, onToggleInclude }) => {

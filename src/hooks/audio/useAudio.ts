@@ -49,7 +49,7 @@ export function useAudio({ settings, language, setCurrentSong, showToast }: UseA
 
   // 选择当前的 analyser
   const analyser = sourceType === 'microphone' ? micAnalyser : fileAnalyser;
-  const analyserR = sourceType === 'microphone' ? micAnalyser : fileAnalyserR;
+  const analyserR = sourceType === 'microphone' ? null : fileAnalyserR;
   const audioContext = sourceType === 'microphone' ? micAudioContext : fileAudioContext;
 
   // 切换源类型时的处理

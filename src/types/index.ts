@@ -66,6 +66,7 @@ export interface VisualizerSettings {
   autoHideUi: boolean;
   showSongInfo: boolean;
   showAlbumArtOverlay: boolean;
+  albumArtBackground: boolean;
   showFps: boolean;
   appTheme: AppTheme;
   wakeLock: boolean;

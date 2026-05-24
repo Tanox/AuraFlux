@@ -34,6 +34,7 @@ const DEFAULT_SETTINGS: VisualizerSettings = {
   autoHideUi: true,
   showSongInfo: true,
   showAlbumArtOverlay: true,
+  albumArtBackground: false,
   showFps: false,
   appTheme: 'dark',
   wakeLock: true,
