@@ -1,4 +1,4 @@
-// src/components/visualizers/2d/waveform/WaveformMode.ts v2.3.10
+// src/components/visualizers/2d/waveform/WaveformMode.ts v2.3.11
 import { WaveformModeProps } from '@/types';
 import { logger } from '@/utils/logger';
 

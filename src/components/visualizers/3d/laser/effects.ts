@@ -1,4 +1,4 @@
-// src/components/visualizers/3d/laser/effects.ts v2.3.10
+// src/components/visualizers/3d/laser/effects.ts v2.3.11
 
 
 import { Vector3, Color } from 'three';

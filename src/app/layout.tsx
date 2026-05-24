@@ -1,4 +1,4 @@
-// src/app/layout.tsx v2.3.10
+// src/app/layout.tsx v2.3.11
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Montserrat } from "next/font/google";
 import Script from "next/script";
@@ -38,13 +38,13 @@ const GoogleAnalyticsScript = () => {
   return null;
 };
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
+const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin", "latin-ext"], variable: "--font-jetbrains-mono" });
+const montserrat = Montserrat({ subsets: ["latin", "latin-ext"], variable: "--font-montserrat" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aura.ewuse.com/"),
-  title: "Aura Flux v2.3.10",
+  title: "Aura Flux v2.3.11",
   description: "Experience Aura Flux: A next-gen 3D music visualizer powered by Google Gemini AI. Transform microphone input into real-time, audio-reactive WebGL art.",
   keywords: ["music visualizer", "audio visualizer", "AI music recognition", "Google Gemini", "WebGL", "Three.js", "React 19", "generative art", "synesthesia"],
   authors: [{ name: "Sut" }],
@@ -65,6 +65,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

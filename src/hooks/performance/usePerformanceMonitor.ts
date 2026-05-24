@@ -1,4 +1,4 @@
-// src/hooks/performance/usePerformanceMonitor.ts v2.3.10
+// src/hooks/performance/usePerformanceMonitor.ts v2.3.11
 import { useRef, useEffect, useState, useCallback } from 'react';
 
 interface PerformanceMonitorOptions {

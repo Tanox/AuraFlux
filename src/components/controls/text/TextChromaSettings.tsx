@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/text/TextChromaSettings.tsx v2.3.10
+// src/components/controls/text/TextChromaSettings.tsx v2.3.11
 
 import React, { useMemo, useCallback } from 'react';
 import { useVisuals, useUI } from '@/context/AppContext';

@@ -1,4 +1,4 @@
-// src/locales/es/panels.ts v2.3.10
+// src/locales/es/panels.ts v2.3.11
 export const panels = {
   visualPanel: {
     display: "Calidad de Visualización",

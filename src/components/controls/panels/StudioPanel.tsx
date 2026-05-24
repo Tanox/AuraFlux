@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/controls/panels/StudioPanel.tsx v2.3.10
+// src/components/controls/panels/StudioPanel.tsx v2.3.11
 
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';

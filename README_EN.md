@@ -1,6 +1,6 @@
 # Aura Flux 🎵👁️
 
-### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.3.10)
+### AI-Powered 3D Music Visualizer & Synesthesia Engine (v2.3.11)
 
 [Live Demo](https://aura.ewuse.com/) | [简体中文](./README.md) | [Documentation](./openspec/)
 

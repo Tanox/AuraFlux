@@ -1,6 +1,6 @@
 'use client';
 
-// src/components/visualizers/3d/laser/LaserScene.tsx v2.3.10
+// src/components/visualizers/3d/laser/LaserScene.tsx v2.3.11
 
 // Author: Sut
 

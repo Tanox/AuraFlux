@@ -1,4 +1,4 @@
-// src/services/aiService.ts v2.3.10
+// src/services/aiService.ts v2.3.11
 import i18n from '@/i18n';
 import { logger } from '@/utils/logger';
 import { VisualConfig, SongIdentification } from '@/types';

@@ -1,4 +1,4 @@
-// src/hooks/useDeviceManager.ts v2.3.10
+// src/hooks/useDeviceManager.ts v2.3.11
 import { useState, useCallback, useEffect } from 'react';
 import { AudioDevice } from '@/types';
 import { DeviceService } from '@/services/deviceService';

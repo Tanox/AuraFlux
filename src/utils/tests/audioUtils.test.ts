@@ -1,4 +1,4 @@
-// src/utils/tests/audioUtils.test.ts v2.3.10
+// src/utils/tests/audioUtils.test.ts v2.3.11
 import { getAverage } from '../../services/audioUtils';
 
 describe('audioUtils', () => {

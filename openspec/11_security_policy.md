@@ -1,8 +1,8 @@
-<!-- openspec/11_security_policy.md v2.3.10 -->
+<!-- openspec/11_security_policy.md v2.3.11 -->
 # 安全策略与漏洞报告
 
 ## 版本信息
-- **版本**: v2.3.10
+- **版本**: v2.3.11
 - **更新日期**: 2026-04-22
 - **作者**: Sut
 

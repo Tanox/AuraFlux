@@ -1,4 +1,4 @@
-// src/components/controls/panels/VisualSettingsPanel.tsx v2.3.10
+// src/components/controls/panels/VisualSettingsPanel.tsx v2.3.11
 
 import React from 'react';
 import { ModeSelector } from '../visual/ModeSelector';

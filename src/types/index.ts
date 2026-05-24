@@ -1,4 +1,4 @@
-// src/types/index.ts v2.3.10
+// src/types/index.ts v2.3.11
 
 export enum VisualizerMode {
   DIGITAL_GRID = 'DIGITAL_GRID',
@@ -66,6 +66,7 @@ export interface VisualizerSettings {
   autoHideUi: boolean;
   showSongInfo: boolean;
   showAlbumArtOverlay: boolean;
+  albumArtBackground: boolean;
   showFps: boolean;
   appTheme: AppTheme;
   wakeLock: boolean;
