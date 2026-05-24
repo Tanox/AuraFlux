@@ -38,9 +38,9 @@ const GoogleAnalyticsScript = () => {
   return null;
 };
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono" });
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
+const inter = Inter({ subsets: ["latin", "latin-ext"], variable: "--font-inter" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin", "latin-ext"], variable: "--font-jetbrains-mono" });
+const montserrat = Montserrat({ subsets: ["latin", "latin-ext"], variable: "--font-montserrat" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aura.ewuse.com/"),
@@ -65,6 +65,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
