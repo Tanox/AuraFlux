@@ -2,7 +2,10 @@
 
 // src/hooks/state/useAiState.ts v2.3.11
 import { useState, useCallback, useMemo, useRef } from 'react';
-import { LyricsStyle, SongInfo } from '../../types';
+import { LyricsStyle, SongInfo, VisualizerSettings } from '../../types';
+import { logger } from '@/utils/logger';
+
+type ToastType = 'success' | 'info' | 'error' | 'warning';
 
 interface UseAiStateProps {
   language: string;
@@ -11,13 +14,13 @@ interface UseAiStateProps {
   isListening: boolean;
   isSimulating: boolean;
   mediaStream: MediaStream | null;
-  initialSettings: any;
-  setSettings: any;
+  initialSettings: VisualizerSettings;
+  setSettings: React.Dispatch<React.SetStateAction<VisualizerSettings>>;
   onSongIdentified: (s: SongInfo | null) => void;
   currentSong: SongInfo | null;
   getAudioSlice: (s?: number) => Promise<Blob | null>;
-  t: any;
-  showToast: (m: string, type?: any) => void;
+  t: (key: string) => string;
+  showToast: (m: string, type?: ToastType) => void;
 }
 
 export const useAiState = ({ language, region, provider, isListening, isSimulating, mediaStream, initialSettings, setSettings, onSongIdentified, currentSong, getAudioSlice, t, showToast }: UseAiStateProps) => {

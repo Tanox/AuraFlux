@@ -1,0 +1,1 @@
+src/hooks/useVideoRecorder.ts(6,41): error TS2304: Cannot find name 'UseVideoRecorderProps'.

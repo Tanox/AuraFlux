@@ -37,7 +37,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
 
   const initialSetupRef = useRef(false);
 
-  useFrame((state: any) => {
+  useFrame((state) => {
     if (!meshRef.current || !analyser) return;
     
     const time = state.clock.getElapsedTime();

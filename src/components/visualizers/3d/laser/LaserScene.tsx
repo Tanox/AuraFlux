@@ -52,7 +52,9 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
         tempColor.setHex(0xffffff);
         meshRef.current.setColorAt(i, tempColor);
       }
-      meshRef.current.instanceColor!.needsUpdate = true;
+      if (meshRef.current.instanceColor) {
+        meshRef.current.instanceColor.needsUpdate = true;
+      }
     }
   }, [count]);
 
