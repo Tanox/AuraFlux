@@ -1,0 +1,18 @@
+{
+  "name": "auraflux-review",
+  "leadAgentId": "0c92d01d7889492fb57080af9aca8e7c",
+  "workspacePath": "e:/Github/AuraFlux",
+  "createdAt": "2026-05-25T13:43:31.483Z",
+  "options": {
+    "workspacePath": "e:/Github/AuraFlux",
+    "isAutoTeam": false
+  },
+  "members": [
+    {
+      "memberId": "team-lead@auraflux-review",
+      "name": "team-lead",
+      "role": "Team Lead - coordinates the team and interacts with the user"
+    }
+  ],
+  "isAutoTeam": false
+}

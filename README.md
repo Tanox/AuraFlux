@@ -98,13 +98,13 @@ docker run -p 3000:3000 -e GEMINI_API_KEY=your_key aura-flux
 
 ```bash
 # 运行所有测试
-pnpm test
+npm test
 
 # 运行特定测试文件
-pnpm test -- --testPathPatterns="logger.test|visualization.test"
+npm test -- --testPathPattern="logger.test|visualization.test"
 
 # 运行带覆盖率的测试
-pnpm test -- --coverage
+npm run test:coverage
 ```
 
 **覆盖率要求：**
@@ -131,5 +131,5 @@ pnpm test -- --coverage
 ## 📄 许可与署名
 
 由 **Sut** 倾力开发。  
-*当前版本: 2.3.10*  
+*当前版本: 2.3.11*  
 *个人主页:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

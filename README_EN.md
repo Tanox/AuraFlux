@@ -98,13 +98,13 @@ docker run -p 3000:3000 -e GEMINI_API_KEY=your_key aura-flux
 
 ```bash
 # Run all tests
-pnpm test
+npm test
 
 # Run specific test files
-pnpm test -- --testPathPatterns="logger.test|visualization.test"
+npm test -- --testPathPattern="logger.test|visualization.test"
 
 # Run tests with coverage
-pnpm test -- --coverage
+npm run test:coverage
 ```
 
 **Coverage Requirements:**
@@ -131,5 +131,5 @@ See [Naming Conventions](./openspec/18_naming_conventions.md) for detailed guide
 ## 📄 License & Signature
 
 Developed with ❤️ by **Sut**.  
-*Version: 2.3.10*  
+*Version: 2.3.11*  
 *Signature URL:* [https://github.com/sutchan/aura-flux](https://github.com/sutchan/aura-flux)

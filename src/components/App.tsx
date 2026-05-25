@@ -22,6 +22,7 @@ import { useVersionCheck } from '@/hooks/utils/useVersionCheck';
 
 import { COLOR_THEMES, APP_VERSION } from '@/constants';
 import { logger } from '@/utils/logger';
+import { type VisualizerSettings } from '@/types';
 
 const VisualizerCanvas = dynamic(() => import('@/components/visualizers/VisualizerCanvas'), { ssr: false });
 const ThreeVisualizer = dynamic(() => import('@/components/visualizers/ThreeVisualizer'), { ssr: false });
@@ -193,7 +194,7 @@ const MainContent: React.FC = () => {
 
   const handleCloseSongInfo = useCallback(() => {
     if (setSettings) {
-      setSettings((s: any) => ({ ...s, showSongInfo: false }));
+      setSettings((s: VisualizerSettings) => ({ ...s, showSongInfo: false }));
     }
   }, [setSettings]);
 

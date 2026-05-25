@@ -1,6 +1,7 @@
 // src/hooks/utils/useVersionCheck.ts v2.3.11
 
 import { useEffect } from 'react';
+import { logger } from '@/utils/logger';
 
 const normalizeVersion = (v: string) => v.replace(/^v/, '');
 
@@ -27,7 +28,7 @@ export const useVersionCheck = (currentVersion: string, onUpdate: (newVersion: s
         }
       } catch (err) {
         // Suppress version check error in preview environment
-        console.warn('Version check skipped or failed.');
+        logger.warn('Version check skipped or failed.');
       }
     };
 

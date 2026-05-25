@@ -260,7 +260,7 @@ export const DEFAULT_SENSITIVITY = 1.0;
 
 // 配置对象 - PascalCase
 export const APP_NAME = 'Aura Flux';
-export const APP_VERSION = '2.3.8';
+export const APP_VERSION = 'v2.3.11';
 
 // 相关常量组 - PascalCase 对象
 export const THEMES = {

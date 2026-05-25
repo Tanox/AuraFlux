@@ -163,5 +163,5 @@
 ---
 
 *Developed with ❤️ by **Sut***
-*Version: 2.3.8*
+*Version: 2.3.11*
 *Support Documentation Last Updated: 2026-04-22*

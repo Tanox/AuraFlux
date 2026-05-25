@@ -87,6 +87,7 @@ export const settings = {
     [VisualizerMode.CUBE_FIELD]: "Un campo de cubos brillantes que se animan y cambian de tamaño con la música.",
     [VisualizerMode.KINETIC_WALL]: "Una pared dinámica de elementos que se empujan y tiran en respuesta al audio.",
     [VisualizerMode.STARFIELD]: "Un campo de estrellas fascinante que reacciona con la energía del audio con profundidad y movimiento.",
+    [VisualizerMode.FISH_SWARM]: "Un enjambre de partículas bioluminiscentes nadando con gracia al ritmo del audio.",
   },
   lyrics: {
     [LyricsStyle.STANDARD]: "Estándar",

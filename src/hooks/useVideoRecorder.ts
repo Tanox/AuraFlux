@@ -1,8 +1,16 @@
 // src/hooks/useVideoRecorder.ts v2.3.11
 
 import { useState, useCallback, useRef } from 'react';
+import { logger } from '@/utils/logger';
 
-export const useVideoRecorder = (props: any = {}) => {
+export const useVideoRecorder = (props: UseVideoRecorderProps = {}) => {
+
+interface UseVideoRecorderProps {
+  width?: number;
+  height?: number;
+  frameRate?: number;
+  mimeType?: string;
+}
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -63,7 +71,7 @@ export const useVideoRecorder = (props: any = {}) => {
       
       return () => clearInterval(interval);
     } catch (err) {
-      console.warn('Failed to start recording:', err);
+      logger.warn('Failed to start recording:', err);
     }
   }, []);
 

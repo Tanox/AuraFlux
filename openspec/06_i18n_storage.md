@@ -48,74 +48,49 @@
 ```tsx
 // locales/index.ts 核心结构
 // File: src/locales/index.ts | Version: v2.3.11
-import en from './en';
-import zhCN from './zh-CN';
-import zhTW from './zh-TW';
-import es from './es';
-import ar from './ar';
-import fr from './fr';
-import ptBR from './pt-BR';
-import de from './de';
-import ja from './ja';
-import ko from './ko';
-import ru from './ru';
+import { translations as en } from './en';
+import { translations as zh } from './zh';
+import { translations as es } from './es';
 
-type LocaleType = typeof en;
-
-export const locales = {
+export const TRANSLATIONS: Record<string, any> = {
   en,
-  'zh-CN': zhCN,
-  'zh-TW': zhTW,
+  zh,
+  'zh-TW': zh,  // 繁体中文暂复用简体中文
   es,
-  ar,
-  fr,
-  'pt-BR': ptBR,
-  de,
-  ja,
-  ko,
-  ru
+  ar: en,  // 暂未翻译，回退到英文
+  fr: en,
+  pt: en,
+  'pt-BR': en,
+  de: en,
+  ja: en,
+  ko: en,
+  ru: en,
 };
 
-export const getTranslations = (lang: string): LocaleType => {
-  return locales[lang as keyof typeof locales] || en;
-};
-
-export const availableLanguages = [
-  { value: 'en', label: 'English' },
-  { value: 'zh-CN', label: '中文 (简体)' },
-  { value: 'zh-TW', label: '中文 (繁體)' },
-  { value: 'es', label: 'Español' },
-  { value: 'ar', label: 'العربية' },
-  { value: 'fr', label: 'Français' },
-  { value: 'pt-BR', label: 'Português (Brasil)' },
-  { value: 'de', label: 'Deutsch' },
-  { value: 'ja', label: '日本語' },
-  { value: 'ko', label: '한국어' },
-  { value: 'ru', label: 'Русский' }
-];
-
-export const availableRegions = [
-  { value: 'US', label: 'United States' },
-  { value: 'CN', label: 'China' },
-  { value: 'TW', label: 'Taiwan' },
-  { value: 'ES', label: 'Spain' },
-  { value: 'AR', label: 'Arab World' },
-  { value: 'FR', label: 'France' },
-  { value: 'BR', label: 'Brazil' },
-  { value: 'DE', label: 'Germany' },
-  { value: 'JP', label: 'Japan' },
-  { value: 'KR', label: 'Korea' },
-  { value: 'RU', label: 'Russia' }
-];
+export type TranslationSchema = typeof en;
 ```
 
-### 1.3 RTL 支持
-- **功能**: 阿拉伯语等 RTL 语言的支持
+> **注意**: 目前仅有 `en`（英语）、`zh`（简体中文）、`es`（西班牙语）三种语言有完整翻译文件。其余 9 种语言暂时回退到英文显示。
 
-**特性:**
-- 自动检测 RTL 语言
-- 页面布局自动调整
-- 文本方向处理
+### 1.3 i18n 配置
+- **文件**: `src/i18n.ts`
+- **功能**: i18next 初始化配置
+
+**核心配置:**
+- 使用 `i18next` + `react-i18next`
+- 默认语言: `en`
+- 回退语言: `en`
+- localStorage 键: `av_v1_language`
+- `useSuspense: false`
+- `compatibilityJSON: 'v4'`
+
+**语言文件子模块（每种语言 6 个文件）:**
+- `messages.ts` - 消息提示、toast、错误信息、模式名称/描述
+- `common.ts` - 通用文本、队列、字体名称、404页面
+- `onboarding.ts` - 引导页、步骤、语言选择
+- `help.ts` - 帮助弹窗、指南、快捷键、关于页面
+- `panels.ts` - 各控制面板文本
+- `settings.ts` - 设置项标签、主题、AI提供商、区域等
 
 ## 2. 存储系统
 
@@ -142,67 +117,36 @@ export const availableRegions = [
 **代码示例:**
 ```tsx
 // useLocalStorage.ts 核心结构
-// File: src/hooks/useLocalStorage.ts | Version: v2.3.11
+// File: src/hooks/utils/useLocalStorage.ts | Version: v2.3.11
 import { useState, useEffect } from 'react';
+import { logger } from '@/utils/logger';
 
-export function useLocalStorage<T>(key: string, initialValue: T) {
-  const [storedValue, setStoredValue] = useState<T>(() => {
+export const useLocalStorage = () => {
+  const getStorage = <T>(key: string, initialValue: T): T => {
+    if (typeof window === 'undefined') return initialValue;
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
+    } catch (error: any) {
+      logger.warn(`Error reading localStorage key "${key}":`, error?.message || error);
       return initialValue;
-    }
-  });
-
-  const setValue = (value: T | ((val: T) => T)) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      console.error(`Error setting localStorage key "${key}":`, error);
     }
   };
 
-  return [storedValue, setValue] as const;
-}
+  const setStorage = <T>(key: string, value: T) => {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error: any) {
+      logger.warn(`Error setting localStorage key "${key}":`, error?.message || error);
+    }
+  };
 
-export const getLocalStorage = <T>(key: string, defaultValue: T): T => {
-  try {
-    const item = window.localStorage.getItem(key);
-    return item ? JSON.parse(item) : defaultValue;
-  } catch (error) {
-    console.error(`Error reading localStorage key "${key}":`, error);
-    return defaultValue;
-  }
-};
-
-export const setLocalStorage = <T>(key: string, value: T): void => {
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.error(`Error setting localStorage key "${key}":`, error);
-  }
-};
-
-export const removeLocalStorage = (key: string): void => {
-  try {
-    window.localStorage.removeItem(key);
-  } catch (error) {
-    console.error(`Error removing localStorage key "${key}":`, error);
-  }
-};
-
-export const clearLocalStorage = (): void => {
-  try {
-    window.localStorage.clear();
-  } catch (error) {
-    console.error('Error clearing localStorage:', error);
-  }
+  return { getStorage, setStorage };
 };
 ```
+
+> **注意**: 此 hook 返回 `{ getStorage, setStorage }` 而非直接状态。额外有 `src/utils/storage.ts` 提供独立的 `safeStorageGet`/`safeStorageSet` 等 SSR 安全包装函数。
 
 ### 2.2 IndexedDB 存储
 - **功能**: 存储大型数据
