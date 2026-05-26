@@ -8,6 +8,12 @@ interface UseVideoRecorderProps {
   height?: number;
   frameRate?: number;
   mimeType?: string;
+  audioContext?: AudioContext | null;
+  analyser?: AnalyserNode | null;
+  mediaStream?: MediaStream | null;
+  sourceType?: 'file' | 'microphone' | 'url';
+  t?: (key: string) => string;
+  showToast?: (message: string, type?: 'success' | 'error' | 'info') => void;
 }
 
 export const useVideoRecorder = (props: UseVideoRecorderProps = {}) => {

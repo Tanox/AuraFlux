@@ -35,7 +35,7 @@ export interface UIContextType {
   manageWakeLock: (enabled: boolean) => Promise<void>;
   toggleFullscreen: () => void;
   t: TFunction<'translation', undefined>;
-  showToast: (message: string, type?: 'success' | 'info' | 'error', duration?: number, position?: 'top' | 'bottom') => void;
+  showToast: (message: string, type?: 'success' | 'info' | 'error' | 'warning', duration?: number, position?: 'top' | 'bottom') => void;
   showHelpModal: boolean;
   setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;
   helpModalInitialTab: HelpTab;
@@ -146,7 +146,7 @@ export const useAI = () => {
 
 interface ToastState {
   message: string | null;
-  type: 'success' | 'info' | 'error';
+  type: 'success' | 'info' | 'error' | 'warning';
   duration: number;
   position: 'top' | 'bottom';
 }
@@ -164,7 +164,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = React.memo((
   
   const showToast = useCallback((
     message: string, 
-    type: 'success' | 'info' | 'error' = 'info', 
+    type: 'success' | 'info' | 'error' | 'warning' = 'info', 
     duration = 3000, 
     position: 'top' | 'bottom' = 'bottom'
   ) => {
