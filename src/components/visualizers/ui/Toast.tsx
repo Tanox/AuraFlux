@@ -8,7 +8,7 @@ import { X } from 'lucide-react';
 
 interface Props {
   message: string | null;
-  type?: 'success' | 'info' | 'error';
+  type?: 'success' | 'info' | 'error' | 'warning';
   onClose: () => void;
   duration?: number;
   position?: 'top' | 'bottom';
@@ -25,7 +25,8 @@ export const Toast: React.FC<Props> = memo(({ message, type = 'info', onClose, d
   const colors = {
     success: 'bg-green-500',
     info: 'bg-blue-500',
-    error: 'bg-red-500'
+    error: 'bg-red-500',
+    warning: 'bg-yellow-500'
   };
 
   return (

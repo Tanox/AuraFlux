@@ -11,12 +11,7 @@ import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { silkWaveVertexShader, silkWaveFragmentShader } from '../shaders/SilkWaveShaders';
 import { SceneBackground } from '../../ui/SceneBackground';
 
-interface SceneProps {
-  analyser: AnalyserNode;
-  analyserR?: AnalyserNode | null;
-  colors: string[];
-  settings: VisualizerSettings;
-}
+import { SceneProps } from '@/types';
 
 export const SilkWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);

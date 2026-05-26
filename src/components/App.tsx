@@ -241,7 +241,7 @@ const MainContent: React.FC = () => {
       >
         <Suspense fallback={null}>
           {isThreeMode ? (
-            analyser && settings ? (
+            settings ? (
               <ThreeVisualizer 
                 analyser={analyser} 
                 analyserR={analyserR} 

@@ -13,16 +13,12 @@ import { useAdaptiveComplexity } from '@/hooks/performance/useAdaptiveComplexity
 
 import { oceanWaveVertexShader, oceanWaveFragmentShader } from '../shaders/OceanWaveShaders';
 
-interface SceneProps {
-  analyser: AnalyserNode;
-  analyserR?: AnalyserNode | null;
-  colors: string[];
-  settings: VisualizerSettings;
-}
+import { SceneProps } from '@/types';
 
 export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
   const frameCounterRef = useRef(0);
+  const timeCounterRef = useRef(0);
   
   // 使用自适应复杂度钩子
   const { adaptiveSettings, performanceData } = useAdaptiveComplexity({
@@ -139,9 +135,20 @@ export const OceanWaveScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   // Update audio texture with frequency data
   const updateAudioTexture = () => {
     try {
-      analyser.getByteFrequencyData(tempL);
-      if (analyserR) analyserR.getByteFrequencyData(tempR);
-      else tempR.set(tempL);
+      if (analyser) {
+        analyser.getByteFrequencyData(tempL);
+        if (analyserR) analyserR.getByteFrequencyData(tempR);
+        else tempR.set(tempL);
+      } else {
+        timeCounterRef.current += 0.05;
+        for (let i = 0; i < tempL.length; i++) {
+          const frequency = i / tempL.length * Math.PI * 2;
+          const value = Math.sin(timeCounterRef.current + frequency * 3) * 64 + 
+                        Math.sin(timeCounterRef.current * 1.5 + frequency * 2) * 64 + 128;
+          tempL[i] = Math.max(0, Math.min(255, Math.floor(value)));
+          tempR[i] = tempL[i];
+        }
+      }
     } catch (e) {
       logger.error('Error getting audio frequency data:', e);
       return false;

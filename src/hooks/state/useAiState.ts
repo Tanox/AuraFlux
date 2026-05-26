@@ -35,12 +35,12 @@ export const useAiState = ({ language, region, provider, isListening, isSimulati
   const performIdentification = useCallback(async (stream: MediaStream) => {
     if (isIdentifying) return;
     setIsIdentifying(true);
-    showToast(tRef.current?.ai?.identifying || 'Identifying song...');
+    showToast(tRef.current('ai.identifying') || 'Identifying song...');
 
     try {
       setTimeout(() => {
         setIsIdentifying(false);
-        showToast(tRef.current?.ai?.identified || 'Song identified!');
+        showToast(tRef.current('ai.identified') || 'Song identified!');
       }, 2000);
     } catch (err) {
       setIsIdentifying(false);

@@ -18,6 +18,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const meshRef = useRef<InstancedMesh>(null);
   const coreLightRef = useRef<PointLight>(null);
   const collisionEffectsRef = useRef<CollisionEffect[]>([]);
+  const timeCounterRef = useRef(0);
   
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
   const { bass, mids, treble, volume, isBeat } = features;
@@ -28,7 +29,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const dummy = useMemo(() => new Object3D(), []);
   
   // Use a local data array for spectral mapping if needed, but ensure it's safe
-  const binCount = Math.max(16, analyser.frequencyBinCount || 512);
+  const binCount = Math.max(16, 512);
   const localDataArray = useMemo(() => new Uint8Array(binCount), [binCount]);
 
   const particles = useMemo(() => {
@@ -38,11 +39,22 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
   const initialSetupRef = useRef(false);
 
   useFrame((state) => {
-    if (!meshRef.current || !analyser) return;
+    if (!meshRef.current) return;
     
     const time = state.clock.getElapsedTime();
     const delta = state.clock.getDelta();
-    analyser.getByteFrequencyData(localDataArray);
+    
+    if (analyser) {
+      analyser.getByteFrequencyData(localDataArray);
+    } else {
+      timeCounterRef.current += 0.05;
+      for (let i = 0; i < localDataArray.length; i++) {
+        const frequency = i / localDataArray.length * Math.PI * 2;
+        const value = Math.sin(timeCounterRef.current + frequency * 3) * 64 + 
+                      Math.sin(timeCounterRef.current * 1.5 + frequency * 2) * 64 + 128;
+        localDataArray[i] = Math.max(0, Math.min(255, Math.floor(value)));
+      }
+    }
     
     const globalSpeed = settings.speed * 4.5 * (1.0 + volume * 2.0 + (isBeat ? 2.5 : 0));
     const centerX = Math.sin(time * 0.2) * 35;

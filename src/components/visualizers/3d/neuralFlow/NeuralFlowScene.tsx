@@ -11,12 +11,7 @@ import { useAudioReactive } from '@/hooks/audio/useAudioReactive';
 import { neuralFlowVertexShader, neuralFlowFragmentShader } from '../shaders/NeuralFlowShaders';
 import { SceneBackground } from '../../ui/SceneBackground';
 
-interface SceneProps {
-  analyser: AnalyserNode;
-  analyserR?: AnalyserNode | null;
-  colors: string[];
-  settings: VisualizerSettings;
-}
+import { SceneProps } from '@/types';
 
 export const NeuralFlowScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, settings }) => {
   const pointsRef = useRef<any>(null);

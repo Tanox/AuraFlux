@@ -14,7 +14,7 @@ import { SilkWaveScene } from './3d/silkWave/SilkWaveScene';
 import { APP_VERSION } from '@/constants/version';
 
 interface Props {
-  analyser: AnalyserNode;
+  analyser: AnalyserNode | null;
   analyserR: AnalyserNode | null;
   colors: string[];
   settings: VisualizerSettings;

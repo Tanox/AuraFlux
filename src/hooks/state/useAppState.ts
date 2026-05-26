@@ -34,13 +34,11 @@ export const useAppState = () => {
   const t = useMemo(() => i18n.t, [i18n]);
   
   const setLanguage = useCallback((lang: Language | ((prev: Language) => Language)) => {
-    _setLanguage(prev => {
-      const next = typeof lang === 'function' ? lang(prev) : lang;
-      localStorage.setItem('av_v1_language', next);
-      i18n.changeLanguage(next);
-      return next;
-    });
-  }, [i18n]);
+    const next = typeof lang === 'function' ? lang(language) : lang;
+    _setLanguage(next);
+    localStorage.setItem('av_v1_language', next);
+    i18n.changeLanguage(next);
+  }, [i18n, language]);
 
   const [region, setRegion] = useState<Region>('US');
   const [hasStarted, setHasStarted] = useState(false);
