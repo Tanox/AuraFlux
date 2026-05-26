@@ -22,7 +22,7 @@ export enum VisualizerCategory {
 }
 
 export interface BaseVisualizerProps {
-  analyser: AnalyserNode;
+  analyser: AnalyserNode | null;
   analyserR?: AnalyserNode | null;
   colors: string[];
   settings: VisualizerSettings;
@@ -154,7 +154,7 @@ export interface FishSwarmModeProps {
 }
 
 export interface SceneProps {
-  analyser: AnalyserNode;
+  analyser: AnalyserNode | null;
   analyserR?: AnalyserNode | null;
   colors: string[];
   settings: VisualizerSettings;

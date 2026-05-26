@@ -31,15 +31,18 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
   });
 
   useEffect(() => {
-    if (!canvasRef.current || !analyser) return;
+    if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     let animationId: number;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+    const bufferLength = 1024;
+    // 创建一个模拟的音频数据数组
+    let dataArray = new Uint8Array(bufferLength);
+    // 用于模拟音频数据的时间计数器
+    let timeCounter = 0;
 
     // Initialize star count
     const initStars = (width: number, height: number) => {
@@ -66,7 +69,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
 
     let dataArrayR: any;
     if (analyserR) {
-      dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
+      dataArrayR = new Uint8Array(bufferLength);
     }
 
     // 添加性能检测
@@ -96,9 +99,20 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       // 优化：根据FPS调整渲染质量
       const isLowPerformance = performanceData.isLowPerformance;
       
-      analyser.getByteFrequencyData(dataArray);
-      if (analyserR && dataArrayR) {
-        analyserR.getByteFrequencyData(dataArrayR);
+      if (analyser) {
+        analyser.getByteFrequencyData(dataArray);
+        if (analyserR && dataArrayR) {
+          analyserR.getByteFrequencyData(dataArrayR);
+        }
+      } else {
+        // 如果没有analyser，生成模拟的音频数据
+        timeCounter += 0.05;
+        for (let i = 0; i < bufferLength; i++) {
+          const frequency = i / bufferLength * Math.PI * 2;
+          const value = Math.sin(timeCounter + frequency * 3) * 64 + 
+                       Math.sin(timeCounter * 1.5 + frequency * 2) * 64 + 128;
+          dataArray[i] = Math.max(0, Math.min(255, Math.floor(value)));
+        }
       }
 
       const width = canvas.width;

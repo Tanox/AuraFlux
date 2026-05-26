@@ -19,7 +19,7 @@ type Shader = {
   fragmentShader: string;
 };
 
-export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; analyserR?: AnalyserNode | null; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, analyserR, colors, settings }) => {
+export const DigitalGridScene: React.FC<{ analyser: AnalyserNode | null; analyserR?: AnalyserNode | null; colors: string[]; settings: VisualizerSettings; }> = ({ analyser, analyserR, colors, settings }) => {
   const meshRef = useRef<InstancedMesh>(null);
   
   const { features, smoothedColors } = useAudioReactive({ analyser, analyserR, colors, settings });
@@ -43,7 +43,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; analyserR?: An
     }
   }, [grid, lAttr, rAttr]);
 
-  const data = useMemo(() => new Uint8Array(Math.max(16, analyser.frequencyBinCount)), [analyser]);
+  const data = useMemo(() => new Uint8Array(1024), []);
   const tex = useMemo(() => { 
     if (!data || data.length === 0) return new DataTexture(new Uint8Array(1), 1, 1, RedFormat, UnsignedByteType);
     const t = new DataTexture(data, data.length, 1, RedFormat, UnsignedByteType); 
@@ -57,11 +57,30 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode; analyserR?: An
   }, [uniforms]);
 
   const beatRef = useRef(0);
+  const timeCounterRef = useRef(0);
 
   useFrame((state) => {
-    analyser.getByteFrequencyData(data); tex.needsUpdate = true; if (isBeat) beatRef.current = 1.0; beatRef.current *= 0.92;
-    uniforms.uTime.value = state.clock.getElapsedTime(); uniforms.uBeat.value = beatRef.current; uniforms.uSensitivity.value = settings.sensitivity;
-    if(c1) uniforms.uColor1.value.copy(c1); if(c0) uniforms.uColor2.value.copy(c0); if(c2) uniforms.uColor3.value.copy(c2);
+    if (analyser) {
+      analyser.getByteFrequencyData(data);
+    } else {
+      // 没有 analyser 时生成模拟数据
+      timeCounterRef.current += 0.05;
+      for (let i = 0; i < data.length; i++) {
+        const frequency = i / data.length * Math.PI * 2;
+        const value = Math.sin(timeCounterRef.current + frequency * 3) * 64 + 
+                     Math.sin(timeCounterRef.current * 1.5 + frequency * 2) * 64 + 128;
+        data[i] = Math.max(0, Math.min(255, Math.floor(value)));
+      }
+    }
+    tex.needsUpdate = true; 
+    if (isBeat) beatRef.current = 1.0; 
+    beatRef.current *= 0.92;
+    uniforms.uTime.value = state.clock.getElapsedTime(); 
+    uniforms.uBeat.value = beatRef.current; 
+    uniforms.uSensitivity.value = settings.sensitivity;
+    if(c1) uniforms.uColor1.value.copy(c1); 
+    if(c0) uniforms.uColor2.value.copy(c0); 
+    if(c2) uniforms.uColor3.value.copy(c2);
     // Camera controlled by OrbitControls
   });
 
