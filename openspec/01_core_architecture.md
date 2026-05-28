@@ -3,7 +3,7 @@
 
 ## 版本信息
 - **版本**: v2.3.11
-- **更新日期**: 2026-05-21
+- **更新日期**: 2026-06-23
 - **作者**: Sut
 
 ## 1. 应用入口结构
@@ -387,7 +387,7 @@ interface UIContextType {
   resetSettings: () => void;
   manageWakeLock: (enabled: boolean) => Promise<void>;
   toggleFullscreen: () => void; t: TranslationSchema;
-  showToast: (message: string, type?: 'success' | 'info' | 'error', duration?: number, position?: 'top' | 'bottom') => void;
+  showToast: (message: string, type?: 'success' | 'info' | 'error' | 'warning', duration?: number, position?: 'top' | 'bottom') => void;
   showHelpModal: boolean;
   setShowHelpModal: React.Dispatch<React.SetStateAction<boolean>>;
   helpModalInitialTab: HelpTab;
@@ -448,7 +448,7 @@ export const useAI = () => useContext(AIContext)!;
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [toast, setToast] = useState({ message: null as string | null, type: 'info' as any, duration: 3000, position: 'bottom' as 'top' | 'bottom' });
   
-  const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' = 'info', duration = 3000, position: 'top' | 'bottom' = 'bottom') => 
+  const showToast = useCallback((message: string, type: 'success' | 'info' | 'error' | 'warning' = 'info', duration = 3000, position: 'top' | 'bottom' = 'bottom') => 
     setToast({ message, type, duration, position }), []);
 
   const hideToast = useCallback(() => {
@@ -530,7 +530,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 ```
 
 ### 2.2 应用状态 Hook (useAppState.ts)
-- **文件**: `src/hooks/useAppState.ts`
+- **文件**: `src/hooks/state/useAppState.ts`
 - **版本**: v2.3.11
 - **功能**: 管理应用的 UI 状态
 **核心功能:**
@@ -545,10 +545,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 **代码示例:**
 ```tsx
 // useAppState.ts 核心结构
-// File: src/hooks/useAppState.ts | Version: v2.3.11
+// File: src/hooks/state/useAppState.ts | Version: v2.3.11
 import { useState, useCallback, useMemo } from 'react';
-import { Language, Region } from '../types';
-import { TRANSLATIONS } from '../locales';
+import { Language, Region } from '../../types';
+import { useTranslation } from 'react-i18next';
 
 const getInitialLanguage = (): Language => {
   if (typeof window !== 'undefined') {
@@ -558,68 +558,24 @@ const getInitialLanguage = (): Language => {
     const navLang = navigator.language;
     if (navLang.startsWith('zh-TW')) return 'zh-TW';
     if (navLang.startsWith('zh')) return 'zh';
-    if (navLang.startsWith('pt-BR')) return 'pt-BR';
-    if (navLang.startsWith('pt')) return 'pt';
-    if (navLang.startsWith('es')) return 'es';
-    if (navLang.startsWith('ar')) return 'ar';
-    if (navLang.startsWith('fr')) return 'fr';
-    if (navLang.startsWith('de')) return 'de';
-    if (navLang.startsWith('ja')) return 'ja';
-    if (navLang.startsWith('ko')) return 'ko';
-    if (navLang.startsWith('ru')) return 'ru';
+    // ... 其他语言检测
   }
   return 'en';
 };
 
 export const useAppState = () => {
+  const { i18n } = useTranslation();
   const [language, _setLanguage] = useState<Language>(getInitialLanguage);
+  const t = useMemo(() => i18n.t, [i18n]);
   
   const setLanguage = useCallback((lang: Language | ((prev: Language) => Language)) => {
-    _setLanguage(prev => {
-      const next = typeof lang === 'function' ? lang(prev) : lang;
-      localStorage.setItem('av_v1_language', next);
-      return next;
-    });
-  }, []);
-
-  const [region, setRegion] = useState<Region>('US');
-  const [hasStarted, setHasStarted] = useState(false);
-  const [showHelpModal, setShowHelpModal] = useState(false);
-  const [helpModalInitialTab, setHelpModalInitialTab] = useState<'guide' | 'shortcuts' | 'about'>('guide');
-  const [isDragging, setIsDragging] = useState(false);
-
-  const t = useMemo(() => TRANSLATIONS[language] || TRANSLATIONS.en, [language]);
-
-  const resetSettings = useCallback(() => {
-    localStorage.clear();
-    window.location.reload();
-  }, []);
-
-  const manageWakeLock = useCallback(async (enabled: boolean) => {
-    if (typeof window !== 'undefined' && 'wakeLock' in navigator) {
-      try {
-        if (enabled) {
-          await (navigator as any).wakeLock.request('screen');
-        }
-      } catch (err: any) {
-        if (err.name !== 'NotAllowedError') {
-          console.warn('Wake Lock error:', err?.message || err);
-        }
-      }
-    }
-  }, []);
-
-  return useMemo(() => ({
-    language, setLanguage,
-    region, setRegion,
-    hasStarted, setHasStarted,
-    showHelpModal, setShowHelpModal,
-    helpModalInitialTab, setHelpModalInitialTab,
-    isDragging, setIsDragging,
-    t,
-    resetSettings,
-    manageWakeLock
-  }), [language, setLanguage, region, setRegion, hasStarted, setHasStarted, showHelpModal, setShowHelpModal, helpModalInitialTab, setHelpModalInitialTab, isDragging, setIsDragging, t, resetSettings, manageWakeLock]);
+    const next = typeof lang === 'function' ? lang(language) : lang;
+    _setLanguage(next);
+    localStorage.setItem('av_v1_language', next);
+    i18n.changeLanguage(next);
+  }, [i18n, language]);
+  
+  // ... 其他状态和方法
 };
 ```
 
@@ -732,6 +688,8 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 - `Track` - 音频轨道接口
 - `PlaybackMode` - 播放模式枚举
 - `Position` - 位置类型
+- `SceneProps` - 3D 场景组件属性（analyser 可为空）
+- `BaseVisualizerProps` - 可视化组件基础属性（analyser 可为空）
 
 **代码示例:**
 ```tsx
@@ -744,13 +702,26 @@ export enum VisualizerMode {
   NEURAL_FLOW = 'NEURAL_FLOW',
   CUBE_FIELD = 'CUBE_FIELD',
   KINETIC_WALL = 'KINETIC_WALL',
-  VORTEX = 'VORTEX',
-  WAVEFORM = 'WAVEFORM',
-  TUNNEL = 'TUNNEL',
   LASERS = 'LASERS',
   PLASMA = 'PLASMA',
   BARS = 'BARS',
-  STARFIELD = 'STARFIELD'
+  STARFIELD = 'STARFIELD',
+  WAVEFORM = 'WAVEFORM',
+  FISH_SWARM = 'FISH_SWARM'
+}
+
+export interface BaseVisualizerProps {
+  analyser: AnalyserNode | null;
+  analyserR?: AnalyserNode | null;
+  colors: string[];
+  settings: VisualizerSettings;
+}
+
+export interface SceneProps {
+  analyser: AnalyserNode | null;
+  analyserR?: AnalyserNode | null;
+  colors: string[];
+  settings: VisualizerSettings;
 }
 
 export enum LyricsStyle {

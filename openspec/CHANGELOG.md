@@ -3,6 +3,29 @@
 All notable changes to the **Aura Flux** project will be documented in this file.
 
 ## [v2.3.11]
+### 🔧 Language Setting & Visualizer Fixes
+- **Language Fix**: Fixed issue where Chinese language was set but interface still displayed in English
+  - Refactored `setLanguage` function in `useAppState.ts` to avoid React state update warnings
+  - Moved state update logic out of callback to prevent "Cannot update a component while rendering" error
+  - Correctly syncs localStorage and i18n.changeLanguage calls
+- **Visualizer Fix**: Fixed visualization effects not displaying when no audio input is available
+  - Added simulated audio data generation in `useAudioReactive.ts` when `analyser` is null
+  - Updated all 3D scene components (DigitalGrid, OceanWave, CubeField) to use simulated data
+  - Updated `VisualizerCanvas.tsx` to generate simulated frequency data
+  - Updated `ThreeVisualizer.tsx` with nullable `analyser` type
+  - Algorithm: Uses sine waves with different frequencies for bass/mids/treble simulation
+- **Toast Enhancement**: Added `warning` toast type support
+  - Updated `Toast.tsx` with `warning` type and yellow background
+  - Updated `AppContext.tsx` to support warning type in showToast function
+- **AI State Fix**: Fixed i18n translation function usage in `useAiState.ts`
+  - Used `useRef` to cache translation function for stable references
+- **Documentation Sync**: Updated OpenSpec documentation to reflect all code changes
+  - `06_i18n_storage.md` - Added language state management documentation
+  - `03_visual_rendering.md` - Added audio reactive system and simulated data generation
+  - `04_ai_integration.md` - Updated useAiState hook documentation
+  - `05_ui_interaction.md` - Added Toast component documentation
+
+## [v2.3.11]
 ### 🔧 Project Issues Fix & Configuration Cleanup
 - **.npmrc Configuration**: Fixed conflicting npmrc configuration that caused issues with nvm and npm commands
 - **PWA Cleanup**: Removed unused PWA dependencies and leftover service worker files

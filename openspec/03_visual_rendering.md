@@ -12,6 +12,7 @@
 - 响应式调整 (ResizeObserver)
 - 高 DPI 支持
 - 实时音频数据处理
+- **无音频输入时的模拟数据生成**: 当 `analyser` 为 `null` 时，自动生成模拟音频数据以确保可视化效果正常显示
 
 **支持的可视化模式**:
 - `PLASMA` - 等离子效果
@@ -128,6 +129,7 @@ export default VisualizerCanvas;
 - 支持多种 3D 可视化模式
 - 音频响应式动画
 - 高性能渲染
+- **无音频输入时的模拟数据生成**: 当 `analyser` 为 `null` 时，自动生成模拟音频特征以确保 3D 可视化效果正常显示
 
 **支持的 3D 模式**:
 - `SILK_WAVE` - 丝绸波浪
@@ -177,6 +179,7 @@ export default VisualizerCanvas;
 - 波浪动画
 - 水面材质
 - 音频响应式波浪高度
+- **无音频输入时的模拟数据**: 使用正弦波生成模拟的 bass/mids/treble 特征
 
 #### 2.2.5 Digital Grid 场景
 - **文件**: `src/components/visualizers/3d/digitalGrid/DigitalGridScene.tsx`
@@ -186,6 +189,7 @@ export default VisualizerCanvas;
 - 网格动画
 - 发光效果
 - 音频响应式网格变形
+- **无音频输入时的模拟数据**: 使用正弦波生成模拟的 bass/mids/treble 特征
 
 #### 2.2.6 Neural Flow 场景
 - **文件**: `src/components/visualizers/3d/neuralFlow/NeuralFlowScene.tsx`
@@ -222,10 +226,52 @@ export default VisualizerCanvas;
 - 立方体阵列
 - 旋转动画
 - 音频响应式立方体大小
+- **无音频输入时的模拟数据**: 使用正弦波生成模拟的 bass/mids/treble 特征
 
-## 3. 着色器系统
+## 3. 音频响应式系统
 
-### 3.1 着色器文件结构
+### 3.1 useAudioReactive Hook
+- **文件**: `src/hooks/audio/useAudioReactive.ts`
+- **版本**: v2.3.11
+- **功能**: 提供音频响应式特征
+
+**核心特性**:
+- 实时音频数据分析
+- bass/mids/treble 频段分离
+- 音量检测
+- 节拍检测
+- **无 analyser 时的模拟数据生成**: 使用正弦波生成模拟的音频特征，确保可视化效果在无音频输入时也能正常显示
+
+**模拟数据生成算法**:
+- 使用 `timeCounterRef` 跟踪时间
+- 正弦波频率: bass(1.2Hz), mids(0.8Hz), treble(1.5Hz)
+- 基于 `sensitivity` 设置调整特征值
+
+**代码示例**:
+```tsx
+// useAudioReactive.ts 无 analyser 时的模拟数据
+// File: src/hooks/audio/useAudioReactive.ts | Version: v2.3.11
+if (analyser) {
+  // 真实音频数据处理
+  analyser.getByteFrequencyData(dataRef.current);
+  // ... bass/mids/treble 计算
+} else {
+  // 无音频输入时的模拟数据
+  timeCounterRef.current += 0.05;
+  const t = timeCounterRef.current;
+  const sensitivity = settings.sensitivity ?? 1;
+  
+  f.bass = (Math.sin(t * 1.2) * 0.5 + 0.5) * sensitivity;
+  f.mids = (Math.sin(t * 0.8 + 1) * 0.5 + 0.5) * sensitivity;
+  f.treble = (Math.sin(t * 1.5 + 2) * 0.5 + 0.5) * sensitivity;
+  f.volume = (f.bass + f.mids + f.treble) / 3;
+  f.isBeat = Math.sin(t * 2) > 0.8;
+}
+```
+
+## 4. 着色器系统
+
+### 4.1 着色器文件结构
 - **目录**: `src/components/visualizers/3d/shaders/`
 - **功能**: 提供 3D 场景的着色器
 
@@ -235,7 +281,7 @@ export default VisualizerCanvas;
 - `OceanWaveShaders.ts` - 海洋波浪着色器
 - `SilkWaveShaders.ts` - 丝绸波浪着色器
 
-### 3.2 着色器技术
+### 4.2 着色器技术
 - **技术**: WebGL Shaders
 - **语言**: GLSL
 - **功能**:
@@ -244,48 +290,48 @@ export default VisualizerCanvas;
   - 动画效果
   - 音频响应式着色
 
-## 4. 性能优化
+## 5. 性能优化
 
-### 4.1 渲染优化
+### 5.1 渲染优化
 - **策略**:
   - 使用 requestAnimationFrame
   - 优化 Canvas 绘制
   - 减少 DOM 操作
   - 使用 WebGL 加速
 
-### 4.2 资源管理
+### 5.2 资源管理
 - **策略**:
   - 对象池
   - 资源预加载
   - 内存管理
   - 资源释放
 
-### 4.3 计算优化
+### 5.3 计算优化
 - **策略**:
   - 使用 Web Workers 处理密集计算
   - 优化数学计算
   - 减少不必要的计算
   - 缓存计算结果
 
-## 5. 响应式设计
+## 6. 响应式设计
 
-### 5.1 画布调整
+### 6.1 画布调整
 - **技术**:
   - ResizeObserver
   - 响应式布局
   - 高 DPI 支持
   - 设备像素比处理
 
-### 5.2 性能适配
+### 6.2 性能适配
 - **策略**:
   - 基于设备性能调整渲染质量
   - 动态调整粒子数量
   - 自适应帧率
   - 低性能设备降级方案
 
-## 6. 错误处理与边界情况
+## 7. 错误处理与边界情况
 
-### 6.1 渲染错误
+### 7.1 渲染错误
 - **错误类型**:
   - Canvas 不支持
   - WebGL 不支持
@@ -295,7 +341,7 @@ export default VisualizerCanvas;
   - 错误提示
   - 备用渲染方案
 
-### 6.2 性能边界
+### 7.2 性能边界
 - **边界情况**:
   - 高音频频率
   - 复杂可视化模式
@@ -305,9 +351,9 @@ export default VisualizerCanvas;
   - 性能监控
   - 用户可配置的质量设置
 
-## 7. 测试与验证
+## 8. 测试与验证
 
-### 7.1 渲染测试
+### 8.1 渲染测试
 - **测试类型**:
   - 单元测试
   - 集成测试
@@ -317,22 +363,22 @@ export default VisualizerCanvas;
   - Playwright
   - 自定义性能测试工具
 
-### 7.2 兼容性测试
+### 8.2 兼容性测试
 - **测试场景**:
   - 不同浏览器
   - 不同设备
   - 不同屏幕尺寸
 
-### 7.3 性能测试
+### 8.3 性能测试
 - **测试指标**:
   - FPS
   - 内存使用
   - CPU 使用率
   - 渲染时间
 
-## 8. 未来发展
+## 9. 未来发展
 
-### 8.1 计划功能
+### 9.1 计划功能
 - **新可视化模式**:
   - 更多 2D 模式
   - 更多 3D 模式
@@ -342,7 +388,7 @@ export default VisualizerCanvas;
   - 交互式调整
   - 分享功能
 
-### 8.2 技术改进
+### 9.2 技术改进
 - **性能优化**:
   - WebAssembly 加速
   - 更高效的渲染算法
