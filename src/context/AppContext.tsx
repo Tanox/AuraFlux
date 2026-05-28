@@ -151,9 +151,6 @@ interface ToastState {
   position: 'top' | 'bottom';
 }
 
-// 优化：使用React.memo包装Toast组件，减少不必要的重渲染
-const MemoizedToast = React.memo(Toast);
-
 export const AppProvider: React.FC<{ children: React.ReactNode }> = React.memo(({ children }) => {
   const [toast, setToast] = useState<ToastState>({
     message: null,
@@ -261,7 +258,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = React.memo((
         <AudioContext.Provider value={audioContextValue}>
           <AIContext.Provider value={aiContextValue}>
             {children}
-            <MemoizedToast 
+            <Toast 
               message={toast.message} 
               type={toast.type} 
               duration={toast.duration}

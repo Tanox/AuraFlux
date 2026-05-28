@@ -24,11 +24,22 @@ interface Props {
 const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settings, mode }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<any[]>([]);
+  const adaptiveSettingsRef = useRef<any>(null);
+  const performanceDataRef = useRef<any>(null);
   
   // 使用自适应复杂度钩子
   const { adaptiveSettings, performanceData } = useAdaptiveComplexity({
     baseSettings: settings
   });
+
+  // 更新 ref 中的值，不触发 useEffect
+  useEffect(() => {
+    adaptiveSettingsRef.current = adaptiveSettings;
+  }, [adaptiveSettings]);
+
+  useEffect(() => {
+    performanceDataRef.current = performanceData;
+  }, [performanceData]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -97,7 +108,8 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       animationId = requestAnimationFrame(draw);
       
       // 优化：根据FPS调整渲染质量
-      const isLowPerformance = performanceData.isLowPerformance;
+      const isLowPerformance = performanceDataRef.current?.isLowPerformance ?? false;
+      const currentAdaptiveSettings = adaptiveSettingsRef.current ?? settings;
       
       if (analyser) {
         analyser.getByteFrequencyData(dataArray);
@@ -126,38 +138,38 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
       switch (mode) {
         case VisualizerMode.BARS:
           renderBarsMode({
-            ctx, dataArray, width, height, colors, settings: adaptiveSettings
+            ctx, dataArray, width, height, colors, settings: currentAdaptiveSettings
           });
           break;
         case VisualizerMode.PLASMA:
           renderPlasmaMode({
-            ctx, dataArray, width, height, colors, settings: adaptiveSettings
+            ctx, dataArray, width, height, colors, settings: currentAdaptiveSettings
           });
           break;
         case VisualizerMode.STARFIELD:
           renderStarfieldMode({
-            ctx, dataArray, width, height, colors, settings: adaptiveSettings, 
+            ctx, dataArray, width, height, colors, settings: currentAdaptiveSettings, 
             stars: starsRef.current
           });
           break;
         case VisualizerMode.TUNNEL:
           renderTunnelMode({
-            ctx, dataArray, width, height, colors, settings: adaptiveSettings
+            ctx, dataArray, width, height, colors, settings: currentAdaptiveSettings
           });
           break;
         case VisualizerMode.WAVEFORM:
           renderWaveformMode({
-            ctx, dataArray, dataArrayR, width, height, colors, settings: adaptiveSettings
+            ctx, dataArray, dataArrayR, width, height, colors, settings: currentAdaptiveSettings
           });
           break;
         case VisualizerMode.FISH_SWARM:
           renderFishSwarmMode({
-            ctx, dataArray, width, height, colors, settings: adaptiveSettings
+            ctx, dataArray, width, height, colors, settings: currentAdaptiveSettings
           });
           break;
         default:
           renderPlasmaMode({
-            ctx, dataArray, width, height, colors, settings: adaptiveSettings
+            ctx, dataArray, width, height, colors, settings: currentAdaptiveSettings
           });
           break;
       }
@@ -202,7 +214,7 @@ const VisualizerCanvas: React.FC<Props> = ({ analyser, analyserR, colors, settin
         starsRef.current = [];
       }
     };
-  }, [analyser, analyserR, colors, settings, mode, adaptiveSettings, performanceData.isLowPerformance]);
+  }, [analyser, analyserR, colors, mode]);
 
   return (
     <canvas 
