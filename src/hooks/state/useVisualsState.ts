@@ -240,7 +240,7 @@ export const useVisualsState = (hasStarted: boolean, initialSettings: any) => {
 
     if (state.settings.autoRotate && hasStarted) {
       intervalId = setInterval(() => {
-        const included = (state.settings.includedModes as VisualizerMode[] | undefined) || Object.values(VisualizerMode);
+        const included = (state.settings.includedModes as VisualizerMode[] | undefined) || (Object.values(VisualizerMode) as VisualizerMode[]);
         if (included.length > 1) {
           const currentIndex = included.indexOf(state.mode as VisualizerMode);
           const nextIndex = (currentIndex + 1) % included.length;
