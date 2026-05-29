@@ -3,7 +3,7 @@
 
 ## 版本信息
 - **版本**: v2.3.11
-- **更新日期**: 2026-04-22
+- **更新日期**: 2026-06-23
 - **作者**: Sut
 
 ## 1. 国际化(i18n) 系统
@@ -91,6 +91,40 @@ export type TranslationSchema = typeof en;
 - `help.ts` - 帮助弹窗、指南、快捷键、关于页面
 - `panels.ts` - 各控制面板文本
 - `settings.ts` - 设置项标签、主题、AI提供商、区域等
+
+### 1.4 语言状态管理
+- **文件**: `src/hooks/state/useAppState.ts`
+- **版本**: v2.3.11
+- **功能**: 管理应用语言状态
+
+**核心功能:**
+- 语言切换
+- 自动保存到 localStorage
+- 浏览器语言检测
+- i18next 集成
+
+**状态管理:**
+- `language` - 当前语言
+- `setLanguage` - 语言切换函数
+
+**setLanguage 实现要点:**
+- 支持函数式更新 `(prev: Language) => Language`
+- 直接更新 React 状态
+- 同步保存到 localStorage (`av_v1_language`)
+- 调用 `i18n.changeLanguage` 更新 i18next
+- 避免在渲染期间更新状态，防止 React 警告
+
+**代码示例:**
+```tsx
+// useAppState.ts setLanguage 实现
+// File: src/hooks/state/useAppState.ts | Version: v2.3.11
+const setLanguage = useCallback((lang: Language | ((prev: Language) => Language)) => {
+  const next = typeof lang === 'function' ? lang(language) : lang;
+  _setLanguage(next);
+  localStorage.setItem('av_v1_language', next);
+  i18n.changeLanguage(next);
+}, [i18n, language]);
+```
 
 ## 2. 存储系统
 

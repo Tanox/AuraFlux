@@ -21,6 +21,8 @@ const styles: Partial<Record<VisualizerMode, React.CSSProperties>> = {
     [VisualizerMode.LASERS]: { background: 'linear-gradient(10deg, transparent 48%, #ff00ff 50%, transparent 52%), linear-gradient(-15deg, transparent 47%, #00e5ff 50%, transparent 53%)' },
     [VisualizerMode.PLASMA]: { background: 'radial-gradient(circle, #ec4899, #8b5cf6, #3b82f6)' },
     [VisualizerMode.BARS]: { background: 'linear-gradient(to top, #3b82f6, #8b5cf6)' },
+    [VisualizerMode.STARFIELD]: { background: 'radial-gradient(ellipse at bottom, #1b2838 0%, #090a0f 100%), radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 50%)' },
+    [VisualizerMode.FISH_SWARM]: { background: 'linear-gradient(180deg, #0c4a6e 0%, #164e63 50%, #0f766e 100%)' },
 
 };
 

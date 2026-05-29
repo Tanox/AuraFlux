@@ -283,7 +283,43 @@ export default Controls;
 - **版本**: v2.3.11
 - **功能**: 工具提示组件
 
-### 5.6 错误边界
+### 5.6 Toast 通知组件
+- **文件**: `src/components/visualizers/ui/Toast.tsx`
+- **版本**: v2.3.11
+- **功能**: 轻量级通知提示组件
+**核心特性**:
+- 支持多种通知类型: `success` | `info` | `error` | `warning`
+- 自动关闭定时器
+- 动画过渡效果
+- 位置可配置 (`top` | `bottom`)
+
+**通知类型样式**:
+- `success` - 绿色背景 (`bg-green-500`)
+- `info` - 蓝色背景 (`bg-blue-500`)
+- `error` - 红色背景 (`bg-red-500`)
+- `warning` - 黄色背景 (`bg-yellow-500`)
+
+**代码示例**:
+```tsx
+// Toast.tsx 核心结构
+// File: src/components/visualizers/ui/Toast.tsx | Version: v2.3.11
+interface Props {
+  message: string | null;
+  type?: 'success' | 'info' | 'error' | 'warning';
+  onClose: () => void;
+  duration?: number;
+  position?: 'top' | 'bottom';
+}
+
+const colors = {
+  success: 'bg-green-500',
+  info: 'bg-blue-500',
+  error: 'bg-red-500',
+  warning: 'bg-yellow-500'
+};
+```
+
+### 5.7 错误边界
 - **文件**: `src/components/visualizers/ui/ErrorBoundary.tsx`
 - **版本**: v2.3.11
 - **功能**: 错误边界组件

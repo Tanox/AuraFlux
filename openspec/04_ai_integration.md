@@ -102,15 +102,54 @@ export const getAiService = (): GoogleGenAI | null => {
 **核心状态**:
 - `showLyrics` - 是否显示歌词
 - `lyricsStyle` - 歌词样式
-- `aiBackground` - AI 背景状态
-- `aiServiceAvailable` - AI 服务可用性
-- `isProcessing` - 是否正在处理
+- `enableAnalysis` - 是否启用分析
+- `isIdentifying` - 是否正在识别歌曲
 
 **核心方法**:
 - `performIdentification` - 执行歌曲识别
-- `generateAiBackground` - 生成 AI 背景
-- `toggleLyrics` - 切换歌词显示
-- `updateLyricsStyle` - 更新歌词样式
+- `resetAiSettings` - 重置 AI 设置
+
+**Props 接口**:
+- `language` - 当前语言
+- `region` - 当前地区
+- `provider` - AI 提供商
+- `isListening` - 是否正在监听
+- `isSimulating` - 是否正在模拟
+- `mediaStream` - 媒体流
+- `initialSettings` - 初始设置
+- `setSettings` - 设置更新函数
+- `onSongIdentified` - 歌曲识别回调
+- `currentSong` - 当前歌曲
+- `getAudioSlice` - 获取音频片段
+- `t` - 翻译函数
+- `showToast` - 显示提示函数
+
+**代码示例**:
+```tsx
+// useAiState.ts 核心结构
+// File: src/hooks/state/useAiState.ts | Version: v2.3.11
+type ToastType = 'success' | 'info' | 'error' | 'warning';
+
+interface UseAiStateProps {
+  language: string;
+  region: string;
+  provider: string;
+  isListening: boolean;
+  isSimulating: boolean;
+  mediaStream: MediaStream | null;
+  initialSettings: VisualizerSettings;
+  setSettings: React.Dispatch<React.SetStateAction<VisualizerSettings>>;
+  onSongIdentified: (s: SongInfo | null) => void;
+  currentSong: SongInfo | null;
+  getAudioSlice: (s?: number) => Promise<Blob | null>;
+  t: (key: string) => string;
+  showToast: (m: string, type?: ToastType) => void;
+}
+```
+
+**翻译函数使用注意事项**:
+- 使用 `useRef` 缓存翻译函数以避免每次渲染重新创建
+- `showToast` 消息使用缓存的翻译函数 `tRef.current`
 
 ### 2.2 AppContext 中的 AI 状态
 - **文件**: `src/context/AppContext.tsx`
