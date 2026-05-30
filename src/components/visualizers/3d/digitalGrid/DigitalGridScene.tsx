@@ -63,7 +63,7 @@ export const DigitalGridScene: React.FC<{ analyser: AnalyserNode | null; analyse
     if (analyser) {
       analyser.getByteFrequencyData(data);
     } else {
-      // Generate simulated audio data when no analyser is available
+// Generate simulated audio data when no analyser is available
       timeCounterRef.current += 0.05;
       for (let i = 0; i < data.length; i++) {
         const frequency = i / data.length * Math.PI * 2;

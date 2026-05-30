@@ -258,7 +258,7 @@ export function useFilePlayer({ setCurrentSong, showToast }: FilePlayerProps): F
   const handleError = useCallback(() => {
     if (audioRef.current?.error) {
       const error = audioRef.current.error;
-      // 只有在实际有错误时才记录
+      // Only log when there is an actual error
       if (error && (error.message || error.code)) {
         logger.error('Audio error:', error);
         showToast('Error loading audio file', 'error');

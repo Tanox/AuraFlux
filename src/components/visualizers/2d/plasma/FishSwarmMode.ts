@@ -2,6 +2,7 @@
 import { FishSwarmModeProps } from '@/types';
 import { FishSwarmManager, FrequencyData } from './FishSwarmManager';
 
+<<<<<<< HEAD
 // 使用一个 Map 来存储多个实例，避免全局污染
 const fishSwarmManagers = new Map<string, { manager: FishSwarmManager; settings: string }>();
 
@@ -10,6 +11,10 @@ const getManagerKey = (ctx: CanvasRenderingContext2D) => {
   // 使用 canvas 的引用地址作为键的一部分
   return String(ctx.canvas);
 };
+=======
+let fishSwarmManager: FishSwarmManager | null = null;
+let lastSettings: Record<string, unknown> | null = null;
+>>>>>>> origin/main
 
 const extractFrequencyData = (dataArray: Uint8Array, sensitivity: number): FrequencyData => {
   const bassEnd = Math.floor(dataArray.length * 0.25);
@@ -117,10 +122,9 @@ export const renderFishSwarmMode = ({
   const glow = settings?.glow ?? true;
   const trails = settings?.trails ?? true;
   const time = Date.now();
-  
   const managerKey = getManagerKey(ctx);
   const settingsString = JSON.stringify(settings);
-  
+
   let managerData = fishSwarmManagers.get(managerKey);
   if (!managerData || managerData.settings !== settingsString) {
     const manager = new FishSwarmManager(width, height, settings as Record<string, unknown>);

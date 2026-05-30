@@ -138,7 +138,7 @@ export const CubeFieldScene: React.FC<SceneProps> = ({ analyser, analyserR, colo
         <meshStandardMaterial roughness={0.1} metalness={0.95} />
       </instancedMesh>
       
-      {/* Collision effects */}
+{/* Collision effects */}
       {collisionEffectsRef.current.map((effect, index) => (
         <mesh key={`collision-${index}`} position={effect.position}>
           <sphereGeometry args={[effect.size, 16, 16]} />
