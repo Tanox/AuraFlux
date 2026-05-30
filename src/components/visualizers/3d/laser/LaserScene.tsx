@@ -135,7 +135,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
           />
         </instancedMesh>
         
-        {/* 纰版挒鏁堟灉 */}
+        {/* Collision effects */}
         {collisionEffectsRef.current.slice(0, 50).map((effect, index) => (
           <mesh key={`collision-${index}`} position={effect.position}>
             <primitive object={sphereGeometry} />
@@ -148,7 +148,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
           </mesh>
         ))}
         
-        {/* 涓績鍏夋檿 */}
+        {/* Center glow sphere */}
         <mesh>
           <primitive object={centerSphereGeometry} />
           <meshBasicMaterial 
@@ -159,7 +159,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
           />
         </mesh>
         
-        {/* 鍙嶅皠鏁堟灉 */}
+        {/* Reflection effects */}
         {reflectionEffectsRef.current.slice(0, 30).map((effect, index) => (
           <line key={`reflection-${index}`}>
             <bufferGeometry>
