@@ -2,8 +2,14 @@
 import { FishSwarmModeProps } from '@/types';
 import { FishSwarmManager, FrequencyData } from './FishSwarmManager';
 
-let fishSwarmManager: FishSwarmManager | null = null;
-let lastSettings: Record<string, unknown> | null = null;
+// Use a Map to store multiple instances, avoiding global pollution
+const fishSwarmManagers = new Map<string, { manager: FishSwarmManager; settings: string }>();
+
+// Generate a unique key
+const getManagerKey = (ctx: CanvasRenderingContext2D) => {
+  // Use canvas reference as part of the key
+  return String(ctx.canvas);
+};
 
 const extractFrequencyData = (dataArray: Uint8Array, sensitivity: number): FrequencyData => {
   const bassEnd = Math.floor(dataArray.length * 0.25);
@@ -111,18 +117,21 @@ export const renderFishSwarmMode = ({
   const glow = settings?.glow ?? true;
   const trails = settings?.trails ?? true;
   const time = Date.now();
+  const managerKey = getManagerKey(ctx);
+  const settingsString = JSON.stringify(settings);
 
-  const settingsChanged = JSON.stringify(settings) !== JSON.stringify(lastSettings);
-  if (!fishSwarmManager || settingsChanged) {
-    fishSwarmManager = new FishSwarmManager(width, height, settings as Record<string, unknown>);
-    lastSettings = settings as Record<string, unknown>;
+  let managerData = fishSwarmManagers.get(managerKey);
+  if (!managerData || managerData.settings !== settingsString) {
+    const manager = new FishSwarmManager(width, height, settings as Record<string, unknown>);
+    managerData = { manager, settings: settingsString };
+    fishSwarmManagers.set(managerKey, managerData);
   }
 
   const averageEnergy = dataArray.reduce((sum, val) => sum + val, 0) / dataArray.length / 255 * sensitivity;
   const frequencyData = extractFrequencyData(dataArray, sensitivity);
 
-  fishSwarmManager.update(time, width, height, averageEnergy, frequencyData);
-  const particles = fishSwarmManager.getParticles();
+  managerData.manager.update(time, width, height, averageEnergy, frequencyData);
+  const particles = managerData.manager.getParticles();
 
   ctx.save();
   ctx.globalCompositeOperation = 'screen';
