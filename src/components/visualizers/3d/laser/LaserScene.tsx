@@ -124,7 +124,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
   return (
     <>
       <SceneBackground enabled={!settings.albumArtBackground} color="#000000" />
-      <group name="laser-scene">
+      <group>
         <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial 
@@ -135,7 +135,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
           />
         </instancedMesh>
         
-{/* Collision effects */}
+        {/* Collision effects */}
         {collisionEffectsRef.current.slice(0, 50).map((effect, index) => (
           <mesh key={`collision-${index}`} position={effect.position}>
             <primitive object={sphereGeometry} />
@@ -148,7 +148,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
           </mesh>
         ))}
         
-{/* Center glow sphere */}
+        {/* Center glow sphere */}
         <mesh>
           <primitive object={centerSphereGeometry} />
           <meshBasicMaterial 
@@ -159,11 +159,7 @@ export const LaserScene: React.FC<SceneProps> = ({ analyser, analyserR, colors, 
           />
         </mesh>
         
-<<<<<<< HEAD
         {/* Reflection effects */}
-=======
-        {/* 鍙嶅皠鏁堟灉 */}
->>>>>>> origin/main
         {reflectionEffectsRef.current.slice(0, 30).map((effect, index) => (
           <line key={`reflection-${index}`}>
             <bufferGeometry>

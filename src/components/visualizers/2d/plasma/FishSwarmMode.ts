@@ -2,19 +2,14 @@
 import { FishSwarmModeProps } from '@/types';
 import { FishSwarmManager, FrequencyData } from './FishSwarmManager';
 
-<<<<<<< HEAD
-// 使用一个 Map 来存储多个实例，避免全局污染
+// Use a Map to store multiple instances, avoiding global pollution
 const fishSwarmManagers = new Map<string, { manager: FishSwarmManager; settings: string }>();
 
-// 生成一个唯一的键
+// Generate a unique key
 const getManagerKey = (ctx: CanvasRenderingContext2D) => {
-  // 使用 canvas 的引用地址作为键的一部分
+  // Use canvas reference as part of the key
   return String(ctx.canvas);
 };
-=======
-let fishSwarmManager: FishSwarmManager | null = null;
-let lastSettings: Record<string, unknown> | null = null;
->>>>>>> origin/main
 
 const extractFrequencyData = (dataArray: Uint8Array, sensitivity: number): FrequencyData => {
   const bassEnd = Math.floor(dataArray.length * 0.25);
